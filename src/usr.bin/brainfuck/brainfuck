@@ -6,4 +6,4 @@
 $/=$a;while(<>){tr(+\-<>[].,){}cd;s/./$&;/g;
 s/\+|-/P$&$&/g;s/<|>/\$p$&$&/g;y/<>[]/-+{}/;
 s/{/while(P){/g;s/\./print chr P/g;s/,/P=ord
-getc||-1/g;s/P/\$m[\$p]/g;eval$_;print$@if$@}
+getc||-1/g;s/P/\$m[\$p]/g;eval;print$@if$@;}
