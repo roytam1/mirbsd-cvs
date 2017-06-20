@@ -299,9 +299,12 @@ vmcmd_map_zero(p, cmd)
 	return (0);
 }
 
+#ifndef MAXSSIZ_GUARD
+#define MAXSSIZ_GUARD	(1024 * 1024)
+#endif
+
 /*
- * exec_setup_stack(): Set up the stack segment for an a.out
- * executable.
+ * exec_setup_stack(): Set up the stack segment for an executable.
  *
  * Note that the ep_ssize parameter must be set to be the current stack
  * limit; this is adjusted in the body of execve() to yield the
@@ -322,7 +325,7 @@ exec_setup_stack(p, epp)
 	epp->ep_maxsaddr = USRSTACK;
 	epp->ep_minsaddr = USRSTACK + MAXSSIZ;
 #else
-	epp->ep_maxsaddr = USRSTACK - MAXSSIZ;
+	epp->ep_maxsaddr = USRSTACK - MAXSSIZ - MAXSSIZ_GUARD;
 	epp->ep_minsaddr = USRSTACK;
 #endif
 	epp->ep_ssize = round_page(p->p_rlimit[RLIMIT_STACK].rlim_cur);
