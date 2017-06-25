@@ -7,7 +7,8 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2014 Thorsten Glaser
+# Copyright (c) 2001-2017 mirabilos
+# Copyright (c) 2017 multiplexd
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -186,7 +187,7 @@ sub update_charset {
 	"LOCALHOST", "", "CTCP", "no",
 	"USERINFO", "", "FINGER", "", "IRCNAME", "", "EIGHT_BIT", "on",
 	"LOADPATH", join(":", @loadpath), "CTRL_T", "/next", "UTF", "on",
-	"CHARSET", "iso-8859-1", "SHOWTIME", "on");
+	"CHARSET", "iso-8859-1", "SHOWTIME", "on", "HIGHLIGHT", "off");
 
 $raw_mode=$opt_r || (!-t STDOUT);
 $ansi=!$raw_mode && $ENV{"TERM"} =~ /^vt|^xterm|^ansi/i;
@@ -927,6 +928,9 @@ sub doset {
       $logging='';
       $set{$var}="off";
     }
+  } elsif ($var eq 'HIGHLIGHT') {
+    $val =~ tr/A-Z/a-z/;
+    $set{$var}=$val if $val =~ /^(on|off)$/;
   } elsif (defined($sets{$var})) {
     local($f)=$sets{$var};
     eval { &$f($val); };
@@ -2237,16 +2241,20 @@ while (1) {
 	&ctcp($newarg, $1);
       } elsif (!$printchan && &eq($newarg, $talkchannel)) {
 	&dohooks("public", $newarg, $args);
+	$args =~ s/\Q$nick\E/\cv$&\cv/ig if $set{"HIGHLIGHT"} eq 'on';
 	&tell_i("<${who}> $args");
       } elsif ($newarg =~ /^[\#\&\+]/) {
 	&dohooks("public", $newarg, $args);
+	$args =~ s/\Q$nick\E/\cv$&\cv/ig if $set{"HIGHLIGHT"} eq 'on';
 	&tell_i("<${who}:${newarg}> $args");
       } elsif (&eq ($newarg, $nick)) {
 	print "`#ssfe#t/m $who \n" if $ssfe;
 	print "`#ssfe#o[$who$puh1] $args\n" if $ssfe;
 	&dohooks("msg", $args);
+	$args =~ s/\Q$nick\E/\cv$&\cv/ig if $set{"HIGHLIGHT"} eq 'on';
 	&tell_i("[\cb${who}\cb${puh1}] $args");
       } else {
+	$args =~ s/\Q$nick\E/\cv$&\cv/ig if $set{"HIGHLIGHT"} eq 'on';
 	&tell_i("[\cb${who}\cb${puh1}:${newarg}\cb] $args");
       }
     } elsif ($cmd eq 'NOTICE') {

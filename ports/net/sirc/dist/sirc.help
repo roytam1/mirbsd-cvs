@@ -1,7 +1,7 @@
 @main
 Welcome to sirc v. $version, by orabidoo  (last changed: $date),
 a small and simple IRC client written in perl, with extensions for
-$MirOS: ports/net/sirc/dist/sirc.help,v 1.7 2008/12/20 18:15:20 tg Exp $ by
+$MirOS: ports/net/sirc/dist/sirc.help,v 1.8 2017/06/25 23:28:33 tg Exp $ by
 mirabilos <m@mirbsd.org> and others.
 
 To get help on a particular topic, type "/help <topic>"  (without the
@@ -285,8 +285,8 @@ Sets a variable, or unsets it (if preceded with a '-'), or shows one
 Do a /help set <variable> for help on specific variables.
 The list of SET variables is:
 CHARSET    CTCP       CTRL_T     EIGHT_BIT  FINGER
-IRCNAME    LOADPATH   LOCALHOST  PRINTCHAN  PRINTUH
-SENDAHEAD  SHOWTIME   USERINFO   UTF
+IRCNAME    HIGHLIGHT  LOADPATH   LOCALHOST  PRINTCHAN
+PRINTUH    SENDAHEAD  SHOWTIME   USERINFO   UTF
 Note that sirc scripts may add their own SET variables.
 @set charset
 Sets the local character set assumed.
@@ -311,6 +311,8 @@ The default is "on", unless sirc is started with -7.
 Sets the CTCP finger reply.
 The default is "keep your fingers touching yourself", or whatever is
 set in the $IRCFINGER environment variable.
+@set highlight
+Enables highlighting incoming messages containing the own nickname.
 @set ircname
 Sets the IRCNAME for the next connection.  The default is a rude reply
 or whatever is in the $SIRCNAME or $IRCNAME environment variables.
