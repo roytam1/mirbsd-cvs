@@ -255,8 +255,8 @@ $SIG{'INT'}='exit';
 
 sub eq {
   local($a, $b)=@_;
-  $a =~ tr/A-Z/a-z/;
-  $b =~ tr/A-Z/a-z/;
+  $a =~ tr/A-Z[]\\~/a-z{}|^/;
+  $b =~ tr/A-Z[]\\~/a-z{}|^/;
   return ($a eq $b);
 }
 
@@ -524,7 +524,7 @@ sub sl {
 sub dostatus {
   return unless $ssfe;
   local($t, $s)=($talkchannel, " [sirc]  ");
-  $t =~ tr/A-Z/a-z/;
+  $t =~ tr/A-Z[]\\~/a-z{}|^/;
   $s.="*" if $umode =~ /o/;
   if ($t) {
     $s .= $haveops{$t} if $haveops{$t};
@@ -877,7 +877,7 @@ sub doset {
     $set{$var}=$val;
     &update_charset();
   } elsif ($var eq 'CTCP') {
-    $val =~ tr/A-Z/a-z/;
+    $val =~ tr/A-Z[]\\~/a-z{}|^/;
     $set{$var}=$val if $val =~ /^(none|all)$/;
     $set{$var}="noreply" if $val =~ /^(noreply|off)$/;
     $set{$var}="noflood" if $val =~ /^(noflood|on)$/;
@@ -888,7 +888,7 @@ sub doset {
   } elsif ($var eq 'IRCNAME') {
     $set{$var}=$val;
   } elsif ($var eq 'EIGHT_BIT') {
-    $val =~ tr/A-Z/a-z/;
+    $val =~ tr/A-Z[]\\~/a-z{}|^/;
     $set{$var}=$val if $val =~ /^(on|off)$/;
   } elsif ($var eq 'LOCALHOST') {
     &restrict || return;
@@ -929,7 +929,7 @@ sub doset {
       $set{$var}="off";
     }
   } elsif ($var eq 'HIGHLIGHT') {
-    $val =~ tr/A-Z/a-z/;
+    $val =~ tr/A-Z[]\\~/a-z{}|^/;
     $set{$var}=$val if $val =~ /^(on|off)$/;
   } elsif (defined($sets{$var})) {
     local($f)=$sets{$var};
@@ -1715,7 +1715,7 @@ sub signoffs {
 
 sub modestripper {
   local($chnl, $what)=@_;
-  $chnl =~ tr/A-Z/a-z/;
+  $chnl =~ tr/A-Z[]\\~/a-z{}|^/;
   local($how, $modes, @args)=('+', split(/ +/, $what));
   foreach $m (split(//, $modes)) {
     if ($m =~ /[\-\+]/) {
@@ -2037,7 +2037,7 @@ sub donumeric {
     local($g, $c, $m)=split(/ +/, $args, 3);
     $m =~ s/^://;
     $m =~ s/ $//;
-    $c =~ tr/A-Z/a-z/;
+    $c =~ tr/A-Z[]\\~/a-z{}|^/;
     if (grep(&eq($_, $c), @channels)) {
       if (defined($mode{$c})) {
 	&tell("*\cb+\cb* Mode for channel $c is \"$m\"");
@@ -2085,7 +2085,7 @@ sub donumeric {
     $n =~ s/(\W)/\\$1/g;
     $r =~ s/^://;
     &tell("*\cb#\cb* Users on $c: $r");
-    $c =~ tr/A-Z/a-z/;
+    $c =~ tr/A-Z[]\\~/a-z{}|^/;
     $haveops{$c}="@" if ($r =~ /\@${n}( |$)/i);
     &dostatus if &eq($c, $talkchannel);
   } elsif ($cmd eq '221') {
@@ -2290,7 +2290,7 @@ while (1) {
 	} else {
 	  $talkchannel='';
 	}
-	$channel =~ tr/A-Z/a-z/;
+	$channel =~ tr/A-Z[]\\~/a-z{}|^/;
 	&dohooks("kick", $newarg, $channel, $args);
 	delete $mode{$channel};
 	delete $limit{$channel};
@@ -2312,7 +2312,7 @@ while (1) {
 	} else {
 	  $talkchannel='';
 	}
-	$newarg =~ tr/A-Z/a-z/;
+	$newarg =~ tr/A-Z[]\\~/a-z{}|^/;
 	delete $mode{$newarg};
 	delete $limit{$newarg};
 	delete $haveops{$newarg};
