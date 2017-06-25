@@ -575,7 +575,7 @@ sub print {
   # thanks to Toy (wacren@obspm.fr) for this translation
   $what =~ tr/\x80-\xff/\x00-\x1f !cLxY|$_ca<\-\-R_o+23\'mp.,1o>123?AAAAAAACEEEEIIIIDNOOOOO*0UUUUYPBaaaaaaaceeeeiiiidnooooo:0uuuuypy/
     if $set{"EIGHT_BIT"} ne 'on';
-  $what = &sortnames($what) if ($what =~ /Users on #\w+:/);
+  $what = &sortnames($what) if ($what =~ /Users on [&#+!][^\x07\x0A\x0D ,]+:/);
   $tstamp = sprintf("%02d:%02d:%02d", (localtime)[2], (localtime)[1], (localtime)[0]);
   $logging && print LOG "[" . $tstamp . "] " . $what . "\n";
   $tstamp =~ s/:[^:]*$//;
