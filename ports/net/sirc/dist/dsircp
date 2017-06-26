@@ -2253,20 +2253,20 @@ while (1) {
 	&ctcp($newarg, $1);
       } elsif (!$printchan && &eq($newarg, $talkchannel)) {
 	&dohooks("public", $newarg, $args);
-	$args =~ s/\Q$nick\E/\cv$&\cv/ig if $set{"HIGHLIGHT"} eq 'on';
+	$args =~ s/\Q$nick\E/\x00\cv$&\x00\cv/ig if $set{"HIGHLIGHT"} eq 'on';
 	&tell_i("<${who}> $args");
       } elsif ($newarg =~ /^[\#\&\+]/) {
 	&dohooks("public", $newarg, $args);
-	$args =~ s/\Q$nick\E/\cv$&\cv/ig if $set{"HIGHLIGHT"} eq 'on';
+	$args =~ s/\Q$nick\E/\x00\cv$&\x00\cv/ig if $set{"HIGHLIGHT"} eq 'on';
 	&tell_i("<${who}:${newarg}> $args");
       } elsif (&eq ($newarg, $nick)) {
 	print "`#ssfe#t/m $who \n" if $ssfe;
 	print "`#ssfe#o[$who$puh1] $args\n" if $ssfe;
 	&dohooks("msg", $args);
-	$args =~ s/\Q$nick\E/\cv$&\cv/ig if $set{"HIGHLIGHT"} eq 'on';
+	$args =~ s/\Q$nick\E/\x00\cv$&\x00\cv/ig if $set{"HIGHLIGHT"} eq 'on';
 	&tell_i("[\cb${who}\cb${puh1}] $args");
       } else {
-	$args =~ s/\Q$nick\E/\cv$&\cv/ig if $set{"HIGHLIGHT"} eq 'on';
+	$args =~ s/\Q$nick\E/\x00\cv$&\x00\cv/ig if $set{"HIGHLIGHT"} eq 'on';
 	&tell_i("[\cb${who}\cb${puh1}:${newarg}\cb] $args");
       }
     } elsif ($cmd eq 'NOTICE') {
