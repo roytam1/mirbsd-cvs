@@ -1807,3 +1807,11 @@ Tag: bug debian grml news pcli rant snippet tip work
  prod him to provide a similarily versatile <tt>hello-python-world</tt>
  example package.</p>
 ----
+Date: 26.06.2017
+Author: tg@
+Title: Midsummer
+Tag: plan snapshot
+
+<p>Yes, well. Sorry. Didn’t manage Beltane, not this one either. But,
+ progress.</p>
+----

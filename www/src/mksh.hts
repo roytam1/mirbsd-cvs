@@ -1157,6 +1157,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>:
+ <tt>HISTSIZE</tt> will, in a future version, be limited to 65535.
  <i>(unfinished…)</i></p>
 <p id="c55">R55:
  The POSIX declaration utility concept is introduced, which also applies
@@ -1694,6 +1695,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#clog">older changes</a></p>
 
 <h2 id="plans">Future Plans</h2><ul>
+<li>fix <tt>bind -m '@=^[ echo $RANDOM^[^E'; bind @</tt> output expansion</li>
+<li>limit <tt>HISTSIZE</tt> to 65535; fix concurrency with truncation</li>
+<li>add a pre-exec hook for liwakura</li>
 <li>bind keys of dynamic length ‣ begun in a branch</li>
 <li>dynamic input LINE length, instead of a hardcoded value at compile time</li>
 <li>cache optimised extglobs (especially for ${foo/bar/baz})</li>

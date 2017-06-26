@@ -12811,6 +12811,216 @@ Waypoint: GC1WFPY
 Title: Fahr mal wieder Bahn... Duisdorf - Meckenheim
 Tag: D15 T15 Micro Mystery
 ----
+ID: 2117
+Date: 27.05.2017
+Waypoint: GC73MT6
+Title: BONN GRILLT 2017
+Tag: D1 T1 Event recommended
+----
+ID: 2118
+Date: 27.05.2017
+Waypoint: GC36PEN
+Banner: jpg
+Title: Tierisch schwieri&#34;sch&#34; !?!
+Tag: D25 T4 Micro Mystery
+----
+ID: 2119
+Date: 28.05.2017
+Waypoint: GC6R0FA
+Title: Waschstraßen-Quickie
+Tag: D25 T2 Small Multi
+----
+ID: 2120
+Date: 05.06.2017
+Waypoint: GC4DD8Z
+Title: B-52´s-heim
+Tag: D3 T1 Small Tradi
+----
+ID: 2121
+Date: 05.06.2017
+Waypoint: GC73YFH
+Banner: jpg
+Title: - BBC / VzG Streckennummer 2630 -
+Tag: D1 T1 Micro Tradi
+----
+ID: 2122
+Date: 09.06.2017
+Waypoint: GC76TFH
+Title: Fortitudo - Runde 1
+nTF: 1
+Tag: D25 T15 Small Multi recommended
+----
+ID: 2123
+Date: 09.06.2017
+Waypoint: GC4CK4T
+Title: Jäger-Latein-Unterricht
+Tag: D3 T2 Micro Mystery
+----
+ID: 2124
+Date: 09.06.2017
+Waypoint: GC2VTKX
+Title: Straßenbahnrätsel: Linie 62
+Tag: D3 T1 Micro Mystery
+----
+ID: 2125
+Date: 10.06.2017
+Waypoint: GC4ZPK5
+Title: Tooor Tooor Tooor, Deutschland ist Weltmeister!!!
+Tag: D15 T15 Small Tradi recommended
+----
+ID: 2126
+Date: 10.06.2017
+Waypoint: GCWH8Y
+Title: Gespensterbuchen
+Tag: D2 T15 Micro Tradi recommended
+----
+ID: 2127
+Date: 10.06.2017
+Waypoint: GC4WW1B
+Title: Der Pantherpilz
+Tag: D15 T2 Micro Tradi
+----
+ID: 2128
+Date: 10.06.2017
+Waypoint: GC50J5C
+Title: Der Flaschen-Stäubling
+Tag: D15 T2 Small Tradi
+----
+ID: 2129
+Date: 10.06.2017
+Waypoint: GC4RJG7
+Title: Pilzkörbchen: Hexenröhrling gesucht!
+Tag: D15 T2 Small Tradi
+----
+ID: 2130
+Date: 10.06.2017
+Waypoint: GC54H1K
+Title: Witterschlicker Allee
+Tag: D15 T15 Small Tradi
+----
+ID: 2131
+Date: 10.06.2017
+Waypoint: GC4RGN6
+Title: Der Reifpilz
+Tag: D15 T2 Micro Tradi
+----
+ID: 2132
+Date: 11.06.2017
+Waypoint: GC58APM
+Title: Plattfoß
+Tag: D25 T2 Micro Tradi
+----
+ID: 2133
+Date: 11.06.2017
+Waypoint: GC18VAE OC5161
+Title: Gotteshäuser: St. Pankratius
+Tag: D3 T1 Small Multi
+----
+ID: 2134
+Date: 11.06.2017
+Waypoint: GC53113
+Title: Pleisbachbrücke
+Tag: D2 T2 Micro Tradi
+----
+ID: 2135
+Date: 11.06.2017
+Waypoint: GCNDTX
+Title: Die Filiale der Königsräuberruh
+Tag: D4 T25 Small Mystery
+----
+ID: 2136
+Date: 11.06.2017
+Waypoint: GC4ZMWQ
+Title: Ein Wichtel hängt im Walde ganz still und stumm
+Tag: D15 T25 Regular Tradi
+----
+ID: 2137
+Date: 11.06.2017
+Waypoint: GC248CW
+Title: Kreuz mit Aussicht
+Tag: D1 T1 Micro Tradi
+----
+ID: 2138
+Date: 11.06.2017
+Waypoint: GC4EC3V
+Title: 4 Bilder - Ein Cache
+Tag: D25 T2 Small Mystery
+----
+ID: 2139
+Date: 11.06.2017
+Waypoint: GC5RATQ
+Title: EDKB Kleine Platzrunde 6
+Tag: D15 T15 Micro Tradi
+----
+ID: 2140
+Date: 11.06.2017
+Waypoint: GC75DTG
+Title: U66 - Hangelar Mitte
+Tag: D15 T1 Other Tradi
+----
+ID: 2141
+Date: 14.06.2017
+Waypoint: GC6Y8MJ
+Title: Der Schatz der Gray Lizard (Nachtcache)
+Tag: D25 T2 Small Multi
+----
+ID: 2142
+Date: 17.06.2017
+Waypoint: GC76NBH
+Title: Das Gesicht am Bach
+Tag: D3 T25 Small Tradi
+----
+ID: 2143
+Date: 18.06.2017
+Waypoint: GC775NZ
+Banner: jpg
+Title: TARDIS
+nTF: 4
+Tag: D25 T2 Nano Mystery
+----
+ID: 2144
+Date: 18.06.2017
+Waypoint: GC6TRAC
+Title: Heimat in Sicht
+Tag: D15 T1 Micro Tradi
+----
+ID: 2145
+Date: 21.06.2017
+Waypoint: GC77E4T
+Title: Am Kastanienplatz
+Tag: D15 T15 Nano Tradi
+----
+ID: 2146
+Date: 21.06.2017
+Waypoint: GC77K4M
+Title: Hotel zur "Wilden Kuh" 🐮
+nTF: 1
+Tag: D1 T1 Micro Tradi
+----
+ID: 2147
+Date: 24.06.2017
+Waypoint: GC5J77K
+Title: Reststrauch
+Tag: D2 T25 Micro Tradi
+----
+ID: 2148
+Date: 24.06.2017
+Waypoint: GC6G5MV
+Title: Space Mission: CERES
+Tag: D15 T1 Nano Tradi
+----
+ID: 2149
+Date: 11.06.2017
+Waypoint: OCFE5C
+Title: Jetzt wird's bunt: Graffiti Art Safari
+Tag: D1 T1 Safari
+----
+ID: 2150
+Date: 11.06.2017
+Waypoint: OC1227B
+Title: Safari:-) #Hausgemälde
+Tag: D15 T1 Safari
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB

@@ -676,6 +676,10 @@ Other requests:
 • rc.c: struct glopts.set (int*) violates the strict aliasing
   rule as it’s treated as (unsigned char *) for type 2 (global
   option string), consider a union instead (check local types!)
+• killjoe equivalent to not exit 0; consider elsewhere too…
+  (hardcoded in main.c, maybe leave=2?)
+• !isatty(0), as in foo|xargs jupp (or use BSD xargs -o ?)
+• presentation mode (^KP, ^KN, ^QBKBQKKKK/) on some F-keys
 • …
 
 __________________________________________________________________
