@@ -203,6 +203,7 @@ $set{"FINGER"}=$ENV{"IRCFINGER"} || "keep your fingers to yourself";
 $set{"USERINFO"}=$ENV{"USERINFO"} || "yep, I'm a happy MirBSD user";
 &parseserver($server);
 $port || ($port=$port0);
+$port0=$port;
 $server0=$server1=$server;
 $initfile=$opt_l || $ENV{"SIRCRCPL"} || $ENV{'HOME'}."/.etc/sircrc.pl"
   if $opt_l || !$opt_q;
