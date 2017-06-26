@@ -579,6 +579,7 @@ sub print {
   $tstamp = sprintf("%02d:%02d:%02d", (localtime)[2], (localtime)[1], (localtime)[0]);
   $logging && print LOG "[" . $tstamp . "] " . $what . "\n";
   $tstamp =~ s/:[^:]*$//;
+  $what =~ tr/\x1D/\cv/ unless $what =~ /\cv/;
   if ($raw_mode) {
     $tstamp .= $VB;
     if ($set{"SHOWTIME"} eq 'off') {
