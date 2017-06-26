@@ -314,6 +314,7 @@ sub ssl_cleanup {
     while (&gl($ssl_efd)) {
       last if $_ eq '';
       chop;
+      s/\x00//g;
       &tell("*\cbS\cb* TLS: $_");
     }
     close($ssl_efd);
@@ -2181,12 +2182,14 @@ while (1) {
       next;
     }
     chop;
+    s/\x00//g;
     &tell("*\cbS\cb* TLS: $_");
   }
   if (vec($rout, fileno(STDIN), 1) || ($leftover && $fh eq 'STDIN')) {
     &gl('STDIN') || next;
     &exit if $_ eq '';
     chop;
+    s/\x00//g;
     &douserline($_) if $_ ne '';
   }
   if ($connected && (($leftover && $fh eq $S) || vec($rout, fileno($S), 1))) {
@@ -2201,6 +2204,7 @@ while (1) {
       next;
     }
     chop;
+    s/\x00//g;
     $serverline=$_;
     $_=$server." ".$_ unless /^:/;
     ($who, $cmd, $args)=split(/ /, $_, 3);
