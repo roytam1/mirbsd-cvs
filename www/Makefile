@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.112 2016/08/01 21:18:24 tg Exp $
+# $MirOS: www/Makefile,v 1.113 2017/03/01 22:40:25 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -57,7 +57,7 @@ TAGCLOUD+=	mksh
 TAGCLOUD+=	pcli
 USELINKED+=	acronyms
 WLOGS=		9 10
-WPS=		gecko2 tg
+WPS=		tg
 
 # legacy content
 SRCS+=		ann-7.hts ann-8.hts anoncvs.hts bsd-intro.hts clog-2004.hts \
