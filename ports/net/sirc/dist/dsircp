@@ -577,7 +577,12 @@ sub print {
     if $set{"EIGHT_BIT"} ne 'on';
   $what = &sortnames($what) if ($what =~ /Users on [&#+!][^\x00\x07\x0A\x0D ,]+:/);
   $tstamp = sprintf("%02d:%02d:%02d", (localtime)[2], (localtime)[1], (localtime)[0]);
-  $logging && print LOG "[" . $tstamp . "] " . $what . "\n";
+  if ($logging) {
+    my $logstring = "[" . $tstamp . "] " . $what . "\n";
+    $logstring =~ s/\x00.//g;
+    print LOG $logstring;
+  }
+  $what =~ s/\x00//g;
   $tstamp =~ s/:[^:]*$//;
   $what =~ tr/\x1D/\cv/ unless $what =~ /\cv/;
   if ($raw_mode) {
