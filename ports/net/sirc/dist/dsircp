@@ -552,7 +552,7 @@ $cls="\c[[H\c[[2J";
 
 sub enhance {
   local($what)=@_;
-  $what =~ tr/\c@-\c^/@-^/;
+  $what =~ tr/\c@-\c_\x7F/@-_?/;
   return "\cv${what}\cv";
 }
 
