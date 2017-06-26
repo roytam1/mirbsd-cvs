@@ -755,7 +755,7 @@ sub describe {
   } else {
     &tell("*-> \cb${towho}\cb: $nick $what");
   }
-  &sl("PRIVMSG $towho :\caACTION".($what eq "" ? "" : " ").$what."\ca");
+  &sl("PRIVMSG $towho :\caACTION $what\ca");
 }
 
 sub me {
