@@ -590,7 +590,7 @@ sub print {
     if ($set{"SHOWTIME"} eq 'off') {
       $tstamp = "";
     }
-    $what =~ s/([\ca\cc-\ch\cj-\cu\cw-\c^])/&enhance($1)/eg;
+    $what =~ s/([\ca\cc-\ch\cj-\cu\cw-\c^\x7F])/&enhance($1)/eg;
     # this should be better
     my ($is_bold,$is_ul,$is_rev) = (0,0,0);
     my $ansi_code = [[["\c[[m","\c[[7m"],
@@ -615,7 +615,7 @@ sub print {
     if ($set{"SHOWTIME"} eq 'off') {
       $tstamp = "";
     }
-    $what =~ tr/\ca-\ch\cj-\c_//d;
+    $what =~ tr/\ca-\ch\cj-\c_\x7F//d;
     print($tstamp . $what, "\n") || &exit;
   }
 }
