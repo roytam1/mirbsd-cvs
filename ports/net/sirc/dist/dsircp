@@ -571,10 +571,8 @@ sub print {
     }
     $unverified_m = 0;
   }
-  # windows-1252 and broken (not converted) utf-8 => latin-1
-# $what =~ tr/\x80-\x9F/e ,f,.tT\^×S<ö Z  ''""·\-\-\~Ts>ö zÿ/;
   # thanks to Toy (wacren@obspm.fr) for this translation
-  $what =~ tr/\x80-\xff/\x00-\x1f !cLxY|$_ca<\-\-R_o+23\'mp.,1o>123?AAAAAAACEEEEIIIIDNOOOOO*0UUUUYPBaaaaaaaceeeeiiiidnooooo:0uuuuypy/
+  $what =~ tr/\x80-\xff/e ,f,.tT\^*S<o Z  ''"".\-\-\~Ts>o zy !cLxY|$_ca<\-\-R_o+23\'mp.,1o>123?AAAAAAACEEEEIIIIDNOOOOO*0UUUUYPBaaaaaaaceeeeiiiidnooooo:0uuuuypy/
     if $set{"EIGHT_BIT"} ne 'on';
   $what = &sortnames($what) if ($what =~ /Users on [&#+!][^\x07\x0A\x0D ,]+:/);
   $tstamp = sprintf("%02d:%02d:%02d", (localtime)[2], (localtime)[1], (localtime)[0]);
