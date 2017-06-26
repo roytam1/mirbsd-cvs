@@ -150,8 +150,8 @@ sirc's context. Tilde-expansion is done on the filename.
 Please note that these scripts must be written for sirc - there's
 NO way an ircII script will work with sirc.
 @log
-Usage: LOG [on|off]
-Turns logging ON or OFF, or shows the current status.
+Usage: LOG [on|off|restart]
+Turns logging ON or OFF, reopens the logfile, or shows the current status.
 @logfile
 Usage: LOGFILE [<filename>]
 Shows the current logfile name, or sets one.

@@ -909,7 +909,15 @@ sub doset {
     $logfile=$set{$var}=$val;
   } elsif ($var eq 'LOG') {
     &restrict || return;
-    if ($val =~ /^on$/i) {
+    if ($val =~ /^(off|restart)$/i) {
+      if ($logging) {
+        print LOG "*\cbL\cb* Log ended on ".&date(time)."\n";
+        close(LOG);
+      }
+      $logging='';
+      $set{$var}="off";
+    }
+    if ($val =~ /^(on|restart)$/i) {
       $logging && close(LOG);
       if (open(LOG,
 	  ($logfile =~ /\.gz$/ ? "| gzip >> $logfile" : ">> $logfile"))) {
@@ -922,11 +930,6 @@ sub doset {
 	$set{$var}="off";
 	&tell("*\cbE\cb* Can't write to logfile $logfile");
       }
-    } elsif ($val =~ /^off$/i) {
-      print LOG "*\cbL\cb* Log ended on ".&date(time)."\n", close(LOG)
-	if $logging;
-      $logging='';
-      $set{$var}="off";
     }
   } elsif ($var eq 'HIGHLIGHT') {
     $val =~ tr/A-Z[]\\~/a-z{}|^/;
