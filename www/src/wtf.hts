@@ -3,6 +3,7 @@
 
 mws_setname wtf "WTF acronym database"
 mws_setheadline "What the Fuck?"
+mws_onload "if (!this.fff) document.getElementById('ffield').focus();"
 mws_putheader '$MirOS: www/src/wtf.hts,v 1.8 2015/04/28 09:49:59 tg Exp $'
 mws_content <<'EOF'
 <h2>Display all acronyms</h2>
@@ -33,11 +34,17 @@ mws_content <<'EOF'
 <p>For the regular MirBSD online documentation, we also
  have a <a href="@@RELPATH@@man.htm">manual page search</a> page.</p>
 
-<h2>Query the WTF acronym database</h2>
-<form accept-charset="utf-8" action="@@RELPATH@@wtf.cgi" method="get"><p>
- <input type="text" name="q" size="42" maxlength="255" />
- <input type="submit" />
-</p></form>
+<form accept-charset="utf-8" action="@@RELPATH@@wtf.cgi" method="get">
+ <fieldset>
+  <legend xml:lang="de-DE-1901">Abkürzungssuche</legend>
+  <h2>Query the WTF acronym database</h2>
+  <p>
+   <input type="text" name="q" id="ffield" onfocus="fff=1"
+    size="42" maxlength="255" />
+   <input type="submit" />
+  </p>
+ </fieldset>
+</form>
 
 <!-- wtf-result -->
 EOF

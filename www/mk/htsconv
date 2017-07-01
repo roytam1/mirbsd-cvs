@@ -7,6 +7,7 @@ rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.81 2015/04/12 19:36:24 tg Exp $'
 [[ -n $rcsid_common ]] || . "$TOP"/mk/common
 
 mws__markindex=
+mws__onload=
 mws__pagename=
 mws__header=
 mws__rss=
@@ -46,6 +47,10 @@ function mws_setrss {
 	mws__rss="\\
  <link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"$1\" />"
 	# this is for not doing the newline when no RSS is applicable
+}
+
+function mws_onload {
+	mws__onload=" onload=\"$1\""
 }
 
 function mws_subdir {
@@ -165,7 +170,7 @@ function mws_putheader {
 		  be simply copied into another work covered by an unfree (or otherwise
 		  mismatching) licence, such as the GNU Free Documentation License.
 		 -->
-		</head><body>${mws__headline:+
+		</head><body${mws__onload}>${mws__headline:+
 		<h1>$(mws_makepiclink "$mws__headline" "$mws__fontsize" s)</h1>}
 		<div class="trailing">
 		<div class="index">
