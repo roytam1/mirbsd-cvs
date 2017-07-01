@@ -13021,6 +13021,19 @@ Waypoint: OC1227B
 Title: Safari:-) #Hausgemälde
 Tag: D15 T1 Safari
 ----
+ID: 2151
+Date: 27.06.2017
+Waypoint: OC13BC4 GC77BXK
+Title: Schleichweg Schwarzrheindorf
+nTF: 2
+Tag: D1 T15 Micro Tradi
+----
+ID: 2152
+Date: 27.06.2017
+Waypoint: GC4ACT9
+Title: Hexe
+Tag: D45 T2 Micro Mystery
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
