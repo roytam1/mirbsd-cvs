@@ -36,6 +36,7 @@ int joe_wcwidth PARAMS((int wide, unsigned int c));
 int joe_towupper PARAMS((struct charmap *,int c));
 int joe_towlower PARAMS((struct charmap *,int c));
 
+extern unsigned char unictrlbuf[11];
 int unictrl PARAMS((unsigned int c));
 
 #endif

@@ -490,6 +490,8 @@ static const struct mb_ucsrange joe_ctrlchars[] = {
 unsigned char unictrlbuf[11];
 int unictrl(unsigned int ucs)
 {
+	*unictrlbuf = 0;
+
 	/* ASCII control characters use one screen column */
 	if (ucs < 32 || ucs == 0x7F)
 		return (1);
