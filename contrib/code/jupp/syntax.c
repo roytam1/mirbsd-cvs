@@ -20,7 +20,7 @@
 #include "syntax.h"
 
 static struct {
-	unsigned char buf[6];
+	unsigned char buf[7];
 	unsigned char start;
 	unsigned char limit;
 	unsigned eaten : 1;
