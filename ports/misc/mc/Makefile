@@ -1,8 +1,8 @@
-# $MirOS: ports/misc/mc/Makefile,v 1.26 2008/10/16 18:42:18 tg Exp $
+# $MirOS: ports/misc/mc/Makefile,v 1.27 2010/12/31 17:53:03 tg Exp $
 
 COMMENT=		free Norton Commander clone with many useful features
 DISTNAME=		mc-4.6.1
-DASH_VER=		17
+DASH_VER=		18
 CATEGORIES=		misc
 HOMEPAGE=		http://www.ibiblio.org/mc/
 MASTER_SITES=		http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/
@@ -34,6 +34,8 @@ CONFIGURE_ARGS+=	--disable-nls \
 			--with-subshell \
 			--with-screen=mcslang \
 			--with-edit
+CONFIGURE_ENV+=		ac_cv_path_ZIP=${PREFIX:Q}/bin/zip
+CONFIGURE_ENV+=		ac_cv_path_UNZIP=${PREFIX:Q}/bin/unzip
 CONFIGURE_ENV+=		mc_cv_have_zipinfo=yes
 
 .include <bsd.port.mk>
