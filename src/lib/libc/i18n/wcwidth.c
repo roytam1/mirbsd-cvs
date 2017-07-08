@@ -26,7 +26,7 @@
 
 __RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.13 2013/11/30 23:20:34 tg Exp $");
 
-/* From: X11/xc/programs/xterm/wcwidth.c,v 1.9 */
+/* From: X11/xc/programs/xterm/wcwidth.c,v 1.10 */
 
 struct mb_ucsrange {
 	wchar_t beg;
@@ -37,7 +37,7 @@ static int mb_ucsbsearch(const struct mb_ucsrange arr[], size_t elems,
     wchar_t val);
 
 /*
- * Generated from the Unicode Character Database, Version 9.0.0, by
+ * Generated from the Unicode Character Database, Version 10.0.0, by
  * MirOS: contrib/code/Snippets/eawparse,v 1.3 2014/11/16 12:16:24 tg Exp $
  */
 
@@ -94,6 +94,7 @@ static const struct mb_ucsrange mb_ucs_combining[] = {
 	{ 0x0AC7, 0x0AC8 },
 	{ 0x0ACD, 0x0ACD },
 	{ 0x0AE2, 0x0AE3 },
+	{ 0x0AFA, 0x0AFF },
 	{ 0x0B01, 0x0B01 },
 	{ 0x0B3C, 0x0B3C },
 	{ 0x0B3F, 0x0B3F },
@@ -116,7 +117,8 @@ static const struct mb_ucsrange mb_ucs_combining[] = {
 	{ 0x0CC6, 0x0CC6 },
 	{ 0x0CCC, 0x0CCD },
 	{ 0x0CE2, 0x0CE3 },
-	{ 0x0D01, 0x0D01 },
+	{ 0x0D00, 0x0D01 },
+	{ 0x0D3B, 0x0D3C },
 	{ 0x0D41, 0x0D44 },
 	{ 0x0D4D, 0x0D4D },
 	{ 0x0D62, 0x0D63 },
@@ -201,7 +203,7 @@ static const struct mb_ucsrange mb_ucs_combining[] = {
 	{ 0x1CED, 0x1CED },
 	{ 0x1CF4, 0x1CF4 },
 	{ 0x1CF8, 0x1CF9 },
-	{ 0x1DC0, 0x1DF5 },
+	{ 0x1DC0, 0x1DF9 },
 	{ 0x1DFB, 0x1DFF },
 	{ 0x200B, 0x200F },
 	{ 0x202A, 0x202E },
