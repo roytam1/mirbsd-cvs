@@ -343,9 +343,11 @@ static void output_attribute_table (void)
       attributes |= alnum;
 
 	/* jupp specials */
-	if (!strcmp(unicode_attributes[ch].bidi, "WS") && ch != 0x2007)
+	if (unicode_attributes[ch].bidi &&
+	    !strcmp(unicode_attributes[ch].bidi, "WS") && ch != 0x2007)
 		attributes |= space;
-	if (!strcmp(unicode_attributes[ch].category, "Zs") &&
+	if (unicode_attributes[ch].category &&
+	    !strcmp(unicode_attributes[ch].category, "Zs") &&
 	    ch != 0x00A0 && ch != 0x2007 && ch != 0x202F)
 		attributes |= blank;
 	switch (ch) {
@@ -401,7 +403,7 @@ int main (int argc, char* argv[])
 }
 EOCI
 
-# My parts are MirOS licenced. //mirabilos
+# My parts are Ⓕ MirOS licenced. //mirabilos
 
 rm -f *.lst *.h *.out
 make -f /usr/share/mk/bsd.prog.mk PROG=jupptables.hlp SRCS=jupptables.c NOMAN=Yes __CRAZY=Yes
@@ -450,7 +452,7 @@ for file in *.lst; do
 			print "	{ ${rangelo[i]}, ${rangehi[i]} },"
 		done | sed 's/16#0\{0,2\}/0x/g'
 	fi
-	print "	{ ${rangelo[nrange]}, ${rangehi[nrange]} }" | sed 's/16#0\{0,2\}/0x/g'
+	print "	{ ${rangelo[nrange - 1]}, ${rangehi[nrange - 1]} }" | sed 's/16#0\{0,2\}/0x/g'
 	print "};"
 done
 for file in tolower.h toupper.h; do
@@ -486,14 +488,15 @@ for file in tolower.h toupper.h; do
 	while (( ++i < nrange - 1 )); do
 		print "	{ ${rangelo[i]}, ${rangehi[i]} },"
 	done | sed 's/16#0\{0,2\}/0x/g'
-	print "	{ ${rangelo[nrange]}, ${rangehi[nrange]} }" | sed 's/16#0\{0,2\}/0x/g'
+	print "	{ ${rangelo[nrange - 1]}, ${rangehi[nrange - 1]} }" | sed 's/16#0\{0,2\}/0x/g'
 	print "};"
+	print
 	print "static const int data_wcdelta_${file%.h}[] = {"
 	i=-1
 	while (( ++i < nrange - 1 )); do
 		print "	${rangecv[i]},"
 	done
-	print " ${rangecv[nrange]}"
+	print "	${rangecv[nrange - 1]}"
 	print "};"
 done
 print -u2 "+ done."
