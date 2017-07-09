@@ -578,7 +578,8 @@ Other requests:
   labeled ftype that is switched to using the UI (command)
 • switch from autoconf to mirtoconf2
 • ANSI syntax highlighting; auto-turn it on in shell windows (‽)
-• proper redraw for lines that had combining characters in them
+  ⇒ would need to hide the ANSI chars, yet enable backspacing
+• handle combining characters in the scrn array somehow
 • add a soft line break flag: display as line-wrapped, do not
   save any newlines introduced by that
 • put all configuration files into /usr/share; use XDG dirs for
