@@ -351,11 +351,13 @@ $ $SUDO make install</pre>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
-<p>[2016-10-30] Changes in the current development version:</p><ul>
+<p>[2017-07-08] Changes in the current development version:</p><ul>
  <li>Spelling and warning fixes from Lintian and Debian GCC</li>
  <li>Fix &lt;bsd/string.h&gt; usage issue on Haiku</li>
  <li>Make <em>some</em> signal handlers a bit more safe</li>
  <li>Remove unused Unicode categorisations (~15K in the binary)</li>
+ <li>Update internationalisation data to Unicode 10.0.0</li>
+ <li>Partial fix for redrawing lines with combining characters</li>
 </ul>
 <p id="r3_1j30">[2017-01-11] Changes for joe-3.1jupp30:</p><ul>
  <li>Fix spelling mistakes, some found by lintian (thanks!)</li>

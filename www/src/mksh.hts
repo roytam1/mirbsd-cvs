@@ -1280,6 +1280,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, iSKUNK] Use Config in <tt>check.pl</tt> only if it exists</li>
  <li>[tg] New matching code for bracket expressions, full POSIX (8bit)</li>
  <li>[komh] Exclude FAT/HPFS/NTFS-unsafe tests on OS/2 (and Cygwin/MSYS)</li>
+ <li>[tg] Update to Unicode 10.0.0</li>
 </ul>
 <p id="r55">R55 is mostly a feature release with summary bugfixes:</p><ul>
  <li>[komh] Fix OS/2 search_access() and UNC path logic</li>
