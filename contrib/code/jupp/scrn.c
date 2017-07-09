@@ -1211,6 +1211,10 @@ int cpos(register SCRN *t, register int x, register int y)
 				if(*cs<32 || *cs>=127)
 					break;
 
+				/* has a combining character attached? */
+				if (*as & HAS_COMBINING)
+					break;
+
 				if (*as != t->attrib)
 					set_attr(t, *as);
 
