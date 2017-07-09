@@ -444,7 +444,7 @@ static int lgen(SCRN *t, int y, int *screen, int *attr, int x, int w, P *p, long
 						wid = 1;
 				}
 
-				if(wid>0) {
+				if (wid >= 0) {
 					col += wid;
 					if (col == scr) {
 						--amnt;
