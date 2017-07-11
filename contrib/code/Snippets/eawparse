@@ -120,17 +120,17 @@ EOF
 EOF
 
 cat >>eawparse.hlp.c <<'EOF'
-	/* special rules for combining chars */
+	/* deliberately force a column width of 1 for the soft hyphen */
 	w[0x00AD] = Q_N;
+
+	/* Hangul Jamo medial vowels and final consonants are combining */
 	for (x = 0x1160; x <= 0x11FF; ++x)
 		w[x] = QC;
-	w[0x200B] = QC;
 
-	/* special rules for wcwidth */
-	w[0xFF00] = Q_W;
 	/* resolve ambiguous circled numbers */
 	for (x = 0x3248; x <= 0x324F; ++x)
 		w[x] = Q_W;
+
 	/* resolve neutral hexagrams */
 	for (x = 0x4DC0; x <= 0x4DFF; ++x)
 		w[x] = Q_W;
