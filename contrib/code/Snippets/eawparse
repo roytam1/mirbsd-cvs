@@ -1,8 +1,8 @@
 #!/bin/mksh
 # $MirOS: contrib/code/Snippets/eawparse,v 1.2 2013/11/30 13:45:17 tg Exp $
 #-
-# Copyright © 2013, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2013, 2014, 2017
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -140,7 +140,7 @@ cat >>eawparse.hlp.c <<'EOF'
 } while (/* CONSTCOND */ 0)
 
 	dorange("mb_ucs_combining", w[x] == QC, 0);
-	dorange("mb_ucs_fullwidth", w[x] == Q_F, w[x] & 1);
+	dorange("mb_ucs_fullwidth", w[x] == Q_F, 0);
 	dorange("mb_ucs_ambiguous", w[x] == Q_A, 0);
 
 	return (0);
