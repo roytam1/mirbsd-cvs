@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/Snippets/eawparse,v 1.2 2013/11/30 13:45:17 tg Exp $
+# $MirOS: contrib/code/Snippets/eawparse,v 1.5 2017/07/11 13:11:59 tg Exp $
 #-
 # Copyright © 2013, 2014, 2017
 #	mirabilos <m@mirbsd.org>
@@ -89,8 +89,14 @@ sed -n '/^\([0-9A-F]\{4,6\}\)\(\.\.\([0-9A-F]\{4,6\}\)\)\{0,1\};\([NAHWF]a*\).*$
 	print "		w[x] = Q_$type;"
 done >>eawparse.hlp.c
 
-while IFS=';' read cp name type rest; do
-	[[ $type = @(Me|Mn|Cf) ]] || continue
+# codepoint name category combining bidi decomp decimal digit numeric mirrored uni1name 10646comment uppermap lowermap titlemap
+while IFS=';' read cp name category combining bidi rest; do
+	# combining characters are at least one of:
+	# - category Mn (Mark, Non-Spacing)
+	# - category Me (Mark, Enclosing)
+	# - category Cf (Other, Format)
+	# - bidi NSM (Nonspacing Mark)
+	[[ $category = @(Me|Mn|Cf) || $bidi = NSM ]] || continue
 	print "	w[0x$cp] = QC;"
 done <"$ucd" >>eawparse.hlp.c
 
