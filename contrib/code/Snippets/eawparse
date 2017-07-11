@@ -83,8 +83,10 @@ EOF
 		w[x] = Q_W;
 EOF
 
-sed -n '/^\([0-9A-F]\{4,6\}\)\(\.\.\([0-9A-F]\{4,6\}\)\)\{0,1\};\([NAHWF]a*\).*$/s//\4 \1 \3/p' \
-    <"$eaw" | while read type beg end; do
+set -A sedargs -- -n
+(( glibc )) && sedargs+=(-e '/<reserved-.*>\.\.<reserved-.*>/d')
+sedargs+=(-e '/^\([0-9A-F]\{4,6\}\)\(\.\.\([0-9A-F]\{4,6\}\)\)\{0,1\};\([NAHWF]a*\).*$/s//\4 \1 \3/p')
+sed "${sedargs[@]}" <"$eaw" | while read type beg end; do
 	if [[ -z $end ]]; then
 		print "	w[0x$beg] = Q_$type;"
 		continue
