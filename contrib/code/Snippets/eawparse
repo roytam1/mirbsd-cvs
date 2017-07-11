@@ -118,7 +118,7 @@ cat >>eawparse.hlp.c <<'EOF'
 	for (x = 0x4DC0; x <= 0x4DFF; ++x)
 		w[x] = Q_W;
 
-#define dorange(label, condenter, condstay) do {			\
+#define dorange(label, condenter) do {					\
 	enum { out, in } state = out;					\
 									\
 	printf("static const struct mb_ucsrange %s[] = {\n", label);	\
@@ -130,18 +130,18 @@ cat >>eawparse.hlp.c <<'EOF'
 			}						\
 		} else if (condenter) {					\
 			s = x;						\
-		} else if (!(/* CONSTCOND */ condstay)) {		\
+		} else {						\
 			printf("0x%04X },\n", s);			\
 			state = out;					\
 		}							\
 	if (state == in)						\
 		printf("0x%04X },\n", s);				\
-	printf("};\n\n");						\
+	printf(/*{*/"};\n\n");						\
 } while (/* CONSTCOND */ 0)
 
-	dorange("mb_ucs_combining", w[x] == QC, 0);
-	dorange("mb_ucs_fullwidth", w[x] == Q_F, 0);
-	dorange("mb_ucs_ambiguous", w[x] == Q_A, 0);
+	dorange("mb_ucs_combining", w[x] == QC);
+	dorange("mb_ucs_fullwidth", w[x] == Q_F);
+	dorange("mb_ucs_ambiguous", w[x] == Q_A);
 
 	return (0);
 }
