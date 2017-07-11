@@ -20,7 +20,9 @@
 # of said person’s immediate fault when using the work as intended.
 #-
 # Parse the Unicode EastAsianWidth.txt and UnicodeData.txt file into
-# wcwidth lists.
+# wcwidth lists. Act more glibc-compatible if -g flag is passed.
+
+[[ $1 != -g ]]; glibc=$?
 
 cwd=$(realpath .)
 lpd=$(realpath "$(dirname "$0")")
@@ -69,7 +71,9 @@ main(void)
 	unsigned int s = 0;
 
 	bzero(w, sizeof(w));
+EOF
 
+(( glibc )) || cat >>eawparse.hlp.c <<'EOF'
 	/* default CJK/Yi blocks to Wide */
 	for (x = 0x2E80; x <= 0xA4CF; ++x)
 		w[x] = Q_W;
@@ -105,6 +109,11 @@ struct mb_ucsrange {
 	unsigned int beg;
 	unsigned int end;
 };
+
+EOF
+
+(( glibc )) && cat >>eawparse.out <<'EOF'
+/* WARNING: glibc compat mode, do NOT commit to MirBSD! */
 
 EOF
 
