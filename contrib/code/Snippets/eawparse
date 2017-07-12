@@ -135,25 +135,26 @@ cat >>eawparse.hlp.c <<'EOF'
 	for (x = 0x4DC0; x <= 0x4DFF; ++x)
 		w[x] = Q_W;
 
-#define dorange(label, condenter) do {					\
-	enum { out, in } state = out;					\
+#define dorange(label, condition) do {					\
+	unsigned char matching = 0;					\
+	const char *lineend = "";					\
 									\
 	printf("static const struct mb_ucsrange %s[] = {\n", label);	\
 	for (x = 0; x <= 0x10FFFF; ++x)					\
-		if (state == out) {					\
-			if (condenter) {				\
-				printf("\t{ 0x%04X, ", s = x);		\
-				state = in;				\
+		if (condition) {					\
+			if (!matching) {				\
+				matching = 1;				\
+				printf("%s\t{ 0x%04X, ", lineend, x);	\
+				lineend = " },\n";			\
 			}						\
-		} else if (condenter) {					\
 			s = x;						\
-		} else {						\
-			printf("0x%04X },\n", s);			\
-			state = out;					\
+		} else if (matching) {					\
+			printf("0x%04X", s);				\
+			matching = 0;					\
 		}							\
-	if (state == in)						\
-		printf("0x%04X },\n", s);				\
-	printf(/*{*/"};\n\n");						\
+	if (matching)							\
+		printf("0x%04X", s);					\
+	printf(" }\n" /*{*/"};\n\n");					\
 } while (/* CONSTCOND */ 0)
 
 	dorange("mb_ucs_combining", w[x] == QC);
