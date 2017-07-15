@@ -13034,6 +13034,78 @@ Waypoint: GC4ACT9
 Title: Hexe
 Tag: D45 T2 Micro Mystery
 ----
+ID: 2153
+Date: 02.07.2017
+Waypoint: GC77EX4
+Title: Koberner Canada 🍁 Day 2017
+Tag: D15 T1 Event
+----
+ID: 2154
+Date: 02.07.2017
+Waypoint: GC2MXW9
+Title: Referenz
+Tag: D25 T2 Small Mystery recommended
+----
+ID: 2155
+Date: 02.07.2017
+Waypoint: GC65GJ2
+Title: Mitfahrerparkplatz A48 Ochtendung
+Tag: D15 T15 Micro Tradi
+----
+ID: 2156
+Date: 02.07.2017
+Waypoint: OC22B0 GCXGGZ
+Title: Sommerloch Vol. 9 - Wasserhügel
+Tag: D15 T15 Micro Tradi
+----
+ID: 2157
+Date: 02.07.2017
+Waypoint: OC4CAE GC187K1
+Title: Die &#34;Drei&#34; Kreuze
+Tag: D15 T15 Micro Multi
+----
+ID: 2158
+Date: 02.07.2017
+Waypoint: GC3HFZQ
+Title: CCK
+Tag: D15 T15 Micro Tradi recommended
+----
+ID: 2159
+Date: 02.07.2017
+Waypoint: GC6T8TY
+Title: High Voltage
+Tag: D25 T15 Other Tradi
+----
+ID: 2160
+Date: 02.07.2017
+Waypoint: GC757PZ
+Title: Rotkäppchen genießt die Aussicht
+Tag: D35 T2 Micro Mystery
+----
+ID: 2161
+Date: 09.07.2017
+Waypoint: GC51FVD
+Title: Challenge: &#34;366 Verstecktage&#34;
+Tag: D45 T5 Small Mystery Challenge
+----
+ID: 2162
+Date: 12.07.2017
+Waypoint: GC774X8
+Title: Go in Duisdorf
+Tag: D25 T15 Micro Mystery
+----
+ID: 2163
+Date: 15.07.2017
+Waypoint: GC77NZ3
+Title: Der verlorene Schatz der Mary Hyde
+Tag: D15 T15 Event
+----
+ID: 2164
+Date: 15.07.2017
+Waypoint: GC78H2A
+Title: Fortitudo - Runde 4
+Tag: D35 T2 Small Multi recommended
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
