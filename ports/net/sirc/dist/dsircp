@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.33 2012/06/24 13:53:58 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.48 2017/06/26 13:45:50 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -521,6 +521,7 @@ sub sl {
   }
   lrhash_add("O", $buf3);
   &print("*\cbE\cb* Error writing to server: $!") unless print $S $buf3."\n";
+# &print("*\cbD\cb* SERVER < $buf3");
 }
 
 sub dostatus {
@@ -995,6 +996,7 @@ sub restrict {
 }
 
 sub dosplat {
+  #XXX commands like PART can take multiple, comma-separated
   $args =~ s/^\s*\*($|\s)/${talkchannel}${1}/ if $talkchannel;
 }
 
@@ -1363,8 +1365,16 @@ sub docommand {
     }
   } elsif ($cmd eq 'PART' || $cmd eq 'P') {
     &dosplat;
-    $args=$talkchannel if $args eq '';
-    &sl("PART $args");
+    local($c)=$talkchannel;
+    if ($args =~ /^[\#\&\+]/) {
+      &getarg;
+      $c=$newarg;
+    }
+    if ($args) {
+      &sl("PART $c :$args");
+    } else {
+      &sl("PART $c");
+    }
   } elsif ($cmd eq 'LL') {
     if ($talkchannel) {
       &sl("WHO $talkchannel");

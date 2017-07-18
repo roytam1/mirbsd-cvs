@@ -241,8 +241,8 @@ Starts sending lines to <nick> or <#channel> by default, instead of
 sending them to your current channel. If you don't specify a nick,
 stops your current query.
 @part
-Usage: PART <#channel>
-Leaves the specified channel.
+Usage: PART [*|<#channel[,#channel,...]>] [message]
+Leaves the specified channel(s), optionally giving a parting message.
 Can be shortened to P.
 @ping
 Usage: PING <nickname>|<channelname>

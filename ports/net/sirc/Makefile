@@ -3,7 +3,7 @@
 COMMENT=		programmable small perl irc client (UTF-8, TLS, IPv6 ready)
 CATEGORIES=		net
 DIST_NAME=		sirc
-DIST_DATE=		20170626
+DIST_DATE=		20170718
 DIST_SOURCE=		port
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://www.iagora.com/~espel/sirc/sirc.html
