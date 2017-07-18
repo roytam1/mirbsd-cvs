@@ -13106,6 +13106,30 @@ Waypoint: GC78H2A
 Title: Fortitudo - Runde 4
 Tag: D35 T2 Small Multi recommended
 ----
+ID: 2165
+Date: 18.07.2017
+Waypoint: GC6EAAC
+Title: Eine weitere Reverse-Peilung
+Tag: D2 T15 Nano Multi
+----
+ID: 2166
+Date: 18.07.2017
+Waypoint: GC625YC
+Title: Alfterer Kreuze 06, reloaded als Multi
+Tag: D2 T1 Nano Multi
+----
+ID: 2167
+Date: 18.07.2017
+Waypoint: GC670HM
+Title: Schon wieder peilen?
+Tag: D2 T25 Micro Multi
+----
+ID: 2168
+Date: 18.07.2017
+Waypoint: GC6E70G
+Title: Kreispeilung - reloaded
+Tag: D2 T1 Micro Multi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
