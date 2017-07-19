@@ -1,9 +1,9 @@
 ! $MirOS: X11/xc/fonts/bdf/misc/fonts.alias,v 1.2 2007/08/24 14:30:14 tg Exp $
 ! $Xorg: fonts.alias,v 1.3 2000/08/21 16:42:31 coskrey Exp $
 
-mirhw        -miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
-mirfw        -miros-fixedmisc-medium-r-normal--18-120-100-100-c-180-iso10646-1
-mirvga       -miros-fixedmiscpc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
+mirhw        -MirOS-FixedMisc-Medium-R-Normal--18-120-100-100-C-90-ISO10646-1
+mirfw        -MirOS-FixedMisc-Medium-R-Normal--18-120-100-100-C-180-ISO10646-1
+mirvga       -MirOS-FixedMiscPC-Medium-R-Normal--16-120-100-100-C-80-IBM-cp437
 
 fixed        -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
 variable     -*-helvetica-bold-r-normal-*-*-120-*-*-*-*-iso10646-1
