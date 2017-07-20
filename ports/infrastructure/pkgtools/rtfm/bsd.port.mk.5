@@ -1397,6 +1397,19 @@ by the master site administrator, and due to use of a
 different compressor than the
 .Pa mpczar.z
 helper, it is not guaranteed to be reproducible.
+.It Va lz
+Append the suffix
+.Dq .lz
+to the
+.Ev _CVS_DISTF ,
+and fetch it from the appropriate MASTER_SITES, which
+is initialised to default to ${_MASTER_SITE_MIRBSD}.
+.Pp
+Note that the distfile has to be recompressed manually
+by the master site administrator, and due to use of a
+different compressor than the
+.Pa mpczar.z
+helper, it is not guaranteed to be reproducible.
 .It Va xz
 Append the suffix
 .Dq .xz
@@ -2285,6 +2298,10 @@ instead.
 .It Ev USE_LZMA
 The framework will automatically detect the presence of
 .Pa .tar.lzma
+files to extract.
+.It Ev USE_LZIP
+The framework will automatically detect the presence of
+.Pa .tar.lz
 files to extract.
 .It Ev USE_XZ
 The framework will automatically detect the presence of

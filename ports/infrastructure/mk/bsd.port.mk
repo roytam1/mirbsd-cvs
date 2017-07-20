@@ -950,6 +950,8 @@ _CVS_FDEP+=		mpczar svn
 .  endif
 .  if defined(_CVS_DISTF${_i:N-}) && (${MCZ_FETCH:L} == "xz")
 _CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}}.xz
+.  elif defined(_CVS_DISTF${_i:N-}) && (${MCZ_FETCH:L} == "lz")
+_CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}}.lz
 .  elif defined(_CVS_DISTF${_i:N-}) && (${MCZ_FETCH:L} == "lzma")
 _CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}}.lzma
 .  endif
@@ -1056,6 +1058,10 @@ _USE_LZMA?=		Yes
     !empty(EXTRACT_ONLY:M*.txz) || !empty(EXTRACT_ONLY:M*.cxz)
 _USE_XZ?=		Yes
 .endif
+.if !empty(EXTRACT_ONLY:M*.lz) || \
+    !empty(EXTRACT_ONLY:M*.tlz)
+_USE_LZIP?=		Yes
+.endif
 .if !empty(EXTRACT_ONLY:M*.zip)
 _USE_ZIP?=		Yes
 .endif
@@ -1063,6 +1069,7 @@ _USE_BZIP2?=		No
 _USE_LHARC?=		No
 _USE_LZMA?=		No
 _USE_XZ?=		No
+_USE_LZIP?=		No
 _USE_ZIP?=		No
 
 EXTRACT_CASES?=
@@ -1105,6 +1112,15 @@ EXTRACT_CASES+=		\
 	xzdec <${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
     *.xz)								\
 	xzdec <${FULLDISTDIR}/$$archive >$$(basename $$archive .xz) ;;
+.endif
+
+.if ${_USE_LZIP:L} != "no"
+BUILD_DEPENDS+=		:pdlzip-*:archivers/pdlzip
+EXTRACT_CASES+=		\
+    *.tar.lz | *.tlz | *.cpio.lz | *.mcz.lz)				\
+	pdlzip -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
+    *.lz)								\
+	pdlzip -dc ${FULLDISTDIR}/$$archive >$$(basename $$archive .lz) ;;
 .endif
 
 .if ${_USE_ZIP:L} != "no"
