@@ -1,0 +1,3 @@
+@comment $MirOS$
+bin/pdlzip
+man/man1/pdlzip.1

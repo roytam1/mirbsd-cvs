@@ -1,0 +1,73 @@
+Pdlzip is a lossless data compressor with a user interface similar to
+the one of lzip, bzip2 or gzip.
+
+Pdlzip uses the lzip file format; the files produced by pdlzip are
+(hope)fully compatible with lzip-1.4 or newer. Pdlzip is in fact a
+permissively licensed implementation of the lzip data compressor,
+intended for those who can't distribute (or even use) GPL licensed Free
+Software. (The name of pdlzip comes from "public domain lzip"). The full
+licence terms are included in the binary.
+
+Pdlzip only includes a man page and a README file. For information about
+the lzip file format see the online manual of lzip at:
+	http://www.nongnu.org/lzip/manual/lzip_manual.html
+
+The lzip file format is designed for data sharing and long-term
+archiving, taking into account both data integrity and decoder
+availability:
+* The lzip format provides very safe integrity checking and some data
+  recovery means. The lziprecover program can repair bit-flip errors
+  (one of the most common forms of data corruption) in lzip files, and
+  provides data recovery capabilities, including error-checked merging
+  of damaged copies of a file.
+* The lzip format is as simple as possible (but not simpler). The lzip
+  manual provides the source code of a simple decompressor along with a
+  detailed explanation of how it works, so that with the only help of
+  the lzip manual it would be possible for a digital archaeologist to
+  extract the data from a lzip file long after quantum computers
+  eventually render LZMA obsolete.
+* Additionally the lzip reference implementation is copylefted, which
+  guarantees that it will remain free forever.
+
+A nice feature of the lzip format is that a corrupt byte is easier to
+repair the nearer it is from the beginning of the file. Therefore, with
+the help of lziprecover, losing an entire archive just because of a
+corrupt byte near the beginning is a thing of the past.
+
+Pdlzip is also able to decompress legacy lzma-alone (.lzma) files.
+Lzma-alone is a very bad format; it is essentially a raw LZMA stream. If
+you keep any lzma-alone files, it is advisable to recompress them to
+lzip format. Lziprecover can convert some lzma-alone files to lzip
+format without recompressing.
+
+Pdlzip is written in C.
+
+Pdlzip includes public domain (de)compression code from the LZMA SDK
+(Software Development Kit) written by Igor Pavlov. As with XZ-Utils,
+this is acceptable because of the following permission grant:
+
+# Note on material marked as PD or derived from such in here:
+#
+# We got an explicit copyright licence from Igor Pavlov, the
+# original author of, according to several sources, any such
+# material, in both xz-utils and pdlzip (WTFPL-like):
+#
+# From: Igor Pavlov
+# Message-ID: <BFE18C67668F4A56A0965B2115DAB7FA@igor2>
+# Subject: Re: LZMA SDK and legalities of public domain
+# […]
+# I even don't want to think about these restrictions, countries,
+# Berne Convention and so on.
+# You can use the code. [in projects under OSS licences that
+# include code from LZMA SDK (context: mails from me and Lasse)]
+# No restrictions from me.
+#
+# Lasse Collin, around <20111118225931.4b7e60e3@tukaani.org>, also
+# confirms this, adding an interpretation of this as WTFPL and
+# explicitly permits sublicencing and to “change the license”; he
+# also confirms the authenticity of Igor Pavlov’s answer.
+
+Note that Lasse Collin is the author of XZ-Utils. Note further that
+lzlib and lzip do not have this issue because they are a from-scratch
+implementation developed completely by Antonio Diaz Diaz. MirBSD will
+use lzlib soon, and GPL-compatible applications should use lzip.
