@@ -1,8 +1,6 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n1.c,v 1.7 2006/10/13 20:36:36 tg Exp $ */
-
 /*-
- * Copyright (c) 2002, 2003, 2004, 2005, 2006
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2002, 2003, 2004, 2005, 2006, 2017
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -623,7 +621,8 @@ g0:
 	}
 */
 	switch(k){
-
+		case '/':	/*groff: italic->roman adjust */
+		case ',':	/*groff: roman->italic adjust */
 		case '\n':	/*concealed newline*/
 			goto g0;
 		case 'n':	/*number register*/
