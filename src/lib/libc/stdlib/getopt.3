@@ -1,3 +1,5 @@
+.\" $MirOS$
+.\"-
 .\" Copyright (c) 1988, 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
 .\"
@@ -27,7 +29,7 @@
 .\"
 .\"	$OpenBSD: getopt.3,v 1.42 2011/03/05 22:10:11 guenther Exp $
 .\"
-.Dd $Mdocdate: March 5 2011 $
+.Dd $Mdocdate: December 4 2011 $
 .Dt GETOPT 3
 .Os
 .Sh NAME
@@ -253,7 +255,10 @@ is a plus sign
 it will be ignored.
 This is for compatibility with
 .Tn GNU
-.Fn getopt .
+.Fn getopt
+where it is required to cancel argument processing at the first
+non-option (like everyone else does by default, including
+.Tn POSIX ) .
 .It Li o
 If the first character of
 .Fa optstring
