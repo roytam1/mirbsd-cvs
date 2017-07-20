@@ -41,7 +41,6 @@ __RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.24 2009/11/29 13:3
 static const char *pkgexts[] = {
     	".cgz",
 	".cxz",
-	".clz",
 	".tgz",
 	".tar",
 	".cpio",
@@ -470,8 +469,6 @@ fileGetURL(char *base, char *spec)
 		if ((cp = strrchr(fname, '.'))) {
 			if (!strcmp(cp, ".cxz"))
 			    decompressor = "xzdec";
-			else if (!strcmp(cp, ".clz"))
-			    decompressor = "lzmadec";
 			else if (strchr(cp, 'z') || strchr(cp, 'Z'))
 			    decompressor = "gzip -fdc";
 		}
@@ -716,8 +713,6 @@ unpack(char *pkg, const char *flist)
 		if ((cp = strrchr(pkg, '.'))) {
 			if (!strcmp(cp, ".cxz"))
 				decompressor = "xzdec";
-			else if (!strcmp(cp, ".clz"))
-				decompressor = "lzmadec";
 			else if (strchr(cp, 'z') || strchr(cp, 'Z'))
 				decompressor = "gzip -fdc";
 		} else

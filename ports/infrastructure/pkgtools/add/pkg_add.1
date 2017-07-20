@@ -74,7 +74,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: February 11 2016 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -607,7 +607,8 @@ Starting from
 .Mx 8 ,
 package tools generate SVR4 CPIO archives with CRC by default.
 These files usually have the extension \.cgz, but \.tgz is also possible.
-If compressed with LZMA, they are called \.clz or \.cxz (LZMA2).
+If compressed with XZ-Utils they are called \.cxz.
+.\" really “\.”? Not something with “\&” somewhere? Pretty sure that…
 Uncompressed packages ending in .cpio and .tar are also allowed, for
 debugging, or slow platforms where the package is later compressed on
 a fast machine.

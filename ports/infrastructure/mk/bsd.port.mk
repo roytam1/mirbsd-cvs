@@ -1049,8 +1049,7 @@ _USE_BZIP2?=		Yes
 .if !empty(EXTRACT_ONLY:L:M*.l[zh][ha])
 _USE_LHARC?=		Yes
 .endif
-.if !empty(EXTRACT_ONLY:M*.lzma) || \
-    !empty(EXTRACT_ONLY:M*.tlz) || !empty(EXTRACT_ONLY:M*.clz)
+.if !empty(EXTRACT_ONLY:M*.lzma)
 _USE_LZMA?=		Yes
 .endif
 .if !empty(EXTRACT_ONLY:M*.xz) || \
@@ -1094,7 +1093,7 @@ EXTRACT_CASES+=		\
 BUILD_DEPENDS+=		:xz-*:archivers/xz
 .  endif
 EXTRACT_CASES+=		\
-    *.tar.lzma | *.tlz | *.cpio.lzma | *.clz | *.mcz.lzma)		\
+    *.tar.lzma | *.cpio.lzma | *.mcz.lzma)				\
 	lzmadec <${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
     *.lzma)								\
 	lzmadec <${FULLDISTDIR}/$$archive >$$(basename $$archive .lzma) ;;

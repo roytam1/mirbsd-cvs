@@ -1945,11 +1945,7 @@ guess_compress_program(int wr __attribute__((__unused__)))
 	}
 
 	/* guess extended format lzma (using xz for decompression) */
-	if (!strcmp(ccp, "lz") ||
-	    !strcmp(ccp, "lzma") ||
-	    !strcmp(ccp, "tlz") ||
-	    !strcmp(ccp, "clz") ||
-	    !strcmp(ccp, "nlz")) {
+	if (!strcmp(ccp, "lzma")) {
 		compress_program = wr ? LZMA_WRCMD : XZ_CMD;
 		return;
 	}

@@ -46,7 +46,7 @@ button .menu.dein -text "Deinstall" \
 button .menu.installed -text "What is Installed?" \
    -command "list_pkgs \"pkg_info -I -a |tr '	' ' '\""
 button .menu.available -text "What can I install?" \
-   -command "list_pkgs \"pkg_info -I -c [glob -nocomplain *.{cgz,cxz,clz,tgz,cpio,tar,tar.z,tar.gz,tar.Z}] |tr '	' ' '\""
+   -command "list_pkgs \"pkg_info -I -c [glob -nocomplain *.{cgz,cxz,tgz,cpio,tar,tar.z,tar.gz,tar.Z}] |tr '	' ' '\""
 button .menu.cont -text "Contents?" \
    -command "apply_to_pkg \"pkg_info -d -v\""
 button .menu.quit -text "Quit" -command "destroy ."
@@ -74,7 +74,7 @@ proc list_pkgs {s} {
 }
 
 # display the list of available packages
-set archives [glob -nocomplain *.{cgz,cxz,clz,tgz,cpio,tar,tar.z,tar.gz,tar.Z}]
+set archives [glob -nocomplain *.{cgz,cxz,tgz,cpio,tar,tar.z,tar.gz,tar.Z}]
 if {$archives == ""} {
   .frame.list delete 0 end
  .frame.list insert end "Warning: no compressed tar archives files found."

@@ -158,8 +158,6 @@ cd $TMPDIR
 case $npkg {
 (*.cxz)
 	xzdec <"$npkg" ;;
-(*.clz)
-	lzmadec <"$npkg" ;;
 (*.*([!.])z*([!.]))
 	gzip -fdc "$npkg" ;;
 (*)

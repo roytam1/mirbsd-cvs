@@ -278,7 +278,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     else
 	snprintf(tball, FILENAME_MAX, "%s/%s.%s", homepath, pkg, fsuffix);
 
-    if (!strcmp(fsuffix + strlen(fsuffix) - 2, "lz"))
+    if (!strcmp(fsuffix + strlen(fsuffix) - 4, "lzma"))
 	compression = COMP_LZMA;
     else if (!strcmp(fsuffix + strlen(fsuffix) - 2, "xz"))
 	compression = COMP_XZ;
@@ -379,7 +379,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 
 	xasprintf(&cp2, "%s | %s >%s", cp,
 		compression == COMP_GZIP ? "gzip -n9fc" :
-		compression == COMP_LZMA ? "lzma -z9fc" :
+		compression == COMP_LZMA ? "lzma -z7fc" :
 		"xz -zfc7e -F xz -C crc32", (tf = format_arg(tball)));
 	xfree(tf);
 	xfree(cp);
