@@ -1,7 +1,7 @@
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/code/Snippets/KBDmir2U.map,v 1.1 2013/03/22 23:53:26 tg Exp $
 #-
-# Copyright © 2000, 2004, 2007, 2008, 2010, 2012, 2013
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+# Copyright © 2000, 2004, 2007, 2008, 2010, 2012, 2013, 2017
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -20,7 +20,7 @@
 #-
 # MirKeyboardLayout for the Linux® VT (text console) for ecce
 #
-# Based on MirOS: contrib/samples/dot.Xmodmap,v 1.25 2012/08/03 17:36:32 tg Exp
+# Based on MirOS: contrib/samples/dot.Xmodmap,v 1.27
 
 keymaps 0-1,4-5,8-9,12
 
@@ -36,7 +36,7 @@ keycode   8 =	seven		ampersand	VoidSymbol	VoidSymbol	U+00B7	U+00A6
 keycode   9 =	eight		asterisk	VoidSymbol	VoidSymbol	U+00B8	U+00AA
 keycode  10 =	nine		parenleft	VoidSymbol	VoidSymbol	U+00B9	U+00A8
 keycode  11 =	zero		parenright	VoidSymbol	VoidSymbol	U+00B0	U+00A9
-keycode  12 =	minus		underscore	Control_underscore Control_underscore U+00AD U+00DF
+keycode  12 =	minus		underscore	Control_underscore Control_underscore U+2010 U+00DF
 keycode  13 =	equal		plus		VoidSymbol	VoidSymbol	U+00BD	U+00AB
 keycode  14 =	Delete		Delete		BackSpace	BackSpace	U+00FF	U+0178
 keycode  15 =	Tab		Tab		VoidSymbol	VoidSymbol	U+201C	U+201D
@@ -65,7 +65,7 @@ keycode  37 =	k		K		Control_k	Control_k	U+00EB	U+00CB
 keycode  38 =	l		L		Control_l	Control_l	U+00EC	U+00CC
 keycode  39 =	semicolon	colon		VoidSymbol	VoidSymbol	U+00BB	U+00BA
 keycode  40 =	apostrophe	quotedbl	VoidSymbol	VoidSymbol	U+00A7	U+00A2
-keycode  41 =	Escape		asciitilde	VoidSymbol	VoidSymbol	U+009B	U+00FE
+keycode  41 =	Escape		asciitilde	VoidSymbol	VoidSymbol	Escape	U+00FE
 keycode  42 =	Shift
 keycode  43 =	backslash	bar		Control_backslash Control_backslash U+00DC U+00FC
 keycode  44 =	z		Z		Control_z	Control_z	U+00FA	U+00DA
@@ -80,7 +80,7 @@ keycode  52 =	period		greater		Compose		Compose		U+00AE	U+00BE
 keycode  53 =	slash		question	Delete		Delete		U+00AF	U+00BF
 keycode  54 =	Shift
 keycode  55 =	KP_Multiply	KP_Multiply	KP_Multiply	KP_Multiply	Hex_C	Hex_C
-keycode  56 =	Alt
+keycode  56 =	Compose
 keycode  57 =	space		space		nul		nul		U+00A0	U+3000
 keycode  58 =	U+2026		U+20AC		VoidSymbol	VoidSymbol	U+201E	U+2122
 keycode  59 =	F1		F11		F1		F11		U+263B	U+250C	Console_1
