@@ -1,6 +1,6 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.25 2012/08/03 17:36:32 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.8 2016/06/04 02:47:48 tg Exp $
 !-
-! Copyright © 2004, 2007, 2008, 2010, 2012, 2013, 2016
+! Copyright © 2004, 2007, 2008, 2010, 2012, 2013, 2016, 2017
 !	mirabilos <m@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -18,7 +18,7 @@
 ! damage or existence of a defect, except proven that it results out
 ! of said person’s immediate fault when using the work as intended.
 !-
-! MirKBD Revision 4.00, English (Europe) + Meta key, for X.org/evdev
+! MirKBD Revision 4.01, English (Europe) + Meta key, for X.org/evdev
 !
 ! Advanced .Xmodmap file with US-based layout plus Meta and Compose,
 ! Meta emulated by Mode_switch, for 102-key, 104/105-key, and laptop
@@ -72,6 +72,7 @@
 ! • ModeSwitch + {Ins,Del}, {Home,End}, {PgUp,PgDn} generates wide
 !   parenthesēs: (unshift/shift) 〈〉 《》 / 〔〕 【】 / 「」 『』
 ! • ModeSwitch-Shift-{Space,Esc} are wide space/creative heaven ䷀
+! • ModeSwitch-HyphenMinus is U+2010 HYPHEN not U+00AD SOFT HYPHEN
 
 keycode	0x09 =	grave		Escape			agrave		U4DC0
 keycode	0x43 =	F1		F1			U263B		U250C		F1 F1 XF86_Switch_VT_1
@@ -101,7 +102,7 @@ keycode	0x10 =	7		ampersand		periodcentered	brokenbar
 keycode	0x11 =	8		asterisk		cedilla		ordfeminine
 keycode	0x12 =	9		parenleft		onesuperior	diaeresis
 keycode	0x13 =	0		parenright		degree		copyright
-keycode	0x14 =	minus		underscore		hyphen		ssharp
+keycode	0x14 =	minus		underscore		U2010		ssharp
 keycode	0x15 =	equal		plus			onehalf		guillemotleft
 keycode	0x16 =	BackSpace	BackSpace		ydiaeresis	U0178		NoSymbol NoSymbol Terminate_Server
 keycode	0x76 =	Insert		Insert			U3008		U300A
