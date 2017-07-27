@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.2.1.2.3 2016/06/04 02:47:48 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.2.1.2.4 2017/07/23 22:32:42 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010, 2012, 2016, 2017
 !	mirabilos <m@mirbsd.org>
@@ -23,7 +23,7 @@
 ! Advanced .Xmodmap file with US-based layout plus Meta (emulated by
 ! Mode_switch), for 102/105-key and laptop keyboards. All ISO 8859-1
 ! characters are directly typable, as well as some extra characters,
-! most of which are in codepage 1252.
+! most of which are in codepage 1252. An em dash is 「 — 」.
 !
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
 ! • The Win_L key generates Meta_L	(adds 0x80 to latin1 code)
