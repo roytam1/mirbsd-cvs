@@ -1,6 +1,6 @@
 <?php
 /*-
- * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.5 2013/02/18 10:16:34 tg Exp $
+ * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.8 2017/06/08 14:53:58 tg Exp $
  *-
  * Copyright © 2012, 2013, 2016, 2017
  *	mirabilos <t.glaser@tarent.de>
@@ -54,6 +54,9 @@
  * ‣ https://en.wikiquote.org/wiki/Rasmus_Lerdorf
  * ‣ http://www.rfc-editor.org/rfc/rfc822.txt and its successors
  * ‣ http://www.cs.tut.fi/~jkorpela/rfc/822addr.html
+ *
+ * This is now superseded by common utilities in hello-php-world:
+ * ‣ https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/hello-php-world.git;a=blob;f=common/util.php;hb=HEAD
  */
 
 /**
@@ -103,7 +106,7 @@ function util_sendmail_encode_hdr_int($fname, $ftext) {
  * but otherwise per DNS/DARPA. Domain literals and
  * whitespace are not permitted. The domain part is
  * expected to be an FQDN resolving to an MX, AAAA,
- * or A RR — the caller can verify that itself once
+ * or A RR — the caller can verify that itself once
  * validity is established by a truthy return value
  * from this function.
  *
