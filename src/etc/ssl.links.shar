@@ -1,11 +1,10 @@
 # $MirOS: src/etc/ssl.links.shar,v 1.3 2016/02/08 17:50:27 tg Exp $
 #-
-# Symlinks for ssl.certs.shar,v 1.48
+# Symlinks for ssl.certs.shar,v 1.49
 
 echo 00673b5b.0 → 2e4eed3c.0; ln -s 00673b5b.0 2e4eed3c.0
 echo 02756ea4.0 → 9168f543.0; ln -s 02756ea4.0 9168f543.0
 echo 02b73561.0 → c9f83a1c.0; ln -s 02b73561.0 c9f83a1c.0
-echo 03f2b8cf.0 → 5d63b0ae.0; ln -s 03f2b8cf.0 5d63b0ae.0
 echo 04f60c28.0 → f30dd6ad.0; ln -s 04f60c28.0 f30dd6ad.0
 echo 052e396b.0 → e536d871.0; ln -s 052e396b.0 e536d871.0
 echo 08aef7bb.0 → 7d5a75e4.0; ln -s 08aef7bb.0 7d5a75e4.0
@@ -28,13 +27,11 @@ echo 1f58a078.0 → 064e0aa9.0; ln -s 1f58a078.0 064e0aa9.0
 echo 21855f49.0 → 9007ae68.0; ln -s 21855f49.0 9007ae68.0
 echo 219d9499.0 → f081611a.0; ln -s 219d9499.0 f081611a.0
 echo 23f4c490.0 → f387163d.0; ln -s 23f4c490.0 f387163d.0
-echo 262ba90f.0 → f38a011e.0; ln -s 262ba90f.0 f38a011e.0
 echo 27af790d.0 → 116bf586.0; ln -s 27af790d.0 116bf586.0
 echo 2add47b6.0 → 1d3472b9.0; ln -s 2add47b6.0 1d3472b9.0
 echo 2d9dafe4.0 → e8de2f56.0; ln -s 2d9dafe4.0 e8de2f56.0
 echo 2edf7016.0 → 24ad0b63.0; ln -s 2edf7016.0 24ad0b63.0
 echo 2fa87019.0 → 4304c5e5.0; ln -s 2fa87019.0 4304c5e5.0
-echo 33815e15.0 → ae8153b9.0; ln -s 33815e15.0 ae8153b9.0
 echo 343eb6cb.0 → 76cb8f92.0; ln -s 343eb6cb.0 76cb8f92.0
 echo 35105088.0 → fc5a8f99.0; ln -s 35105088.0 fc5a8f99.0
 echo 3929ec9f.0 → 608a55ad.0; ln -s 3929ec9f.0 608a55ad.0
@@ -100,7 +97,6 @@ echo 9339512a.0 → 76faf6c0.0; ln -s 9339512a.0 76faf6c0.0
 echo 9479c8c3.0 → 7719f463.0; ln -s 9479c8c3.0 7719f463.0
 echo 9576d26b.0 → 2ae6433e.0; ln -s 9576d26b.0 2ae6433e.0
 echo 95aff9e3.0 → 48bec511.0; ln -s 95aff9e3.0 48bec511.0
-echo 961f5451.0 → 8096d0a9.0; ln -s 961f5451.0 8096d0a9.0
 echo 9685a493.0 → 3e45d192.0; ln -s 9685a493.0 3e45d192.0
 echo 9772ca32.0 → 480720ec.0; ln -s 9772ca32.0 480720ec.0
 echo 9ab62355.0 → 034868d6.0; ln -s 9ab62355.0 034868d6.0
@@ -139,7 +135,6 @@ echo d06393bb.0 → 1e09d511.0; ln -s d06393bb.0 1e09d511.0
 echo d16a5865.0 → 3bde41ac.0; ln -s d16a5865.0 3bde41ac.0
 echo d18e9066.0 → ef954a4e.0; ln -s d18e9066.0 ef954a4e.0
 echo d4c339cb.0 → d6325660.0; ln -s d4c339cb.0 d6325660.0
-echo d5727d6a.0 → 26eaad2f.0; ln -s d5727d6a.0 26eaad2f.0
 echo d59297b8.0 → cd58d51e.0; ln -s d59297b8.0 cd58d51e.0
 echo d66b55d9.0 → 592c0a9a.0; ln -s d66b55d9.0 592c0a9a.0
 echo d6e6eab9.0 → 9f0f5fd6.0; ln -s d6e6eab9.0 9f0f5fd6.0
@@ -161,9 +156,7 @@ echo ea169617.0 → 381ce4dd.0; ln -s ea169617.0 381ce4dd.0
 echo ed39abd0.0 → dd8e9d41.0; ln -s ed39abd0.0 dd8e9d41.0
 echo ed62f4e3.0 → cb357862.0; ln -s ed62f4e3.0 cb357862.0
 echo ee7cd6fb.0 → f90208f7.0; ln -s ee7cd6fb.0 f90208f7.0
-echo ee90b008.0 → 876f1e28.0; ln -s ee90b008.0 876f1e28.0
 echo f559733c.0 → 0d1b923b.0; ln -s f559733c.0 0d1b923b.0
-echo f61bff45.0 → 024dc131.0; ln -s f61bff45.0 024dc131.0
 echo fac084d7.0 → 57bbd831.0; ln -s fac084d7.0 57bbd831.0
 echo facacbc6.0 → b204d74a.0; ln -s facacbc6.0 b204d74a.0
 echo fb126c6d.0 → 0810ba98.0; ln -s fb126c6d.0 0810ba98.0
