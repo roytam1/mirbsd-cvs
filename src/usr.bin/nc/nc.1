@@ -26,7 +26,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd November 7, 2004
+.Dd $Mdocdate$
 .Dt NC 1
 .Os
 .Sh NAME
@@ -39,6 +39,7 @@
 .Op Fl i Ar interval
 .Op Fl p Ar source_port
 .Op Fl s Ar source_ip_address
+.Op Fl T Ar keyword
 .Op Fl w Ar timeout
 .Op Fl X Ar proxy_protocol
 .Oo Xo
@@ -161,6 +162,12 @@ Specifies the IP of the interface which is used to send the packets.
 It is an error to use this option in conjunction with the
 .Fl l
 option.
+.It Fl T Ar keyword
+Sets options.
+Currently, only the
+.Ic crlf
+keyword is recognised, sending a carriage return before each line feed
+to complete an ASCII newline.
 .It Fl t
 Causes
 .Nm

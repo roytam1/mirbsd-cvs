@@ -1,7 +1,7 @@
-/* $MirOS: src/usr.bin/nc/netcat.c,v 1.6 2006/02/27 23:01:45 tg Exp $ */
 /* $OpenBSD: netcat.c,v 1.81 2005/05/28 16:57:48 marius Exp $ */
 /*
- * Copyright (c) 2004 Thorsten "mirabilos" Glaser <tg@mirbsd.org>
+ * Copyright (c) 2004, 2017
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 2001 Eric Jackson <ericj@monkey.org>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,6 +85,7 @@ int	zflag;					/* Port Scan Flag */
 int	Dflag;					/* sodebug */
 int	Iflag;					/* Prefix peer IP */
 int	Sflag;					/* TCP MD5 signature option */
+int	do_crlf;				/* Send ASCII newlines */
 
 int timeout = -1;
 int family = AF_UNSPEC;
@@ -92,7 +93,7 @@ char *portlist[PORT_MAX+1];
 
 void	atelnet(int, unsigned char *, unsigned int);
 void	build_ports(char *);
-void	help(void);
+void	help(void) __dead;
 int	local_listen(char *, char *, struct addrinfo);
 void	readwrite(int);
 int	remote_connect(const char *, const char *, struct addrinfo);
@@ -127,7 +128,7 @@ main(int argc, char *argv[])
 	sv = NULL;
 
 	while ((ch = getopt(argc, argv,
-	    "46DdhIi:jklnp:rSs:tUuvw:X:x:z")) != -1) {
+	    "46DdhIi:jklnp:rSs:T:tUuvw:X:x:z")) != -1) {
 		switch (ch) {
 		case '4':
 			family = AF_INET;
@@ -179,6 +180,12 @@ main(int argc, char *argv[])
 			break;
 		case 's':
 			sflag = optarg;
+			break;
+		case 'T':
+			if (!strcmp(optarg, "crlf"))
+				do_crlf = 1;
+			else
+				usage(1);
 			break;
 		case 't':
 			tflag = 1;
@@ -590,6 +597,8 @@ local_listen(char *host, char *port, struct addrinfo hints)
 	return (s);
 }
 
+static char crlf[] = "\r\n";
+
 /*
  * readwrite()
  * Loop that polls on the network file descriptor and stdin.
@@ -647,6 +656,24 @@ readwrite(int nfd)
 				shutdown(nfd, SHUT_WR);
 				pfd[1].fd = -1;
 				pfd[1].events = 0;
+			} else if (do_crlf) {
+				unsigned char *bp = buf, *cp;
+				size_t m;
+
+				while (n) {
+					if ((cp = memchr(bp, '\n', n))) {
+						m = cp++ - bp;
+						n -= m + 1;
+					} else {
+						m = n;
+						n = 0;
+					}
+					if (atomicio(vwrite, nfd, bp, m) != m)
+						return;
+					if (cp && atomicio(vwrite, nfd, crlf, 2) != 2)
+						return;
+					bp = cp;
+				}
 			} else {
 				if ((int)atomicio(vwrite, nfd, buf, n) != n)
 					return;
@@ -813,6 +840,7 @@ help(void)
 	\t-r		Randomize remote ports\n\
 	\t-S		Enable the TCP MD5 signature option\n\
 	\t-s addr\t	Local source address\n\
+	\t-T crlf\t	Send ASCII newlines\n\
 	\t-t		Answer TELNET negotiation\n\
 	\t-U		Use UNIX domain socket\n\
 	\t-u		UDP mode\n\
@@ -829,7 +857,7 @@ void
 usage(int ret)
 {
 	fprintf(stderr, "usage: nc [-46DdhIklnrStUuvz] [-i interval] [-p source_port]\n");
-	fprintf(stderr, "\t  [-s source_ip_address] [-w timeout] [-X proxy_version]\n");
+	fprintf(stderr, "\t  [-s source_ip_address] [-T keyword] [-w timeout] [-X proxy_protocol]\n");
 	fprintf(stderr, "\t  [-x proxy_address[:port]] [hostname] [port[s]]\n");
 	if (ret)
 		exit(1);
