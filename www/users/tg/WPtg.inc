@@ -12993,7 +12993,8 @@ Tag: D15 T15 Nano Tradi
 ID: 2146
 Date: 21.06.2017
 Waypoint: GC77K4M
-Title: Hotel zur "Wilden Kuh" 🐮
+Banner: jpg
+Title: Hotel zur &#34;Wilden Kuh&#34; 🐮
 nTF: 1
 Tag: D1 T1 Micro Tradi
 ----
@@ -13006,6 +13007,7 @@ Tag: D2 T25 Micro Tradi
 ID: 2148
 Date: 24.06.2017
 Waypoint: GC6G5MV
+Banner: jpg
 Title: Space Mission: CERES
 Tag: D15 T1 Nano Tradi
 ----
@@ -13091,12 +13093,14 @@ Tag: D45 T5 Small Mystery Challenge
 ID: 2162
 Date: 12.07.2017
 Waypoint: GC774X8
+Banner: jpg
 Title: Go in Duisdorf
 Tag: D25 T15 Micro Mystery
 ----
 ID: 2163
 Date: 15.07.2017
 Waypoint: GC77NZ3
+Banner: png
 Title: Der verlorene Schatz der Mary Hyde
 Tag: D15 T15 Event
 ----
@@ -13115,6 +13119,7 @@ Tag: D2 T15 Nano Multi
 ID: 2166
 Date: 18.07.2017
 Waypoint: GC625YC
+Banner: jpg
 Title: Alfterer Kreuze 06, reloaded als Multi
 Tag: D2 T1 Nano Multi
 ----
@@ -13129,6 +13134,75 @@ Date: 18.07.2017
 Waypoint: GC6E70G
 Title: Kreispeilung - reloaded
 Tag: D2 T1 Micro Multi
+----
+ID: 2169
+Date: 22.07.2017
+Waypoint: GC2TXZM
+Title: Die Legende vom Klausenhäuschen
+Tag: D15 T2 Micro Tradi
+----
+ID: 2170
+Date: 22.07.2017
+Waypoint: GC37VXM
+Banner: jpg
+Title: Alfterer Kreuze 19
+Tag: D15 T15 Micro Multi
+----
+ID: 2171
+Date: 24.07.2017
+Waypoint: GC3QQAR
+Title: Baumkönig
+Tag: D15 T15 Micro Mystery
+----
+ID: 2172
+Date: 24.07.2017
+Waypoint: GC257ET
+Title: Wer wird Cachionär? #1
+Tag: D4 T15 Small Mystery
+----
+ID: 2173
+Date: 24.07.2017
+Waypoint: OC12BF1
+Title: Limpericher Wegekreuz: Familie Meyer
+Tag: D1 T1 Virtual
+----
+ID: 2174
+Date: 24.07.2017
+Waypoint: GC2Q10E
+Title: Reine Erziehungssache (Mini-Multi)
+Tag: D3 T15 Micro Multi
+----
+ID: 2175
+Date: 29.07.2017
+Waypoint: VX97-NIVO
+Title: [San Marino], Rodderberg, Bonn
+nTF: 1
+Distance: 0
+----
+ID: 2176
+Date: 30.07.2017
+Waypoint: WMW8BJ GC79BP0
+Title: Turmstation Meckenheim - Am Kölnkreuz
+Tag: D1 T1 Nano Tradi
+----
+ID: 2177
+Date: 30.07.2017
+Waypoint: GC4MMW9
+Title: MUGGELALARM...
+Tag: D3 T15 Micro Tradi
+----
+ID: 2178
+Date: 02.08.2017
+Waypoint: GC789RP
+Title: Nico's Wald - # Omi is watching you
+Tag: D1 T1 Nano Tradi
+----
+ID: p20170812
+Date: 12.08.2017
+Waypoint: GE0327 GC79BNM OC13CDD TC1URL
+Title: August-Eis ⅯⅯⅩⅦ
+nTF: 0
+Tag: D1 T1 Event
 ----
 ID: p20481102
 Date: 02.11.2048
