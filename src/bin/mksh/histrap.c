@@ -784,8 +784,8 @@ hist_persist_init(void)
 	/* we have a file and are interactive */
 	if ((fd = binopen3(hname, O_RDWR | O_CREAT | O_APPEND, 0600)) < 0)
 		return;
-
-	histfd = savefd(fd);
+	if ((histfd = savefd(fd)) < 0)
+		return;
 	if (histfd != fd)
 		close(fd);
 
