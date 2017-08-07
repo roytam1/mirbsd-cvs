@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.165 2016/02/08 16:07:09 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.167 2017/05/05 23:15:13 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2211,4 +2211,36 @@ Tag: mksh pcli plan snapshot
  also more busy. I do manage to still help out others even in code
  I don’t really understand… must be good karma. Vacation would be
  nice… but then, I know I wouldn’t get all out of it.</p>
+----
+Date: 07.08.2017
+Author: tg@
+Title: Hurried snapshot and known issues
+Tag: mksh pcli plan snapshot
+
+<p>As <a href="@@RELPATH@@permalinks/wlog-10-tg_e20170626-tg.htm">already</a>
+ <a href="@@RELPATH@@permalinks/news_e20170505-tg.htm">mentioned</a> I planned
+ creating a new snapshot. Well, it will be out shortly, albeit in a hurried
+ manner and not with everything I had planned for it, and with lagging sparc
+ (as if <em>that</em> were new, though…). A hurried mksh release will there be
+ as well. The reason for this is the top #1 known issue:</p>
+<ul>
+ <li>Debian OpenSSL now excludes TLS &lt; 1.2 from communication<br />
+  ⇒ there will be some followup release with LibreSSL, I think</li>
+ <li>There’s still no port for libGLU and xlock</li>
+ <li>We didn’t import <a href="http://www.nongnu.org/lzip/lzlib.html">lzlib</a>
+  into base yet, nor recent fixes to pax(1) from OpenBSD necessary</li>
+ <li>The new Unicode property code is not written yet (although I fixed
+  the data shipped so it matches, at least)</li>
+ <li>I didn’t test g++ from ports on sparc yet, we’ll see how that goes</li>
+</ul>
+<p>That being said, you’ll be able to work with what I’ve got, like in
+ olden times when MirBSD was defined as “the contents of <em>my</em>
+ <tt>/usr/src</tt> and <tt>/usr/ports</tt>” and be assured that, besides
+ working on things like MuseScore in the meantime, I’m on it.</p>
+<p>An unrelated minor update to another recent post; apparently I managed
+ to make the GitHub Legal people aware enough of the problems that they
+ are working on fixing their ToS; I admit there’s been an update since
+ August 1ˢᵗ/2ⁿᵈ which I haven’t yet gotten around to reading at all.</p>
+<p><a href="@@RELPATH@@wtf.htm">wtf</a> rocks; Eugen is working on an
+ iOS äpp and already has a beta version which just needs bugfixing.</p>
 ----

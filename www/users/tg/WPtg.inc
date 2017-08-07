@@ -13197,6 +13197,30 @@ Waypoint: GC789RP
 Title: Nico's Wald - # Omi is watching you
 Tag: D1 T1 Nano Tradi
 ----
+ID: 2179
+Date: 04.08.2017
+Waypoint: GC78P3N
+Title: CAMPO - Parken in Poppelsdorf und Endenich
+Tag: D2 T15 Micro Tradi
+----
+ID: 2180
+Date: 04.08.2017
+Waypoint: GC7530F
+Title: Ski Heil!
+Tag: D25 T2 Micro Mystery
+----
+ID: 2181
+Date: 06.08.2017
+Waypoint: OC004B GCHANE N00C8A
+Title: Kottenforster Ironman
+Tag: D2 T15 Regular Multi recommended
+----
+ID: 2182
+Date: 06.08.2017
+Waypoint: OCA5A2 GCHBA8
+Title: Kamelleboom
+Tag: D1 T15 Regular Multi recommended
+----
 ID: p20170812
 Date: 12.08.2017
 Waypoint: GE0327 GC79BNM OC13CDD TC1URL
