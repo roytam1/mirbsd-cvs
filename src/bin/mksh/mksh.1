@@ -4308,9 +4308,11 @@ Automatically enabled if the basename of the shell invocation begins with
 .Dq sh
 and this autodetection feature is compiled in
 .Pq not in MirBSD .
-As a side effect, setting this flag turns off
+As a side effect, setting this flag turns off the
 .Ic braceexpand
-mode, which can be turned back on manually, and
+and
+.Ic utf8\-mode
+flags, which can be turned back on manually, and
 .Ic sh
 mode (unless both are enabled at the same time).
 .It Fl o Ic sh
@@ -6640,12 +6642,14 @@ supports only the
 locale.
 .Nm mksh Ns 's
 .Ic utf8\-mode
+.Em must
+be disabled in POSIX mode, and it
 only supports the Unicode BMP (Basic Multilingual Plane) and maps
 raw octets into the U+EF80..U+EFFF wide character range; compare
 .Sx Arithmetic expressions .
 The following
 .Tn POSIX
-.Nm sh
+.Nm sh Ns -compatible
 code toggles the
 .Ic utf8\-mode
 option dependent on the current
