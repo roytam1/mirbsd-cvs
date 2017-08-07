@@ -272,7 +272,7 @@ change_flag(enum sh_flag f, int what, bool newset)
 		/* Turning on -o posix or -o sh? */
 		Flag(FBRACEEXPAND) = 0;
 		/* Turning on -o posix? */
-		if (f == POSIX) {
+		if (f == FPOSIX) {
 			/* C locale required for compliance */
 			UTFMODE = 0;
 		}
