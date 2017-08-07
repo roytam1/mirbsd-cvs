@@ -554,6 +554,9 @@ comexec(struct op *t, struct tbl * volatile tp, const char **ap,
 				}
 			ap += builtin_opt.optind;
 			flags |= XEXEC;
+			/* POSuX demands ksh88-like behaviour here */
+			if (Flag(FPOSIX))
+				fcflags = FC_PATH;
 		} else if (tp->val.f == c_command) {
 			bool saw_p = false;
 

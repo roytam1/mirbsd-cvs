@@ -5387,6 +5387,11 @@ only lists signal names, all in one line.
 .Ic getopts
 does not accept options with a leading
 .Ql + .
+.It
+.Ic exec
+skips builtins, functions and other commands and uses a
+.Ev PATH
+search to determine the utility to execute.
 .El
 .Ss SH mode
 Compatibility mode; intended for use with legacy scripts that
@@ -6691,7 +6696,7 @@ for the in-memory portion of the history is slow, should use
 .Xr memmove 3 .
 .Pp
 This document attempts to describe
-.Nm mksh\ R55
+.Nm mksh\ R56
 and up,
 .\" with vendor patches from insert-your-name-here,
 compiled without any options impacting functionality, such as
