@@ -68,7 +68,7 @@ of disk transfer locations which is truly random and does not
 exhibit strong locality characteristics.
 .PP
 The methodology chosen by us is direct
-in the sense that it uses the standard structured file system mechanism present
+in the sense that it uses the standard structured filesystem mechanism present
 in the 4.2BSD UNIX operating system to create the sequence of locations
 and sizes of reads and writes to the benchmarked equipment.
 We simply create, write, and read
@@ -102,7 +102,7 @@ Reads must be done synchronously,
 however this restriction is moderated by the use of read-ahead.
 Small changes in the performance of the disk controller
 subsystem can result in large and unexpected
-changes in the file system performance,
+changes in the filesystem performance,
 as it may change the characteristics of the memory contention
 experienced by the processor.
 .ds RH Tests

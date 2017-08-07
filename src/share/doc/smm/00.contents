@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/doc/smm/00.contents,v 1.3 2012/05/21 19:33:01 tg Exp $
+.\"	$MirOS: src/share/doc/smm/00.contents,v 1.4 2012/05/21 20:30:51 tg Exp $
 .\"	$OpenBSD: 00.contents,v 1.4 2004/04/09 12:10:04 jmc Exp $
 .\"
 .\" Copyright (c) 2012
@@ -91,10 +91,10 @@ program, and how to build your very own Unix kernel.
 .cb "\(bu 02.config(SMM)"
 
 .IP
-.st "'Fsck \- The UNIX File System Check Program''SMM:3'"
+.st "'Fsck \- The UNIX Filesystem Check Program''SMM:3'"
 .QP
 A reference document for using the \fIfsck(8)\fP program during
-times of file system distress.
+times of filesystem distress.
 .cb "\(bu 03.fsck_ffs(SMM)"
 
 .IP
@@ -105,9 +105,9 @@ for limiting the use of disc resources.
 .cb "\(bu 04.quotas(SMM)"
 
 .IP
-.st "'A Fast File System for UNIX''SMM:5'"
+.st "'A Fast Filesystem for UNIX''SMM:5'"
 .QP
-A description of the 4.4BSD file system organization,
+A description of the 4.4BSD filesystem organization,
 design and implementation.
 .cb "\(bu 05.fastfs(SMM)"
 
@@ -160,7 +160,7 @@ the network time synchronization daemon.
 .IP
 .st "'AMD \- The 4.4BSD Automounter''SMM:13'"
 .QP
-Automatically mounting file systems on demand.
+Automatically mounting filesystems on demand.
 
 .IP
 .st "'Installation and Operation of UUCP''SMM:14'"

@@ -110,7 +110,7 @@ the file is being created, disabling client read caches for that directory.
 .pp
 By relegating this responsibility to the server, consistency between the
 server and NQNFS clients is maintained when NFS clients are modifying the
-file system as well.\**
+filesystem as well.\**
 .(f
 \** The NFS clients will continue to be \fIapproximately\fR consistent with
 the server.
@@ -519,7 +519,7 @@ Get Filesystem Attributes RPC
                 void;
         };
 .)l
-The "files" field is the number of files in the file system and the "files_free"
+The "files" field is the number of files in the filesystem and the "files_free"
 is the number of additional files that can be created.
 .sh 1 "Summary"
 .pp

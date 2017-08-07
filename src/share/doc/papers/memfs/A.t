@@ -39,12 +39,12 @@ Appendix A - Implementation Details
 .vS
 /*
  * This structure defines the control data for the memory
- * based file system.
+ * based filesystem.
  */
 struct mfsnode {
 	struct	vnode *mfs_vnode;	/* vnode associated with this mfsnode */
-	caddr_t	mfs_baseoff;		/* base of file system in memory */
-	long	mfs_size;		/* size of memory file system */
+	caddr_t	mfs_baseoff;		/* base of filesystem in memory */
+	long	mfs_size;		/* size of memory filesystem */
 	pid_t	mfs_pid;		/* supporting process pid */
 	struct	buf *mfs_buflist;	/* list of I/O requests */
 };
@@ -61,8 +61,8 @@ struct mfsnode {
  */
 struct mfs_args {
 	char	*name;		/* name to export for statfs */
-	caddr_t	base;		/* base address of file system in memory */
-	u_long	size;		/* size of file system */
+	caddr_t	base;		/* base address of filesystem in memory */
+	u_long	size;		/* size of filesystem */
 };
 .bp
 /*

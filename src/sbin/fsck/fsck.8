@@ -33,7 +33,7 @@
 .Os
 .Sh NAME
 .Nm fsck
-.Nd file system consistency check and interactive repair
+.Nd filesystem consistency check and interactive repair
 .Sh SYNOPSIS
 .Nm fsck
 .Bk -words
@@ -47,7 +47,7 @@
 .Sh DESCRIPTION
 The
 .Nm
-command invokes file-system-specific programs to check the
+command invokes filesystem-specific programs to check the
 special devices listed in the
 .Xr fstab 5
 file or on the command line for consistency.
@@ -55,24 +55,24 @@ file or on the command line for consistency.
 It is normally used in the script
 .Xr rc 8
 during automatic reboot.
-If no file systems are specified,
+If no filesystems are specified,
 .Nm
 reads the file
 .Xr fstab 5
-to determine which file systems to check and in what order.
+to determine which filesystems to check and in what order.
 Only partitions in fstab that are mounted
 .Dq rw
 or
 .Dq ro
 and that have non-zero pass numbers are checked.
-File systems with pass number 1 (normally just the root file system) are
+filesystems with pass number 1 (normally just the root filesystem) are
 checked one at a time.
-When pass 1 completes, all remaining file systems are checked, with one
+When pass 1 completes, all remaining filesystems are checked, with one
 process spawned per disk drive.
-The disk drive containing each file system is inferred from the longest
+The disk drive containing each filesystem is inferred from the longest
 prefix of the device name that ends in a digit; the remaining characters
 are assumed to be the partition designator.
-By default, file systems which are already mounted read/write are not
+By default, filesystems which are already mounted read/write are not
 checked.
 .Pp
 The options are as follows:
@@ -91,7 +91,7 @@ Available only if
 .Nm
 is compiled to support it.
 .It Fl f
-Force checking of file systems, even when they are marked clean (for file systems
+Force checking of filesystems, even when they are marked clean (for filesystems
 that support this).
 .It Fl l Ar maxparallel
 Limit the number of parallel checks to
@@ -99,7 +99,7 @@ Limit the number of parallel checks to
 By default, the limit is the number of
 disks, running one process per disk.
 If a smaller limit is given,
-the disks are checked round-robin, one file system at a time.
+the disks are checked round-robin, one filesystem at a time.
 .It Fl n
 Assume a
 .Dq no
@@ -108,13 +108,13 @@ response to all questions asked by
 except for
 .Dq CONTINUE? ,
 which is assumed to be affirmative.
-File systems will not be opened for writing.
-This is the default for file systems to be checked that are
+Filesystems will not be opened for writing.
+This is the default for filesystems to be checked that are
 concurrently mounted writable.
 .It Fl p
 Enter preen mode:
 .Nm
-will check all file systems listed in
+will check all filesystems listed in
 .Xr fstab 5
 according to their pass number,
 or any special devices listed on the command line,
@@ -126,18 +126,18 @@ to exit with a non-zero exit code,
 so as to alert any invoking program or script
 that human intervention is required.
 .It Fl T Ar fstype : Ns Ar fsoptions
-List of comma separated file system specific options for the specified
-file system type, in the same format as
+List of comma separated filesystem specific options for the specified
+filesystem type, in the same format as
 .Xr mount 8 .
 .It Fl t Ar fstype
 Invoke
 .Nm
-only for the comma separated list of file system types.
+only for the comma separated list of filesystem types.
 If the list starts with
 .Dq no ,
 invoke
 .Nm
-only in the file system types that are
+only in the filesystem types that are
 .Em not
 specified in
 the list.
@@ -164,7 +164,7 @@ to all the remaining questions by replying to a question with a value of
 .Sh FILES
 .Bl -tag -width /etc/fstab -compact
 .It Pa /etc/fstab
-file system table
+filesystem table
 .El
 .Sh SEE ALSO
 .Xr fs 5 ,

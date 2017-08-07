@@ -125,7 +125,7 @@ Things you need every day to use
 the system
 effectively:
 generally useful commands;
-the file system.
+the filesystem.
 .IP "\ \ 3."
 Document Preparation:
 Preparing manu\%scripts is one of the most common uses
@@ -624,7 +624,7 @@ system may have available
 a program called
 .UL learn ,
 which provides computer aided instruction on
-the file system and basic commands,
+the filesystem and basic commands,
 the editor,
 document preparation,
 and even C programming.

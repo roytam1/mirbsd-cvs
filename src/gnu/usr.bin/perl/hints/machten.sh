@@ -237,8 +237,8 @@ set `echo X "$libswanted "|sed -e 's/ net / /' -e 's/ socket / /' \
 shift
 libswanted="$*"
 
-# While link counts on MachTen 4.1's fast file systems work correctly,
-# on Macintosh Heirarchical File Systems, (and on HFS+)
+# While link counts on MachTen 4.1's fast filesystems work correctly,
+# on Macintosh Hierarchical Filesystem, (and on HFS+)
 # MachTen always reports ony two links to directories, even if they
 # contain subdirectories.  Consequently, we use this variable to stop
 # File::Find using the link count to determine whether there are

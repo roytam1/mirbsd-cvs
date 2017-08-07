@@ -395,7 +395,7 @@ Perl_init_os_extras(pTHX)
     newXS ("Dos::UseLFN",dos_UseLFN,file);
     newXS ("Cwd::sys_cwd",XS_Cwd_sys_cwd,file);
 
-    /* install my File System Extension for globbing */
+    /* install my filesystem extension for globbing */
     __FSEXT_add_open_handler (glob_handler);
     memset (myglobs,-1,sizeof (myglobs));
 }

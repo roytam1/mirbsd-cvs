@@ -1612,7 +1612,7 @@ should look something like:
 If there are inconsistencies in the filesystem, you may be prompted
 to apply corrective action; see the
 .Xr fsck (8)
-or \fIFsck \(en The UNIX File System Check Program\fP (SMM:3) for more details.
+or \fIFsck \(en The UNIX Filesystem Check Program\fP (SMM:3) for more details.
 .PP
 To use the
 .Pn /usr/src

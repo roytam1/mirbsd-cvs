@@ -293,7 +293,7 @@ msCodeInd		Microsoft Individual Code Signing (authenticode)
 msCodeCom		Microsoft Commercial Code Signing (authenticode)
 msCTLSign		Microsoft Trust List Signing
 msSGC			Microsoft Server Gated Crypto
-msEFS			Microsoft Encrypted File System
+msEFS			Microsoft Encrypted Filesystem
 nsSGC			Netscape Server Gated Crypto
 
 For example, under IE5 a CA can be used for any purpose: by including a list

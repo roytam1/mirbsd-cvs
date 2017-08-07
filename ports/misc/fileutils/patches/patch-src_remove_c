@@ -90,7 +90,7 @@ $OpenBSD: patch-src_remove_c,v 1.1 2003/02/25 14:35:43 brad Exp $
 +numbers %lu/%lu, but now (after changing into at least one subdirectory\n\
 +and changing back via `..'), the numbers for `.' are %lu/%lu.\n\
 +That means that while rm was running, a partially-removed subdirectory\n\
-+was moved to a different position in the file system hierarchy."),
++was moved to a different position in the filesystem hierarchy."),
 +                quote (full_filename (".")),
 +                (unsigned long)(cwd_dev_ino->st_dev),
 +                (unsigned long)(cwd_dev_ino->st_ino),

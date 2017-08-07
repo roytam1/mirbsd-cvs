@@ -41,7 +41,7 @@
 
 /*
  * Constants as defined in the Sun NFS Version 2 spec.
- * "NFS: Network File System Protocol Specification" RFC1094
+ * "NFS: Network Filesystem Protocol Specification" RFC1094
  */
 
 #define NFS_PORT	2049

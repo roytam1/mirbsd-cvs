@@ -37,8 +37,8 @@ are not considered part of the kernel.
 The system abstractions described are:
 .IP "Directory contexts
 .br
-A directory context is a position in the UNIX file system name
-space.  Operations on files and other named objects in a file system are
+A directory context is a position in the UNIX filesystem name
+space.  Operations on files and other named objects in a filesystem are
 always specified relative to such a context.
 .IP "Files
 .br

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/mountd/mountd.c,v 1.2 2005/03/06 19:50:26 tg Exp $ */
+/**	$MirOS: src/sbin/mountd/mountd.c,v 1.3 2005/11/23 16:44:02 tg Exp $ */
 /*	$OpenBSD: mountd.c,v 1.63 2005/04/08 20:09:38 jaredy Exp $	*/
 /*	$NetBSD: mountd.c,v 1.31 1996/02/18 11:57:53 fvdl Exp $	*/
 
@@ -73,7 +73,7 @@ static char copyright[] =
 #include <stdarg.h>
 
 __SCCSID("@(#)mountd.c  8.15 (Berkeley) 5/1/95");
-__RCSID("$MirOS: src/sbin/mountd/mountd.c,v 1.2 2005/03/06 19:50:26 tg Exp $");
+__RCSID("$MirOS: src/sbin/mountd/mountd.c,v 1.3 2005/11/23 16:44:02 tg Exp $");
 
 /*
  * Structures for keeping the mount list and export list
@@ -212,7 +212,7 @@ volatile sig_atomic_t gotterm;
 
 /*
  * Mountd server for NFS mount protocol as described in:
- * NFS: Network File System Protocol Specification, RFC1094, Appendix A
+ * NFS: Network Filesystem Protocol Specification, RFC1094, Appendix A
  * The optional arguments are the exports file name
  * default: _PATH_EXPORTS
  * "-d" to enable debugging
@@ -733,8 +733,8 @@ get_exportlist(void)
 
 	/*
 	 * And delete exports that are in the kernel for all local
-	 * file systems.
-	 * XXX: Should know how to handle all local exportable file systems
+	 * filesystems.
+	 * XXX: Should know how to handle all local exportable filesystems
 	 *      instead of just MOUNT_FFS.
 	 */
 	num = getmntinfo(&fsp, MNT_NOWAIT);
@@ -1613,7 +1613,7 @@ do_mount(struct exportlist *ep, struct grouplist *grp, int exflags,
 		 * Maybe I should just use the fsb->f_mntonname path instead
 		 * of looping back up the dirp to the mount point??
 		 * Also, needs to know how to export all types of local
-		 * exportable file systems and not just MOUNT_FFS.
+		 * exportable filesystems and not just MOUNT_FFS.
 		 */
 		while (mount(fsb->f_fstypename, dirp,
 		    fsb->f_flags | MNT_UPDATE, &args) < 0) {

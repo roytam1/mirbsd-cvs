@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/usd/27.invert/refer,v 1.1.7.1 2005/03/06 16:17:49 tg Exp $
+.\" $MirOS: src/share/doc/usd/27.invert/refer,v 1.2 2008/11/08 22:24:13 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -419,7 +419,7 @@ This is the index searched by the
 .I lookall
 command.
 On a typical day there were
-29,000 files in our user file system, containing about 152,000,000
+29,000 files in our user filesystem, containing about 152,000,000
 bytes.
 Of these
 5,300 files, containing 32,000,000 bytes (about 21%)
@@ -450,7 +450,7 @@ The
 .I lookall
 program is thus useful when looking for a document which you believe
 is stored on-line, but do not know where.  For example, many memos
-from our center are in the file system, but it is often
+from our center are in the filesystem, but it is often
 difficult to guess where a particular memo might be (it might have several
 authors, each with many directories, and have been worked on by
 a secretary with yet more directories).

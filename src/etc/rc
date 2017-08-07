@@ -1,5 +1,5 @@
 # $MirSecuCron: etc_rc 0.0 0000/00/00 00:00:00 root Backup $
-# $MirOS: src/etc/rc,v 1.123 2016/02/06 15:59:53 tg Exp $
+# $MirOS: src/etc/rc,v 1.126 2017/04/03 20:11:54 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -279,7 +279,7 @@ fi
 if [[ -e /fastboot ]]; then
 	echo Fast boot: skipping disk checks.
 elif [[ $1 = autoboot ]]; then
-	echo Automatic boot in progress: starting file system checks.
+	echo Automatic boot in progress: starting filesystem checks.
 	fsck -p
 	case $? {
 	(0)
@@ -294,7 +294,7 @@ elif [[ $1 = autoboot ]]; then
 		exit 1
 		;;
 	(8)
-		echo "Automatic file system check failed; help!"
+		echo "Automatic filesystem check failed; help!"
 		exit 1
 		;;
 	(12)

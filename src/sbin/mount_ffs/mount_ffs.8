@@ -35,7 +35,7 @@
 .Os
 .Sh NAME
 .Nm mount_ffs
-.Nd mount a Berkeley Fast File System
+.Nd mount a Berkeley Fast Filesystem
 .Sh SYNOPSIS
 .Nm mount_ffs
 .Op Fl o Ar options
@@ -43,9 +43,9 @@
 .Sh DESCRIPTION
 The
 .Nm
-command attaches the Berkeley Fast File System on the
+command attaches the Berkeley Fast Filesystem on the
 .Ar special
-device on to the file system tree at point
+device on to the filesystem tree at point
 .Ar node .
 .Pp
 This command is invoked by
@@ -66,7 +66,7 @@ The
 device must correspond to a partition registered in the
 .Xr disklabel 5 .
 .Pp
-This command is normally executed per file system by
+This command is normally executed per filesystem by
 .Xr rc 8
 at boot time using the
 .Xr mount 8
@@ -94,4 +94,4 @@ A
 command appeared in
 .Nx 1.0a .
 .Sh BUGS
-It is possible for a corrupted file system to cause a crash.
+It is possible for a corrupted filesystem to cause a crash.

@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man5/pf.conf.5,v 1.4 2005/12/19 20:05:55 tg Exp $
+.\"	$MirOS: src/share/man/man5/pf.conf.5,v 1.5 2005/12/20 19:41:15 tg Exp $
 .\"	$OpenBSD: pf.conf.5,v 1.335 2005/06/14 18:18:14 henning Exp $
 .\"
 .\" Copyright (c) 2002, Daniel Hartmeier
@@ -2157,7 +2157,7 @@ can be used to access the anchor to perform operations on it, such as
 attaching child anchors to it or loading rules into it.
 Anchors may be nested, with components separated by
 .Sq /
-characters, similar to how file system hierarchies are laid out.
+characters, similar to how filesystem hierarchies are laid out.
 The main ruleset is actually the default anchor, so filter and
 translation rules, for example, may also be contained in any anchor.
 .Pp
@@ -2311,7 +2311,7 @@ anchor, and will not descend to evaluate anchors recursively.
 Since anchors are evaluated relative to the anchor in which they are
 contained, there is a mechanism for accessing the parent and ancestor
 anchors of a given anchor.
-Similar to file system path name resolution, if the sequence
+Similar to filesystem path name resolution, if the sequence
 .Dq ..
 appears as an anchor path component, the parent anchor of the current
 anchor in the path evaluation at that point will become the new current

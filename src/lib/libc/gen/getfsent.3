@@ -36,7 +36,7 @@
 .Nm getfsfile ,
 .Nm setfsent ,
 .Nm endfsent
-.Nd get file system descriptor file entry
+.Nd get filesystem descriptor file entry
 .Sh SYNOPSIS
 .Fd #include <fstab.h>
 .Ft struct fstab *
@@ -56,14 +56,14 @@ The
 and
 .Fn getfsfile
 functions each return a pointer to an object with the following structure
-containing the broken-out fields of a line in the file system
+containing the broken-out fields of a line in the filesystem
 description file,
 .Aq Pa fstab.h .
 .Bd -literal -offset indent
 struct fstab {
 	char	*fs_spec;	/* block special device name */
-	char	*fs_file;	/* file system path prefix */
-	char	*fs_vfstype;	/* type of file system */
+	char	*fs_file;	/* filesystem path prefix */
+	char	*fs_vfstype;	/* type of filesystem */
 	char	*fs_mntops;	/* comma separated mount options */
 	char	*fs_type;	/* rw, ro, sw, or xx */
 	int	fs_freq;	/* dump frequency, in days */
@@ -86,7 +86,7 @@ The
 and
 .Fn getfsfile
 functions search the entire file (opening it if necessary) for a matching
-special file name or file system file name.
+special file name or filesystem file name.
 .Pp
 For programs wishing to read the entire database,
 .Fn getfsent
@@ -113,7 +113,7 @@ function returns nothing.
 .Sh FILES
 .Bl -tag -width /etc/fstab -compact
 .It Pa /etc/fstab
-file system table
+filesystem table
 .El
 .Sh SEE ALSO
 .Xr fstab 5

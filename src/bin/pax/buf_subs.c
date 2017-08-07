@@ -46,7 +46,7 @@
 #include "pax.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/bin/pax/buf_subs.c,v 1.5 2012/05/20 16:13:16 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/buf_subs.c,v 1.7 2016/03/12 12:53:27 tg Exp $");
 
 /*
  * routines which implement archive and file buffering
@@ -162,7 +162,7 @@ rd_start(void)
 
 /*
  * cp_start()
- *	set up buffer system for copying within the file system
+ *	set up buffer system for copying within the filesystem
  */
 
 void

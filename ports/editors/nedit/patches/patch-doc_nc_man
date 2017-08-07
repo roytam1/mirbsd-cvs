@@ -83,7 +83,7 @@ $OpenBSD: patch-doc_nc_man,v 1.3 2004/01/14 23:42:53 djm Exp $
 +as well. \fBnc1\fR uses the `\s-1DISPLAY\s0' environment variable, the machine name and
  your user name to find the appropriate server, meaning, if you have several
 -machines sharing a common file system, \fBnc\fR will not be able to find a server
-+machines sharing a common file system, \fBnc1\fR will not be able to find a server
++machines sharing a common filesystem, \fBnc1\fR will not be able to find a server
  that is running on a machine with a different host name, even though it may be
  perfectly appropriate for editing a given file.
  .PP

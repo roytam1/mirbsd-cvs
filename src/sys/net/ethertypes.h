@@ -212,7 +212,7 @@
 		    /* 0x80D3 - 0x80D4	   Rosemount Corporation */
 #define	ETHERTYPE_SNA		0x80D5	/* IBM SNA Services over Ethernet */
 #define	ETHERTYPE_VARIAN	0x80DD	/* Varian Associates */
-		    /* 0x80DE - 0x80DF	   TRFS (Integrated Solutions Transparent Remote File System) */
+		    /* 0x80DE - 0x80DF	   TRFS (Integrated Solutions Transparent Remote Filesystem) */
 		    /* 0x80E0 - 0x80E3	   Allen-Bradley */
 		    /* 0x80E4 - 0x80F0	   Datability */
 #define	ETHERTYPE_RETIX		0x80F2	/* Retix */

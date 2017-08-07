@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/sbin/reboot/reboot.8,v 1.2 2011/02/19 14:41:39 tg Exp $
 .\"	$OpenBSD: reboot.8,v 1.33 2005/05/19 09:21:26 jmc Exp $
 .\"	$NetBSD: reboot.8,v 1.3 1995/10/05 05:36:21 mycroft Exp $
 .\"
@@ -31,7 +31,7 @@
 .\"
 .\"	@(#)reboot.8	8.1 (Berkeley) 6/9/93
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: February 19 2011 $
 .Dt REBOOT 8
 .Os
 .Sh NAME
@@ -48,7 +48,7 @@ The
 .Nm halt
 and
 .Nm reboot
-utilities flush the file system cache to disk, run the system
+utilities flush the filesystem cache to disk, run the system
 shutdown script, send all running processes a
 .Dv SIGHUP ,
 .Dv SIGTERM
@@ -68,7 +68,7 @@ See
 .Xr savecore 8
 for information on how to recover this dump.
 .It Fl n
-Prevent file system cache from being flushed.
+Prevent filesystem cache from being flushed.
 This option should probably not be used.
 .It Fl p
 Causes the system to power down, if it is being halted, and the
@@ -76,7 +76,7 @@ hardware supports automatic power down.
 .It Fl q
 Quick.
 The system is halted or restarted quickly and ungracefully, and only
-the flushing of the file system cache is performed.
+the flushing of the filesystem cache is performed.
 This option should probably not be used.
 .El
 .Pp

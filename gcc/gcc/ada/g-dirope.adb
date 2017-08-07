@@ -77,7 +77,7 @@ package body GNAT.Directory_Operations is
       --  and Base_Name (the parent function) is that the former is case
       --  sensitive, while the latter is not. Path and Suffix are adjusted
       --  appropriately before calling Basename under platforms where the
-      --  file system is not case sensitive.
+      --  filesystem is not case sensitive.
 
       --------------
       -- Basename --

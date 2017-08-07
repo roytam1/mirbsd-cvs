@@ -710,7 +710,7 @@ XpPutOneAttribute(
  * The following routines: ExpandSpace, PutString, PutByte, and AppendEntry
  * form the functional core of the GetAttributes routine.  Xrm does not
  * supply a routine to form a string database from an XrmDatabase, except
- * by writing the database to a file.  This code avoids the file system
+ * by writing the database to a file.  This code avoids the filesystem
  * overhead, but is a bit clunky in its memory management.
  *
  ******************************************************************************/

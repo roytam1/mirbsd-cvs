@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/newfs/mkfs.c,v 1.5 2010/09/21 21:24:18 tg Exp $ */
+/**	$MirOS: src/sbin/newfs/mkfs.c,v 1.6 2015/03/01 16:02:52 tg Exp $ */
 /*	$OpenBSD: mkfs.c,v 1.47 2005/04/14 19:58:32 deraadt Exp $	*/
 /*	$NetBSD: mkfs.c,v 1.25 1995/06/18 21:35:38 cgd Exp $	*/
 
@@ -53,10 +53,10 @@
 #endif
 
 __SCCSID("@(#)mkfs.c	8.3 (Berkeley) 2/3/94");
-__RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.5 2010/09/21 21:24:18 tg Exp $");
+__RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.6 2015/03/01 16:02:52 tg Exp $");
 
 /*
- * make file system for cylinder-group style file systems
+ * make filesystem for cylinder-group style filesystems
  */
 
 /*
@@ -76,9 +76,9 @@ __RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.5 2010/09/21 21:24:18 tg Exp $");
  * variables set up by front end.
  */
 extern int	mfs;		/* run as the memory based filesystem */
-extern int	Nflag;		/* run mkfs without writing file system */
-extern int	Oflag;		/* format as an 4.3BSD file system */
-extern int	fssize;		/* file system size */
+extern int	Nflag;		/* run mkfs without writing filesystem */
+extern int	Oflag;		/* format as an 4.3BSD filesystem */
+extern int	fssize;		/* filesystem size */
 extern int	ntracks;	/* # tracks/cylinder */
 extern int	nsectors;	/* # sectors/track */
 extern int	nphyssectors;	/* # sectors/track including spares */
@@ -204,7 +204,7 @@ mkfs(struct partition *pp, char *fsys, int fi, int fo,
 		sblock.fs_maxsymlinklen = MAXSYMLINKLEN;
 	}
 	/*
-	 * Validate the given file system size.
+	 * Validate the given filesystem size.
 	 * Verify that its last block can actually be accessed.
 	 */
 	if (fssize <= 0)
@@ -470,8 +470,8 @@ recalc:
 	}
 	sblock.fs_cgsize = fragroundup(&sblock, CGSIZE(&sblock));
 	/*
-	 * Now have size for file system and nsect and ntrak.
-	 * Determine number of cylinders and blocks in the file system.
+	 * Now have size for filesystem and nsect and ntrak.
+	 * Determine number of cylinders and blocks in the filesystem.
 	 */
 	sblock.fs_size = dbtofsb(&sblock, fssize);
 	sblock.fs_ncyl = sblock.fs_size * NSPF(&sblock) / sblock.fs_spc;
@@ -481,7 +481,7 @@ recalc:
 	}
 	if (sblock.fs_ncyl < 1) {
 		errx(28,
-		    "file systems must have at least one cylinder (not %d)",
+		    "filesystems must have at least one cylinder (not %d)",
 		     sblock.fs_ncyl);
 	}
 	/*
@@ -491,7 +491,7 @@ recalc:
 	 * size of the superblock, SBSIZE. The amount of space available
 	 * for tables is calculated as (SBSIZE - sizeof (struct fs)).
 	 * The size of these tables is inversely proportional to the block
-	 * size of the file system. The size increases if sectors per track
+	 * size of the filesystem. The size increases if sectors per track
 	 * are not powers of two, because more cylinders must be described
 	 * by the tables before the rotational pattern repeats (fs_cpc).
 	 */
@@ -528,7 +528,7 @@ recalc:
 		    "Warning: insufficient space in super block for\n",
 		    "rotational layout tables with nsect", sblock.fs_nsect,
 		    "and ntrak", sblock.fs_ntrak,
-		    "\nFile system performance may be impaired.\n");
+		    "\nFilesystem performance may be impaired.\n");
 		sblock.fs_cpc = 0;
 		goto next;
 	}
@@ -630,7 +630,7 @@ next:
 	sblock.fs_id[1] = (u_int32_t)arc4random();
 
 	/*
-	 * Dump out summary information about file system.
+	 * Dump out summary information about filesystem.
 	 */
 	if (!mfs) {
 		printf("%s:\t%d sectors in %d %s of %d tracks, %d sectors\n",
@@ -690,7 +690,7 @@ next:
 	if (Nflag && !mfs)
 		exit(0);
 	/*
-	 * Now construct the initial file system,
+	 * Now construct the initial filesystem,
 	 * then write out the super-block.
 	 */
 	if (fsinit(utime, mfsmode, mfsuid, mfsgid) != 0)
@@ -878,7 +878,7 @@ initcg(int cylno, time_t utime)
 }
 
 /*
- * initialize the file system
+ * initialize the filesystem
  */
 struct ufs1_dinode node;
 
@@ -1089,7 +1089,7 @@ iput(struct ufs1_dinode *ip, ino_t ino)
 }
 
 /*
- * read a block from the file system
+ * read a block from the filesystem
  */
 void
 rdfs(daddr_t bno, int size, void *bf)
@@ -1110,7 +1110,7 @@ urdfs(daddr_t bno, int size, void *bf)
 }
 
 /*
- * write a block to the file system
+ * write a block to the filesystem
  */
 void
 wtfs(daddr_t bno, int size, void *bf)

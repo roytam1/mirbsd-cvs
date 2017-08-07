@@ -340,7 +340,7 @@ main(int argc, char *argv[])
 	 *	disk can be either the full special file name,
 	 *	the suffix of the special file name,
 	 *	the special name missing the leading '/',
-	 *	the file system name with or without the leading '/'.
+	 *	the filesystem name with or without the leading '/'.
 	 */
 	if (!statfs(disk, &fsbuf) && !strcmp(fsbuf.f_mntonname, disk)) {
 		/* mounted disk? */
@@ -375,7 +375,7 @@ main(int argc, char *argv[])
 	} else {
 		/* must be a device */
 		(void)strlcpy(spcl.c_dev, disk, sizeof(spcl.c_dev));
-		(void)strlcpy(spcl.c_filesys, "an unlisted file system",
+		(void)strlcpy(spcl.c_filesys, "an unlisted filesystem",
 		    sizeof(spcl.c_filesys));
 	}
 	(void)strlcpy(spcl.c_label, "none", sizeof(spcl.c_label));

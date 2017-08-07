@@ -272,7 +272,7 @@ struct RF_DagHeader_s {
 						 */
 	void		 *bp;			/*
 						 * The bp for this I/O passed
-						 * down from the file system.
+						 * down from the filesystem.
 						 * ignored outside kernel.
 						 */
 

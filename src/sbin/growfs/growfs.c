@@ -1,4 +1,4 @@
-/* $MirOS: src/sbin/growfs/growfs.c,v 1.2 2005/03/06 19:49:59 tg Exp $ */
+/* $MirOS: src/sbin/growfs/growfs.c,v 1.3 2005/11/23 16:43:54 tg Exp $ */
 
 /*
  * growfs(8) from FreeBSD-current as of Mon Sep  1 21:04:19 UTC 2003
@@ -68,7 +68,7 @@
 
 #include "debug.h"
 
-__RCSID("$MirOS: src/sbin/growfs/growfs.c,v 1.2 2005/03/06 19:49:59 tg Exp $");
+__RCSID("$MirOS: src/sbin/growfs/growfs.c,v 1.3 2005/11/23 16:43:54 tg Exp $");
 
 /* *************************************************** GLOBALS & TYPES ***** */
 #ifdef FS_DEBUG
@@ -149,7 +149,7 @@ static void	updrefs(int, ino_t, struct gfs_bpp *, int, int, unsigned int);
 
 /* ************************************************************ growfs ***** */
 /*
- * Here we actually start growing the file system. We basically read the
+ * Here we actually start growing the filesystem. We basically read the
  * cylinder summary from the first cylinder group as we want to update
  * this on the fly during our various operations. First we handle the
  * changes in the former last cylinder group. Afterwards we create all new
@@ -650,7 +650,7 @@ cond_bl_upd(ufs_daddr_t *block, struct gfs_bpp *field,
 /* ************************************************************ updjcg ***** */
 /*
  * Here we do all needed work for the former last cylinder group. It has to be
- * changed in any case, even if the file system ended exactly on the end of
+ * changed in any case, even if the filesystem ended exactly on the end of
  * this group, as there is some slightly inconsistent handling of the number
  * of cylinders in the cylinder group. We start again by reading the cylinder
  * group from disk. If the last block was not fully available, we first handle
@@ -909,7 +909,7 @@ updjcg(int cylno, time_t utime, int fsi, int fso, unsigned int Nflag)
  * Option (1) is considered to be less intrusive to the structure of the file-
  * system. So we try to stick to that whenever possible. If there is not enough
  * space in the cylinder group containing the cylinder summary we have to use
- * method (2). In case of active snapshots in the file system we probably can
+ * method (2). In case of active snapshots in the filesystem we probably can
  * completely avoid implementing copy on write if we stick to method (2) only.
  */
 static void
@@ -1899,9 +1899,9 @@ charsperline(void)
 /* ************************************************************** main ***** */
 /*
  * growfs(8)  is a utility which allows to increase the size of an existing
- * ufs file system. Currently this can only be done on unmounted file system.
+ * ufs filesystem. Currently this can only be done on unmounted filesystem.
  * It recognizes some command line options to specify the new desired size,
- * and it does some basic checkings. The old file system size is determined
+ * and it does some basic checkings. The old filesystem size is determined
  * and after some more checks like we can really access the new last block
  * on the disk etc. we calculate the new parameters for the superblock. After
  * having done this we just call growfs() which will do the work.  Before
@@ -1913,10 +1913,10 @@ charsperline(void)
  * are lucky, then we only have to handle our blocks to be relocated in that
  * way.
  * Also we have to consider in what order we actually update the critical
- * data structures of the file system to make sure, that in case of a disaster
+ * data structures of the filesystem to make sure, that in case of a disaster
  * fsck(8) is still able to restore any lost data.
  * The foreseen last step then will be to provide for growing even mounted
- * file systems. There we have to extend the mount() system call to provide
+ * filesystems. There we have to extend the mount() system call to provide
  * userland access to the filesystem locking facility.
  */
 int
@@ -2006,7 +2006,7 @@ main(int argc, char **argv)
 
 	p_size = pp->p_size;
 	/*
-	 * Check if that partition is suitable for growing a file system.
+	 * Check if that partition is suitable for growing a filesystem.
 	 */
 	if (p_size < 1) {
 		errx(1, "partition is unavailable");

@@ -47,9 +47,9 @@
     searched by BP, but NOT by GPC (e.g. c:\bp\units, if you have
     installed BP in c:\bp). When you get a new release of GPC, don't
     forget to install the new version of this unit that comes with
-    it. If you are using BP on a real file system (e.g. Linux with
+    it. If you are using BP on a real filesystem (e.g. Linux with
     DosEmu), you can set symlinks to the files installed with GPC
-    once and for all, but on a Dos file system, you'll have to copy
+    once and for all, but on a Dos filesystem, you'll have to copy
     the files after each GPC release.
 
   - Use: In your code, simply add a `uses GPC' statement (which will
@@ -58,7 +58,7 @@
     BEFORE the GPC unit, since this unit overwrites some of those
     units' routines.
 
-  Copyright (C) 1998-2005 Free Software Foundation, Inc.
+  Copyright (C) 1998-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 

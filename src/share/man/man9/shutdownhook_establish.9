@@ -72,7 +72,7 @@ is undefined.
 Shutdown hooks should be used to perform one-time activities
 that must happen immediately before the kernel exits.
 Because of the environment in which they are run, shutdown hooks cannot
-rely on many system services (including file systems, timeouts,
+rely on many system services (including filesystems, timeouts,
 and other interrupt-driven services) or even basic system
 integrity (because the system could be rebooting after a crash).
 .Pp
@@ -108,7 +108,7 @@ causing an endless loop.
 An example of things that need to be done in a shutdown hook could be
 stopping DMA engines that might corrupt memory when rebooting.
 An example of things that shouldn't be done in a shutdown hook is syncing
-the file systems.
+the filesystems.
 Once again, since the system could be rebooting because of an internal
 inconsistency, writing down anything to permanent storage or trusting
 the internal state of the system is a very bad idea.

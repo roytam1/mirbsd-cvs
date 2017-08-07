@@ -120,7 +120,7 @@ Current categories under CPAN/modules/by-category/ include Perl core
 modules; development support; operating system interfaces; networking,
 devices, and interprocess communication; data type utilities; database
 interfaces; user interfaces; interfaces to other languages; filenames,
-file systems, and file locking; internationalization and locale; world
+filesystems, and file locking; internationalization and locale; world
 wide web support; server and daemon utilities; archiving and
 compression; image manipulation; mail and news; control flow
 utilities; filehandle and I/O; Microsoft Windows modules; and

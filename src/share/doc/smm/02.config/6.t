@@ -255,7 +255,7 @@ if the device is a disk.
 With the configuration information in place, your configuration
 file appropriately modified, and a system reconfigured and rebooted
 you should incorporate the shell commands needed to install the special
-files in the file system to the file ``/dev/MAKEDEV'' or
+files in the filesystem to the file ``/dev/MAKEDEV'' or
 ``/dev/MAKEDEV.local''.  This is discussed in the document ``Installing
 and Operating 4.3BSD on the VAX''.
 .NH 2

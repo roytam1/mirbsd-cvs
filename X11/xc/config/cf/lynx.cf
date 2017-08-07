@@ -143,7 +143,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define StripInstalledPrograms	YES
 #else
 /* under LynxOS AT V2.x /bin/strip will leave file.unstripped around
- * and fail if installing across different file systems
+ * and fail if installing across different filesystems
  */
 #define StripInstalledPrograms	NO
 #endif

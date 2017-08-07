@@ -1140,7 +1140,7 @@ but are treated as byte-addressable byte strings;
 that is,
 as ordinary
 \s-1UNIX\s0
-file system files.
+filesystem files.
 (A read or write request on such a file keeps consuming bytes until
 satisfied, rather than being restricted to a single record.)
 .IP

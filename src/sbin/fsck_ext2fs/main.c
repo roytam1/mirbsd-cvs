@@ -177,7 +177,7 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	switch (setup(filesys)) {
 	case 0:
 		if (preen)
-			pfatal("CAN'T CHECK FILE SYSTEM.");
+			pfatal("CAN'T CHECK FILESYSTEM.");
 	case -1:
 		return (0);
 	}
@@ -190,7 +190,7 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 			    sblock.e2fs.e2fs_fsmnt);
 		}
 		if (hotroot())
-			printf("** Root file system\n");
+			printf("** Root filesystem\n");
 		printf("** Phase 1 - Check Blocks and Sizes\n");
 	}
 	pass1();
@@ -281,7 +281,7 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	if (!fsmodified)
 		return (0);
 	if (!preen)
-		printf("\n***** FILE SYSTEM WAS MODIFIED *****\n");
+		printf("\n***** FILESYSTEM WAS MODIFIED *****\n");
 	if (rerun)
 		printf("\n***** PLEASE RERUN FSCK *****\n");
 	if (hotroot()) {

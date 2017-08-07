@@ -177,8 +177,8 @@ causes all non-block devices in
 .Pa /etc/fstab
 to be added.
 This option is useful in early system startup, where swapping
-may be needed before all file systems are available, such as during
-disk checks of large file systems.
+may be needed before all filesystems are available, such as during
+disk checks of large filesystems.
 .El
 .Sh SWAP OPTIONS
 When parsing the
@@ -211,10 +211,10 @@ Local and remote swap files cannot be configured until the file
 systems they reside on are mounted read/write.
 The system startup scripts need to
 .Xr fsck 8
-all local file systems before this can happen.
+all local filesystems before this can happen.
 This process requires substantial amounts of memory on some systems.
 If one configures no
-local block swap devices on a machine that has local file systems to
+local block swap devices on a machine that has local filesystems to
 check and rely only on swap files, the machine will have no swap space
 at all during system
 .Xr fsck 8

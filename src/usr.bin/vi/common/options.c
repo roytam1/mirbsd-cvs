@@ -340,7 +340,7 @@ opts_init(sp, oargs)
 	/*
 	 * !!!
 	 * Vi historically stored temporary files in /var/tmp.  We store them
-	 * in /tmp by default, hoping it's a memory based file system.  There
+	 * in /tmp by default, hoping it's a memory based filesystem.  There
 	 * are two ways to change this -- the user can set either the directory
 	 * option or the TMPDIR environmental variable.
 	 */

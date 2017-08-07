@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.14 2011/02/19 14:10:24 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.15 2011/11/20 20:01:03 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -670,7 +670,7 @@ inittodr(time_t base)
 	 */
 
 	if (base < 15*SECYR) {	/* if before 1985, something's odd... */
-		printf("WARNING: preposterous time in file system\n");
+		printf("WARNING: preposterous time in filesystem\n");
 		/* read the system clock anyway */
 		base = 17*SECYR + 186*SECDAY + SECDAY/2;
 	}
@@ -719,10 +719,10 @@ inittodr(time_t base)
 	x.rtctime = time.tv_sec;
 
 	if (base < time.tv_sec - 5*SECYR)
-		printf("WARNING: file system time much less than clock time\n");
+		printf("WARNING: filesystem time much less than clock time\n");
 	else if (base > time.tv_sec + 5*SECYR) {
-		printf("WARNING: clock time much less than file system time\n");
-		printf("WARNING: using file system time\n");
+		printf("WARNING: clock time much less than filesystem time\n");
+		printf("WARNING: using filesystem time\n");
 		goto fstime;
 	}
 	goto oktime;

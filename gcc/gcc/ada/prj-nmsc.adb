@@ -2767,7 +2767,7 @@ package body Prj.Nmsc is
             if Name_Len = 0 then
 
                --  This is the case of "/**": all directories
-               --  in the file system.
+               --  in the filesystem.
 
                Name_Len := 1;
                Name_Buffer (1) := Directory (Directory'First);

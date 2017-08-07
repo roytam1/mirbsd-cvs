@@ -201,7 +201,7 @@ sub move {
     return 1 if rename $from, $to;
 
     # Did rename return an error even though it succeeded, because $to
-    # is on a remote NFS file system, and NFS lost the server's ack?
+    # is on a remote NFS filesystem, and NFS lost the server's ack?
     return 1 if defined($fromsz) && !-e $from &&           # $from disappeared
                 (($tosz2,$tomt2) = (stat($to))[7,9]) &&    # $to's there
                 ($tosz1 != $tosz2 or $tomt1 != $tomt2) &&  #   and changed

@@ -38,7 +38,7 @@
 The
 .Fn vn_lock
 function is used to acquire the vnode lock.
-Certain file system operations require that the vnode lock be held when
+Certain filesystem operations require that the vnode lock be held when
 they are called.
 See
 .Pa sys/kern/vnode_if.src
@@ -103,7 +103,7 @@ the lock before they exit.
 Discussions with Kirk McKusick indicate that locking
 discipline evolved out of the pre-VFS way of doing inode locking.
 In addition, the current locking discipline may actually save
-lines of code, esp. if the number of file systems is fewer
+lines of code, esp. if the number of filesystems is fewer
 than the number of call sites.
 However, the VFS interface would
 require less wizardry if the locking discipline were simpler.
@@ -111,12 +111,12 @@ require less wizardry if the locking discipline were simpler.
 The locking discipline is used in some places to attempt to make a
 series of operations atomic (e.g., permissions check +
 operation).
-This does not work for non-local file systems that do not
+This does not work for non-local filesystems that do not
 support locking (e.g., NFS).
 .Pp
 Are vnode locks even necessary?
-The security checks can be moved into the individual file systems.
-Each file system can have the responsibility of ensuring that vnode
+The security checks can be moved into the individual filesystems.
+Each filesystem can have the responsibility of ensuring that vnode
 operations are suitably atomic.
 .Pp
 The

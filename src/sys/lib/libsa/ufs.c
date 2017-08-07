@@ -368,7 +368,7 @@ ufs_open(char *path, struct open_file *f)
 
 	namebuf = alloc(MAXPATHLEN + 1);
 
-	/* allocate file system specific data structure */
+	/* allocate filesystem specific data structure */
 	fp = alloc(sizeof(struct file));
 	bzero(fp, sizeof(struct file));
 	f->f_fsdata = (void *)fp;
@@ -684,7 +684,7 @@ ufs_readdir(struct open_file *f, char *name)
 
 #ifdef COMPAT_UFS
 /*
- * Sanity checks for old file systems.
+ * Sanity checks for old filesystems.
  *
  * XXX - goes away some day.
  */

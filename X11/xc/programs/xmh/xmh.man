@@ -1038,7 +1038,7 @@ of Contents, in minutes.  If \fBcheckNewMail\fR is true, \fIxmh\fR checks
 to see if you have new mail each interval.  If \fBmakeCheckpoints\fR is
 true, checkpoints are made every fifth interval.  Also every fifth 
 interval, the Table of Contents is checked for inconsistencies with the
-file system, and rescanned if out of date.  To prevent all of these checks
+filesystem, and rescanned if out of date.  To prevent all of these checks
 from occurring, set \fBCheckFrequency\fR to 0.  The default is 1.
 This resource is retained for backward compatibility with user resource
 files; see also \fBcheckpointInterval\fP, \fBmailInterval\fP,
@@ -1211,7 +1211,7 @@ into the composition.  Interesting filters are:
 .B "rescanInterval \fP(class \fBInterval\fP)"
 How often to check the Table of Contents of currently viewed folders
 and of folders with messages currently being viewed, and to update the Table
-of Contents if \fIxmh\fP sees inconsistencies with the file system in these
+of Contents if \fIxmh\fP sees inconsistencies with the filesystem in these
 folders.
 The default is 5 times the value of \fBcheckFrequency\fP.
 .PP

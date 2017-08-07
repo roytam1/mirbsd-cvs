@@ -135,7 +135,7 @@ sub check_args
 usage: $0 [options] [-e] [PerlRegex ....]
 OPTIONS TELLING *WHERE* TO SEARCH:
   -dir DIR       start search at the named directory (default is current dir).
-  -xdev          stay on starting file system.
+  -xdev          stay on starting filesystem.
   -sort          sort the files in each directory before processing.
   -nolinks       don't follow symbolic links.
 OPTIONS TELLING WHICH FILES TO EVEN CONSIDER:

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/midiplay/midiplay.c,v 1.2 2005/03/13 18:33:17 tg Exp $ */
+/**	$MirOS: src/usr.bin/midiplay/midiplay.c,v 1.3 2005/04/26 15:51:31 tg Exp $ */
 /*	$OpenBSD: midiplay.c,v 1.6 2005/03/11 22:54:06 jmc Exp $	*/
 /*	$NetBSD: midiplay.c,v 1.8 1998/11/25 22:17:07 augustss Exp $	*/
 
@@ -259,7 +259,7 @@ playfile(FILE *f, char *name)
 
 	/*
 	 * We need to read the whole file into memory for easy processing.
-	 * Using mmap() would be nice, but some file systems do not support
+	 * Using mmap() would be nice, but some filesystems do not support
 	 * it, nor does reading from e.g. a pipe.  The latter also precludes
 	 * finding out the file size without reading it.
 	 */

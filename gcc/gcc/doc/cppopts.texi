@@ -1,4 +1,4 @@
-@c $MirOS$
+@c $MirOS: gcc/gcc/doc/cppopts.texi,v 1.2 2005/03/25 19:29:22 tg Exp $
 @c
 @c Copyright (c) 1999, 2000, 2001, 2002, 2003, 2004
 @c Free Software Foundation, Inc.
@@ -675,7 +675,7 @@ Replacement:      [    ]    @{    @}    #    \    ^    |    ~
 
 @item -remap
 @opindex remap
-Enable special code to work around file systems which only permit very
+Enable special code to work around filesystems which only permit very
 short file names, such as MS-DOS@.
 
 @itemx --help

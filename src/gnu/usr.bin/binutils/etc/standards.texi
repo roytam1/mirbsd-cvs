@@ -2083,7 +2083,7 @@ core and give a fatal error if @code{malloc} returns zero.
 @cindex file usage
 
 Programs should be prepared to operate when @file{/usr} and @file{/etc}
-are read-only file systems.  Thus, if the program manages log files,
+are read-only filesystems.  Thus, if the program manages log files,
 lock files, backup files, score files, or any other files which are
 modified for internal purposes, these files should not be stored in
 @file{/usr} or @file{/etc}.
@@ -2542,7 +2542,7 @@ constants.
 @cindex file-name limitations
 @pindex doschk
 You might want to make sure that none of the file names would conflict
-the files were loaded onto an MS-DOS file system which shortens the
+the files were loaded onto an MS-DOS filesystem which shortens the
 names.  You can use the program @code{doschk} to test for this.
 
 Some GNU programs were designed to limit themselves to file names of 14
@@ -2927,7 +2927,7 @@ which you want to use it---and if @code{mmap} doesn't work, fall back on
 doing the job in another way using @code{read} and @code{write}.
 
 The reason this precaution is needed is that the GNU kernel (the HURD)
-provides a user-extensible file system, in which there can be many
+provides a user-extensible filesystem, in which there can be many
 different kinds of ``ordinary files.''  Many of them support
 @code{mmap}, but some do not.  It is important to make programs handle
 all these kinds of files.

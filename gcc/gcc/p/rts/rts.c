@@ -2,7 +2,7 @@
   routines. The main purpose of this file is to ensure portability.
   Higher level stuff is in other files.
 
-  Copyright (C) 1985-2005 Free Software Foundation, Inc.
+  Copyright (C) 1985-2006 Free Software Foundation, Inc.
 
   Authors: Jukka Virtanen <jtv@hut.fi>
            J.J. van der Heijden <j.j.vanderheijden@student.utwente.nl>
@@ -145,15 +145,15 @@
 #include <sys/stat.h>
 #endif
 
-/* needed by e.g. Solaris to stat a file system */
+/* needed by e.g. Solaris to stat a filesystem */
 #ifdef HAVE_SYS_STATVFS_H
 #include <sys/statvfs.h>
 #endif
-/* needed by e.g. Linux and DJGPP to stat a file system */
+/* needed by e.g. Linux and DJGPP to stat a filesystem */
 #ifdef HAVE_SYS_VFS_H
 #include <sys/vfs.h>
 #endif
-/* needed by e.g. FreeBSD to stat a file system */
+/* needed by e.g. FreeBSD to stat a filesystem */
 #ifdef HAVE_SYS_MOUNT_H
 #include <sys/mount.h>
 #endif
@@ -237,7 +237,7 @@ extern char **__environ;
 
 #if !defined (HAVE_STRSIGNAL) && !defined (strsignal)
 #if defined (HAVE_SYS_SIGLIST) || defined (sys_siglist)
-#if !defined (sys_siglist) && !defined (SYS_SIGLIST_DECLARED)
+#if !defined (sys_siglist) && !defined (SYS_SIGLIST_DECLARED) && !defined (HAVE_DECL_SYS_SIGLIST)
 extern char **sys_siglist;
 #endif
 #elif defined (HAVE__SYS_SIGLIST) || defined (_sys_siglist)
@@ -992,6 +992,7 @@ GLOBAL (void _p_SplitReal (long double x, int *Exponent, long double *Mantissa))
 
 extern Boolean _p_FakeHighLetters;
 
+/*@internal*/
 /** Convert a character to upper case, according to the current
     locale.
     Except in `--borland-pascal' mode, `UpCase' does the same. */
@@ -999,6 +1000,7 @@ GLOBAL_ATTR (Char _p_UpCase (Char ch), const)
 {
   return toupper (ch);
 }
+/*@endinternal*/
 
 /** Convert a character to lower case, according to the current
     locale. */
@@ -1505,7 +1507,7 @@ GLOBAL (Boolean _p_SetGroupID (int Real UNUSED, int Effective UNUSED))
 
 /** Low-level file routines. Mostly for internal use. */
 
-/** Get information about a file system. */
+/** Get information about a filesystem. */
 GLOBAL (Boolean _p_StatFS (char *Path UNUSED, StatFSBuffer *Buf))
 {
   int Result;
@@ -1768,7 +1770,8 @@ enum {
   MODE_CREATE   = 1 << 4,
   MODE_EXCL     = 1 << 5,
   MODE_TRUNCATE = 1 << 6,
-  MODE_BINARY   = 1 << 7
+  MODE_APPEND   = 1 << 7,
+  MODE_BINARY   = 1 << 8
 };
 
 /** Check if a file name is accessible. */
@@ -1823,14 +1826,19 @@ GLOBAL (int _p_Stat (const char *FileName, FileSizeType *Size,
   #endif
 }
 
+static int conv_filemode (int Mode)
+{
+  return CONVMODE (MODE_BINARY, O_BINARY)
+       | CONVMODE (MODE_CREATE, O_CREAT)
+       | CONVMODE (MODE_EXCL, O_EXCL)
+       | CONVMODE (MODE_TRUNCATE, O_TRUNC)
+       | CONVMODE (MODE_APPEND, O_APPEND);
+}
+
 GLOBAL (int _p_OpenHandle (const char *FileName, int Mode))
 {
   errno = 0;
-  return open (FileName, ((Mode & MODE_WRITE) ? ((Mode & MODE_READ) ? O_RDWR : O_WRONLY) : O_RDONLY)
-                         | CONVMODE (MODE_BINARY, O_BINARY)
-                         | CONVMODE (MODE_CREATE, O_CREAT)
-                         | CONVMODE (MODE_EXCL, O_EXCL)
-                         | CONVMODE (MODE_TRUNCATE, O_TRUNC), 0666);
+  return open (FileName, ((Mode & MODE_WRITE) ? ((Mode & MODE_READ) ? O_RDWR : O_WRONLY) : O_RDONLY) | conv_filemode (Mode), 0666);
 }
 
 GLOBAL (ssize_t _p_ReadHandle (int Handle, void *Buffer, size_t Size))
@@ -1875,6 +1883,22 @@ GLOBAL (int _p_DupHandle (int Src UNUSED, int Dest UNUSED))
   errno = ENOSYS;
   return -1;
   #endif
+}
+
+GLOBAL_ATTR (int _p_SetFileMode (int Handle UNUSED, int Mode UNUSED, Boolean On UNUSED), ignorable)
+{
+  #ifdef HAVE_FCNTL
+  if (Handle >= 0)
+    {
+      int f = fcntl (Handle, F_GETFL);
+      if (f < 0)
+        return f;
+      Mode = conv_filemode (Mode);
+      return fcntl (Handle, F_SETFL, On ? (f | Mode) : (f & ~Mode));
+    }
+  #endif
+  errno = ENOSYS;
+  return False;
 }
 
 GLOBAL (int _p_CStringRename (const char *OldName UNUSED, const char *NewName UNUSED))

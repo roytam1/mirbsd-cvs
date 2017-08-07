@@ -74,7 +74,7 @@ procedure.
 
       On the other hand, if the built  FreeType 2 library is used as a
       part of the target system,  the prefix to install should reflect
-      the file system structure of the target system.
+      the filesystem structure of the target system.
 
 
     2.3. Library dependencies

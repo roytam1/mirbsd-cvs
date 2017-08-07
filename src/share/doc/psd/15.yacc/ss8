@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/psd/15.yacc/ss8,v 1.1.7.1 2005/03/06 16:17:44 tg Exp $
+.\" $MirOS: src/share/doc/psd/15.yacc/ss8,v 1.2 2008/11/08 22:24:01 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -50,7 +50,7 @@ to Yacc, the output is a file of C programs, called
 .I y.tab.c
 on most
 systems
-(due to local file system conventions, the names may differ from
+(due to local filesystem conventions, the names may differ from
 installation to installation).
 The function produced by Yacc is called
 .I yyparse \|;

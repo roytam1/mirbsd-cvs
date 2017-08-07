@@ -55,7 +55,7 @@ careful examination of their performance aspects under UNIX.
 .PP
 In addition to the direct motivation of developing an effective
 choice of storage systems, we hoped to gain more insight into
-VAX UNIX file system and I/O performance in general.
+VAX UNIX filesystem and I/O performance in general.
 What generic characteristics of I/O subsystems are most
 important?
 How important is the location of the controller on the SBI/CMI versus

@@ -35,7 +35,7 @@
 .Os
 .Sh NAME
 .Nm getfsstat
-.Nd get list of all mounted file systems
+.Nd get list of all mounted filesystems
 .Sh SYNOPSIS
 .Fd #include <sys/param.h>
 .Fd #include <sys/mount.h>
@@ -43,7 +43,7 @@
 .Fn getfsstat "struct statfs *buf" "size_t bufsize" "int flags"
 .Sh DESCRIPTION
 .Fn getfsstat
-returns information about all mounted file systems.
+returns information about all mounted filesystems.
 .Fa buf
 is a pointer to an array of
 .Xr statfs 2
@@ -56,29 +56,29 @@ typedef struct { int32_t val[2]; } fsid_t;
 
 struct statfs {
     u_int32_t  f_flags;       /* copy of mount flags */
-    int32_t    f_bsize;       /* fundamental file system block size */
+    int32_t    f_bsize;       /* fundamental filesystem block size */
     u_int32_t  f_iosize;      /* optimal transfer block size */
-    u_int32_t  f_blocks;      /* total data blocks in file system */
+    u_int32_t  f_blocks;      /* total data blocks in filesystem */
     u_int32_t  f_bfree;       /* free blocks in fs */
     int32_t    f_bavail;      /* free blocks avail to non-superuser */
-    u_int32_t  f_files;       /* total file nodes in file system */
+    u_int32_t  f_files;       /* total file nodes in filesystem */
     u_int32_t  f_ffree;       /* free file nodes in fs */
-    fsid_t     f_fsid;        /* file system id */
-    uid_t      f_owner;       /* user that mounted the file system */
+    fsid_t     f_fsid;        /* filesystem id */
+    uid_t      f_owner;       /* user that mounted the filesystem */
     u_int32_t  f_syncwrites;  /* count of sync writes since mount */
     u_int32_t  f_asyncwrites; /* count of async writes since mount */
     u_int32_t  f_ctime;       /* last mount [-u] time */
     u_int32_t  f_spare[3];    /* spare for later */
     char       f_fstypename[MFSNAMELEN]; /* fs type name */
     char       f_mntonname[MNAMELEN];    /* directory on which mounted */
-    char       f_mntfromname[MNAMELEN];  /* mounted file system */
+    char       f_mntfromname[MNAMELEN];  /* mounted filesystem */
     union mount_info mount_info;         /* per-filesystem mount options */
 };
 .Ed
 .Pp
 The buffer is filled with an array of
 .Fa statfs
-structures, one for each mounted file system
+structures, one for each mounted filesystem
 up to the size specified by
 .Fa bufsize .
 .Pp
@@ -87,7 +87,7 @@ If
 is
 .Dv NULL ,
 .Fn getfsstat
-returns just the number of mounted file systems.
+returns just the number of mounted filesystems.
 .Pp
 Normally
 .Fa flags
@@ -99,10 +99,10 @@ is set to
 .Dv MNT_NOWAIT ,
 .Fn getfsstat
 will return the information it has available without requesting
-an update from each file system.
+an update from each filesystem.
 Thus, some of the information will be out of date, but
 .Fn getfsstat
-will not block waiting for information from a file system that is
+will not block waiting for information from a filesystem that is
 unable to respond.
 If no flags are provided,
 .Dv MNT_WAIT
@@ -124,7 +124,7 @@ points to an invalid address.
 .It Bq Er EIO
 An
 .Tn I/O
-error occurred while reading from or writing to the file system.
+error occurred while reading from or writing to the filesystem.
 .El
 .Sh SEE ALSO
 .Xr statfs 2 ,

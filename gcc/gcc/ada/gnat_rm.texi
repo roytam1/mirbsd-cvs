@@ -9923,7 +9923,7 @@ text book, will be sufficient for making use of these facilities.
 
 In the case of the input-output facilities, @xref{The Implementation of
 Standard I/O}, gives details on exactly how GNAT interfaces to the
-file system.  For the remaining packages, the Ada 95 reference manual
+filesystem.  For the remaining packages, the Ada 95 reference manual
 should be sufficient.  The following is a list of the packages included,
 together with a brief description of the functionality that is provided.
 
@@ -10356,7 +10356,7 @@ language, then you need to know more about the details of how the GNAT
 implementation of these input-output facilities behaves.
 
 In this chapter we give a detailed description of exactly how GNAT
-interfaces to the file system.  As always, the sources of the system are
+interfaces to the filesystem.  As always, the sources of the system are
 available to you for answering questions at an even more detailed level,
 but for most purposes the information in this chapter will suffice.
 
@@ -12957,7 +12957,7 @@ extensive usage as follows:
 This allows separate programs to access the data in passive
 partitions, using protected objects for synchronization where
 needed. The only requirement is that the two programs have a
-common shared file system. It is even possible for programs
+common shared filesystem. It is even possible for programs
 running on different machines with different architectures
 (e.g. different endianness) to communicate via the data in
 a passive partition.
@@ -14025,7 +14025,7 @@ path_name ::=
 A path name denotes a project file. A path name can be absolute or relative.
 An absolute path name includes a sequence of directories, in the syntax of
 the host operating system, that identifies uniquely the project file in the
-file system. A relative path name identifies the directory that contains the
+filesystem. A relative path name identifies the directory that contains the
 project file, relative to the directory that contains the current project.
 Path names are case sensitive if file names in the host operating system
 are case sensitive.

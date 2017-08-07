@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/zlib.h,v 1.12 2017/04/15 14:25:40 tg Exp $ */
+/* $MirOS: src/kern/include/zlib.h,v 1.15 2017/04/15 14:51:46 tg Exp $ */
 
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.8, April 28th, 2013
@@ -72,7 +72,7 @@ extern "C" {
 
     The zlib format was designed to be compact and fast for use in memory
   and on communications channels.  The gzip format was designed for single-
-  file compression on file systems, has a larger header than zlib to maintain
+  file compression on filesystems, has a larger header than zlib to maintain
   directory information, and uses a different, slower check method than zlib.
 
     The library does not install any signal handler.  The decoder checks
@@ -1542,7 +1542,7 @@ ZEXTERN const char * ZEXPORT gzerror OF((gzFile file, int *errnum));
 /*
      Returns the error message for the last error which occurred on the given
    compressed file.  errnum is set to zlib error number.  If an error occurred
-   in the file system and not in the compression library, errnum is set to
+   in the filesystem and not in the compression library, errnum is set to
    Z_ERRNO and the application may consult errno to get the exact error code.
 
      The application must not modify the returned string.  Future calls to

@@ -60,7 +60,7 @@ responsive in a general timesharing environment.
 The 4.3BSD Berkeley UNIX system now appears
 capable of supporting loads at least as large as those supported under
 4.1BSD while providing all the new interprocess communication, networking,
-and file system facilities.  
+and filesystem facilities.  
 .nr H2 1
 .ds RH Acknowledgements
 .SH

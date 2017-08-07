@@ -106,7 +106,7 @@ The options are as follows:
 .It Fl 0\-9
 Dump levels.
 A level 0, full backup,
-guarantees the entire file system is copied
+guarantees the entire filesystem is copied
 (but see also the
 .Fl h
 option below).
@@ -239,7 +239,7 @@ If a list of files or subdirectories is being dumped
 is ignored.
 .It Fl W
 .Nm
-tells the operator what file systems need to be dumped.
+tells the operator what filesystems need to be dumped.
 This information is gleaned from the files
 .Pa /etc/dumpdates
 and
@@ -248,10 +248,10 @@ The
 .Fl W
 flag causes
 .Nm
-to print out, for each file system in
+to print out, for each filesystem in
 .Pa /etc/dumpdates ,
 the most recent dump date and level,
-and highlights those file systems that should be dumped.
+and highlights those filesystems that should be dumped.
 If the
 .Fl W
 flag is set, all other options are ignored, and
@@ -340,7 +340,7 @@ For the daily dumps, it should be possible to use a fixed number of tapes
 for each day, used on a weekly basis.
 Each week, a level 1 dump is taken, and
 the daily Hanoi sequence repeats beginning with 3.
-For weekly dumps, another fixed set of tapes per dumped file system is
+For weekly dumps, another fixed set of tapes per dumped filesystem is
 used, also on a cyclical basis.
 .El
 .Pp
@@ -374,7 +374,7 @@ raw SCSI tape interface
 .It Pa /etc/dumpdates
 dump date records
 .It Pa /etc/fstab
-dump table: file systems and frequency
+dump table: filesystems and frequency
 .It Pa /etc/group
 to find group
 .Em operator

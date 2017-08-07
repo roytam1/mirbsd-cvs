@@ -41,7 +41,7 @@
 # been encapsulated by any of the above archivers.
 #
 # In general, Apple II formats are hard to identify because Apple DOS
-# and especially Apple ProDOS have strong typing in the file system and
+# and especially Apple ProDOS have strong typing in the filesystem and
 # therefore programmers never felt much need to include type information
 # in the files themselves.
 #

@@ -39,7 +39,7 @@
 #include "toc.h"
 #include "xml.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/texinfo/makeinfo/makeinfo.c,v 1.2 2005/03/13 15:19:45 tg Exp $");
 
 /* You can change some of the behavior of Makeinfo by changing the
    following defines: */
@@ -205,7 +205,7 @@ remember_error (void)
     }
 }
 
-/* Print the last error gotten from the file system. */
+/* Print the last error gotten from the filesystem. */
 int
 fs_error (char *filename)
 {

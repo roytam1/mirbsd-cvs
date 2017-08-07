@@ -58,7 +58,7 @@ nfsd must be running.
 The mountd daemon performs two important functions.
 .ip 1)
 Upon startup and after a hangup signal, mountd reads the exports
-file and pushes the export information for each local file system down
+file and pushes the export information for each local filesystem down
 into the kernel via. the mount system call.
 .ip 2)
 Mountd handles remote mount protocol (RFC1094, Appendix A) requests.
@@ -105,7 +105,7 @@ Security and in the exports man page.
 .pp
 On the client side, there are several mount options useful for dealing
 with server problems.
-In cases where a file system is not critical for system operation, the
+In cases where a filesystem is not critical for system operation, the
 \fB-b\fR
 mount option may be specified so that mount_nfs will go into the
 background for a mount attempt on an unresponsive server.
@@ -114,7 +114,7 @@ This is useful for mounts specified in
 so that the system will not get hung while booting doing
 \fBmount -a\fR
 because a file server is not responsive.
-On the other hand, if the file system is critical to system operation, this
+On the other hand, if the filesystem is critical to system operation, this
 option should not be used so that the client will wait for the server to
 come up before completing bootstrapping.
 There are also three mount options to help deal with interoperability issues
@@ -144,7 +144,7 @@ size of 16 for the group list, some servers can't handle that many.
 If a user, particularly root doing a mount,
 keeps getting access denied from a file server, try temporarily
 reducing the number of groups that user is in to less than 5
-by editing /etc/group. If the user can then access the file system, slowly
+by editing /etc/group. If the user can then access the filesystem, slowly
 increase the number of groups for that user until the limit is found and
 then peg the limit there with the
 \fB-g=\fInum\fR
@@ -166,9 +166,9 @@ being hung waiting for response from a crashed or unreachable\** server.
 .)f
 By default, a hard mount will continue to try to contact the server
 ``forever'' to complete the system call. This type of mount is appropriate
-when processes on the client that access files in the file system do not
+when processes on the client that access files in the filesystem do not
 tolerate file I/O systems calls that return -1 with \fIerrno == EINTR\fR
-and/or access to the file system is critical for normal system operation.
+and/or access to the filesystem is critical for normal system operation.
 .lp
 There are two other alternatives:
 .ip 1)
@@ -180,7 +180,7 @@ timeout intervals waiting for a reply from the server are done
 in the same manner as UDP for this purpose.
 The problem with this type of mount is that most applications do not
 expect an EINTR error return from file I/O system calls (since it never
-occurs for a local file system) and get confused by the error return
+occurs for a local filesystem) and get confused by the error return
 from the I/O system call.
 The option
 \fB-x=\fInum\fR
@@ -305,7 +305,7 @@ limit for UDP transport.\**
 .(f
 \**Read/write data sizes greater than 8Kbytes will not normally improve
 performance unless the kernel constant MAXBSIZE is increased and the
-file system on the server has a block size greater than 8Kbytes.
+filesystem on the server has a block size greater than 8Kbytes.
 .)f
 NFS over TCP usually delivers comparable to significantly better performance
 than NFS over UDP
@@ -353,22 +353,22 @@ For ordinary NFS, the server receives client credentials
 in the RPC request as a user id
 and a list of group ids and trusts them to be authentic!
 The only tool available to restrict remote access to
-file systems with is the exports(5) file,
-so file systems should be exported with great care.
+filesystems with is the exports(5) file,
+so filesystems should be exported with great care.
 The exports file is read by mountd upon startup and after a hangup signal
 is posted for it and then as much of the access specifications as possible are
 pushed down into the kernel for use by the nfsd(s).
 The trick here is that the kernel information is stored on a per
-local file system mount point and client host address basis and cannot refer to
-individual directories within the local server file system.
+local filesystem mount point and client host address basis and cannot refer to
+individual directories within the local server filesystem.
 It is best to think of the exports file as referring to the various local
-file systems and not just directory paths as mount points.
-A local file system may be exported to a specific host, all hosts that
+filesystems and not just directory paths as mount points.
+A local filesystem may be exported to a specific host, all hosts that
 match a subnet mask or all other hosts (the world). The latter is very
 dangerous and should only be used for public information. It is also
-strongly recommended that file systems exported to ``the world'' be exported
+strongly recommended that filesystems exported to ``the world'' be exported
 read-only.
-For each host or group of hosts, the file system can be exported read-only or
+For each host or group of hosts, the filesystem can be exported read-only or
 read/write.
 You can also define one of three client user id to server credential
 mappings to help control access.
@@ -376,7 +376,7 @@ Root (user id == 0) can be mapped to some default credentials while all other
 user ids are accepted as given.
 If the default credentials for user id equal zero
 are root, then there is essentially no remapping.
-Most NFS file systems are exported this way, most commonly mapping
+Most NFS filesystems are exported this way, most commonly mapping
 user id == 0 to the credentials for the user nobody.
 Since the client user id and group id list is used unchanged on the server
 (except for root), this also implies that
@@ -400,7 +400,7 @@ not compatible with other known ``kerberized'' NFS systems.
 To enable use of this Kerberos option, both mount_nfs on the client and
 nfsd on the server must be rebuilt with the -DKERBEROS option and
 linked to KerberosIV libraries.
-The file system is then exported to the client(s) with the \fB-kerb\fR option
+The filesystem is then exported to the client(s) with the \fB-kerb\fR option
 in the exports file on the server
 and the client mount specifies the
 \fB-K\fR
@@ -420,7 +420,7 @@ systems can use a variant of the protocol called Not Quite NFS (NQNFS) that
 supports a variety of protocol extensions.
 This protocol uses 64bit file offsets
 and sizes, an \fIaccess rpc\fR, an \fIappend\fR option on the write rpc
-and extended file attributes to support 4.4BSD file system functionality
+and extended file attributes to support 4.4BSD filesystem functionality
 more fully.
 It also makes use of a variant of short term
 \fIleases\fR [Gray89] with delayed write client caching,
@@ -508,7 +508,7 @@ planning (dreaming) stage.
 .sh 1 "Diskless Client Support"
 .pp
 The NFS client does include kernel support for diskless/dataless operation
-where the root file system and optionally the swap area is remote NFS mounted.
+where the root filesystem and optionally the swap area is remote NFS mounted.
 A diskless/dataless client is configured using a version of the
 ``swapvmunix.c'' file as provided in the directory \fIcontrib/diskless.nfs\fR.
 If the swap device == NODEV, it specifies an NFS mounted swap area and should

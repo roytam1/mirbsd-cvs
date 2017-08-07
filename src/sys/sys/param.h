@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.102 2015/07/19 01:04:21 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.104 2017/04/02 22:33:30 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -142,13 +142,13 @@
 #define	CROUND	(CBLOCK - 1)	/* Clist rounding. */
 
 /*
- * File system parameters and macros.
+ * Filesystem parameters and macros.
  *
- * The file system is made out of blocks of at most MAXBSIZE units, with
+ * The filesystem is made out of blocks of at most MAXBSIZE units, with
  * smaller units (fragments) only in the last direct block.  MAXBSIZE
  * primarily determines the size of buffers in the buffer pool.  It may be
- * made larger without any effect on existing file systems; however making
- * it smaller makes some file systems unmountable.
+ * made larger without any effect on existing filesystems; however making
+ * it smaller makes some filesystems unmountable.
  */
 #ifndef MAXBSIZE	/* XXX temp until sun3 DMA chaining */
 #define	MAXBSIZE	MAXPHYS

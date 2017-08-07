@@ -116,7 +116,7 @@ End of tape record.
 TS_CLRI
 A bit map follows.
 This bit map contains a zero bit for
-all inodes that were empty on the file system when dumped.
+all inodes that were empty on the filesystem when dumped.
 .TP
 MAGIC
 All header records have this number in
@@ -136,7 +136,7 @@ c_date
 The date the dump was taken.
 .TP
 c_ddate
-The date the file system was dumped from.
+The date the filesystem was dumped from.
 .TP
 c_volume
 The current volume number of the dump.
@@ -158,7 +158,7 @@ make the record sum to CHECKSUM.
 .TP
 c_dinode
 This is a copy of the inode as it appears on the
-file system; see
+filesystem; see
 .IR fs (5).
 .TP
 c_count
@@ -169,8 +169,8 @@ c_addr
 An array of characters describing the blocks of the
 dumped file.
 A character is zero if the block associated with that character was not
-present on the file system, otherwise the character is non-zero.
-If the block was not present on the file system, no block was dumped;
+present on the filesystem, otherwise the character is non-zero.
+If the block was not present on the filesystem, no block was dumped;
 the block will be restored as a hole in the file.
 If there is not sufficient space in this record to describe
 all of the blocks in a file, TS_ADDR

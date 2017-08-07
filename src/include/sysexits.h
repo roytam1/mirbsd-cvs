@@ -88,7 +88,7 @@
  *		was "not possible" during a protocol exchange.
  *	EX_NOPERM -- You did not have sufficient permission to
  *		perform the operation.  This is not intended for
- *		file system problems, which should use EX_NOINPUT or
+ *		filesystem problems, which should use EX_NOINPUT or
  *		EX_CANTCREAT, but rather for higher level permissions.
  *	EX_CONFIG -- Something was found in an unconfigured or
  *		misconfigured state.

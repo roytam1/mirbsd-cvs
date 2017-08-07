@@ -1704,7 +1704,7 @@ The following RFC959 commands have not been implemented:
 
 =item B<SMNT>
 
-Mount a different file system structure without changing login or
+Mount a different filesystem structure without changing login or
 accounting information.
 
 =item B<HELP>

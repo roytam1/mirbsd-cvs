@@ -54,7 +54,7 @@ Chandler, D.,
 .sp
 .IP Cole85
 Cole, C.T., P.B. Flinn, A.B. Atlas,
-``An Implementation of an Extended File System for UNIX,''
+``An Implementation of an Extended Filesystem for UNIX,''
 \fIUsenix Conference Proceedings\fP,
 pp. 131-150, June, 1985.
 .sp
@@ -66,13 +66,13 @@ August 1983.
 .sp
 .IP Karels86
 Karels, M., M. McKusick,
-``Towards a Compatible File System Interface,''
+``Towards a Compatible Filesystem Interface,''
 \fIProceedings of the European UNIX Users Group Meeting\fP,
 Manchester, England, pp. 481-496, September 1986.
 .sp
 .IP Kleiman86
 Kleiman, S.,
-``Vnodes: An Architecture for Multiple File System Types in Sun UNIX,''
+``Vnodes: An Architecture for Multiple Filesystem Types in Sun UNIX,''
 \fIUsenix Conference Proceedings\fP,
 pp. 238-247, June, 1986.
 .sp
@@ -117,28 +117,28 @@ pp. 1897-1910, October 1984.
 .sp
 .IP Rodriguez86
 Rodriguez, R., M. Koehler, R. Hyde,
-``The Generic File System,''
+``The Generic Filesystem,''
 \fIUsenix Conference Proceedings\fP,
 pp. 260-269, June, 1986.
 .sp
 .IP Sandberg85
 Sandberg, R., D. Goldberg, S. Kleiman, D. Walsh, B. Lyon,
-``Design and Implementation of the Sun Network File System,''
+``Design and Implementation of the Sun Network Filesystem,''
 \fIUsenix Conference Proceedings\fP,
 pp. 119-130, June, 1985.
 .sp
 .IP Satyanarayanan85
 Satyanarayanan, M., \fIet al.\fP,
-``The ITC Distributed File System: Principles and Design,''
+``The ITC Distributed Filesystem: Principles and Design,''
 \fIProc. 10th Symposium on Operating Systems Principles\fP, pp. 35-50,
 ACM, December, 1985.
 .sp
 .IP Walker85
-Walker, B.J. and S.H. Kiser, ``The LOCUS Distributed File System,''
+Walker, B.J. and S.H. Kiser, ``The LOCUS Distributed Filesystem,''
 \fIThe LOCUS Distributed System Architecture\fP,
 G.J. Popek and B.J. Walker, ed., The MIT Press, Cambridge, MA, 1985.
 .sp
 .IP Weinberger84
-Weinberger, P.J., ``The Version 8 Network File System,''
+Weinberger, P.J., ``The Version 8 Network Filesystem,''
 \fIUsenix Conference presentation\fP,
 June, 1984.

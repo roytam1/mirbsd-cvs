@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.8 2007/05/19 21:31:57 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.9 2016/03/06 20:01:19 tg Exp $ */
 /*	$OpenBSD: vfs_syscalls.c,v 1.125 2005/06/17 20:39:14 millert Exp $	*/
 /*	$NetBSD: vfs_syscalls.c,v 1.71 1996/04/23 10:29:02 mycroft Exp $	*/
 
@@ -66,11 +66,11 @@ static int change_dir(struct nameidata *, struct proc *);
 void checkdirs(struct vnode *);
 
 /*
- * Virtual File System System Calls
+ * Virtual Filesystem System Calls
  */
 
 /*
- * Mount a file system.
+ * Mount a filesystem.
  */
 /* ARGSUSED */
 int
@@ -238,7 +238,7 @@ sys_mount(p, v, retval)
 	}
 
 	/*
-	 * Allocate and initialize the file system.
+	 * Allocate and initialize the filesystem.
 	 */
 	mp = (struct mount *)malloc((u_long)sizeof(struct mount),
 		M_MOUNT, M_WAITOK);
@@ -363,7 +363,7 @@ checkdirs(olddp)
 }
 
 /*
- * Unmount a file system.
+ * Unmount a filesystem.
  *
  * Note: unmount takes a path to the vnode mounted on as argument,
  * not special file (as before).
@@ -405,7 +405,7 @@ sys_unmount(p, v, retval)
 	}
 
 	/*
-	 * Don't allow unmounting the root file system.
+	 * Don't allow unmounting the root filesystem.
 	 */
 	if (mp->mnt_flag & MNT_ROOTFS) {
 		vput(vp);
@@ -428,7 +428,7 @@ sys_unmount(p, v, retval)
 }
 
 /*
- * Do the actual file system unmount.
+ * Do the actual filesystem unmount.
  */
 int
 dounmount(struct mount *mp, int flags, struct proc *p, struct vnode *olddp)
@@ -2638,7 +2638,7 @@ out:
 }
 
 /*
- * Read a block of directory entries in a file system independent format.
+ * Read a block of directory entries in a filesystem independent format.
  */
 int
 sys_getdirentries(p, v, retval)

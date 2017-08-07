@@ -91,7 +91,7 @@ LinuxVTRequest (int sig)
     kdSwitchPending = TRUE;
 }
 
-/* Check before chowning -- this avoids touching the file system */
+/* Check before chowning -- this avoids touching the filesystem */
 static void
 LinuxCheckChown (char *file)
 {

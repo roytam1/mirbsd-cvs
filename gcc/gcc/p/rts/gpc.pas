@@ -252,7 +252,7 @@ function  SetGroupID (Real: CInteger; Effective: CInteger): Boolean; external na
 
 { Low-level file routines. Mostly for internal use. }
 
-{ Get information about a file system. }
+{ Get information about a filesystem. }
 function  StatFS (Path: CString; var Buf: StatFSBuffer): Boolean; external name '_p_StatFS';
 function  CStringOpenDir (DirName: CString): Pointer; external name '_p_CStringOpenDir';
 function  CStringReadDir (Dir: Pointer): CString; external name '_p_CStringReadDir';

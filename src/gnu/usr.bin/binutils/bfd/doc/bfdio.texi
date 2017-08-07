@@ -36,7 +36,7 @@ struct bfd_iovec
 long bfd_get_mtime (bfd *abfd);
 @end example
 @strong{Description}@*
-Return the file modification time (as read from the file system, or
+Return the file modification time (as read from the filesystem, or
 from the archive header for archive members).
 
 @findex bfd_get_size
@@ -46,7 +46,7 @@ from the archive header for archive members).
 long bfd_get_size (bfd *abfd);
 @end example
 @strong{Description}@*
-Return the file size (as read from file system) for the file
+Return the file size (as read from filesystem) for the file
 associated with BFD @var{abfd}.
 
 The initial motivation for, and use of, this routine is not

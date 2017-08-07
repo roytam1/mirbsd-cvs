@@ -87,7 +87,7 @@ the cache's contents.
 User Control of Network Buffering
 .PP
 Although the system allocates reasonable default amounts of buffering
-for most connections, certain operations such as file system dumps
+for most connections, certain operations such as filesystem dumps
 to remote machines benefit from significant increases in buffering [Walsh84].
 The \fIsetsockopt\fP system call has been extended to allow such requests.
 In addition, \fIgetsockopt\fP and \fIsetsockopt\fP,
@@ -111,8 +111,8 @@ Kernel Limits
 Many internal kernel configuration limits have been increased by suitable
 modifications to data structures.
 The limit on physical memory has been changed from 8 megabyte to 64 megabyte,
-and the limit of 15 mounted file systems has been changed to 255.
-The maximum file system size has been increased to 8 gigabyte,
+and the limit of 15 mounted filesystems has been changed to 255.
+The maximum filesystem size has been increased to 8 gigabyte,
 number of processes to 65536,
 and per process size to 64 megabyte of data and 64 megabyte of stack.
 Note that these are upper bounds,

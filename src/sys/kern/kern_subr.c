@@ -235,7 +235,7 @@ hook_disestablish(head, vhook)
 /*
  * Run hooks.  Startup hooks are invoked right after scheduler_start but
  * before root is mounted.  Shutdown hooks are invoked immediately before the
- * system is halted or rebooted, i.e. after file systems unmounted,
+ * system is halted or rebooted, i.e. after filesystems unmounted,
  * after crash dump done, etc.
  */
 void

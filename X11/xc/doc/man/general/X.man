@@ -263,7 +263,7 @@ the file \fB.Xauthority\fP in the home directory.  \fIXdm\fP uses
 if it already exists when a user logs in.
 .PP
 If you use several machines and share a common home directory
-across all of the machines by means of a network file system,
+across all of the machines by means of a network filesystem,
 you never really have to worry about authorization files,
 the system should work correctly by default.
 Otherwise, as the authorization files are machine-independent,
@@ -275,7 +275,7 @@ authorization to remote machines when you login,
 if the remote machine does not share a common home directory with
 your local machine.
 Note that authorization information transmitted
-``in the clear'' through a network file system or
+``in the clear'' through a network filesystem or
 using \fIftp\fP or \fIrcp\fP can be ``stolen''
 by a network eavesdropper, and as such may enable unauthorized access.
 In many environments, this level of security is not a concern, but if it is,
@@ -386,7 +386,7 @@ fonts and \fIbitmap\fP fonts.  Scaling from outline fonts usually produces
 significantly better results than scaling from bitmap fonts.
 .PP
 An X server can obtain fonts from individual files stored in directories
-in the file system, or from one or more font servers,
+in the filesystem, or from one or more font servers,
 or from a mixtures of directories and font servers.
 The list of places the server looks when trying to find
 a font is controlled by its \fIfont path\fP.  Although most installations

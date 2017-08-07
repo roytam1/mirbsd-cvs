@@ -3097,7 +3097,7 @@ kingdon@cyclic.com
    If you want to allow read access, check out an entire tree somewhere.
    You have to do this anyway to build it.
    
-   Note: If you are using a stupid file system that can't inherit file
+   Note: If you are using a stupid filesystem that can't inherit file
    groups from the parent directory (even with the "setgid" (Octal 2000)
    bit set), you might have to modify CVS (or RCS) to reset the group
    every time you create a new file. I have not tested this.
@@ -7541,7 +7541,7 @@ done
    available on Sun, HP, SGI and OSF/1 platforms.
    
    ClearCase uses a special Unix filesystem type, called "mvfs" for
-   "multi-version file system". Conceptually, mvfs adds another dimension
+   "multi-version filesystem". Conceptually, mvfs adds another dimension
    to a regular Unix filesystem. The new axis is used to store the
    different versions of files and to provide a tree-hierarchical view of
    a collection of objects that might be scattered across any number of
@@ -7644,7 +7644,7 @@ done
     
    Shapetools includes a build mechanism (called Shape, not surprisingly)
    that is aware of the version mechanism, and some dependency tracking.
-   It is based on a file system extension called Attributed File System,
+   It is based on a filesystem extension called Attributed Filesystem,
    which allows arbitrary-sized "attributes" to be associated with a
    file. Files are version controlled in a manner similar to RCS.
    Configurations are managed through the Shapefile, an extension of the

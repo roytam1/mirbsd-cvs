@@ -32,7 +32,7 @@
 
 #include <fcntl.h> /* For AT_FDCWD on Solaris 9.  */
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_getcwd_c,v 1.1 2010/09/15 20:56:58 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getcwd.c,v 1.3 2010/09/19 19:42:57 tg Exp $");
 
 #ifndef __set_errno
 # define __set_errno(val) (errno = (val))
@@ -333,7 +333,7 @@ __getcwd (char *buf, size_t size)
 	    entry_status = __lstat (dotlist, &st);
 #endif
 	    /* We don't fail here if we cannot stat() a directory entry.
-	       This can happen when (network) file systems fail.  If this
+	       This can happen when (network) filesystems fail.  If this
 	       entry is in fact the one we are looking for we will find
 	       out soon as we reach the end of the directory without
 	       having found anything.  */

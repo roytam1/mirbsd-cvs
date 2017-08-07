@@ -103,7 +103,7 @@ maxusers	40
 To this we must then add the specifications for three
 system images.  The first will be our standard system with the
 root on ``hp0'' and swapping on the same drive as the root.
-The second will have the root file system in the same location,
+The second will have the root filesystem in the same location,
 but swap space interleaved among drives on each controller.
 Finally, the third will be a generic system,
 to allow us to boot off any of the four disk drives.
@@ -169,7 +169,7 @@ VAX-11/750 with network support
 .PP
 Our VAX-11/750 system will be located on two 10Mb/s Ethernet
 local area networks and also the DARPA Internet.  The system
-will have a MASSBUS drive for the root file system and two
+will have a MASSBUS drive for the root filesystem and two
 UNIBUS drives.  Paging is interleaved among all three drives.
 We have sold our standard DEC terminal multiplexors since this
 machine will be accessed solely through the network.  This

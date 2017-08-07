@@ -396,7 +396,7 @@ execres_cb(int fd, pid_t pid, int policynr, const char *emulation,
 
 	policynr = policy->policynr;
 
-	/* Try to find existing policy in file system */
+	/* Try to find existing policy in filesystem */
 	if (policynr == -1 && TAILQ_FIRST(&policy->prefilters) == NULL)
 		systrace_addpolicy(name);
 

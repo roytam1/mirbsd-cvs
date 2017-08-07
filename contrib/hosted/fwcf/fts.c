@@ -52,7 +52,7 @@ static char sccsid[] = "@(#)fts.c	8.6 (Berkeley) 8/14/94";
 
 #include "defs.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts.c,v 1.2 2006/09/24 20:34:59 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/fts.c,v 1.3 2007/07/02 14:50:21 tg Exp $");
 
 #define internal_function
 
@@ -575,7 +575,7 @@ fts_children(sp, instr)
  *
  * The real slowdown in walking the tree is the stat calls.  If FTS_NOSTAT is
  * set and it's a physical walk (so that symbolic links can't be directories),
- * we can do things quickly.  First, if it's a 4.4BSD file system, the type
+ * we can do things quickly.  First, if it's a 4.4BSD filesystem, the type
  * of the file is in the directory entry.  Otherwise, we assume that the number
  * of subdirectories in a node is equal to the number of links to the parent.
  * The former skips all stat calls.  The latter skips stat calls in any leaf

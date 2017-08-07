@@ -145,7 +145,7 @@ setup(char *dev)
 			return (-1);
 		}
 		if (!preen)
-			pwarn("** File system is already clean\n");
+			pwarn("** Filesystem is already clean\n");
 	}
 	maxfsblock = sblock.e2fs.e2fs_bcount;
 	maxino = sblock.e2fs_ncg * sblock.e2fs.e2fs_ipg;
@@ -426,7 +426,7 @@ calcsb(char *dev, int devfd, struct m_ext2fs *fs)
 
 	cp = strchr(dev, '\0') - 1;
 	if ((cp == (char *)-1 || (*cp < 'a' || *cp > 'h')) && !isdigit(*cp)) {
-		pfatal("%s: CANNOT FIGURE OUT FILE SYSTEM PARTITION\n", dev);
+		pfatal("%s: CANNOT FIGURE OUT FILESYSTEM PARTITION\n", dev);
 		return (0);
 	}
 	lp = getdisklabel(dev, devfd);
@@ -435,7 +435,7 @@ calcsb(char *dev, int devfd, struct m_ext2fs *fs)
 	else
 		pp = &lp->d_partitions[*cp - 'a'];
 	if (pp->p_fstype != FS_EXT2FS) {
-		pfatal("%s: NOT LABELED AS A EXT2 FILE SYSTEM (%s)\n",
+		pfatal("%s: NOT LABELED AS A EXT2 FILESYSTEM (%s)\n",
 			dev, pp->p_fstype < FSMAXTYPES ?
 			fstypenames[pp->p_fstype] : "unknown");
 		return (0);

@@ -1148,7 +1148,7 @@ mci_store_persistent(mci)
 **
 **	Note: all information is collected in a list before it is processed.
 **	This may not be the best way to do it, but it seems safest, since
-**	the file system would be touched while we are attempting to traverse
+**	the filesystem would be touched while we are attempting to traverse
 **	the directory tree otherwise (during purges).
 **
 **	Parameters:

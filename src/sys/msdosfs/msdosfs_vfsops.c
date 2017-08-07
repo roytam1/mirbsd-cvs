@@ -794,7 +794,7 @@ msdosfs_sync(mp, waitfor, cred, p)
 	vfs_mount_foreach_vnode(mp, msdosfs_sync_vnode, &msa);
 
 	/*
-	 * Force stale file system control information to be flushed.
+	 * Force stale filesystem control information to be flushed.
 	 */
 	if (waitfor != MNT_LAZY) {
 		vn_lock(pmp->pm_devvp, LK_EXCLUSIVE | LK_RETRY, p);

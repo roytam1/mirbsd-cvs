@@ -1354,7 +1354,7 @@ summary of the changes in that release.
 	LIBMILTER: If a milter sets the reply code to "421", the SMTP server
 		will terminate the SMTP session with that error.
 	LIBMILTER: Upon filter shutdown, libmilter will not remove a
-		named socket in the file system if it is running as root.
+		named socket in the filesystem if it is running as root.
 	LIBMILTER: Add new function smfi_progress() which allows the filter
 		to notify the MTA that an EOM operation is still in progress,
 		resetting the timeout.
@@ -2380,7 +2380,7 @@ summary of the changes in that release.
 		is "pw", which means to use getpwnam().  New mailbox database
 		types can be added by adding custom code to libsm/mbdb.c.
 	Queue file names are now 15 characters long, rather than 14 characters
-		long, to accomodate envelope splitting.  File systems with
+		long, to accomodate envelope splitting.  filesystems with
 		a 14 character file name length limit are no longer
 		supported.
 	Recipient list used for delivery now gets internally ordered by
@@ -2733,7 +2733,7 @@ summary of the changes in that release.
 		the final dot has been sent to avoid affecting future
 		deliveries.  Problem reported by Larry Greenfield of CMU.
 	New compile time flag REQUIRES_DIR_FSYNC which turns on support for
-		file systems that require to call fsync() for a directory
+		filesystems that require to call fsync() for a directory
 		if the meta-data in it has been changed.  This should be
 		set at least for ReiserFS; it is enabled by default for Linux.
 		See sendmail/README for further information.
@@ -3886,7 +3886,7 @@ summary of the changes in that release.
 		supplied).  Based on code contributed by Tim Martin of CMU.
 	On systems which use the Torek stdio library (all of the BSD
 		distributions), use memory-buffered files to reduce
-		file system overhead by not creating temporary files on
+		filesystem overhead by not creating temporary files on
 		disk.  Contributed by Exactis.com, Inc.
 	New option DataFileBufferSize to control the maximum size of a
 		memory-buffered data (df) file before a disk-based file is
@@ -3976,7 +3976,7 @@ summary of the changes in that release.
 		Telecommunications Ltd.
 	New queue file naming system which uses a filename guaranteed to be
 		unique for 60 years.  This allows queue IDs to be assigned
-		without fancy file system locking.  Queued items can be
+		without fancy filesystem locking.  Queued items can be
 		moved between queues easily.  Contributed by Exactis.com,
 		Inc.
 	Messages which are undeliverable due to temporary address failures
@@ -9420,7 +9420,7 @@ summary of the changes in that release.
 		to avoid problems on systems that allow you to give away
 		files.
 	Fix a problem that made it impossible to rebuild the alias
-		file if it was on a read-only file system.  From
+		file if it was on a read-only filesystem.  From
 		Harry Edmon of the University of Washington.
 	Improve MX randomization function.  From John Gardiner Myers
 		of CMU.

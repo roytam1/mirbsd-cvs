@@ -35,7 +35,7 @@
 .Os
 .Sh NAME
 .Nm mount_nfs
-.Nd mount NFS file systems
+.Nd mount NFS filesystems
 .Sh SYNOPSIS
 .Nm mount_nfs
 .Bk -words
@@ -57,13 +57,13 @@ The
 command
 calls the
 .Xr mount 2
-system call to prepare and graft a remote NFS file system (rhost:path)
-on to the file system tree at the point
+system call to prepare and graft a remote NFS filesystem (rhost:path)
+on to the filesystem tree at the point
 .Ar node .
 This command is normally executed by
 .Xr mount 8 .
 It implements the mount protocol as described in RFC 1094, Appendix A and
-.%T "NFS: Network File System Version 3 Protocol Specification" ,
+.%T "NFS: Network Filesystem Version 3 Protocol Specification" ,
 Appendix I.
 .Pp
 The options are as follows:
@@ -85,7 +85,7 @@ If an initial attempt to contact the server fails, fork off a child to keep
 trying the mount in the background.
 Useful for
 .Xr fstab 5 ,
-where the file system mount is not critical to multiuser operation.
+where the filesystem mount is not critical to multiuser operation.
 .It Fl c
 For UDP mount points, do not do a
 .Xr connect 2 .
@@ -112,7 +112,7 @@ The value should normally be a multiple of
 .Dv DIRBLKSIZ
 that is less than or equal to the read size for the mount.
 .It Fl i
-Make the mount interruptible, which implies that file system calls that
+Make the mount interruptible, which implies that filesystem calls that
 are delayed due to an unresponsive server will fail with EINTR when a
 termination signal is posted for the process.
 .It Fl l
@@ -186,7 +186,7 @@ See the
 .Fl w
 option as well.
 .It Fl s
-A soft mount, which implies that file system calls will fail
+A soft mount, which implies that filesystem calls will fail
 after
 .Ar retrans
 round trip timeout intervals have been reached (see
@@ -202,7 +202,7 @@ May be useful for fine tuning UDP mounts over internetworks
 with high packet loss rates or an overloaded server.
 Try increasing the interval if
 .Xr nfsstat 1
-shows high retransmit rates while the file system is active or reducing the
+shows high retransmit rates while the filesystem is active or reducing the
 value if there is a low retransmit rate but long response delay observed.
 (Normally, the
 .Fl d

@@ -1,4 +1,7 @@
-/*			File Access				HTFile.c
+/*
+ * $LynxId: HTFile.c,v 1.136 2013/05/01 10:48:11 tom Exp $
+ *
+ *			File Access				HTFile.c
  *			===========
  *
  *	This is unix-specific code in general, with some VMS bits.
@@ -28,7 +31,8 @@
 #define LONG_LIST		/* Define this for long style unix listings (ls -l),
 				   the actual style is configurable from lynx.cfg */
 #endif
-/* #define NO_PARENT_DIR_REFERENCE *//* Define this for no parent links */
+/* #define NO_PARENT_DIR_REFERENCE */
+/* Define this for no parent links */
 #endif /* !VMS */
 
 #if defined(DOSPATH)
@@ -74,6 +78,11 @@
 #include <LYGlobalDefs.h>
 #include <LYStrings.h>
 #include <LYUtils.h>
+
+#ifdef USE_PRETTYSRC
+# include <LYPrettySrc.h>
+#endif
+
 #include <LYLeaks.h>
 
 typedef struct _HTSuffix {
@@ -104,13 +113,13 @@ typedef struct {
 
 #include <HTML.h>		/* For directory object building */
 
-#define PUTC(c) (*target->isa->put_character)(target, c)
-#define PUTS(s) (*target->isa->put_string)(target, s)
-#define START(e) (*target->isa->start_element)(target, e, 0, 0, -1, 0)
-#define END(e) (*target->isa->end_element)(target, e, 0)
+#define PUTC(c)      (*target->isa->put_character)(target, c)
+#define PUTS(s)      (*target->isa->put_string)(target, s)
+#define START(e)     (*target->isa->start_element)(target, e, 0, 0, -1, 0)
+#define END(e)       (*target->isa->end_element)(target, e, 0)
 #define MAYBE_END(e) if (HTML_dtd.tags[e].contents != SGML_EMPTY) \
 			(*target->isa->end_element)(target, e, 0)
-#define FREE_TARGET (*target->isa->_free)(target)
+#define FREE_TARGET  (*target->isa->_free)(target)
 #define ABORT_TARGET (*targetClass._abort)(target, NULL);
 
 struct _HTStructured {
@@ -139,14 +148,23 @@ static const char *HTCacheRoot = "/WWW$SCRATCH";	/* Where to cache things */
 static const char *HTCacheRoot = "/tmp/W3_Cache_";	/* Where to cache things */
 #endif /* VMS */
 
+static char s_no_suffix[] = "*";
+static char s_unknown_suffix[] = "*.*";
+
 /*
  *  Suffix registration.
  */
 static HTList *HTSuffixes = 0;
+
 static HTSuffix no_suffix =
-{"*", NULL, NULL, NULL, 1.0};
+{
+    s_no_suffix, NULL, NULL, NULL, 1.0
+};
+
 static HTSuffix unknown_suffix =
-{"*.*", NULL, NULL, NULL, 1.0};
+{
+    s_unknown_suffix, NULL, NULL, NULL, 1.0
+};
 
 /*	To free up the suffixes at program exit.
  *	----------------------------------------
@@ -169,6 +187,24 @@ static char *FormatStr(char **bufp,
 	**bufp = '\0';
     } else if (entry) {
 	StrAllocCopy(*bufp, entry);
+    }
+    return *bufp;
+}
+
+static char *FormatSize(char **bufp,
+			char *start,
+			off_t entry)
+{
+    char fmt[512];
+
+    if (*start) {
+	sprintf(fmt, "%%%.*s" PRI_off_t, (int) sizeof(fmt) - 3, start);
+
+	HTSprintf0(bufp, fmt, entry);
+    } else {
+	sprintf(fmt, "%" PRI_off_t, entry);
+
+	StrAllocCopy(*bufp, fmt);
     }
     return *bufp;
 }
@@ -235,7 +271,7 @@ static void LYListFmtParse(const char *fmtstr,
 #define PBIT(a, n, s)  (s) ? psbits[((a) >> (n)) & 0x7] : \
 	pbits[((a) >> (n)) & 0x7]
 #endif
-#ifdef S_ISVTX
+#if defined(S_ISVTX) && !defined(_WINDOWS)
     static const char *ptbits[] =
     {"--T", "--t", "-wT", "-wt",
      "r-T", "r-t", "rwT", "rwt", 0};
@@ -251,7 +287,6 @@ static void LYListFmtParse(const char *fmtstr,
     StrAllocCopy(str, fmtstr);
     s = str;
     end = str + strlen(str);
-    START(HTML_PRE);
     while (*s) {
 	start = s;
 	while (*s) {
@@ -291,7 +326,7 @@ static void LYListFmtParse(const char *fmtstr,
 	    *buf = '\0';
 #ifdef S_IFLNK
 	    if (c != 'A' && S_ISLNK(data->file_info.st_mode) &&
-		(len = readlink(file, tmp, sizeof(tmp) - 1)) >= 0) {
+		(len = (int) readlink(file, tmp, sizeof(tmp) - 1)) >= 0) {
 		PUTS(" -> ");
 		tmp[len] = '\0';
 		PUTS(tmp);
@@ -315,10 +350,10 @@ static void LYListFmtParse(const char *fmtstr,
 
 		if (c != 'T') {
 		    if (cp2 == NULL) {
-			if (!strncmp(HTAtom_name(format),
+			if (!StrNCmp(HTAtom_name(format),
 				     "application", 11)) {
 			    cp2 = HTAtom_name(format) + 12;
-			    if (!strncmp(cp2, "x-", 2))
+			    if (!StrNCmp(cp2, "x-", 2))
 				cp2 += 2;
 			} else {
 			    cp2 = HTAtom_name(format);
@@ -349,7 +384,7 @@ static void LYListFmtParse(const char *fmtstr,
 	    break;
 
 	case 's':		/* size in bytes */
-	    FormatNum(&buf, start, (int) data->file_info.st_size);
+	    FormatSize(&buf, start, data->file_info.st_size);
 	    break;
 
 	case 'K':		/* size in Kilobytes but not for directories */
@@ -360,7 +395,7 @@ static void LYListFmtParse(const char *fmtstr,
 	    }
 	    /* FALL THROUGH */
 	case 'k':		/* size in Kilobytes */
-	    FormatNum(&buf, start, (int) ((data->file_info.st_size + 1023) / 1024));
+	    FormatSize(&buf, start, ((data->file_info.st_size + 1023) / 1024));
 	    StrAllocCat(buf, "K");
 	    break;
 
@@ -425,7 +460,7 @@ static void LYListFmtParse(const char *fmtstr,
 
 	case 'o':		/* owner */
 #ifndef NOUSERS
-	    name = HTAA_UidToName(data->file_info.st_uid);
+	    name = HTAA_UidToName((int) data->file_info.st_uid);
 	    if (*name) {
 		FormatStr(&buf, start, name);
 	    } else {
@@ -436,7 +471,7 @@ static void LYListFmtParse(const char *fmtstr,
 
 	case 'g':		/* group */
 #ifndef NOUSERS
-	    name = HTAA_GidToName(data->file_info.st_gid);
+	    name = HTAA_GidToName((int) data->file_info.st_gid);
 	    if (*name) {
 		FormatStr(&buf, start, name);
 	    } else {
@@ -464,7 +499,6 @@ static void LYListFmtParse(const char *fmtstr,
 	s++;
     }
     FREE(buf);
-    END(HTML_PRE);
     PUTC('\n');
     FREE(str);
 }
@@ -493,9 +527,9 @@ void HTSetSuffix5(const char *suffix,
     HTSuffix *suff;
     BOOL trivial_enc = (BOOL) IsUnityEncStr(encoding);
 
-    if (strcmp(suffix, "*") == 0)
+    if (strcmp(suffix, s_no_suffix) == 0)
 	suff = &no_suffix;
-    else if (strcmp(suffix, "*.*") == 0)
+    else if (strcmp(suffix, s_unknown_suffix) == 0)
 	suff = &unknown_suffix;
     else {
 	HTList *cur = HTSuffixes;
@@ -512,10 +546,8 @@ void HTSetSuffix5(const char *suffix,
 	    if (suff == NULL)
 		outofmem(__FILE__, "HTSetSuffix");
 
-	    /*
-	     * Memory leak fixed.
-	     * 05-28-94 Lynx 2-3-1 Garrett Arch Blythe
-	     */
+	    assert(suff != NULL);
+
 	    if (!HTSuffixes) {
 		HTSuffixes = HTList_new();
 #ifdef LY_FIND_LEAKS
@@ -624,8 +656,8 @@ static int HTCreatePath(const char *path)
  *	Returns a malloc'ed string which must be freed by the caller.
  */
 char *HTURLPath_toFile(const char *name,
-		       BOOL expand_all,
-		       BOOL is_remote GCC_UNUSED)
+		       int expand_all,
+		       int is_remote GCC_UNUSED)
 {
     char *path = NULL;
     char *result = NULL;
@@ -663,8 +695,8 @@ char *HTURLPath_toFile(const char *name,
 	 paths (like ones containing "//", possibly escaped). - kw
 */
 char *HTnameOfFile_WWW(const char *name,
-		       BOOL WWW_prefix,
-		       BOOL expand_all)
+		       int WWW_prefix,
+		       int expand_all)
 {
     char *acc_method = HTParse(name, "", PARSE_ACCESS);
     char *host = HTParse(name, "", PARSE_HOST);
@@ -691,7 +723,7 @@ char *HTnameOfFile_WWW(const char *name,
 	}
     } else if (WWW_prefix) {	/* other access */
 #ifdef VMS
-	if ((home = LYGetEnv("HOME")) == 0)
+	if ((home = LYGetEnv("HOME")) == NULL)
 	    home = HTCacheRoot;
 	else
 	    home = HTVMS_wwwName(home);
@@ -701,7 +733,7 @@ char *HTnameOfFile_WWW(const char *name,
 #else
 	home = LYGetEnv("HOME");
 #endif
-	if (home == 0)
+	if (home == NULL)
 	    home = "/tmp";
 #endif /* VMS */
 	HTSprintf0(&result, "%s/WWW/%s/%s%s", home, acc_method, host, path);
@@ -732,11 +764,11 @@ char *WWW_nameOfFile(const char *name)
     char *result = NULL;
 
 #ifdef NeXT
-    if (0 == strncmp("/private/Net/", name, 13)) {
+    if (0 == StrNCmp("/private/Net/", name, 13)) {
 	HTSprintf0(&result, "%s//%s", STR_FILE_URL, name + 13);
     } else
 #endif /* NeXT */
-    if (0 == strncmp(HTMountRoot, name, 5)) {
+    if (0 == StrNCmp(HTMountRoot, name, 5)) {
 	HTSprintf0(&result, "%s//%s", STR_FILE_URL, name + 5);
     } else {
 	HTSprintf0(&result, "%s//%s%s", STR_FILE_URL, HTHostName(), name);
@@ -870,13 +902,13 @@ HTFormat HTFileFormat(const char *filename,
     if (!HTSuffixes)
 	HTFileInit();
 #endif /* !NO_INIT */
-    lf = strlen(filename);
+    lf = (int) strlen(filename);
     n = HTList_count(HTSuffixes);
     for (i = 0; i < n; i++) {
 	int ls;
 
 	suff = (HTSuffix *) HTList_objectAt(HTSuffixes, i);
-	ls = strlen(suff->suffix);
+	ls = (int) strlen(suff->suffix);
 	if ((ls <= lf) && 0 == strcasecomp(suff->suffix, filename + lf - ls)) {
 	    int j;
 
@@ -891,7 +923,7 @@ HTFormat HTFileFormat(const char *filename,
 		int ls2;
 
 		suff = (HTSuffix *) HTList_objectAt(HTSuffixes, j);
-		ls2 = strlen(suff->suffix);
+		ls2 = (int) strlen(suff->suffix);
 		if ((ls + ls2 <= lf) &&
 		    !strncasecomp(suff->suffix,
 				  filename + lf - ls - ls2, ls2)) {
@@ -912,9 +944,11 @@ HTFormat HTFileFormat(const char *filename,
 
     /* defaults tree */
 
-    suff = strchr(filename, '.') ?	/* Unknown suffix */
-	(unknown_suffix.rep ? &unknown_suffix : &no_suffix)
-	: &no_suffix;
+    suff = (strchr(filename, '.')
+	    ? (unknown_suffix.rep
+	       ? &unknown_suffix
+	       : &no_suffix)
+	    : &no_suffix);
 
     /*
      * Set default encoding unless found with suffix already.
@@ -1034,12 +1068,12 @@ HTFormat HTCharsetFormat(HTFormat format,
 	     * charset and the current display character both are likely to be
 	     * like ISO-8859 in structure, pretend we have some kind of match.
 	     */
-	    BOOL given_is_8859 = (BOOL) (!strncmp(cp4, "iso-8859-", 9) &&
+	    BOOL given_is_8859 = (BOOL) (!StrNCmp(cp4, "iso-8859-", 9) &&
 					 isdigit(UCH(cp4[9])));
 	    BOOL given_is_8859like = (BOOL) (given_is_8859 ||
-					     !strncmp(cp4, "windows-", 8) ||
-					     !strncmp(cp4, "cp12", 4) ||
-					     !strncmp(cp4, "cp-12", 5));
+					     !StrNCmp(cp4, "windows-", 8) ||
+					     !StrNCmp(cp4, "cp12", 4) ||
+					     !StrNCmp(cp4, "cp-12", 5));
 	    BOOL given_and_display_8859like = (BOOL) (given_is_8859like &&
 						      (strstr(LYchar_set_names[current_char_set],
 							      "ISO-8859") ||
@@ -1135,10 +1169,10 @@ void LYGetFileInfo(const char *filename,
     LYLocalFileToURL(&Aname, Afn);
     file_anchor = HTAnchor_findSimpleAddress(Aname);
 
-    file_csname = file_anchor->charset;
     format = HTFileFormat(filename, &myEnc, pdesc);
     format = HTCharsetFormat(format, file_anchor, UCLYhndl_HTFile_for_unspec);
     file_cs = HTAnchor_getUCLYhndl(file_anchor, UCT_STAGE_MIME);
+    file_csname = file_anchor->charset;
     if (!file_csname) {
 	if (file_cs >= 0)
 	    file_csname = LYCharSet_UC[file_cs].MIMEname;
@@ -1176,7 +1210,7 @@ float HTFileValue(const char *filename)
     HTSuffix *suff;
     int n;
     int i;
-    int lf = strlen(filename);
+    int lf = (int) strlen(filename);
 
 #ifndef NO_INIT
     if (!HTSuffixes)
@@ -1187,7 +1221,7 @@ float HTFileValue(const char *filename)
 	int ls;
 
 	suff = (HTSuffix *) HTList_objectAt(HTSuffixes, i);
-	ls = strlen(suff->suffix);
+	ls = (int) strlen(suff->suffix);
 	if ((ls <= lf) && 0 == strcmp(suff->suffix, filename + lf - ls)) {
 	    CTRACE((tfp, "File: Value of %s is %.3f\n",
 		    filename, suff->quality));
@@ -1233,10 +1267,66 @@ CompressFileType HTCompressFileType(const char *filename,
 	ftype -= 2;
     }
 
-    *rootlen = (ftype - filename);
+    *rootlen = (int) (ftype - filename);
 
     CTRACE((tfp, "HTCompressFileType(%s) returns %d:%s\n",
 	    filename, (int) result, filename + *rootlen));
+    return result;
+}
+
+/*
+ *  Determine expected file-suffix from the compression method.
+ */
+const char *HTCompressTypeToSuffix(CompressFileType method)
+{
+    const char *result = "";
+
+    switch (method) {
+    default:
+    case cftNone:
+	result = "";
+	break;
+    case cftGzip:
+	result = ".gz";
+	break;
+    case cftCompress:
+	result = ".Z";
+	break;
+    case cftBzip2:
+	result = ".bz2";
+	break;
+    case cftDeflate:
+	result = ".zz";
+	break;
+    }
+    return result;
+}
+
+/*
+ *  Determine compression encoding from the compression method.
+ */
+const char *HTCompressTypeToEncoding(CompressFileType method)
+{
+    const char *result = NULL;
+
+    switch (method) {
+    default:
+    case cftNone:
+	result = NULL;
+	break;
+    case cftGzip:
+	result = "gzip";
+	break;
+    case cftCompress:
+	result = "compress";
+	break;
+    case cftBzip2:
+	result = "bzip2";
+	break;
+    case cftDeflate:
+	result = "deflate";
+	break;
+    }
     return result;
 }
 
@@ -1252,7 +1342,7 @@ CompressFileType HTEncodingToCompressType(const char *coding)
 {
     CompressFileType result = cftNone;
 
-    if (coding == 0) {
+    if (coding == NULL) {
 	result = cftNone;
     } else if (!strcasecomp(coding, "gzip") ||
 	       !strcasecomp(coding, "x-gzip")) {
@@ -1270,6 +1360,43 @@ CompressFileType HTEncodingToCompressType(const char *coding)
     return result;
 }
 
+CompressFileType HTContentTypeToCompressType(const char *ct)
+{
+    CompressFileType method = cftNone;
+
+    if (ct == NULL) {
+	method = cftNone;
+    } else if (!strncasecomp(ct, "application/gzip", 16) ||
+	       !strncasecomp(ct, "application/x-gzip", 18)) {
+	method = cftGzip;
+    } else if (!strncasecomp(ct, "application/compress", 20) ||
+	       !strncasecomp(ct, "application/x-compress", 22)) {
+	method = cftCompress;
+    } else if (!strncasecomp(ct, "application/bzip2", 17) ||
+	       !strncasecomp(ct, "application/x-bzip2", 19)) {
+	method = cftBzip2;
+    }
+    return method;
+}
+
+/*
+ * Check the anchor's content_type and content_encoding elements for a gzip or
+ * Unix compressed file -FM, TD
+ */
+CompressFileType HTContentToCompressType(HTParentAnchor *anchor)
+{
+    CompressFileType method = cftNone;
+    const char *ct = HTAnchor_content_type(anchor);
+    const char *ce = HTAnchor_content_encoding(anchor);
+
+    if (ce == NULL && ct != 0) {
+	method = HTContentTypeToCompressType(ct);
+    } else if (ce != 0) {
+	method = HTEncodingToCompressType(ce);
+    }
+    return method;
+}
+
 /*	Determine write access to a file.
  *	---------------------------------
  *
@@ -1280,7 +1407,7 @@ CompressFileType HTEncodingToCompressType(const char *coding)
  *	1.	No code for non-unix systems.
  *	2.	Isn't there a quicker way?
  */
-BOOL HTEditable(const char *filename)
+BOOL HTEditable(const char *filename GCC_UNUSED)
 {
 #ifndef NO_GROUPS
     GETGROUPS_T groups[NGROUPS];
@@ -1364,7 +1491,7 @@ void HTDirEntry(HTStructured * target, const char *tail,
     if (strcmp(escaped, "..") != 0) {
 	stripped = escaped;
 	escaped = HTEscape(stripped, URL_XPALPHAS);
-	if (((len = strlen(escaped)) > 2) &&
+	if (((len = (int) strlen(escaped)) > 2) &&
 	    escaped[(len - 3)] == '%' &&
 	    escaped[(len - 2)] == '2' &&
 	    TOUPPER(escaped[(len - 1)]) == 'F') {
@@ -1372,7 +1499,7 @@ void HTDirEntry(HTStructured * target, const char *tail,
 	}
     }
 
-    if (tail == NULL || *tail == '\0') {
+    if (isEmpty(tail)) {
 	/*
 	 * Handle extra slash at end of path.
 	 */
@@ -1393,6 +1520,37 @@ void HTDirEntry(HTStructured * target, const char *tail,
     FREE(escaped);
 }
 
+static BOOL view_structured(HTFormat format_out)
+{
+    BOOL result = FALSE;
+
+#ifdef USE_PRETTYSRC
+    if (psrc_view
+	|| (format_out == HTAtom_for("www/dump")))
+	result = TRUE;
+#else
+    if (format_out == WWW_SOURCE)
+	result = TRUE;
+#endif
+    return result;
+}
+
+/*
+ * Write a DOCTYPE to the given stream if we happen to want to see the
+ * source view, or are dumping source.  This is not needed when the source
+ * is not visible, since the document is rendered from a HTStructured object.
+ */
+void HTStructured_doctype(HTStructured * target, HTFormat format_out)
+{
+    if (view_structured(format_out))
+	PUTS("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
+}
+
+void HTStructured_meta(HTStructured * target, HTFormat format_out)
+{
+    if (view_structured(format_out))
+	PUTS("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n");
+}
 /*	Output parent directory entry.
  *	------------------------------
  *
@@ -1407,7 +1565,8 @@ void HTDirEntry(HTStructured * target, const char *tail,
  *	to the parent directory.  Otherwise, it returns FALSE. - FM
  */
 BOOL HTDirTitles(HTStructured * target, HTParentAnchor *anchor,
-		 BOOL tildeIsTop)
+		 HTFormat format_out,
+		 int tildeIsTop)
 {
     const char *logical = anchor->address;
     char *path = HTParse(logical, "", PARSE_PATH + PARSE_PUNCTUATION);
@@ -1430,7 +1589,7 @@ BOOL HTDirTitles(HTStructured * target, HTParentAnchor *anchor,
      * Check tildeIsTop for treating home directory as Welcome (assume the
      * tilde is not followed by a username).  - FM
      */
-    if (tildeIsTop && !strncmp(path, "/~", 2)) {
+    if (tildeIsTop && !StrNCmp(path, "/~", 2)) {
 	if (path[2] == '\0') {
 	    path[1] = '\0';
 	} else {
@@ -1475,6 +1634,8 @@ BOOL HTDirTitles(HTStructured * target, HTParentAnchor *anchor,
 	HTUnEscape(printable);
 #endif /* DIRED_SUPPORT */
 
+	HTStructured_doctype(target, format_out);
+
 	START(HTML_HEAD);
 	PUTC('\n');
 	START(HTML_TITLE);
@@ -1482,7 +1643,11 @@ BOOL HTDirTitles(HTStructured * target, HTParentAnchor *anchor,
 	PUTS(SEGMENT_DIRECTORY);
 	END(HTML_TITLE);
 	PUTC('\n');
+	HTStructured_meta(target, format_out);
 	END(HTML_HEAD);
+	PUTC('\n');
+
+	START(HTML_BODY);
 	PUTC('\n');
 
 #ifdef DIRED_SUPPORT
@@ -1643,9 +1808,6 @@ static void do_readme(HTStructured * target, const char *localname)
     fp = fopen(readme_file_name, "r");
 
     if (fp) {
-	HTStructuredClass targetClass;
-
-	targetClass = *target->isa;	/* (Can't init agregate in K&R) */
 	START(HTML_PRE);
 	while ((ch = fgetc(fp)) != EOF) {
 	    PUTC((char) ch);
@@ -1727,16 +1889,21 @@ static int print_local_dir(DIR *dp, char *localname,
 			   HTStream *sink)
 {
     HTStructured *target;	/* HTML object */
+    HTBTree *bt;
     HTStructuredClass targetClass;
     STRUCT_DIRENT *dirbuf;
     char *pathname = NULL;
     char *tail = NULL;
-    BOOL present[HTML_A_ATTRIBUTES];
+    const char *p;
     char *tmpfilename = NULL;
     BOOL need_parent_link = FALSE;
+    BOOL preformatted = FALSE;
     int status;
-    int i;
     struct stat *actual_info;
+
+#ifdef DISP_PARTIAL
+    int num_of_entries = 0;	/* lines counter */
+#endif
 
 #ifdef S_IFLNK
     struct stat link_info;
@@ -1747,27 +1914,9 @@ static int print_local_dir(DIR *dp, char *localname,
     pathname = HTParse(anchor->address, "",
 		       PARSE_PATH + PARSE_PUNCTUATION);
 
-    if (!strcmp(pathname, "/")) {
-	/*
-	 * Root path.
-	 */
-	StrAllocCopy(tail, "/foo/..");
-    } else {
-	char *p = strrchr(pathname, '/');	/* find last slash */
-
-	if (!p) {
-	    /*
-	     * This probably should not happen, but be prepared if it does.  -
-	     * KW
-	     */
-	    StrAllocCopy(tail, "/foo/..");
-	} else {
-	    /*
-	     * Take slash off the beginning.
-	     */
-	    StrAllocCopy(tail, (p + 1));
-	}
-    }
+    if ((p = strrchr(pathname, '/')) == NULL)
+	p = "/";
+    StrAllocCopy(tail, (p + 1));
     FREE(pathname);
 
     if (UCLYhndl_HTFile_for_unspec >= 0) {
@@ -1780,16 +1929,13 @@ static int print_local_dir(DIR *dp, char *localname,
     target = HTML_new(anchor, format_out, sink);
     targetClass = *target->isa;	/* Copy routine entry points */
 
-    for (i = 0; i < HTML_A_ATTRIBUTES; i++)
-	present[i] = (BOOL) (i == HTML_A_HREF);
-
     /*
      * The need_parent_link flag will be set if an "Up to <parent>" link was
      * not created for a readable parent in HTDirTitles() because LONG_LIST is
      * defined and NO_PARENT_DIR_REFERENCE is not defined so that need we to
      * create the link via an LYListFmtParse() call.  - FM
      */
-    need_parent_link = HTDirTitles(target, anchor, FALSE);
+    need_parent_link = HTDirTitles(target, anchor, format_out, FALSE);
 
 #ifdef DIRED_SUPPORT
     if (!isLYNXCGI(anchor->address)) {
@@ -1800,288 +1946,306 @@ static int print_local_dir(DIR *dp, char *localname,
     if (HTDirReadme == HT_DIR_README_TOP)
 	do_readme(target, localname);
 
-    {
-	HTBTree *bt = HTBTree_new(dired_cmp);
-	int num_of_entries = 0;	/* lines counter */
+    bt = HTBTree_new(dired_cmp);
 
-	_HTProgress(READING_DIRECTORY);
-	status = HT_LOADED;	/* assume we don't get interrupted */
-	while ((dirbuf = readdir(dp)) != NULL) {
+    _HTProgress(READING_DIRECTORY);
+    status = HT_LOADED;		/* assume we don't get interrupted */
+    while ((dirbuf = readdir(dp)) != NULL) {
+	/*
+	 * While there are directory entries to be read...
+	 */
+	DIRED *data = NULL;
+
+#ifdef STRUCT_DIRENT__D_INO
+	if (dirbuf->d_ino == 0)
 	    /*
-	     * While there are directory entries to be read...
+	     * If the entry is not being used, skip it.
 	     */
-	    DIRED *data = NULL;
-
-#if !(defined(DOSPATH) || defined(__EMX__))
-	    if (dirbuf->d_ino == 0)
-		/*
-		 * If the entry is not being used, skip it.
-		 */
-		continue;
+	    continue;
 #endif
-	    /*
-	     * Skip self, parent if handled in HTDirTitles() or if
-	     * NO_PARENT_DIR_REFERENCE is not defined, and any dot files if
-	     * no_dotfiles is set or show_dotfiles is not set.  - FM
-	     */
-	    if (!strcmp(dirbuf->d_name, ".") /* self       */ ||
-		(!strcmp(dirbuf->d_name, "..") /* parent */ &&
-		 need_parent_link == FALSE) ||
-		((strcmp(dirbuf->d_name, "..")) &&
-		 (dirbuf->d_name[0] == '.' &&
-		  (no_dotfiles || !show_dotfiles))))
-		continue;
+	/*
+	 * Skip self, parent if handled in HTDirTitles() or if
+	 * NO_PARENT_DIR_REFERENCE is not defined, and any dot files if
+	 * no_dotfiles is set or show_dotfiles is not set.  - FM
+	 */
+	if (!strcmp(dirbuf->d_name, ".") /* self       */ ||
+	    (!strcmp(dirbuf->d_name, "..") /* parent */ &&
+	     need_parent_link == FALSE) ||
+	    ((strcmp(dirbuf->d_name, "..")) &&
+	     (dirbuf->d_name[0] == '.' &&
+	      (no_dotfiles || !show_dotfiles))))
+	    continue;
 
-	    StrAllocCopy(tmpfilename, localname);
-	    /*
-	     * If filename is not root directory, add trailing separator.
-	     */
-	    LYAddPathSep(&tmpfilename);
+	StrAllocCopy(tmpfilename, localname);
+	/*
+	 * If filename is not root directory, add trailing separator.
+	 */
+	LYAddPathSep(&tmpfilename);
 
-	    StrAllocCat(tmpfilename, dirbuf->d_name);
-	    data = (DIRED *) malloc(sizeof(DIRED) + strlen(dirbuf->d_name) + 4);
-	    if (data == NULL) {
+	StrAllocCat(tmpfilename, dirbuf->d_name);
+	data = (DIRED *) malloc(sizeof(DIRED) + strlen(dirbuf->d_name) + 4);
+	if (data == NULL) {
+	    status = HT_PARTIAL_CONTENT;
+	    break;
+	}
+	LYTrimPathSep(tmpfilename);
+
+	actual_info = &(data->file_info);
+#ifdef S_IFLNK
+	if (lstat(tmpfilename, actual_info) < 0) {
+	    actual_info->st_mode = 0;
+	} else {
+	    if (S_ISLNK(actual_info->st_mode)) {
+		actual_info = &link_info;
+		if (stat(tmpfilename, actual_info) < 0)
+		    actual_info->st_mode = 0;
+	    }
+	}
+#else
+	if (stat(tmpfilename, actual_info) < 0)
+	    actual_info->st_mode = 0;
+#endif
+
+	strcpy(data->file_name, dirbuf->d_name);
+#ifndef DIRED_SUPPORT
+	if (S_ISDIR(actual_info->st_mode)) {
+	    data->sort_tags = 'D';
+	} else {
+	    data->sort_tags = 'F';
+	    /* D & F to have first directories, then files */
+	}
+#else
+	if (S_ISDIR(actual_info->st_mode)) {
+	    if (dir_list_style == MIXED_STYLE) {
+		data->sort_tags = ' ';
+		LYAddPathSep0(data->file_name);
+	    } else if (!strcmp(dirbuf->d_name, "..")) {
+		data->sort_tags = 'A';
+	    } else {
+		data->sort_tags = 'D';
+	    }
+	} else if (dir_list_style == MIXED_STYLE) {
+	    data->sort_tags = ' ';
+	} else if (dir_list_style == FILES_FIRST) {
+	    data->sort_tags = 'C';
+	    /* C & D to have first files, then directories */
+	} else {
+	    data->sort_tags = 'F';
+	}
+#endif /* !DIRED_SUPPORT */
+	/*
+	 * Sort dirname in the tree bt.
+	 */
+	HTBTree_add(bt, data);
+
+#ifdef DISP_PARTIAL
+	/* optimize for expensive operation: */
+	if (num_of_entries % (partial_threshold > 0 ?
+			      partial_threshold : display_lines) == 0) {
+	    if (HTCheckForInterrupt()) {
 		status = HT_PARTIAL_CONTENT;
 		break;
 	    }
-	    LYTrimPathSep(tmpfilename);
+	}
+	num_of_entries++;
+#endif /* DISP_PARTIAL */
 
-	    actual_info = &(data->file_info);
-#ifdef S_IFLNK
-	    if (lstat(tmpfilename, actual_info) < 0) {
-		actual_info->st_mode = 0;
-	    } else {
-		if (S_ISLNK(actual_info->st_mode)) {
-		    actual_info = &link_info;
-		    if (stat(tmpfilename, actual_info) < 0)
-			actual_info->st_mode = 0;
-		}
-	    }
-#else
-	    if (stat(tmpfilename, actual_info) < 0)
-		actual_info->st_mode = 0;
-#endif
+    }				/* end while directory entries left to read */
 
-	    strcpy(data->file_name, dirbuf->d_name);
-#ifndef DIRED_SUPPORT
-	    if (S_ISDIR(actual_info->st_mode)) {
-		data->sort_tags = 'D';
-	    } else {
-		data->sort_tags = 'F';
-		/* D & F to have first directories, then files */
-	    }
-#else
-	    if (S_ISDIR(actual_info->st_mode)) {
-		if (dir_list_style == MIXED_STYLE) {
-		    data->sort_tags = ' ';
-		    LYAddPathSep0(data->file_name);
-		} else if (!strcmp(dirbuf->d_name, "..")) {
-		    data->sort_tags = 'A';
-		} else {
-		    data->sort_tags = 'D';
-		}
-	    } else if (dir_list_style == MIXED_STYLE) {
-		data->sort_tags = ' ';
-	    } else if (dir_list_style == FILES_FIRST) {
-		data->sort_tags = 'C';
-		/* C & D to have first files, then directories */
-	    } else {
-		data->sort_tags = 'F';
-	    }
-#endif /* !DIRED_SUPPORT */
-	    /*
-	     * Sort dirname in the tree bt.
-	     */
-	    HTBTree_add(bt, data);
+    if (status != HT_PARTIAL_CONTENT)
+	_HTProgress(OPERATION_OK);
+    else
+	CTRACE((tfp, "Reading the directory interrupted by user\n"));
 
-#ifdef DISP_PARTIAL
-	    /* optimize for expensive operation: */
-	    if (num_of_entries % (partial_threshold > 0 ?
-				  partial_threshold : display_lines)
-		== 0) {
+    /*
+     * Run through tree printing out in order.
+     */
+    {
+	HTBTElement *next_element = HTBTree_next(bt, NULL);
+
+	/* pick up the first element of the list */
+	int num_of_entries_output = 0;	/* lines counter */
+
+	char state;
+
+	/* I for initial (.. file),
+	   D for directory file,
+	   F for file */
+
+#ifdef DIRED_SUPPORT
+	char test;
+#endif /* DIRED_SUPPORT */
+	state = 'I';
+
+	while (next_element != NULL) {
+	    DIRED *entry;
+
+#ifndef DISP_PARTIAL
+	    if (num_of_entries_output % HTMAX(display_lines, 10) == 0) {
 		if (HTCheckForInterrupt()) {
+		    _HTProgress(TRANSFER_INTERRUPTED);
 		    status = HT_PARTIAL_CONTENT;
 		    break;
 		}
 	    }
-	    num_of_entries++;
-#endif /* DISP_PARTIAL */
-
-	}			/* end while directory entries left to read */
-
-	if (status != HT_PARTIAL_CONTENT)
-	    _HTProgress(OPERATION_OK);
-	else
-	    CTRACE((tfp, "Reading the directory interrupted by user\n"));
-
-	/*
-	 * Run through tree printing out in order.
-	 */
-	{
-	    HTBTElement *next_element = HTBTree_next(bt, NULL);
-
-	    /* pick up the first element of the list */
-	    int num_of_entries_output = 0;	/* lines counter */
-
-	    char state;
-
-	    /* I for initial (.. file),
-	       D for directory file,
-	       F for file */
-
-#ifdef DIRED_SUPPORT
-	    char test;
-#endif /* DIRED_SUPPORT */
-	    state = 'I';
-
-	    while (next_element != NULL) {
-		DIRED *entry;
-
-#ifndef DISP_PARTIAL
-		if (num_of_entries_output % HTMAX(display_lines, 10) == 0) {
-		    if (HTCheckForInterrupt()) {
-			_HTProgress(TRANSFER_INTERRUPTED);
-			status = HT_PARTIAL_CONTENT;
-			break;
-		    }
-		}
 #endif
-		StrAllocCopy(tmpfilename, localname);
-		/*
-		 * If filename is not root directory.
-		 */
-		LYAddPathSep(&tmpfilename);
+	    StrAllocCopy(tmpfilename, localname);
+	    /*
+	     * If filename is not root directory.
+	     */
+	    LYAddPathSep(&tmpfilename);
 
-		entry = (DIRED *) (HTBTree_object(next_element));
-		/*
-		 * Append the current entry's filename to the path.
-		 */
-		StrAllocCat(tmpfilename, entry->file_name);
-		HTSimplify(tmpfilename);
-		/*
-		 * Output the directory entry.
-		 */
-		if (strcmp(DIRED_NAME(HTBTree_object(next_element)), "..")) {
+	    entry = (DIRED *) (HTBTree_object(next_element));
+	    /*
+	     * Append the current entry's filename to the path.
+	     */
+	    StrAllocCat(tmpfilename, entry->file_name);
+	    HTSimplify(tmpfilename);
+	    /*
+	     * Output the directory entry.
+	     */
+	    if (strcmp(DIRED_NAME(HTBTree_object(next_element)), "..")) {
 #ifdef DIRED_SUPPORT
-		    test = (DIRED_BLOK(HTBTree_object(next_element))
+		test =
+		    (char) (DIRED_BLOK(HTBTree_object(next_element))
 			    == 'D' ? 'D' : 'F');
-		    if (state != test) {
+		if (state != test) {
 #ifndef LONG_LIST
-			if (dir_list_style == FILES_FIRST) {
-			    if (state == 'F') {
-				END(HTML_DIR);
-				PUTC('\n');
-			    }
-			} else if (dir_list_style != MIXED_STYLE)
-			    if (state == 'D') {
-				END(HTML_DIR);
-				PUTC('\n');
-			    }
-#endif /* !LONG_LIST */
-			state =
-			    (char) (DIRED_BLOK(HTBTree_object(next_element))
-				    == 'D' ? 'D' : 'F');
-			START(HTML_H2);
-			if (dir_list_style != MIXED_STYLE) {
-			    START(HTML_EM);
-			    PUTS(state == 'D'
-				 ? LABEL_SUBDIRECTORIES
-				 : LABEL_FILES);
-			    END(HTML_EM);
+		    if (dir_list_style == FILES_FIRST) {
+			if (state == 'F') {
+			    END(HTML_DIR);
+			    PUTC('\n');
 			}
-			END(HTML_H2);
-			PUTC('\n');
-#ifndef LONG_LIST
-			START(HTML_DIR);
-			PUTC('\n');
-#endif /* !LONG_LIST */
-		    }
-#else
-		    if (state != DIRED_BLOK(HTBTree_object(next_element))) {
-#ifndef LONG_LIST
+		    } else if (dir_list_style != MIXED_STYLE)
 			if (state == 'D') {
 			    END(HTML_DIR);
 			    PUTC('\n');
 			}
 #endif /* !LONG_LIST */
-			state =
-			    (char) (DIRED_BLOK(HTBTree_object(next_element))
-				    == 'D' ? 'D' : 'F');
-			START(HTML_H2);
+		    state =
+			(char) (DIRED_BLOK(HTBTree_object(next_element))
+				== 'D' ? 'D' : 'F');
+		    if (preformatted) {
+			END(HTML_PRE);
+			PUTC('\n');
+			preformatted = FALSE;
+		    }
+		    START(HTML_H2);
+		    if (dir_list_style != MIXED_STYLE) {
 			START(HTML_EM);
 			PUTS(state == 'D'
 			     ? LABEL_SUBDIRECTORIES
 			     : LABEL_FILES);
 			END(HTML_EM);
-			END(HTML_H2);
-			PUTC('\n');
-#ifndef LONG_LIST
-			START(HTML_DIR);
-			PUTC('\n');
-#endif /* !LONG_LIST */
 		    }
+		    END(HTML_H2);
+		    PUTC('\n');
+#ifndef LONG_LIST
+		    START(HTML_DIR);
+		    PUTC('\n');
+#endif /* !LONG_LIST */
+		}
+#else
+		if (state != DIRED_BLOK(HTBTree_object(next_element))) {
+#ifndef LONG_LIST
+		    if (state == 'D') {
+			END(HTML_DIR);
+			PUTC('\n');
+		    }
+#endif /* !LONG_LIST */
+		    state =
+			(char) (DIRED_BLOK(HTBTree_object(next_element))
+				== 'D' ? 'D' : 'F');
+		    if (preformatted) {
+			END(HTML_PRE);
+			PUTC('\n');
+			preformatted = FALSE;
+		    }
+		    START(HTML_H2);
+		    START(HTML_EM);
+		    PUTS(state == 'D'
+			 ? LABEL_SUBDIRECTORIES
+			 : LABEL_FILES);
+		    END(HTML_EM);
+		    END(HTML_H2);
+		    PUTC('\n');
+#ifndef LONG_LIST
+		    START(HTML_DIR);
+		    PUTC('\n');
+#endif /* !LONG_LIST */
+		}
 #endif /* DIRED_SUPPORT */
 #ifndef LONG_LIST
-		    START(HTML_LI);
-#endif /* !LONG_LIST */
-		}
-#ifdef LONG_LIST
-		LYListFmtParse(list_format, entry, tmpfilename, target, tail);
-#else
-		HTDirEntry(target, tail, entry->file_name);
-		PUTS(entry->file_name);
-		END(HTML_A);
-		MAYBE_END(HTML_LI);
-		PUTC('\n');
-#endif /* LONG_LIST */
-
-		next_element = HTBTree_next(bt, next_element);
-		/* pick up the next element of the list;
-		   if none, return NULL */
-
-		/* optimize for expensive operation: */
-#ifdef DISP_PARTIAL
-		if (num_of_entries_output %
-		    (partial_threshold > 0 ? partial_threshold : display_lines)
-		    == 0) {
-		    /* num_of_entries, num_of_entries_output... */
-		    /* HTReadProgress...(bytes, 0); */
-		    HTDisplayPartial();
-
-		    if (HTCheckForInterrupt()) {
-			_HTProgress(TRANSFER_INTERRUPTED);
-			status = HT_PARTIAL_CONTENT;
-			break;
-		    }
-		}
-		num_of_entries_output++;
-#endif /* DISP_PARTIAL */
-
-	    }			/* end while next_element */
-
-	    if (status == HT_LOADED) {
-		if (state == 'I') {
-		    START(HTML_P);
-		    PUTS("Empty Directory");
-		}
-#ifndef LONG_LIST
-		else
-		    END(HTML_DIR);
+		START(HTML_LI);
 #endif /* !LONG_LIST */
 	    }
-	}			/* end printing out the tree in order */
+	    if (!preformatted) {
+		START(HTML_PRE);
+		PUTC('\n');
+		preformatted = TRUE;
+	    }
+#ifdef LONG_LIST
+	    LYListFmtParse(list_format, entry, tmpfilename, target, tail);
+#else
+	    HTDirEntry(target, tail, entry->file_name);
+	    PUTS(entry->file_name);
+	    END(HTML_A);
+	    MAYBE_END(HTML_LI);
+	    PUTC('\n');
+#endif /* LONG_LIST */
 
-	FREE(tmpfilename);
-	FREE(tail);
-	HTBTreeAndObject_free(bt);
+	    next_element = HTBTree_next(bt, next_element);
+	    /* pick up the next element of the list;
+	       if none, return NULL */
+
+	    /* optimize for expensive operation: */
+#ifdef DISP_PARTIAL
+	    if (num_of_entries_output %
+		((partial_threshold > 0)
+		 ? partial_threshold
+		 : display_lines) == 0) {
+		/* num_of_entries, num_of_entries_output... */
+		HTDisplayPartial();
+
+		if (HTCheckForInterrupt()) {
+		    _HTProgress(TRANSFER_INTERRUPTED);
+		    status = HT_PARTIAL_CONTENT;
+		    break;
+		}
+	    }
+	    num_of_entries_output++;
+#endif /* DISP_PARTIAL */
+
+	}			/* end while next_element */
 
 	if (status == HT_LOADED) {
-	    if (HTDirReadme == HT_DIR_README_BOTTOM)
-		do_readme(target, localname);
-	    FREE_TARGET;
-	} else {
-	    ABORT_TARGET;
+	    if (state == 'I') {
+		START(HTML_P);
+		PUTS("Empty Directory");
+	    }
+#ifndef LONG_LIST
+	    else
+		END(HTML_DIR);
+#endif /* !LONG_LIST */
 	}
+    }				/* end printing out the tree in order */
+    if (preformatted) {
+	END(HTML_PRE);
+	PUTC('\n');
+    }
+    END(HTML_BODY);
+    PUTC('\n');
+
+    FREE(tmpfilename);
+    FREE(tail);
+    HTBTreeAndObject_free(bt);
+
+    if (status == HT_LOADED) {
+	if (HTDirReadme == HT_DIR_README_BOTTOM)
+	    do_readme(target, localname);
+	FREE_TARGET;
+    } else {
+	ABORT_TARGET;
     }
     HTFinishDisplayPartial();
     return status;		/* document loaded, maybe partial */
@@ -2114,6 +2278,76 @@ int HTStat(const char *filename,
 	    result = 0;
 	}
 #endif
+    }
+    return result;
+}
+#endif
+
+#if defined(USE_ZLIB) || defined(USE_BZLIB)
+static BOOL sniffStream(FILE *fp, char *buffer, size_t needed)
+{
+    long offset = ftell(fp);
+    BOOL result = FALSE;
+
+    if (offset >= 0) {
+	if (fread(buffer, sizeof(char), needed, fp) == needed) {
+	    result = TRUE;
+	}
+	if (fseek(fp, offset, SEEK_SET) < 0) {
+	    CTRACE((tfp, "error seeking in stream\n"));
+	    result = FALSE;
+	}
+    }
+    return result;
+}
+#endif
+
+#ifdef USE_ZLIB
+static BOOL isGzipStream(FILE *fp)
+{
+    char buffer[3];
+    BOOL result;
+
+    if (sniffStream(fp, buffer, sizeof(buffer))
+	&& !MemCmp(buffer, "\037\213", sizeof(buffer) - 1)) {
+	result = TRUE;
+    } else {
+	CTRACE((tfp, "not a gzip-stream\n"));
+	result = FALSE;
+    }
+    return result;
+}
+
+static BOOL isDeflateStream(FILE *fp)
+{
+    char buffer[3];
+    BOOL result;
+
+    if (sniffStream(fp, buffer, sizeof(buffer))
+	&& !MemCmp(buffer, "\170\234", sizeof(buffer) - 1)) {
+	result = TRUE;
+    } else {
+	CTRACE((tfp, "not a deflate-stream\n"));
+	result = FALSE;
+    }
+    return result;
+}
+#endif
+
+#ifdef USE_BZLIB
+static BOOL isBzip2Stream(FILE *fp)
+{
+    char buffer[6];
+    BOOL result;
+
+    if (sniffStream(fp, buffer, sizeof(buffer))
+	&& !MemCmp(buffer, "BZh", 3)
+	&& isdigit(UCH(buffer[3]))
+	&& isdigit(UCH(buffer[4]))) {
+	result = TRUE;
+    } else {
+	CTRACE((tfp, "not a bzip2-stream\n"));
+	result = FALSE;
     }
     return result;
 }
@@ -2153,6 +2387,7 @@ static int decompressAndParse(HTParentAnchor *anchor,
     char *localname = filename;
     int bin;
     FILE *fp;
+    int result = FALSE;
 
 #ifdef VMS
     /*
@@ -2183,7 +2418,7 @@ static int decompressAndParse(HTParentAnchor *anchor,
 	FREE(ultrixname);
     }
 #endif /* VMS */
-    CTRACE((tfp, "HTLoadFile: Opening `%s' gives %p\n", localname, fp));
+    CTRACE((tfp, "HTLoadFile: Opening `%s' gives %p\n", localname, (void *) fp));
     if (fp) {			/* Good! */
 	if (HTEditable(localname)) {
 	    HTAtom *put = HTAtom_for("PUT");
@@ -2202,33 +2437,43 @@ static int decompressAndParse(HTParentAnchor *anchor,
 	     * this is a compressed file, no need to look at the filename
 	     * again.  - kw
 	     */
+#if defined(USE_ZLIB) || defined(USE_BZLIB)
 	    CompressFileType method = HTEncodingToCompressType(HTAtom_name(myEncoding));
+#endif
 
 #define isDOWNLOAD(m) (strcmp(format_out->name, "www/download") && (method == m))
 #ifdef USE_ZLIB
 	    if (isDOWNLOAD(cftGzip)) {
-		fclose(fp);
-		gzfp = gzopen(localname, BIN_R);
+		if (isGzipStream(fp)) {
+		    fclose(fp);
+		    fp = 0;
+		    gzfp = gzopen(localname, BIN_R);
 
-		CTRACE((tfp, "HTLoadFile: gzopen of `%s' gives %p\n",
-			localname, gzfp));
+		    CTRACE((tfp, "HTLoadFile: gzopen of `%s' gives %p\n",
+			    localname, gzfp));
+		}
 		internal_decompress = cftGzip;
 	    } else if (isDOWNLOAD(cftDeflate)) {
-		zzfp = fp;
-		fp = 0;
+		if (isDeflateStream(fp)) {
+		    zzfp = fp;
+		    fp = 0;
 
-		CTRACE((tfp, "HTLoadFile: zzopen of `%s' gives %p\n",
-			localname, zzfp));
+		    CTRACE((tfp, "HTLoadFile: zzopen of `%s' gives %p\n",
+			    localname, (void *) zzfp));
+		}
 		internal_decompress = cftDeflate;
 	    } else
 #endif /* USE_ZLIB */
 #ifdef USE_BZLIB
 	    if (isDOWNLOAD(cftBzip2)) {
-		fclose(fp);
-		bzfp = BZ2_bzopen(localname, BIN_R);
+		if (isBzip2Stream(fp)) {
+		    fclose(fp);
+		    fp = 0;
+		    bzfp = BZ2_bzopen(localname, BIN_R);
 
-		CTRACE((tfp, "HTLoadFile: bzopen of `%s' gives %p\n",
-			localname, bzfp));
+		    CTRACE((tfp, "HTLoadFile: bzopen of `%s' gives %p\n",
+			    localname, bzfp));
+		}
 		internal_decompress = cftBzip2;
 	    } else
 #endif /* USE_BZLIB */
@@ -2261,11 +2506,13 @@ static int decompressAndParse(HTParentAnchor *anchor,
 		StrAllocCopy(anchor->content_encoding, "x-deflate");
 #ifdef USE_ZLIB
 		if (strcmp(format_out->name, "www/download") != 0) {
-		    zzfp = fp;
-		    fp = 0;
+		    if (isDeflateStream(fp)) {
+			zzfp = fp;
+			fp = 0;
 
-		    CTRACE((tfp, "HTLoadFile: zzopen of `%s' gives %p\n",
-			    localname, zzfp));
+			CTRACE((tfp, "HTLoadFile: zzopen of `%s' gives %p\n",
+				localname, (void *) zzfp));
+		    }
 		    internal_decompress = cftDeflate;
 		}
 #else /* USE_ZLIB */
@@ -2276,11 +2523,14 @@ static int decompressAndParse(HTParentAnchor *anchor,
 		StrAllocCopy(anchor->content_encoding, "x-gzip");
 #ifdef USE_ZLIB
 		if (strcmp(format_out->name, "www/download") != 0) {
-		    fclose(fp);
-		    gzfp = gzopen(localname, BIN_R);
+		    if (isGzipStream(fp)) {
+			fclose(fp);
+			fp = 0;
+			gzfp = gzopen(localname, BIN_R);
 
-		    CTRACE((tfp, "HTLoadFile: gzopen of `%s' gives %p\n",
-			    localname, gzfp));
+			CTRACE((tfp, "HTLoadFile: gzopen of `%s' gives %p\n",
+				localname, gzfp));
+		    }
 		    internal_decompress = cftGzip;
 		}
 #else /* USE_ZLIB */
@@ -2291,11 +2541,14 @@ static int decompressAndParse(HTParentAnchor *anchor,
 		StrAllocCopy(anchor->content_encoding, "x-bzip2");
 #ifdef USE_BZLIB
 		if (strcmp(format_out->name, "www/download") != 0) {
-		    fclose(fp);
-		    bzfp = BZ2_bzopen(localname, BIN_R);
+		    if (isBzip2Stream(fp)) {
+			fclose(fp);
+			fp = 0;
+			bzfp = BZ2_bzopen(localname, BIN_R);
 
-		    CTRACE((tfp, "HTLoadFile: bzopen of `%s' gives %p\n",
-			    localname, bzfp));
+			CTRACE((tfp, "HTLoadFile: bzopen of `%s' gives %p\n",
+				localname, bzfp));
+		    }
 		    internal_decompress = cftBzip2;
 		}
 #else /* USE_BZLIB */
@@ -2311,16 +2564,16 @@ static int decompressAndParse(HTParentAnchor *anchor,
 	    switch (internal_decompress) {
 #ifdef USE_ZLIB
 	    case cftDeflate:
-		failed_decompress = (zzfp == 0);
+		failed_decompress = (BOOLEAN) (zzfp == NULL);
 		break;
 	    case cftCompress:
 	    case cftGzip:
-		failed_decompress = (gzfp == 0);
+		failed_decompress = (BOOLEAN) (gzfp == NULL);
 		break;
 #endif
 #ifdef USE_BZLIB
 	    case cftBzip2:
-		failed_decompress = (bzfp == 0);
+		failed_decompress = (BOOLEAN) (bzfp == NULL);
 		break;
 #endif
 	    default:
@@ -2375,11 +2628,14 @@ static int decompressAndParse(HTParentAnchor *anchor,
 #endif /* USE_ZLIB || USE_BZLIB */
 	{
 	    *statusp = HTParseFile(format, format_out, anchor, fp, sink);
-	    fclose(fp);
 	}
-	return TRUE;
+	if (fp != 0) {
+	    fclose(fp);
+	    fp = 0;
+	}
+	result = TRUE;
     }				/* If successful open */
-    return FALSE;
+    return result;
 }
 
 /*	Load a document.
@@ -2401,12 +2657,15 @@ int HTLoadFile(const char *addr,
 {
     char *filename = NULL;
     char *acc_method = NULL;
-    char *ftp_newhost;
     HTFormat format;
     char *nodename = NULL;
     char *newname = NULL;	/* Simplified name of file */
     HTAtom *myEncoding = NULL;	/* enc of this file, may be gzip etc. */
     int status = -1;
+
+#ifndef DISABLE_FTP
+    char *ftp_newhost;
+#endif
 
 #ifdef VMS
     struct stat stat_info;
@@ -2440,7 +2699,7 @@ int HTLoadFile(const char *addr,
 
 	if (ftp_passive == ftp_local_passive) {
 	    if ((status >= 400) || (status < 0)) {
-		ftp_local_passive = !ftp_passive;
+		ftp_local_passive = (BOOLEAN) !ftp_passive;
 		status = HTFTPLoad(addr, anchor, format_out, sink);
 	    }
 	}
@@ -2549,7 +2808,7 @@ int HTLoadFile(const char *addr,
 #ifndef NO_UNIX_IO
     /*  Need protection here for telnet server but not httpd server. */
 
-    if (!HTSecure) {		/* try local file system */
+    if (!HTSecure) {		/* try local filesystem */
 	char *localname = HTLocalName(addr);
 	struct stat dir_info;
 
@@ -2573,7 +2832,7 @@ int HTLoadFile(const char *addr,
 	    char *best_name = NULL;	/* Best dir entry so far */
 
 	    char *base = strrchr(localname, '/');
-	    int baselen = 0;
+	    size_t baselen = 0;
 
 	    if (!base || base == localname) {
 		forget_multi = YES;
@@ -2594,12 +2853,12 @@ int HTLoadFile(const char *addr,
 		/*
 		 * While there are directory entries to be read...
 		 */
-#if !(defined(DOSPATH) || defined(__EMX__))
+#ifdef STRUCT_DIRENT__D_INO
 		if (dirbuf->d_ino == 0)
 		    continue;	/* if the entry is not being used, skip it */
 #endif
-		if ((int) strlen(dirbuf->d_name) > baselen &&	/* Match? */
-		    !strncmp(dirbuf->d_name, base, baselen)) {
+		if (strlen(dirbuf->d_name) > baselen &&		/* Match? */
+		    !StrNCmp(dirbuf->d_name, base, baselen)) {
 		    HTAtom *enc;
 		    HTFormat rep = HTFileFormat(dirbuf->d_name, &enc, NULL);
 		    float filevalue = HTFileValue(dirbuf->d_name);
@@ -2621,41 +2880,41 @@ int HTLoadFile(const char *addr,
 			    format = HTFileFormat(cp, NULL, NULL);
 			    FREE(cp);
 			    value = HTStackValue(format, format_out,
-						 filevalue, 0);
-			    switch (cft) {
-			    case cftCompress:
-				atomname = "application/x-compressed";
-				break;
-			    case cftGzip:
-				atomname = "application/x-gzip";
-				break;
-			    case cftDeflate:
-				atomname = "application/x-deflate";
-				break;
-			    case cftBzip2:
-				atomname = "application/x-bzip2";
-				break;
-			    case cftNone:
-				break;
-			    }
+						 filevalue, 0L);
+			}
+			switch (cft) {
+			case cftCompress:
+			    atomname = "application/x-compressed";
+			    break;
+			case cftGzip:
+			    atomname = "application/x-gzip";
+			    break;
+			case cftDeflate:
+			    atomname = "application/x-deflate";
+			    break;
+			case cftBzip2:
+			    atomname = "application/x-bzip2";
+			    break;
+			case cftNone:
+			    break;
 			}
 
 			if (atomname != NULL) {
 			    value = HTStackValue(format, format_out,
-						 filevalue, 0);
+						 filevalue, 0L);
 			    if (value <= 0.0) {
 				format = HTAtom_for(atomname);
 				value = HTStackValue(format, format_out,
-						     filevalue, 0);
+						     filevalue, 0L);
 			    }
 			    if (value <= 0.0) {
 				format = HTAtom_for("www/compressed");
 				value = HTStackValue(format, format_out,
-						     filevalue, 0);
+						     filevalue, 0L);
 			    }
 			}
 		    }
-		    if (value != NO_VALUE_FOUND) {
+		    if (value < NO_VALUE_FOUND) {
 			CTRACE((tfp,
 				"HTLoadFile: value of presenting %s is %f\n",
 				HTAtom_name(rep), value));
@@ -2759,10 +3018,10 @@ int HTLoadFile(const char *addr,
 	    }
 	    /* end if localname is a directory */
 	    if (S_ISREG(dir_info.st_mode)) {
-#ifdef INT_MAX
-		if (dir_info.st_size <= INT_MAX)
+#ifdef LONG_MAX
+		if (dir_info.st_size <= LONG_MAX)
 #endif
-		    anchor->content_length = dir_info.st_size;
+		    anchor->content_length = (long) dir_info.st_size;
 	    }
 
 	}			/* end if file stat worked */
@@ -2783,7 +3042,7 @@ int HTLoadFile(const char *addr,
 	    return status;
 	}
 	FREE(localname);
-    }				/* local unix file system */
+    }				/* local unix filesystem */
 #endif /* !NO_UNIX_IO */
 #endif /* VMS */
 
@@ -2803,7 +3062,7 @@ int HTLoadFile(const char *addr,
 	{
 	    status = -1;
 	    FREE(nodename);
-	    if (strncmp(addr, "file://localhost", 16)) {
+	    if (StrNCmp(addr, "file://localhost", 16)) {
 		/* never go to ftp site when URL
 		 * is file://localhost
 		 */
@@ -2855,7 +3114,7 @@ void HTSetProgramPath(ProgramPaths code, const char *path)
 /*
  * Reset the list of known program paths to the ones that are compiled-in
  */
-void HTInitProgramPaths(void)
+void HTInitProgramPaths(BOOL init)
 {
     ProgramPaths code;
     int n;
@@ -2929,6 +3188,11 @@ void HTInitProgramPaths(void)
 	    path = RMDIR_PATH;
 	    break;
 #endif
+#ifdef SETFONT_PATH
+	case ppSETFONT:
+	    path = SETFONT_PATH;
+	    break;
+#endif
 #ifdef TAR_PATH
 	case ppTAR:
 	    path = TAR_PATH;
@@ -2982,7 +3246,9 @@ void HTInitProgramPaths(void)
 	if (test != NULL && test != path) {
 	    free((char *) test);
 	}
-	HTSetProgramPath(code, path);
+	if (init) {
+	    HTSetProgramPath(code, path);
+	}
     }
 }
 

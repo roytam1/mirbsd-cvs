@@ -118,7 +118,7 @@ Contract No. N00039-82-C-0235.
 .LP
 .IP [McKusick83] 20
 M. McKusick, W. Joy, S. Leffler, R. Fabry,
-``A Fast File System for UNIX'',
+``A Fast Filesystem for UNIX'',
 \fIACM Transactions on Computer Systems 2\fP, 3.
 pp 181-197, August 1984.
 .ds RH Appendix A

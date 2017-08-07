@@ -151,7 +151,7 @@
 
 0x18b	string	OS/2	OS/2 Boot Manager
 
-9564	lelong		0x00011954	Unix Fast File system (little-endian),
+9564	lelong		0x00011954	Unix Fast Filesystem (little-endian),
 >8404	string		x		last mounted on %s,
 #>9504	ledate		x		last checked at %s,
 >8224	ledate		x		last written at %s,
@@ -167,7 +167,7 @@
 >8320	lelong		0		TIME optimization
 >8320	lelong		1		SPACE optimization
 
-9564	belong		0x00011954	Unix Fast File system (big-endian),
+9564	belong		0x00011954	Unix Fast Filesystem (big-endian),
 >7168   long		0x4c41424c	Apple UFS Volume
 >>7186  string		x		named %s,
 >>7176  belong		x		volume label version %d,
@@ -284,7 +284,7 @@
 32776    string    CDROM     High Sierra CD-ROM filesystem data
 
 # cramfs filesystem - russell@coker.com.au
-0       lelong    0x28cd3d45      Linux Compressed ROM File System data, little endian
+0       lelong    0x28cd3d45      Linux Compressed ROM Filesystem data, little endian
 >4      lelong  x size %d
 >8      lelong  &1 version #2
 >8      lelong  &2 sorted_dirs
@@ -294,7 +294,7 @@
 >40     lelong  x %d blocks,
 >44     lelong  x %d files
 
-0       belong    0x28cd3d45      Linux Compressed ROM File System data, big endian
+0       belong    0x28cd3d45      Linux Compressed ROM Filesystem data, big endian
 >4      belong  x size %d
 >8      belong  &1 version #2
 >8      belong  &2 sorted_dirs
@@ -315,8 +315,8 @@
 >0x10040	lelong	3		r5 hash
 
 # JFFS - russell@coker.com.au
-0	lelong	0x34383931	Linux Journalled Flash File system, little endian
-0	belong	0x34383931	Linux Journalled Flash File system, big endian
+0	lelong	0x34383931	Linux Journalled Flash Filesystem, little endian
+0	belong	0x34383931	Linux Journalled Flash Filesystem, big endian
 
 # EST flat binary format (which isn't, but anyway)
 # From: Mark Brown <broonie@sirena.org.uk>
@@ -333,6 +333,6 @@
 >4	string  PPCBoot
 >>12	string  x		version %s
 
-# JFFS2 file system
+# JFFS2 filesystem
 0       leshort         0x1984                  Linux old jffs2 filesystem data little endian
 0       lelong          0xe0011985              Linux jffs2 filesystem data little endian

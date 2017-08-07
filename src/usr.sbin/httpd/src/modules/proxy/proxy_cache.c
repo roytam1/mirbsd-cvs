@@ -80,7 +80,7 @@ typedef struct {
     long upper;                 /* upper 31 bits of result */
 } long61_t;
 
-/* FIXME: The block size can be different on a `per file system' base.
+/* FIXME: The block size can be different on a `per filesystem' base.
  * This would make automatic detection highly OS specific.
  * In the GNU fileutils code for du(1), you can see how complicated it can
  * become to detect the block size. And, with BSD-4.x fragments, it
@@ -88,7 +88,7 @@ typedef struct {
  * As a compromise (and to improve on the incorrect counting of cache
  * size on byte level, omitting directory sizes entirely, which was
  * used up to apache-1.3b7) we're rounding to multiples of 512 here.
- * Your file system may be using larger blocks (I certainly hope so!)
+ * Your filesystem may be using larger blocks (I certainly hope so!)
  * but it will hardly use smaller blocks.
  * (So this approximation is still closer to reality than the old behavior).
  * The best solution would be automatic detection, the next best solution

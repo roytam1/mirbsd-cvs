@@ -1022,7 +1022,7 @@ That's fine for Internet-domain clients and servers, but what about local
 communications?  While you can use the same setup, sometimes you don't
 want to.  Unix-domain sockets are local to the current host, and are often
 used internally to implement pipes.  Unlike Internet domain sockets, Unix
-domain sockets can show up in the file system with an ls(1) listing.
+domain sockets can show up in the filesystem with an ls(1) listing.
 
     % ls -l /dev/log
     srw-rw-rw-  1 root            0 Oct 31 07:23 /dev/log

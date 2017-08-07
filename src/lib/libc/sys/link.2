@@ -65,7 +65,7 @@ must exist for the hard link to succeed and both
 .Fa name1
 and
 .Fa name2
-must be in the same file system.
+must be in the same filesystem.
 As mandated by POSIX.1
 .Fa name1
 may not be a directory.
@@ -89,7 +89,7 @@ characters.
 .It Bq Er ENOENT
 A component of either path prefix does not exist.
 .It Bq Er EOPNOTSUPP
-The file system containing the file named by
+The filesystem containing the file named by
 .Fa name1
 does not support links.
 .It Bq Er EMLINK
@@ -117,7 +117,7 @@ The file named by
 .Fa name1
 is a directory and the effective
 user ID is not superuser,
-or the file system containing the file does not permit the use of
+or the filesystem containing the file does not permit the use of
 .Fn link
 on a directory.
 .It Bq Er EPERM
@@ -129,7 +129,7 @@ The link named by
 .Fa name2
 and the file named by
 .Fa name1
-are on different file systems.
+are on different filesystems.
 .It Bq Er ENOSPC
 The directory in which the entry for the new link is being placed
 cannot be extended because there is no space left on the file
@@ -137,11 +137,11 @@ system containing the directory.
 .It Bq Er EDQUOT
 The directory in which the entry for the new link
 is being placed cannot be extended because the
-user's quota of disk blocks on the file system
+user's quota of disk blocks on the filesystem
 containing the directory has been exhausted.
 .It Bq Er EIO
 An I/O error occurred while reading from or writing to
-the file system to make the directory entry.
+the filesystem to make the directory entry.
 .It Bq Er EROFS
 The requested link requires writing in a directory on a read-only file
 system.

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.16 2013/10/31 20:07:26 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.17 2016/06/11 14:52:49 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.20 2008/12/28 21:51:46 christos Exp $	*/
 
 /*
@@ -81,7 +81,7 @@
  *
  * fsinode - 
  *	equivalent to an inode, containing serial number (sort of virtual
- *	fs independent inode number) target file system inode number (file
+ *	fs independent inode number) target filesystem inode number (file
  *	data sector in the cd9660 case), refcount (nlink), and stat buffer
  *
  * A tree of fsnodes looks like this:
@@ -165,7 +165,7 @@ typedef struct {
 	int	sectorsize;	/* sector size */
 	time_t	maxtime;	/* maximum allowed timestamp value */
 
-	void	*fs_specific;	/* File system specific additions. */
+	void	*fs_specific;	/* Filesystem specific additions. */
 } fsinfo_t;
 
 

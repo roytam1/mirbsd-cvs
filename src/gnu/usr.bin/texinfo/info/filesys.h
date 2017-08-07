@@ -65,7 +65,7 @@ extern int compressed_filename_p (char *filename);
    an error message for FILENAME and ERROR_NUM. */
 extern char *filesys_error_string (char *filename, int error_num);
 
-/* The number of the most recent file system error. */
+/* The number of the most recent filesystem error. */
 extern int filesys_error_number;
 
 /* Given a string containing units of information separated by colons,

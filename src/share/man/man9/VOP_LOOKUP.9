@@ -159,12 +159,12 @@
 The
 .Nm VOP
 functions implement a generic way to perform operations on vnodes.
-The VOP function called passes the arguments to the correct file system
+The VOP function called passes the arguments to the correct filesystem
 specific function.
-Not all file systems implement all operations, in which case a generic
+Not all filesystems implement all operations, in which case a generic
 method will be used.
 These functions exist to provide an abstract method to invoke vnode
-operations without needing to know anything about the underlying file system.
+operations without needing to know anything about the underlying filesystem.
 Many syscalls map directly to a specific VOP function.
 .Pp
 The arguments for each VOP
@@ -181,7 +181,7 @@ VOP calls are not safe to call in an interrupt context.
 .Pp
 The following sections comment on the VOP functions from the consumer's
 perspective.
-Some notes for file system implementors follow.
+Some notes for filesystem implementors follow.
 .Sh VOP_CREATE
 .Fn VOP_CREATE
 creates a new directory entry for a regular file in the directory
@@ -280,7 +280,7 @@ is locked on entry and exit and must be a symlink.
 .Sh VOP_REALLOCBLKS
 .Fn VOP_REALLOCBLKS
 is called by the vfs write clustering code.
-It gives the file system an opportunity to rearrange the on disk blocks
+It gives the filesystem an opportunity to rearrange the on disk blocks
 for a file to reduce fragmentation.
 .Ar vp
 is the locked vnode for the file, and
@@ -291,7 +291,7 @@ Currently, only FFS implements this call.
 .Fn VOP_RECLAIM
 is used by
 .Xr vclean 9
-so that the file system has an opportunity to free memory
+so that the filesystem has an opportunity to free memory
 and perform any other cleanup activity related to
 .Ar vp .
 .Ar vp
@@ -308,7 +308,7 @@ This file corresponds to the vnode
 Both dvp and vp are locked on entry and unlocked on exit, and
 each has its reference count decremented by one.
 VOP_REMOVE does not delete the file from disk unless its link count
-becomes zero (for file systems which support multiple links).
+becomes zero (for filesystems which support multiple links).
 .Sh VOP_REVOKE
 .Fn VOP_REVOKE
 is used by the
@@ -356,7 +356,7 @@ does not lock or reference
 is used internally by
 .Xr vn_lock 9
 to lock a vnode.
-It should not be used by other file system code.
+It should not be used by other filesystem code.
 .Fn VOP_UNLOCK
 unlocks a vnode.
 .Ar flags
@@ -365,7 +365,7 @@ should be zero in most cases.
 returns 1 if
 .Ar vp
 is locked and 0 if not.
-It should be used cautiously, as not all file systems implement locks
+It should be used cautiously, as not all filesystems implement locks
 effectively.
 Note the asymmetry between vn_lock and VOP_UNLOCK.
 .Sh VOP_WHITEOUT
@@ -380,13 +380,13 @@ contains the name of the whiteout.
 is used to indicate the operation.
 Whiteouts may be created or deleted.
 A whiteout entry is normally used to indicate the absence of a file on a
-translucent file system.
+translucent filesystem.
 .Sh IMPLEMENTATION NOTES
 The
 .Nm VOP
 functions are stubs which redirect their arguments to the
-appropriate function for each file system.
-In order to allow for layered file systems and generic bypass methods,
+appropriate function for each filesystem.
+In order to allow for layered filesystems and generic bypass methods,
 all vnode operation implementing functions take only a single void *
 pointer as an argument.
 This points to a structure containing the real arguments.
@@ -394,18 +394,18 @@ Additionally, this structure contains a struct vnodeop_desc *,
 or vnodeop description.
 The description is typically used by the abstract VOP code, but can
 be useful to the lower implementation as well.
-Every file system defines an array of struct vnodeopv_entry_desc
+Every filesystem defines an array of struct vnodeopv_entry_desc
 that contains one entry for each implemented vnode op.
 Unimplemented vnode operations match the default description,
 .Em vop_default_desc .
-Most non-layer file systems should assign the default error handler,
+Most non-layer filesystems should assign the default error handler,
 .Em vn_default_error ,
 to the generic description.
 .Pp
 All lower level implementations should conform to the interfaces described
 above.
 The rules for locking and referencing vnodes are enforced by each
-file system implementation, not the VOP stubs.
+filesystem implementation, not the VOP stubs.
 .Sh RETURN VALUES
 The
 .Nm VOP

@@ -36,11 +36,11 @@ Results
 The following tables indicate the results of our
 test runs.
 Note that each table contains results for tests run
-on two varieties of 4.2BSD file systems.
-The first set of results is always for a file system
+on two varieties of 4.2BSD filesystems.
+The first set of results is always for a filesystem
 with a basic blocking factor of eight Kilobytes and a
 fragment size of 1 Kilobyte. The second sets of measurements
-are for file systems with a four Kilobyte block size and a
+are for filesystems with a four Kilobyte block size and a
 one Kilobyte fragment size.
 The values in parenthesis indicate the percentage of CPU
 time used by the test program.
@@ -58,10 +58,10 @@ l | l s | l s
 l | l s | l s
 l | l l | l l
 l | c c | c c.
-4.2BSD File Systems Tests - \fBVAX 11/750\fR
+4.2BSD filesystems Tests - \fBVAX 11/750\fR
 =
 Logically Sequential Transfers
-from an \fB8K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB8K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	Emulex SC750/Eagle	UDA50/RA81
 
@@ -80,7 +80,7 @@ l | l s | l s
 l | l l | l l
 l | c c | c c.
 Logically Sequential Transfers
-from \fB4K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from \fB4K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	Emulex SC750/Eagle	UDA50/RA81
 
@@ -116,10 +116,10 @@ l | l s | l s | l s
 l | l s | l s | l s
 l | l l | l l | l l
 l | c c | c c | c c.
-4.2BSD File Systems Tests - \fBVAX 11/780\fR
+4.2BSD filesystems Tests - \fBVAX 11/780\fR
 =
 Logically Sequential Transfers
-from an \fB8K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB8K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	Emulex SC780/Eagle	UDA50/RA81	Sys. Ind. 9900/Eagle
 
@@ -138,7 +138,7 @@ l | l s | l s | l s
 l | l l | l l | l l
 l | c c | c c | c c.
 Logically Sequential Transfers
-from an \fB4K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB4K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	Emulex SC780/Eagle	UDA50/RA81	Sys. Ind. 9900/Eagle
 
@@ -153,7 +153,7 @@ rewrite_8192	490 (87%)	350 (66%)	n.m.	n.m.	200 (31%)	300 (46%)
 .DE
 .PP
 The dropoff in reading and writing rates for the two drive SC780/Eagle
-tests are probably due to the file system using insufficient
+tests are probably due to the filesystem using insufficient
 rotational delay for these tests.
 We have not fully investigated these times.
 .PP
@@ -169,10 +169,10 @@ l | l s | l s
 l | l s | l s
 l | l l | l l
 l | c c | c c.
-4.2BSD File Systems Tests - \fBDEC UDA50 - 750 vs. 780\fR
+4.2BSD filesystems Tests - \fBDEC UDA50 - 750 vs. 780\fR
 =
 Logically Sequential Transfers
-from an \fB8K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB8K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	VAX 11/750 UNIBUS	VAX 11/780 UNIBUS
 
@@ -191,7 +191,7 @@ l | l s | l s
 l | l l | l l
 l | c c | c c.
 Logically Sequential Transfers
-from an \fB4K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB4K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	VAX 11/750 UNIBUS	VAX 11/780 UNIBUS
 
@@ -207,7 +207,7 @@ rewrite_8192	227 (47%)	336 (78%)	n.m.	n.m.
 .PP
 The higher throughput available on VAX 11/780s is due to a number
 of factors.
-The larger main memory size allows a larger file system cache.
+The larger main memory size allows a larger filesystem cache.
 The block allocation routines run faster, raising the upper limit
 on the data rates in writing new files.
 .PP
@@ -223,10 +223,10 @@ l | l s | l s
 l | l s | l s
 l | l l | l l
 l | c c | c c.
-4.2BSD File Systems Tests - \fBEmulex - 750 vs. 780\fR
+4.2BSD filesystems Tests - \fBEmulex - 750 vs. 780\fR
 =
 Logically Sequential Transfers
-from an \fB8K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB8K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	VAX 11/750 CMI Bus	VAX 11/780 SBI Bus
 
@@ -245,7 +245,7 @@ l | l s | l s
 l | l l | l l
 l | c c | c c.
 Logically Sequential Transfers
-from an \fB4K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB4K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	VAX 11/750 CMI Bus	VAX 11/780 SBI Bus
 
@@ -294,10 +294,10 @@ l | l s | l s | l s
 l | l s | l s | l s
 l | c c | c c | c c
 l | c c | c c | c c.
-4.2BSD File Systems Tests - \fBEmulex SC780 Disk Controller Evolution\fR
+4.2BSD filesystems Tests - \fBEmulex SC780 Disk Controller Evolution\fR
 =
 Logically Sequential Transfers
-from an \fB8K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB8K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	Inadequate Search Lead	OK Search Lead	OK Search Lead
 	Initial SBI Arbitration	Init SBI Arb.	Improved SBI Arb.	
@@ -318,7 +318,7 @@ l | l s | l s | l s
 l | c c | c c | c c
 l | c c | c c | c c.
 Logically Sequential Transfers
-from an \fB4K/1K\fR 4.2BSD File System (Kbytes/sec.)
+from an \fB4K/1K\fR 4.2BSD filesystem (Kbytes/sec.)
 _
 Test	Inadequate Search Lead	OK Search Lead	OK Search Lead
 	Initial SBI Arbitration	Init SBI Arb.	Improved SBI Arb.	

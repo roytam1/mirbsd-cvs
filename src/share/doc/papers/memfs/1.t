@@ -165,7 +165,7 @@ size and builds a filesystem in the memory
 instead of on a disk partition.
 When built, it does a \fImount\fP system call specifying a filesystem type of
 .SM MFS
-(Memory File System).
+(memory filesystem).
 The auxiliary data parameter to the mount call specifies a pointer
 to the base of the memory in which it has built the filesystem.
 (The auxiliary data parameter used by the local filesystem, \fIufs\fP,

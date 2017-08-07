@@ -1969,7 +1969,7 @@ carriage return, but normally, no translation is done.
 
 =item NFS
 
-Network File System, which allows you to mount a remote filesystem as
+Network Filesystem, which allows you to mount a remote filesystem as
 if it were local.
 
 =item null character

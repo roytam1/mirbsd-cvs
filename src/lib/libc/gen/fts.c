@@ -561,7 +561,7 @@ fts_children(FTS *sp, int instr)
  *
  * The real slowdown in walking the tree is the stat calls.  If FTS_NOSTAT is
  * set and it's a physical walk (so that symbolic links can't be directories),
- * we can do things quickly.  First, if it's a 4.4BSD file system, the type
+ * we can do things quickly.  First, if it's a 4.4BSD filesystem, the type
  * of the file is in the directory entry.  Otherwise, we assume that the number
  * of subdirectories in a node is equal to the number of links to the parent.
  * The former skips all stat calls.  The latter skips stat calls in any leaf

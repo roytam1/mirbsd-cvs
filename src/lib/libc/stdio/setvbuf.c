@@ -92,7 +92,7 @@ setvbuf(FILE *fp, char *buf, int mode, size_t size)
 		if ((buf = malloc(size)) == NULL) {
 			/*
 			 * Unable to honor user's request.  We will return
-			 * failure, but try again with file system size.
+			 * failure, but try again with filesystem size.
 			 */
 			ret = EOF;
 			if (size != iosize) {

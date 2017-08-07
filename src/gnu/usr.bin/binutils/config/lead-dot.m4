@@ -18,7 +18,7 @@
 
 # serial 1
 
-# Check whether the underlying file-system supports filenames
+# Check whether the underlying filesystem supports filenames
 # with a leading dot.  For instance MS-DOS doesn't.
 AC_DEFUN([AM_SET_LEADING_DOT],
 [rm -rf .tst 2>/dev/null

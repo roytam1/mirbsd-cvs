@@ -704,7 +704,7 @@ characters. They are recommended in the GNU Coding Standards to
 separate logical parts of a file, but don't use them at least in Pascal
 code. No @samp{SUB} character (@samp{#26}) either, misused as an
 end-of-file indicator by DOS. Older DOS editors put that character at
-the end of each file for no good reason, though even the FAT file system
+the end of each file for no good reason, though even the FAT filesystem
 knows about the end of a file by its own.
 
 @cindex line length

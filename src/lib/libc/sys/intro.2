@@ -151,7 +151,7 @@ for instance, as the new link name in a
 .Xr link 2
 function.
 .It Er 18 EXDEV Em "Improper link" .
-A hard link to a file on another file system was attempted.
+A hard link to a file on another filesystem was attempted.
 .It Er 19 ENODEV Em "Operation not supported by device" .
 An attempt was made to apply an inappropriate function to a device,
 for example, trying to read a write-only device such as a printer.
@@ -196,23 +196,23 @@ call requested write access.
 .It Er 27 EFBIG Em "File too large" .
 The size of a file exceeded the maximum.
 (The system-wide maximum file size is 2**63 bytes.
-Each file system may impose a lower limit for files contained within it.)
+Each filesystem may impose a lower limit for files contained within it.)
 .It Er 28 ENOSPC Em "Device out of space" .
 A
 .Xr write 2
 to an ordinary file, the creation of a directory or symbolic link,
 or the creation of a directory entry failed because no more disk
-blocks were available on the file system, or the allocation of an
+blocks were available on the filesystem, or the allocation of an
 inode for a newly created file failed because no more inodes were
-available on the file system.
+available on the filesystem.
 .It Er 29 ESPIPE Em "Illegal seek" .
 An
 .Xr lseek 2
 function was issued on a socket, pipe or
 .Tn FIFO .
-.It Er 30 EROFS Em "Read-only file system" .
+.It Er 30 EROFS Em "Read-only filesystem" .
 An attempt was made to modify a file or create a directory
-on a file system that was read-only at the time.
+on a filesystem that was read-only at the time.
 .It Er 31 EMLINK Em "Too many links" .
 The maximum allowable number of hard links to a single file has been
 exceeded (see
@@ -629,9 +629,9 @@ Each process has associated with it a concept of a root directory
 and a current working directory for the purpose of resolving path
 name searches.
 A process's root directory need not be the root directory of
-the root file system.
+the root filesystem.
 .It File Access Permissions
-Every file in the file system has a set of access permissions.
+Every file in the filesystem has a set of access permissions.
 These permissions are used in determining whether a process
 may perform a requested operation on the file (such as opening
 a file for writing).

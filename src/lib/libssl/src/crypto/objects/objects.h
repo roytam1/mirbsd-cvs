@@ -737,7 +737,7 @@
 #define OBJ_ms_sgc			1L,3L,6L,1L,4L,1L,311L,10L,3L,3L
 
 #define SN_ms_efs			"msEFS"
-#define LN_ms_efs			"Microsoft Encrypted File System"
+#define LN_ms_efs			"Microsoft Encrypted Filesystem"
 #define NID_ms_efs			138
 #define OBJ_ms_efs			1L,3L,6L,1L,4L,1L,311L,10L,3L,4L
 

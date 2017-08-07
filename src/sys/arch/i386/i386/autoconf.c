@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.13 2010/09/19 18:55:31 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.14 2010/09/19 19:14:39 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
@@ -369,7 +369,7 @@ rootconf()
 
 #ifdef INSTALL
 	if (B_TYPE(bootdev) == 2) {
-		printf("\n\nInsert file system floppy...\n");
+		printf("\n\nInsert filesystem floppy...\n");
 		if (!(boothowto & RB_ASKNAME)) {
 			cnpollc(TRUE);
 			cngetc();

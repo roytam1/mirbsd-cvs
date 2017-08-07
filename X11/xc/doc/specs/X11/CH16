@@ -1873,7 +1873,7 @@ Manipulating Bitmaps
 Xlib provides functions that you can use to read a bitmap from a file,
 save a bitmap to a file, or create a bitmap. 
 This section describes those functions that transfer bitmaps to and
-from the client's file system, thus allowing their reuse in a later
+from the client's filesystem, thus allowing their reuse in a later
 connection (for example, from an entirely different client or to a
 different display or server).
 .LP

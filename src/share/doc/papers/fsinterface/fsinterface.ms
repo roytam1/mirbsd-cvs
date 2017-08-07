@@ -65,8 +65,8 @@ Users' Group.
 Last modified April 16, 1991.
 .FE
 Notable among these are Sun Microsystems' Virtual Filesystem interface (VFS)
-using vnodes, Digital Equipment's Generic File System (GFS) architecture,
-and AT&T's File System Switch (FSS).
+using vnodes, Digital Equipment's generic filesystem (GFS) architecture,
+and AT&T's filesystem switch (FSS).
 Each design attempts to isolate filesystem-dependent details
 below a generic interface and to provide a framework within which
 new filesystems may be incorporated.
@@ -98,11 +98,11 @@ became common elements in
 .UX
 systems, several vendors of
 .UX
-systems have designed and built network file systems
+systems have designed and built network filesystems
 that allow client process on one
 .UX
 machine to access files on a server machine.
-Examples include Sun's Network File System, NFS [Sandberg85],
+Examples include Sun's Network Filesystem, NFS [Sandberg85],
 AT&T's recently-announced Remote File Sharing, RFS [Rifkin86],
 the LOCUS distributed filesystem [Walker85],
 and Masscomp's extended filesystem [Cole85].
@@ -136,9 +136,9 @@ system to support multiple local filesystem types.
 .PP
 For reasons such as these, several filesystem interfaces have been used
 when integrating new filesystems into the system.
-The best-known of these are Sun Microsystems' Virtual File System interface,
-VFS [Kleiman86], and AT&T's File System Switch, FSS.
-Another interface, known as the Generic File System, GFS,
+The best-known of these are Sun Microsystems' virtual filesystem interface,
+VFS [Kleiman86], and AT&T's filesystem switch, FSS.
+Another interface, known as the generic filesystem, GFS,
 has been implemented for the ULTRIX\(dd
 .FS
 \(dd ULTRIX is a trademark of Digital Equipment Corp.
@@ -178,7 +178,7 @@ System calls that deal with remote files are encapsulated
 with their environment and sent to a server where execution continues.
 The system call may be aborted by either client or server, returning
 control to the client.
-Most system calls that descend into the file-system dependent layer
+Most system calls that descend into the filesystem-dependent layer
 of a filesystem other than the standard local filesystem do not return
 to the higher-level kernel calling routines.
 Instead, the filesystem-dependent code completes the requested
@@ -776,10 +776,10 @@ filesystem, \fIvfs\fP, is:
 .DS
 .ta .5i +\w'struct vfsops\0\0\0'u +\w'*vfs_vnodecovered;\0\0\0\0\0'u
 /*
- * Structure per mounted file system.
- * Each mounted file system has an array of
+ * Structure per mounted filesystem.
+ * Each mounted filesystem has an array of
  * operations and an instance record.
- * The file systems are put on a doubly linked list.
+ * The filesystems are put on a doubly linked list.
  */
 struct vfs {
 	struct vfs	*vfs_next;		/* next vfs in vfs list */
@@ -806,7 +806,7 @@ struct vfs {
 	#define	VFS_MLOCK	0x04		/* lock vfs so that subtree is stable */
 	#define	VFS_MWAIT	0x08		/* someone is waiting for lock */
 	#define	VFS_NOSUID	0x10		/* don't honor setuid bits on vfs */
-	#define	VFS_EXPORTED	0x20		/* file system is exported (NFS) */
+	#define	VFS_EXPORTED	0x20		/* filesystem is exported (NFS) */
 
 	/*
 	 * exported vfs flags.
@@ -819,7 +819,7 @@ on an individual filesystem are:
 .DS
 .ta .5i +\w'struct vfsops\0\0\0'u +\w'*vfs_vnodecovered;\0\0\0\0\0'u
 /*
- * Operations supported on virtual file system.
+ * Operations supported on virtual filesystem.
  */
 struct vfsops {
 \fB!\fP	int	(*vfs_mount)(		/* vfs, path, data, datalen */ );
@@ -837,25 +837,25 @@ The \fIvfs_statfs\fP entry returns a structure of the form:
 .DS
 .ta .5i +\w'struct vfsops\0\0\0'u +\w'*vfs_vnodecovered;\0\0\0\0\0'u
 /*
- * file system statistics
+ * filesystem statistics
  */
 struct statfs {
 \fB!\fP	short	f_type;			/* type of filesystem */
 \fB+\fP	short	f_flags;		/* copy of vfs (mount) flags */
-\fB!\fP	long	f_fsize;		/* fundamental file system block size */
+\fB!\fP	long	f_fsize;		/* fundamental filesystem block size */
 \fB+\fP	long	f_bsize;		/* optimal transfer block size */
-	long	f_blocks;		/* total data blocks in file system */
+	long	f_blocks;		/* total data blocks in filesystem */
 	long	f_bfree;		/* free blocks in fs */
 	long	f_bavail;		/* free blocks avail to non-superuser */
-	long	f_files;		/* total file nodes in file system */
+	long	f_files;		/* total file nodes in filesystem */
 	long	f_ffree;		/* free file nodes in fs */
-	fsid_t	f_fsid;			/* file system id */
+	fsid_t	f_fsid;			/* filesystem id */
 \fB+\fP	char	*f_mntonname;		/* directory on which mounted */
 \fB+\fP	char	*f_mntfromname;		/* mounted filesystem */
 	long	f_spare[7];		/* spare for later */
 };
 
-typedef long fsid_t[2];			/* file system id type */
+typedef long fsid_t[2];			/* filesystem id type */
 .DE
 .LP
 The modifications to Sun's interface at this level are minor.
@@ -902,7 +902,7 @@ struct vnode {
 /*
  * vnode flags.
  */
-#define	VROOT	0x01	/* root of its file system */
+#define	VROOT	0x01	/* root of its filesystem */
 #define	VTEXT	0x02	/* vnode is a pure text prototype */
 #define	VEXLOCK	0x10	/* exclusive lock */
 #define	VSHLOCK	0x20	/* shared lock */
@@ -1065,7 +1065,7 @@ struct vattr {
 	u_short	va_mode;	/* files access mode and type */
 \fB!\fP	uid_t	va_uid;		/* owner user id */
 \fB!\fP	gid_t	va_gid;		/* owner group id */
-	long	va_fsid;	/* file system id (dev for now) */
+	long	va_fsid;	/* filesystem id (dev for now) */
 \fB!\fP	long	va_fileid;	/* file id */
 	short	va_nlink;	/* number of references to file */
 	u_long	va_size;	/* file size in bytes (quad?) */
@@ -1112,12 +1112,12 @@ Brownbridge, D.R., L.F. Marshall, B. Randell,
 
 .IP Cole85
 Cole, C.T., P.B. Flinn, A.B. Atlas,
-``An Implementation of an Extended File System for UNIX,''
+``An Implementation of an Extended Filesystem for UNIX,''
 \fIUsenix Conference Proceedings\fP,
 pp. 131-150, June, 1985.
 
 .IP Kleiman86
-``Vnodes: An Architecture for Multiple File System Types in Sun UNIX,''
+``Vnodes: An Architecture for Multiple Filesystem Types in Sun UNIX,''
 \fIUsenix Conference Proceedings\fP,
 pp. 238-247, June, 1986.
 
@@ -1128,7 +1128,7 @@ Leffler, S., M.K. McKusick, M. Karels,
 
 .IP McKusick84
 McKusick, M.K., W.N. Joy, S.J. Leffler, R.S. Fabry,
-``A Fast File System for UNIX,'' \fITransactions on Computer Systems\fP,
+``A Fast Filesystem for UNIX,'' \fITransactions on Computer Systems\fP,
 Vol. 2, pp. 181-197,
 ACM, August, 1984.
 
@@ -1148,7 +1148,7 @@ Ritchie, D.M. and K. Thompson, ``The Unix Time-Sharing System,''
 
 .IP Rodriguez86
 Rodriguez, R., M. Koehler, R. Hyde,
-``The Generic File System,'' \fIUsenix Conference Proceedings\fP,
+``The Generic Filesystem,'' \fIUsenix Conference Proceedings\fP,
 pp. 260-269, June, 1986.
 
 .IP Sandberg85
@@ -1159,7 +1159,7 @@ pp. 119-130, June, 1985.
 
 .IP Satyanarayanan85
 Satyanarayanan, M., \fIet al.\fP,
-``The ITC Distributed File System: Principles and Design,''
+``The ITC Distributed Filesystem: Principles and Design,''
 \fIProc. 10th Symposium on Operating Systems Principles\fP, pp. 35-50,
 ACM, December, 1985.
 
@@ -1169,6 +1169,6 @@ Walker, B.J. and S.H. Kiser, ``The LOCUS Distributed Filesystem,''
 G.J. Popek and B.J. Walker, ed., The MIT Press, Cambridge, MA, 1985.
 
 .IP Weinberger84
-Weinberger, P.J., ``The Version 8 Network File System,''
+Weinberger, P.J., ``The Version 8 Network Filesystem,''
 \fIUsenix Conference presentation\fP,
 June, 1984.

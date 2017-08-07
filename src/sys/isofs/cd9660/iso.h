@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/isofs/cd9660/iso.h,v 1.2 2008/10/31 21:11:38 tg Exp $ */
+/**	$MirOS: src/sys/isofs/cd9660/iso.h,v 1.3 2013/10/31 20:06:57 tg Exp $ */
 /*	$OpenBSD: iso.h,v 1.13 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: iso.h,v 1.20 1997/07/07 22:45:34 cgd Exp $	*/
 
@@ -41,8 +41,8 @@
  */
 
 /*
- * Definitions describing ISO9660 file system structure, as well as
- * the functions necessary to access fields of ISO9660 file system
+ * Definitions describing ISO9660 filesystem structure, as well as
+ * the functions necessary to access fields of ISO9660 filesystem
  * structures.
  */
 

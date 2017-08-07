@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.in,v 1.11 2017/04/03 02:37:00 tg Exp $
+# $MirOS: gcc/gcc/Makefile.in,v 1.15 2017/04/08 15:15:52 tg Exp $
 #
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
@@ -1027,7 +1027,7 @@ cs-tm_p.h: Makefile
 
 # Don't automatically run autoconf, since configure.ac might be accidentally
 # newer than configure.  Also, this writes into the source directory which
-# might be on a read-only file system.  If configured for maintainer mode
+# might be on a read-only filesystem.  If configured for maintainer mode
 # then do allow autoconf to be run.
 
 $(srcdir)/configure: @MAINT@ $(srcdir)/configure.ac

@@ -48,7 +48,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs_alloc.c,v 1.17 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/ffs_alloc.c,v 1.5 2010/03/06 21:29:08 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/ffs_alloc.c,v 1.6 2010/03/07 00:11:19 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -80,7 +80,7 @@ extern const int inside[], around[];
 extern const u_char * const fragtbl[];
 
 /*
- * Allocate a block in the file system.
+ * Allocate a block in the filesystem.
  * 
  * The size of the requested block is given, which must be some
  * multiple of fs_fsize and <= fs_bsize.

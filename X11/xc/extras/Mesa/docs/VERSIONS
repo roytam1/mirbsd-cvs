@@ -657,7 +657,7 @@ Mesa Version History
 	- New library names:  "libGL" instead of "libMesaGL"
 	- New library numbering: libGL.so.1.2.310
 	- New subdirectories:  docs/ and bin/
-	- New Makefile-system (autoconf,automake,libtool)
+	- New Makefile system (autoconf,automake,libtool)
 
 
 3.1 final  December 14, 1999

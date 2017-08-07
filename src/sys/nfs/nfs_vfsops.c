@@ -331,7 +331,7 @@ nfs_mountroot()
 		vfs_unbusy(mp, procp);
 
 		/*
-		 * Since the swap file is not the root dir of a file system,
+		 * Since the swap file is not the root dir of a filesystem,
 		 * hack it to a regular file.
 		 */
 		vp->v_type = VREG;
@@ -753,7 +753,7 @@ nfs_unmount(mp, mntflags, p)
 	nmp = VFSTONFS(mp);
 	/*
 	 * Goes something like this..
-	 * - Call vflush() to clear out vnodes for this file system,
+	 * - Call vflush() to clear out vnodes for this filesystem,
 	 *   except for the root vnode.
 	 * - Close the socket
 	 * - Free up the data structures

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/statvfs.h,v 1.1 2007/05/19 22:10:09 tg Exp $ */
+/**	$MirOS: src/sys/sys/statvfs.h,v 1.2 2014/02/09 22:35:50 tg Exp $ */
 /*	$NetBSD: statvfs.h,v 1.11 2006/07/31 16:34:44 martin Exp $	 */
 /*	$NetBSD: statvfs.h,v 1.3 2004/08/23 03:32:13 jlam Exp $	*/
 
@@ -59,18 +59,18 @@ typedef	uint64_t	fsfilcnt_t;	/* fs file count */
 
 struct statvfs {
 	unsigned long	f_flag;		/* copy of mount exported flags */
-	unsigned long	f_bsize;	/* file system block size */
-	unsigned long	f_frsize;	/* fundamental file system block size */
-	unsigned long	f_iosize;	/* optimal file system block size */
+	unsigned long	f_bsize;	/* filesystem block size */
+	unsigned long	f_frsize;	/* fundamental filesystem block size */
+	unsigned long	f_iosize;	/* optimal filesystem block size */
 
-	fsblkcnt_t	f_blocks;	/* number of blocks in file system, */
+	fsblkcnt_t	f_blocks;	/* number of blocks in filesystem, */
 					/*   (in units of f_frsize) */
-	fsblkcnt_t	f_bfree;	/* free blocks avail in file system */
+	fsblkcnt_t	f_bfree;	/* free blocks avail in filesystem */
 	fsblkcnt_t	f_bavail;	/* free blocks avail to non-root */
 	fsblkcnt_t	f_bresvd;	/* blocks reserved for root */
 
-	fsfilcnt_t	f_files;	/* total file nodes in file system */
-	fsfilcnt_t	f_ffree;	/* free file nodes in file system */
+	fsfilcnt_t	f_files;	/* total file nodes in filesystem */
+	fsfilcnt_t	f_ffree;	/* free file nodes in filesystem */
 	fsfilcnt_t	f_favail;	/* free file nodes avail to non-root */
 	fsfilcnt_t	f_fresvd;	/* file nodes reserved for root */
 
@@ -83,13 +83,13 @@ struct statvfs {
 	fsid_t		f_fsidx;	/* NetBSD compatible fsid */
 	unsigned long	f_fsid;		/* Posix compatible fsid */
 	unsigned long	f_namemax;	/* maximum filename length */
-	uid_t		f_owner;	/* user that mounted the file system */
+	uid_t		f_owner;	/* user that mounted the filesystem */
 
 	uint32_t	f_spare[4];	/* spare space */
 
 	char	f_fstypename[_VFS_NAMELEN]; /* fs type name */
 	char	f_mntonname[_VFS_MNAMELEN];  /* directory on which mounted */
-	char	f_mntfromname[_VFS_MNAMELEN];  /* mounted file system */
+	char	f_mntfromname[_VFS_MNAMELEN];  /* mounted filesystem */
 
 };
 

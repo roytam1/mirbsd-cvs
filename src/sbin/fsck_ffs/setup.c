@@ -51,7 +51,7 @@
 #include "fsutil.h"
 
 __SCCSID("@(#)setup.c	8.5 (Berkeley) 11/23/94");
-__RCSID("$MirOS: src/sbin/fsck_ffs/setup.c,v 1.5 2008/07/06 16:30:32 tg Exp $");
+__RCSID("$MirOS: src/sbin/fsck_ffs/setup.c,v 1.6 2010/09/21 21:24:17 tg Exp $");
 
 #define altsblock (*asblk.b_un.b_fs)
 #define POWEROF2(num)	(((num) & ((num) - 1)) == 0)
@@ -148,7 +148,7 @@ setup(char *dev)
 			return (-1);
 		}
 		if (!preen)
-			pwarn("** File system is already clean\n");
+			pwarn("** Filesystem is already clean\n");
 	}
 	maxfsblock = sblock.fs_size;
 	maxino = sblock.fs_ncg * sblock.fs_ipg;
@@ -556,7 +556,7 @@ calcsb(char *dev, int devfd, struct fs *fs)
 	cp = strchr(dev, '\0') - 1;
 	if ((cp == (char *)-1 || (*cp < 'a' || *cp >= 'a' + MAXPARTITIONS)) &&
 	    !isdigit(*cp)) {
-		pfatal("%s: CANNOT FIGURE OUT FILE SYSTEM PARTITION\n", dev);
+		pfatal("%s: CANNOT FIGURE OUT FILESYSTEM PARTITION\n", dev);
 		return (0);
 	}
 	lp = getdisklabel(dev, devfd);
@@ -565,7 +565,7 @@ calcsb(char *dev, int devfd, struct fs *fs)
 	else
 		pp = &lp->d_partitions[*cp - 'a'];
 	if (pp->p_fstype != FS_BSDFFS) {
-		pfatal("%s: NOT LABELED AS A BSD FILE SYSTEM (%s)\n",
+		pfatal("%s: NOT LABELED AS A BSD FILESYSTEM (%s)\n",
 		    dev, pp->p_fstype < FSMAXTYPES ?
 		    fstypenames[pp->p_fstype] : "unknown");
 		return (0);

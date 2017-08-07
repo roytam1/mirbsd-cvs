@@ -456,7 +456,7 @@ sub pod_where {
     # for some strange reason the path on MacOS/darwin/cygwin is
     # 'pods' not 'pod'
     # this could be the case also for other systems that
-    # have a case-tolerant file system, but File::Spec
+    # have a case-tolerant filesystem, but File::Spec
     # does not recognize 'darwin' yet. And cygwin also has "pods",
     # but is not case tolerant. Oh well...
     if((File::Spec->case_tolerant || $^O =~ /macos|darwin|cygwin/i)

@@ -382,9 +382,9 @@ lastdump(int arg)
 	qsort((char *) ddatev, nddates, sizeof(struct dumpdates *), datesort);
 
 	if (arg == 'w')
-		(void) printf("Dump these file systems:\n");
+		(void) printf("Dump these filesystems:\n");
 	else
-		(void) printf("Last dump(s) done (Dump '>' file systems):\n");
+		(void) printf("Last dump(s) done (Dump '>' filesystems):\n");
 	lastname = "??";
 	ITITERATE(i, dtwalk) {
 		if (strncmp(lastname, dtwalk->dd_name,

@@ -1,10 +1,5 @@
 The "TODO" file!                              -*-Indented-Text-*-
 
-30. Add "rdiff" & "rtag" program options to the modules database.  These
-    commands seem hard to use since these commands deal directly with the
-    RCS ,v files.  (perhaps should think a little harder about what this is
-    trying to accomplish and what the best way is -kingdon, Jul 1997).
-
 38. Think hard about using RCS state information to allow one to checkin
     a new vendor release without having it be accessed until it has been
     integrated into the local changes.
@@ -38,14 +33,14 @@ The "TODO" file!                              -*-Indented-Text-*-
 66. Length of the CVS temporary files must be limited to 14 characters for
     System-V stupid support.  As well as the length on the CVS.adm files.
 
-72. Consider re-design of the module -t options to use the file system more
+72. Consider re-design of the module -t options to use the filesystem more
     intuitively.
 
 73. Consider an option (in .cvsrc?) to automatically add files that are new
     and specified to commit.
 
 79. Might be nice to have some sort of interface to Sun's Translucent
-    (?) File System and tagged revisions.
+    (?) filesystem and tagged revisions.
 
 82. Maybe the import stuff should allow an arbitrary revision to be
     specified.
@@ -220,7 +215,7 @@ The "TODO" file!                              -*-Indented-Text-*-
      machine or directory.  But there are other cases, like where the
      user might want to change from :pserver: to :ext:, use a different
      server (if there are two server machines which share the
-     repository using a networked file system), etc.
+     repository using a networked filesystem), etc.
 
      The status quo is a bit of a mess (as of, say, CVS 1.9).  It is
      that the -d global option has two moderately different uses.  One
@@ -339,7 +334,7 @@ The "TODO" file!                              -*-Indented-Text-*-
 
 165. The "import" command will create RCS files automatically, but will
      screw-up when trying to create long file names on short file name
-     file systems.  Perhaps import should be a bit more cautious.
+     filesystems.  Perhaps import should be a bit more cautious.
 
 166. There really needs to be a "Getting Started" document which describes
      some of the new CVS philosophies.  Folks coming straight from SCCS or
@@ -807,8 +802,6 @@ more recent versions that come with glibc and emacs.  It might be worth waiting
 for the emacs folks to get their act together and merge their changes into the
 glibc version.
 
-214.  Make options.h options configure script options instead.
-
 215.  Add reditors and rwatchers commands.
 
 	- Is an r* command abstraction layer possible here for the commands
@@ -853,3 +846,8 @@ not exist anymore.
 savings time and standard time.  This probably has something to do with the
 two 1AM to 2AM time slots that occur over that two hour period (one such
 failure was on the morning of October 31st, 2004).
+
+234.  Noop commands should be logged in the history file.  Information can
+still be obtained with noop commands, for instance via `cvs -n up -p', and
+paranoid admins might appreciate this.  Similarly, perhaps diff operations
+should be logged.

@@ -37,11 +37,11 @@ begin
   Write ('Enter a path: ');
   ReadLn (s);
   if not StatFS (s, Buf) then
-    WriteLn ('Could not stat file system. Probably the path given is invalid.')
+    WriteLn ('Could not stat filesystem. Probably the path given is invalid.')
   else
     with Buf do
       begin
-        WriteLn ('The file system on which the given file resides has');
+        WriteLn ('The filesystem on which the given file resides has');
         WriteLn (BlockSize * BlocksTotal : 15, ' bytes total');
         WriteLn (BlockSize * BlocksFree  : 15, ' bytes available');
         WriteLn (FilesTotal              : 15, ' file nodes total');

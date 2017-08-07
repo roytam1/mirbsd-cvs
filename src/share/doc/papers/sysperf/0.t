@@ -107,7 +107,7 @@ All of these enhancements are present in Berkeley UNIX 4.3BSD.
 CR Categories and Subject Descriptors:
 D.4.3
 .B "[Operating Systems]":
-File Systems Management \-
+Filesystems Management \-
 .I "file organization, directory structures, access methods";
 D.4.8
 .B "[Operating Systems]":
@@ -164,7 +164,7 @@ performance.
 \0.2.3.    Clock processing
 \0.2.4.    Terminal multiplexors
 \0.2.5.    Process table management
-\0.2.6.    File system buffer cache
+\0.2.6.    Filesystem buffer cache
 \0.2.7.    Network subsystem
 \0.2.8.    Virtual memory subsystem
 .LP
@@ -177,7 +177,7 @@ performance.
 \0.1.3.    Process Table Management
 \0.1.4.    Scheduling
 \0.1.5.    Clock Handling
-\0.1.6.    File System
+\0.1.6.    Filesystem
 \0.1.7.    Network
 \0.1.8.    Exec
 \0.1.9.    Context Switching

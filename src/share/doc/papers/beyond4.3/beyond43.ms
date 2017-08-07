@@ -66,8 +66,8 @@ The second is to develop and support an interface compliant with the
 P1003.1 POSIX standard recently approved by the IEEE.
 The third is to refine the TCP/IP networking to improve
 its performance and limit congestion on slow and/or lossy networks.
-The fourth is to provide a standard interface to file systems
-so that multiple local and remote file systems can be supported,
+The fourth is to provide a standard interface to filesystems
+so that multiple local and remote filesystems can be supported,
 much as multiple networking protocols are supported by 4.3BSD.
 The fifth is to evaluate alternate access control mechanisms and
 audit the existing security features of the system, particularly
@@ -136,10 +136,10 @@ types of disk controllers on the VAX.
 A utility was written to create and maintain the disk information,
 and other user-level programs that use such information now obtain
 it from the disk label.
-The use of this facility has allowed improvements in the file system's
+The use of this facility has allowed improvements in the filesystem's
 knowledge of irregular disk geometries such as track-to-track skew.
 .NH 2
-Fat Fast File System
+Fast Fast Filesystem
 .PP
 The 4.2 fast file sytem [McKusick84]
 contained several statically sized structures,
@@ -295,60 +295,60 @@ and local campus nets as testbeds.
 In addition, we are incorporating applicable algorithms from this work
 into the TP-4 protocol implementation.
 .NH 2
-Toward a Compatible File System Interface
+Toward a compatible filesystem interface
 .PP
 The most critical shortcoming of the 4.3BSD UNIX system was in the
-area of distributed file systems.
+area of distributed filesystems.
 As with networking protocols,
-there is no single distributed file system
+there is no single distributed filesystem
 that provides sufficient speed and functionality for all problems.
 It is frequently necessary to support several different remote
-file system protocols, just as it is necessary to run several 
+filesystem protocols, just as it is necessary to run several 
 different network protocols.
 .PP
-As network or remote file systems have been implemented for UNIX,
-several stylized interfaces between the file system implementation
+As network or remote filesystems have been implemented for UNIX,
+several stylized interfaces between the filesystem implementation
 and the rest of the kernel have been developed.
-Among these are Sun Microsystems' Virtual File System interface (VFS)
+Among these are Sun Microsystems' virtual filesystem interface (VFS)
 using \fBvnodes\fP [Sandburg85] [Kleiman86],
-Digital Equipment's Generic File System (GFS) architecture [Rodriguez86],
-AT&T's File System Switch (FSS) [Rifkin86],
-the LOCUS distributed file system [Walker85],
-and Masscomp's extended file system [Cole85].
-Other remote file systems have been implemented in research or
+Digital Equipment's generic filesystem (GFS) architecture [Rodriguez86],
+AT&T's filesystem Switch (FSS) [Rifkin86],
+the LOCUS distributed filesystem [Walker85],
+and Masscomp's extended filesystem [Cole85].
+Other remote filesystems have been implemented in research or
 university groups for internal use,
-notably the network file system in the Eighth Edition UNIX
-system [Weinberger84] and two different file systems used at Carnegie Mellon
+notably the network filesystem in the Eighth Edition UNIX
+system [Weinberger84] and two different filesystems used at Carnegie Mellon
 University [Satyanarayanan85].
 Numerous other remote file access methods have been devised for use
 within individual UNIX processes,
 many of them by modifications to the C I/O library
 similar to those in the Newcastle Connection [Brownbridge82].
 .PP
-Each design attempts to isolate file system-dependent details
+Each design attempts to isolate filesystem-dependent details
 below a generic interface and to provide a framework within which
-new file systems may be incorporated.
+new filesystems may be incorporated.
 However, each of these interfaces is different from
 and incompatible with the others.
 Each addresses somewhat different design goals,
 having been based on a different version of UNIX,
-having targeted a different set of file systems with varying characteristics,
-and having selected a different set of file system primitive operations.
+having targeted a different set of filesystems with varying characteristics,
+and having selected a different set of filesystem primitive operations.
 .PP
 Our effort in this area is aimed at providing a common framework to
-support these different distributed file systems simultaneously rather than to
+support these different distributed filesystems simultaneously rather than to
 simply implement yet another protocol.
 This requires a detailed study of the existing protocols, 
 and discussion with their implementors to determine whether
 they could modify their implementation to fit within our proposed
-framework.  We have studied the various file system interfaces to determine
+framework.  We have studied the various filesystem interfaces to determine
 their generality, completeness, robustness, efficiency, and aesthetics
-and are currently working on a file system interface
+and are currently working on a filesystem interface
 that we believe includes the best features of
 each of the existing implementations.
 This work and the rationale underlying its development
 have been presented to major software vendors as an early step
-toward convergence on a standard compatible file system interface.
+toward convergence on a standard compatible filesystem interface.
 Briefly, the proposal adopts the 4.3BSD calling convention for file
 name lookup but otherwise is closely related to Sun's VFS
 and DEC's GFS. [Karels86].
@@ -378,7 +378,7 @@ from local users or via the network, it will be necessary to produce
 additional documentation on the configuration and operation of the system.
 This documentation will cover such topics as file and directory ownership
 and access, network and server configuration,
-and control of privileged operations such as file system backups.
+and control of privileged operations such as filesystem backups.
 .PP
 We are investigating the addition of access control lists (ACLs) for
 filesystem objects.
@@ -426,7 +426,7 @@ Brownbridge, D.R., L.F. Marshall, B. Randell,
 .IP Cole85
 .br
 Cole, C.T., P.B. Flinn, A.B. Atlas,
-``An Implementation of an Extended File System for UNIX,''
+``An Implementation of an Extended Filesystem for UNIX,''
 \fIUsenix Conference Proceedings\fP,
 pp. 131-150, June, 1985.
 .sp
@@ -439,13 +439,13 @@ DoD Computer Security Center, August, 1983.
 .sp
 .IP Karels86
 Karels, M., M. McKusick,
-``Towards a Compatible File System Interface,''
+``Towards a Compatible Filesystem Interface,''
 \fIProceedings of the European UNIX Users Group Meeting\fP,
 Manchester, England, pp. 481-496, September 1986.
 .sp
 .IP Kleiman86
 Kleiman, S.,
-``Vnodes: An Architecture for Multiple File System Types in Sun UNIX,''
+``Vnodes: An Architecture for Multiple Filesystem Types in Sun UNIX,''
 \fIUsenix Conference Proceedings\fP,
 pp. 238-247, June, 1986.
 .sp
@@ -456,7 +456,7 @@ Leffler, S., M.K. McKusick, M. Karels,
 .sp
 .IP McKusick84
 McKusick, M.K., W. Joy, S. Leffler, R. Fabry,
-``A Fast File System for UNIX'',
+``A Fast Filesystem for UNIX'',
 \fIACM Transactions on Computer Systems 2\fP, 3.
 pp 181-197, August 1984.
 .sp
@@ -484,19 +484,19 @@ pp. 248-259, June, 1986.
 .sp
 .IP Rodriguez86
 Rodriguez, R., M. Koehler, R. Hyde,
-``The Generic File System,''
+``The Generic Filesystem,''
 \fIUsenix Conference Proceedings\fP,
 pp. 260-269, June, 1986.
 .sp
 .IP Sandberg85
 Sandberg, R., D. Goldberg, S. Kleiman, D. Walsh, B. Lyon,
-``Design and Implementation of the Sun Network File System,''
+``Design and Implementation of the Sun Network Filesystem,''
 \fIUsenix Conference Proceedings\fP,
 pp. 119-130, June, 1985.
 .sp
 .IP Satyanarayanan85
 Satyanarayanan, M., \fIet al.\fP,
-``The ITC Distributed File System: Principles and Design,''
+``The ITC Distributed Filesystem: Principles and Design,''
 \fIProc. 10th Symposium on Operating Systems Principles\fP, pp. 35-50,
 ACM, December, 1985.
 .sp
@@ -506,11 +506,11 @@ Steiner, J., C. Newman, J. Schiller,
 \fIUsenix Conference Proceedings\fP, pp. 191-202, February, 1988.
 .sp
 .IP Walker85
-Walker, B.J. and S.H. Kiser, ``The LOCUS Distributed File System,''
+Walker, B.J. and S.H. Kiser, ``The LOCUS Distributed Filesystem,''
 \fIThe LOCUS Distributed System Architecture\fP,
 G.J. Popek and B.J. Walker, ed., The MIT Press, Cambridge, MA, 1985.
 .sp
 .IP Weinberger84
-Weinberger, P.J., ``The Version 8 Network File System,''
+Weinberger, P.J., ``The Version 8 Network Filesystem,''
 \fIUsenix Conference presentation\fP,
 June, 1984.

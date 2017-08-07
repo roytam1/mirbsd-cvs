@@ -46,8 +46,8 @@ As network or remote filesystems have been implemented for
 several stylized interfaces between the filesystem implementation
 and the rest of the kernel have been developed.
 Notable among these are Sun Microsystems' virtual filesystem interface
-using vnodes, Digital Equipment's Generic File System architecture,
-and AT&T's File System Switch.
+using vnodes, Digital Equipment's generic filesystem architecture,
+and AT&T's filesystem switch.
 Each design attempts to isolate filesystem-dependent details
 below the generic interface and to provide a framework within which
 new filesystems may be incorporated.

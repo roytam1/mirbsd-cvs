@@ -18,7 +18,7 @@ SM_IDSTR(copyright,
      Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n")
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/mail.local/mail.local.c,v 1.6 2010/12/19 17:18:15 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/mail.local/mail.local.c,v 1.7 2014/06/09 15:17:39 tg Exp $")
 SM_IDSTR(id, "@(#)$Id$")
 
 #include <stdlib.h>
@@ -1796,7 +1796,7 @@ e_to_sys(num)
 	  case ENOSPC:		/* No space left on device */
 #endif /* ENOSPC */
 #ifdef EROFS
-	  case EROFS:		/* Read-only file system */
+	  case EROFS:		/* Read-only filesystem */
 #endif /* EROFS */
 #ifdef ESTALE
 	  case ESTALE:		/* Stale NFS file handle */

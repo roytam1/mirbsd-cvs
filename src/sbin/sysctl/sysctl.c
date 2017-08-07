@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/sysctl/sysctl.c,v 1.5 2010/09/25 01:08:50 tg Exp $ */
+/**	$MirOS: src/sbin/sysctl/sysctl.c,v 1.6 2011/10/28 20:35:47 tg Exp $ */
 /*	$OpenBSD: sysctl.c,v 1.123 2005/07/20 16:56:12 miod Exp $	*/
 /*	$NetBSD: sysctl.c,v 1.9 1995/09/30 07:12:50 thorpej Exp $	*/
 
@@ -110,7 +110,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)sysctl.c	8.5 (Berkeley) 5/9/95");
-__RCSID("$MirOS: src/sbin/sysctl/sysctl.c,v 1.5 2010/09/25 01:08:50 tg Exp $");
+__RCSID("$MirOS: src/sbin/sysctl/sysctl.c,v 1.6 2011/10/28 20:35:47 tg Exp $");
 
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
@@ -1246,7 +1246,7 @@ sysctl_vfs(char *string, char **bufpp, int mib[], int flags, int *typep)
 
 	if (lp->list == NULL) {
 		if (flags)
-			warnx("No variables defined for file system %s", string);
+			warnx("No variables defined for filesystem %s", string);
 		return (-1);
 	}
 	if (*bufpp == NULL) {
@@ -1266,7 +1266,7 @@ struct ctlname posixname[] = CTL_FS_POSIX_NAMES;
 struct list fslist = { posixname, FS_POSIX_MAXID };
 
 /*
- * handle file system requests
+ * handle filesystem requests
  */
 int
 sysctl_fs(char *string, char **bufpp, int mib[], int flags, int *typep)

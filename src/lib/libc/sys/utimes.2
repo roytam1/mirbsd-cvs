@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/lib/libc/sys/utimes.2,v 1.2 2007/05/19 21:47:41 tg Exp $
 .\"	$OpenBSD: utimes.2,v 1.8 2003/06/02 20:18:39 millert Exp $
 .\"	$NetBSD: utimes.2,v 1.9 1996/04/23 10:34:16 mycroft Exp $
 .\"
@@ -125,7 +125,7 @@ argument is not
 and the calling process's effective user ID
 does not match the owner of the file and is not the superuser.
 .It Bq Er EROFS
-The file system containing the file is mounted read-only.
+The filesystem containing the file is mounted read-only.
 .El
 .Fn futimes
 will fail if:
@@ -154,7 +154,7 @@ argument is not
 and the calling process's effective user ID
 does not match the owner of the file and is not the superuser.
 .It Bq Er EROFS
-The file system containing the file is mounted read-only.
+The filesystem containing the file is mounted read-only.
 .El
 .Sh SEE ALSO
 .Xr stat 2 ,

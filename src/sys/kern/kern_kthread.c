@@ -132,7 +132,7 @@ SIMPLEQ_HEAD(, kthread_q) kthread_q = SIMPLEQ_HEAD_INITIALIZER(kthread_q);
 /*
  * Defer the creation of a kernel thread.  Once the standard kernel threads
  * and processes have been created, this queue will be run to callback to
- * the caller to create threads for e.g. file systems and device drivers.
+ * the caller to create threads for e.g. filesystems and device drivers.
  */
 void
 kthread_create_deferred(void (*func)(void *), void *arg)

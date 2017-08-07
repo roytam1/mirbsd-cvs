@@ -299,14 +299,14 @@ warnings.
 =item $dont_use_nlink
 
 You can set the variable C<$File::Find::dont_use_nlink> to 1, if you want to
-force File::Find to always stat directories. This was used for file systems
+force File::Find to always stat directories. This was used for filesystems
 that do not have an C<nlink> count matching the number of sub-directories.
-Examples are ISO-9660 (CD-ROM), AFS, HPFS (OS/2 file system), FAT (DOS file
+Examples are ISO-9660 (CD-ROM), AFS, HPFS (OS/2 filesystem), FAT (DOS file
 system) and a couple of others.
 
 You shouldn't need to set this variable, since File::Find should now detect
-such file systems on-the-fly and switch itself to using stat. This works even
-for parts of your file system, like a mounted CD-ROM.
+such filesystems on-the-fly and switch itself to using stat. This works even
+for parts of your filesystem, like a mounted CD-ROM.
 
 If you do set C<$File::Find::dont_use_nlink> to 1, you will notice slow-downs.
 

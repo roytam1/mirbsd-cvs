@@ -47,11 +47,11 @@ static const char rcsid[] = "$OpenBSD: badsect.c,v 1.15 2005/07/21 16:38:54 fgsc
 /*
  * badsect
  *
- * Badsect takes a list of file-system relative sector numbers
+ * Badsect takes a list of filesystem-relative sector numbers
  * and makes files containing the blocks of which these sectors are a part.
  * It can be used to contain sectors which have problems if these sectors
  * are not part of the bad file for the pack (see bad144).  For instance,
- * this program can be used if the driver for the file system in question
+ * this program can be used if the driver for the filesystem in question
  * does not support bad block forwarding.
  */
 #include <sys/param.h>
@@ -161,7 +161,7 @@ chkuse(daddr_t blkno, int cnt)
 
 	fsbn = dbtofsb(fs, blkno);
 	if ((unsigned)(fsbn+cnt) > fs->fs_size) {
-		fprintf(stderr, "block %d out of range of file system\n", blkno);
+		fprintf(stderr, "block %d out of range of filesystem\n", blkno);
 		return (1);
 	}
 	cg = dtog(fs, fsbn);
@@ -192,7 +192,7 @@ chkuse(daddr_t blkno, int cnt)
 }
 
 /*
- * read a block from the file system
+ * read a block from the filesystem
  */
 static void
 rdfs(daddr_t bno, int size, char *bf)

@@ -55,7 +55,7 @@ main()
 		perror("opening stream socket");
 		exit(1);
 	}
-	/* Name socket using file system name */
+	/* Name socket using filesystem name */
 	server.sun_family = AF_UNIX;
 	strcpy(server.sun_path, NAME);
 	if (bind(sock, &server, sizeof(struct sockaddr_un))) {

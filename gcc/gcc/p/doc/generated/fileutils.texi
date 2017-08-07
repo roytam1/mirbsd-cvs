@@ -89,7 +89,7 @@ procedure RmDirs (const Path: String); attribute (iocritical);
   will be set to the same permissions Source has. In any case, Dest
   will be set to the modification time of Source after copying. On
   any error, the destination file is erased. This is to avoid
-  leaving partial files in case of full file systems (one of the
+  leaving partial files in case of full filesystems (one of the
   most common reasons for errors). @}
 procedure FileCopy (const Source, Dest: String; Mode: Integer);
   attribute (iocritical);

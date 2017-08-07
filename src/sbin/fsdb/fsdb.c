@@ -93,8 +93,8 @@ usage(void)
 /*
  * We suck in lots of fsck code, and just pick & choose the stuff we want.
  *
- * fsreadfd is set up to read from the file system, fswritefd to write to
- * the file system.
+ * fsreadfd is set up to read from the filesystem, fswritefd to write to
+ * the filesystem.
  */
 int
 main(int argc, char *argv[])
@@ -117,14 +117,14 @@ main(int argc, char *argv[])
 	if (fsys == NULL)
 		usage();
 	if (!setup(fsys))
-		errx(1, "cannot set up file system `%s'", fsys);
-	printf("Editing file system `%s'\nLast Mounted on %s\n", fsys,
+		errx(1, "cannot set up filesystem `%s'", fsys);
+	printf("Editing filesystem `%s'\nLast Mounted on %s\n", fsys,
 	    sblock.fs_fsmnt);
 	rval = cmdloop();
 	sblock.fs_clean = 0;		/* mark it dirty */
 	sbdirty();
 	ckfini(0);
-	printf("*** FILE SYSTEM MARKED DIRTY\n");
+	printf("*** FILESYSTEM MARKED DIRTY\n");
 	printf("*** BE SURE TO RUN FSCK TO CLEAN UP ANY DAMAGE\n");
 	printf("*** IF IT WAS MOUNTED, RE-MOUNT WITH -u -o reload\n");
 	exit(rval);

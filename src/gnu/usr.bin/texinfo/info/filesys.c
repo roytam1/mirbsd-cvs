@@ -651,7 +651,7 @@ filesys_decompressor_for_file (char *filename)
   return ((char *)NULL);
 }
 
-/* The number of the most recent file system error. */
+/* The number of the most recent filesystem error. */
 int filesys_error_number = 0;
 
 /* A function which returns a pointer to a static buffer containing

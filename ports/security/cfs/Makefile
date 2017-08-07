@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.23 2003/08/29 11:14:01 naddy Exp $
 
-COMMENT=			cryptographic file system (user-space NFS server)
+COMMENT=		cryptographic filesystem (user-space NFS server)
 
 DISTNAME=	cfs-1.3.3
 CATEGORIES=	security

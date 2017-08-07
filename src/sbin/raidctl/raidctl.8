@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sbin/raidctl/raidctl.8,v 1.2 2005/03/06 19:50:33 tg Exp $
+.\"	$MirOS: src/sbin/raidctl/raidctl.8,v 1.3 2005/11/23 16:44:05 tg Exp $
 .\"	$OpenBSD: raidctl.8,v 1.33 2005/03/12 12:21:08 jmc Exp $
 .\"     $NetBSD: raidctl.8,v 1.24 2001/07/10 01:30:52 lukem Exp $
 .\"
@@ -132,7 +132,7 @@ as a hot spare for the device
 Make the RAID set auto-configurable.
 The RAID set will be automatically configured at boot
 .Em before
-the root file system is
+the root filesystem is
 mounted.
 Note that all components of the set must be of type RAID in the disklabel.
 .It Fl A Ic no Ar dev
@@ -149,7 +149,7 @@ however, this only takes place if the kernel is configured
 with "config bsd generic" or "root on raid0".
 All components of the set must be of type RAID in the disklabel.
 Note that the kernel being booted must currently reside on a non-RAID set and,
-in order to have the root file system correctly mounted from it,
+in order to have the root filesystem correctly mounted from it,
 the RAID set must have its
 .Sq a
 partition (aka raid[0..n]a) set up.
@@ -200,7 +200,7 @@ This
 be done for
 .Em all
 RAID sets before the RAID device is labeled and before
-file systems are created on the RAID device.
+filesystems are created on the RAID device.
 .It Fl I Ar serial_number Ar dev
 Initialize the component labels on each component of the device.
 .Ar serial_number
@@ -401,7 +401,7 @@ See
 for a more complete configuration file example.
 .Sh EXAMPLES
 It is highly recommended that before using the RAID driver for real
-file systems that the system administrator(s) become quite familiar
+filesystems that the system administrator(s) become quite familiar
 with the use of
 .Nm raidctl ,
 and that they understand how the component reconstruction process
@@ -711,7 +711,7 @@ is used.
 Note that re-writing the parity can be done while other operations on the
 RAID set are taking place (e.g. while doing an
 .Xr fsck 8
-on a file system on the RAID set).
+on a filesystem on the RAID set).
 However: for maximum effectiveness of the RAID set, the parity should be
 known to be correct before any data on the set is modified.
 .Pp
@@ -741,7 +741,7 @@ Of importance here are the component lines which read
 and the
 .Sq Parity status
 line which indicates that the parity is up-to-date.
-Note that if there are file systems open on the RAID set,
+Note that if there are filesystems open on the RAID set,
 the individual components will not be
 .Sq clean
 but the set as a whole can still be clean.
@@ -1068,23 +1068,23 @@ To turn off auto-configuration, use:
 .Dl # raidctl -A no raid0
 .Pp
 RAID sets which are auto-configurable will be configured before the
-root file system is mounted.
-These RAID sets are thus available for use as a root file system,
-or for any other file system.
+root filesystem is mounted.
+These RAID sets are thus available for use as a root filesystem,
+or for any other filesystem.
 A primary advantage of using the auto-configuration is that RAID components
 become more independent of the disks they reside on.
 For example, SCSI ID's can change, but auto-configured sets will always be
 configured correctly, even if the SCSI ID's of the component disks
 have become scrambled.
 .Pp
-Having a system's root file system
+Having a system's root filesystem
 .Pq Pa /
 on a RAID set is also allowed,
 with the
 .Sq a
 partition of such a RAID set being used for
 .Pa / .
-To use raid0a as the root file system, simply use:
+To use raid0a as the root filesystem, simply use:
 .Bd -unfilled -offset indent
 # raidctl -A root raid0
 .Ed
@@ -1097,11 +1097,11 @@ arguments.
 .\" alpha and pmax architectures.
 .\" On those architectures, the
 .\" .Dv FS_RAID
-.\" file system is recognized by the bootblocks, and will properly load the
+.\" filesystem is recognized by the bootblocks, and will properly load the
 .\" kernel directly from a RAID 1 component.
 .\" For other architectures, or
 Note that kernels can't be directly read from a RAID component.
-To support the root file system on RAID sets, some mechanism must be
+To support the root filesystem on RAID sets, some mechanism must be
 used to get a kernel booting.
 For example, a small partition containing only the secondary boot-blocks
 and an alternate kernel (or two) could be used.
@@ -1109,7 +1109,7 @@ Once a kernel is booting however, and an auto-configured RAID
 set is found that is eligible to be root, then that RAID set will be
 auto-configured and its
 .Sq a
-partition (aka raid[0..n]a) will be used as the root file system.
+partition (aka raid[0..n]a) will be used as the root filesystem.
 If two or more RAID sets claim to be root devices, then the user will be
 prompted to select the root device.
 At this time, RAID 0, 1, 4, and 5 sets are all supported as root devices.
@@ -1125,7 +1125,7 @@ wd1a - also contains a complete, bootable, basic
 .Ox
 installation.
 .It
-wd0e and wd1e - a RAID 1 set, raid0, used for the root file system.
+wd0e and wd1e - a RAID 1 set, raid0, used for the root filesystem.
 .It
 wd0f and wd1f - a RAID 1 set, raid1, which will be used only for
 swap space.
@@ -1151,10 +1151,10 @@ should wd0 fail.
 The important point here is to have redundant copies of the kernel
 available, in the event that one of the drives fail.
 .Pp
-There is no requirement that the root file system be on the same disk
+There is no requirement that the root filesystem be on the same disk
 as the kernel.
 For example, obtaining the kernel from wd0a, and using
-sd0e and sd1e for raid0, and the root file system, is fine.
+sd0e and sd1e for raid0, and the root filesystem, is fine.
 It
 .Em is
 critical, however, that there be multiple kernels available, in the
@@ -1203,7 +1203,7 @@ Distribution of components among controllers
 .It
 IO bandwidth
 .It
-File system access patterns
+Filesystem access patterns
 .It
 CPU speed
 .El
@@ -1251,7 +1251,7 @@ To combat this problem in the real world, it may be useful to ensure that
 stripe sizes are small enough that a
 .Sq large IO
 from the system will use exactly one large stripe write.
-As is seen later, there are some file system dependencies which may come
+As is seen later, there are some filesystem dependencies which may come
 into play here as well.
 .Pp
 Since the size of a
@@ -1264,14 +1264,14 @@ data per stripe is 64 blocks (32K) or 128 blocks (64K).
 Again, empirical measurement will provide the best indicators of which
 values will yield better performance.
 .Pp
-The parameters used for the file system are also critical to good
+The parameters used for the filesystem are also critical to good
 performance.
 For
 .Xr newfs 8 ,
 for example, increasing the block size to 32K or 64K may improve
 performance dramatically.
 Also, changing the cylinders-per-group parameter from 16 to 32 or higher
-is often not only necessary for larger file systems, but may also have
+is often not only necessary for larger filesystems, but may also have
 positive performance implications.
 .Ss Summary
 Despite the length of this man-page, configuring a RAID set is a
@@ -1322,13 +1322,13 @@ Put the new label on the RAID set:
 .Ed
 .Pp
 .It
-Create the file system:
+Create the filesystem:
 .Bd -unfilled -offset indent
 # newfs /dev/rraid0e
 .Ed
 .Pp
 .It
-Mount the file system:
+Mount the filesystem:
 .Bd -unfilled -offset indent
 # mount /dev/raid0e /mnt
 .Ed

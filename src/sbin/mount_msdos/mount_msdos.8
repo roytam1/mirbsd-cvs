@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/sbin/mount_msdos/mount_msdos.8,v 1.3 2010/08/14 19:52:49 tg Exp $
 .\"	$OpenBSD: mount_msdos.8,v 1.20 2005/02/28 16:00:37 tom Exp $
 .\"	$NetBSD: mount_msdos.8,v 1.10 1996/01/19 21:14:43 leo Exp $
 .\"
@@ -30,12 +30,12 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: August 14 2010 $
 .Dt MOUNT_MSDOS 8
 .Os
 .Sh NAME
 .Nm mount_msdos
-.Nd mount an MS-DOS file system
+.Nd mount an MS-DOS filesystem
 .Sh SYNOPSIS
 .Nm mount_msdos
 .Op Fl o Ar options
@@ -75,9 +75,9 @@ device must correspond to a partition registered in the
 This command is normally executed by
 .Xr mount 8
 at boot time, but can be used by any user to mount an
-MS-DOS file system on any directory that they own (provided,
+MS-DOS filesystem on any directory that they own (provided,
 of course, that they have appropriate access to the device that
-contains the file system).
+contains the filesystem).
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
@@ -87,18 +87,18 @@ Use the specified mount
 as described in
 .Xr mount 8 .
 .It Fl u Ar uid
-Set the owner of the files in the file system to
+Set the owner of the files in the filesystem to
 .Ar uid .
 The default owner is the owner of the directory
-on which the file system is being mounted.
+on which the filesystem is being mounted.
 .It Fl g Ar gid
-Set the group of the files in the file system to
+Set the group of the files in the filesystem to
 .Ar gid .
 The default group is the group of the directory
-on which the file system is being mounted.
+on which the filesystem is being mounted.
 .It Fl m Ar mask
 Specify the maximum file permissions for files
-in the file system.
+in the filesystem.
 (For example, a mask of
 .Li 755
 specifies that, by default, the owner should have
@@ -111,7 +111,7 @@ Only the nine low-order bits of
 .Ar mask
 are used.
 The default mask is taken from the
-directory on which the file system is being mounted.
+directory on which the filesystem is being mounted.
 .It Fl s
 Force behaviour to
 ignore and not generate Windows 95/98 long filenames.
@@ -192,7 +192,7 @@ and
 .Fl l
 will result in empty filesystems being populated
 with short filenames only.
-To generate long filenames on empty DOS file systems use
+To generate long filenames on empty DOS filesystems use
 .Fl l .
 .Pp
 Note that Windows 95/98 handles only access dates,

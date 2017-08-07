@@ -42,9 +42,9 @@ mount(blkdev, dir, ronly);
 char *blkdev, *dir; int ronly;
 .DE
 extends the UNIX name space.  The \fImount\fP call specifies
-a block device \fIblkdev\fP containing a UNIX file system
+a block device \fIblkdev\fP containing a UNIX filesystem
 to be made available starting at \fIdir\fP.  If \fIronly\fP is
-set then the file system is read-only; writes to the file system
+set then the filesystem is read-only; writes to the filesystem
 will not be permitted and access times will not be updated
 when files are referenced.
 \fIDir\fP is normally a name in the root directory.
@@ -64,8 +64,8 @@ The call
 unmount(dir);
 char *dir;
 .DE
-unmounts the file system mounted on \fIdir\fP.
-This call will succeed only if the file system is
+unmounts the filesystem mounted on \fIdir\fP.
+This call will succeed only if the filesystem is
 not currently being used.
 .PP
 The call

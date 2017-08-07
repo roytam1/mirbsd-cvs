@@ -122,7 +122,7 @@ static SectionNameRec SectionNames[] = {
     {"(7)  Special Files",			"7"},
 #if OSMINORVERSION == 5
     {"(7d)  Devices",				"7d"},
-    {"(7fs) File Systems",			"7fs"},
+    {"(7fs) Filesystems",			"7fs"},
     {"(7i)  Ioctl Requests",			"7i"},
     {"(7m)  STREAMS Modules",			"7m"},
     {"(7p)  Protocols",				"7p"},

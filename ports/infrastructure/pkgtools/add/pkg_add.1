@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.14 2009/11/22 18:23:31 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.16 2017/07/20 21:15:52 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -74,7 +74,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 22 2009 $
+.Dd $Mdocdate: July 20 2017 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -614,7 +614,7 @@ debugging, or slow platforms where the package is later compressed on
 a fast machine.
 .Sh BUGS
 Hard links between files in a distribution are only preserved if either
-(1) the staging area is on the same file system as the target directory of
+(1) the staging area is on the same filesystem as the target directory of
 all the links to the file, or (2) all the links to the file are bracketed by
 .Cm @cwd
 directives in the contents file,

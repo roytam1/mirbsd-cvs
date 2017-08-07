@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.35 2015/01/02 13:54:21 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.37 2017/01/29 00:51:07 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -332,7 +332,7 @@ main(/* XXX should go away */ void *framep)
 	/* Configure virtual memory system, set vm rlimits. */
 	uvm_init_limits(p);
 
-	/* Initialise the file systems. */
+	/* Initialise the filesystems. */
 #if defined(NFSSERVER) || defined(NFSCLIENT)
 	nfs_init();			/* initialise server/shared data */
 #endif
@@ -396,7 +396,7 @@ main(/* XXX should go away */ void *framep)
 	 * probably upset a lot of people.
 	 *
 	 * Note that process 1 won't immediately exec init(8), but will
-	 * wait for us to inform it that the root file system has been
+	 * wait for us to inform it that the root filesystem has been
 	 * mounted.
 	 */
 	if (fork1(p, SIGCHLD, FORK_FORK, NULL, 0, start_init, NULL, NULL,
@@ -424,7 +424,7 @@ main(/* XXX should go away */ void *framep)
 	if (md_diskconf)
 		(*md_diskconf)();
 
-	/* Mount the root file system. */
+	/* Mount the root filesystem. */
 	if (vfs_mountroot())
 		panic("cannot mount root");
 	CIRCLEQ_FIRST(&mountlist)->mnt_flag |= MNT_ROOTFS;
@@ -450,7 +450,7 @@ main(/* XXX should go away */ void *framep)
 
 	/*
 	 * Now can look at time, having had a chance to verify the time
-	 * from the file system.  Reset p->p_rtime as it may have been
+	 * from the filesystem.  Reset p->p_rtime as it may have been
 	 * munched in mi_switch() after the time got set.
 	 */
 	runtime = mono_time = boottime = time;

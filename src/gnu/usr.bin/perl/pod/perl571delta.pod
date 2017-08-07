@@ -768,7 +768,7 @@ SOCKS support is now much more robust.
 
 =item *
 
-If your file system supports symbolic links you can build Perl outside
+If your filesystem supports symbolic links you can build Perl outside
 of the source directory by
 
 	mkdir perl/build/directory

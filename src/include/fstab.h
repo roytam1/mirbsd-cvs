@@ -36,7 +36,7 @@
 #define _FSTAB_H_
 
 /*
- * File system table, see fstab(5).
+ * Filesystem table, see fstab(5).
  *
  * Used by dump, mount, umount, swapon, fsck, df, ...
  *
@@ -57,8 +57,8 @@
 
 struct fstab {
 	char	*fs_spec;		/* block special device name */
-	char	*fs_file;		/* file system path prefix */
-	char	*fs_vfstype;		/* File system type, ufs, nfs */
+	char	*fs_file;		/* filesystem path prefix */
+	char	*fs_vfstype;		/* filesystem type, ufs, nfs */
 	char	*fs_mntops;		/* Mount options ala -o */
 	char	*fs_type;		/* FSTAB_* from fs_mntops */
 	int	fs_freq;		/* dump frequency, in days */

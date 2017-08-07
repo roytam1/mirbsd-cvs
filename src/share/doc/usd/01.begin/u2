@@ -328,7 +328,7 @@ Look in your manual under
 .SH
 Shuffling Files About
 .PP
-Now that you have some files in the file system
+Now that you have some files in the filesystem
 and some experience in printing them,
 you can try bigger things.
 For example,
@@ -369,7 +369,7 @@ in
 .PP
 Finally, when you get tired of creating and moving
 files,
-there is a command to remove files from the file system,
+there is a command to remove files from the filesystem,
 called
 .UL rm .
 .P1

@@ -186,7 +186,7 @@ mfs_strategy(v)
 }
 
 /*
- * Memory file system I/O.
+ * Memory filesystem I/O.
  *
  * Trivial on the HP since buffer has already been mapping into KVA space.
  */

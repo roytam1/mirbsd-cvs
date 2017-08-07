@@ -50,7 +50,7 @@ static const char rcsid[] = "$OpenBSD: ncheck_ffs.c,v 1.24 2005/04/12 06:39:29 d
 
 char	*disk;		/* name of the disk file */
 int	diskfd;		/* disk file descriptor */
-struct	fs *sblock;	/* the file system super block */
+struct	fs *sblock;	/* the filesystem super block */
 char	sblock_buf[MAXBSIZE];
 long	dev_bsize;	/* block size of underlying disk device */
 int	dev_bshift;	/* log2(dev_bsize) */
@@ -493,7 +493,7 @@ main(int argc, char *argv[])
 		disk = rawname(disk);
 	} else if (!S_ISCHR(stblock.st_mode)) {
 		if ((fsp = getfsfile(disk)) == NULL)
-			err(1, "cound not find file system %s", disk);
+			err(1, "cound not find filesystem %s", disk);
                 disk = rawname(fsp->fs_spec);
         }
 
@@ -502,7 +502,7 @@ main(int argc, char *argv[])
 	sblock = (struct fs *)sblock_buf;
 	bread(SBOFF, (char *)sblock, SBSIZE);
 	if (sblock->fs_magic != FS_MAGIC)
-		errx(1, "not a file system");
+		errx(1, "not a filesystem");
 	dev_bsize = sblock->fs_fsize / fsbtodb(sblock, 1);
 	dev_bshift = ffs(dev_bsize) - 1;
 	if (dev_bsize != (1 << dev_bshift))

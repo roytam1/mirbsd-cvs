@@ -48,7 +48,7 @@
 #include <stdlib.h>
 #include <netgroup.h>
 
-__RCSID("$MirOS: src/lib/libc/net/rcmd.c,v 1.4 2005/09/22 20:40:03 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/rcmd.c,v 1.5 2009/11/09 21:30:51 tg Exp $");
 
 int	__ivaliduser(FILE *, in_addr_t, const char *, const char *);
 int	__ivaliduser_sa(FILE *, struct sockaddr *, socklen_t,
@@ -391,7 +391,7 @@ again:
 
 		/*
 		 * Change effective uid while opening .rhosts.  If root and
-		 * reading an NFS mounted file system, can't read files that
+		 * reading an NFS mounted filesystem, can't read files that
 		 * are protected read/write owner only.
 		 */
 		uid = geteuid();

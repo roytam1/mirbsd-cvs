@@ -422,7 +422,7 @@ dirloop:
 	 * 2. If this vnode is the root of a mounted
 	 *    filesystem, then replace it with the
 	 *    vnode which was mounted on so we take the
-	 *    .. in the other file system.
+	 *    .. in the other filesystem.
 	 */
 	if (cnp->cn_flags & ISDOTDOT) {
 		for (;;) {
@@ -511,7 +511,7 @@ dirloop:
 	dp = ndp->ni_vp;
 	/*
 	 * Check to see if the vnode has been mounted on;
-	 * if so find the root of the mounted file system.
+	 * if so find the root of the mounted filesystem.
 	 */
 	while (dp->v_type == VDIR && (mp = dp->v_mountedhere) &&
 	    (cnp->cn_flags & NOCROSSMOUNT) == 0) {
@@ -561,12 +561,12 @@ nextname:
 
 terminal:
 	/*
-	 * Check for read-only file systems.
+	 * Check for read-only filesystems.
 	 */
 	if (cnp->cn_nameiop == DELETE || cnp->cn_nameiop == RENAME) {
 		/*
 		 * Disallow directory write attempts on read-only
-		 * file systems.
+		 * filesystems.
 		 */
 		if (rdonly || (dp->v_mount->mnt_flag & MNT_RDONLY) ||
 		    (wantparent &&
@@ -700,12 +700,12 @@ relookup(dvp, vpp, cnp)
 #endif
 
 	/*
-	 * Check for read-only file systems.
+	 * Check for read-only filesystems.
 	 */
 	if (cnp->cn_nameiop == DELETE || cnp->cn_nameiop == RENAME) {
 		/*
 		 * Disallow directory write attempts on read-only
-		 * file systems.
+		 * filesystems.
 		 */
 		if (rdonly || (dp->v_mount->mnt_flag & MNT_RDONLY) ||
 		    (wantparent &&

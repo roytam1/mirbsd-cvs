@@ -20,7 +20,7 @@ along with GCC; see the file COPYING.  If not, write to
 the Free Software Foundation, 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  */
 
-/* Interix 3.x has a single rooted file system and properly named
+/* Interix 3.x has a single rooted filesystem and properly named
    libraries, so LIB_SPEC can be simplified */
 
 #undef LIB_SPEC

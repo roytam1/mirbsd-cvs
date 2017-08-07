@@ -184,9 +184,9 @@ vn_writechk(vp)
 {
 
 	/*
-	 * Disallow write attempts on read-only file systems;
+	 * Disallow write attempts on read-only filesystems;
 	 * unless the file is a socket or a block or character
-	 * device resident on the file system.
+	 * device resident on the filesystem.
 	 */
 	if (vp->v_mount->mnt_flag & MNT_RDONLY) {
 		switch (vp->v_type) {

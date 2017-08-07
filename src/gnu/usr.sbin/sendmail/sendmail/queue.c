@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/sem.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/queue.c,v 1.9 2013/08/06 20:37:16 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/queue.c,v 1.10 2014/06/09 15:17:52 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <dirent.h>
@@ -179,9 +179,9 @@ static int	workcmpf7();
 #endif /* RANDOMSHIFT */
 
 /*
-**  File system definition.
+**  Filesystem definition.
 **	Used to keep track of how much free space is available
-**	on a file system in which one or more queue directories reside.
+**	on a filesystem in which one or more queue directories reside.
 */
 
 typedef struct filesys_shared	FILESYS;
@@ -194,8 +194,8 @@ struct filesys_shared
 };
 
 /* probably kept in shared memory */
-static FILESYS	FileSys[MAXFILESYS];	/* queue file systems */
-static const char *FSPath[MAXFILESYS];	/* pathnames for file systems */
+static FILESYS	FileSys[MAXFILESYS];	/* queue filesystems */
+static const char *FSPath[MAXFILESYS];	/* pathnames for filesystems */
 
 #if SM_CONF_SHM
 
@@ -208,8 +208,8 @@ static const char *FSPath[MAXFILESYS];	/* pathnames for file systems */
 **		by other processes.
 **	tag -- should be a unique id to avoid misinterpretations by others.
 **		idea: hash over configuration data that will be stored here.
-**	NumFileSys -- number of file systems.
-**	FileSys -- (array of) structure for used file systems.
+**	NumFileSys -- number of filesystems.
+**	FileSys -- (array of) structure for used filesystems.
 **	RSATmpCnt -- counter for number of uses of ephemeral RSA key.
 **	QShm -- (array of) structure for information about queue directories.
 */
@@ -227,7 +227,7 @@ struct queue_shared
 };
 
 static void	*Pshm;		/* pointer to shared memory */
-static FILESYS	*PtrFileSys;	/* pointer to queue file system array */
+static FILESYS	*PtrFileSys;	/* pointer to queue filesystem array */
 int		ShmId = SM_SHM_NO_ID;	/* shared memory id */
 static QUEUE_SHM_T	*QShm;		/* pointer to shared queue data */
 static size_t shms;
@@ -293,7 +293,7 @@ hash_q(p, h)
 # define FILE_SYS(i)	FileSys[i]
 #endif /* SM_CONF_SHM */
 
-/* access to the various components of file system data */
+/* access to the various components of filesystem data */
 #define FILE_SYS_NAME(i)	FSPath[i]
 #define FILE_SYS_AVAIL(i)	FILE_SYS(i).fs_avail
 #define FILE_SYS_BLKSIZE(i)	FILE_SYS(i).fs_blksize
@@ -5766,7 +5766,7 @@ qid_printqueue(qgrp, qdir)
 **		NOQDIR if no queue directory in qg has enough free space to
 **		hold a file of size 'fsize', otherwise the index of
 **		a randomly selected queue directory which resides on a
-**		file system with enough disk space.
+**		filesystem with enough disk space.
 **		XXX This could be extended to select a queuedir with
 **			a few (the fewest?) number of entries. That data
 **			is available if shared memory is used.
@@ -6361,9 +6361,9 @@ multiqueue_cache(basedir, blen, qg, qn, phash)
 /*
 **  FILESYS_FIND -- find entry in FileSys table, or add new one
 **
-**	Given the pathname of a directory, determine the file system
+**	Given the pathname of a directory, determine the filesystem
 **	in which that directory resides, and return a pointer to the
-**	entry in the FileSys table that describes the file system.
+**	entry in the FileSys table that describes the filesystem.
 **	A new entry is added if necessary (and requested).
 **	If the directory does not exist, -1 is returned.
 **
@@ -6373,7 +6373,7 @@ multiqueue_cache(basedir, blen, qg, qn, phash)
 **		add -- add to structure if not found.
 **
 **	Returns:
-**		>=0: found: index in file system table
+**		>=0: found: index in filesystem table
 **		<0: some error, i.e.,
 **		FSF_TOO_MANY: too many filesystems (-> syserr())
 **		FSF_STAT_FAIL: can't stat() filesystem (-> syserr())
@@ -6405,7 +6405,7 @@ filesys_find(name, path, add)
 		if (FILE_SYS_DEV(i) == st.st_dev)
 		{
 			/*
-			**  Make sure the file system (FS) name is set:
+			**  Make sure the filesystem (FS) name is set:
 			**  even though the source code indicates that
 			**  FILE_SYS_DEV() is only set below, it could be
 			**  set via shared memory, hence we need to perform
@@ -6419,7 +6419,7 @@ filesys_find(name, path, add)
 	}
 	if (i >= MAXFILESYS)
 	{
-		syserr("too many queue file systems (%d max)", MAXFILESYS);
+		syserr("too many queue filesystems (%d max)", MAXFILESYS);
 		return FSF_TOO_MANY;
 	}
 	if (!add)
@@ -6434,7 +6434,7 @@ filesys_find(name, path, add)
 }
 
 /*
-**  FILESYS_SETUP -- set up mapping from queue directories to file systems
+**  FILESYS_SETUP -- set up mapping from queue directories to filesystems
 **
 **	This data structure is used to efficiently check the amount of
 **	free space available in a set of queue directories.
@@ -6484,10 +6484,10 @@ filesys_setup(add)
 }
 
 /*
-**  FILESYS_UPDATE -- update amount of free space on all file systems
+**  FILESYS_UPDATE -- update amount of free space on all filesystems
 **
 **	The FileSys table is used to cache the amount of free space
-**	available on all queue directory file systems.
+**	available on all queue directory filesystems.
 **	This function updates the cached information if it has expired.
 **
 **	Parameters:
@@ -7797,7 +7797,7 @@ makeworkgroups()
 **	in the most efficient way possible.
 **
 **	Create a hard link from the 'old' data file to the 'new' data file.
-**	If the old and new queue directories are on different file systems,
+**	If the old and new queue directories are on different filesystems,
 **	then the new data file link is created in the old queue directory,
 **	and the new queue file will contain a 'd' record pointing to the
 **	directory containing the new data file.
@@ -7853,10 +7853,10 @@ dup_df(old, new)
 
 	/*
 	**  Attempt to create a hard link, if we think both old and new
-	**  are on the same file system, otherwise copy the file.
+	**  are on the same filesystem, otherwise copy the file.
 	**
 	**  Don't waste time attempting a hard link unless old and new
-	**  are on the same file system.
+	**  are on the same filesystem.
 	*/
 
 	SM_REQUIRE(ISVALIDQGRP(old->e_dfqgrp) && ISVALIDQDIR(old->e_dfqdir));
@@ -8151,7 +8151,7 @@ split_across_queue_groups(e)
 			goto failure;
 	}
 
-	/* sort the additional envelopes by queue file system */
+	/* sort the additional envelopes by queue filesystem */
 	qsort(splits, nsplits, sizeof(ENVELOPE *), e_filesys_compare);
 
 	/* create data files for each additional envelope */

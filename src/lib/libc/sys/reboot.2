@@ -122,10 +122,10 @@ for more information.
 Normally, the disks are sync'd (see
 .Xr sync 8 )
 before the processor is halted or rebooted.
-This option may be useful if file system changes have been made manually
+This option may be useful if filesystem changes have been made manually
 or if the processor is on fire.
 .It Dv RB_RDONLY
-Initially mount the root file system read-only.
+Initially mount the root filesystem read-only.
 This is currently the default, and this option has been deprecated.
 .It Dv RB_SINGLE
 Normally, the reboot procedure involves an automatic disk consistency
@@ -141,7 +141,7 @@ program in the newly booted system.
 When no options are given (i.e.,
 .Dv RB_AUTOBOOT
 is used), the system is
-rebooted from file ``bsd'' in the root file system of unit 0
+rebooted from file ``bsd'' in the root filesystem of unit 0
 of a disk chosen in a processor specific way.
 An automatic consistency check of the disks is normally performed
 (see

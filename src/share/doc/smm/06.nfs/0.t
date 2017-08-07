@@ -47,10 +47,10 @@ Rick Macklem
 .eh 'SMM:06-%''The 4.4BSD NFS Implementation'
 .oh 'The 4.4BSD NFS Implementation''SMM:06-%'
 .pp
-The 4.4BSD implementation of the Network File System (NFS)\** is
+The 4.4BSD implementation of the Network Filesystem (NFS)\** is
 intended to interoperate with
 .(f
-\**Network File System (NFS) is believed to be a registered trademark of
+\**Network Filesystem (NFS) is believed to be a registered trademark of
 Sun Microsystems Inc.
 .)f
 other NFS Version 2 Protocol (RFC1094) implementations but also

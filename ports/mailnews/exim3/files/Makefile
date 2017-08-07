@@ -141,7 +141,7 @@ ZCAT_COMMAND=/usr/bin/gzcat
 CONFIGURE_FILE=/etc/exim/configure
 
 
-# In some installations there may be multiple machines sharing file systems,
+# In some installations there may be multiple machines sharing filesystems,
 # where a different configuration file is required for Exim on the different
 # machines. If CONFIGURE_FILE_USE_NODE is defined, then Exim will first look
 # for a configuration file whose name is that defined by CONFIGURE_FILE,

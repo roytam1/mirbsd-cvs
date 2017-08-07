@@ -168,7 +168,7 @@ struct vfs {
 
 
 .LL
-Operations supported on virtual file system.
+Operations supported on virtual filesystem.
 
 .NP 0
 .ta .25i +\w'int\0\0'u +\w'*vfs_mountroot();\0'u
@@ -186,7 +186,7 @@ struct vfsops {
 
 
 .LL
-Dynamic file system information
+Dynamic filesystem information
 
 .NP 0
 .ta .5i +\w'struct\0\0\0'u +\w'*vfs_vnodecovered;\0\0\0\0\0'u

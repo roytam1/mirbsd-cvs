@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/mount/mount.c,v 1.2 2005/03/06 19:50:17 tg Exp $	*/
+/**	$MirOS: src/sbin/mount/mount.c,v 1.3 2005/10/18 18:51:44 tg Exp $	*/
 /*	$OpenBSD: mount.c,v 1.40 2005/05/26 20:16:21 fgsch Exp $	*/
 /*	$NetBSD: mount.c,v 1.24 1995/11/18 03:34:29 cgd Exp $	*/
 
@@ -61,7 +61,7 @@ static char copyright[] =
 
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/sbin/mount/mount.c,v 1.2 2005/03/06 19:50:17 tg Exp $");
+__RCSID("$MirOS: src/sbin/mount/mount.c,v 1.3 2005/10/18 18:51:44 tg Exp $");
 
 int	debug, verbose;
 char	**typelist = NULL;
@@ -101,7 +101,7 @@ static struct opt {
 	{ MNT_NOSUID,		0,	"nosuid",		"nosuid" },
 	{ MNT_QUOTA,		0,	"with quotas",		"" },
 	{ MNT_RDONLY,		0,	"read-only",		"ro" },
-	{ MNT_ROOTFS,		1,	"root file system",	"" },
+	{ MNT_ROOTFS,		1,	"root filesystem",	"" },
 	{ MNT_SYNCHRONOUS,	0,	"synchronous",		"sync" },
 	{ MNT_SOFTDEP,		0,	"softdep", 		"softdep" },
 	{ 0,			0,	"",			"" }
@@ -214,7 +214,7 @@ main(int argc, char * const argv[])
 		if (hasopt(options, "update")) {
 			if ((mntbuf = getmntpt(mntpath)) == NULL)
 				errx(1,
-				    "unknown special file or file system %s.",
+				    "unknown special file or filesystem %s.",
 				    *argv);
 			if ((mntbuf->f_flags & MNT_ROOTFS) &&
 			    !strcmp(mntbuf->f_mntfromname, "root_device")) {
@@ -244,7 +244,7 @@ main(int argc, char * const argv[])
 				errx(1, "can't find fstab entry for %s.",
 				    *argv);
 			if (BADTYPE(fs->fs_type))
-				errx(1, "%s has unknown file system type.",
+				errx(1, "%s has unknown filesystem type.",
 				    *argv);
 			mntonname = fs->fs_file;
 		}

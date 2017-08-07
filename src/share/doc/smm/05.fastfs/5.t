@@ -31,17 +31,17 @@
 .\"
 .ds RH Functional enhancements
 .NH 
-File system functional enhancements
+Filesystem functional enhancements
 .PP
 The performance enhancements to the
-UNIX file system did not require
+UNIX filesystem did not require
 any changes to the semantics or
 data structures visible to application programs.
 However, several changes had been generally desired for some 
 time but had not been introduced because they would require users to 
-dump and restore all their file systems.
-Since the new file system already
-required all existing file systems to
+dump and restore all their filesystems.
+Since the new filesystem already
+required all existing filesystems to
 be dumped and restored, 
 these functional enhancements were introduced at this time.
 .NH 2
@@ -50,7 +50,7 @@ Long file names
 File names can now be of nearly arbitrary length.
 Only programs that read directories are affected by this change.
 To promote portability to UNIX systems that
-are not running the new file system, a set of directory
+are not running the new filesystem, a set of directory
 access routines have been introduced to provide a consistent
 interface to directories on both old and new systems.
 .PP
@@ -87,7 +87,7 @@ that it is unallocated.
 .NH 2
 File locking
 .PP
-The old file system had no provision for locking files.
+The old filesystem had no provision for locking files.
 Processes that needed to synchronize the updates of a
 file had to use a separate ``lock'' file.
 A process would try to create a ``lock'' file. 
@@ -112,7 +112,7 @@ A simpler technique is to serialize access to a file with locks.
 To attain reasonable efficiency,
 certain applications require the ability to lock pieces of a file.
 Locking down to the byte level has been implemented in the
-Onyx file system by [Bass81].
+Onyx filesystem by [Bass81].
 However, for the standard system applications,
 a mechanism that locks at the granularity of a file is sufficient.
 .PP
@@ -191,8 +191,8 @@ to apply a lock of the same type will fail).
 .NH 2
 Symbolic links
 .PP
-The traditional UNIX file system allows multiple
-directory entries in the same file system
+The traditional UNIX filesystem allows multiple
+directory entries in the same filesystem
 to reference a single file.  Each directory entry
 ``links'' a file's name to an inode and its contents.
 The link concept is fundamental;
@@ -214,7 +214,7 @@ the contents of the symbolic link is prepended to the rest
 of the pathname, and this name is interpreted to yield the
 resulting pathname.
 In UNIX, pathnames are specified relative to the root
-of the file system hierarchy, or relative to a process's
+of the filesystem hierarchy, or relative to a process's
 current working directory.  Pathnames specified relative
 to the root are called absolute pathnames.  Pathnames
 specified relative to the current working directory are
@@ -233,7 +233,7 @@ symbolic links; seven system utilities required changes
 to use these calls.
 .PP
 In future Berkeley software distributions
-it may be possible to reference file systems located on
+it may be possible to reference filesystems located on
 remote machines using pathnames.  When this occurs,
 it will be possible to create symbolic links that span machines.
 .NH 2
@@ -243,7 +243,7 @@ Programs that create a new version of an existing
 file typically create the
 new version as a temporary file and then rename the temporary file
 with the name of the target file.
-In the old UNIX file system renaming required three calls to the system.
+In the old UNIX filesystem renaming required three calls to the system.
 If a program were interrupted or the system crashed between these calls,
 the target file could be left with only its temporary name.
 To eliminate this possibility the \fIrename\fP system call
@@ -265,13 +265,13 @@ Quotas
 The UNIX system has traditionally attempted to share all available
 resources to the greatest extent possible.
 Thus any single user can allocate all the available space
-in the file system.
+in the filesystem.
 In certain environments this is unacceptable.
 Consequently, a quota mechanism has been added for restricting the
-amount of file system resources that a user can obtain.
+amount of filesystem resources that a user can obtain.
 The quota mechanism sets limits on both the number of inodes
 and the number of disk blocks that a user may allocate.
-A separate quota can be set for each user on each file system.
+A separate quota can be set for each user on each filesystem.
 Resources are given both a hard and a soft limit.
 When a program exceeds a soft limit,
 a warning is printed on the users terminal;

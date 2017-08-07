@@ -81,7 +81,7 @@ It is defined as
 .DE
 .IP \fBninode\fP
 .br
-The maximum number of files in the file system which may be
+The maximum number of files in the filesystem which may be
 active at any time.  This includes files in use by users, as 
 well as directory files being read or written by the system
 and files associated with bound sockets in the UNIX IPC domain.
@@ -136,16 +136,16 @@ quota structure is kept per user.  This is defined to be
 .br
 The number of ``dquot'' structures allocated.  Dquot structures
 are present only when disc quotas are configured in the system.
-One dquot structure is required per user, per active file system quota.
-That is, when a user manipulates a file on a file system on which
+One dquot structure is required per user, per active filesystem quota.
+That is, when a user manipulates a file on a filesystem on which
 quotas are enabled, the information regarding the user's quotas on
-that file system must be in-core.  This information is cached, so
+that filesystem must be in-core.  This information is cached, so
 that not all information must be present in-core all the time.
 This is defined as
 .DS
 NINODE + (MAXUSERS * NMOUNT) / 4
 .DE
-where NMOUNT is the maximum number of mountable file systems.
+where NMOUNT is the maximum number of mountable filesystems.
 .LP
 In addition to the above values, the system page tables (used to
 map virtual memory in the kernel's address space) are sized at
@@ -248,16 +248,16 @@ you can alter the constant USRPTSIZE (in
 /sys/vax/vmparam.h).
 Each page of system page tables allows 8 megabytes of user virtual memory.
 .PP
-Because the file system block numbers are stored in
+Because the filesystem block numbers are stored in
 page table \fIpg_blkno\fP
-entries, the maximum size of a file system is limited to
-2^24 1024 byte blocks.  Thus no file system can be larger than 8 gigabytes.
+entries, the maximum size of a filesystem is limited to
+2^24 1024 byte blocks.  Thus no filesystem can be larger than 8 gigabytes.
 .PP
-The number of mountable file systems is set at 20 by the definition
+The number of mountable filesystems is set at 20 by the definition
 of NMOUNT in /sys/h/param.h.
 This should be sufficient; if not, the value can be increased up to 255.
 If you have many disks, it makes sense to make some of
-them single file systems, and the paging areas don't count in this total.
+them single filesystems, and the paging areas don't count in this total.
 .PP
 The limit to the number of files that a process may have open simultaneously
 is set to 64.

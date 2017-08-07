@@ -297,7 +297,7 @@ nfsrv_setattr(nfsd, slp, procp, mrq)
 
 	/*
 	 * If the size is being changed write acces is required, otherwise
-	 * just check for a read only file system.
+	 * just check for a read only filesystem.
 	 */
 	if (va.va_size == ((u_quad_t)((quad_t) -1))) {
 		if (rdonly || (vp->v_mount->mnt_flag & MNT_RDONLY)) {
@@ -3108,7 +3108,7 @@ nfsrv_fsinfo(nfsd, slp, procp, mrq)
 
 	/*
 	 * XXX
-	 * There should be file system VFS OP(s) to get this information.
+	 * There should be filesystem VFS OP(s) to get this information.
 	 * For now, assume ufs.
 	 */
 	if (slp->ns_so->so_type == SOCK_DGRAM)
@@ -3271,9 +3271,9 @@ nfsrv_access(vp, flags, cred, rdonly, p, override)
 	if (flags & VWRITE) {
 		/* Just vn_writechk() changed to check rdonly */
 		/*
-		 * Disallow write attempts on read-only file systems;
+		 * Disallow write attempts on read-only filesystems;
 		 * unless the file is a socket or a block or character
-		 * device resident on the file system.
+		 * device resident on the filesystem.
 		 */
 		if (rdonly || (vp->v_mount->mnt_flag & MNT_RDONLY)) {
 			switch (vp->v_type) {

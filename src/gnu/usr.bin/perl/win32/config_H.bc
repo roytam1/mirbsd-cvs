@@ -326,12 +326,12 @@
 
 /* HAS_PATHCONF:
  *	This symbol, if defined, indicates that pathconf() is available
- *	to determine file-system related limits and options associated
+ *	to determine filesystem-related limits and options associated
  *	with a given filename.
  */
 /* HAS_FPATHCONF:
  *	This symbol, if defined, indicates that pathconf() is available
- *	to determine file-system related limits and options associated
+ *	to determine filesystem-related limits and options associated
  *	with a given open file descriptor.
  */
 /*#define HAS_PATHCONF		/**/
@@ -1602,7 +1602,7 @@
 
 /* HAS_GETMNTENT:
  *	This symbol, if defined, indicates that the getmntent routine is
- *	available to iterate through mounted file systems to get their info.
+ *	available to iterate through mounted filesystems to get their info.
  */
 /*#define HAS_GETMNTENT		/**/
 
@@ -1795,7 +1795,7 @@
 #endif
 /* HAS_HASMNTOPT:
  *	This symbol, if defined, indicates that the hasmntopt routine is
- *	available to query the mount options of file systems.
+ *	available to query the mount options of filesystems.
  */
 /*#define HAS_HASMNTOPT		/**/
 
@@ -2633,7 +2633,7 @@
 
 /* HAS_USTAT:
  *	This symbol, if defined, indicates that the ustat system call is
- *	available to query file system statistics by dev_t.
+ *	available to query filesystem statistics by dev_t.
  */
 /*#define HAS_USTAT		/**/
 

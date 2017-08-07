@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/sysctl.h,v 1.6 2008/02/24 14:41:53 tg Exp $ */
+/**	$MirOS: src/sys/sys/sysctl.h,v 1.7 2010/09/12 18:20:06 tg Exp $ */
 /*	$NetBSD: sysctl.h,v 1.99 2003/09/28 13:02:19 dsl Exp $	*/
 /*	$OpenBSD: sysctl.h,v 1.77 2004/04/19 22:52:33 tedu Exp $	*/
 /*	$NetBSD: sysctl.h,v 1.16 1996/04/09 20:55:36 cgd Exp $	*/
@@ -88,7 +88,7 @@ struct ctlname {
 #define	CTL_UNSPEC	0		/* unused */
 #define	CTL_KERN	1		/* "high kernel": proc, limits */
 #define	CTL_VM		2		/* virtual memory */
-#define	CTL_FS		3		/* file system, mount type is next */
+#define	CTL_FS		3		/* filesystem, mount type is next */
 #define	CTL_NET		4		/* network, see socket.h */
 #define	CTL_DEBUG	5		/* debugging parameters */
 #define	CTL_HW		6		/* generic cpu/io */

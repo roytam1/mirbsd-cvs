@@ -37,11 +37,11 @@
 #include <machine/endian.h>
 
 /*
- * Each disk drive contains some number of file systems.
- * A file system consists of a number of cylinder groups.
+ * Each disk drive contains some number of filesystems.
+ * A filesystem consists of a number of cylinder groups.
  * Each cylinder group has inodes and data.
  *
- * A file system is described by its super-block, which in turn
+ * A filesystem is described by its super-block, which in turn
  * describes the cylinder groups.  The super-block is critical
  * data and is replicated in each cylinder group to protect against
  * catastrophic loss.  This is done at `newfs' time and the critical
@@ -74,18 +74,18 @@
 #define MINBSIZE	(1 << LOG_MINBSIZE)
 
 /*
- * The path name on which the file system is mounted is maintained
+ * The path name on which the filesystem is mounted is maintained
  * in fs_fsmnt. MAXMNTLEN defines the amount of space allocated in
  * the super block for this name.
  */
 #define MAXMNTLEN	512
 
 /*
- * MINFREE gives the minimum acceptable percentage of file system
+ * MINFREE gives the minimum acceptable percentage of filesystem
  * blocks which may be free. If the freelist drops below this level
  * only the superuser may continue to allocate blocks. This may
  * be set to 0 if no reserve of free blocks is deemed necessary,
- * however throughput drops by fifty percent if the file system
+ * however throughput drops by fifty percent if the filesystem
  * is run at between 95% and 100% full; thus the minimum default
  * value of fs_minfree is 5%. However, to get good clustering
  * performance, 10% is a better choice. hence we use 10% as our
@@ -95,7 +95,7 @@
 #define MINFREE		5
 
 /*
- * Super block for an ext2fs file system.
+ * Super block for an ext2fs filesystem.
  */
 struct ext2fs {
 	u_int32_t  e2fs_icount;		/* Inode count */
@@ -114,7 +114,7 @@ struct ext2fs {
 	u_int16_t  e2fs_mnt_count;	/* mount count */
 	u_int16_t  e2fs_max_mnt_count;	/* max mount count */
 	u_int16_t  e2fs_magic;		/* magic number */
-	u_int16_t  e2fs_state;		/* file system state */
+	u_int16_t  e2fs_state;		/* filesystem state */
 	u_int16_t  e2fs_beh;		/* behavior on errors */
 	u_int16_t  e2fs_minrev;		/* minor revision level */
 	u_int32_t  e2fs_lastfsck;	/* time of last fsck */
@@ -199,7 +199,7 @@ struct m_ext2fs {
 #define	E2FS_ISCLEAN	0x01
 #define	E2FS_ERRORS	0x02
 
-/* ext2 file system block group descriptor */
+/* ext2 filesystem block group descriptor */
 
 struct ext2_gd {
 	u_int32_t ext2bgd_b_bitmap;	/* blocks bitmap block */
@@ -259,17 +259,17 @@ void e2fs_cg_bswap(struct ext2_gd *, struct ext2_gd *, int);
 #endif
 
 /*
- * Turn file system block numbers into disk block addresses.
- * This maps file system blocks to device size blocks.
+ * Turn filesystem block numbers into disk block addresses.
+ * This maps filesystem blocks to device size blocks.
  */
 #define fsbtodb(fs, b)	((b) << (fs)->e2fs_fsbtodb)
 #define dbtofsb(fs, b)	((b) >> (fs)->e2fs_fsbtodb)
 
 /*
  * Macros for handling inode numbers:
- *	 inode number to file system block offset.
+ *	 inode number to filesystem block offset.
  *	 inode number to cylinder group number.
- *	 inode number to file system block address.
+ *	 inode number to filesystem block address.
  */
 #define	ino_to_cg(fs, x)	(((x) - 1) / (fs)->e2fs.e2fs_ipg)
 #define	ino_to_fsba(fs, x)						\
@@ -278,8 +278,8 @@ void e2fs_cg_bswap(struct ext2_gd *, struct ext2_gd *, int);
 #define	ino_to_fsbo(fs, x)	(((x)-1) % (fs)->e2fs_ipb)
 
 /*
- * Give cylinder group number for a file system block.
- * Give cylinder group block number for a file system block.
+ * Give cylinder group number for a filesystem block.
+ * Give cylinder group block number for a filesystem block.
  */
 #define	dtog(fs, d) (((d) - (fs)->e2fs.e2fs_first_dblock) / (fs)->e2fs.e2fs_fpg)
 #define	dtogd(fs, d) \
@@ -308,6 +308,6 @@ void e2fs_cg_bswap(struct ext2_gd *, struct ext2_gd *, int);
    ((fs)->e2fs.e2fs_fbcount - (fs)->e2fs.e2fs_rbcount) 
 
 /*
- * Number of indirects in a file system block.
+ * Number of indirects in a filesystem block.
  */
 #define	NINDIR(fs)	((fs)->e2fs_bsize / sizeof(u_int32_t))

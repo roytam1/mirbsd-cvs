@@ -1926,7 +1926,7 @@ Perl_cando(pTHX_ Mode_t mode, Uid_t effective, register Stat_t *statbufp)
      * Directories and special files, e.g. "CON", cannot be
      * write-protected.
      * [Comment by Tom Dinger -- a directory can have the write-protect
-     *		bit set in the file system, but DOS permits changes to
+     *		bit set in the filesystem, but DOS permits changes to
      *		the directory anyway.  In addition, all bets are off
      *		here for networked software, such as Novell and
      *		Sun's PC-NFS.]
@@ -2443,7 +2443,7 @@ Perl_start_glob (pTHX_ SV *tmpglob, IO *io)
     sv_catpv(tmpcmd, "; do echo \"$a\\0\\c\"; done |");
 #else
 #ifdef DJGPP
-    sv_setpv(tmpcmd, "/dev/dosglob/"); /* File System Extension */
+    sv_setpv(tmpcmd, "/dev/dosglob/"); /* filesystem extension */
     sv_catsv(tmpcmd, tmpglob);
 #else
     sv_setpv(tmpcmd, "perlglob ");

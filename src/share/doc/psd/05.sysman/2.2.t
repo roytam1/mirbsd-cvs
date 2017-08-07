@@ -29,13 +29,13 @@
 .\"
 .\"	@(#)2.2.t	8.1 (Berkeley) 6/8/93
 .\"
-.sh "File system
+.sh "Filesystem
 .NH 3
 Overview
 .PP
-The file system abstraction provides access to a hierarchical
-file system structure.
-The file system contains directories (each of which may contain
+The filesystem abstraction provides access to a hierarchical
+filesystem structure.
+The filesystem contains directories (each of which may contain
 other sub-directories) as well as files and references to other
 objects such as devices and inter-process communications sockets.
 .PP
@@ -46,18 +46,18 @@ Files may be read and written in a random-access fashion.
 The user may read the data in a directory as though
 it were an ordinary file to determine the names of the contained files,
 but only the system may write into the directories.
-The file system stores only a small amount of ownership, protection and usage
+The filesystem stores only a small amount of ownership, protection and usage
 information with a file.
 .NH 3
 Naming
 .PP
-The file system calls take \fIpath name\fP arguments.
+The filesystem calls take \fIpath name\fP arguments.
 These consist of a zero or more component \fIfile names\fP
 separated by ``/\^'' characters, where each file name
 is up to 255 ASCII characters excluding null and ``/\^''.
 .PP
 Each process always has two naming contexts: one for the
-root directory of the file system and one for the
+root directory of the filesystem and one for the
 current working directory.  These are used
 by the system in the filename translation process.
 If a path name begins with a ``/\^'', it is called
@@ -71,7 +71,7 @@ the total length of a path name to 1024 characters.
 .PP
 The file name ``..'' in each directory refers to
 the parent directory of that directory.
-The parent directory of the root of the file system is always that directory.
+The parent directory of the root of the filesystem is always that directory.
 .PP
 The calls
 .DS
@@ -86,8 +86,8 @@ Only the super-user can change the root directory context of a process.
 .NH 3
 Creation and removal
 .PP
-The file system allows directories, files, special devices,
-and ``portals'' to be created and removed from the file system.
+The filesystem allows directories, files, special devices,
+and ``portals'' to be created and removed from the filesystem.
 .NH 4
 Directory creation and removal
 .PP
@@ -154,7 +154,7 @@ regardless of the existence of the file specified by the link.
 .NH 4
 Creating references to devices
 .PP
-The file system allows entries which reference peripheral devices.
+The filesystem allows entries which reference peripheral devices.
 Peripherals are distinguished as \fIblock\fP or \fIcharacter\fP
 devices according by their ability to support block-oriented
 operations.
@@ -188,7 +188,7 @@ fd = portal(name, server, param, dtype, protocol, domain, socktype)
 result int fd; char *name, *server, *param; int dtype, protocol;
 int domain, socktype;
 .DE
-places a \fIname\fP in the file system name space that causes connection to a
+places a \fIname\fP in the filesystem name space that causes connection to a
 server process when the name is used.
 The portal call returns an active portal in \fIfd\fP as though an
 access had occurred to activate an inactive portal, as now described.
@@ -295,7 +295,7 @@ Hard links and symbolic links have different
 properties.  A hard link insures the target
 file will always be accessible, even after its original
 directory entry is removed; no such guarantee exists for a symbolic link.
-Symbolic links can span file systems boundaries.
+Symbolic links can span filesystems boundaries.
 .PP
 The following calls create a new link, named \fIpath2\fP,
 to \fIpath1\fP:
@@ -318,14 +318,14 @@ result int len; result char *path, *buf; int bufsize;
 This call returns, in \fIbuf\fP, the null-terminated string
 substituted into pathnames passing through \fIpath\fP\|.
 .PP
-Atomic renaming of file system resident objects is possible
+Atomic renaming of filesystem resident objects is possible
 with the \fIrename\fP call:
 .DS
 rename(oldname, newname);
 char *oldname, *newname;
 .DE
 where both \fIoldname\fP and \fInewname\fP must be
-in the same file system.
+in the same filesystem.
 If \fInewname\fP exists and is a directory, then it must be empty.
 .NH 3
 Extension and truncation
@@ -393,7 +393,7 @@ result of \fIaccess\fP\|.
 .NH 3
 Locking
 .PP
-The file system provides basic facilities that allow cooperating processes
+The filesystem provides basic facilities that allow cooperating processes
 to synchronize their access to shared files.  A process may
 place an advisory \fIread\fP or \fIwrite\fP lock on a file,
 so that other cooperating processes may avoid interfering
@@ -430,11 +430,11 @@ the process terminates.
 .NH 3
 Disk quotas
 .PP
-As an optional facility, each file system may be requested to
+As an optional facility, each filesystem may be requested to
 impose limits on a user's disk usage.
 Two quantities are limited: the total amount of disk space which
-a user may allocate in a file system and the total number of files
-a user may create in a file system.  Quotas are expressed as
+a user may allocate in a filesystem and the total number of files
+a user may create in a filesystem.  Quotas are expressed as
 \fIhard\fP limits and \fIsoft\fP limits.  A hard limit is
 always imposed; if a user would exceed a hard limit, the operation
 which caused the resource request will fail.  A soft limit results
@@ -442,14 +442,14 @@ in the user receiving a warning message, but with allocation succeeding.
 Facilities are provided to turn soft limits into hard limits if a
 user has exceeded a soft limit for an unreasonable period of time.
 .PP
-To enable disk quotas on a file system the \fIsetquota\fP call
+To enable disk quotas on a filesystem the \fIsetquota\fP call
 is used:
 .DS
 setquota(special, file)
 char *special, *file;
 .DE
 where \fIspecial\fP refers to a structured device file where
-a mounted file system exists, and
+a mounted filesystem exists, and
 \fIfile\fP refers to a disk quota file (residing on the file
 system associated with \fIspecial\fP) from which user quotas
 should be obtained.  The format of the disk quota file is 

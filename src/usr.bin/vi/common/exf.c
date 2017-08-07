@@ -373,7 +373,7 @@ file_init(sp, frp, rcv_name, flags)
 	 * Otherwise, try and figure out if a file is readonly.  This is a
 	 * dangerous thing to do.  The kernel is the only arbiter of whether
 	 * or not a file is writeable, and the best that a user program can
-	 * do is guess.  Obvious loopholes are files that are on a file system
+	 * do is guess.  Obvious loopholes are files that are on a filesystem
 	 * mounted readonly (access catches this one on a few systems), or
 	 * alternate protection mechanisms, ACL's for example, that we can't
 	 * portably check.  Lots of fun, and only here because users whined.
@@ -1464,7 +1464,7 @@ file_lock(sp, name, fdp, fd, iswrite)
 	/*
 	 * !!!
 	 * We need to distinguish a lock not being available for the file
-	 * from the file system not supporting locking.  Flock is documented
+	 * from the filesystem not supporting locking.  Flock is documented
 	 * as returning EWOULDBLOCK; add EAGAIN for good measure, and assume
 	 * they are the former.  There's no portable way to do this.
 	 */
@@ -1512,7 +1512,7 @@ file_lock(sp, name, fdp, fd, iswrite)
 	/*
 	 * !!!
 	 * We need to distinguish a lock not being available for the file
-	 * from the file system not supporting locking.  Fcntl is documented
+	 * from the filesystem not supporting locking.  Fcntl is documented
 	 * as returning EACCESS and EAGAIN; add EWOULDBLOCK for good measure,
 	 * and assume they are the former.  There's no portable way to do this.
 	 */

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/msdosfs/msdosfs_fat.c,v 1.2 2005/03/06 21:28:13 tg Exp $ */
+/**	$MirOS: src/sys/msdosfs/msdosfs_fat.c,v 1.3 2005/07/03 21:19:02 tg Exp $ */
 /*	$OpenBSD: msdosfs_fat.c,v 1.17 2004/05/16 19:00:51 tedu Exp $	*/
 /*	$NetBSD: msdosfs_fat.c,v 1.26 1997/10/17 11:24:02 ws Exp $	*/
 
@@ -124,9 +124,9 @@ fatblock(pmp, ofs, bnp, sizep, bop)
  * dep	  - address of denode representing the file of interest
  * findcn - file relative cluster whose filesystem relative cluster number
  *	    and/or block number are/is to be found
- * bnp	  - address of where to place the file system relative block number.
+ * bnp	  - address of where to place the filesystem relative block number.
  *	    If this pointer is null then don't return this quantity.
- * cnp	  - address of where to place the file system relative cluster number.
+ * cnp	  - address of where to place the filesystem relative cluster number.
  *	    If this pointer is null then don't return this quantity.
  *
  * NOTE: Either bnp or cnp must be non-null.

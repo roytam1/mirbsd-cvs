@@ -438,7 +438,7 @@ $! Time to bail out before it's too late, i.e. too deep.
 $! Depth check is unnecessary on Alpha VMS V7.2++ (even for ODS-2).
 $   tmp = f$extract(1,3,f$edit(f$getsyi("VERSION"),"TRIM,COLLAPSE"))
 $   IF (tmp .GES. "7.2") .AND. (F$GETSYI("HW_MODEL") .GE. 1024) THEN GOTO Beyond_depth_check
-$! Depth check also unnecessary on ODS 5 (or later) file systems.
+$! Depth check also unnecessary on ODS 5 (or later) filesystems.
 $   tmp = F$INTEGER(F$GETDVI(F$ENVIRONMENT("DEFAULT"),"ACPTYPE") - "F11V")
 $   IF (tmp .GE. 5) THEN GOTO Beyond_depth_check
 $   IF (F$ELEMENT(max_allowed_dir_depth,".",F$ENVIRONMENT("DEFAULT")).nes.".")
@@ -447,7 +447,7 @@ $     TYPE SYS$INPUT:
 $     DECK
 %Config-E-VMS, ERROR:
  Sorry! It apears as though your perl build sub-directory is already too
- deep into the VMS file system. Please try moving stuff into a shallower 
+ deep into the VMS filesystem. Please try moving stuff into a shallower 
  directory (or altering the "max_allowed_dir_depth" parameter).
 $     EOD
 $     echo4 "ABORTING..."

@@ -5,7 +5,7 @@ children (who themselves may have children, and so on). Every
 Tree::Simple object also has siblings, as they are just the children of
 their immediate parent.
 
-It is can be used to model hierarchal information such as a file-system,
+It is can be used to model hierarchal information such as a filesystem,
 the organizational structure of a company, an object inheritance
 hierarchy, versioned files from a version control system or even an
 abstract syntax tree for use in a parser. It makes no assumptions as to

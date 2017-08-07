@@ -807,7 +807,7 @@ e.g. most of the files in the F<hints/> directory in the source code kit).
 On most of these systems, the value of C<$^O> (hence C<$Config{'osname'}>,
 too) is determined either by lowercasing and stripping punctuation from the
 first field of the string returned by typing C<uname -a> (or a similar command)
-at the shell prompt or by testing the file system for the presence of
+at the shell prompt or by testing the filesystem for the presence of
 uniquely named files such as a kernel or header file.  Here, for example,
 are a few of the more popular Unix flavors:
 
@@ -1276,7 +1276,7 @@ to wrap your perl scripts in a CL procedure to invoke them like so:
     ENDPGM
 
 This will invoke the perl script F<hello.pl> in the root of the
-QOpenSys file system.  On the AS/400 calls to C<system> or backticks
+QOpenSys filesystem.  On the AS/400 calls to C<system> or backticks
 must use CL syntax.
 
 On these platforms, bear in mind that the EBCDIC character set may have

@@ -64,7 +64,7 @@
 /* Define as good substitute value for EOVERFLOW. */
 #undef EOVERFLOW
 
-/* Define if this executable will be running on case insensitive file systems.
+/* Define if this executable will be running on case insensitive filesystems.
    In the client case, this means that it will request that the server pretend
    to be case insensitive if it isn't already. */
 #undef FILENAMES_CASE_INSENSITIVE

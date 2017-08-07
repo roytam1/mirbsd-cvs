@@ -46,7 +46,7 @@
  */
 #define	LINUX_CLONE_CSIGNAL	0x000000ff	/* signal to be sent at exit */
 #define	LINUX_CLONE_VM		0x00000100	/* share address space */
-#define	LINUX_CLONE_FS		0x00000200	/* share "file system" info */
+#define	LINUX_CLONE_FS		0x00000200	/* share "filesystem" info */
 #define	LINUX_CLONE_FILES	0x00000400	/* share file descriptors */
 #define	LINUX_CLONE_SIGHAND	0x00000800	/* share signal actions */
 #define	LINUX_CLONE_PID		0x00001000	/* share process ID */

@@ -20,7 +20,7 @@ main(int argc, char *argv[])
     DWORD serial, maxname, flags;
     BOOL downcase = TRUE;
 
-    /* check out the file system characteristics */
+    /* check out the filesystem characteristics */
     if (GetFullPathName(".", MAX_PATH, root, &dummy)) {
         dummy = strchr(root,'\\'); 
 	if (dummy)

@@ -215,7 +215,7 @@ procedure Gnatchop is
 
    function Files_Exist return Boolean;
    --  Check Unit.Table for possible file names that already exist
-   --  in the file system. Returns true if files exist, False otherwise
+   --  in the filesystem. Returns true if files exist, False otherwise
 
    function Get_Maximum_File_Name_Length return Integer;
    pragma Import (C, Get_Maximum_File_Name_Length,

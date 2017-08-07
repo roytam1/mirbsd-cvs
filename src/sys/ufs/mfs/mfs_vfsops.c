@@ -283,7 +283,7 @@ mfs_start(mp, flags, p)
 }
 
 /*
- * Get file system statistics.
+ * Get filesystem statistics.
  */
 int
 mfs_statfs(mp, sbp, p)

@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/psd/11.adb/adb.ms,v 1.1.7.1 2005/03/06 16:17:44 tg Exp $
+.\" $MirOS: src/share/doc/psd/11.adb/adb.ms,v 1.2 2008/11/08 22:23:59 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -89,7 +89,7 @@ programs.
 This document provides an introduction to ADB with examples of its use.
 It explains the various formatting options, 
 techniques for debugging C programs, examples of printing
-file system information and patching.
+filesystem information and patching.
 .AE
 .CS 12 15 27 13 0 5
 .NH
@@ -1145,7 +1145,7 @@ multiple of 8 on the output line, and the \fB14c\fP prints the 14 character file
 .NH 2
 Ilist Dump
 .PP
-Similarly the contents of the \fIilist\fP of a file system, (e.g. /dev/src,
+Similarly the contents of the \fIilist\fP of a filesystem, (e.g. /dev/src,
 on UNIX systems distributed by the UNIX Support Group;
 see UNIX Programmer's
 Manual Section V) could be dumped with the following set of 
@@ -1157,14 +1157,14 @@ requests:
 	<b,\-1?"flags"8ton"links,uid,gid"8t3bn",size"8tbrdn"addr"8t8un"times"8t2Y2na
 .P2
 In this example the value of the base for the map was changed 
-to 02000 (by saying \fB?m<b\fR) since that is the start of an \fIilist\fP within a file system.
+to 02000 (by saying \fB?m<b\fR) since that is the start of an \fIilist\fP within a filesystem.
 An artifice (\fBbrd\fP above) was used to print the 24 bit size field
 as a byte, a space, and a decimal integer.
 The last access time and last modify time are printed with the
 \fB2Y\fR
 operator.
 Figure 12 shows portions of these requests as applied to a directory
-and file system.
+and filesystem.
 .NH 2
 Converting values
 .PP

@@ -58,7 +58,7 @@
    which periodically get made about how locks might be different:
 
    1.  Check for EROFS.  Maybe useful, although in the presence of NFS
-   EROFS does *not* mean that the file system is unchanging.
+   EROFS does *not* mean that the filesystem is unchanging.
 
    2.  Provide an option to disable locks for operations which only
    read (see above for some of the consequences).
@@ -71,7 +71,7 @@
 
 #include "cvs.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_lock_c,v 1.3 2010/09/15 20:57:01 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/lock.c,v 1.6 2010/09/19 19:43:05 tg Exp $");
 
 
 struct lock {

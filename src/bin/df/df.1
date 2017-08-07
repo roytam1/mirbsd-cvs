@@ -41,7 +41,7 @@
 .Op Fl iklnP
 .Op Fl t Ar type
 .Oo
-.Op Ar file | file_system
+.Op Ar file | filesystem
 .Ar ...
 .Oc
 .Sh DESCRIPTION
@@ -49,15 +49,15 @@ The
 .Nm
 utility displays statistics about the amount of free disk space on the
 specified
-.Ar file_system
-or on the file system of which
+.Ar filesystem
+or on the filesystem of which
 .Ar file
 is a part.
 By default, values are displayed as 512-byte block counts.
 If neither a file nor a
-.Ar file_system
+.Ar filesystem
 operand is specified,
-statistics for all mounted file systems are displayed
+statistics for all mounted filesystems are displayed
 (subject to the
 .Fl l
 and
@@ -74,36 +74,36 @@ The
 .Fl k
 option causes the numbers to be reported in kilobyte counts.
 .It Fl l
-Display statistics only about mounted file systems with the
+Display statistics only about mounted filesystems with the
 .Dv MNT_LOCAL
 flag set.
-If a non-local file system is given as an argument, a
-warning is issued and no information is given on that file system.
+If a non-local filesystem is given as an argument, a
+warning is issued and no information is given on that filesystem.
 .It Fl n
-Print out the previously obtained statistics from the file systems.
+Print out the previously obtained statistics from the filesystems.
 This option should be used if it is possible that one or more
-file systems are in a state such that they will not be able to provide
+filesystems are in a state such that they will not be able to provide
 statistics without a long delay.
 When this option is specified,
 .Nm
-will not request new statistics from the file systems, but will respond
+will not request new statistics from the filesystems, but will respond
 with the possibly stale statistics that were previously obtained.
 .It Fl P
 Print out information in a stricter format designed to be parsed
 by portable scripts.
 .It Fl t Ar type
 Indicate the actions should only be taken on
-file systems of the specified
+filesystems of the specified
 .Ar type .
 More than one type may be specified in a comma-separated list.
-The list of file system types can be prefixed with
+The list of filesystem types can be prefixed with
 .Dq no
-to specify the file system types for which action should
+to specify the filesystem types for which action should
 .Em not
 be taken.
-If a file system is given on the command line that is not of
+If a filesystem is given on the command line that is not of
 the specified type, a warning is issued and no information is given on
-that file system.
+that filesystem.
 .El
 .Sh ENVIRONMENT
 .Bl -tag -width BLOCKSIZE
@@ -121,7 +121,7 @@ size block.
 Output, in a strict format suitable for portable scripts, disk space
 statistics for the
 .Pa /usr
-file system using kilobyte block sizes.
+filesystem using kilobyte block sizes.
 .Sh DIAGNOSTICS
 The
 .Nm

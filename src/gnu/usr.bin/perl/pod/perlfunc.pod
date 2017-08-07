@@ -4285,7 +4285,7 @@ Changes the name of a file; an existing file NEWNAME will be
 clobbered.  Returns true for success, false otherwise.
 
 Behavior of this function varies wildly depending on your system
-implementation.  For example, it will usually not work across file system
+implementation.  For example, it will usually not work across filesystem
 boundaries, even though the system I<mv> command sometimes compensates
 for this.  Other restrictions include whether it works on directories,
 open files, or pre-existing files.  Check L<perlport> and either the
@@ -5661,7 +5661,7 @@ meanings of the fields:
   8 atime    last access time in seconds since the epoch
   9 mtime    last modify time in seconds since the epoch
  10 ctime    inode change time in seconds since the epoch (*)
- 11 blksize  preferred block size for file system I/O
+ 11 blksize  preferred block size for filesystem I/O
  12 blocks   actual number of blocks allocated
 
 (The epoch was at 00:00 January 1, 1970 GMT.)

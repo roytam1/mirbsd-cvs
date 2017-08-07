@@ -49,7 +49,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1986, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)main.c	8.2 (Berkeley) 1/23/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/fsck_ffs/main.c,v 1.4 2007/03/18 04:14:55 tg Exp $");
 
 volatile sig_atomic_t returntosingle;
 
@@ -183,7 +183,7 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	switch (setup(filesys)) {
 	case 0:
 		if (preen)
-			pfatal("CAN'T CHECK FILE SYSTEM.");
+			pfatal("CAN'T CHECK FILESYSTEM.");
 		/* FALLTHROUGH */
 	case -1:
 		if (fsreadfd != -1) {
@@ -210,7 +210,7 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	if (preen == 0) {
 		printf("** Last Mounted on %s\n", sblock.fs_fsmnt);
 		if (hotroot())
-			printf("** Root file system\n");
+			printf("** Root filesystem\n");
 		printf("** Phase 1 - Check Blocks and Sizes\n");
 	}
 	pass1();
@@ -320,7 +320,7 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	if (!fsmodified)
 		return (0);
 	if (!preen)
-		printf("\n***** FILE SYSTEM WAS MODIFIED *****\n");
+		printf("\n***** FILESYSTEM WAS MODIFIED *****\n");
 	if (rerun || !resolved)
 		printf("\n***** PLEASE RERUN FSCK *****\n");
 	if (hotroot()) {

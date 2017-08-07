@@ -482,7 +482,7 @@ static char superblock[SBSIZE];
 
 #define	max(a,b)	MAX((a),(b))
 /*
- * Sanity checks for old file systems.
+ * Sanity checks for old filesystems.
  * Stolen from <sys/lib/libsa/ufs.c>
  */
 static void

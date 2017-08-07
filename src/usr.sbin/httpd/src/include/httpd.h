@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.10 2013/10/31 20:07:21 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.11 2015/10/12 21:21:25 tg Exp $ */
 /* $OpenBSD: httpd.h,v 1.27 2006/02/22 15:07:12 henning Exp $ */
 
 /* ====================================================================
@@ -822,7 +822,7 @@ struct request_rec {
 	*/
 	const struct htaccess_result *htaccess;
 
-	/* On systems with case insensitive file systems (Windows, OS/2, etc.),
+	/* On systems with case insensitive filesystems (Windows, OS/2, etc.),
 	* r->filename is case canonicalized (folded to either lower or upper
 	* case, depending on the specific system) to accomodate file access
 	* checking. case_preserved_filename is the same as r->filename

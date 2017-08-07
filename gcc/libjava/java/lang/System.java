@@ -344,9 +344,9 @@ public final class System
    * each character in '0' through '9':
    * <dl>
    * <dl> gnu.classpath.vm.shortname <dd> Succinct version of the VM name;
-   *      used for finding property files in file system
+   *      used for finding property files in filesystem
    * <dl> gnu.classpath.home.url <dd> Base URL; used for finding
-   *      property files in file system
+   *      property files in filesystem
    * <dt> gnu.cpu.endian      <dd>big or little
    * <dt> gnu.java.io.encoding_scheme_alias.ISO-8859-?   <dd>8859_?
    * <dt> gnu.java.io.encoding_scheme_alias.iso-8859-?   <dd>8859_?

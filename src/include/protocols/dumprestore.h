@@ -81,7 +81,7 @@ union u_spcl {
 		char	c_addr[TP_NINDIR];  /* 1 => data; 0 => hole in inode */
 		char	c_label[LBLSIZE];   /* dump label */
 		int32_t	c_level;	    /* level of this dump */
-		char	c_filesys[NAMELEN]; /* name of dumped file system */
+		char	c_filesys[NAMELEN]; /* name of dumped filesystem */
 		char	c_dev[NAMELEN];	    /* name of dumped device */
 		char	c_host[NAMELEN];    /* name of dumped host */
 		int32_t	c_flags;	    /* additional information */

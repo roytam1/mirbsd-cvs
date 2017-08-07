@@ -175,7 +175,7 @@ procfs_start(mp, flags, p)
 }
 
 /*
- * Get file system statistics.
+ * Get filesystem statistics.
  */
 int
 procfs_statfs(mp, sbp, p)

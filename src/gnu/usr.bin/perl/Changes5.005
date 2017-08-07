@@ -6586,7 +6586,7 @@ ____________________________________________________________________________
              From: Andy Dougherty <doughera@lafcol.lafayette.edu>
              Date: Wed, 8 Jul 1998 12:18:32 -0400 (EDT)
              Message-Id: <Pine.SUN.3.96.980708120844.23053D-100000@newton.phys>
-             Subject: Re: pelr installation attempts hard links between file systems
+             Subject: Re: pelr installation attempts hard links between filesystems
      Branch: perl
            ! installperl
 ____________________________________________________________________________

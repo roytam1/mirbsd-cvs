@@ -390,7 +390,7 @@ must be present.
 .B DIR
 .I initial-directory
 
-Specifies (in a system-specific way) the initial default file system
+Specifies (in a system-specific way) the initial default filesystem
 location for the program.  If no
 .B DIR
 line is supplied the program is

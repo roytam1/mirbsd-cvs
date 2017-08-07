@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/sys/arch/sparc/stand/installboot/installboot.8,v 1.3 2006/08/17 12:37:50 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.8 2003/06/06 21:45:33 jmc Exp $
 .\"	$NetBSD: installboot.8,v 1.1 1995/09/30 21:32:14 pk Exp $
 .\"
@@ -126,7 +126,7 @@ Verbose mode.
 The arguments are:
 .Bl -tag -width bootxx
 .It Ar boot
-the name of the second-stage boot program in the file system
+the name of the second-stage boot program in the filesystem
 where the first-stage boot program is to be installed.
 Ignored if
 .Fl s
@@ -136,7 +136,7 @@ the name of the prototype file for the first stage boot program.
 .It Ar device
 the name of the raw device in which the first-stage boot program
 is to be installed.
-This should correspond to the block device on which the file system containing
+This should correspond to the block device on which the filesystem containing
 .Ar boot
 is mounted.
 .El
@@ -160,7 +160,7 @@ first appeared in
 .Nx 1.1 .
 .Sh BUGS
 .Nm installboot
-requires simultaneous access to the mounted file system and
+requires simultaneous access to the mounted filesystem and
 the raw device, but that is not allowed with the kernel
 .Dv securelevel
 variable set to a value greater than zero

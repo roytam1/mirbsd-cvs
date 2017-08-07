@@ -640,13 +640,13 @@ MILTER		Turn on support for external filters using the Milter API;
 			APPENDDEF(`conf_sendmail_ENVDEF', `-DMILTER=0')
 		in devtools/Site/site.config.m4 (see devtools/README).
 		See libmilter/README for more information about milter.
-REQUIRES_DIR_FSYNC	Turn on support for file systems that require to
+REQUIRES_DIR_FSYNC	Turn on support for filesystems that require to
 		call fsync() for a directory if the meta-data in it has
 		been changed.  This should be turned on at least for older
 		versions of ReiserFS; it is enabled by default for Linux.
 		According to some information this flag is not needed
 		anymore for kernel 2.4.16 and newer.  We would appreciate
-		feedback about the semantics of the various file systems
+		feedback about the semantics of the various filesystems
 		available for Linux.
 		An alternative to this compile time flag is to mount the
 		queue directory without the -async option, or using
@@ -1783,7 +1783,7 @@ TRACEFLAGS	My own personal list of the trace flags -- not guaranteed
 alias.c		Does name aliasing in all forms.
 aliases.5	Man page describing the format of the aliases file.
 arpadate.c	A subroutine which creates ARPANET standard dates.
-bf.c		Routines to implement memory-buffered file system using
+bf.c		Routines to implement memory-buffered filesystem using
 		hooks provided by libsm now (formerly Torek stdio library).
 bf.h		Buffered file I/O function declarations and
 		data structure and function declarations for bf.c.

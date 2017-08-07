@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/msdosfs/msdosfsmount.h,v 1.2 2005/03/06 21:28:13 tg Exp $	*/
 /*	$OpenBSD: msdosfsmount.h,v 1.16 2004/05/14 04:05:05 tedu Exp $	*/
 /*	$NetBSD: msdosfsmount.h,v 1.16 1997/10/17 11:24:24 ws Exp $	*/
 
@@ -53,7 +53,7 @@
 #define	_MSDOSFS_MOUNT_H
 
 /*
- * Layout of the mount control block for a msdos file system.
+ * Layout of the mount control block for a msdos filesystem.
  */
 struct msdosfsmount {
 	struct mount *pm_mountp;/* vfs mount struct for this fs */

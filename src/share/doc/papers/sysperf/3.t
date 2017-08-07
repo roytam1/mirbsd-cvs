@@ -122,7 +122,7 @@ programs was constructed and run on a VAX-11/750 with 4.5 megabytes
 of physical memory and two disks on a MASSBUS controller.
 Tests were run with the machine operating in single user mode
 under both 4.1BSD and 4.2BSD.   Paging was localized to the drive
-where the root file system was located.
+where the root filesystem was located.
 .PP
 The benchmark programs were modeled after the Kashtan benchmarks,
 [Kashtan80], with identical sources compiled under each system.
@@ -148,7 +148,7 @@ text segment of the parent is larger than that of the child.\**
 text segment; unfortunately time did not permit running additional tests.
 .FE
 All programs were compiled into the default load format that causes
-the text segment to be demand paged out of the file system and shared
+the text segment to be demand paged out of the filesystem and shared
 between processes.
 .KF
 .DS L
@@ -451,14 +451,14 @@ The other searches of the proc table are similarly affected.
 This shows the system can no longer tolerate using linear searches of
 the process table.
 .NH 3
-File system buffer cache
+Filesystem buffer cache
 .PP
 The trace facilities described in section 2.3 were used
 to gather statistics on the performance of the buffer cache.
 We were interested in measuring the effectiveness of the
 cache and the read-ahead policies.
-With the file system block size in 4.2BSD four to
-eight times that of a 4.1BSD file system, we were concerned
+With the filesystem block size in 4.2BSD four to
+eight times that of a 4.1BSD filesystem, we were concerned
 that large amounts of read-ahead might be performed without
 being used.  Also, we were interested in seeing if the
 rules used to size the buffer cache at boot time were severely
@@ -477,7 +477,7 @@ The pertinent configuration information is shown in Table 5.
 .TS
 center box;
 l l l l.
-Controller	Drive	Device	File System
+Controller	Drive	Device	Filesystem
 _
 DEC MASSBUS	DEC RP06	hp0d	/usr
 		hp0b	swap
@@ -491,7 +491,7 @@ Emulex SC780	Fujitsu Eagle	hp1a	/usr/spool/news
 	Fujitsu Eagle	hp3a	/
 .TE
 .ce
-Table 5. Active file systems during buffer cache tests.
+Table 5. Active filesystems during buffer cache tests.
 .DE
 .KE
 .PP
@@ -516,7 +516,7 @@ These include read requests for file blocks made by user
 programs as well as requests initiated by the system.
 System reads include requests for indexing information to determine
 where a file's next data block resides,
-file system layout maps to allocate new data blocks,
+filesystem layout maps to allocate new data blocks,
 and requests for directory contents needed to do path name translations.
 .PP
 On average, an 85% cache hit rate was observed for read requests.

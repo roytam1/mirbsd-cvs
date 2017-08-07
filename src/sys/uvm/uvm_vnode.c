@@ -243,7 +243,7 @@ uvn_attach(arg, accessprot)
 		/*
 		 * We could implement this as a specfs getattr call, but:
 		 *
-		 *	(1) VOP_GETATTR() would get the file system
+		 *	(1) VOP_GETATTR() would get the filesystem
 		 *	    vnode operation, not the specfs operation.
 		 *
 		 *	(2) All we want is the size, anyhow.
@@ -500,7 +500,7 @@ uvn_detach(uobj)
  *	free the vm object.   this is the common case.
  *  [2] when a filesystem is being unmounted by force (MNT_FORCE,
  *	"umount -f") the vgone() function is called on active vnodes
- *	on the mounted file systems to kill their data (the vnodes become
+ *	on the mounted filesystems to kill their data (the vnodes become
  *	"dead" ones [see src/sys/miscfs/deadfs/...]).  that results in a
  *	call here (even if the uvn is still in use -- i.e. has a non-zero
  *	reference count).  this case happens at "umount -f" and during a

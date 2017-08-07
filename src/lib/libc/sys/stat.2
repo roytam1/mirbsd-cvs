@@ -63,7 +63,7 @@ except when the named file is a symbolic link,
 in which case
 .Fn lstat
 returns information about the link itself, not the file the link references.
-Unlike other file system objects,
+Unlike other filesystem objects,
 symbolic links do not have an owner, group, access mode, times, etc.
 Instead, these attributes are taken from the directory that
 contains the link.
@@ -211,7 +211,7 @@ or
 .Em name
 points to an invalid address.
 .It Bq Er EIO
-An I/O error occurred while reading from or writing to the file system.
+An I/O error occurred while reading from or writing to the filesystem.
 .El
 .Pp
 .Fn fstat
@@ -224,7 +224,7 @@ is not a valid open file descriptor.
 .Fa sb
 points to an invalid address.
 .It Bq Er EIO
-An I/O error occurred while reading from or writing to the file system.
+An I/O error occurred while reading from or writing to the filesystem.
 .El
 .Sh SEE ALSO
 .Xr chmod 2 ,

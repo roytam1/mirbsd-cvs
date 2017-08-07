@@ -35,7 +35,7 @@
 .Os
 .Sh NAME
 .Nm tunefs
-.Nd tune up an existing file system
+.Nd tune up an existing filesystem
 .Sh SYNOPSIS
 .Nm tunefs
 .Op Fl Ap
@@ -55,13 +55,13 @@
 .Ek
 .Sh DESCRIPTION
 .Nm
-is designed to change the dynamic parameters of a file system
+is designed to change the dynamic parameters of a filesystem
 which affect the layout policies.
 The parameters which are to be changed are indicated by the flags
 given below:
 .Bl -tag -width Ds
 .It Fl A
-The file system has several backups of the super-block.
+The filesystem has several backups of the super-block.
 Specifying this option will cause all backups to be modified as well as the
 primary super-block.
 This is potentially dangerous - use with caution.
@@ -96,7 +96,7 @@ in that cylinder group.
 The effect of this limit is to cause big files to do long seeks
 more frequently than if they were allowed to allocate all the blocks
 in a cylinder group before seeking elsewhere.
-For file systems with exclusively large files,
+For filesystems with exclusively large files,
 this parameter should be set higher.
 .It Fl f Ar avgfilesize
 Specifies the expected average file size in bytes.
@@ -123,7 +123,7 @@ users will be unable to allocate files until enough files have
 been deleted to get under the higher threshold.
 .It Fl n Ar avgfpdir
 Specifies the expected average number of files per directory in
-the file system.
+the filesystem.
 This value is used only if both
 .Ar avgfilesize
 and
@@ -131,28 +131,28 @@ and
 are greater than zero.
 It is used to limit number of directories which may be allocated one after
 another in the same cylinder group without intervention by regular files.
-This value does not affect most file system operations but is useful for
+This value does not affect most filesystem operations but is useful for
 applications which at first create a directory structure and then populate
 with files later.
 (Also see
 .Ar avgfilesize . )
 .It Fl o Ar optimize_preference
-The file system can either try to minimize the time spent
+The filesystem can either try to minimize the time spent
 allocating blocks, or it can attempt to minimize the space
 fragmentation on the disk.
 If the value of
 .Ar minfree
 (see above) is less than 5%,
-then the file system should optimize for space to avoid
+then the filesystem should optimize for space to avoid
 running out of full sized blocks.
 For values of
 .Ar minfree
 greater than or equal to 5%,
 fragmentation is unlikely to be problematical, and
-the file system can be optimized for time.
+the filesystem can be optimized for time.
 .It Fl p
 This option shows a summary of what the current tuneable settings
-are on the selected file system.
+are on the selected filesystem.
 More detailed information can be obtained in the
 .Xr dumpfs 8
 manual page.
@@ -167,7 +167,7 @@ manual page.
 .%A W. Joy
 .%A S. Leffler
 .%A R. Fabry
-.%T "A Fast File System for UNIX"
+.%T "A Fast Filesystem for UNIX"
 .%J "ACM Transactions on Computer Systems 2"
 .%N 3
 .%P pp 181-197
@@ -180,13 +180,13 @@ The
 command appeared in
 .Bx 4.2 .
 .Sh BUGS
-This program should work on mounted and active file systems.
+This program should work on mounted and active filesystems.
 Because the super-block is not kept in the buffer cache,
 the changes will only take effect if the program
-is run on dismounted file systems.
-To change the root file system, the system must be rebooted
-after the file system is tuned.
+is run on dismounted filesystems.
+To change the root filesystem, the system must be rebooted
+after the filesystem is tuned.
 .Pp
 .\" Take this out and a Unix Demon will dog your steps from now until
 .\" the time_t's wrap around.
-You can tune a file system, but you can't tune a fish.
+You can tune a filesystem, but you can't tune a fish.

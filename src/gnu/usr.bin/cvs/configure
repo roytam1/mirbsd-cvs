@@ -1362,7 +1362,7 @@ Optional Features:
                           authentication (in theory) with any PAM module, e.g.
                           on systems with shadow passwords or via LDAP
   --enable-case-sensitivity
-                          Force CVS to expect a case sensitive file system.
+                          Force CVS to expect a case sensitive filesystem.
                           Enabling this on a case insensitive system should
                           have little effect on the server or client
                           operation, though client users may ocassionally be
@@ -1375,7 +1375,7 @@ Optional Features:
                           client to ask servers to behave case insensitively,
                           which could cause confusion for users, but also
                           probably no real harm. (default autoselects based on
-                          the case sensitivity of the file system containing
+                          the case sensitivity of the filesystem containing
                           the current working directory)
   --enable-encryption     Enable encryption support (disabled by default)
   --enable-force-editor   When committing or importing files, you must enter a
@@ -12236,7 +12236,7 @@ $ac_includes_default
    back from the file, nor mmap's back from the file at a different
    address.  (There have been systems where private was not correctly
    implemented like the infamous i386 svr4.0, and systems where the
-   VM page cache was not coherent with the file system buffer cache
+   VM page cache was not coherent with the filesystem buffer cache
    like early versions of FreeBSD and possibly contemporary NetBSD.)
    For shared mappings, we should conversely verify that changes get
    propagated back to all the places they're supposed to be.
@@ -16469,8 +16469,8 @@ main (void)
 {
 #ifndef PATH_MAX
   /* The Hurd doesn't define this, so getcwd can't exhibit the bug --
-     at least not on a local file system.  And if we were to start worrying
-     about remote file systems, we'd have to enable the wrapper function
+     at least not on a local filesystem.  And if we were to start worrying
+     about remote filesystems, we'd have to enable the wrapper function
      all of the time, just to be safe.  That's not worth the cost.  */
   exit (0);
 #elif ((INT_MAX / (DIR_NAME_SIZE / DOTDOTSLASH_LEN + 1) \
@@ -32886,8 +32886,8 @@ fi
 
 
 acx_forced=' (forced)'
-{ echo "$as_me:$LINENO: checking for a case sensitive file system" >&5
-echo $ECHO_N "checking for a case sensitive file system... $ECHO_C" >&6; }
+{ echo "$as_me:$LINENO: checking for a case sensitive filesystem" >&5
+echo $ECHO_N "checking for a case sensitive filesystem... $ECHO_C" >&6; }
 if test $enable_case_sensitivity = auto; then
         if test "${acx_cv_case_sensitive+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6

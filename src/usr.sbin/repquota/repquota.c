@@ -73,7 +73,7 @@ struct fileusage *addid(uid_t id, int type, char *name);
 uid_t highid[MAXQUOTAS];	/* highest addid()'ed identifier per type */
 
 int	vflag;			/* verbose */
-int	aflag;			/* all file systems */
+int	aflag;			/* all filesystems */
 
 void	usage(void);
 int	repquota(struct fstab *, int, char *);

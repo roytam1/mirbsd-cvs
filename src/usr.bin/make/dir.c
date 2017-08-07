@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/dir.c,v 1.3 2005/11/24 13:20:32 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/dir.c,v 1.4 2007/06/21 14:17:07 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: dir.c,v 1.45 2007/01/18 17:49:51 espie Exp $ */
 /*	$NetBSD: dir.c,v 1.14 1997/03/29 16:51:26 christos Exp $	*/
@@ -86,7 +86,7 @@
 #include "str.h"
 #include "timestamp.h"
 
-__RCSID("$MirOS: src/usr.bin/make/dir.c,v 1.3 2005/11/24 13:20:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/dir.c,v 1.4 2007/06/21 14:17:07 tg Exp $");
 
 typedef struct Path_ {
     int 	  refCount;	/* Number of paths with this directory */
@@ -1081,7 +1081,7 @@ Dir_MTime(GNode *gn)
     if (entry != NULL) {
 	/* Only do this once -- the second time folks are checking to
 	 * see if the file was actually updated, so we need to actually go
-	 * to the file system.	*/
+	 * to the filesystem.	*/
 	if (DEBUG(DIR))
 	    printf("Using cached time %s for %s\n",
 		    Targ_FmtTime(entry->mtime), fullName);

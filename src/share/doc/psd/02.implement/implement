@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/psd/02.implement/implement,v 1.1.7.1 2005/03/06 16:17:43 tg Exp $
+.\" $MirOS: src/share/doc/psd/02.implement/implement,v 1.2 2008/11/08 22:23:56 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -88,7 +88,7 @@ system views processes, users, and programs.
 The second part describes the I/O system.
 The last part describes the
 .UX
-file system.
+filesystem.
 .AE
 .NH
 INTRODUCTION
@@ -460,7 +460,7 @@ execution of the resident processes.
 However, if the swapping device must
 also be used for file storage,
 the swapping traffic severely
-impacts the file system traffic.
+impacts the filesystem traffic.
 It is exactly these small systems
 that tend to double usage of limited disk
 resources.
@@ -681,7 +681,7 @@ the buffer is renamed.
 .PP
 The benefits in reduction of physical I/O
 of this scheme are substantial,
-especially considering the file system implementation.
+especially considering the filesystem implementation.
 There are,
 however,
 some drawbacks.
@@ -857,7 +857,7 @@ These devices either have their own buffers
 or ``borrow'' block I/O buffers for a while and
 then give them back.
 .NH
-THE FILE SYSTEM
+THE FILESYSTEM
 .PP
 In the
 .UX
@@ -880,17 +880,17 @@ ritchie thompson unix bstj 1978
 .PP
 The
 .UX
-file system is a disk data structure
+filesystem is a disk data structure
 accessed completely through
 the block I/O system.
 As stated before,
 the canonical view of a ``disk'' is
 a randomly addressable array of
 512-byte blocks.
-A file system breaks the disk into
+A filesystem breaks the disk into
 four self-identifying regions.
 The first block (address 0)
-is unused by the file system.
+is unused by the filesystem.
 It is left aside for booting procedures.
 The second block (address 1)
 contains the so-called ``super-block.''
@@ -957,7 +957,7 @@ It contains 16-byte entries consisting of
 a 14-byte name and an i-number.
 The root of the hierarchy is at a known i-number
 (\fIviz.,\fR 2).
-The file system structure allows an arbitrary, directed graph
+The filesystem structure allows an arbitrary, directed graph
 of directories with regular files linked in
 at arbitrary places in this graph.
 In fact,
@@ -976,7 +976,7 @@ structure to a tree,
 and allow a new form of linking that
 is subservient to the tree structure.
 .PP
-The file system allows
+The filesystem allows
 easy creation,
 easy removal,
 easy random accessing,
@@ -984,13 +984,13 @@ and very easy space allocation.
 With most physical addresses confined
 to a small contiguous section of disk,
 it is also easy to dump, restore, and
-check the consistency of the file system.
+check the consistency of the filesystem.
 Large files suffer from indirect addressing,
 but the cache prevents most of the implied physical I/O
 without adding much execution.
 The space overhead properties of this scheme are quite good.
 For example,
-on one particular file system,
+on one particular filesystem,
 there are 25,000 files containing 130M bytes of data-file content.
 The overhead (i-node, indirect blocks, and last block breakage)
 is about 11.5M bytes.
@@ -1003,10 +1003,10 @@ stored data.
 Most systems have this much overhead in
 padded trailing blanks alone.
 .NH 2
-File system implementation
+Filesystem implementation
 .PP
 Because the i-node defines a file,
-the implementation of the file system centers
+the implementation of the filesystem centers
 around access to the i-node.
 The system maintains a table of all active
 i-nodes.
@@ -1029,7 +1029,7 @@ secondary store i-list and the table entry is freed.
 .in -.25i
 .sp 2v
 .ce
-Fig. 2\(emFile system data structure.
+Fig. 2\(emFilesystem data structure.
 .sp
 .KE
 .PP
@@ -1038,7 +1038,7 @@ with the aid of the corresponding i-node table entry.
 The accessing of a file is a straightforward
 implementation of the algorithms mentioned previously.
 The user is not aware of i-nodes and i-numbers.
-References to the file system are made in terms of
+References to the filesystem are made in terms of
 path names of the directory tree.
 Converting a path name into an i-node table entry
 is also straightforward.
@@ -1056,7 +1056,7 @@ this i-node is the directory needed to look up
 the next component of the path name, and the
 algorithm is repeated.
 .PP
-The user process accesses the file system with
+The user process accesses the filesystem with
 certain primitives.
 The most common of these are
 .UL open ,
@@ -1111,9 +1111,9 @@ A separate open of the same file will
 only share the i-node table entry,
 but will have distinct open file table entries.
 .PP
-The main file system primitives are implemented as follows.
+The main filesystem primitives are implemented as follows.
 .UL \&open
-converts a file system path name into an i-node
+converts a filesystem path name into an i-node
 table entry.
 A pointer to the i-node table entry is placed in a
 newly created open file table entry.
@@ -1173,9 +1173,9 @@ writer from grossly outproducing the
 reader and to prevent the reader from
 overtaking the writer.
 .NH 2
-Mounted file systems
+Mounted filesystems
 .PP
-The file system of a
+The filesystem of a
 .UX
 system
 starts with some designated block device
@@ -1184,7 +1184,7 @@ a hierarchy.
 The root of this structure is the root of
 the
 .UX
-file system.
+filesystem.
 A second formatted block device may be
 mounted
 at any leaf of
@@ -1206,7 +1206,7 @@ of the block device replaces it.
 Allocation of space for a file is taken
 from the free pool on the device on which the
 file lives.
-Thus a file system consisting of many
+Thus a filesystem consisting of many
 mounted devices does not have a common pool of
 free secondary storage space.
 This separation of space on different

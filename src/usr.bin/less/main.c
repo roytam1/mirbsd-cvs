@@ -163,7 +163,7 @@ main(argc, argv)
 
 	/*
 	 * Call get_ifile with all the command line filenames
-	 * to "register" them with the ifile system.
+	 * to "register" them with the ifilesystem.
 	 */
 	ifile = NULL_IFILE;
 	while (argc-- > 0)

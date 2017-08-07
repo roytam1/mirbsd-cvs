@@ -51,7 +51,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)utilities.c	8.1 (Berkeley) 6/5/93");
-__RCSID("$MirOS: src/sbin/fsck_ffs/utilities.c,v 1.3 2007/03/18 04:14:56 tg Exp $");
+__RCSID("$MirOS: src/sbin/fsck_ffs/utilities.c,v 1.4 2010/09/21 21:24:17 tg Exp $");
 
 long	diskreads, totalreads;	/* Disk cache statistics */
 
@@ -288,11 +288,11 @@ ckfini(int markclean)
 	pbp = pdirbp = NULL;
 	if (markclean && (sblock.fs_clean & FS_ISCLEAN) == 0) {
 		/*
-		 * Mark the file system as clean, and sync the superblock.
+		 * Mark the filesystem as clean, and sync the superblock.
 		 */
 		if (preen)
-			pwarn("MARKING FILE SYSTEM CLEAN\n");
-		else if (!reply("MARK FILE SYSTEM CLEAN"))
+			pwarn("MARKING FILESYSTEM CLEAN\n");
+		else if (!reply("MARK FILESYSTEM CLEAN"))
 			markclean = 0;
 		if (markclean) {
 			sblock.fs_clean = FS_ISCLEAN;

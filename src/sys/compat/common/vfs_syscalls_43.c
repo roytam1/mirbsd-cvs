@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/compat/common/vfs_syscalls_43.c,v 1.2 2005/03/06 21:27:29 tg Exp $ */
+/**	$MirOS: src/sys/compat/common/vfs_syscalls_43.c,v 1.3 2005/07/03 21:18:55 tg Exp $ */
 /*	$OpenBSD: vfs_syscalls_43.c,v 1.27 2005/05/26 01:15:12 pedro Exp $	*/
 /*	$NetBSD: vfs_syscalls_43.c,v 1.4 1996/03/14 19:31:52 christos Exp $	*/
 
@@ -349,7 +349,7 @@ compat_43_sys_creat(p, v, retval)
 }
 
 /*
- * Read a block of directory entries in a file system independent format.
+ * Read a block of directory entries in a filesystem independent format.
  */
 int
 compat_43_sys_getdirentries(p, v, retval)

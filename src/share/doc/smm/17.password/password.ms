@@ -179,7 +179,7 @@ going unnoticed by the system administrators.
 Security against unauthorized disclosure of the passwords was,
 in the last analysis, impossible with this system because,
 for example, if the
-contents of the file system are put on to magnetic tape for
+contents of the filesystem are put on to magnetic tape for
 backup, as they must be, then anyone who has physical
 access to the tape
 can read anything on it with no restriction.

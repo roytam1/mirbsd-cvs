@@ -71,7 +71,7 @@ are provided solely by the kernel.
 .PP
 The second section describes the standard system
 abstractions for
-files and file systems,
+files and filesystems,
 communication,
 terminal handling,
 and process control and debugging.
@@ -170,7 +170,7 @@ TABLE OF CONTENTS
 .LP
 .if t .sp .5v
 .nf
-\fB2.2.  File system\fP
+\fB2.2.  Filesystem\fP
 2.2.1   Overview
 2.2.2.  Naming
 2.2.3.  Creation and removal

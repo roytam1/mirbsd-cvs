@@ -80,7 +80,7 @@ Search permission is denied for a component of the path prefix.
 .It Bq Er ELOOP
 Too many symbolic links were encountered in translating the pathname.
 .It Bq Er EROFS
-The named file resides on a read-only file system.
+The named file resides on a read-only filesystem.
 .It Bq Er EEXIST
 The named file exists.
 .It Bq Er ENOSPC
@@ -88,15 +88,15 @@ The directory in which the entry for the new FIFO is being placed
 cannot be extended because there is no space left on the file
 system containing the directory.
 .It Bq Er ENOSPC
-There are no free inodes on the file system on which the
+There are no free inodes on the filesystem on which the
 FIFO is being created.
 .It Bq Er EDQUOT
 The directory in which the entry for the new FIFO
 is being placed cannot be extended because the
-user's quota of disk blocks on the file system
+user's quota of disk blocks on the filesystem
 containing the directory has been exhausted.
 .It Bq Er EDQUOT
-The user's quota of inodes on the file system on
+The user's quota of inodes on the filesystem on
 which the FIFO is being created has been exhausted.
 .It Bq Er EIO
 An
@@ -105,7 +105,7 @@ error occurred while making the directory entry or allocating the inode.
 .It Bq Er EIO
 An
 .Tn I/O
-error occurred while reading from or writing to the file system.
+error occurred while reading from or writing to the filesystem.
 .It Bq Er EFAULT
 .Fa path
 points outside the process's allocated address space.

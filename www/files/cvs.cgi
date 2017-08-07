@@ -49,7 +49,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $MirOS: www/files/cvs.cgi,v 1.13 2015/10/09 23:44:15 tg Exp $
+# $MirOS: www/files/cvs.cgi,v 1.14 2016/11/06 20:15:41 tg Exp $
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $
@@ -124,7 +124,7 @@ use constant HAS_EDIFF    => eval { require String::Ediff;  };
 
 BEGIN
 {
-  $VERSION = '3.0.5 + $MirOS: www/files/cvs.cgi,v 1.13 2015/10/09 23:44:15 tg Exp $';
+  $VERSION = '3.0.5 + $MirOS: www/files/cvs.cgi,v 1.14 2016/11/06 20:15:41 tg Exp $';
 
   $HTML_DOCTYPE =
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
@@ -4369,7 +4369,7 @@ sub link_tags($)
 
 #
 # See if a file/dir is listed in the config file's @ForbiddenFiles list.
-# Takes a full file system path or one relative to $cvsroot, and strips the
+# Takes a full filesystem path or one relative to $cvsroot, and strips the
 # trailing ",v" if present, then compares.  Returns 1 if forbidden, else 0.
 #
 sub forbidden($)

@@ -192,7 +192,7 @@ checkfilesys(const char *fname)
 	if (mod & (FSFATAL | FSERROR))
 		return (8);
 	if (mod) {
-		pwarn("\n***** FILE SYSTEM WAS MODIFIED *****\n");
+		pwarn("\n***** FILESYSTEM WAS MODIFIED *****\n");
 		return (4);
 	}
 	return (0);

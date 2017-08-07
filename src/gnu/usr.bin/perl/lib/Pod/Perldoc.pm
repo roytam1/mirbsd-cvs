@@ -1151,7 +1151,7 @@ sub minus_f_nocase {   # i.e., do like -f, but without regard to case
         or IS_VMS or IS_MSWin32
         or IS_Dos or IS_OS2
      ) {
-        # On a case-forgiving file system, or if case is important,
+        # On a case-forgiving filesystem, or if case is important,
 	#  that is it, all we can do.
 	warn "Ignored $path: unreadable\n" if -f _;
 	return '';

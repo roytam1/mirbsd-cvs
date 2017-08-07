@@ -5850,7 +5850,7 @@ is available for the target in use (see below).
 The @code{longjmp/setjmp} approach is available on all targets, but
 the @code{zero cost} approach is only available on selected targets.
 To determine whether zero cost exceptions can be used for a
-particular target, look at the private part of the file system.ads.
+particular target, look at the private part of the filesystem.ads.
 Either @code{GCC_ZCX_Support} or @code{Front_End_ZCX_Support} must
 be True to use the zero cost approach. If both of these switches
 are set to False, this means that zero cost exception handling
@@ -8845,7 +8845,7 @@ which limit the length of file names.
 No space is allowed between the @option{-k} and the numeric value. The numeric
 value may be omitted in which case a default of @option{-k8},
 suitable for use
-with DOS-like file systems, is used. If no @option{-k} switch
+with DOS-like filesystems, is used. If no @option{-k} switch
 is present then
 there is no limit on the length of file names.
 
@@ -12615,7 +12615,7 @@ the read-only files found in the library search path. Otherwise, these files
 will be ignored. This option can be used to protect Gnat sources or your own
 libraries from being parsed, thus making @code{gnatfind} and @code{gnatxref}
 much faster, and their output much smaller. Read-only here refers to access
-or permissions status in the file system for the current user.
+or permissions status in the filesystem for the current user.
 
 @item -aIDIR
 @cindex @option{-aIDIR} (@command{gnatxref})
@@ -12770,7 +12770,7 @@ the read-only files found in the library search path. Otherwise, these files
 will be ignored. This option can be used to protect Gnat sources or your own
 libraries from being parsed, thus making @code{gnatfind} and @code{gnatxref}
 much faster, and their output much smaller. Read-only here refers to access
-or permission status in the file system for the current user.
+or permission status in the filesystem for the current user.
 
 @item -aIDIR
 @cindex @option{-aIDIR} (@command{gnatfind})

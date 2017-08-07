@@ -27,7 +27,7 @@
  * $FreeBSD: extattr.h,v 1.14 2001/09/12 08:38:10 julian Exp $
  */
 /*
- * TrustedBSD Project - extended attribute support for UFS-like file systems
+ * TrustedBSD Project - extended attribute support for UFS-like filesystems
  */
 
 #ifndef _UFS_UFS_EXTATTR_H_

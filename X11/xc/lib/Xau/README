@@ -93,7 +93,7 @@ SIGHUP to the server process, which should cause the server to reset.  The
 server will then read in the new magic cookie.
 
 To support accesses (both read and write) from multiple machines (for use in
-environments that use distributed file systems), file locking is done using
+environments that use distributed filesystems), file locking is done using
 hard links.  This is done by creat'ing (sic) a lock file and then linking it
 to another name in the same directory.  If the link-target already exists,
 the link will fail, indicating failure to obtain the lock.  Linking is used

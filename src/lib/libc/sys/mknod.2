@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/lib/libc/sys/mknod.2,v 1.2 2005/03/06 20:28:49 tg Exp $
 .\"	$OpenBSD: mknod.2,v 1.11 2003/06/02 20:18:39 millert Exp $
 .\"	$NetBSD: mknod.2,v 1.6 1995/02/27 12:34:33 cgd Exp $
 .\"
@@ -99,18 +99,18 @@ The directory in which the entry for the new node is being placed
 cannot be extended because there is no space left on the file
 system containing the directory.
 .It Bq Er ENOSPC
-There are no free inodes on the file system on which the
+There are no free inodes on the filesystem on which the
 node is being created.
 .It Bq Er EDQUOT
 The directory in which the entry for the new node
 is being placed cannot be extended because the
-user's quota of disk blocks on the file system
+user's quota of disk blocks on the filesystem
 containing the directory has been exhausted.
 .It Bq Er EDQUOT
-The user's quota of inodes on the file system on
+The user's quota of inodes on the filesystem on
 which the node is being created has been exhausted.
 .It Bq Er EROFS
-The named file resides on a read-only file system.
+The named file resides on a read-only filesystem.
 .It Bq Er EEXIST
 The named file exists.
 .It Bq Er EFAULT

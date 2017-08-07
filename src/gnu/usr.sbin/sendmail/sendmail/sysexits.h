@@ -66,7 +66,7 @@
 **		was "not possible" during a protocol exchange.
 **	EX_NOPERM -- You did not have sufficient permission to
 **		perform the operation.  This is not intended for
-**		file system problems, which should use NOINPUT or
+**		filesystem problems, which should use NOINPUT or
 **		CANTCREAT, but rather for higher level permissions.
 */
 

@@ -778,7 +778,7 @@ XawIm.c:
 
 -- xedit --
   The most important change is the addition of a new functionality, that allows
-  the user to navigate the file system, in a 'ls -a' like list widget, if
+  the user to navigate the filesystem, in a 'ls -a' like list widget, if
   the file is not a directory it is loaded for edition, else, the list widget
   is rebuilt with the contents of the selected directory. To test it, just
   type:  C-X d, or tab when 'finding a file'. To exit the dirwindow without

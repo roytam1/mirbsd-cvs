@@ -117,7 +117,7 @@ package GNAT.Directory_Operations is
    --  there is no directory separator the current working directory is
    --  returned. Note that the contents of Path is case-sensitive on
    --  systems that have case-sensitive file names (like Unix), and
-   --  non-case-sensitive on systems where the file system is also non-
+   --  non-case-sensitive on systems where the filesystem is also non-
    --  case-sensitive (such as Windows, and OpenVMS).
 
    function Base_Name
@@ -131,7 +131,7 @@ package GNAT.Directory_Operations is
    --    represent the same file.
    --
    --  This function is not case-sensitive on systems that have a non
-   --  case-sensitive file system like Windows and OpenVMS.
+   --  case-sensitive filesystem like Windows and OpenVMS.
 
    function File_Extension (Path : Path_Name) return String;
    --  Return the file extension. This is defined as the string after the

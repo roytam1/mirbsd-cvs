@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/lib/libc/sys/chflags.2,v 1.2 2007/05/19 21:47:41 tg Exp $
 .\"	$OpenBSD: chflags.2,v 1.20 2005/09/12 20:06:26 miod Exp $
 .\"	$NetBSD: chflags.2,v 1.6 1995/02/27 12:32:03 cgd Exp $
 .\"
@@ -127,17 +127,17 @@ the effective user ID is not the superuser, or the effective user ID
 is not the superuser and at least one of the super-user-only flags
 for the named file would be changed.
 .It Bq Er EOPNOTSUPP
-The named file resides on a file system that does not support file
+The named file resides on a filesystem that does not support file
 flags.
 .It Bq Er EROFS
-The named file resides on a read-only file system.
+The named file resides on a read-only filesystem.
 .It Bq Er EFAULT
 .Fa path
 points outside the process's allocated address space.
 .It Bq Er EIO
 An
 .Tn I/O
-error occurred while reading from or writing to the file system.
+error occurred while reading from or writing to the filesystem.
 .It Bq Er EINVAL
 The
 .Fa flags
@@ -168,14 +168,14 @@ the effective user ID is not the superuser, or the effective user ID
 is not the superuser and at least one of the super-user-only flags
 for the named file would be changed.
 .It Bq Er EOPNOTSUPP
-The named file resides on a file system that does not support file
+The named file resides on a filesystem that does not support file
 flags.
 .It Bq Er EROFS
-The file resides on a read-only file system.
+The file resides on a read-only filesystem.
 .It Bq Er EIO
 An
 .Tn I/O
-error occurred while reading from or writing to the file system.
+error occurred while reading from or writing to the filesystem.
 .El
 .Sh SEE ALSO
 .Xr chflags 1 ,

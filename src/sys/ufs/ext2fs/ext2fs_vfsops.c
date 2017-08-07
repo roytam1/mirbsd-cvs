@@ -310,7 +310,7 @@ ext2fs_mount(mp, path, data, ndp, p)
 		if (fs->e2fs.e2fs_state == 0)
 			fs->e2fs.e2fs_wtime = time.tv_sec;
 		else
-			printf("%s: file system not clean; please fsck(8)\n",
+			printf("%s: filesystem not clean; please fsck(8)\n",
 				mp->mnt_stat.f_mntfromname);
 		(void) ext2fs_cgupdate(ump, MNT_WAIT);
 	}
@@ -677,7 +677,7 @@ ext2fs_flushfiles(mp, flags, p)
 }
 
 /*
- * Get file system statistics.
+ * Get filesystem statistics.
  */
 int
 ext2fs_statfs(mp, sbp, p)
@@ -800,7 +800,7 @@ ext2fs_sync(mp, waitfor, cred, p)
 		allerror = esa.allerror;
 
 	/*
-	 * Force stale file system control information to be flushed.
+	 * Force stale filesystem control information to be flushed.
 	 */
 	if (waitfor != MNT_LAZY) {
 		vn_lock(ump->um_devvp, LK_EXCLUSIVE | LK_RETRY, p);

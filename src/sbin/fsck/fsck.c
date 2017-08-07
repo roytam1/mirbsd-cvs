@@ -181,7 +181,7 @@ main(int argc, char *argv[])
 		    (fs = getfsspec(*argv)) == NULL) {
 			if (vfstype == NULL)
 				errx(1,
-				    "%s: unknown special file or file system.",
+				    "%s: unknown special file or filesystem.",
 				    *argv);
 			spec = *argv;
 			type = vfstype;
@@ -189,7 +189,7 @@ main(int argc, char *argv[])
 			spec = fs->fs_spec;
 			type = fs->fs_vfstype;
 			if (BADTYPE(fs->fs_type))
-				errx(1, "%s has unknown file system type.",
+				errx(1, "%s has unknown filesystem type.",
 				    *argv);
 		}
 

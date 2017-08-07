@@ -1630,7 +1630,7 @@ $Revision$ $Date$
 ! Symbol/Makefile.PL
 ! TW/Makefile.PL
   Now all table files used by compile are postfixed '_t' to avoid
-  namespace collisions in case insensitive file systems once for all!
+  namespace collisions in case insensitive filesystems once for all!
   inspired by:
   Message-ID: <58290227735.20020323195659@familiehaase.de>
 ! t/Aliases.t
@@ -1658,7 +1658,7 @@ $Revision$ $Date$
 ! Symbol/Makefile.PL
 ! EBCDIC/Makefile.PL
 ! AUTHOR
-  -- Problem on case insensitive file systems
+  -- Problem on case insensitive filesystems
   "coexist of ebcdic.c <> EBCDIC.c on Cygwin not possible"
   Message-ID: <88254111953.20020323095503@familiehaase.de>
 ! compile

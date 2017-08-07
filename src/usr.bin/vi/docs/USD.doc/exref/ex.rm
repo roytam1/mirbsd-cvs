@@ -1350,7 +1350,7 @@ Also, the commands
 and
 .I edit
 which interact with the
-file system cannot be undone.
+filesystem cannot be undone.
 .I Undo
 is its own inverse.
 .IP

@@ -358,7 +358,7 @@ allocations are for small objects.
 Large allocations occur infrequently, 
 and are typically for long-lived objects
 such as buffers to hold the superblock for
-a mounted file system.
+a mounted filesystem.
 Thus, a memory allocator only needs to be
 fast for small pieces of memory.
 .H 1 "Implementation of the Kernel Memory Allocator

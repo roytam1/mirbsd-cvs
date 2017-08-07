@@ -70,7 +70,7 @@ RCS records who did what when to which revision of which module.
 .RE
 .IP 11.
 RCS is fully compatible with existing software development tools.
-RCS is unobtrusive -- its interface to the file system is such that
+RCS is unobtrusive -- its interface to the filesystem is such that
 all your existing software tools can be used as before.
 .IP 12.
 RCS' basic user interface is extremely simple. The novice need to learn

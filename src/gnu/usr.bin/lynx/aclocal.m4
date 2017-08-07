@@ -3593,7 +3593,7 @@ fi
 dnl ---------------------------------------------------------------------------
 dnl CF_MIXEDCASE_FILENAMES version: 4 updated: 2012/10/02 20:55:03
 dnl ----------------------
-dnl Check if the file-system supports mixed-case filenames.  If we're able to
+dnl Check if the filesystem supports mixed-case filenames.  If we're able to
 dnl create a lowercase name and see it as uppercase, it doesn't support that.
 AC_DEFUN([CF_MIXEDCASE_FILENAMES],
 [

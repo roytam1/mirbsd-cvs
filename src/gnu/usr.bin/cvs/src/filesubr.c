@@ -15,14 +15,14 @@
 
 /* These functions were moved out of subr.c because they need different
    definitions under operating systems (like, say, Windows NT) with different
-   file system semantics.  */
+   filesystem semantics.  */
 
 #include "cvs.h"
 #include "lstat.h"
 #include "save-cwd.h"
 #include "xsize.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/filesubr.c,v 1.4 2017/03/26 15:54:08 tg Exp $");
 
 static int deep_remove_dir (const char *path);
 

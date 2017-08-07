@@ -3732,7 +3732,7 @@
 2003-12-09  George Williams  <gww@silcom.com>
 
 	* src/base/ftobjs.c (load_mac_face): Recent versions of Linux
-	support Mac's HFS+ file system, thus enable code to read /rsrc on
+	support Mac's HFS+ filesystem, thus enable code to read /rsrc on
 	non-Macintosh platforms also.
 
 2003-12-08  Werner Lemberg  <wl@gnu.org>

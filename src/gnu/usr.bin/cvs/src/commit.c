@@ -25,7 +25,7 @@
 #include "fileattr.h"
 #include "hardlink.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_commit_c,v 1.4 2010/09/15 20:56:59 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.10 2010/09/19 19:43:02 tg Exp $");
 
 static Dtype check_direntproc (void *callerdat, const char *dir,
                                const char *repos, const char *update_dir,
@@ -494,7 +494,7 @@ commit (int argc, char **argv)
 
 	/* Now we keep track of which files we actually are going to
 	   operate on, and only work with those files in the future.
-	   This saves time--we don't want to search the file system
+	   This saves time--we don't want to search the filesystem
 	   of the working directory twice.  */
 	if (size_overflow_p (xtimes (find_args.argc, sizeof (char **))))
 	{

@@ -44,15 +44,15 @@ University of California, Berkeley
 Berkeley, California  94720
 .AB
 With the cost per byte of memory approaching that of the cost per byte
-for disks, and with file systems increasingly distant from the host
+for disks, and with filesystems increasingly distant from the host
 machines, a new approach to the implementation of virtual memory is
 necessary. Rather than preallocating swap space which limits the
 maximum virtual memory that can be supported to the size of the swap
 area, the system should support virtual memory up to the sum of the
 sizes of physical memory plus swap space. For systems with a local swap
-disk, but remote file systems, it may be useful to use some of the memory
+disk, but remote filesystems, it may be useful to use some of the memory
 to keep track of the contents of the swap space to avoid multiple fetches
-of the same data from the file system.
+of the same data from the filesystem.
 .PP
 The new implementation should also add new functionality.  Processes
 should be allowed to have large sparse address spaces, to map files

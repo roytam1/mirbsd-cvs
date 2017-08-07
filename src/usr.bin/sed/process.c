@@ -40,7 +40,7 @@
 #include <sys/uio.h>
 
 __SCCSID("@(#)process.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/sed/process.c,v 1.2 2015/02/19 18:50:21 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/sed/process.c,v 1.3 2016/03/04 19:42:27 tg Exp $");
 
 #include <ctype.h>
 #include <errno.h>
@@ -458,7 +458,7 @@ flush_appends(void)
 			 * Read files probably shouldn't be cached.  Since
 			 * it's not an error to read a non-existent file,
 			 * it's possible that another program is interacting
-			 * with the sed script through the file system.  It
+			 * with the sed script through the filesystem.  It
 			 * would be truly bizarre, but possible.  It's probably
 			 * not that big a performance win, anyhow.
 			 */

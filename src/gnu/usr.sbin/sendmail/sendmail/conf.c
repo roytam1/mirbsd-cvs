@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.16 2014/03/13 01:25:22 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.17 2014/06/09 15:17:43 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/sendmail.h>
@@ -3368,7 +3368,7 @@ freediskspace(dir, bsize)
 # endif /* SFS_TYPE == SFS_NONE */
 }
 /*
-**  ENOUGHDISKSPACE -- is there enough free space on the queue file systems?
+**  ENOUGHDISKSPACE -- is there enough free space on the queue filesystems?
 **
 **	Parameters:
 **		msize -- the size to check against.  If zero, we don't yet
@@ -3378,7 +3378,7 @@ freediskspace(dir, bsize)
 **
 **	Returns:
 **		true if in every queue group there is at least one
-**		queue directory whose file system contains enough free space.
+**		queue directory whose filesystem contains enough free space.
 **		false otherwise.
 **
 **	Side Effects:

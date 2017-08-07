@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_bio.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_bio.c,v 1.3 2005/07/04 00:10:43 tg Exp $ */
 /*	$OpenBSD: vfs_bio.c,v 1.77 2005/06/27 22:08:39 pedro Exp $	*/
 /*	$NetBSD: vfs_bio.c,v 1.44 1996/06/11 11:15:36 pk Exp $	*/
 
@@ -315,7 +315,7 @@ bwrite(struct buf *bp)
 
 	/*
 	 * Remember buffer type, to switch on it later.  If the write was
-	 * synchronous, but the file system was mounted with MNT_ASYNC,
+	 * synchronous, but the filesystem was mounted with MNT_ASYNC,
 	 * convert it to a delayed write.
 	 * XXX note that this relies on delayed tape writes being converted
 	 * to async, not sync writes (which is safe, but ugly).

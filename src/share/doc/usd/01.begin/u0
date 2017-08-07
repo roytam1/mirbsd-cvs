@@ -65,7 +65,7 @@ It includes:
 basics needed for day-to-day use of the system \(em
 typing commands, correcting typing mistakes, logging in and out,
 mail, inter-terminal communication,
-the file system, printing files,
+the filesystem, printing files,
 redirecting I/O, pipes, and the shell.
 .IP "\ \(bu"
 document preparation \(em

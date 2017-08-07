@@ -1,4 +1,4 @@
-#	$MirOS: src/sys/dev/pci/files.pci,v 1.4 2010/04/16 22:44:05 tg Exp $
+#	$MirOS: src/sys/dev/pci/files.pci,v 1.5 2011/02/27 16:44:23 bsiegert Exp $
 #	$OpenBSD: files.pci,v 1.151 2004/03/06 03:16:20 krw Exp $
 #	$NetBSD: files.pci,v 1.20 1996/09/24 17:47:15 christos Exp $
 #
@@ -147,7 +147,7 @@ file	dev/pci/auvia.c			auvia
 attach	gdt at pci with gdt_pci
 file	dev/pci/gdt_pci.c		gdt_pci
 
-# Adaptec FSA (file system accelerators) RAID adapters
+# Adaptec FSA (filesystem accelerators) RAID adapters
 device	aac: scsi
 attach	aac at pci with aac_pci
 file	dev/pci/aac_pci.c		aac_pci

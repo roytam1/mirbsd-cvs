@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.29 2015/07/18 23:38:44 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.30 2015/07/19 12:25:43 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -8,7 +8,7 @@ COMMENT-cclient=	University of Washington c-client mail access routines
 COMMENT-daemon=		University of Washington IMAP4rev1/POP2/POP3 mail servers
 COMMENT-mailutil=	University of Washington IMAP4rev1/POP2/POP3 mail utility
 COMMENT-pico=		small text editor
-COMMENT-pilot=		file system browser
+COMMENT-pilot=		filesystem browser
 CATEGORIES=		devel editors mail net news sysutils
 VERSION=		4.64
 PICO_VERSION=		4.10

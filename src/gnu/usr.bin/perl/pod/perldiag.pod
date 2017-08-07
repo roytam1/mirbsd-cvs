@@ -4524,7 +4524,7 @@ you called it with no args and C<$_> was empty.
 =item Warning: unable to close filehandle %s properly
 
 (S) The implicit close() done by an open() got an error indication on
-the close().  This usually indicates your file system ran out of disk
+the close().  This usually indicates your filesystem ran out of disk
 space.
 
 =item Warning: Use of "%s" without parentheses is ambiguous

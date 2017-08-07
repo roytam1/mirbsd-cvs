@@ -116,7 +116,7 @@ X<copy> X<file, copy>
 (contributed by brian d foy)
 
 Use the File::Copy module. It comes with Perl and can do a
-true copy across file systems, and it does its magic in
+true copy across filesystems, and it does its magic in
 a portable fashion.
 
 	use File::Copy;
@@ -736,7 +736,7 @@ Error checking is, as usual, left as an exercise for the reader.
 The perldoc for utime also has an example that has the same
 effect as touch(1) on files that I<already exist>.
 
-Certain file systems have a limited ability to store the times
+Certain filesystems have a limited ability to store the times
 on a file at the expected level of precision.  For example, the
 FAT and HPFS filesystem are unable to create dates on files with
 a finer granularity than two seconds.  This is a limitation of

@@ -62,7 +62,7 @@
 #include "rf_decluster.h"
 #include "rf_configure.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/raidctl/rf_configure.c,v 1.4 2013/10/31 20:06:45 tg Exp $");
 
 /* so much for #include <ansidecl.h> */
 #ifdef __GNUCC__
@@ -483,7 +483,7 @@ rf_get_next_nonblank_line(char *buf, int len ATTRIBUTE_UNUSED, FILE *fp,
  * In the user-level version, this is called when recon is initiated.
  * When/if I move recon into the kernel, there'll be a daemon that does
  * an ioctl into RAIDframe which will block until a spare table is needed.
- * When it returns, it will read a spare table from the file system,
+ * When it returns, it will read a spare table from the filesystem,
  * pass it into the kernel via a different ioctl, and then block again
  * on the original ioctl.
  *

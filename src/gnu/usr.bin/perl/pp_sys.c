@@ -3748,7 +3748,7 @@ S_dooneliner(pTHX_ const char *cmd, const char *filename)
 #endif
 
 /* This macro removes trailing slashes from a directory name.
- * Different operating and file systems take differently to
+ * Different operating and filesystems take differently to
  * trailing slashes.  According to POSIX 1003.1 1996 Edition
  * any number of trailing slashes should be allowed.
  * Thusly we snip them away so that even non-conforming

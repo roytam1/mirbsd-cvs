@@ -450,7 +450,7 @@ to
 .Fa newsize .
 Caller must hold a reference to the vnode.
 If the vnode shrinks, pages no longer used are discarded.
-This function will be removed when the file system and VM buffer caches
+This function will be removed when the filesystem and VM buffer caches
 are merged.
 .Pp
 The
@@ -461,7 +461,7 @@ or all dirty vnodes if
 .Fa mp
 is
 .Dv NULL .
-This function will be removed when the file system and VM buffer caches
+This function will be removed when the filesystem and VM buffer caches
 are merged.
 .Pp
 The
@@ -470,7 +470,7 @@ function frees all VM resources allocated to vnode
 .Fa vp .
 If the vnode still has references, it will not be destroyed; however
 all future operations using this vnode will fail.
-This function will be removed when the file system and VM buffer caches
+This function will be removed when the filesystem and VM buffer caches
 are merged.
 .Pp
 The
@@ -478,7 +478,7 @@ The
 function disables vnode
 .Fa vp
 from persisting when all references are freed.
-This function will be removed when the file-system and UVM caches
+This function will be removed when the filesystem and UVM caches
 are unified.
 Returns true if there is no active vnode.
 .Sh VIRTUAL MEMORY I/O

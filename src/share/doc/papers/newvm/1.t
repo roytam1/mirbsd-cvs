@@ -96,17 +96,17 @@ to two times the physical memory on the machine.
 .PP
 At the time that the virtual memory system was designed,
 most machines ran with little or no networking.
-All the file systems were contained on disks that were
+All the filesystems were contained on disks that were
 directly connected to the machine.
 Similarly all the disk space devoted to swap space was also
 directly connected.
-Thus the speed and latency with which file systems could be accessed
+Thus the speed and latency with which filesystems could be accessed
 were roughly equivalent to the speed and latency with which swap
 space could be accessed.
 Given the high cost of memory there was little incentive to have
 the kernel keep track of the contents of the swap area once a process
 exited since it could almost as easily and quickly be reread from the
-file system.
+filesystem.
 .SH
 New influences
 .PP
@@ -153,7 +153,7 @@ For machines with no swap space, the maximum virtual memory will
 be governed by the amount of physical memory.
 .PP
 Another effect of the current technology is that the latency and overhead
-associated with accessing the file system is considerably higher
+associated with accessing the filesystem is considerably higher
 since the access must be be over the network
 rather than to a locally-attached disk.
 One use of the surplus memory would be to
@@ -171,13 +171,13 @@ to the way that memory pages are handled.
 Thus inactive swap blocks can also be used to cache less-recently-used
 file data.
 Since the swap disk is locally attached, it can be much more quickly
-accessed than a remotely located file system.
+accessed than a remotely located filesystem.
 This design allows the user to simply allocate their entire local disk
 to swap space, thus allowing the system to decide what files should
 be cached to maximize its usefulness.
 This design has two major benefits.
 It relieves the user of deciding what files
-should be kept in a small local file system.
+should be kept in a small local filesystem.
 It also insures that all modified files are migrated back to the
 file server in a timely fashion, thus eliminating the need to dump
 the local disk or push the files manually.
@@ -253,7 +253,7 @@ For anonymous memory they must use some other rendezvous point.
 Our current interface allows processes to associate a
 descriptor with a region, which it may then pass to other
 processes that wish to attach to the region.
-Such a descriptor may be bound into the UNIX file system
+Such a descriptor may be bound into the UNIX filesystem
 name space so that other processes can find it just as
 they would with a mapped file.
 .SH

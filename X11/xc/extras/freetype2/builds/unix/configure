@@ -12914,7 +12914,7 @@ $ac_includes_default
    back from the file, nor mmap's back from the file at a different
    address.  (There have been systems where private was not correctly
    implemented like the infamous i386 svr4.0, and systems where the
-   VM page cache was not coherent with the file system buffer cache
+   VM page cache was not coherent with the filesystem buffer cache
    like early versions of FreeBSD and possibly contemporary NetBSD.)
    For shared mappings, we should conversely verify that changes get
    propagated back to all the places they're supposed to be.

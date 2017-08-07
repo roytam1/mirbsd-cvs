@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/alpine/Makefile,v 1.5 2008/05/07 22:48:30 tg Exp $
+# $MirOS: ports/mailnews/alpine/Makefile,v 1.6 2009/02/02 20:15:46 bsiegert Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:*
 
@@ -8,7 +8,7 @@ COMMENT-cclient=	University of Washington c-client eMail access routines
 COMMENT-daemon=		University of Washington IMAP4rev1/POP2/POP3 mail servers
 COMMENT-mailutil=	University of Washington eMail management utility
 COMMENT-pico=		small text editor embedded in alpine
-COMMENT-pilot=		file system browser embedded in alpine
+COMMENT-pilot=		filesystem browser embedded in alpine
 CATEGORIES=		devel editors mail mailnews net news sysutils
 HOMEPAGE=		http://www.washington.edu/alpine/
 VERSION=		2.00

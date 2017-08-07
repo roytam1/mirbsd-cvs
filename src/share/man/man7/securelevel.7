@@ -67,7 +67,7 @@ and
 .Pa /dev/kmem
 may not be written to
 .It
-raw disk devices of mounted file systems are read-only
+raw disk devices of mounted filesystems are read-only
 .It
 system immutable and append-only file flags may not be removed
 .It
@@ -150,7 +150,7 @@ Highly secure mode may seem Draconian, but is intended as a last line of
 defence should the superuser account be compromised.
 Its effects preclude
 circumvention of file flags by direct modification of a raw disk device,
-or erasure of a file system by means of
+or erasure of a filesystem by means of
 .Xr newfs 8 .
 Further, it can limit the potential damage of a compromised
 .Dq firewall

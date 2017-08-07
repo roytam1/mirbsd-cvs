@@ -249,7 +249,7 @@ as F<sh_dos.zip> or under similar names starting with C<sh>, C<pdksh> etc.
 
 =item HPFS
 
-Perl does not care about file systems, but the perl library contains
+Perl does not care about filesystems, but the perl library contains
 many files with long names, so to install it intact one needs a file
 system which supports long file names.
 
@@ -409,7 +409,7 @@ an executable, then by Perl for scripts.
 Note also that executable files on OS/2 can have an arbitrary extension, 
 but F<.exe> will be automatically appended if no dot is present in the name.  
 The workaround is as simple as that:  since F<blah.> and F<blah> denote the 
-same file (at list on FAT and HPFS file systems), to start an executable residing in file F<n:/bin/blah> (no 
+same file (at list on FAT and HPFS filesystems), to start an executable residing in file F<n:/bin/blah> (no 
 extension) give an argument C<n:/bin/blah.> (dot appended) to system().
 
 Perl will start PM programs from VIO (=text-mode) Perl process in a
@@ -1877,13 +1877,13 @@ See L<"Text-mode filehandles">.
 
 =item *
 
-Unix-domain sockets on OS/2 live in a pseudo-file-system C</sockets/...>.
+Unix-domain sockets on OS/2 live in a pseudo-filesystem C</sockets/...>.
 To avoid a failure to create a socket with a name of a different form,
 C<"/socket/"> is prepended to the socket name (unless it starts with this
 already).
 
 This may lead to problems later in case the socket is accessed via the
-"usual" file-system calls using the "initial" name.
+"usual" filesystem calls using the "initial" name.
 
 =item *
 

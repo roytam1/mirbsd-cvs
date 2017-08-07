@@ -15,7 +15,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/login.c,v 1.5 2010/09/19 19:43:05 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/login.c,v 1.8 2017/03/26 15:54:08 tg Exp $");
 
 /* There seems to be very little agreement on which system header
    getpass is declared in.  With a lot of fancy autoconfiscation,
@@ -446,7 +446,7 @@ process:
 	 *
 	 * I don't think so, unless we change the way rename_file works to
 	 * attempt a cp/rm sequence when rename fails since rename doesn't
-	 * work across file systems and it isn't uncommon to have /tmp
+	 * work across filesystems and it isn't uncommon to have /tmp
 	 * on its own partition.
 	 *
 	 * For that matter, it's probably not uncommon to have a home

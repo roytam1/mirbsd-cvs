@@ -169,7 +169,7 @@
         - when defined locally the global symbols strcasecmp and strdup are
 	  now called xpmstrcasecmp and xpmstrdup to avoid any possible
 	  conflict.
-	- VMS has a bogus file system which requires a work around in
+	- VMS has a bogus filesystem which requires a work around in
 	  XpmReadFileToBuffer.
 		  - patch from Bob.Deen@jpl.nasa.gov
 	- the type of the exactColors attribute has been changed from unsigned

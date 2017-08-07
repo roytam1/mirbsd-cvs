@@ -170,7 +170,7 @@ everything useful that normally comes with a Unix system, and more.
 GNU will be able to run Unix programs, but will not be identical to Unix.
 We will make all improvements that are convenient, based on our experience
 with other operating systems.  In particular, we plan to have longer
-file names, file version numbers, a crashproof file system, file name
+file names, file version numbers, a crashproof filesystem, file name
 completion perhaps, terminal-independent display support, and perhaps
 eventually a Lisp-based window system through which several Lisp programs
 and ordinary Unix programs can share a screen.  Both C and Lisp will be

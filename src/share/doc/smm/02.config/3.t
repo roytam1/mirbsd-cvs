@@ -137,7 +137,7 @@ One file for each possible system image for this machine,
 where
 .I xxx
 is the name of the system image,
-which describes where swapping, the root file system, and other
+which describes where swapping, the root filesystem, and other
 miscellaneous system devices are located.
 .IP \(bu 3
 A collection of header files, one per possible device the
@@ -197,14 +197,14 @@ should allow a new system to be rebuilt by simply typing ``make image-name''.
 For example, if you have named your bootable system image ``vmunix'',
 then ``make vmunix''
 will generate a bootable image named ``vmunix''.  Alternate system image names
-are used when the root file system location and/or swapping configuration
+are used when the root filesystem location and/or swapping configuration
 is done in more than one way.  The makefile which
 .I config
 creates has entry points for each system image defined in
 the configuration file.
 Thus, if you have configured ``vmunix'' to be a system with the root file
 system on an ``hp'' device and ``hkvmunix'' to be a system with the root
-file system on an ``hk'' device, then ``make vmunix hkvmunix'' will generate
+filesystem on an ``hk'' device, then ``make vmunix hkvmunix'' will generate
 binary images for each.
 As the system will generally use the disk from which it is loaded
 as the root filesystem, separate system images are only required
@@ -212,7 +212,7 @@ to support different swap configurations.
 .PP
 Note that the name of a bootable image is different from the system
 identifier.  All bootable images are configured for the same system;
-only the information about the root file system and paging devices differ.
+only the information about the root filesystem and paging devices differ.
 (This is described in more detail in section 4.)
 .PP
 The last step in the system building process is to rearrange certain commonly

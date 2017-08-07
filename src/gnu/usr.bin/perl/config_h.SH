@@ -350,12 +350,12 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#undef\(.*/\)\*!/\*#define\1 \*!' -e 's!^#un
 
 /* HAS_PATHCONF:
  *	This symbol, if defined, indicates that pathconf() is available
- *	to determine file-system related limits and options associated
+ *	to determine filesystem-related limits and options associated
  *	with a given filename.
  */
 /* HAS_FPATHCONF:
  *	This symbol, if defined, indicates that pathconf() is available
- *	to determine file-system related limits and options associated
+ *	to determine filesystem-related limits and options associated
  *	with a given open file descriptor.
  */
 #$d_pathconf HAS_PATHCONF		/**/
@@ -1626,7 +1626,7 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#undef\(.*/\)\*!/\*#define\1 \*!' -e 's!^#un
 
 /* HAS_GETMNTENT:
  *	This symbol, if defined, indicates that the getmntent routine is
- *	available to iterate through mounted file systems to get their info.
+ *	available to iterate through mounted filesystems to get their info.
  */
 #$d_getmntent HAS_GETMNTENT		/**/
 
@@ -1819,7 +1819,7 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#undef\(.*/\)\*!/\*#define\1 \*!' -e 's!^#un
 #endif
 /* HAS_HASMNTOPT:
  *	This symbol, if defined, indicates that the hasmntopt routine is
- *	available to query the mount options of file systems.
+ *	available to query the mount options of filesystems.
  */
 #$d_hasmntopt HAS_HASMNTOPT		/**/
 
@@ -2657,7 +2657,7 @@ sed <<!GROK!THIS! >$CONFIG_H -e 's!^#undef\(.*/\)\*!/\*#define\1 \*!' -e 's!^#un
 
 /* HAS_USTAT:
  *	This symbol, if defined, indicates that the ustat system call is
- *	available to query file system statistics by dev_t.
+ *	available to query filesystem statistics by dev_t.
  */
 #$d_ustat HAS_USTAT		/**/
 

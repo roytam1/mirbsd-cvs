@@ -230,7 +230,7 @@ Interfaces to / Emulations of Other Programming Languages
 
 =item *
 
-File Names, File Systems and File Locking (see also File Handles)
+File Names, Filesystems and File Locking (see also File Handles)
 
 =item *
 

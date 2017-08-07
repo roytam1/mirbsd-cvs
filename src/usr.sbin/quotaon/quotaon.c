@@ -48,12 +48,12 @@ __COPYRIGHT("@(#) Copyright (c) 1980, 1990, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)quotaon.c	8.1 (Berkeley) 6/6/93");
 __RCSID("$Id$");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/quotaon/quotaon.c,v 1.2 2007/08/24 14:20:23 tg Exp $");
 
 char *qfname = QUOTAFILENAME;
 char *qfextension[] = INITQFNAMES;
 
-int	aflag;		/* all file systems */
+int	aflag;		/* all filesystems */
 int	gflag;		/* operate on group quotas */
 int	uflag;		/* operate on user quotas */
 int	vflag;		/* verbose */
@@ -236,7 +236,7 @@ hasquota(struct fstab *fs, int type, char **qfnamep, int force)
 }
 
 /*
- * Verify file system is mounted and not readonly.
+ * Verify filesystem is mounted and not readonly.
  * MFS is special -- it puts "mfs:" in the kernel's mount table
  */
 int

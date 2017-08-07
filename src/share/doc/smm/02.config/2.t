@@ -49,7 +49,7 @@ timezone
 .IP \(bu 3
 maximum number of users
 .IP \(bu 3
-location of the root file system
+location of the root filesystem
 .IP \(bu 3
 available hardware
 .PP
@@ -57,7 +57,7 @@ available hardware
 allows multiple system images to be generated from a single
 configuration description.  Each system image is configured
 for identical hardware, but may have different locations for the root
-file system and, possibly, other system devices.
+filesystem and, possibly, other system devices.
 .NH 2
 Machine type
 .PP
@@ -125,10 +125,10 @@ on the hardware and expected job mix.  The rules
 used to calculate system data structures are discussed in
 Appendix D.
 .NH 2
-Root file system location
+Root filesystem location
 .PP
 When the system boots it must know the location of
-the root of the file system
+the root of the filesystem
 tree.  This location and the part(s) of the disk(s) to be used
 for paging and swapping must be specified in order to create
 a complete configuration description.  
@@ -136,7 +136,7 @@ a complete configuration description.
 uses many rules to calculate default locations for these items;
 these are described in Appendix B.
 .PP
-When a generic system is configured, the root file system is left
+When a generic system is configured, the root filesystem is left
 undefined until the system is booted.  In this case, the root file
 system need not be specified, only that the system is a generic system.
 .NH 2

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.10 2012/12/31 20:19:49 tg Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.11 2014/09/05 22:38:17 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
@@ -98,7 +98,7 @@ __END_DECLS
 #define	EFBIG		27		/* File too large */
 #define	ENOSPC		28		/* No space left on device */
 #define	ESPIPE		29		/* Illegal seek */
-#define	EROFS		30		/* Read-only file system */
+#define	EROFS		30		/* Read-only filesystem */
 #define	EMLINK		31		/* Too many links */
 #define	EPIPE		32		/* Broken pipe */
 
@@ -166,7 +166,7 @@ __END_DECLS
 #endif /* _POSIX_SOURCE */
 #define	EDQUOT		69		/* Disk quota exceeded */
 
-/* Network File System */
+/* Network Filesystem */
 #define	ESTALE		70		/* Stale NFS file handle */
 #ifndef _POSIX_SOURCE
 #define	EREMOTE		71		/* Too many levels of remote in path */

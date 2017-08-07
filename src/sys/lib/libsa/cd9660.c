@@ -256,7 +256,7 @@ cd9660_open(char *path, struct open_file *f)
 		goto out;
 	}
 
-	/* allocate file system specific data structure */
+	/* allocate filesystem specific data structure */
 	fp = alloc(sizeof(struct file));
 	bzero(fp, sizeof(struct file));
 	f->f_fsdata = (void *)fp;

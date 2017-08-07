@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rd.c,v 1.2 2005/03/06 21:27:35 tg Exp $ */
+/**	$MirOS: src/sys/dev/rd.c,v 1.3 2008/11/08 23:04:17 tg Exp $ */
 /*	$OpenBSD: rd.c,v 1.1 2001/05/11 07:04:47 deraadt Exp $	*/
 
 /*
@@ -45,7 +45,7 @@ extern int boothowto;
 #define ROOTBYTES (MINIROOTSIZE << DEV_BSHIFT)
 
 /*
- * This array will be patched to contain a file-system image.
+ * This array will be patched to contain a filesystem image.
  * See the program:  src/distrib/common/rdsetroot.c
  */
 #define	RDARR_TXT	"|This is the root ramdisk!\n"

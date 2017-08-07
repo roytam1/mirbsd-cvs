@@ -38,7 +38,7 @@
  */
 
 /*
- * Definitions used in the kernel for cd9660 file system support.
+ * Definitions used in the kernel for cd9660 filesystem support.
  */
 
 /* CD-ROM Format type */

@@ -34,9 +34,9 @@ delim $$
 .EN
 .if n .ND
 .TL
-A Fast File System for UNIX*
-.EH 'SMM:05-%''A Fast File System for \s-2UNIX\s+2'
-.OH 'A Fast File System for \s-2UNIX\s+2''SMM:05-%'
+A Fast Filesystem for UNIX*
+.EH 'SMM:05-%''A Fast Filesystem for \s-2UNIX\s+2'
+.OH 'A Fast Filesystem for \s-2UNIX\s+2''SMM:05-%'
 .AU
 Marshall Kirk McKusick, William N. Joy\(dg,
 Samuel J. Leffler\(dd, Robert S. Fabry
@@ -65,20 +65,20 @@ and the Defense Advance Research Projects Agency (DoD) under
 ARPA Order No. 4031 monitored by Naval Electronic System Command under
 Contract No. N00039-82-C-0235.
 .FE
-A reimplementation of the UNIX file system is described.
+A reimplementation of the UNIX filesystem is described.
 The reimplementation provides substantially higher throughput
 rates by using more flexible allocation policies
 that allow better locality of reference and can
 be adapted to a wide range of peripheral and processor characteristics.
-The new file system clusters data that is sequentially accessed
+The new filesystem clusters data that is sequentially accessed
 and provides two block sizes to allow fast access to large files
 while not wasting large amounts of space for small files.
 File access rates of up to ten times faster than the traditional
-UNIX file system are experienced.
+UNIX filesystem are experienced.
 Long needed enhancements to the programmers'
 interface are discussed.
 These include a mechanism to place advisory locks on files, 
-extensions of the name space across file systems,
+extensions of the name space across filesystems,
 the ability to use long file names,
 and provisions for administrative control of resource usage.
 .sp
@@ -90,7 +90,7 @@ Revised February 18, 1984
 CR Categories and Subject Descriptors:
 D.4.3
 .B "[Operating Systems]":
-File Systems Management \-
+Filesystems Management \-
 .I "file organization, directory structures, access methods";
 D.4.2
 .B "[Operating Systems]":
@@ -107,13 +107,13 @@ Information Storage \-
 .sp
 Additional Keywords and Phrases:
 UNIX,
-file system organization,
-file system performance,
-file system design,
+filesystem organization,
+filesystem performance,
+filesystem design,
 application program interface.
 .sp
 General Terms:
-file system,
+filesystem,
 measurement,
 performance.
 .bp 
@@ -126,13 +126,13 @@ performance.
 .LP
 .sp .5v
 .nf
-.B "2.  Old file system
+.B "2.  Old filesystem
 .LP
 .sp .5v
 .nf
-.B "3.  New file system organization
+.B "3.  New filesystem organization
 3.1.    Optimizing storage utilization
-3.2.    File system parameterization
+3.2.    Filesystem parameterization
 3.3.    Layout policies
 .LP
 .sp .5v
@@ -141,7 +141,7 @@ performance.
 .LP
 .sp .5v
 .nf
-.B "5.  File system functional enhancements
+.B "5.  Filesystem functional enhancements
 5.1.     Long file names
 5.2.     File locking
 5.3.     Symbolic links

@@ -760,7 +760,7 @@ nemojte koristiti barem u Pascal kodu. Također nemojte koristiti
 ni znak @samp{SUB}, (@samp{#26}), koji se pogrešno koristi kao
 end-of-file (kraj datoteke) indikator u DOS-u. Stariji DOS editori
 stavljaju taj znak na kraj svake datoteke bez dobrog razloga, jer
-čak i FAT file system zna pronaći kraj datoteke sam po sebi.
+čak i FAT filesystem zna pronaći kraj datoteke sam po sebi.
 
 @cindex duljina retka
 Preporučujemo maksimalnu duljinu retka od 68 znakova, tako da se može

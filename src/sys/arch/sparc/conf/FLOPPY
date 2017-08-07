@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.9 2009/04/17 19:32:45 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.10 2010/01/18 17:41:34 tg Exp $
 # $miros: src/sys/arch/sparc/conf/GENERIC,v 1.25 2009/08/09 13:16:48 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
@@ -46,7 +46,7 @@ option		FFS			# UFS
 #option		QUOTA			# UFS quotas
 #option		EXT2FS			# Second Extended Filesystem
 #option		EXT2FS_SYSTEM_FLAGS	# immutable is schg, not uchg
-option		MFS			# memory file system
+option		MFS			# memory filesystem
 #option		HARD_CHROOT		# disable mknod() in chroot() jails
 
 #option		TCP_SACK		# Selective Acknowledgements for TCP
@@ -54,11 +54,11 @@ option		MFS			# memory file system
 #option		TCP_FACK		# Forward Acknowledgements for TCP
 #option		TCP_SIGNATURE		# TCP MD5 Signatures
 
-option		NFSCLIENT		# Nightmare File System client
-#option		NFSSERVER		# Nightmare File System server
+option		NFSCLIENT		# Nightmare Filesystem client
+#option		NFSSERVER		# Nightmare Filesystem server
 
-#option		CD9660			# ISO 9660 + Rock Ridge file system
-#option		MSDOSFS			# MS-DOS file system
+#option		CD9660			# ISO 9660 + Rock Ridge filesystem
+#option		MSDOSFS			# MS-DOS filesystem
 option		FDESC			# /dev/fd
 option		FIFO			# FIFOs; RECOMMENDED
 #option		KERNFS			# /kern

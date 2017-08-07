@@ -479,7 +479,7 @@ The
 .OP recdir
 option may be set in either the user's or system's startup information,
 changing the recovery directory.
-(Note, however, that if a memory based file system is used as the backup
+(Note, however, that if a memory based filesystem is used as the backup
 directory, each system reboot will delete all of the recovery files!
 The same caution applies to directories such as
 .LI /tmp

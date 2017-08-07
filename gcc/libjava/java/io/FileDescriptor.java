@@ -20,7 +20,7 @@ package java.io;
  * Status:  Complete to 1.1
  */
 
-// For now we assume a POSIXy file system.  This can be changed later
+// For now we assume a POSIXy filesystem.  This can be changed later
 // if need be.
 public final class FileDescriptor
 {

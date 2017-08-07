@@ -50,19 +50,19 @@
 opens
 .Ar fsname
 (usually a raw disk partition) and runs a command loop
-allowing manipulation of the file system's inode data.
+allowing manipulation of the filesystem's inode data.
 You are prompted to enter a command with
 .Ic "fsdb (inum X)>"
 where
 .Va X
 is the currently selected i-number.
-The initial selected inode is the root of the file system (i-number 2).
+The initial selected inode is the root of the filesystem (i-number 2).
 .Pp
 The command processor uses the
 .Xr editline 3
 library, so you can use command line editing to reduce typing if desired.
-When you exit the command loop, the file system superblock is marked
-dirty and any buffered blocks are written to the file system.
+When you exit the command loop, the filesystem superblock is marked
+dirty and any buffered blocks are written to the filesystem.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
@@ -225,7 +225,7 @@ Exit the program.
 .Nm
 uses the source code for
 .Xr fsck 8
-to implement most of the file system manipulation code.
+to implement most of the filesystem manipulation code.
 The remainder of
 .Nm
 first appeared in
@@ -242,7 +242,7 @@ There are a bunch of other things that you might want to do which
 .Nm
 doesn't implement.
 .Sh WARNING
-Use this tool with extreme caution \(en you can damage an FFS file system
+Use this tool with extreme caution \(en you can damage an FFS filesystem
 beyond what
 .Xr fsck 8
 can repair.

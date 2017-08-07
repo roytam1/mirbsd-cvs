@@ -126,7 +126,7 @@
 #define	dbtob(x)	((x) << DEV_BSHIFT)
 
 /*
- * Map a ``block device block'' to a file system block.
+ * Map a ``block device block'' to a filesystem block.
  * This should be device dependent, and should use the bsize
  * field from the disk label.
  * For now though just use DEV_BSIZE.

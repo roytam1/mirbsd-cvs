@@ -190,7 +190,7 @@ Package names are sometimes an exception to this rule.  Perl informally
 reserves lowercase module names for "pragma" modules like C<integer> and
 C<strict>.  Other modules should begin with a capital letter and use mixed
 case, but probably without underscores due to limitations in primitive
-file systems' representations of module names as files that must fit into a
+filesystems' representations of module names as files that must fit into a
 few sparse bytes.
 
 =item *

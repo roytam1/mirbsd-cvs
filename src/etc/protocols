@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS$
+# $MirOS: src/etc/protocols,v 1.2 2009/07/18 14:09:05 tg Exp $
 # $OpenBSD: protocols,v 1.21 2004/05/07 16:27:23 henning Exp $
 #
 # Internet (IP) protocols
@@ -74,7 +74,7 @@ sat-expak 64	SAT-EXPAK	# SATNET and Backroom EXPAK
 kryptolan 65	KRYPTOLAN	# Kryptolan
 rvd	66	RVD		# MIT Remote Virtual Disk Protocol
 ippc	67	IPPC		# Internet Pluribus Packet Core
-any	68	any		# distributed file system
+any	68	any		# distributed filesystem
 sat-mon	69	SAT-MON		# SATNET Monitoring
 visa	70	VISA		# VISA Protocol
 ipcv	71	IPCV		# Internet Packet Core Utility

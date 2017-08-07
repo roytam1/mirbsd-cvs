@@ -10,7 +10,7 @@
  * the sendmail distribution.
  *
  *
- *	$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.h,v 1.2 2010/12/19 17:18:20 tg Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.h,v 1.3 2014/06/09 15:17:44 tg Exp $
  *	$Id$
  */
 
@@ -138,7 +138,7 @@ struct rusage;	/* forward declaration to get gcc to shut up in wait.h */
 # define MAXWORKGROUPS	50		/* max # of work groups */
 #endif /* MAXWORKGROUPS */
 
-#define MAXFILESYS	BITMAPBITS	/* max # of queue file systems
+#define MAXFILESYS	BITMAPBITS	/* max # of queue filesystems
 					 * must be <= BITMAPBITS */
 #ifndef FILESYS_UPDATE_INTERVAL
 # define FILESYS_UPDATE_INTERVAL 300	/* how often to update FileSys table */

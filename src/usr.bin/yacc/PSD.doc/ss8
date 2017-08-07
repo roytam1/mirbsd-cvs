@@ -42,7 +42,7 @@ to Yacc, the output is a file of C programs, called
 .I y.tab.c
 on most
 systems
-(due to local file system conventions, the names may differ from
+(due to local filesystem conventions, the names may differ from
 installation to installation).
 The function produced by Yacc is called
 .I yyparse \|;

@@ -35,7 +35,7 @@ have been made.
 .NH
 Acknowledgements & references.
 .PP
-The first implementation of this algorithm was actually a file system,
+The first implementation of this algorithm was actually a filesystem,
 done in assembler using 5-hole ``Baudot'' paper tape for a drum storage
 device attached to a 20 bit germanium transistor computer with 2000 words
 of memory, but that was many years ago.

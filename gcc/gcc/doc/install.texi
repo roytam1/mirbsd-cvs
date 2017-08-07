@@ -486,7 +486,7 @@ If you obtained the sources via CVS, @var{srcdir} must refer to the top
 and not its @file{gcc} subdirectory, otherwise the build will fail.
 
 If either @var{srcdir} or @var{objdir} is located on an automounted NFS
-file system, the shell's built-in @command{pwd} command will return
+filesystem, the shell's built-in @command{pwd} command will return
 temporary pathnames.  Using these can lead to various sorts of build
 problems.  To avoid this issue, set the @env{PWDCMD} environment
 variable to an automounter-aware @command{pwd} command, e.g.,
@@ -1378,8 +1378,8 @@ because you have previously configured the compiler in the source
 directory.  Make sure you have done all the necessary preparations.
 
 If you build GCC on a BSD system using a directory stored in an old System
-V file system, problems may occur in running @command{fixincludes} if the
-System V file system doesn't support symbolic links.  These problems
+V filesystem, problems may occur in running @command{fixincludes} if the
+System V filesystem doesn't support symbolic links.  These problems
 result in a failure to fix the declaration of @code{size_t} in
 @file{sys/types.h}.  If you find that @code{size_t} is a signed type and
 that type mismatches occur, this could be the cause.

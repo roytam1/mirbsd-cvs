@@ -21,7 +21,7 @@
 
 struct target_ops;
 
-/* GNU/Linux is SVR4-ish but its /proc file system isn't.  */
+/* GNU/Linux is SVR4-ish but its /proc filesystem isn't.  */
 #undef USE_PROC_FS
 
 /* Since we're building a native debugger, we can include <signal.h>

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: contrib/code/flashdist/rc,v 1.2 2005/02/17 22:20:00 bsiegert Exp $
 #
 # Example config: Soekris net4xxx Boot for router with DHCP, NAT, VLAN
 #
@@ -40,7 +40,7 @@ fi
 if [[ -e /fastboot ]]; then
 	echo "Fast boot: skipping disk checks."
   elif [[ $1 == autoboot ]]; then
-	echo "Automatic boot in progress: starting file system checks."
+	echo "Automatic boot in progress: starting filesystem checks."
 	fsck -p
 	case $? {
 	  0)
@@ -55,7 +55,7 @@ if [[ -e /fastboot ]]; then
 		exit 1
 		;;
 	  8)
-		echo "Automatic file system check failed; help!"
+		echo "Automatic filesystem check failed; help!"
 		exit 1
 		;;
 	  12)

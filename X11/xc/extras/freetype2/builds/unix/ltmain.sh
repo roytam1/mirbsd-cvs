@@ -8974,7 +8974,7 @@ func_mode_link ()
 
 	windows)
 	  # Use '-' rather than '.', since we only want one
-	  # extension on DOS 8.3 file systems.
+	  # extension on DOS 8.3 filesystems.
 	  func_arith $current - $age
 	  major=$func_arith_result
 	  versuffix=-$major

@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/lib/libc/sys/statvfs.2,v 1.1 2007/05/19 22:07:03 tg Exp $
 .\"	$NetBSD: statvfs.2,v 1.4 2005/11/04 06:09:20 gendalia Exp $
 .\"
 .\" Copyright (c) 1989, 1991, 1993
@@ -36,7 +36,7 @@
 .Sh NAME
 .Nm statvfs ,
 .Nm fstatvfs ,
-.Nd get file system statistics
+.Nd get filesystem statistics
 .Sh LIBRARY
 .Lb libc
 .Sh SYNOPSIS
@@ -47,9 +47,9 @@
 .Fn fstatvfs "int fd" "struct statvfs *buf"
 .Sh DESCRIPTION
 .Fn statvfs
-return information about a mounted file system.
+return information about a mounted filesystem.
 .Fa path
-is the path name of any file within the mounted file system.
+is the path name of any file within the mounted filesystem.
 .Fa buf
 is a pointer to a
 .Nm statvfs

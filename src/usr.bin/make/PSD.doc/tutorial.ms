@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/make/PSD.doc/tutorial.ms,v 1.4 2007/06/21 14:17:09 tg Exp $
+.\"	$MirOS: src/usr.bin/make/PSD.doc/tutorial.ms,v 1.5 2015/07/07 17:56:28 tg Exp $
 .\"	$OpenBSD: tutorial.ms,v 1.10 2007/02/20 08:18:47 jmc Exp $
 .\"	$NetBSD: tutorial.ms,v 1.3 1996/03/06 00:15:31 christos Exp $
 .\" Copyright (c) 1988, 1989 by Adam de Boor
@@ -2217,7 +2217,7 @@ flag. This variable can then be used as an argument for the compiler
 in the normal fashion. The
 .CW .h
 suffix is already marked in this way in the system makefile.
-.Ix 0 ref makefile system
+.Ix 0 ref makefilesystem
 E.g. if you have
 .DS
 \&.SUFFIXES       : .bitmap
@@ -2642,7 +2642,7 @@ current directory. While people have suggested that Make should read
 the directories each time, my experience suggests that the caching seldom
 causes problems. In addition, not caching the directories slows things
 down enormously because of Make's attempts to apply transformation
-rules through non-existent files \*- the number of extra file-system
+rules through non-existent files \*- the number of extra filesystem
 searches is truly staggering, especially if many files without
 suffixes are used and the null suffix isn't changed from
 .CW .out .

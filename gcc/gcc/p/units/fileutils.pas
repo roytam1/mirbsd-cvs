@@ -1,7 +1,7 @@
 { Some routines for file and directory handling on a higher level
   than those provided by the RTS.
 
-  Copyright (C) 2000-2005 Free Software Foundation, Inc.
+  Copyright (C) 2000-2006 Free Software Foundation, Inc.
 
   Author: Frank Heckenbach <frank@pascal.gnu.de>
 
@@ -61,17 +61,17 @@ type
   DirAction return with InOutRes set, FindFiles recognizes this and
   returns immediately. }
 procedure FindFiles (const Directory, Mask: String; MainDirFirst: Boolean;
-                     FileAction, DirAction: TStringProc); attribute (iocritical, name = '_p_FindFiles');
+                     FileAction, DirAction: TStringProc); attribute (iocritical);
 
 { Creates the directory given by Path and all directories in between
   that are necessary. Does not report an error if the directory
   already exists, but, of course, if it cannot be created because of
   missing permissions or because Path already exists as a file. }
-procedure MkDirs (const Path: String); attribute (iocritical, name = '_p_MkDirs');
+procedure MkDirs (const Path: String); attribute (iocritical);
 
 { Removes Path if empty as well as any empty parent directories.
   Does not report an error if the directory is not empty. }
-procedure RmDirs (const Path: String); attribute (iocritical, name = '_p_RmDirs');
+procedure RmDirs (const Path: String); attribute (iocritical);
 
 { Copies the file Source to Dest, overwriting Dest if it exists and
   can be written to. Returns any errors in IOResult. If Mode >= 0,
@@ -83,9 +83,9 @@ procedure RmDirs (const Path: String); attribute (iocritical, name = '_p_RmDirs'
   will be set to the same permissions Source has. In any case, Dest
   will be set to the modification time of Source after copying. On
   any error, the destination file is erased. This is to avoid
-  leaving partial files in case of full file systems (one of the
+  leaving partial files in case of full filesystems (one of the
   most common reasons for errors). }
-procedure FileCopy (const Source, Dest: String; Mode: Integer); attribute (iocritical, name = '_p_FileCopy');
+procedure FileCopy (const Source, Dest: String; Mode: Integer); attribute (iocritical);
 
 { Creates a backup of FileName in the directory BackupDirectory or,
   if BackupDirectory is empty, in the directory of FileName. Errors
@@ -111,7 +111,7 @@ procedure FileCopy (const Source, Dest: String; Mode: Integer); attribute (iocri
   True    False  Base name plus extension of FileName plus '~'
   False   False  Base name plus extension of FileName plus '.~', a
                  number and '~' }
-procedure BackupFile (const FileName, BackupDirectory: String; Simple, Short, OnlyUserReadable: Boolean); attribute (iocritical, name = '_p_BackupFile');
+procedure BackupFile (const FileName, BackupDirectory: String; Simple, Short, OnlyUserReadable: Boolean); attribute (iocritical);
 
 implementation
 

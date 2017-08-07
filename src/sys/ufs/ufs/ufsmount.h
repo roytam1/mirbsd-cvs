@@ -46,7 +46,7 @@ struct ufsmount {
 	struct	mount *um_mountp;		/* filesystem vfs structure */
 	dev_t	um_dev;				/* device mounted */
 	struct	vnode *um_devvp;		/* block device mounted vnode */
-	u_long	um_fstype;			/* type of file system */
+	u_long	um_fstype;			/* type of filesystem */
 
 	union {					/* pointer to superblock */
 		struct	fs *fs;			/* FFS */
@@ -88,7 +88,7 @@ struct ufsmount {
 #define VFSTOUFS(mp)	((struct ufsmount *)((mp)->mnt_data))
 
 /*
- * Macros to access file system parameters in the ufsmount structure.
+ * Macros to access filesystem parameters in the ufsmount structure.
  * Used by ufs_bmap.
  */
 #define MNINDIR(ump)			((ump)->um_nindir)

@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/libiberty/strerror.c,v 1.2 2005/03/13 16:07:10 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/strerror.c,v 1.3 2005/03/28 21:25:13 tg Exp $ */
 
 /* Extended support for using errno values.
    Written by Fred Fish.  fnf@cygnus.com
@@ -6,7 +6,7 @@
 
 #include "config.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/strerror.c,v 1.2 2005/03/13 16:07:10 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/strerror.c,v 1.3 2005/03/28 21:25:13 tg Exp $");
 
 #ifdef HAVE_SYS_ERRLIST
 /* Note that errno.h (not sure what OS) or stdio.h (BSD 4.4, at least)
@@ -168,7 +168,7 @@ static const struct error_info error_table[] =
   ENTRY(ESPIPE, "ESPIPE", "Illegal seek"),
 #endif
 #if defined (EROFS)
-  ENTRY(EROFS, "EROFS", "Read-only file system"),
+  ENTRY(EROFS, "EROFS", "Read-only filesystem"),
 #endif
 #if defined (EMLINK)
   ENTRY(EMLINK, "EMLINK", "Too many links"),

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.13 2010/09/21 17:42:56 tg Exp $ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.14 2010/09/21 21:24:30 tg Exp $ */
 /*	$OpenBSD: ffs_vfsops.c,v 1.70 2005/07/03 20:14:02 drahn Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
@@ -277,7 +277,7 @@ ffs_mount(mp, path, data, ndp, p)
 #endif
 #if 0
 				/*
-				 * It is safe mount unclean file system
+				 * It is safe mount unclean filesystem
 				 * if it was previously mounted with softdep
 				 * but we may loss space and must
 				 * sometimes run fsck manually.
@@ -694,7 +694,7 @@ ffs_mountfs(devvp, mp, p)
 		fs->fs_flags |= FS_UNCLEAN;
 #if 0
 		/*
-		 * It is safe mount unclean file system
+		 * It is safe mount unclean filesystem
 		 * if it was previously mounted with softdep
 		 * but we may loss space and must
 		 * sometimes run fsck manually.
@@ -852,7 +852,7 @@ out:
 }
 
 /*
- * Sanity checks for old file systems.
+ * Sanity checks for old filesystems.
  *
  * XXX - goes away some day.
  */
@@ -980,7 +980,7 @@ ffs_flushfiles(mp, flags, p)
 }
 
 /*
- * Get file system statistics.
+ * Get filesystem statistics.
  */
 int
 ffs_statfs(mp, sbp, p)
@@ -1092,7 +1092,7 @@ ffs_sync(mp, waitfor, cred, p)
 	if (fsa.allerror != 0)
 		allerror = fsa.allerror;
 	/*
-	 * Force stale file system control information to be flushed.
+	 * Force stale filesystem control information to be flushed.
 	 */
 	if ((ump->um_mountp->mnt_flag & MNT_SOFTDEP) && waitfor == MNT_WAIT) {
 		if ((error = softdep_flushworklist(ump->um_mountp, &count, p)))
@@ -1336,7 +1336,7 @@ ffs_sbupdate(mp, waitfor)
 	fs->fs_fmod = 0;
 	fs->fs_time = time.tv_sec;
 	bcopy((caddr_t)fs, bp->b_data, (u_int)fs->fs_sbsize);
-	/* Restore compatibility to old file systems.		   XXX */
+	/* Restore compatibility to old filesystems.		   XXX */
 	dfs = (struct fs *)bp->b_data;				/* XXX */
 	if (fs->fs_postblformat == FS_42POSTBLFMT)		/* XXX */
 		dfs->fs_nrpos = -1;				/* XXX */

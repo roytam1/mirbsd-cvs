@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/ufs/ext2fs/ext2fs_dinode.h,v 1.5 2012/08/17 17:37:14 tg Exp $ */
 /*	$OpenBSD: ext2fs_dinode.h,v 1.11 2008/11/23 23:52:35 tedu Exp $	*/
 /*	$NetBSD: ext2fs_dinode.h,v 1.6 2000/01/26 16:21:33 bouyer Exp $	*/
 
@@ -43,7 +43,7 @@
 #include <sys/stat.h>
 
 /*
- * The root inode is the root of the file system.  Inode 0 can't be used for
+ * The root inode is the root of the filesystem.  Inode 0 can't be used for
  * normal purposes and bad blocks are normally linked to inode 1, thus
  * the root inode is 2.
  * Inode 3 to 10 are reserved in ext2fs.

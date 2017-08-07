@@ -99,7 +99,7 @@ Introduction
 .XE
 .LP 
 It is a requirement that X client applications must be portable across server
-implementations, with very different file systems, naming conventions, and 
+implementations, with very different filesystems, naming conventions, and 
 font libraries.
 However, font access requests, 
 as defined by the \fIX Window System Protocol\fP,
@@ -157,7 +157,7 @@ Supports naming and instancing of scalable and polymorphic fonts
 .IP \(bu 5
 Supports transformations and subsetting of fonts
 .IP \(bu 5
-Is independent of X server and operating or file system implementations
+Is independent of X server and operating or filesystem implementations
 .IP \(bu 5
 Supports arbitrarily complex font matching or substitution
 .IP \(bu 5
@@ -220,13 +220,13 @@ may be used for special effects requiring a few characters from each
 of many differently transformed fonts, it should be possible to
 request only a few characters from a font for efficiency.
 .NH 2
-Be Independent of X Server and Operating or File System Implementations
+Be Independent of X Server and Operating or Filesystem Implementations
 .XS
-\*(SN Be Independent of X Server and Operating or File System Implementations
+\*(SN Be Independent of X Server and Operating or Filesystem Implementations
 .XE
 .LP
 X client applications that require a particular font should be able to use 
-the descriptive name without knowledge of the file system or other 
+the descriptive name without knowledge of the filesystem or other 
 repository in use by the server.
 However, 
 it should be possible for servers to translate a given font name 

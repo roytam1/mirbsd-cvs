@@ -54,11 +54,11 @@ The Free Software Foundation is independent of Sun Microsystems, Inc.  */
 #define JCF_USE_SCANDIR 0
 #endif 
 
-/* On case-insensitive file systems, we need to ensure that a request
+/* On case-insensitive filesystems, we need to ensure that a request
    to open a .java or .class file is honored only if the file to be
    opened is of the exact case we are asking for. In other words, we
    want to override the inherent case insensitivity of the underlying
-   file system. On other platforms, this macro becomes the vanilla
+   filesystem. On other platforms, this macro becomes the vanilla
    open() call.
 
    If you want to add another host, add your define to the list below

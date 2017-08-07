@@ -195,7 +195,7 @@ This library can optionally read and write gzip streams in memory as well.
 .Pp
 The zlib format was designed to be compact and fast for use in memory
 and on communications channels.
-The gzip format was designed for single-file compression on file systems,
+The gzip format was designed for single-file compression on filesystems,
 has a larger header than zlib to maintain directory information,
 and uses a different, slower, check method than zlib.
 .Pp
@@ -2381,7 +2381,7 @@ given compressed
 is set to the
 .Nm zlib
 error number.
-If an error occurred in the file system and not in the compression library,
+If an error occurred in the filesystem and not in the compression library,
 .Fa errnum
 is set to
 .Dv Z_ERRNO

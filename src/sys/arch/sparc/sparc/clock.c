@@ -907,7 +907,7 @@ inittodr(base)
 		 * in stead of preposterous. Don't bark.
 		 */
 		if (base != 0)
-			printf("WARNING: preposterous time in file system\n");
+			printf("WARNING: preposterous time in filesystem\n");
 		/* not going to use it anyway, if the chip is readable */
 		base = 21*SECYR + 186*SECDAY + SECDAY/2;
 		badbase = 1;
@@ -939,7 +939,7 @@ forward:
 
 	if (time.tv_sec == 0) {
 		/*
-		 * Believe the time in the file system for lack of
+		 * Believe the time in the filesystem for lack of
 		 * anything better, resetting the clock.
 		 */
 		bad = "WARNING: bad date in battery clock";

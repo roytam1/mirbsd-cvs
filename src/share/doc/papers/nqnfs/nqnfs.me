@@ -81,13 +81,13 @@ and to suggest possible areas for further improvement.
 .pp
 It has been observed that
 overall workstation performance has not been scaling with
-processor speed and that file system I/O is a limiting factor [Ousterhout90].
+processor speed and that filesystem I/O is a limiting factor [Ousterhout90].
 Ousterhout
 notes
 that a principal challenge for operating system developers is the
 decoupling of system calls from their underlying I/O operations, in order
 to improve average system call response times.
-For distributed file systems, every synchronous Remote Procedure Call (RPC)
+For distributed filesystems, every synchronous Remote Procedure Call (RPC)
 takes a minimum of a few milliseconds and, as such, is analogous to an
 underlying I/O operation.
 This suggests that client caching with a very good
@@ -117,22 +117,22 @@ the pitfalls of Sun RPC over UDP transport when running across an internetwork [
 Kerberos [Steiner88] support is available
 to do proper user authentication, in order to provide improved security and
 arbitrary client to server user ID mappings.
-There are also a variety of other changes to accommodate large file systems,
+There are also a variety of other changes to accommodate large filesystems,
 such as 64bit file sizes and offsets, as well as lifting the 8Kbyte I/O size
 limit.
 The remainder of this paper gives an overview of the protocol, highlighting
 performance related components, followed by an evaluation of resultant performance
 for the 4.4BSD implementation.
-.sh 1 "Distributed File Systems and Caching"
+.sh 1 "Distributed Filesystems and Caching"
 .pp
-Clients using distributed file systems cache recently-used data in order
+Clients using distributed filesystems cache recently-used data in order
 to reduce the number of synchronous server operations, and therefore improve
 average response times for system calls.
 Unfortunately, maintaining consistency between these caches is a problem
 whenever write sharing occurs; that is, when a process on a client writes
 to a file and one or more processes on other client(s) read the file.
 If the writer closes the file before any reader(s) open the file for reading,
-this is called sequential write sharing. Both the Andrew ITC file system
+this is called sequential write sharing. Both the Andrew ITC filesystem
 [Howard88] and NFS [Sandberg85] maintain consistency for sequential write
 sharing by requiring the writer to push all the writes through to the
 server on close and having readers check to see if the file has been
@@ -148,7 +148,7 @@ A more difficult case is concurrent write sharing, where write operations are in
 with read operations.
 Consistency for this case, often referred to as "full cache consistency,"
 requires that a reader always receives the most recently written data.
-Neither NFS nor the Andrew ITC file system maintain consistency for this
+Neither NFS nor the Andrew ITC filesystem maintain consistency for this
 case.
 The simplest mechanism for maintaining full cache consistency is the one
 used by Sprite [Nelson88], which disables all client caching of the
@@ -184,7 +184,7 @@ Synchronous writing requires that all writes be pushed through to the server
 during the write system call.
 This is the simplest variant, from a consistency point of view, since the
 server always has the most recently written data. It also permits any write
-errors, such as "file system out of space" to be propagated back to the
+errors, such as "filesystem out of space" to be propagated back to the
 client's process via the write system call return.
 Unfortunately this approach limits the client write rate, based on server write
 performance and client/server RPC round trip time (RTT).
@@ -735,7 +735,7 @@ until all leases have expired, there is no state to recover.
 The server must wait for the maximum lease duration of one minute, and it must serve
 all outstanding write requests resulting from terminated write-caching
 leases before issuing new leases. The one minute delay can be overlapped with
-file system consistency checking (eg. fsck).
+filesystem consistency checking (eg. fsck).
 Because no state must be recovered, a lease-based server, like an NFS server,
 avoids the problem of state recovery after a crash.
 .sp
@@ -795,13 +795,13 @@ an nfsd. The third condition tries to guarantee that the client has
 transmitted all write requests to the server, since write_slack is set to
 several times the client's timeout retransmit interval.
 .pp
-There are also certain file system semantics that are problematic for both NFS and NQNFS,
+There are also certain filesystem semantics that are problematic for both NFS and NQNFS,
 due to the
 lack of state information maintained by the
 server. If a file is unlinked on one client while open on another it will
 be removed from the file server, resulting in failed file accesses on the
 client that has the file open.
-If the file system on the server is out of space or the client user's disk
+If the filesystem on the server is out of space or the client user's disk
 quota has been exceeded, a delayed write can fail long after the write system
 call was successfully completed.
 With NFS this error will be detected by the close system call, since
@@ -858,9 +858,9 @@ Benchmarks, such as Laddis [Wittle93], that perform server load characterization
 are not appropriate for this work, since it is primarily client caching
 efficiency that needs to be evaluated.
 Since these tests are measuring overall client system performance and
-not just the performance of the file system,
+not just the performance of the filesystem,
 each sequence of runs was performed on identical hardware and operating system in order to factor out the system
-components affecting performance other than the file system protocol.
+components affecting performance other than the filesystem protocol.
 .pp
 The equipment used for the all the benchmarks are members of the DECstation\(tm\(dg
 family of workstations using the MIPS\(tm\(sc RISC architecture.
@@ -885,7 +885,7 @@ and the results given are the average values of four runs.
 The benchmark used is the Modified Andrew Benchmark (MAB)
 [Ousterhout90],
 which is a slightly modified version of the benchmark used to characterize
-performance of the Andrew ITC file system [Howard88].
+performance of the Andrew ITC filesystem [Howard88].
 The MAB was set up with the executable binaries in the remote mounted file
 system and the final load step was commented out, due to a linkage problem
 during testing under 4.4BSD.
@@ -896,7 +896,7 @@ The MAB is made up of five distinct phases:
 .ip "1." 10
 Makes five directories (no significant cost)
 .ip "2." 10
-Copy a file system subtree to a working directory
+Copy a filesystem subtree to a working directory
 .ip "3." 10
 Get file attributes (stat) of all the working files
 .ip "4." 10
@@ -913,7 +913,7 @@ the caching mechanisms.
 The first experiment was done to see what effect changing the size of the
 buffer cache would have on client performance. A single DECstation 5000/25
 was used to do a series of runs of MAB with different buffer cache sizes
-for four variations of the file system protocol. The four variations are
+for four variations of the filesystem protocol. The four variations are
 as follows:
 .ip "Case 1:" 10
 NFS - The NFS protocol as implemented in 4.4BSD
@@ -1571,8 +1571,8 @@ Leases	5	19	21	21	99	165	16
 .)z
 .sh 2 "Processor Speed Tests"
 .pp
-An important goal of client-side file system caching is to decouple the
-I/O system calls from the underlying distributed file system, so that the
+An important goal of client-side filesystem caching is to decouple the
+I/O system calls from the underlying distributed filesystem, so that the
 client's system performance might scale with processor speed. In order
 to test this, a series of MAB runs were performed on three
 DECstations that are similar except for processor speed.
@@ -1799,7 +1799,7 @@ beyond the fact that over a local area network, TCP transport provides
 performance comparable to UDP.
 .sh 1 "Lessons Learned"
 .pp
-Evaluating the performance of a distributed file system is fraught with
+Evaluating the performance of a distributed filesystem is fraught with
 difficulties, due to the many software and hardware factors involved.
 The limited benchmarking presented here took a considerable amount of time
 and the results gained by the exercise only give indications of what the
@@ -1817,12 +1817,12 @@ if enhanced to do a better job of simulating internetwork delay and packet loss.
 The Leases mechanism provided a simple model for the provision of cache
 consistency and did seem to improve performance for various scenarios.
 Unfortunately, it does not provide the server state information that is required
-for file system semantics, such as locking, that many software systems demand.
+for filesystem semantics, such as locking, that many software systems demand.
 In production environments on my campus, the need for file locking and the correct
 generation of the ETXTBSY error code
 are far more important that full cache consistency, and leasing
 does not satisfy these needs.
-Another file system semantic that requires hard server state is the delay
+Another filesystem semantic that requires hard server state is the delay
 of file removal until the last close system call. Although Spritely NFS
 did not support this semantic either, it is logical that the open file
 state maintained by that system would facilitate the implementation of
@@ -1830,7 +1830,7 @@ this semantic more easily than would the Leases mechanism.
 .sh 1 "Further Work"
 .pp
 The current implementation uses a fixed, moderate sized buffer cache designed
-for the local UFS [McKusick84] file system.
+for the local UFS [McKusick84] filesystem.
 The results in figure 1 suggest that this is adequate so long as the cache
 is of an appropriate size.
 However, a mechanism permitting the cache to vary in size
@@ -1862,7 +1862,7 @@ The big question that needs to be resolved is whether Leases are an adequate
 mechanism for cache consistency or whether hard server state is required.
 Given the work presented here and in the papers related to Sprite and Spritely
 NFS, there are clear indications that a cache consistency algorithm can
-improve both performance and file system semantics.
+improve both performance and filesystem semantics.
 As yet, however, it is unclear what the best approach to maintain consistency is.
 It would appear that hard state information is required for file locking and
 other mechanisms and, if so, it seems appropriate to use it for cache
@@ -1879,7 +1879,7 @@ readable.
 .sh 1 "References"
 .ip [Baker91] 15
 Mary Baker and John Ousterhout, Availability in the Sprite Distributed
-File System, In \fIOperating System Review\fR, (25)2, pg. 95-98,
+Filesystem, In \fIOperating System Review\fR, (25)2, pg. 95-98,
 April 1991.
 .ip [Baker91a] 15
 Mary Baker, private communication, May 1991.
@@ -1894,7 +1894,7 @@ AZ, Dec. 1989.
 .ip [Howard88] 15
 John H. Howard, Michael L. Kazar, Sherri G. Menees, David A. Nichols,
 M. Satyanarayanan, Robert N. Sidebotham and Michael J. West,
-Scale and Performance in a Distributed File System, \fIACM Trans. on
+Scale and Performance in a Distributed Filesystem, \fIACM Trans. on
 Computer Systems\fR, (6)1, pg 51-81, Feb. 1988.
 .ip [Jacobson88] 15
 Van Jacobson and R. Braden, \fITCP Extensions for Long-Delay Paths\fR,
@@ -1910,7 +1910,7 @@ In \fIProc. Winter 1989 USENIX Conference,\fR pg. 53-63, San Diego, CA, January 
 Chet Juszczak, Improving the Write Performance of an NFS Server,
 to appear in \fIProc. Winter 1994 USENIX Conference,\fR San Francisco, CA, January 1994.
 .ip [Kazar88] 15
-Michael L. Kazar, Synchronization and Caching Issues in the Andrew File System,
+Michael L. Kazar, Synchronization and Caching Issues in the Andrew Filesystem,
 In \fIProc. Winter 1988 USENIX Conference,\fR pg. 27-36, Dallas, TX, February
 1988.
 .ip [Kent87] 15
@@ -1930,7 +1930,7 @@ In \fIThe System Manager's Manual\fR, 4.4 Berkeley Software Distribution,
 University of California, Berkeley, June 1993.
 .ip [McKusick84] 15
 Marshall K. McKusick, William N. Joy, Samuel J. Leffler and Robert S. Fabry,
-A Fast File System for UNIX, \fIACM Transactions on Computer Systems\fR,
+A Fast Filesystem for UNIX, \fIACM Transactions on Computer Systems\fR,
 Vol. 2, Number 3, pg. 181-197, August 1984.
 .ip [McKusick90] 15
 Marshall K. McKusick, Michael J. Karels and Keith Bostic, A Pageable Memory
@@ -1948,13 +1948,13 @@ In \fIProc. Spring 1990 EUUG Conference,\fR pg. 199-206, Munich, FRG,
 April 1990.
 .ip [Nelson88] 15
 Michael N. Nelson, Brent B. Welch, and John K. Ousterhout, Caching in the
-Sprite Network File System, \fIACM Transactions on Computer Systems\fR (6)1
+Sprite Network Filesystem, \fIACM Transactions on Computer Systems\fR (6)1
 pg. 134-154, February 1988.
 .ip [Nelson90] 15
-Michael N. Nelson, \fIVirtual Memory vs. The File System\fR, Research Report
+Michael N. Nelson, \fIVirtual Memory vs. The Filesystem\fR, Research Report
 90/4, Digital Equipment Corporation Western Research Laboratory, March 1990.
 .ip [Nowicki89] 15
-Bill Nowicki, Transport Issues in the Network File System, In \fIComputer
+Bill Nowicki, Transport Issues in the Network Filesystem, In \fIComputer
 Communication Review\fR, pg. 16-20, March 1989.
 .ip [Ousterhout90] 15
 John K. Ousterhout, Why Aren't Operating Systems Getting Faster As Fast as
@@ -1976,11 +1976,11 @@ Service for Open Network Systems,
 In \fIProc. Winter 1988 USENIX Conference,\fR pg. 191-202, Dallas, TX, February
 1988.
 .ip [SUN89] 15
-Sun Microsystems Inc., \fINFS: Network File System Protocol Specification\fR,
+Sun Microsystems Inc., \fINFS: Network Filesystem Protocol Specification\fR,
 ARPANET Working Group Requests for Comment, DDN Network Information Center,
 SRI International, Menlo Park, CA, March 1989, RFC-1094.
 .ip [SUN93] 15
-Sun Microsystems Inc., \fINFS: Network File System Version 3 Protocol Specification\fR,
+Sun Microsystems Inc., \fINFS: Network Filesystem Version 3 Protocol Specification\fR,
 Sun Microsystems Inc., Mountain View, CA, June 1993.
 .ip [Wittle93] 15
 Mark Wittle and Bruce E. Keith, LADDIS: The Next Generation in NFS File

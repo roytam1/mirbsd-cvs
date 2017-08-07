@@ -119,4 +119,4 @@
 
 # New format for Sun/Cobalt boot ROMs is annoying, it stores the version code
 # at the very end where file(1) can't get it.
-0       string CRfs     COBALT boot rom data (Flat boot rom or file system)
+0       string CRfs     COBALT boot rom data (Flat boot rom or filesystem)

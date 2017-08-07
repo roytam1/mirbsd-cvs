@@ -256,11 +256,11 @@ ckfini(int markclean)
 	pbp = pdirbp = (struct bufarea *)0;
 	if (markclean && (sblock.e2fs.e2fs_state & E2FS_ISCLEAN) == 0) {
 		/*
-		 * Mark the file system as clean, and sync the superblock.
+		 * Mark the filesystem as clean, and sync the superblock.
 		 */
 		if (preen)
-			pwarn("MARKING FILE SYSTEM CLEAN\n");
-		else if (!reply("MARK FILE SYSTEM CLEAN"))
+			pwarn("MARKING FILESYSTEM CLEAN\n");
+		else if (!reply("MARK FILESYSTEM CLEAN"))
 			markclean = 0;
 		if (markclean) {
 			sblock.e2fs.e2fs_state = E2FS_ISCLEAN;

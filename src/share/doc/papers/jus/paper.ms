@@ -191,7 +191,7 @@ of several major new projects.
 Among these projects are an OSI network protocol suite integrated
 with existing ISO applications, an IEEE POSIX 1003.1 standard interface,
 a highly tuned TCP/IP networking interface, support for Sun Microsystem's
-Network File System, the integration of a log-structured file system,
+Network Filesystem, the integration of a log-structured filesystem,
 an integration of the MACH virtual memory system, volume labels and
 user-level database support.
 .PP
@@ -218,7 +218,7 @@ SPARCstation is licensed exclusively to Sun Microsystems, Inc.
 I and II, the DECstation 3100 and 5000 and the Hewlett-Packard 300 have
 been added as well.
 The 4.3BSD-Reno release, made in the summer of 1990, was intended to make
-the Network File System code available to vendors using Berkeley-derived
+the Network Filesystem code available to vendors using Berkeley-derived
 systems, such as The Open Software Foundation (OSF).
 This code had been written by Rick Macklem at the University of Guelph
 and integrated by the CSRG, under a new version of the kernel file

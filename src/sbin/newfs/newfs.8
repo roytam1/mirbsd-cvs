@@ -35,7 +35,7 @@
 .Os
 .Sh NAME
 .Nm newfs , mount_mfs
-.Nd construct a new file system
+.Nd construct a new filesystem
 .Sh SYNOPSIS
 .Nm newfs
 .Bk -words
@@ -88,7 +88,7 @@ or
 the disk must be labeled using
 .Xr disklabel 8 .
 .Nm
-builds a file system on the specified
+builds a filesystem on the specified
 .Ar special
 device,
 basing its defaults on the information in the disk label.
@@ -97,27 +97,27 @@ Typically the defaults are reasonable, although
 has numerous options to allow the defaults to be selectively overridden.
 .Pp
 .Nm mount_mfs
-is used to build a file system in virtual memory and then mount it
+is used to build a filesystem in virtual memory and then mount it
 on a specified node.
 .Nm mount_mfs
-exits and the contents of the file system are lost
-when the file system is unmounted.
+exits and the contents of the filesystem are lost
+when the filesystem is unmounted.
 If
 .Nm mount_mfs
 is sent a signal while running,
 for example during system shutdown,
 it will attempt to unmount its
-corresponding file system.
+corresponding filesystem.
 The parameters to
 .Nm mount_mfs
 are the same as those to
 .Nm newfs .
 The special file is only used to read the disk label which provides
-a set of configuration parameters for the memory based file system.
+a set of configuration parameters for the memory based filesystem.
 The special file is typically that of the primary swap area,
-since that is where the file system will be backed up when
+since that is where the filesystem will be backed up when
 free memory gets low and the memory supporting
-the file system has to be paged.
+the filesystem has to be paged.
 If the keyword
 .Dq swap
 is used instead of a special file name, default configuration parameters
@@ -135,7 +135,7 @@ now have the functionality of
 built in, so it is not necessary to run
 .Xr fsirand 8
 manually unless you wish to re-randomize the
-file system (or list the inode generation numbers).
+filesystem (or list the inode generation numbers).
 .Pp
 The following options define the general layout policies:
 .Bl -tag -width Fl
@@ -150,10 +150,10 @@ See
 .Xr tunefs 8
 for more details on how to set this option.
 .It Fl b Ar block-size
-The block size of the file system, in bytes.
+The block size of the filesystem, in bytes.
 The default is 16KB.
 .It Fl c Ar cylinders
-The number of cylinders per cylinder group in a file system.
+The number of cylinders per cylinder group in a filesystem.
 The default is to use as many as fit with the other parameters given.
 .It Fl d Ar rotdelay
 This specifies the expected time (in milliseconds) to service a transfer
@@ -171,14 +171,14 @@ See
 .Xr tunefs 8
 for more details on how to set this option.
 .It Fl f Ar frag-size
-The fragment size of the file system in bytes.
+The fragment size of the filesystem in bytes.
 The default is 2048.
 .It Fl g Ar avgfilesize
-The expected average file size for the file system in bytes.
+The expected average file size for the filesystem in bytes.
 .It Fl h Ar avgfpdir
-The expected average number of files per directory on the file system.
+The expected average number of files per directory on the filesystem.
 .It Fl i Ar bytes
-This specifies the density of inodes in the file system.
+This specifies the density of inodes in the filesystem.
 The default is to create an inode for each 8192 bytes of data space.
 If fewer inodes are desired, a larger number should be used;
 to create more inodes a smaller number should be given.
@@ -190,22 +190,22 @@ See
 .Xr tunefs 8
 for more details on how to set this option.
 .It Fl N
-Causes the file system parameters to be printed out
-without really creating the file system.
+Causes the filesystem parameters to be printed out
+without really creating the filesystem.
 .It Fl n Ar nrpos
 The number of distinct rotational positions.
 The default is 1.
 .It Fl O
 Creates a
 .Bx 4.3
-format file system.
-This option is primarily used to build root file systems
+format filesystem.
+This option is primarily used to build root filesystems
 that can be understood by older boot ROMs.
 .It Fl o Ar optimization
 .Ar space
 or
 .Ar time .
-The file system can either be instructed to try to minimize the time spent
+The filesystem can either be instructed to try to minimize the time spent
 allocating blocks, or to try to minimize the space fragmentation on the disk.
 Unless an optimization has been specified, if the value of minfree
 (see above) is less than 5%, the default is to optimize for space;
@@ -220,8 +220,8 @@ With this option,
 .Nm
 will not print extraneous information like superblock backups.
 .It Fl s Ar size
-The size of the file system in sectors.
-The maximum size of a file system is 2,147,483,647 (2^31 \- 1) sectors,
+The size of the filesystem in sectors.
+The maximum size of a filesystem is 2,147,483,647 (2^31 \- 1) sectors,
 which is slightly less than 1TB.
 .El
 .Pp
@@ -229,7 +229,7 @@ The following options override the standard sizes for the disk geometry.
 Their default values are taken from the disk label.
 Changing these defaults is useful only when using
 .Nm
-to build a file system whose raw image will eventually be used on a
+to build a filesystem whose raw image will eventually be used on a
 different type of disk than the one on which it is initially created
 (for example on a write-once disk).
 Note that changing any of these values from their defaults will make
@@ -255,13 +255,13 @@ Spare sectors (bad sector replacements) are physical sectors that occupy
 space at the end of each track.
 They are not counted as part of the sectors/track
 .Pq Fl u
-since they are not available to the file system for data allocation.
+since they are not available to the filesystem for data allocation.
 .It Fl r Ar revolutions
 The speed of the disk in revolutions per minute.
 .It Fl S Ar sector-size
 The size of a sector in bytes (almost never anything but 512).
 .It Fl t Ar fstype
-Set the file system type of which file system you wish to create.
+Set the filesystem type of which filesystem you wish to create.
 .Nm
 will be smart enough to run the alternate newfs_XXX program instead.
 .It Fl u Ar sectors
@@ -305,17 +305,17 @@ man page for possible options and their meanings.
 .It Fl P Ar file
 If
 .Ar file
-is a directory, populate the created mfs file system with the contents
+is a directory, populate the created mfs filesystem with the contents
 of the directory.
 If
 .Ar file
-is a block device, populate the created mfs file system with
-the contents of the FFS file system contained on the device.
+is a block device, populate the created mfs filesystem with
+the contents of the FFS filesystem contained on the device.
 .El
 .Pp
 If the
 .Fl P Ar file
-option is not used, the owner and mode of the created mfs file system will
+option is not used, the owner and mode of the created mfs filesystem will
 be the same as the owner and mode of the mount point.
 .Sh ENVIRONMENT
 .Bl -tag -width TMPDIR
@@ -340,7 +340,7 @@ instead of
 .%A W. Joy
 .%A S. Leffler
 .%A R. Fabry
-.%T A Fast File System for UNIX
+.%T A Fast Filesystem for UNIX
 .%J ACM Transactions on Computer Systems 2
 .%V 3
 .%P pp 181-197

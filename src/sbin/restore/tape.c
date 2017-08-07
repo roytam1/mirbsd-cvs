@@ -195,7 +195,7 @@ setup(void)
 		cvtflag++;
 		if (gethead(&spcl) == FAIL)
 			errx(1, "Tape is not a dump tape");
-		(void)fputs("Converting to new file system format.\n", stderr);
+		(void)fputs("Converting to new filesystem format.\n", stderr);
 	}
 	if (pipein) {
 		endoftapemark.s_spcl.c_magic = cvtflag ? OFS_MAGIC : NFS_MAGIC;

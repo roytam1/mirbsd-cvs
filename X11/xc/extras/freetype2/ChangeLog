@@ -1641,7 +1641,7 @@
 
 2016-09-02  Werner Lemberg  <wl@gnu.org>
 
-	[unix] Enable 64bit support in file system access (#48962).
+	[unix] Enable 64bit support in filesystem access (#48962).
 
 	* builds/unix/configure.raw: Call `AC_SYS_LARGEFILE'.
 

@@ -116,7 +116,7 @@ sm_io_setvbuf(fp, timeout, buf, mode, size)
 		{
 			/*
 			**  Unable to honor user's request.  We will return
-			**  failure, but try again with file system size.
+			**  failure, but try again with filesystem size.
 			*/
 
 			ret = SM_IO_EOF;

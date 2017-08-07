@@ -58,7 +58,7 @@ typedef enum {
 } pfstype;
 
 /*
- * control data for the proc file system.
+ * control data for the proc filesystem.
  */
 struct pfsnode {
 	TAILQ_ENTRY(pfsnode)	list;

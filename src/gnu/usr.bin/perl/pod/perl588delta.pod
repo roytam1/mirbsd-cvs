@@ -475,7 +475,7 @@ Copying a file onto itself used to fail.
 
 =item *
 
-Moving a file between file systems now preserves the access and
+Moving a file between filesystems now preserves the access and
 modification time stamps
 
 =back

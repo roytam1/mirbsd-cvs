@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-4 "MirBSD Weblog"
 mws_setheadline MirBSD — More connectivity than ever
-mws_putheader '$MirOS: www/src/wlog-4.hts,v 1.3 2009/07/19 15:34:45 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-4.hts,v 1.4 2016/10/30 04:47:09 tg Exp $'
 mws_content <<'EOF'
 <p><small>[ old MirBSD™ logo ]</small></p>
 <p>This is an archived weblog of the development leading to <a
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/MirOS/v4/">[hyperlink updated] the usual place at TOH</a>,
  including the <tt>bsd</tt> and <tt>bsd.rd</tt> kernels, the base system
  and X-Window dist tarballs as well as sample packages and a cd9660 ISO
- image which includes a bootable file system, licence and checksum information,
+ image which includes a bootable filesystem, licence and checksum information,
  and is PGP signed.</p>
 <p>Warranty: since I can't verify OpenBSD (Theo or Wim could be feeding me
  trojans, for all I know), I can only give a guarantee that the files I sign

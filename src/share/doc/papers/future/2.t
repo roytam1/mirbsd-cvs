@@ -43,8 +43,8 @@ There are three main areas of work.
 The first is to rewrite the virtual memory system to take
 advantage of current technology and to provide new capabilities
 such as mapped files and shared memory.
-The second is to provide a standard interface to file systems
-so that multiple local and remote file systems can be supported
+The second is to provide a standard interface to filesystems
+so that multiple local and remote filesystems can be supported
 much as multiple networking protocols are by 4.3BSD.
 Finally, there is a need to provide more internal flexibility in a
 way similar to the System V Streams paradigm.
@@ -52,7 +52,7 @@ way similar to the System V Streams paradigm.
 A New Virtual Memory Implementation
 .PP
 With the cost per byte of memory approaching that of the cost per byte
-for disks, and with file systems increasingly removed from host
+for disks, and with filesystems increasingly removed from host
 machines, a new approach to the implementation of virtual memory is
 necessary. In 4.3BSD the swap space is preallocated;
 this limits the maximum virtual memory that can be
@@ -61,10 +61,10 @@ The new system should support virtual memory space at least as great as
 the sum of sizes of physical memory plus swap space
 (a system may run with no swap space if it has no local disk).
 For systems that have a local swap
-disk, but utilize remote file systems,
+disk, but utilize remote filesystems,
 using some memory to keep track of the contents of swap space
 may be useful to avoid multiple fetches
-of the same data from the file system.
+of the same data from the filesystem.
 .PP
 The new implementation should also add new functionality.  Processes
 should be allowed to have large sparse address spaces, to map files
@@ -94,48 +94,48 @@ a desired lock is being released will a system call be required.  The
 interface will allow a user-level implementation of the System V semaphore
 interface on most machines with a much lower runtime cost [McKusick86].
 .NH 2
-Toward a Compatible File System Interface
+Toward a compatible filesystem interface
 .PP
-As network or remote file systems have been implemented for UNIX,
-several stylized interfaces between the file system implementation
+As network or remote filesystems have been implemented for UNIX,
+several stylized interfaces between the filesystem implementation
 and the rest of the kernel have been developed.
-Among these are Sun Microsystems' Virtual File System interface (VFS)
+Among these are Sun Microsystems' virtual filesystem interface (VFS)
 using \fBvnodes\fP [Sandburg85] [Kleiman86],
-Digital Equipment's Generic File System (GFS) architecture [Rodriguez86],
-AT&T's File System Switch (FSS) [Rifkin86],
-the LOCUS distributed file system [Walker85],
-and Masscomp's extended file system [Cole85].
-Other remote file systems have been implemented in research or
+Digital Equipment's generic filesystem (GFS) architecture [Rodriguez86],
+AT&T's filesystem switch (FSS) [Rifkin86],
+the LOCUS distributed filesystem [Walker85],
+and Masscomp's extended filesystem [Cole85].
+Other remote filesystems have been implemented in research or
 university groups for internal use \-
-notably the network file system in the Eighth Edition UNIX
-system [Weinberger84] and two different file systems used at Carnegie Mellon
+notably the network filesystem in the Eighth Edition UNIX
+system [Weinberger84] and two different filesystems used at Carnegie Mellon
 University [Satyanarayanan85].
 Numerous other remote file access methods have been devised for use
 within individual UNIX processes,
 many of them by modifications to the C I/O library
 similar to those in the Newcastle Connection [Brownbridge82].
 .PP
-Each design attempts to isolate file system-dependent details
+Each design attempts to isolate filesystem-dependent details
 below a generic interface and to provide a framework within which
-new file systems may be incorporated.
+new filesystems may be incorporated.
 However, each of these interfaces is different from
 and is incompatible with the others.
 Each addresses somewhat different design goals,
 having been based on a different starting version of UNIX,
-having targeted a different set of file systems with varying characteristics,
-and having selected a different set of file system primitive operations.
+having targeted a different set of filesystems with varying characteristics,
+and having selected a different set of filesystem primitive operations.
 .PP
-We have studied the various file system interfaces to determine
+We have studied the various filesystem interfaces to determine
 their generality, completeness, robustness, efficiency, and aesthetics.
 Based on this study, we have developed a proposal for a new
-file system interface that we believe includes the best features of
+filesystem interface that we believe includes the best features of
 each of the existing implementations.
 Briefly, the proposal adopts the 4.3BSD calling convention for name lookup,
 but otherwise is closely related to Sun's VFS.
 A prototype implementation now is being developed.
 This proposal and the rationale underlying its development
 have been presented to major software vendors as an early step
-toward convergence on a compatible file system interface [Karels86].
+toward convergence on a compatible filesystem interface [Karels86].
 .NH 2
 Changes to the Protocol Layering Interface
 .PP

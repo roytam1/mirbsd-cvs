@@ -649,7 +649,7 @@ _lkm_syscall(struct lkm_table *lkmtp, int cmd)
 }
 
 /*
- * For the loadable virtual file system described by the structure pointed
+ * For the loadable virtual filesystem described by the structure pointed
  * to by lkmtp, load/unload/stat it depending on the cmd requested.
  */
 static int

@@ -39,7 +39,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs_balloc.c,v 1.13 2004/06/20 22:20:18 jmc Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/ffs_balloc.c,v 1.4 2008/10/31 21:24:24 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/ffs_balloc.c,v 1.5 2010/03/06 21:29:08 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -65,7 +65,7 @@ static int ffs_balloc_ufs1(struct inode *, off_t, int, struct buf **);
 static int ffs_balloc_ufs2(struct inode *, off_t, int, struct buf **);
 
 /*
- * Balloc defines the structure of file system storage
+ * Balloc defines the structure of filesystem storage
  * by allocating the physical blocks on a device given
  * the inode and the logical block number in a file.
  *

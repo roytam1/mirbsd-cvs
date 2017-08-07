@@ -45,8 +45,8 @@
 
 /*
  * Constants as defined in the Sun NFS Version 2 and 3 specs.
- * "NFS: Network File System Protocol Specification" RFC1094
- * and in the "NFS: Network File System Version 3 Protocol
+ * "NFS: Network Filesystem Protocol Specification" RFC1094
+ * and in the "NFS: Network Filesystem Version 3 Protocol
  * Specification"
  */
 

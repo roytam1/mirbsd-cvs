@@ -35,7 +35,7 @@
 .Os
 .Sh NAME
 .Nm umount
-.Nd unmount file systems
+.Nd unmount filesystems
 .Sh SYNOPSIS
 .Nm umount
 .Op Fl fv
@@ -54,7 +54,7 @@ calls the
 system call to remove a
 .Ar special
 device
-or the remote node (rhost:path) from the file system tree at the point
+or the remote node (rhost:path) from the filesystem tree at the point
 .Ar node .
 If neither
 .Ar special
@@ -67,14 +67,14 @@ file.
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl a
-All of the file systems described in
+All of the filesystems described in
 .Xr fstab 5
 are unmounted.
 .It Fl f
-The file system is forcibly unmounted.
+The filesystem is forcibly unmounted.
 Active special devices continue to work,
 but all other files return errors if further accesses are attempted.
-The root file system cannot be forcibly unmounted.
+The root filesystem cannot be forcibly unmounted.
 .It Fl h Ar host
 Only filesystems mounted from the specified host will be
 unmounted.
@@ -104,13 +104,13 @@ umounts all filesystems of the type
 and
 .Tn MFS .
 .It Fl v
-Verbose, additional information is printed out as each file system
+Verbose, additional information is printed out as each filesystem
 is unmounted.
 .El
 .Sh FILES
 .Bl -tag -width /etc/fstab -compact
 .It Pa /etc/fstab
-file system table
+filesystem table
 .El
 .Sh SEE ALSO
 .Xr unmount 2 ,

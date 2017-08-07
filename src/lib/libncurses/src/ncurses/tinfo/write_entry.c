@@ -32,7 +32,7 @@
  ****************************************************************************/
 
 /*
- *	write_entry.c -- write a terminfo structure onto the file system
+ *	write_entry.c -- write a terminfo structure onto the filesystem
  */
 
 #include <curses.priv.h>

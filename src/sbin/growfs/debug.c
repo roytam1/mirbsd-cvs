@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sbin/growfs/debug.c,v 1.2 2005/03/06 19:49:58 tg Exp $ */
 /*
  * Copyright (c) 2000 Christoph Herrmann, Thomas-Henning von Kamptz
  * Copyright (c) 1980, 1989, 1993 The Regents of the University of California.
@@ -51,7 +51,7 @@
 
 #include "debug.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/growfs/debug.c,v 1.2 2005/03/06 19:49:58 tg Exp $");
 
 #ifdef FS_DEBUG
 
@@ -97,7 +97,7 @@ dbg_close(void)
 
 /* ****************************************************** dbg_dump_hex ***** */
 /*
- * Dump out a full file system block in hex.
+ * Dump out a full filesystem block in hex.
  */
 void
 dbg_dump_hex(struct fs *sb, const char *comment, unsigned char *mem)

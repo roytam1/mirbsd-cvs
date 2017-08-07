@@ -101,7 +101,7 @@ intervention.
 .IP \(bu 5
 Any one of several hosts on a network or subnetwork may be acceptable
 for accepting login from the display.
-(For example, the user's file systems can be mounted onto
+(For example, the user's filesystems can be mounted onto
 any such host, providing comparable environments.)  It should be possible
 for the display to broadcast to find such hosts and to have the display
 either automatically choose a host or present the possible hosts to the

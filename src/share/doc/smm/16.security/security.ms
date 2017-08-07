@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/smm/16.security/security.ms,v 1.1.7.1 2005/03/06 16:17:45 tg Exp $
+.\" $MirOS: src/share/doc/smm/16.security/security.ms,v 1.2 2008/11/08 22:24:05 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -369,7 +369,7 @@ clean up the incriminating evidence,
 and have your will.
 .PP
 The fact that users can mount their own disks and tapes
-as file systems
+as filesystems
 can be another way of gaining super-user status.
 Once a disk pack is mounted, the system believes
 what is on it.

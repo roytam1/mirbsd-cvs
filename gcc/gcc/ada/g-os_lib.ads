@@ -397,8 +397,8 @@ pragma Elaborate_Body (OS_Lib);
    --  converted into Unix syntax. If the conversion fails, Normalize_Pathname
    --  returns an empty string.
    --
-   --  For case-sensitive file systems, the value of Case_Sensitive parameter
-   --  is ignored. In systems that have a non case-sensitive file system like
+   --  For case-sensitive filesystems, the value of Case_Sensitive parameter
+   --  is ignored. In systems that have a non case-sensitive filesystem like
    --  Windows and OpenVMS, if this parameter is set OFF, then the result
    --  is returned folded to lower case, this allows to checks if two files
    --  are the same by applying this function to their names and by comparing
@@ -446,7 +446,7 @@ pragma Elaborate_Body (OS_Lib);
    --
    --  A symbolic link is an indirect pointer to a file; its directory entry
    --  contains the name of the file to which it is linked. Symbolic links may
-   --  span file systems and may refer to directories.
+   --  span filesystems and may refer to directories.
 
    function Locate_Exec_On_Path
      (Exec_Name : String) return String_Access;

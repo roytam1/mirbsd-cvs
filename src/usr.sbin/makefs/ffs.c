@@ -73,7 +73,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.12 2010/03/07 00:02:17 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.13 2016/06/11 14:52:48 tg Exp $");
 __RCSID("$NetBSD: ffs.c,v 1.44 2009/04/28 22:49:26 joerg Exp $");
 #endif	/* !__lint */
 
@@ -120,7 +120,7 @@ __RCSID("$NetBSD: ffs.c,v 1.44 2009/04/28 22:49:26 joerg Exp $");
 	(dp)->ffs1_din.di_##field : (dp)->ffs2_din.di_##field)
 
 /*
- * Various file system defaults (cribbed from newfs(8)).
+ * Various filesystem defaults (cribbed from newfs(8)).
  */
 #define	DFL_FRAGSIZE		1024		/* fragment size */
 #define	DFL_BLKSIZE		8192		/* block size */
@@ -524,7 +524,7 @@ ffs_create_image(const char *image, fsinfo_t *fsopts)
 	}
 	free(buf);
 
-		/* make the file system */
+		/* make the filesystem */
 	if (debug & DEBUG_FS_CREATE_IMAGE)
 		printf("calling mkfs(\"%s\", ...)\n", image);
 	fs = ffs_mkfs(image, fsopts);

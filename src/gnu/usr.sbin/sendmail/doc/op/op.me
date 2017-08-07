@@ -7888,7 +7888,7 @@ This option can be used to override the compile time flag
 at runtime by setting it to
 .sm false .
 If the compile time flag is not set, the option is ignored.
-The flag turns on support for file systems that require to call
+The flag turns on support for filesystems that require to call
 .i fsync()
 for a directory if the meta-data in it has been changed.
 This should be turned on at least for older versions of ReiserFS;
@@ -8087,7 +8087,7 @@ If this option is set,
 .i sendmail
 can share some data between different instances.
 For example, the number of entries in a queue directory
-or the available space in a file system.
+or the available space in a filesystem.
 This allows for more efficient program execution, since only
 one process needs to update the data instead of each individual
 process gathering the data each time it is required.
@@ -10056,7 +10056,7 @@ system call.
 Set this if your system can possibly
 reuse the same pid in the same second of time.
 .ip SFS_TYPE
-The mechanism that can be used to get file system capacity information.
+The mechanism that can be used to get filesystem capacity information.
 The values can be one of
 SFS_USTAT (use the ustat(2) syscall),
 SFS_4ARGS (use the four argument statfs(2) syscall),
@@ -10697,7 +10697,7 @@ The required format for certificates and private keys is PEM.
 To allow for automatic startup of sendmail, private keys
 (ServerKeyFile, ClientKeyFile)
 must be stored unencrypted.
-The keys are only protected by the permissions of the file system.
+The keys are only protected by the permissions of the filesystem.
 Never make a private key available to a third party.
 .sh 3 "PRNG for STARTTLS"
 .pp

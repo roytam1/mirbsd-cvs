@@ -400,20 +400,20 @@ and calls the software clock routines directly.
 Between these two optimizations, nearly 80 of the 100 software
 interrupts per second can be eliminated.
 .NH 3
-File System
+Filesystem
 .PP
-The file system uses a large block size, typically 4096 or 8192 bytes.
+The filesystem uses a large block size, typically 4096 or 8192 bytes.
 To allow small files to be stored efficiently, the large blocks can
 be broken into smaller fragments, typically multiples of 1024 bytes.
 To minimize the number of full-sized blocks that must be broken
-into fragments, the file system uses a best fit strategy.
+into fragments, the filesystem uses a best fit strategy.
 Programs that slowly grow files using write of 1024 bytes or less
-can force the file system to copy the data to
+can force the filesystem to copy the data to
 successively larger and larger fragments until it finally
 grows to a full sized block.
-The file system still uses a best fit strategy the first time
+The filesystem still uses a best fit strategy the first time
 a fragment is written.
-However, the first time that the file system is forced to copy a growing
+However, the first time that the filesystem is forced to copy a growing
 fragment it places it at the beginning of a full sized block.
 Continued growth can be accommodated without further copying
 by using up the rest of the block.
@@ -626,7 +626,7 @@ I/O or their own buffering, however.
 Several important utilities that did not use the standard I/O library
 and were buffering I/O using the old optimal buffer size,
 1Kbytes; the programs were changed to buffer I/O according to the
-optimal file system blocksize.
+optimal filesystem blocksize.
 These include the editor, the assembler, loader, remote file copy,
 the text formatting programs, and the C compiler.
 .PP

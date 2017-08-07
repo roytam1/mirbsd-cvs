@@ -12665,7 +12665,7 @@ modern FreeBSD systems.
 
 Many versions of SVR4 and compatible systems provide a facility called
 @samp{/proc} that can be used to examine the image of a running
-process using file-system subroutines.  If @value{GDBN} is configured
+process using filesystem subroutines.  If @value{GDBN} is configured
 for an operating system with this facility, the command @code{info
 proc} is available to report information about the process running
 your program, or about any process running on your system.  @code{info
@@ -23096,11 +23096,11 @@ Example sequence of a target being stepped by a single instruction:
 @cindex file-i/o overview
 
 The @dfn{File I/O remote protocol extension} (short: File-I/O) allows the
-target to use the host's file system and console I/O when calling various
+target to use the host's filesystem and console I/O when calling various
 system calls.  System calls on the target system are translated into a
 remote protocol packet to the host system which then performs the needed
 actions and returns with an adequate response packet to the target system.
-This simulates file system operations even on targets that lack file systems.
+This simulates filesystem operations even on targets that lack filesystems.
 
 The protocol is defined host- and target-system independent.  It uses
 its own independent representation of datatypes and values.  Both,
@@ -23130,7 +23130,7 @@ request from @value{GDBN} is required.
   <- target hits breakpoint and sends a Txx packet
 @end smallexample
 
-The protocol is only used for files on the host file system and
+The protocol is only used for files on the host filesystem and
 for I/O on the console.  Character or block special devices, pipes,
 named pipes or sockets or any other communication method on the host
 system are not supported by this protocol.
@@ -24014,8 +24014,8 @@ st_gid:     No valid meaning for the target.  Transmitted unchanged.
 st_rdev:    No valid meaning for the target.  Transmitted unchanged.
 
 st_atime, st_mtime, st_ctime:
-            These values have a host and file system dependent
-            accuracy.  Especially on Windows hosts the file systems
+            These values have a host and filesystem dependent
+            accuracy.  Especially on Windows hosts the filesystems
             don't support exact timing values.
 @end smallexample
 

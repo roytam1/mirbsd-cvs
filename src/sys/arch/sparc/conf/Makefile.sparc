@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.16 2007/09/01 10:25:04 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.17 2008/10/05 16:26:20 tg Exp $
 # $OpenBSD: Makefile.sparc,v 1.33 2003/11/20 08:38:52 espie Exp $
 # $NetBSD: Makefile.sparc,v 1.32.4.1 1996/06/12 20:26:32 pk Exp $
 
@@ -18,7 +18,7 @@
 #	IF YOU CHANGE THE DEFINITION OF ANY OF THESE RECOMPILE EVERYTHING
 #
 # -DTRACE	compile in kernel tracing hooks
-# -DQUOTA	compile in file system quotas
+# -DQUOTA	compile in filesystem quotas
 
 # DEBUG is set to -g if debugging.
 

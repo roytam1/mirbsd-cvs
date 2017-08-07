@@ -49,7 +49,7 @@
 #include "tar.h"
 #include "options.h"
 
-__RCSID("$MirOS: src/bin/pax/tar.c,v 1.16 2016/03/12 13:20:48 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/tar.c,v 1.17 2016/10/25 18:57:56 tg Exp $");
 
 /*
  * Routines for reading, writing and header identify of various versions of tar
@@ -521,7 +521,7 @@ tar_wr(ARCHD *arcn)
 	char hdblk[sizeof(HD_TAR)];
 
 	/*
-	 * check for those file system types which tar cannot store
+	 * check for those filesystem types which tar cannot store
 	 */
 	switch (arcn->type) {
 	case PAX_DIR:
@@ -907,7 +907,7 @@ ustar_wr(ARCHD *arcn)
 	anonarch_init();
 
 	/*
-	 * check for those file system types ustar cannot store
+	 * check for those filesystem types ustar cannot store
 	 */
 	if (arcn->type == PAX_SCK) {
 		paxwarn(1, "ustar cannot archive a socket %s", arcn->org_name);

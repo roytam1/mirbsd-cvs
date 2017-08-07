@@ -2197,7 +2197,7 @@ if ($^O eq 'VMS') {
   foreach (@files) {
     # Clip trailing '.' for portability -- non-VMS OSs don't expect it
     s%\.$%%;
-    # Fix up for case-sensitive file systems
+    # Fix up for case-sensitive filesystems
     s/$modfname/$modfname/i && next;
     $_ = "\U$_" if $_ eq 'manifest' or $_ eq 'changes';
     $_ = 'Makefile.PL' if $_ eq 'makefile.pl';

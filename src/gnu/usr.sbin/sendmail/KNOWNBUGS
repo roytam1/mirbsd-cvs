@@ -12,6 +12,14 @@ distribution).
 
 This list is not guaranteed to be complete.
 
+* Header values which are too long may be truncated.
+
+  If a value of a structured header is longer than 256 (MAXNAME)
+  characters then it may be truncated during output. For example,
+  if a single address in the To: header is longer than 256 characters
+  then it will be truncated which may result in a syntactically
+  invalid address.
+
 * Delivery to programs that generate too much output may cause problems
 
   If e-mail is delivered to a program which generates too much
@@ -233,10 +241,10 @@ Kresolve sequence dnsmx canon
   Sleepycat Software has added code to avoid this race condition to
   Berkeley DB versions after 2.7.5.
 
-* File open timeouts not available on hard mounted NFS file systems
+* File open timeouts not available on hard mounted NFS filesystems
 
   Since SIGALRM does not interrupt an RPC call for hard mounted
-  NFS file systems, it is impossible to implement a timeout on a file
+  NFS filesystems, it is impossible to implement a timeout on a file
   open operation.  Therefore, while the NFS server is not responding,
   attempts to open a file on that server will hang.  Systems with
   local mail delivery and NFS hard mounted home directories should be

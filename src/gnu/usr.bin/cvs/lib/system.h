@@ -304,7 +304,7 @@ extern void fnfold (char *FILENAME);
 
 
 
-/* Some file systems are case-insensitive.  If FOLD_FN_CHAR is
+/* Some filesystems are case-insensitive.  If FOLD_FN_CHAR is
    #defined, it maps the character C onto its "canonical" form.  In a
    case-insensitive system, it would map all alphanumeric characters
    to lower case.  Under Windows NT, / and \ are both path component
@@ -315,7 +315,7 @@ extern void fnfold (char *FILENAME);
 # define fncmp strcmp
 #endif
 
-/* Different file systems can have different naming patterns which designate
+/* Different filesystems can have different naming patterns which designate
  * a path as absolute.
  */
 #ifndef ISABSOLUTE

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_subr.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_subr.c,v 1.3 2005/07/04 00:10:43 tg Exp $ */
 /*	$OpenBSD: vfs_subr.c,v 1.114 2005/05/26 00:33:45 pedro Exp $	*/
 /*	$NetBSD: vfs_subr.c,v 1.53 1996/04/22 01:39:13 christos Exp $	*/
 
@@ -185,7 +185,7 @@ vfs_busy(struct mount *mp, int flags, struct simplelock *interlkp,
 
 
 /*
- * Free a busy file system
+ * Free a busy filesystem
  */
 void
 vfs_unbusy(struct mount *mp, struct proc *p)
@@ -496,7 +496,7 @@ insmntque(vp, mp)
 /*
  * Create a vnode for a block device.
  * Used for root filesystem, argdev, and swap areas.
- * Also used for memory file system special devices.
+ * Also used for memory filesystem special devices.
  */
 int
 bdevvp(dev, vpp)
@@ -522,7 +522,7 @@ cdevvp(dev, vpp)
 
 /*
  * Create a vnode for a device.
- * Used by bdevvp (block device) for root file system etc.,
+ * Used by bdevvp (block device) for root filesystem etc.,
  * and by cdevvp (character device) for console and kernfs.
  */
 int
@@ -650,7 +650,7 @@ loop:
  * cannot grab it, so the process is awakened when the
  * transition is completed, and an error code is returned to
  * indicate that the vnode is no longer usable, possibly
- * having been changed to a new file system type.
+ * having been changed to a new filesystem type.
  */
 int
 vget(vp, flags, p)
@@ -1005,7 +1005,7 @@ vflush(mp, skipvp, flags)
 }
 
 /*
- * Disassociate the underlying file system from a vnode.
+ * Disassociate the underlying filesystem from a vnode.
  * The vnode interlock is held on entry.
  */
 void
@@ -1783,7 +1783,7 @@ vaccess(file_mode, uid, gid, acc_mode, cred)
 }
 
 /*
- * Unmount all file systems.
+ * Unmount all filesystems.
  * We traverse the list in reverse order under the assumption that doing so
  * will avoid needing to worry about dependencies.
  */
@@ -1809,7 +1809,7 @@ vfs_unmountall(void)
 	}
 
 	if (allerror) {
-		printf("WARNING: some file systems would not unmount\n");
+		printf("WARNING: some filesystems would not unmount\n");
 		if (again) {
 			printf("retrying\n");
 			again = 0;
@@ -1819,7 +1819,7 @@ vfs_unmountall(void)
 }
 
 /*
- * Sync and unmount file systems before shutting down.
+ * Sync and unmount filesystems before shutting down.
  */
 void
 vfs_shutdown()
@@ -1839,7 +1839,7 @@ vfs_shutdown()
 		/* Sync before unmount, in case we hang on something. */
 		sys_sync(&proc0, (void *)0, (register_t *)0);
 
-		/* Unmount file systems. */
+		/* Unmount filesystems. */
 		vfs_unmountall();
 	}
 
@@ -1902,7 +1902,7 @@ vfs_syncwait(verbose)
 }
 
 /*
- * posix file system related system variables.
+ * posix filesystem related system variables.
  */
 int
 fs_posix_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
@@ -1930,7 +1930,7 @@ fs_posix_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 }
 
 /*
- * file system related system variables.
+ * filesystem related system variables.
  */
 int
 fs_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)

@@ -1,4 +1,4 @@
-/* Machine independent support for SVR4 /proc (process file system) for GDB.
+/* Machine independent support for SVR4 /proc (process filesystem) for GDB.
    Copyright 1999, 2000 Free Software Foundation, Inc.
 
 This file is part of GDB.

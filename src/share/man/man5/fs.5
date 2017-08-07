@@ -36,7 +36,7 @@
 .Sh NAME
 .Nm fs ,
 .Nm inode
-.Nd format of file system volume
+.Nd format of filesystem volume
 .Sh SYNOPSIS
 .Fd #include <sys/types.h>
 .Fd #include <ufs/ffs/fs.h>
@@ -48,10 +48,10 @@ and
 .Aq Pa ufs/ufs/inode.h
 declare several structures and define variables and macros
 which are used to create and manage the underlying format of
-file system objects on random access devices (disks).
+filesystem objects on random access devices (disks).
 .Pp
 The block size and number of blocks which
-comprise a file system are parameters of the file system.
+comprise a filesystem are parameters of the filesystem.
 Sectors beginning at
 .Dv BBLOCK
 and continuing for
@@ -60,7 +60,7 @@ are used
 for a disklabel and for some hardware primary
 and secondary bootstrapping programs.
 .Pp
-The actual file system begins at sector
+The actual filesystem begins at sector
 .Dv SBLOCK
 with the
 .Em super-block
@@ -72,7 +72,7 @@ from the file
 .Bd -literal
 #define	FS_MAGIC 0x011954
 struct fs {
-	int32_t	 fs_firstfield;	/* historic file system linked list, */
+	int32_t	 fs_firstfield;	/* historic filesystem linked list, */
 	int32_t	 fs_unused_1;	/*     used for incore super blocks */
 	int32_t	 fs_sblkno;	/* addr of super-block in filesys */
 	int32_t	 fs_cblkno;	/* offset of cyl-block in filesys */
@@ -125,7 +125,7 @@ struct fs {
 	int32_t	 fs_nsect;	/* sectors per track */
 	int32_t	 fs_spc;	/* sectors per cylinder */
 /* this comes from the disk driver partitioning */
-	int32_t	 fs_ncyl;	/* cylinders in file system */
+	int32_t	 fs_ncyl;	/* cylinders in filesystem */
 /* these fields can be computed from the others */
 	int32_t	 fs_cpg;	/* cylinders per group */
 	int32_t	 fs_ipg;	/* inodes per group */
@@ -134,7 +134,7 @@ struct fs {
 	struct csum fs_cstotal;	/* cylinder summary information */
 /* these fields are cleared at mount time */
 	int8_t	 fs_fmod;	/* super block modified flag */
-	int8_t	 fs_clean;	/* file system is clean flag */
+	int8_t	 fs_clean;	/* filesystem is clean flag */
 	int8_t	 fs_ronly;	/* mounted read-only flag */
 	int8_t	 fs_flags;	/* see FS_ below */
 	u_char	 fs_fsmnt[MAXMNTLEN]; /* name mounted on */
@@ -168,23 +168,23 @@ struct fs {
 };
 .Ed
 .Pp
-Each disk drive contains some number of file systems.
-A file system consists of a number of cylinder groups.
+Each disk drive contains some number of filesystems.
+A filesystem consists of a number of cylinder groups.
 Each cylinder group has inodes and data.
 .Pp
-A file system is described by its super-block, which in turn
+A filesystem is described by its super-block, which in turn
 describes the cylinder groups.
 The super-block is critical
 data and is replicated in each cylinder group to protect against
 catastrophic loss.
-This is done at file system creation time and the critical
+This is done at filesystem creation time and the critical
 super-block data does not change, so the copies need not be
 referenced further unless disaster strikes.
 .Pp
 Addresses stored in inodes are capable of addressing fragments
 of
 .Dq blocks .
-File system blocks of at most size
+Filesystem blocks of at most size
 .Dv MAXBSIZE
 can
 be optionally broken into 2, 4, or 8 pieces, each of which is
@@ -198,7 +198,7 @@ Large files consist of exclusively large data blocks.
 To avoid undue wasted disk space, the last data block of a small file is
 allocated only as many fragments of a large block as are
 necessary.
-The file system format retains only a single pointer
+The filesystem format retains only a single pointer
 to such a fragment, which is a piece of a single large block that
 has been divided.
 The size of such a fragment is determinable from
@@ -206,10 +206,10 @@ information in the inode, using the
 .Fn blksize fs ip lbn
 macro.
 .Pp
-The file system records space availability at the fragment level;
+The filesystem records space availability at the fragment level;
 to determine block availability, aligned fragments are examined.
 .Pp
-The root inode is the root of the file system.
+The root inode is the root of the filesystem.
 Inode 0 can't be used for normal purposes and
 historically bad blocks were linked to inode 1
 (inode 1 is no longer used for
@@ -219,7 +219,7 @@ Thus the root inode is 2.
 .Pp
 The
 .Va fs_minfree
-element gives the minimum acceptable percentage of file system
+element gives the minimum acceptable percentage of filesystem
 blocks that may be free.
 If the freelist drops below this level,
 only the superuser may continue to allocate blocks.
@@ -228,7 +228,7 @@ The
 element
 may be set to 0 if no reserve of free blocks is deemed necessary,
 although severe performance degradations will be observed if the
-file system is run at greater than 95% full; thus the default
+filesystem is run at greater than 95% full; thus the default
 value of
 .Va fs_minfree
 is 5%.
@@ -240,7 +240,7 @@ of the block size.
 .Pp
 The element
 .Va fs_optim
-specifies whether the file system should try to minimize the time spent
+specifies whether the filesystem should try to minimize the time spent
 allocating blocks
 .Pq Dv FS_OPTTIME ,
 or if it should attempt to minimize the space fragmentation on the disk
@@ -248,13 +248,13 @@ or if it should attempt to minimize the space fragmentation on the disk
 If the value of
 .Va fs_minfree
 (see above) is less than 5%,
-then the file system defaults to optimizing for space to avoid
+then the filesystem defaults to optimizing for space to avoid
 running out of full sized blocks.
 If the value of
 .Va fs_minfree
 is greater than or equal to 5%,
 fragmentation is unlikely to be problematical, and
-the file system defaults to optimizing for time.
+the filesystem defaults to optimizing for time.
 .Pp
 The
 .Va fs_flags
@@ -278,7 +278,7 @@ The element
 .Va fs_rotdelay
 was once used to tweak block layout.
 .Pp
-Each file system has a statically allocated number of inodes, determined
+Each filesystem has a statically allocated number of inodes, determined
 by its size and the desired number of file data bytes per inode at the
 time it was created.
 See
@@ -302,7 +302,7 @@ must keep its size within
 Note that super-blocks are never more than size
 .Dv SBSIZE .
 .Pp
-The path name on which the file system is mounted is maintained in
+The path name on which the filesystem is mounted is maintained in
 .Va fs_fsmnt .
 .Dv MAXMNTLEN
 defines the amount of space allocated in
@@ -322,13 +322,13 @@ must be a power of two in order for
 the
 .Fn fs_cs
 macro to work.
-.Ss Super-block for a file system
+.Ss Super-block for a filesystem
 The size of the rotational layout tables
 is limited by the fact that the super-block is of size
 .Dv SBSIZE .
 The size of these tables is inversely
 proportional to the block
-size of the file system.
+size of the filesystem.
 The size of the tables is
 increased when sector sizes are not powers of two,
 as this increases the number of cylinders
@@ -349,7 +349,7 @@ The
 .Em inode
 is the focus of all file activity in the
 .Tn UNIX
-file system.
+filesystem.
 There is a unique inode allocated
 for each active file,
 each current directory, each mounted-on file,
@@ -364,6 +364,6 @@ A super-block structure named
 .Em filsys
 appeared in
 .At v6 .
-The file system described in this manual appeared
+The filesystem described in this manual appeared
 in
 .Bx 4.2 .

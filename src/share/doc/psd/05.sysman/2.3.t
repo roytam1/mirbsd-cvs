@@ -352,7 +352,7 @@ Socket names are strings and may appear in the UNIX file
 system name space through portals\(dg.
 .FS
 \(dg The 4.3BSD implementation of the UNIX domain embeds
-bound sockets in the UNIX file system name space;
+bound sockets in the UNIX filesystem name space;
 this may change in future releases.
 .FE
 .NH 4

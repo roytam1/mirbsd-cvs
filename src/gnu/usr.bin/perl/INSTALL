@@ -717,7 +717,7 @@ variables are in the file Porting/Glossary.
 
 $prefixexp is generated from $prefix, with ~ expansion done to convert home
 directories into absolute paths. Similarly for the other variables listed. As
-file system calls do not do this, you should always reference the ...exp
+filesystem calls do not do this, you should always reference the ...exp
 variables, to support users who build perl in their home directory.
 
 Actually, Configure recognizes the SVR3-style
@@ -996,7 +996,7 @@ $PERL5LIB environment variable or with perl's -I runtime option.
 Sometimes it is desirable to build Perl in a directory different from
 where the sources are, for example if you want to keep your sources
 read-only, or if you want to share the sources between different binary
-architectures.  You can do this (if your file system supports symbolic
+architectures.  You can do this (if your filesystem supports symbolic
 links) by
 
 	mkdir /tmp/perl/build/directory

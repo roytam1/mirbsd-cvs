@@ -49,7 +49,7 @@ static char sccsid[] = "@(#)mkfs.c	8.11 (Berkeley) 5/3/95";
 #else
 #ifdef __RCSID
 __RCSID("$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.9 2010/03/06 21:29:08 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.10 2010/09/21 21:24:45 tg Exp $");
 #endif
 #endif
 #endif /* not lint */
@@ -87,7 +87,7 @@ static int count_digits(int);
 #endif
 
 /*
- * make file system for cylinder-group style file systems
+ * make filesystem for cylinder-group style filesystems
  */
 #define	UMASK		0755
 #define	POWEROF2(num)	(((num) & ((num) - 1)) == 0)
@@ -110,8 +110,8 @@ int iobufsize;
 
 char writebuf[FFS_MAXBSIZE];
 
-static int     Oflag;	   /* format as an 4.3BSD file system */
-static int64_t fssize;	   /* file system size */
+static int     Oflag;	   /* format as an 4.3BSD filesystem */
+static int64_t fssize;	   /* filesystem size */
 static int     sectorsize;	   /* bytes/sector */
 static int     fsize;	   /* fragment size */
 static int     bsize;	   /* block size */
@@ -167,9 +167,9 @@ ffs_mkfs(const char *fsys, const fsinfo_t *fsopts)
 		sblock.fs_flags = 0;
 	}
 	/*
-	 * Validate the given file system size.
+	 * Validate the given filesystem size.
 	 * Verify that its last block can actually be accessed.
-	 * Convert to file system fragment sized units.
+	 * Convert to filesystem fragment sized units.
 	 */
 	if (fssize <= 0) {
 		printf("preposterous size %lld\n", (long long)fssize);
@@ -477,7 +477,7 @@ ffs_mkfs(const char *fsys, const fsinfo_t *fsopts)
 		sblock.fs_old_cstotal.cs_nffree = sblock.fs_cstotal.cs_nffree;
 	}
 	/*
-	 * Dump out summary information about file system.
+	 * Dump out summary information about filesystem.
 	 */
 #define	B2MBFACTOR (1 / (1024.0 * 1024.0))
 	printf("%s: %.1fMB (%lld sectors) block size %d, "
@@ -533,7 +533,7 @@ ffs_mkfs(const char *fsys, const fsinfo_t *fsopts)
 	printf("\n");
 
 	/*
-	 * Now construct the initial file system,
+	 * Now construct the initial filesystem,
 	 * then write out the super-block.
 	 */
 	sblock.fs_time = start_time.tv_sec;
@@ -774,7 +774,7 @@ initcg(int cylno, time_t utime, const fsinfo_t *fsopts)
 	ffs_wtfs(fsbtodb(&sblock, cgsblock(&sblock, cylno)), iobufsize, iobuf,
 	    fsopts);
 	/*
-	 * For the old file system, we have to initialize all the inodes.
+	 * For the old filesystem, we have to initialize all the inodes.
 	 */
 	if (Oflag <= 1) {
 		for (i = 2 * sblock.fs_frag;
@@ -792,7 +792,7 @@ initcg(int cylno, time_t utime, const fsinfo_t *fsopts)
 }
 
 /*
- * read a block from the file system
+ * read a block from the filesystem
  */
 void
 ffs_rdfs(daddr_t bno, int size, void *bf, const fsinfo_t *fsopts)
@@ -817,7 +817,7 @@ ffs_rdfs(daddr_t bno, int size, void *bf, const fsinfo_t *fsopts)
 }
 
 /*
- * write a block to the file system
+ * write a block to the filesystem
  */
 void
 ffs_wtfs(daddr_t bno, int size, void *bf, const fsinfo_t *fsopts)

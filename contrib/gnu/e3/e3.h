@@ -1,4 +1,4 @@
-; $MirOS: contrib/gnu/e3/e3.h,v 1.3 2008/12/30 01:31:38 tg Exp $
+; $MirOS: contrib/gnu/e3/e3.h,v 1.4 2013/01/02 22:53:03 tg Exp $
 ;
 ;--------------------------------------------------------------------------
 ;  e3.asm v2.8 Copyright (C) 2000-10 Albrecht Kleine
@@ -103,7 +103,7 @@ db "Text file busy",10			;26
 db "File too large",10			;27
 db "No space on device",10		;28
 db "Illegal seek",10			;29
-db "R/O file system",10			;30
+db "R/O filesystem",10			;30
 	%endmacro
 
 %else
@@ -174,7 +174,7 @@ db "Text file busy",10			;26
 db "File too large",10			;27
 db "No space on device",10		;28
 db "Illegal seek",10			;29
-db "R/O file system",10			;30
+db "R/O filesystem",10			;30
 	%endmacro
 
 %else
@@ -261,7 +261,7 @@ db "Text file busy",10			;26
 db "File too large",10			;27
 db "No space on device",10		;28
 db "Illegal seek",10			;29
-db "R/O file system",10			;30
+db "R/O filesystem",10			;30
 	%endmacro
 %else
 %ifdef LINUX	;----------------------- L I N U X -----------------------
@@ -459,7 +459,7 @@ db "Text file busy",10			;26
 db "File too large",10			;27
 db "No space on device",10		;28
 db "Illegal seek",10			;29
-db "R/O file system",10			;30
+db "R/O filesystem",10			;30
 db "Can't exec "			;31
 %ifdef USE_EX_NO_SED
 db EX_PATH,10
@@ -640,7 +640,7 @@ db "Text file busy",10			;26
 db "File too large",10			;27
 db "No space on device",10		;28
 db "Illegal seek",10			;29
-db "R/O file system",10			;30
+db "R/O filesystem",10			;30
 db "Can't exec "			;31
 %ifdef USE_EX_NO_SED
 db EX_PATH,10

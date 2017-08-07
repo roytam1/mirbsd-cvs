@@ -32,7 +32,7 @@
  *     and: Thomas E. Dickey                        1998-2004               *
  ****************************************************************************/
 
-/* $MirOS$ */
+/* $MirOS: src/lib/libncurses/src/include/term_entry.h,v 1.6 2009/09/06 12:46:44 tg Exp $ */
 /* $Id$ */
 
 /*
@@ -146,7 +146,7 @@ extern NCURSES_EXPORT_VAR(bool) _nc_disable_period;
 extern NCURSES_EXPORT(int) _nc_parse_entry (ENTRY *, int, bool);
 extern NCURSES_EXPORT(int) _nc_capcmp (const char *, const char *);
 
-/* write_entry.c: writing an entry to the file system */
+/* write_entry.c: writing an entry to the filesystem */
 extern NCURSES_EXPORT(void) _nc_set_writedir (char *);
 extern NCURSES_EXPORT(void) _nc_write_entry (TERMTYPE *const);
 

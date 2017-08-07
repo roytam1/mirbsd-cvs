@@ -25,7 +25,7 @@ _o (Unix.U):
 	values include '.obj'.
 
 afs (afs.U):
-	This variable is set to 'true' if AFS (Andrew File System) is used
+	This variable is set to 'true' if AFS (Andrew Filesystem) is used
 	on the system, 'false' otherwise.  It is possible to override this
 	with a hint value or command line option, but you'd better know
 	what you are doing.
@@ -755,7 +755,7 @@ d_fp_class (d_fp_class.U):
 d_fpathconf (d_pathconf.U):
 	This variable conditionally defines the HAS_FPATHCONF symbol, which
 	indicates to the C program that the pathconf() routine is available
-	to determine file-system related limits and options associated
+	to determine filesystem-related limits and options associated
 	with a given open file descriptor.
 
 d_fpclass (d_fpclass.U):
@@ -1126,7 +1126,7 @@ d_grpasswd (i_grp.U):
 d_hasmntopt (d_hasmntopt.U):
 	This variable conditionally defines the HAS_HASMNTOPT symbol, which
 	indicates to the C program that the hasmntopt() routine is available
-	to query the mount options of file systems.
+	to query the mount options of filesystems.
 
 d_htonl (d_htonl.U):
 	This variable conditionally defines HAS_HTONL if htonl() and its
@@ -1432,7 +1432,7 @@ d_open3 (d_open3.U):
 d_pathconf (d_pathconf.U):
 	This variable conditionally defines the HAS_PATHCONF symbol, which
 	indicates to the C program that the pathconf() routine is available
-	to determine file-system related limits and options associated
+	to determine filesystem-related limits and options associated
 	with a given filename.
 
 d_pause (d_pause.U):
@@ -2217,7 +2217,7 @@ d_usleepproto (d_usleepproto.U):
 
 d_ustat (d_ustat.U):
 	This variable conditionally defines HAS_USTAT if ustat() is
-	available to query file system statistics by dev_t.
+	available to query filesystem statistics by dev_t.
 
 d_vendorarch (vendorarch.U):
 	This variable conditionally defined PERL_VENDORARCH.

@@ -57,7 +57,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.12 2008/04/06 23:33:25 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.14 2014/12/20 22:27:14 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -729,7 +729,7 @@ create_newfile(char *path, struct stat *sbp __attribute__((__unused__)))
  *	with holes. However, on extraction (or during copy, -rw) we have to
  *	deal with these files. Without detecting the holes, the files can
  *	consume a lot of file space if just written to disk. This replacement
- *	for write when passed the basic allocation size of a file system block,
+ *	for write when passed the basic allocation size of a filesystem block,
  *	uses lseek whenever it detects the input data is all 0 within that
  *	file block. In more detail, the strategy is as follows:
  *	While the input is all zero keep doing an lseek. Keep track of when we
@@ -749,11 +749,11 @@ create_newfile(char *path, struct stat *sbp __attribute__((__unused__)))
  *	are not desired, just do a conditional test in those routines that
  *	call file_write() and have it call write() instead. BEFORE CLOSING THE
  *	FILE, make sure to call file_flush() when the last write finishes with
- *	an empty block. A lot of file systems will not create an lseek hole at
+ *	an empty block. A lot of filesystems will not create an lseek hole at
  *	the end. In this case we drop a single 0 at the end to force the
  *	trailing 0's in the file.
  *	---Parameters---
- *	rem: how many bytes left in this file system block
+ *	rem: how many bytes left in this filesystem block
  *	isempt: have we written to the file block yet (is it empty)
  *	sz: basic file block allocation size
  *	cnt: number of bytes on this write
@@ -776,7 +776,7 @@ file_write(int fd, char *str, size_t cnt, int *rem, int *isempt, int sz)
 	while (cnt) {
 		if (!*rem) {
 			/*
-			 * We are now at the start of file system block again
+			 * We are now at the start of filesystem block again
 			 * (or what we think one is...). start looking for
 			 * empty blocks again
 			 */
@@ -823,7 +823,7 @@ file_write(int fd, char *str, size_t cnt, int *rem, int *isempt, int sz)
 		}
 
 		/*
-		 * have non-zero data in this file system block, have to write
+		 * have non-zero data in this filesystem block, have to write
 		 */
 		if ((size_t)write(fd, st, wcnt) != wcnt) {
 			warn("write");
@@ -836,7 +836,7 @@ file_write(int fd, char *str, size_t cnt, int *rem, int *isempt, int sz)
 
 /*
  * file_flush()
- *	when the last file block in a file is zero, many file systems will not
+ *	when the last file block in a file is zero, many filesystems will not
  *	let us create a hole at the end. To get the last block with zeros, we
  *	write the last BYTE with a zero (back up one byte and write a zero).
  */

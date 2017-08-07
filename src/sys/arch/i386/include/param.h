@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/include/param.h,v 1.2 2005/06/07 15:58:09 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.27 2004/04/19 22:55:49 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.29 1996/03/04 05:04:26 cgd Exp $	*/
 
@@ -136,7 +136,7 @@
 #define	btodb(x)	((x) >> DEV_BSHIFT)
 
 /*
- * Map a ``block device block'' to a file system block.
+ * Map a ``block device block'' to a filesystem block.
  * This should be device dependent, and should use the bsize
  * field from the disk label.
  * For now though just use DEV_BSIZE.

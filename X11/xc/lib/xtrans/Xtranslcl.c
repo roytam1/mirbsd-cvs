@@ -1089,7 +1089,7 @@ TRANS(ISCOpenServer)(XtransConnInfo ciptr, char *port)
     unlink(server_unix_path);
 
 #ifdef SVR4
-    /* we prefer symbolic links because hard links can't cross file systems */
+    /* we prefer symbolic links because hard links can't cross filesystems */
     if( symlink(server_path, server_unix_path) < 0 )
 	PRMSG(1,"ISCOpenServer: failed to link %s to %s\n",
 	      server_path, server_unix_path, 0 );

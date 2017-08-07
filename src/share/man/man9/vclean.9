@@ -30,7 +30,7 @@
 .Dt VCLEAN 9
 .Sh NAME
 .Nm vclean
-.Nd disassociate the underlying file system from a vnode
+.Nd disassociate the underlying filesystem from a vnode
 .Sh SYNOPSIS
 .Fd #include <sys/param.h>
 .Fd #include <sys/vnode.h>
@@ -45,7 +45,7 @@ The
 .Fn vclean
 function clears any VM and buffer data associated with the vnode
 .Fa vp
-and reclaims it from the underlying file system.
+and reclaims it from the underlying filesystem.
 .Pp
 Its arguments are:
 .Bl -tag -width ".Fa flags"
@@ -61,7 +61,7 @@ will call
 .Xr vinvalbuf 9
 on the vnode.
 If the vnode is active, it will be closed and inactivated in the
-underlying file system.
+underlying filesystem.
 .El
 .It Fa p
 The process responsible for this call.

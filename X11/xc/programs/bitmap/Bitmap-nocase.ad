@@ -2,7 +2,7 @@
 !
 ! $XFree86: xc/programs/bitmap/Bitmap-nocase.ad,v 1.1 2002/05/29 21:37:42 torrey Exp $
 !
-! The App-defaults file for Bitmap for use on file systems
+! The App-defaults file for Bitmap for use on filesystems
 ! that are not case sensitive.
 
 *TransientShell.allowShellResize:	True

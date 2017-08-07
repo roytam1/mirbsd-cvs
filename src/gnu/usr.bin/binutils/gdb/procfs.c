@@ -1,4 +1,4 @@
-/* Machine independent support for SVR4 /proc (process file system) for GDB.
+/* Machine independent support for SVR4 /proc (process filesystem) for GDB.
 
    Copyright 1999, 2000, 2001, 2002, 2003 Free Software Foundation,
    Inc.
@@ -54,7 +54,7 @@ Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
  * PROCFS.C
  *
  * This module provides the interface between GDB and the
- * /proc file system, which is used on many versions of Unix
+ * /proc filesystem, which is used on many versions of Unix
  * as a means for debuggers to control other processes.
  * Examples of the systems that use this interface are:
  *   Irix
@@ -63,7 +63,7 @@ Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
  *   Unixware
  *   AIX5
  *
- * /proc works by imitating a file system: you open a simulated file
+ * /proc works by imitating a filesystem: you open a simulated file
  * that represents the process you wish to interact with, and
  * perform operations on that "file" in order to examine or change
  * the state of the other process.

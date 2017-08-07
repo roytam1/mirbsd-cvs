@@ -1708,7 +1708,7 @@ exits. No access to the filename is provided.
 
 If the temporary file can not be created undef is returned.
 Currently this command will probably not work when the temporary
-directory is on an NFS file system.
+directory is on an NFS filesystem.
 
 Will croak() if there is an error.
 
@@ -1817,7 +1817,7 @@ C<stat(filename)>, presumably because of caching issues even when
 using autoflush (this is usually overcome by waiting a while after
 writing to the tempfile before attempting to C<unlink0> it).
 
-Finally, on NFS file systems the link count of the file handle does
+Finally, on NFS filesystems the link count of the file handle does
 not always go to zero immediately after unlinking. Currently, this
 command is expected to fail on NFS disks.
 
@@ -2213,7 +2213,7 @@ descriptor before passing it to another process.
 =head2 Temporary files and NFS
 
 Some problems are associated with using temporary files that reside
-on NFS file systems and it is recommended that a local filesystem
+on NFS filesystems and it is recommended that a local filesystem
 is used whenever possible. Some of the security tests will most probably
 fail when the temp file is not local. Additionally, be aware that
 the performance of I/O operations over NFS will not be as good as for

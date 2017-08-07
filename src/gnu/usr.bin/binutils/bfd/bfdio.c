@@ -1,7 +1,8 @@
 /* Low-level I/O routines for BFDs.
 
    Copyright 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2005
+   Free Software Foundation, Inc.
 
    Written by Cygnus Support.
 
@@ -19,7 +20,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 #include "sysdep.h"
 
@@ -299,20 +300,6 @@ bfd_seek (bfd *abfd, file_ptr position, int direction)
 
   if (abfd->format != bfd_archive && abfd->my_archive == 0)
     {
-#if 0
-      /* Explanation for this code: I'm only about 95+% sure that the above
-	 conditions are sufficient and that all i/o calls are properly
-	 adjusting the `where' field.  So this is sort of an `assert'
-	 that the `where' field is correct.  If we can go a while without
-	 tripping the abort, we can probably safely disable this code,
-	 so that the real optimizations happen.  */
-      file_ptr where_am_i_now;
-      where_am_i_now = real_ftell (bfd_cache_lookup (abfd));
-      if (abfd->my_archive)
-	where_am_i_now -= abfd->origin;
-      if (where_am_i_now != abfd->where)
-	abort ();
-#endif
       if (direction == SEEK_SET && (bfd_vma) position == abfd->where)
 	return 0;
     }
@@ -376,7 +363,7 @@ SYNOPSIS
 	long bfd_get_mtime (bfd *abfd);
 
 DESCRIPTION
-	Return the file modification time (as read from the file system, or
+	Return the file modification time (as read from the filesystem, or
 	from the archive header for archive members).
 
 */
@@ -407,7 +394,7 @@ SYNOPSIS
 	long bfd_get_size (bfd *abfd);
 
 DESCRIPTION
-	Return the file size (as read from file system) for the file
+	Return the file size (as read from filesystem) for the file
 	associated with BFD @var{abfd}.
 
 	The initial motivation for, and use of, this routine is not

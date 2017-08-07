@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sbin/newfs/newfs.c,v 1.2 2005/03/06 19:50:28 tg Exp $ */
 /*	$OpenBSD: newfs.c,v 1.50 2004/08/12 07:53:50 otto Exp $	*/
 /*	$NetBSD: newfs.c,v 1.20 1996/05/16 07:13:03 thorpej Exp $	*/
 
@@ -70,7 +70,7 @@ static const char copyright[] =
 #include "pathnames.h"
 
 __SCCSID("@(#)newfs.c	8.8 (Berkeley) 4/18/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/newfs/newfs.c,v 1.2 2005/03/06 19:50:28 tg Exp $");
 
 struct mntopt mopts[] = {
 	MOPT_STDOPTS,
@@ -121,7 +121,7 @@ u_short	dkcksum(struct disklabel *);
 #define MAXBLKPG(bsize)	((bsize) / sizeof(daddr_t))
 
 /*
- * Each file system has a number of inodes statically allocated.
+ * Each filesystem has a number of inodes statically allocated.
  * We allocate one inode slot per NFPI fragments, expecting this
  * to be far more than we will ever need.
  */
@@ -140,9 +140,9 @@ u_short	dkcksum(struct disklabel *);
 
 
 int	mfs;			/* run as the memory based filesystem */
-int	Nflag;			/* run without writing file system */
-int	Oflag;			/* format as an 4.3BSD file system */
-int	fssize;			/* file system size */
+int	Nflag;			/* run without writing filesystem */
+int	Oflag;			/* format as an 4.3BSD filesystem */
+int	fssize;			/* filesystem size */
 int	ntracks;		/* # tracks/cylinder */
 int	nsectors;		/* # sectors/track */
 int	nphyssectors;		/* # sectors/track including spares */
@@ -327,7 +327,7 @@ main(int argc, char *argv[])
 			break;
 		case 's':
 			if ((fssize = atoi(optarg)) <= 0)
-				fatal("%s: bad file system size", optarg);
+				fatal("%s: bad filesystem size", optarg);
 			break;
 		case 'z':
 			if ((ntracks = atoi(optarg)) <= 0)
@@ -478,7 +478,7 @@ main(int argc, char *argv[])
 		cp = strchr(argv[0], '\0') - 1;
 		if (cp == NULL || ((*cp < 'a' || *cp > ('a' + maxpartitions - 1))
 		    && !isdigit(*cp)))
-			fatal("%s: can't figure out file system partition",
+			fatal("%s: can't figure out filesystem partition",
 			    argv[0]);
 		lp = getdisklabel(special, fsi);
 		if (isdigit(*cp))
@@ -496,7 +496,7 @@ havelabel:
 	if (fssize == 0)
 		fssize = pp->p_size;
 	if (fssize > pp->p_size && !mfs)
-	       fatal("%s: maximum file system size on the `%c' partition is %d",
+	       fatal("%s: maximum filesystem size on the `%c' partition is %d",
 			argv[0], *cp, pp->p_size);
 	if (rpm == 0) {
 		rpm = lp->d_rpm;
@@ -804,7 +804,7 @@ struct fsoptions {
 	char *str;
 	int mfs_too;
 } fsopts[] = {
-	{ "-N do not create file system, just print out parameters", 0 },
+	{ "-N do not create filesystem, just print out parameters", 0 },
 	{ "-O create a 4.3BSD format filesystem", 0 },
 #ifdef MFS
 	{ "-P src populate mfs filesystem", 2 },
@@ -829,8 +829,8 @@ struct fsoptions {
 	{ "-o optimization preference (`space' or `time')", 1 },
 	{ "-p spare sectors per track", 0 },
 	{ "-r revolutions/minute", 0 },
-	{ "-s file system size (sectors)", 1 },
-	{ "-t file system type", 0 },
+	{ "-s filesystem size (sectors)", 1 },
+	{ "-t filesystem type", 0 },
 	{ "-u sectors/track", 0 },
 	{ "-x spare sectors per cylinder", 0 },
 	{ "-z tracks/cylinder", 0 },

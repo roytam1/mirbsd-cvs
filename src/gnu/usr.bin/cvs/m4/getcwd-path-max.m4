@@ -1,5 +1,5 @@
-#serial 8
-# Check for several getcwd bugs with long paths.
+#serial 10
+# Check for several getcwd bugs with long file names.
 # If so, arrange to compile the wrapper function.
 
 # This is necessary for at least GNU libc on linux-2.4.19 and 2.4.20.
@@ -16,7 +16,6 @@
 AC_DEFUN([gl_FUNC_GETCWD_PATH_MAX],
 [
   AC_CHECK_DECLS_ONCE(getcwd)
-  AC_CHECK_HEADERS_ONCE(fcntl.h)
   AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
   AC_CACHE_CHECK([whether getcwd handles long file names properly],
     gl_cv_func_getcwd_path_max,
@@ -32,9 +31,7 @@ AC_DEFUN([gl_FUNC_GETCWD_PATH_MAX],
 #include <limits.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#if HAVE_FCNTL_H
-# include <fcntl.h>
-#endif
+#include <fcntl.h>
 
 #ifndef AT_FDCWD
 # define AT_FDCWD 0
@@ -68,8 +65,8 @@ main (void)
 {
 #ifndef PATH_MAX
   /* The Hurd doesn't define this, so getcwd can't exhibit the bug --
-     at least not on a local file system.  And if we were to start worrying
-     about remote file systems, we'd have to enable the wrapper function
+     at least not on a local filesystem.  And if we were to start worrying
+     about remote filesystems, we'd have to enable the wrapper function
      all of the time, just to be safe.  That's not worth the cost.  */
   exit (0);
 #elif ((INT_MAX / (DIR_NAME_SIZE / DOTDOTSLASH_LEN + 1) \

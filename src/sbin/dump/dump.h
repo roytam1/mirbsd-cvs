@@ -80,7 +80,7 @@ int	blockswritten;	/* number of blocks written on current tape */
 int	tapeno;		/* current tape number */
 time_t	tstart_writing;	/* when started writing the first tape block */
 long	xferrate;	/* averaged transfer rate of all volumes */
-struct	fs *sblock;	/* the file system super block */
+struct	fs *sblock;	/* the filesystem super block */
 char	sblock_buf[MAXBSIZE];
 long	dev_bsize;	/* block size of underlying disk device */
 int	dev_bshift;	/* log2(dev_bsize) */

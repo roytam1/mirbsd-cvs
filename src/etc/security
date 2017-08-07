@@ -1,6 +1,6 @@
 #!/bin/mksh
 # $MirSecuCron: etc_security 0.0 0000/00/00 00:00:00 root Backup $
-# $MirOS: src/etc/security,v 1.27 2016/02/14 23:47:16 tg Exp $
+# $MirOS: src/etc/security,v 1.28 2016/03/25 19:49:15 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -471,7 +471,7 @@ if [ -s $OUTPUT ] ; then
 	cat $OUTPUT
 fi
 
-# File systems should not be globally exported.
+# Filesystems should not be globally exported.
 if [ -s /etc/exports ] ; then
 	awk '{
 		if (($1 ~ /^#/) || ($1 ~ /^$/))
@@ -484,12 +484,12 @@ if [ -s /etc/exports ] ; then
 				next;
 		}
 		if (readonly)
-			print "File system " $1 " globally exported, read-only."
+			print "Filesystem " $1 " globally exported, read-only."
 		else
-			print "File system " $1 " globally exported, read-write."
+			print "Filesystem " $1 " globally exported, read-write."
 	}' < /etc/exports > $OUTPUT
 	if [ -s $OUTPUT ] ; then
-		echo "\nChecking for globally exported file systems."
+		echo "\nChecking for globally exported filesystems."
 		cat $OUTPUT
 	fi
 fi

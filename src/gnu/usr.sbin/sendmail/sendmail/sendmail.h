@@ -51,7 +51,7 @@
 #endif /* MONCONTROL */
 
 #ifdef _DEFINE
-SM_IDSTR(MiRCSid, "@(#)$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sendmail.h,v 1.10 2014/06/09 15:17:56 tg Exp $")
+SM_IDSTR(MiRCSid, "@(#)$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sendmail.h,v 1.11 2017/04/20 21:12:36 tg Exp $")
 SM_IDSTR(SmailId, "@(#)$Id$")
 #endif /* _DEFINE */
 
@@ -510,7 +510,7 @@ struct qpaths_s
 {
 	char	*qp_name;	/* name of queue dir, relative path */
 	short	qp_subdirs;	/* use subdirs? */
-	short	qp_fsysidx;	/* file system index of this directory */
+	short	qp_fsysidx;	/* filesystem index of this directory */
 # if SM_CONF_SHM
 	int	qp_idx;		/* index into array for queue information */
 # endif /* SM_CONF_SHM */
@@ -2391,11 +2391,11 @@ EXTERN int	MimeMode;	/* MIME processing mode */
 EXTERN int	NoRecipientAction;
 
 #if SM_CONF_SHM
-EXTERN int	Numfilesys;	/* number of queue file systems */
+EXTERN int	Numfilesys;	/* number of queue filesystems */
 EXTERN int	*PNumFileSys;
 # define NumFileSys	(*PNumFileSys)
 # else /* SM_CONF_SHM */
-EXTERN int	NumFileSys;	/* number of queue file systems */
+EXTERN int	NumFileSys;	/* number of queue filesystems */
 # endif /* SM_CONF_SHM */
 
 EXTERN int	QueueLA;	/* load average starting forced queueing */
@@ -2764,7 +2764,7 @@ extern void	unlockqueue __P((ENVELOPE *));
 extern void	unsetenv __P((char *));
 #endif /* !HASUNSETENV */
 
-/* update file system information: +/- some blocks */
+/* update filesystem information: +/- some blocks */
 #if SM_CONF_SHM
 extern void	upd_qs __P((ENVELOPE *, int, int, char *));
 # define updfs(e, count, space, where) upd_qs(e, count, space, where)

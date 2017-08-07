@@ -57,8 +57,8 @@ const REX_INTERACTIVE = 1;	/* interactive mode */
 struct rex_start {
 	rexstring rst_cmd<>;	/* list of command and args */
 	rexstring rst_host;	/* working directory host name */
-	rexstring rst_fsname;	/* working directory file system name */
-	rexstring rst_dirwithin;/* working directory within file system */
+	rexstring rst_fsname;	/* working directory filesystem name */
+	rexstring rst_dirwithin;/* working directory within filesystem */
 	rexstring rst_env<>;	/* list of environment */
 	unsigned int rst_port0;	/* port for stdin */
 	unsigned int rst_port1;	/* port for stdout */

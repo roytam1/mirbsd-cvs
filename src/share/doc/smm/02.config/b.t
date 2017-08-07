@@ -42,7 +42,7 @@ APPENDIX B. RULES FOR DEFAULTING SYSTEM DEVICES
 .NL
 .PP
 When \fIconfig\fP processes a ``config'' rule which does
-not fully specify the location of the root file system,
+not fully specify the location of the root filesystem,
 paging area(s), device for system dumps, and device for
 argument list processing it applies a set of rules to
 define those values left unspecified.  The following list

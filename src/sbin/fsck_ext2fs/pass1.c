@@ -61,7 +61,7 @@ pass1(void)
 	struct inodesc idesc;
 
 	/*
-	 * Set file system reserved blocks in used block map.
+	 * Set filesystem reserved blocks in used block map.
 	 */
 	for (c = 0; c < sblock.e2fs_ncg; c++) {
 		dbase = c * sblock.e2fs.e2fs_bpg +

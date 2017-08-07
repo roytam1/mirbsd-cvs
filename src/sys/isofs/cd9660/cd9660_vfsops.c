@@ -615,7 +615,7 @@ cd9660_quotactl(mp, cmd, uid, arg, p)
 }
 
 /*
- * Get file system statistics.
+ * Get filesystem statistics.
  */
 int
 cd9660_statfs(mp, sbp, p)

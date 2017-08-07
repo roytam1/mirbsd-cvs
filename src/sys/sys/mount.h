@@ -41,7 +41,7 @@
 #include <sys/queue.h>
 #include <sys/lock.h>
 
-typedef struct { int32_t val[2]; } fsid_t;	/* file system id type */
+typedef struct { int32_t val[2]; } fsid_t;	/* filesystem id type */
 
 /*
  * File identifier.
@@ -82,8 +82,8 @@ struct ufs_args {
 struct mfs_args {
 	char	*fspec;			/* name to export for statfs */
 	struct	export_args export_info;/* if exported MFSes are supported */
-	caddr_t	base;			/* base of file system in memory */
-	u_long	size;			/* size of file system */
+	caddr_t	base;			/* base of filesystem in memory */
+	u_long	size;			/* size of filesystem */
 };
 
 /*
@@ -274,7 +274,7 @@ struct procfs_args {
 
 
 /*
- * file system statistics
+ * filesystem statistics
  */
 
 #define	MFSNAMELEN	16	/* length of fs type name, including nul */
@@ -296,48 +296,48 @@ union mount_info {
 /* new statfs structure with mount options */
 struct statfs {
 	u_int32_t  f_flags;		/* copy of mount flags */
-	int32_t    f_bsize;		/* fundamental file system block size */
+	int32_t    f_bsize;		/* fundamental filesystem block size */
 	u_int32_t  f_iosize;		/* optimal transfer block size */
-	u_int32_t  f_blocks;		/* total data blocks in file system */
+	u_int32_t  f_blocks;		/* total data blocks in filesystem */
 	u_int32_t  f_bfree;		/* free blocks in fs */
 	int32_t    f_bavail;		/* free blocks avail to non-superuser */
-	u_int32_t  f_files;		/* total file nodes in file system */
+	u_int32_t  f_files;		/* total file nodes in filesystem */
 	u_int32_t  f_ffree;		/* free file nodes in fs */
-	fsid_t	   f_fsid;		/* file system id */
-	uid_t	   f_owner;		/* user that mounted the file system */
+	fsid_t	   f_fsid;		/* filesystem id */
+	uid_t	   f_owner;		/* user that mounted the filesystem */
 	u_int32_t  f_syncwrites;	/* count of sync writes since mount */
 	u_int32_t  f_asyncwrites;	/* count of async writes since mount */
 	u_int32_t  f_ctime;		/* last mount [-u] time */
 	u_int32_t  f_spare[3];		/* spare for later */
 	char	   f_fstypename[MFSNAMELEN]; /* fs type name */
 	char	   f_mntonname[MNAMELEN];    /* directory on which mounted */
-	char	   f_mntfromname[MNAMELEN];  /* mounted file system */
+	char	   f_mntfromname[MNAMELEN];  /* mounted filesystem */
 	union mount_info mount_info;	    /* per-filesystem mount options */
 };
 
 /* old (pre-2.6) statfs structure */
 struct ostatfs {
-	short	f_type;			/* type of file system (unused; zero) */
+	short	f_type;			/* type of filesystem (unused; zero) */
 	short	f_flags;		/* copy of mount flags */
-	long	f_bsize;		/* fundamental file system block size */
+	long	f_bsize;		/* fundamental filesystem block size */
 	long	f_iosize;		/* optimal transfer block size */
-	long	f_blocks;		/* total data blocks in file system */
+	long	f_blocks;		/* total data blocks in filesystem */
 	long	f_bfree;		/* free blocks in fs */
 	long	f_bavail;		/* free blocks avail to non-superuser */
-	long	f_files;		/* total file nodes in file system */
+	long	f_files;		/* total file nodes in filesystem */
 	long	f_ffree;		/* free file nodes in fs */
-	fsid_t	f_fsid;			/* file system id */
-	uid_t	f_owner;		/* user that mounted the file system */
+	fsid_t	f_fsid;			/* filesystem id */
+	uid_t	f_owner;		/* user that mounted the filesystem */
 	long	f_syncwrites;		/* count of sync writes since mount */
 	long	f_asyncwrites;		/* count of async writes since mount */
 	long	f_spare[2];		/* spare for later */
 	char	f_fstypename[MFSNAMELEN]; /* fs type name */
 	char	f_mntonname[MNAMELEN];	  /* directory on which mounted */
-	char	f_mntfromname[MNAMELEN];  /* mounted file system */
+	char	f_mntfromname[MNAMELEN];  /* mounted filesystem */
 };
 
 /*
- * File system types.
+ * Filesystem types.
  */
 #define	MOUNT_FFS	"ffs"		/* UNIX "Fast" Filesystem */
 #define	MOUNT_UFS	MOUNT_FFS	/* for compatibility */
@@ -354,14 +354,14 @@ struct ostatfs {
 #define	MOUNT_CD9660	"cd9660"	/* ISO9660 (aka CDROM) Filesystem */
 #define	MOUNT_ADOSFS	"adosfs"	/* AmigaDOS Filesystem */
 #define	MOUNT_EXT2FS	"ext2fs"	/* Second Extended Filesystem */
-#define	MOUNT_NCPFS	"ncpfs"		/* NetWare Network File System */
+#define	MOUNT_NCPFS	"ncpfs"		/* NetWare Network Filesystem */
 #define	MOUNT_XFS	"xfs"		/* xfs */
 #define	MOUNT_NTFS	"ntfs"		/* NTFS */
 #define	MOUNT_UDF	"udf"		/* UDF */
 
 /*
- * Structure per mounted file system.  Each mounted file system has an
- * array of operations and an instance record.  The file systems are
+ * Structure per mounted filesystem.  Each mounted filesystem has an
+ * array of operations and an instance record.  The filesystems are
  * put on a doubly linked list.
  */
 LIST_HEAD(vnodelst, vnode);
@@ -386,17 +386,17 @@ struct mount {
  * Unmount uses MNT_FORCE flag.
  */
 #define	MNT_RDONLY	0x00000001	/* read only filesystem */
-#define	MNT_SYNCHRONOUS	0x00000002	/* file system written synchronously */
+#define	MNT_SYNCHRONOUS	0x00000002	/* filesystem written synchronously */
 #define	MNT_NOEXEC	0x00000004	/* can't exec from filesystem */
 #define	MNT_NOSUID	0x00000008	/* don't honor setuid bits on fs */
 #define	MNT_NODEV	0x00000010	/* don't interpret special files */
-#define	MNT_ASYNC	0x00000040	/* file system written asynchronously */
+#define	MNT_ASYNC	0x00000040	/* filesystem written asynchronously */
 
 /*
  * exported mount flags.
  */
 #define	MNT_EXRDONLY	0x00000080	/* exported read only */
-#define	MNT_EXPORTED	0x00000100	/* file system is exported */
+#define	MNT_EXPORTED	0x00000100	/* filesystem is exported */
 #define	MNT_DEFEXPORTED	0x00000200	/* exported to the world */
 #define	MNT_EXPORTANON	0x00000400	/* use anon uid mapping for everyone */
 #define	MNT_EXKERB	0x00000800	/* exported with Kerberos uid mapping */
@@ -468,7 +468,7 @@ struct vfsconf {
 };
 
 /*
- * Operations supported on mounted file system.
+ * Operations supported on mounted filesystem.
  */
 #ifdef _KERNEL
 #ifdef __STDC__
@@ -535,7 +535,7 @@ struct vfsops {
  * Generic file handle
  */
 struct fhandle {
-	fsid_t	fh_fsid;	/* File system id of mount point */
+	fsid_t	fh_fsid;	/* Filesystem id of mount point */
 	struct	fid fh_fid;	/* File sys specific id */
 };
 typedef struct fhandle	fhandle_t;
@@ -590,7 +590,7 @@ int	vfs_allocate_syncvnode(struct mount *);
 int	speedup_syncer(void);
 
 int	vfs_syncwait(int);	/* sync and wait for complete */
-void	vfs_shutdown(void);	/* unmount and sync file systems */
+void	vfs_shutdown(void);	/* unmount and sync filesystems */
 long	makefstype(char *);
 int	dounmount(struct mount *, int, struct proc *, struct vnode *);
 void	vfsinit(void);

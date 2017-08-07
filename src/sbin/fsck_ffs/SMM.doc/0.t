@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/sbin/fsck_ffs/SMM.doc/0.t,v 1.2 2005/03/06 19:49:57 tg Exp $
 .\"	$OpenBSD: 0.t,v 1.4 2003/06/02 20:06:15 millert Exp $
 .\"	$NetBSD: 0.t,v 1.3 1996/04/05 01:45:40 cgd Exp $
 .\"
@@ -33,9 +33,9 @@
 .\"
 .if n .ND
 .TL
-fsck_ffs \- The UNIX\(dg File System Check Program
-.EH 'SMM:3-%''The \s-2UNIX\s+2 File System Check Program'
-.OH 'The \s-2UNIX\s+2 File System Check Program''SMM:3-%'
+fsck_ffs \- The UNIX\(dg Filesystem Check Program
+.EH 'SMM:3-%''The \s-2UNIX\s+2 Filesystem Check Program'
+.OH 'The \s-2UNIX\s+2 Filesystem Check Program''SMM:3-%'
 .AU
 Marshall Kirk McKusick
 .AI
@@ -62,31 +62,31 @@ Contract No. N00039-82-C-0235.
 .FE
 This document reflects the use of
 .I fsck_ffs
-with the 4.2BSD and 4.3BSD file system organization.  This
+with the 4.2BSD and 4.3BSD filesystem organization.  This
 is a revision of the
 original paper written by
 T. J. Kowalski.
 .PP
-File System Check Program (\fIfsck_ffs\fR)
-is an interactive file system check and repair program.
+Filesystem Check Program (\fIfsck_ffs\fR)
+is an interactive filesystem check and repair program.
 .I Fsck_ffs
 uses the redundant structural information in the
-UNIX file system to perform several consistency checks.
+UNIX filesystem to perform several consistency checks.
 If an inconsistency is detected, it is reported
 to the operator, who may elect to fix or ignore
 each inconsistency.
 These inconsistencies result from the permanent interruption
-of the file system updates, which are performed every
+of the filesystem updates, which are performed every
 time a file is modified.
 Unless there has been a hardware failure,
 .I fsck_ffs
-is able to repair corrupted file systems
+is able to repair corrupted filesystems
 using procedures based upon the order in which UNIX honors
-these file system update requests.
+these filesystem update requests.
 .PP
 The purpose of this document is to describe the normal updating
-of the file system,
-to discuss the possible causes of file system corruption,
+of the filesystem,
+to discuss the possible causes of filesystem corruption,
 and to present the corrective actions implemented
 by
 .I fsck_ffs.
@@ -107,16 +107,16 @@ Revised July 16, 1985
 .LP
 .sp .5v
 .nf
-.B "2.  Overview of the file system
+.B "2.  Overview of the filesystem
 2.1.    Superblock
 2.2.    Summary Information
 2.3.    Cylinder groups
 2.4.    Fragments
-2.5.    Updates to the file system
+2.5.    Updates to the filesystem
 .LP
 .sp .5v
 .nf
-.B "3.  Fixing corrupted file systems
+.B "3.  Fixing corrupted filesystems
 3.1.    Detecting and correcting corruption
 3.2.    Super block checking
 3.3.    Free block checking
@@ -124,7 +124,7 @@ Revised July 16, 1985
 3.5.    Inode links
 3.6.    Inode data size
 3.7.    Checking the data associated with an inode
-3.8.    File system connectivity
+3.8.    Filesystem connectivity
 .LP
 .sp .5v
 .nf

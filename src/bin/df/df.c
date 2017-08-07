@@ -52,7 +52,7 @@
 __IDSTRING(copyright, "@(#) Copyright (c) 1980, 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)df.c	8.7 (Berkeley) 4/2/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/df/df.c,v 1.4 2006/09/21 01:56:10 tg Exp $");
 
 extern	char *__progname;
 
@@ -118,7 +118,7 @@ main(int argc, char *argv[])
 
 	mntsize = getmntinfo(&mntbuf, MNT_NOWAIT);
 	if (mntsize == 0)
-		err(1, "retrieving information on mounted file systems");
+		err(1, "retrieving information on mounted filesystems");
 
 	if (!*argv) {
 		mntsize = regetmntinfo(&mntbuf, mntsize);
@@ -143,10 +143,10 @@ main(int argc, char *argv[])
 			 */
 			if (!statfs(mntpt, &mntbuf[mntsize]))
 				if (lflag && (mntbuf[mntsize].f_flags & MNT_LOCAL) == 0)
-					warnx("%s is not a local file system",
+					warnx("%s is not a local filesystem",
 					    *argv);
 				else if (!selected(mntbuf[mntsize].f_fstypename))
-					warnx("%s mounted as a %s file system",
+					warnx("%s mounted as a %s filesystem",
 					    *argv, mntbuf[mntsize].f_fstypename);
 				else
 					++mntsize;
@@ -421,7 +421,7 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: %s [-iklnP] [-t type] [[file | file_system] ...]\n",
+	    "usage: %s [-iklnP] [-t type] [[file | filesystem] ...]\n",
 	    __progname);
 	exit(1);
 }

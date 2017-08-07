@@ -49,7 +49,7 @@
 .\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
-.Dd $Mdocdate: May 26 2008 $
+.Dd $Mdocdate: June 12 2008 $
 .Dt MOUNT_VND 8
 .Os
 .Sh NAME
@@ -83,8 +83,8 @@ It will associate (or disassociate) the special file
 with the regular file
 .Ar image ,
 allowing the latter to be accessed as though it were a disk.
-Hence a regular file within the file system can be used for swapping
-or can contain a file system that is mounted in the name space.
+Hence a regular file within the filesystem can be used for swapping
+or can contain a filesystem that is mounted in the name space.
 .Pp
 Both traditional devices,
 .Xr vnd 4 ,
@@ -132,7 +132,7 @@ Also, the
 .Dq fs_passno
 field has to be set to 0 to prevent
 .Xr fsck 8
-from checking the file system for the same reasons.
+from checking the filesystem for the same reasons.
 .Pp
 .Nm mount_vnd
 is invoked by
@@ -224,14 +224,14 @@ Print messages to stdout describing actions taken.
 .El
 .Sh EXAMPLES
 Configure a CD-ROM or DVD image file as vnode disk svnd0
-and mount the ISO 9660 file system contained in it:
+and mount the ISO 9660 filesystem contained in it:
 .Bd -literal -offset indent
 # vnconfig svnd0 /tmp/diskimage
 # mount -t cd9660 /dev/svnd0c /mnt
 .Ed
 .Pp
 Configure an encrypted image file as vnode disk svnd0 and mount the FFS
-file system contained in the
+filesystem contained in the
 .Sq a
 partition of the disklabel.
 The encryption key does not echo and must be entered every time
@@ -267,7 +267,7 @@ entry is:
 /dev/svnd0a   /mnt        ffs rw,noauto          0 0
 .Ed
 .Pp
-Unmount the file system and unconfigure the vnode device:
+Unmount the filesystem and unconfigure the vnode device:
 .Bd -literal -offset indent
 # umount /mnt
 # vnconfig -u svnd0
@@ -289,7 +289,7 @@ Mounting images during the first pass of
 and
 .Xr mount 8
 is not possible, because the image to be configured to a vnd itself
-resides on a file system that first has to be checked and mounted.
+resides on a filesystem that first has to be checked and mounted.
 .Sh SEE ALSO
 .Xr vnd 4 ,
 .Xr fstab 5 ,
@@ -314,4 +314,4 @@ to determine the location of alternate superblocks.
 This information is not available when directly using the
 .Sq c
 partition,
-so checking the file system image will fail.
+so checking the filesystem image will fail.

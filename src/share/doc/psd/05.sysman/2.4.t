@@ -160,7 +160,7 @@ tapes, but may represent any random-access device.
 The system performs read-modify-write type buffering actions on block
 devices to allow them to be read and written in a totally random
 access fashion like ordinary files.
-File systems are normally created in block devices.
+Filesystems are normally created in block devices.
 .NH 3
 Unstructured devices
 .PP

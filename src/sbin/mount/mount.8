@@ -35,7 +35,7 @@
 .Os
 .Sh NAME
 .Nm mount
-.Nd mount file systems
+.Nd mount filesystems
 .Sh SYNOPSIS
 .Nm mount
 .Op Fl Aadfruvw
@@ -51,10 +51,10 @@
 .Sh DESCRIPTION
 The
 .Nm
-command invokes a file system specific program to prepare
+command invokes a filesystem specific program to prepare
 and graft the
 .Ar special
-device or remote node (rhost:path) on to the file system
+device or remote node (rhost:path) on to the filesystem
 tree at the point
 .Ar node .
 If either
@@ -70,7 +70,7 @@ For disk partitions, the
 device must correspond to a partition registered in the
 .Xr disklabel 5 .
 .Pp
-The system maintains a list of currently mounted file systems.
+The system maintains a list of currently mounted filesystems.
 If no arguments are given to
 .Nm mount ,
 this list is printed.
@@ -83,7 +83,7 @@ except in the special case of
 .Pa / ,
 of course
 .Pc .
-Only the superuser may mount file systems unless
+Only the superuser may mount filesystems unless
 .Va kern.usermount
 is nonzero
 .Po
@@ -103,7 +103,7 @@ The options are as follows:
 .It Fl A
 Causes
 .Nm
-to try to mount all of the file systems listed in the
+to try to mount all of the filesystems listed in the
 .Xr fstab 5
 table except those for which the
 .Dq noauto
@@ -111,19 +111,19 @@ option is specified.
 .It Fl a
 Similar to the
 .Fl A
-flag, except that if a file system (other than the root file system)
+flag, except that if a filesystem (other than the root filesystem)
 appears to be already mounted,
 .Nm
 will not try to mount it again.
 .Nm
-assumes that a file system is already mounted if a file system with
+assumes that a filesystem is already mounted if a filesystem with
 the same type is mounted on the given mount point.
-More stringent checks are not possible because some file system types
+More stringent checks are not possible because some filesystem types
 report strange values for the mounted-from device for mounted file
 systems.
 .It Fl d
 Causes everything to be done except for the invocation of
-the file system specific program.
+the filesystem specific program.
 This option is useful in conjunction with the
 .Fl v
 flag to
@@ -131,7 +131,7 @@ determine what the
 .Nm
 command is trying to do.
 .It Fl f
-Either force mounting of dirty file systems or, in the case of a
+Either force mounting of dirty filesystems or, in the case of a
 downgrade from read-write to read-only operation, the revocation of
 opened files with write access.
 .It Fl o Ar options
@@ -143,33 +143,33 @@ For example,
 .Sq noasync
 is the default, so
 .Sq async
-can be used to mount a file system asynchronously.
+can be used to mount a filesystem asynchronously.
 Multiple options can be specified in a comma-separated list.
 The available options are as follows:
 .Bl -tag -width Ds
 .It async
 All
 .Tn I/O
-to the file system should be done asynchronously.
+to the filesystem should be done asynchronously.
 This is a
 .Em dangerous
 flag to set since it does not guarantee to keep a consistent
-file system structure on the disk.
+filesystem structure on the disk.
 You should not use this flag
-unless you are prepared to recreate the file system should your
+unless you are prepared to recreate the filesystem should your
 system crash.
 The most common use of this flag is to speed up
 .Xr restore 8
 where it can give a factor of two speed increase.
 .It softdep
 (FFS only.)
-Mount the file system using soft dependencies.
+Mount the filesystem using soft dependencies.
 Instead of metadata being written immediately, it is written in an ordered
-fashion to keep the on-disk state of the file system consistent.
+fashion to keep the on-disk state of the filesystem consistent.
 This results in significant speedups for file create/delete operations.
 This option will be ignored when using the
 .Fl u
-flag and a file system is already mounted read/write.
+flag and a filesystem is already mounted read/write.
 It requires
 .Cm option FFS_SOFTUPDATES
 to be enabled in the running kernel.
@@ -177,7 +177,7 @@ to be enabled in the running kernel.
 The same as
 .Fl f ;
 forces the revocation of write access when trying to downgrade
-a file system mount status from read-write to read-only.
+a filesystem mount status from read-write to read-only.
 .It noatime
 Do not update atime on files in the system unless the mtime or ctime
 is being changed as well.
@@ -187,37 +187,37 @@ not want the extra disk activity associated with updating the atime.
 Synonym for noatime provided for compatibility with
 other operating systems.
 .It noauto
-Do not mount the file system automatically
+Do not mount the filesystem automatically
 (either at boot or with the
 .Fl A
 or
 .Fl a
 options).
 .It nodev
-Do not interpret character or block special devices on the file system.
-This option is useful for a server that has file systems containing
+Do not interpret character or block special devices on the filesystem.
+This option is useful for a server that has filesystems containing
 special devices for architectures other than its own.
 .It noexec
-Do not allow execution of any binaries on the mounted file system.
-This option is useful for a server that has file systems containing
+Do not allow execution of any binaries on the mounted filesystem.
+This option is useful for a server that has filesystems containing
 binaries for architectures other than its own.
 .It nosuid
 Do not allow set-user-identifier or set-group-identifier bits to take effect.
 .It rdonly
 The same as
 .Fl r ;
-mount the file system read-only (even the superuser may not write it).
+mount the filesystem read-only (even the superuser may not write it).
 .It sync
 All
 .Tn I/O
-to the file system should be done synchronously.
+to the filesystem should be done synchronously.
 .It update
 The same as
 .Fl u ;
-indicate that the status of an already mounted file system should be changed.
+indicate that the status of an already mounted filesystem should be changed.
 .El
 .Pp
-Any additional options specific to a given file system type (see the
+Any additional options specific to a given filesystem type (see the
 .Fl t
 option) may be passed as a comma separated list; these options are
 distinguished by a leading
@@ -238,8 +238,8 @@ to execute the equivalent of:
 # /sbin/mount_mfs -o nosuid -s 4000 /dev/sd0b /tmp
 .Ed
 .It Fl r
-The file system is to be mounted read-only.
-Mount the file system read-only (even the superuser may not write it).
+The filesystem is to be mounted read-only.
+Mount the filesystem read-only (even the superuser may not write it).
 The same as the
 .Dq rdonly
 argument to the
@@ -248,7 +248,7 @@ option.
 .It Fl t Ar type
 The argument following the
 .Fl t
-is used to indicate the file system type.
+is used to indicate the filesystem type.
 The type
 .Ar ffs
 is the default.
@@ -256,11 +256,11 @@ The
 .Fl t
 option can be used
 to indicate that the actions should only be taken on
-file systems of the specified type.
+filesystems of the specified type.
 More than one type may be specified in a comma separated list.
-The list of file system types can be prefixed with
+The list of filesystem types can be prefixed with
 .Dq no
-to specify the file system types for which action should
+to specify the filesystem types for which action should
 .Em not
 be taken.
 For example, the
@@ -270,7 +270,7 @@ command:
 # mount -a -t nonfs,mfs
 .Ed
 .Pp
-mounts all file systems except those of type
+mounts all filesystems except those of type
 .Tn NFS
 and
 .Tn MFS .
@@ -281,7 +281,7 @@ will attempt to execute a program in
 where
 .Em XXX
 is replaced by the type name.
-For example, NFS file systems are mounted by the program
+For example, NFS filesystems are mounted by the program
 .Pa /sbin/mount_nfs .
 .It Fl u
 The
@@ -292,37 +292,37 @@ Any of the options discussed above (the
 .Fl o
 option)
 may be changed;
-also a file system can be changed from read-only to read-write
+also a filesystem can be changed from read-only to read-write
 or vice versa.
 An attempt to change from read-write to read-only will fail if any
-files on the file system are currently open for writing unless the
+files on the filesystem are currently open for writing unless the
 .Fl f
 flag is also specified.
 Only options specified on the command line with
 .Fl o
 are changed;
-other file system options are unaltered.
+other filesystem options are unaltered.
 The options set in the
 .Xr fstab 5
 table are ignored.
 .It Fl v
 Verbose mode.
 .It Fl w
-The file system object is to be read and write.
+The filesystem object is to be read and write.
 .El
 .Pp
-The options specific to the various file system types are
-described in the manual pages for those file systems'
+The options specific to the various filesystem types are
+described in the manual pages for those filesystems'
 .Nm mount_XXX
 commands.
 For instance, the options specific to Berkeley
-Fast File Systems are described in the
+Fast Filesystems are described in the
 .Xr mount_ffs 8
 manual page.
 .Sh FILES
 .Bl -tag -width /etc/fstab -compact
 .It Pa /etc/fstab
-file system table
+filesystem table
 .El
 .Sh EXAMPLES
 Mount a CD-ROM on node
@@ -335,7 +335,7 @@ Mount an MS-DOS floppy on node
 .Pp
 .Dl # mount -t msdos /dev/fd0a /mnt/floppy
 .Pp
-Graft a remote NFS file system on host
+Graft a remote NFS filesystem on host
 .Ar host ,
 path
 .Pa /path/name ,
@@ -380,7 +380,7 @@ After a successful
 .Nm mount ,
 the permissions on the original mount point determine if
 .Dq \&.\&.
-is accessible from the mounted file system.
+is accessible from the mounted filesystem.
 The minimum permissions for
 the mount point for traversal across the mount point in both
 directions to be possible for all users is 0111 (execute for all).

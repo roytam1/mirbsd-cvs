@@ -1642,7 +1642,7 @@ differently.
 
 In general, whenever the user may actually see a string,
 @samp{target_alias} should be used.  This includes anything which may
-appear in the file system, such as a directory name or part of a tool
+appear in the filesystem, such as a directory name or part of a tool
 name.  It also includes any tool output, unless it is clearly labelled
 as the canonical target configuration name.  This permits the user to
 use the @samp{--target} option to specify how the tool will appear to

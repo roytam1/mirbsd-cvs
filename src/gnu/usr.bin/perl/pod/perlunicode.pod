@@ -1141,7 +1141,7 @@ and results, or UTF-8 strings if the C<encoding> pragma has been used.
 
 One reason why Perl does not attempt to resolve the role of Unicode in
 this cases is that the answers are highly dependent on the operating
-system and the file system(s).  For example, whether filenames can be
+system and the filesystem(s).  For example, whether filenames can be
 in Unicode, and in exactly what kind of encoding, is not exactly a
 portable concept.  Similarly for the qx and system: how well will the
 'command line interface' (and which of them?) handle Unicode?

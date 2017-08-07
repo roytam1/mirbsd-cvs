@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.9 2010/09/21 21:24:42 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.10 2016/11/06 20:15:37 tg Exp $ */
 /*	$OpenBSD: mod_rewrite.c,v 1.25 2006/07/28 13:52:30 henning Exp $ */
 
 /* ====================================================================
@@ -100,7 +100,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.9 2010/09/21 21:24:42 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.10 2016/11/06 20:15:37 tg Exp $");
 
 /*
 ** +-------------------------------------------------------+
@@ -1432,7 +1432,7 @@ static int hook_fixup(request_rec *r)
                     /* I think, that hack needs an explanation:
                      * well, here is it:
                      * mod_rewrite was written for unix systems, were
-                     * absolute file-system paths start with a slash.
+                     * absolute filesystem paths start with a slash.
                      * URL-paths _also_ start with slashes, so they
                      * can be easily compared with system paths.
                      *

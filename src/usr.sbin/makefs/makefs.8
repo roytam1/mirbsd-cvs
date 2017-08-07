@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.15 2016/02/11 20:12:26 tg Exp $
+.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.16 2016/06/11 14:52:48 tg Exp $
 .\"	$NetBSD: makefs.8,v 1.32 2009/01/20 20:47:25 bjh21 Exp $
 .\"
 .\" Copyright (c) 2001-2003 Wasabi Systems, Inc.
@@ -93,7 +93,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: February 11 2016 $
+.Dd $Mdocdate: June 11 2016 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -170,7 +170,7 @@
 .Os
 .Sh NAME
 .Nm makefs
-.Nd create a file system image from a directory tree
+.Nd create a filesystem image from a directory tree
 .Sh SYNOPSIS
 .Nm
 .Op Fl x
@@ -192,7 +192,7 @@
 .Sh DESCRIPTION
 The utility
 .Nm
-creates a file system image into
+creates a filesystem image into
 .Ar image-file
 from the directory tree
 .Ar directory .
@@ -214,7 +214,7 @@ for big endian, and
 or
 .Ql le
 for little endian.
-Some file systems may have a fixed byte order; in those cases this
+Some filesystems may have a fixed byte order; in those cases this
 argument will be ignored.
 .It Fl b Ar free-blocks
 Ensure that a minimum of
@@ -238,14 +238,14 @@ as an
 .Sq specfile
 specification.
 .Pp
-If a specfile entry exists in the underlying file system, its
+If a specfile entry exists in the underlying filesystem, its
 permissions and modification time will be used unless specifically
 overridden by the specfile.
 An error will be raised if the type of entry in the specfile
 conflicts with that of an existing entry.
 .Pp
 In the opposite case (where a specfile entry does not have an entry
-in the underlying file system) the following occurs:
+in the underlying filesystem) the following occurs:
 If the specfile entry is marked
 .Sy optional ,
 the specfile entry is ignored.
@@ -282,12 +282,12 @@ suffix may be provided to indicate that
 .Ar free-files
 indicates a percentage of the calculated image size.
 .It Fl M Ar minimum-size
-Set the minimum size of the file system image to
+Set the minimum size of the filesystem image to
 .Ar minimum-size .
 .It Fl m Ar maximum-size
-Set the maximum size of the file system image to
+Set the maximum size of the filesystem image to
 .Ar maximum-size .
-An error will be raised if the target file system needs to be larger
+An error will be raised if the target filesystem needs to be larger
 than this to accommodate the provided directory tree.
 .It Fl N Ar dbdir
 Use the user database text file
@@ -302,35 +302,35 @@ and
 .Xr getgrnam 3
 (and related) library calls.
 .It Fl o Ar fs-options
-Set file system specific options.
+Set filesystem specific options.
 .Ar fs-options
 is a comma separated list of options.
-Valid file system specific options are detailed below.
+Valid filesystem specific options are detailed below.
 .It Fl S Ar sector-size
-Set the file system sector size to
+Set the filesystem sector size to
 .Ar sector-size .
 .\" XXX: next line also true for cd9660?
 Defaults to 512.
 .It Fl s Ar image-size
-Set the size of the file system image to
+Set the size of the filesystem image to
 .Ar image-size .
 .It Fl t Ar fs-type
 Create an
 .Ar fs-type
-file system image.
-The following file system types are supported:
+filesystem image.
+The following filesystem types are supported:
 .Bl -tag -width cd9660 -offset indent
 .It Sy ffs
-BSD fast file system (default).
+BSD fast filesystem (default).
 .It Sy cd9660
-ISO 9660 file system.
+ISO 9660 filesystem.
 .El
 .It Fl T Ar maximum-time
 Clamp superblock and file timestamps to
 .Ar maximum-time
 seconds since the Epoch.
 .It Fl x
-Exclude file system nodes not explicitly listed in the specfile.
+Exclude filesystem nodes not explicitly listed in the specfile.
 .El
 .Pp
 Where sizes are specified, a decimal number of bytes is expected.

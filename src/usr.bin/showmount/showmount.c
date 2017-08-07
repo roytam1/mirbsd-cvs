@@ -100,8 +100,8 @@ int	xdr_exports(XDR *, struct exportslist **);
 /*
  * This command queries the NFS mount daemon for it's mount list and/or
  * it's exports list and prints them out.
- * See "NFS: Network File System Protocol Specification, RFC1094, Appendix A"
- * and the "Network File System Protocol XXX.."
+ * See "NFS: Network Filesystem Protocol Specification, RFC1094, Appendix A"
+ * and the "Network Filesystem Protocol XXX.."
  * for detailed information on the protocol.
  */
 int

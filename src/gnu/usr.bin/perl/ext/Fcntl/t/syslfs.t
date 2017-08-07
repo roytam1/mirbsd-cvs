@@ -42,7 +42,7 @@ sub explain {
 # If the lfs (large file support: large meaning larger than two
 # gigabytes) tests are skipped or fail, it may mean either that your
 # process (or process group) is not allowed to write large files
-# (resource limits) or that the file system (the network filesystem?)
+# (resource limits) or that the filesystem (the network filesystem?)
 # you are running the tests on doesn't let your user/group have large
 # files (quota) or the filesystem simply doesn't support large files.
 # You may even need to reconfigure your kernel.  (This is all very

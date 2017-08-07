@@ -147,9 +147,9 @@ setrlimit	set resource limitations
 .in +5
 .TS
 lw(1.6i) aw(3i).
-mount	mount a device file system
+mount	mount a device filesystem
 swapon	add a swap device
-umount	umount a file system
+umount	umount a filesystem
 sync	flush system caches
 reboot	reboot a machine
 acct	specify accounting file
@@ -171,7 +171,7 @@ writev	gathered data output
 ioctl	device control operation
 .TE
 .in -5
-.h 2.2 "File system
+.h 2.2 "Filesystem
 .PP
 Operations marked with a * exist in two forms: as shown,
 operating on a file name, and operating on a file descriptor,
@@ -179,7 +179,7 @@ when the name is preceded with a ``f''.
 .in +5
 .TS
 lw(1.6i) aw(3i).
-<sys/file.h>	file system definitions
+<sys/file.h>	filesystem definitions
 chdir	change directory
 chroot	change root directory
 mkdir	make a directory

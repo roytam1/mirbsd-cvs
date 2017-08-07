@@ -468,7 +468,7 @@ The Porting/config.sh and Porting/config_H files are provided to
 help those folks who can't run Configure.  It is important to keep
 them up-to-date.  If you have changed config_h.SH, those changes must
 be reflected in config_H as well.  (The name config_H was chosen to
-distinguish the file from config.h even on case-insensitive file systems.)
+distinguish the file from config.h even on case-insensitive filesystems.)
 Simply edit the existing config_H file; keep the first few explanatory
 lines and then copy your new config.h below.
 

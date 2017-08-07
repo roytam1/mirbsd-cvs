@@ -224,7 +224,7 @@ data and relationships between traced events and
 system load.
 .PP
 The trace package was used mainly to investigate the operation of
-the file system buffer cache.  The sampling program maintained a
+the filesystem buffer cache.  The sampling program maintained a
 history of read-ahead blocks and used the trace information to
 calculate, for example, percentage of read-ahead blocks used.
 .NH 2

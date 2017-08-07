@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/procmap/procmap.c,v 1.2 2005/03/13 19:17:19 tg Exp $ */
+/**	$MirOS: src/usr.sbin/procmap/procmap.c,v 1.3 2005/12/04 15:02:30 tg Exp $ */
 /*	$OpenBSD: procmap.c,v 1.20 2005/05/26 05:22:15 pedro Exp $ */
 /*	$NetBSD: pmap.c,v 1.1 2002/09/01 20:32:44 atatat Exp $ */
 
@@ -607,7 +607,7 @@ dump_vm_map_entry(kvm_t *kd, struct kbit *vmspace,
 
 	/*
 	 * dig out the device number and inode number from certain
-	 * file system types.
+	 * filesystem types.
 	 */
 #define V_DATA_IS(vp, type, d, i) do { \
 	struct kbit data; \

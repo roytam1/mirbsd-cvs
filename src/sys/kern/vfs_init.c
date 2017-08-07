@@ -234,7 +234,7 @@ struct vattr va_null;
 struct pool namei_pool;
 
 /*
- * Initialize the vnode structures and initialize each file system type.
+ * Initialize the vnode structures and initialize each filesystem type.
  */
 void
 vfsinit()
@@ -260,7 +260,7 @@ vfsinit()
 	vfs_op_init();
 	vfs_opv_init();   /* finish the job */
 	/*
-	 * Initialize each file system type.
+	 * Initialize each filesystem type.
 	 */
 	vattr_null(&va_null);
 

@@ -73,7 +73,7 @@ generated under.
 
 At the moment the hints file for VM/ESA basically bypasses all of the
 automatic configuration process.  This is because Configure relies on:
-1. The header files living in the Byte File System (you could put the
+1. The header files living in the Byte Filesystem (you could put the
 there if you want); 2. The C preprocessor including the #include 
 statements in the preprocessor output (.i) file.
 

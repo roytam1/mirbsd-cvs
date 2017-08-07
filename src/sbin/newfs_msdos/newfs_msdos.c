@@ -124,9 +124,9 @@ struct bsbpb {
 struct bsxbpb {
     u_int8_t bspf[4];		/* big sectors per FAT */
     u_int8_t xflg[2];		/* FAT control flags */
-    u_int8_t vers[2];		/* file system version */
+    u_int8_t vers[2];		/* filesystem version */
     u_int8_t rdcl[4];		/* root directory start cluster */
-    u_int8_t infs[2];		/* file system info sector */
+    u_int8_t infs[2];		/* filesystem info sector */
     u_int8_t bkbs[2];		/* backup boot sector */
     u_int8_t rsvd[12];		/* reserved */
 };
@@ -137,7 +137,7 @@ struct bsx {
     u_int8_t sig;		/* extended boot signature */
     u_int8_t volid[4];		/* volume ID number */
     u_int8_t label[11];		/* volume label */
-    u_int8_t type[8];		/* file system type */
+    u_int8_t type[8];		/* filesystem type */
 };
 
 struct de {
@@ -165,7 +165,7 @@ struct bpb {
     u_int bsec;			/* big total sectors */
     u_int bspf;			/* big sectors per FAT */
     u_int rdcl; 		/* root directory start cluster */
-    u_int infs; 		/* file system info sector */
+    u_int infs; 		/* filesystem info sector */
     u_int bkbs; 		/* backup boot sector */
 };
 
@@ -228,7 +228,7 @@ static void setstr(u_int8_t *, const char *, size_t);
 static void usage(void);
 
 /*
- * Construct a FAT12, FAT16, or FAT32 file system.
+ * Construct a FAT12, FAT16, or FAT32 filesystem.
  */
 int
 main(int argc, char *argv[])
@@ -338,7 +338,7 @@ main(int argc, char *argv[])
 	    opt_r = argto2(optarg, 1, "reserved sectors");
 	    break;
 	case 's':
-	    opt_s = argto4(optarg, 1, "file system size");
+	    opt_s = argto4(optarg, 1, "filesystem size");
 	    break;
 	case 't':			/* Compat with newfs -t */
 	    break;
@@ -529,7 +529,7 @@ main(int argc, char *argv[])
     x1 = bpb.res + rds;
     x = bpb.bspf ? bpb.bspf : 1;
     if (x1 + (u_int64_t)x * bpb.nft > bpb.bsec)
-	errx(1, "meta data exceeds file system size");
+	errx(1, "meta data exceeds filesystem size");
     x1 += x * bpb.nft;
     x = (u_int64_t)(bpb.bsec - x1) * bpb.bps * NPB /
 	(bpb.spc * bpb.bps * NPB + fat / BPN * bpb.nft);
@@ -544,7 +544,7 @@ main(int argc, char *argv[])
     if (cls > x)
 	cls = x;
     if (bpb.bspf < x2)
-	warnx("warning: sectors/FAT limits file system to %u clusters",
+	warnx("warning: sectors/FAT limits filesystem to %u clusters",
 	      cls);
     if (cls < mincls(fat))
 	errx(1, "%u clusters too few clusters for FAT%u, need %u", cls, fat,
@@ -552,7 +552,7 @@ main(int argc, char *argv[])
     if (cls > maxcls(fat)) {
 	cls = maxcls(fat);
 	bpb.bsec = x1 + (cls + 1) * bpb.spc - 1;
-	warnx("warning: FAT type limits file system to %u sectors",
+	warnx("warning: FAT type limits filesystem to %u sectors",
 	      bpb.bsec);
     }
     printf("%s: %u sector%s in %u FAT%u cluster%s "
@@ -687,7 +687,7 @@ main(int argc, char *argv[])
 }
 
 /*
- * Exit with error if file system is mounted.
+ * Exit with error if filesystem is mounted.
  */
 static void
 check_mounted(const char *fname, mode_t mode)
@@ -975,7 +975,7 @@ usage(void)
     fprintf(stderr,
 	    "usage: newfs_msdos [ -options ] special [disktype]\n");
     fprintf(stderr, "where the options are:\n");
-    fprintf(stderr, "\t-N don't create file system: "
+    fprintf(stderr, "\t-N don't create filesystem: "
 	    "just print out parameters\n");
     fprintf(stderr, "\t-B get bootstrap from file\n");
     fprintf(stderr, "\t-F FAT type (12, 16, or 32)\n");
@@ -989,13 +989,13 @@ usage(void)
     fprintf(stderr, "\t-e root directory entries\n");
     fprintf(stderr, "\t-f standard format\n");
     fprintf(stderr, "\t-h drive heads\n");
-    fprintf(stderr, "\t-i file system info sector\n");
+    fprintf(stderr, "\t-i filesystem info sector\n");
     fprintf(stderr, "\t-k backup boot sector\n");
     fprintf(stderr, "\t-m media descriptor\n");
     fprintf(stderr, "\t-n number of FATs\n");
     fprintf(stderr, "\t-o hidden sectors\n");
     fprintf(stderr, "\t-r reserved sectors\n");
-    fprintf(stderr, "\t-s file system size (sectors)\n");
+    fprintf(stderr, "\t-s filesystem size (sectors)\n");
     fprintf(stderr, "\t-u sectors/track\n");
     exit(1);
 }

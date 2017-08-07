@@ -709,7 +709,7 @@ the
 .Sm ANSI
 X3.9\-1978 document and keep it compatible with the
 .UX
-file system.
+filesystem.
 Exceptions to the standard are noted in appendix B.
 .bp
 .DS C

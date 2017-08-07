@@ -53,7 +53,7 @@ made by the research community and describes the needs that
 prompted the distributions from Berkeley.
 The next Berkeley system will attempt to adapt to the
 current state of technology in the areas of virtual memory 
-and file system interfaces.
+and filesystem interfaces.
 The paper makes a brief survey of this available technological base
 and then speculates on the ways in which future
 Berkeley systems will use this technology.

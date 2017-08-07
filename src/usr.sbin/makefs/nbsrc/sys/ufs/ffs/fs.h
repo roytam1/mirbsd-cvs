@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ffs/fs.h,v 1.5 2010/03/06 20:35:43 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ffs/fs.h,v 1.6 2010/09/21 21:53:24 tg Exp $ */
 /*	$NetBSD: fs.h,v 1.55 2010/01/31 10:54:10 mlelstv Exp $	*/
 
 /*
@@ -40,18 +40,18 @@
 #define	_UFS_FFS_FS_H_
 
 /*
- * Each disk drive contains some number of file systems.
- * A file system consists of a number of cylinder groups.
+ * Each disk drive contains some number of filesystems.
+ * A filesystem consists of a number of cylinder groups.
  * Each cylinder group has inodes and data.
  *
- * A file system is described by its super-block, which in turn
+ * A filesystem is described by its super-block, which in turn
  * describes the cylinder groups.  The super-block is critical
  * data and is replicated in each cylinder group to protect against
  * catastrophic loss.  This is done at `newfs' time and the critical
  * super-block data does not change, so the copies need not be
  * referenced further unless disaster strikes.
  *
- * For file system fs, the offsets of the various blocks of interest
+ * For filesystem fs, the offsets of the various blocks of interest
  * are given in the super block as:
  *	[fs->fs_sblkno]		Super-block
  *	[fs->fs_cblkno]		Cylinder group block
@@ -113,7 +113,7 @@
 
 /*
  * Addresses stored in inodes are capable of addressing fragments
- * of `blocks'. File system blocks of at most size MAXBSIZE can
+ * of `blocks'. Filesystem blocks of at most size MAXBSIZE can
  * be optionally broken into 2, 4, or 8 pieces, each of which is
  * addressable; these pieces may be DEV_BSIZE, or some multiple of
  * a DEV_BSIZE unit.
@@ -121,12 +121,12 @@
  * Large files consist of exclusively large data blocks.  To avoid
  * undue wasted disk space, the last data block of a small file may be
  * allocated as only as many fragments of a large block as are
- * necessary.  The file system format retains only a single pointer
+ * necessary.  The filesystem format retains only a single pointer
  * to such a fragment, which is a piece of a single large block that
  * has been divided.  The size of such a fragment is determinable from
  * information in the inode, using the ``blksize(fs, ip, lbn)'' macro.
  *
- * The file system records space availability at the fragment level;
+ * The filesystem records space availability at the fragment level;
  * to determine block availability, aligned fragments are examined.
  */
 
@@ -142,7 +142,7 @@
 #define	MINBSIZE	4096
 
 /*
- * The path name on which the file system is mounted is maintained
+ * The path name on which the filesystem is mounted is maintained
  * in fs_fsmnt. MAXMNTLEN defines the amount of space allocated in
  * the super block for this name.
  */
@@ -203,15 +203,15 @@
 #define	BLK_SNAP	((daddr_t)(2))
 
 /*
- * MINFREE gives the minimum acceptable percentage of file system
+ * MINFREE gives the minimum acceptable percentage of filesystem
  * blocks which may be free. If the freelist drops below this level
  * only the superuser may continue to allocate blocks. This may
  * be set to 0 if no reserve of free blocks is deemed necessary,
- * however throughput drops by fifty percent if the file system
+ * however throughput drops by fifty percent if the filesystem
  * is run at between 95% and 100% full; thus the minimum default
  * value of fs_minfree is 5%. However, to get good clustering
  * performance, 10% is a better choice. This value is used only
- * when creating a file system and can be overriden from the
+ * when creating a filesystem and can be overriden from the
  * command line. By default we choose to optimize for time.
  */
 #define	MINFREE		5
@@ -252,11 +252,11 @@ struct csum_total {
 
 
 /*
- * Super block for an FFS file system in memory.
+ * Super block for an FFS filesystem in memory.
  */
 struct fs {
 	int32_t	fs_historic_start[2];	/* used by MirBSD to store entropy */
-#define fs_firstfield	fs_historic_start[0]	/* file system linked list, */
+#define fs_firstfield	fs_historic_start[0]	/* filesystem linked list, */
 #define fs_unused_1	fs_historic_start[1]	/* used for incore superblk */
 	int32_t  fs_sblkno;		/* addr of super-block in filesys */
 	int32_t  fs_cblkno;		/* offset of cyl-block in filesys */
@@ -299,7 +299,7 @@ struct fs {
 	int32_t	 fs_old_interleave;	/* hardware sector interleave */
 	int32_t	 fs_old_trackskew;	/* sector 0 skew, per track */
 /* fs_id takes the space of the unused fs_headswitch and fs_trkseek fields */
-	int32_t	 fs_id[2];		/* unique file system id */
+	int32_t	 fs_id[2];		/* unique filesystem id */
 /* sizes determined by number of cylinder groups and their sizes */
 	int32_t  fs_old_csaddr;		/* blk addr of cyl grp summary area */
 	int32_t	 fs_cssize;		/* size of cyl grp summary area */
@@ -308,7 +308,7 @@ struct fs {
 	int32_t	 fs_spare2;		/* old fs_ntrak */
 	int32_t	 fs_old_nsect;		/* sectors per track */
 	int32_t	 fs_old_spc;		/* sectors per cylinder */
-	int32_t	 fs_old_ncyl;		/* cylinders in file system */
+	int32_t	 fs_old_ncyl;		/* cylinders in filesystem */
 	int32_t	 fs_old_cpg;		/* cylinders per group */
 	int32_t	 fs_ipg;		/* inodes per group */
 	int32_t	 fs_fpg;		/* blocks per group * fs_frag */
@@ -316,7 +316,7 @@ struct fs {
 	struct	csum fs_old_cstotal;	/* cylinder summary information */
 /* these fields are cleared at mount time */
 	int8_t	 fs_fmod;		/* super block modified flag */
-	uint8_t	 fs_clean;		/* file system is clean flag */
+	uint8_t	 fs_clean;		/* filesystem is clean flag */
 	int8_t	 fs_ronly;		/* mounted read-only flag */
 	uint8_t	 fs_old_flags;		/* see FS_ flags below */
 	u_char	 fs_fsmnt[MAXMNTLEN];	/* name mounted on */
@@ -392,10 +392,10 @@ struct fs {
     : ((uint8_t *)((uint8_t *)(fs) + (fs)->fs_old_rotbloff)))
 
 /*
- * File system identification
+ * Filesystem identification
  */
-#define	FS_UFS1_MAGIC	0x011954	/* UFS1 fast file system magic number */
-#define	FS_UFS2_MAGIC	0x19540119	/* UFS2 fast file system magic number */
+#define	FS_UFS1_MAGIC	0x011954	/* UFS1 fast filesystem magic number */
+#define	FS_UFS2_MAGIC	0x19540119	/* UFS2 fast filesystem magic number */
 #define	FS_UFS1_MAGIC_SWAPPED	0x54190100
 #define	FS_UFS2_MAGIC_SWAPPED	0x19015419
 #define	FS_OKAY		0x7c269d38	/* superblock checksum */
@@ -403,7 +403,7 @@ struct fs {
 #define	FS_44INODEFMT	2		/* 4.4BSD inode format */
 
 /*
- * File system clean flags
+ * Filesystem clean flags
  */
 #define	FS_ISCLEAN	0x01
 #define	FS_WASCLEAN	0x02
@@ -415,26 +415,26 @@ struct fs {
 #define	FS_OPTSPACE	1	/* minimize disk fragmentation */
 
 /*
- * File system flags
+ * Filesystem flags
  */
-#define	FS_UNCLEAN	0x001	/* file system not clean at mount (unused) */
-#define	FS_DOSOFTDEP	0x002	/* file system using soft dependencies */
+#define	FS_UNCLEAN	0x001	/* filesystem not clean at mount (unused) */
+#define	FS_DOSOFTDEP	0x002	/* filesystem using soft dependencies */
 #define	FS_NEEDSFSCK	0x004	/* needs sync fsck (FreeBSD compat, unused) */
 #define	FS_INDEXDIRS	0x008	/* kernel supports indexed directories */
-#define	FS_ACLS		0x010	/* file system has ACLs enabled */
-#define	FS_MULTILABEL	0x020	/* file system is MAC multi-label */
-#define	FS_GJOURNAL	0x40	/* gjournaled file system */
+#define	FS_ACLS		0x010	/* filesystem has ACLs enabled */
+#define	FS_MULTILABEL	0x020	/* filesystem is MAC multi-label */
+#define	FS_GJOURNAL	0x40	/* gjournaled filesystem */
 #define	FS_FLAGS_UPDATED 0x80	/* flags have been moved to new location */
 #define	FS_DOWAPBL	0x100	/* Write ahead physical block logging */
 
-/* File system flags that are ok for NetBSD if set in fs_flags */
+/* Filesystem flags that are ok for NetBSD if set in fs_flags */
 #define	FS_KNOWN_FLAGS	(FS_DOSOFTDEP | FS_DOWAPBL)
 
 /*
- * File system internal flags, also in fs_flags.
+ * Filesystem internal flags, also in fs_flags.
  * (Pick highest number to avoid conflicts with others)
  */
-#define	FS_SWAPPED	0x80000000	/* file system is endian swapped */
+#define	FS_SWAPPED	0x80000000	/* filesystem is endian swapped */
 #define	FS_INTERNAL	0x80000000	/* mask for internal flags */
 
 /*
@@ -483,7 +483,7 @@ struct fs {
 #define	fs_cs(fs, indx)	fs_csp[indx]
 
 /*
- * Cylinder group block for a file system.
+ * Cylinder group block for a filesystem.
  */
 #define	CG_MAGIC	0x090255
 struct cg {
@@ -518,7 +518,7 @@ struct cg {
 
 /*
  * The following structure is defined
- * for compatibility with old file systems.
+ * for compatibility with old filesystems.
  */
 struct ocg {
 	int32_t  cg_firstfield;		/* historic linked list of cyl groups */
@@ -598,8 +598,8 @@ struct ocg {
 
 
 /*
- * Turn file system block numbers into disk block addresses.
- * This maps file system blocks to device size blocks.
+ * Turn filesystem block numbers into disk block addresses.
+ * This maps filesystem blocks to device size blocks.
  */
 #if defined (_KERNEL)
 #define	fsbtodb(fs, b)	((b) << ((fs)->fs_fshift - DEV_BSHIFT))
@@ -611,7 +611,7 @@ struct ocg {
 
 /*
  * Cylinder group macros to locate things in cylinder groups.
- * They calc file system addresses of cylinder group data structures.
+ * They calc filesystem addresses of cylinder group data structures.
  */
 #define	cgbase(fs, c)	(((daddr_t)(fs)->fs_fpg) * (c))
 #define	cgstart_ufs1(fs, c) \
@@ -626,9 +626,9 @@ struct ocg {
 
 /*
  * Macros for handling inode numbers:
- *     inode number to file system block offset.
+ *     inode number to filesystem block offset.
  *     inode number to cylinder group number.
- *     inode number to file system block address.
+ *     inode number to filesystem block address.
  */
 #define	ino_to_cg(fs, x)	((x) / (fs)->fs_ipg)
 #define	ino_to_fsba(fs, x)						\
@@ -637,8 +637,8 @@ struct ocg {
 #define	ino_to_fsbo(fs, x)	((x) % INOPB(fs))
 
 /*
- * Give cylinder group number for a file system block.
- * Give cylinder group block number for a file system block.
+ * Give cylinder group number for a filesystem block.
+ * Give cylinder group block number for a filesystem block.
  */
 #define	dtog(fs, d)	((d) / (fs)->fs_fpg)
 #define	dtogd(fs, d)	((d) % (fs)->fs_fpg)
@@ -697,7 +697,7 @@ struct ocg {
 	(((off_t)((fs)->fs_dsize)) * (percentreserved) / 100))
 
 /*
- * Determining the size of a file block in the file system.
+ * Determining the size of a file block in the filesystem.
  */
 #define	blksize(fs, ip, lbn) \
 	(((lbn) >= NDADDR || (off_t)(ip)->i_size >= lblktosize(fs, (lbn) + 1)) \
@@ -717,7 +717,7 @@ struct ocg {
 #define	INOPF(fs)	((fs)->fs_inopb >> (fs)->fs_fragshift)
 
 /*
- * Number of indirects in a file system block.
+ * Number of indirects in a filesystem block.
  */
 #define	NINDIR(fs)	((fs)->fs_nindir)
 

@@ -3918,7 +3918,7 @@ XFree86 4.2.99.3 (21 December 2002)
  503. Add mouse wheel support for SCO OpenServer (#5460, J. Kean Johnston).
  502. Fix i18n problem in xmessage due to use of the useStringInPlace
       resource (A.1381, Chisato Yamauchi).
- 501. Fix xnest build on file systems that are not case sensitive
+ 501. Fix xnest build on filesystems that are not case sensitive
       (Torrey T. Lyons).
  500. Use unique local Imake define for fonts.conf dir (#5482, Mike A. Harris)
  499. Fix xc/lib/Imakefile to not break HasFontconfig (#5481, Mike A. Harris)
@@ -6321,7 +6321,7 @@ XFree86 4.0.99.900 (18 May 2001)
  469. Disable HWcursor for CyberBladeXP chips (Alan Hourihane).
  468. Fix a Trident Cyber9388 setup issue (Alan Hourihane).
  467. Fix man page building and installing on Darwin. To be safe we assume
-      the Darwin file system is case insensitive since one common variety is,
+      the Darwin filesystem is case insensitive since one common variety is,
       ie. HFS+ (Torrey Lyons).
  466. Improve interoperability between Aqua pasteboard and X cut buffer with
       XDarwin (Gregory Parker).
@@ -6746,7 +6746,7 @@ XFree86 4.0.99.2 (6 April 2001)
       just the oldest one on ProcessInputEvents() call ,
       Quit Xdarwin cleanly, wether from the Xserve or from Cocoa front end,
       Fix a case typp which cases the Xdarwin server not to start if
-      installed on a case sensitive file system like UFS.
+      installed on a case sensitive filesystem like UFS.
       (#4504, #4507, #45011, Gregory Parker, Torrey T. Lyons).
  271. Move Section DRI/Endsection into the DRI function to be consistant with
       all of the other sections. (Quentin Neill)

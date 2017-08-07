@@ -48,7 +48,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.14 2016/06/11 14:52:48 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.15 2016/06/11 14:55:39 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -68,7 +68,7 @@ __IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.14 2016/06/11 14:52
 #include "cd9660.h"
 
 /*
- * list of supported file systems and dispatch functions
+ * list of supported filesystems and dispatch functions
  */
 typedef struct {
 	const char	*type;
@@ -303,7 +303,7 @@ main(int argc, char *argv[])
 		putchar('\n');
 	}
 
-				/* build the file system */
+				/* build the filesystem */
 	TIMER_START(start);
 	fstype->make_fs(argv[0], argv[1], root, &fsoptions);
 	TIMER_RESULTS(start, "make_fs");

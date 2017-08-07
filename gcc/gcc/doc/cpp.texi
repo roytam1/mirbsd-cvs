@@ -315,7 +315,7 @@ on any of those systems to a different one and use it without
 conversion.  (GCC may lose track of the current line number if a file
 doesn't consistently use one convention, as sometimes happens when it
 is edited on computers with different conventions that share a network
-file system.)
+filesystem.)
 
 If the last line of any input file lacks an end-of-line marker, the end
 of the file is considered to implicitly supply one.  The C standard says

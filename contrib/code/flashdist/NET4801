@@ -28,7 +28,7 @@ option		TCP_SACK	# Selective Acknowledgements for TCP
 option		FDESC		# /dev/fd
 option		FIFO		# FIFOs; RECOMMENDED
 option		KERNFS		# /kern
-#option		NULLFS		# loopback file system
+#option		NULLFS		# loopback filesystem
 option		PROCFS		# /proc
 #option		UMAPFS		# NULLFS + uid and gid remapping
 

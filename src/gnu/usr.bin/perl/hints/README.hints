@@ -14,7 +14,7 @@ Please send any problems or suggested changes to perlbug@perl.org.
 =head1 Hint file naming convention.
 
 Each hint file name should have only
-one '.'.  (This is for portability to non-unix file systems.)  Names
+one '.'.  (This is for portability to non-unix filesystems.)  Names
 should also fit in <= 14 characters, for portability to older SVR3
 systems.  File names are of the form $osname_$osvers.sh, with all '.'
 changed to '_', and all characters (such as '/') that don't belong in

@@ -73,7 +73,7 @@ struct bufarea {
 
 #define	MINBUFS		5	/* minimum number of buffers required */
 struct bufarea bufhead;		/* head of list of other blks in filesys */
-struct bufarea sblk;		/* file system superblock */
+struct bufarea sblk;		/* filesystem superblock */
 struct bufarea asblk;		/* first alternate superblock */
 struct bufarea *pdirbp;		/* current directory contents */
 struct bufarea *pbp;		/* current inode block */
@@ -169,15 +169,15 @@ int	bflag;			/* location of alternate super block */
 int	debug;			/* output debugging info */
 int	preen;			/* just fix normal inconsistencies */
 char	havesb;			/* superblock has been read */
-char	skipclean;		/* skip clean file systems if preening */
-int	fsmodified;		/* 1 => write done to file system */
-int	fsreadfd;		/* file descriptor for reading file system */
-int	fswritefd;		/* file descriptor for writing file system */
+char	skipclean;		/* skip clean filesystems if preening */
+int	fsmodified;		/* 1 => write done to filesystem */
+int	fsreadfd;		/* file descriptor for reading filesystem */
+int	fswritefd;		/* file descriptor for writing filesystem */
 int	rerun;			/* rerun fsck.  Only used in non-preen mode */
 
-daddr_t	maxfsblock;		/* number of blocks in the file system */
+daddr_t	maxfsblock;		/* number of blocks in the filesystem */
 char	*blockmap;		/* ptr to primary blk allocation map */
-ino_t	maxino;			/* number of inodes in file system */
+ino_t	maxino;			/* number of inodes in filesystem */
 ino_t	lastino;		/* last inode in use */
 char	*statemap;		/* ptr to inode state table */
 u_char	*typemap;		/* ptr to inode type table */

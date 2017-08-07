@@ -73,7 +73,7 @@ pass1(void)
 	int c, i, cgd;
 
 	/*
-	 * Set file system reserved blocks in used block map.
+	 * Set filesystem reserved blocks in used block map.
 	 */
 	for (c = 0; c < sblock.fs_ncg; c++) {
 		cgd = cgdmin(&sblock, c);

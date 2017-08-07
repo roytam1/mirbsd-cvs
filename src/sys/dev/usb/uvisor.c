@@ -295,7 +295,7 @@ USB_ATTACH(uvisor)
 				uca.info = "HotSync";
 				break;
 			case UVISOR_FUNCTION_REMOTE_FILE_SYS:
-				uca.info = "Remote File System";
+				uca.info = "Remote Filesystem";
 				break;
 			default:
 				uca.info = "unknown";

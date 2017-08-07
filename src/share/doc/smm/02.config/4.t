@@ -141,7 +141,7 @@ System image parameters
 .PP
 Multiple bootable images may be specified in a single configuration
 file.  The systems will have the same global configuration parameters
-and devices, but the location of the root file system and other
+and devices, but the location of the root filesystem and other
 system specific devices may be different.  A system image is specified
 with a ``config'' line:
 .IP
@@ -151,7 +151,7 @@ The
 .I sysname
 field is the name given to the loaded system image; almost everyone
 names their standard system image ``vmunix''.  The configuration clauses
-are one or more specifications indicating where the root file system
+are one or more specifications indicating where the root filesystem
 is located and the number and location of paging devices.
 The device used by the system to process argument lists during
 .IR execve (2)
@@ -174,7 +174,7 @@ are separated by white space;
 .I config
 allows specifications to be continued across multiple lines
 by beginning the continuation line with a tab character.
-The ``root'' clause specifies where the root file system
+The ``root'' clause specifies where the root filesystem
 is located, the ``swap'' clause indicates swapping and paging
 area(s), the ``dumps'' clause can be used to force system dumps
 to be taken on a particular device, and the ``args'' clause
@@ -183,7 +183,7 @@ can be used to specify that argument list processing for
 should be done on a particular device.
 .PP
 The device names supplied in the clauses may be fully specified
-as a device, unit, and file system partition; or underspecified
+as a device, unit, and filesystem partition; or underspecified
 in which case
 .I config
 will use builtin rules to select default unit numbers and file
@@ -192,7 +192,7 @@ as they are dependent on the overall system configuration.
 For example, the swap area need not be specified at all if 
 the root device is specified; in this case the swap area is
 placed in the ``b'' partition of the same disk where the root
-file system is located.  Appendix B contains a complete list
+filesystem is located.  Appendix B contains a complete list
 of the defaulting rules used in selecting system configuration
 devices.
 .PP

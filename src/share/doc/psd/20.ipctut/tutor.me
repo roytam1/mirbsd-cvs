@@ -352,12 +352,12 @@ There are several domains for sockets.
 Two that will be used in the examples here are the UNIX domain (or AF_UNIX,
 for Address Format UNIX) and the Internet domain (or AF_INET).
 UNIX domain IPC is an experimental facility in 4.2BSD and 4.3BSD.
-In the UNIX domain, a socket is given a path name within the file system
+In the UNIX domain, a socket is given a path name within the filesystem
 name space.
-A file system node is created for the socket and other processes may 
+A filesystem node is created for the socket and other processes may 
 then refer to the socket by giving the proper pathname.
 UNIX domain names, therefore, allow communication between any two processes
-that work in the same file system.
+that work in the same filesystem.
 The Internet domain is the UNIX implementation of the DARPA Internet
 standard protocols IP/TCP/UDP.
 Addresses in the Internet domain consist of a machine network address
@@ -459,7 +459,7 @@ be either absolute (e.g. ``/dev/imaginary'') or relative (e.g. ``socket'').
 Because these names are used to allow processes to rendezvous, relative
 path names can pose difficulties and should be used with care.
 When a name is bound into the name space, a file (inode) is allocated in the
-file system.  If
+filesystem.  If
 the inode is not deallocated, the name will continue to exist even after
 the bound socket is closed.  This can cause subsequent runs of a program
 to find that a name is unavailable, and can cause 
@@ -498,7 +498,7 @@ and a delivery slot, or port, on that
 machine.  These ports are managed by the system routines that implement 
 a particular protocol.
 Unlike UNIX domain names, Internet socket names are not entered into 
-the file system and, therefore,
+the filesystem and, therefore,
 they do not have to be unlinked after the socket has been closed.
 When a message must be sent between machines it is sent to
 the protocol routine on the destination machine, which interprets the
@@ -682,7 +682,7 @@ The programs in Figures 9a and 9b show a program using stream communication
 in the UNIX domain.  Streams in the UNIX domain can be used for this sort
 of program in exactly the same way as Internet domain streams, except for
 the form of the names and the restriction of the connections to a single
-file system.  There are some differences, however, in the functionality of 
+filesystem.  There are some differences, however, in the functionality of 
 streams in the two domains, notably in the handling of 
 \fIout-of-band\fP data (discussed briefly below).  These differences
 are beyond the scope of this paper.

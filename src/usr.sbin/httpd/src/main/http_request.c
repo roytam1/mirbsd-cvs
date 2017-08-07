@@ -78,7 +78,7 @@
 #include "scoreboard.h"
 #include "fnmatch.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_request.c,v 1.2 2008/11/08 23:32:30 tg Exp $");
 
 /*****************************************************************
  *
@@ -167,7 +167,7 @@ static int check_symlinks(char *d, int opts)
 
 }
 
-/* Dealing with the file system to get PATH_INFO
+/* Dealing with the filesystem to get PATH_INFO
  */
 static int get_path_info(request_rec *r)
 {
@@ -379,7 +379,7 @@ static int directory_walk(request_rec *r)
     test_dirname = ap_palloc(r->pool, test_filename_len + 2);
 
 
-    /* Normal File Systems are rooted at / */
+    /* Normal Filesystems are rooted at / */
     i = 1;
 
     /* j keeps track of which section we're on, see core_reorder_directories */

@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/doc/psd/00.contents,v 1.3 2012/05/21 20:30:50 tg Exp $
+.\"	$MirOS: src/share/doc/psd/00.contents,v 1.4 2012/05/21 20:39:24 tg Exp $
 .\"	$OpenBSD: 00.contents,v 1.4 2004/04/09 12:10:03 jmc Exp $
 .\"
 .\" Copyright (c) 2012
@@ -81,7 +81,7 @@ from Communications of the ACM.
 .st "'Unix Implementation''PSD:2'"
 .QP
 Ken Thompson's description of the implementation of the Version 7
-kernel and file system.
+kernel and filesystem.
 .cb "\(bu 02.implement(PSD)"
 
 .IP

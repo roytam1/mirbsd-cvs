@@ -351,7 +351,7 @@ CHANGES BETWEEN 2.6 and 2.6.1
 
       Doing so  reduces the  possibility of  header file  name clashes
       (e.g., FTGL's  `FTGlyph.h' with FreeType's `ftglyph.h')  on case
-      insensitive file systems like Mac OS X or Windows.
+      insensitive filesystems like Mac OS X or Windows.
 
       Applications  that  use  (a)  the  `freetype-config'  script  or
       FreeType's `freetype2.pc' file for pkg-config to get the include
@@ -2323,7 +2323,7 @@ CHANGES BETWEEN 2.1.8 and 2.1.7
 
     - YAMATO Masatake contributed improved  handling of MacOS resource
       forks on non-MacOS platforms (for example, Linux can mount MacOS
-      file systems).
+      filesystems).
 
     - Support for MacOS has been improved; there is now a new function
       `FT_New_Face_From_FSSpec'  similar to `FT_New_Face'  except that

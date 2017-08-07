@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/rm/rm.c,v 1.9 2015/02/26 21:13:28 tg Exp $ */
+/* $MirOS: src/bin/rm/rm.c,v 1.10 2016/01/02 21:32:58 tg Exp $ */
 /* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
 /* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
@@ -36,7 +36,7 @@ __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
 __RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
-__RCSID("$MirOS: src/bin/rm/rm.c,v 1.9 2015/02/26 21:13:28 tg Exp $");
+__RCSID("$MirOS: src/bin/rm/rm.c,v 1.10 2016/01/02 21:32:58 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -340,8 +340,8 @@ rm_file(char **argv)
  * generated randomly) in the same parent directory first if the length of
  * the entire pathname (including that “/rm.XXXXXXXX”) is smaller than the
  * maximum allowed pathname length, i.e. 1024 on MirBSD.
- * Also, this assumes a fixed-block file system (like FFS, or a V7 or a
- * System V file system).  In a logging file system, you'll have to have
+ * Also, this assumes a fixed-block filesystem (like FFS, or a V7 or a
+ * System V filesystem).  In a logging filesystem, you'll have to have
  * kernel support.
  *
  * A note on standards:  U.S. DoD 5220.22-M "National Industrial Security

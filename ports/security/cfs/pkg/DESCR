@@ -1,4 +1,4 @@
-This is CFS, Matt Blaze's Cryptographic File System.  It provides
+This is CFS, Matt Blaze's cryptographic filesystem.  It provides
 transparent encryption and decryption of selected directory trees.
 It is implemented as a user-level NFS server and thus does not
 require any kernel modifications.

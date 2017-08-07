@@ -677,7 +677,7 @@ GENERAL USER ISSUES
   from the server.
 
 * The configure script now tests whether it is building CVS on a case
-  insensitive file system.  If it is, CVS assumes that all file systems on this
+  insensitive filesystem.  If it is, CVS assumes that all filesystems on this
   platform will be case insensitive.  This is useful for getting the case
   insensitivity flag set correctly when compiling on Mac OS X and under Cygwin
   on Windows.  Autodetection can be overridden using the

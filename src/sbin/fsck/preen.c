@@ -226,7 +226,7 @@ checkfstab(int flags, int maxrun, void *(*docheck)(struct fstab *),
 			return (sumstatus);
 
 		(void) fprintf(stderr,
-			"THE FOLLOWING FILE SYSTEM%s HAD AN %s\n\t",
+			"THE FOLLOWING FILESYSTEM%s HAD AN %s\n\t",
 			TAILQ_NEXT(p, p_entries) ? "S" : "",
 			"UNEXPECTED INCONSISTENCY:");
 

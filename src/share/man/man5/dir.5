@@ -50,7 +50,7 @@ information about a file and a pointer to the file itself.
 Directory entries may contain other directories as well as plain files;
 such nested directories are referred to as subdirectories.
 A hierarchy of directories and files is formed in this manner
-and is called a file system (or referred to as a file system tree).
+and is called a filesystem (or referred to as a filesystem tree).
 .\" An entry in this tree,
 .\" nested or not nested,
 .\" is a pathname.
@@ -64,8 +64,8 @@ Dot and dot-dot are valid pathnames, however, the system root directory
 .Pq Dq / ,
 has no parent and dot-dot points to itself like dot.
 .Pp
-File system nodes are ordinary directory files on which has
-been grafted a file system object, such as a physical disk or a
+Filesystem nodes are ordinary directory files on which has
+been grafted a filesystem object, such as a physical disk or a
 partitioned area of such a disk (see
 .Xr mount 8 ) .
 .Pp

@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/sbin/newfs_msdos/newfs_msdos.8,v 1.2 2011/01/04 18:46:15 tg Exp $
 .\"	$OpenBSD: newfs_msdos.8,v 1.20 2003/06/03 13:16:08 jmc Exp $
 .\"
 .\" Copyright (c) 1998 Robert Nordier
@@ -28,12 +28,12 @@
 .\"
 .\" $FreeBSD: src/sbin/newfs_msdos/newfs_msdos.8,v 1.6 1999/08/28 00:13:52 peter Exp $
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: January 4 2011 $
 .Dt NEWFS_MSDOS 8
 .Os
 .Sh NAME
 .Nm newfs_msdos
-.Nd construct a new MS-DOS (FAT) file system
+.Nd construct a new MS-DOS (FAT) filesystem
 .Sh SYNOPSIS
 .Nm newfs_msdos
 .Bk -words
@@ -64,7 +64,7 @@
 .Sh DESCRIPTION
 The
 .Nm
-utility creates a FAT12, FAT16, or FAT32 file system on device
+utility creates a FAT12, FAT16, or FAT32 filesystem on device
 .Ar special ,
 using
 .Xr disktab 5
@@ -75,7 +75,7 @@ to determine geometry, if required.
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl N
-Don't create a file system: just print out parameters.
+Don't create a filesystem: just print out parameters.
 .It Fl B Ar boot
 Get bootstrap from file.
 .It Fl F Ar FAT-type
@@ -97,7 +97,7 @@ Conformant values are 512, 1024, 2048 and 4096; only 512 is portable.
 .It Fl a Ar FAT-size
 Number of sectors per FAT.
 .It Fl b Ar block-size
-File system block size (bytes per cluster).
+Filesystem block size (bytes per cluster).
 This should resolve to an acceptable number of sectors per cluster (see below).
 Conformant values are powers of 2 no larger than 32768.
 .It Fl c Ar cluster-size
@@ -114,7 +114,7 @@ are (capacities in Kibibytes): 160, 180, 320, 360, 720, 1200, 1440,
 .It Fl h Ar heads
 Number of drive heads.
 .It Fl i Ar info
-Location of the file system info sector (FAT32 only).
+Location of the filesystem info sector (FAT32 only).
 A value of 0xffff signifies no info sector.
 .It Fl k Ar backup
 Location of the backup boot sector (FAT32 only).
@@ -130,14 +130,14 @@ Number of hidden sectors.
 .It Fl r Ar reserved
 Number of reserved sectors.
 .It Fl s Ar total
-File system size.
+Filesystem size.
 .It Fl u Ar track-size
 Number of sectors per track.
 .El
 .Sh NOTES
-FAT file system parameters occupy a "Boot Sector BPB (BIOS Parameter
+FAT filesystem parameters occupy a "Boot Sector BPB (BIOS Parameter
 Block)" in the first of the "reserved" sectors which precede the actual
-file system.
+filesystem.
 For reference purposes, this structure is presented below.
 .Bd -literal
 struct bsbpb {
@@ -159,17 +159,17 @@ struct bsbpb {
 struct bsxbpb {
 	u_int32_t	bspf;		/* [-a] big sectors per FAT */
 	u_int16_t	xflg;		/* control flags */
-	u_int16_t	vers;		/* file system version */
+	u_int16_t	vers;		/* filesystem version */
 	u_int32_t	rdcl;		/* root directory start cluster */
-	u_int16_t	infs;		/* [-i] file system info sector */
+	u_int16_t	infs;		/* [-i] filesystem info sector */
 	u_int16_t	bkbs;		/* [-k] backup boot sector */
 };
 .Ed
 .Sh EXAMPLES
-Create a file system, using default parameters, on /dev/rwd0i.
+Create a filesystem, using default parameters, on /dev/rwd0i.
 .Dl newfs_msdos /dev/rwd0i
 .Pp
-Create a standard 1.44M file system, with volume label "foo", on
+Create a standard 1.44M filesystem, with volume label "foo", on
 /dev/rfd0c.
 .Dl newfs_msdos -f 1440 -L foo fd0c
 .Sh DIAGNOSTICS

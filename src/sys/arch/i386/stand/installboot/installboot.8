@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.19 2009/06/07 13:22:38 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.20 2009/11/22 14:53:41 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.28 2007/05/31 19:20:03 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -26,7 +26,7 @@
 .\" SUCH DAMAGE.
 .\"
 .\"
-.Dd $Mdocdate: June 7 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .Dt INSTALLBOOT 8 i386
 .Os
 .Sh NAME
@@ -97,7 +97,7 @@ partition type to search before the standard 0x27 and the fallback
 The arguments are:
 .Bl -tag -width biosboot
 .It Ar boot
-The name of the second-stage boot program in the mounted file system
+The name of the second-stage boot program in the mounted filesystem
 where the first-stage boot program is to be installed.
 This should be a full pathname.
 .It Ar bootxx

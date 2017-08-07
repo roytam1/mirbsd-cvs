@@ -15,9 +15,9 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software Foundation,
-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
-#if HAVE_CONFIG_H
+#ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
 
@@ -59,7 +59,7 @@ close_stdout_set_file_name (const char *file)
    when it tries to write out that buffered data.  Thus, you would be
    left with an incomplete output file and the offending program would
    exit successfully.  Even calling fflush is not always sufficient,
-   since some file systems (NFS and CODA) buffer written/flushed data
+   since some filesystems (NFS and CODA) buffer written/flushed data
    until an actual close call.
 
    Besides, it's wasteful to check the return value from every call

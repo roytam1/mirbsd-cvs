@@ -73,7 +73,7 @@ enum nfsstat {
 	NFSERR_ISDIR=21,	/* Is a directory */
 	NFSERR_FBIG=27,		/* File too large */
 	NFSERR_NOSPC=28,	/* No space left on device */
-	NFSERR_ROFS=30,		/* Read-only file system */
+	NFSERR_ROFS=30,		/* Read-only filesystem */
 	NFSERR_NAMETOOLONG=63,	/* File name too long */
 	NFSERR_NOTEMPTY=66,	/* Directory not empty */
 	NFSERR_DQUOT=69,	/* Disc quota exceeded */
@@ -283,8 +283,8 @@ default:
 
 struct statfsokres {
 	unsigned tsize;	/* preferred transfer size in bytes */
-	unsigned bsize;	/* fundamental file system block size */
-	unsigned blocks;	/* total blocks in file system */
+	unsigned bsize;	/* fundamental filesystem block size */
+	unsigned blocks;	/* total blocks in filesystem */
 	unsigned bfree;	/* free blocks in fs */
 	unsigned bavail;	/* free blocks avail to non-superuser */
 };

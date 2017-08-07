@@ -49,8 +49,8 @@
  * it corresponds to.
  *
  * The bad sector information and replacement sectors are conventionally
- * only accessible through the 'c' file system partition of the disk.  If
- * that partition is used for a file system, the user is responsible for
+ * only accessible through the 'c' filesystem partition of the disk.  If
+ * that partition is used for a filesystem, the user is responsible for
  * making sure that it does not overlap the bad sector information or any
  * replacement sectors.
  */

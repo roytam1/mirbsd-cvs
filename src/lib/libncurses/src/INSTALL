@@ -22,7 +22,7 @@ to read the BSD CONVERSION NOTES section below.
 If you are trying to build applications using gpm with ncurses,
 read the USING NCURSES WITH GPM section below.
 
-If you are running over the Andrew File System see the note below on
+If you are running over the Andrew Filesystem see the note below on
 USING NCURSES WITH AFS.
 
 If you are cross-compiling, see the note below on BUILDING NCURSES WITH A

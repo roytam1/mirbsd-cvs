@@ -11924,7 +11924,7 @@ Index: configure
     Date: Mon, 30 Sep 1996 14:01:05 +0100
     From: Sven Verdoolaege <skimo@breughel.ufsia.ac.be>
 
-    Warn the user of case-insensitive file systems that they may have
+    Warn the user of case-insensitive filesystems that they may have
     accidentally gotten 'configure' instead of 'Configure'.
 
 Index: doio.c

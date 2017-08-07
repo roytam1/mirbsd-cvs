@@ -341,10 +341,10 @@ before.  FLAGS is a combination of values of the following table:
 	0x00000100  supports remote storage
 	0x00008000  is a compressed volume (e.g. DoubleSpace)
 	0x00010000  supports object identifiers
-	0x00020000  supports the Encrypted File System (EFS)
+	0x00020000  supports the Encrypted Filesystem (EFS)
 
 MAXCOMPLEN is the maximum length of a filename component (the part
-between two backslashes) on this file system.
+between two backslashes) on this filesystem.
 
 =item Win32::FreeLibrary(HANDLE)
 
@@ -547,7 +547,7 @@ different major/minor version number than Windows XP.
 
 [CORE] Returns a representation of PATHNAME that is composed of short
 (8.3) path components where available.  For path components where the
-file system has not generated the short form the returned path will
+filesystem has not generated the short form the returned path will
 use the long form, so this function might still for instance return a
 path containing spaces.  Compare with Win32::GetFullPathName and
 Win32::GetLongPathName.

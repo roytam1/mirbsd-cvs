@@ -46,7 +46,7 @@ static const char rcsid[] =
 #endif /* not lint */
 
 /*
- * tunefs: change layout parameters to an existing file system.
+ * tunefs: change layout parameters to an existing filesystem.
  */
 #include <sys/param.h>
 #include <sys/stat.h>

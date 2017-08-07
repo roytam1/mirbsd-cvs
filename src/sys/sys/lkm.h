@@ -77,7 +77,7 @@ struct lkm_syscall {
 };
 
 /*
- * Loadable file system
+ * Loadable filesystem
  */
 struct lkm_vfs {
 	MODTYPE		lkm_type;

@@ -51,12 +51,12 @@ The original UNIX system that runs on the PDP-11\(dg
 \(dg DEC, PDP, VAX, MASSBUS, and UNIBUS are
 trademarks of Digital Equipment Corporation.
 .FE
-has simple and elegant file system facilities.  File system input/output
+has simple and elegant filesystem facilities.  Filesystem input/output
 is buffered by the kernel;
 there are no alignment constraints on
 data transfers and all operations are made to appear synchronous.
 All transfers to the disk are in 512 byte blocks, which can be placed
-arbitrarily within the data area of the file system.  Virtually
+arbitrarily within the data area of the filesystem.  Virtually
 no constraints other than available disk space are placed on file growth
 [Ritchie74], [Thompson78].*
 .FS
@@ -73,38 +73,38 @@ applications
 such as VLSI design and image processing
 do a small amount of processing
 on a large quantities of data and
-need to have a high throughput from the file system.
+need to have a high throughput from the filesystem.
 High throughput rates are also needed by programs
-that map files from the file system into large virtual
+that map files from the filesystem into large virtual
 address spaces.
-Paging data in and out of the file system is likely
+Paging data in and out of the filesystem is likely
 to occur frequently [Ferrin82b].
-This requires a file system providing
+This requires a filesystem providing
 higher bandwidth than the original 512 byte UNIX
 one that provides only about
 two percent of the maximum disk bandwidth or about
 20 kilobytes per second per arm [White80], [Smith81b].
 .PP
-Modifications have been made to the UNIX file system to improve
+Modifications have been made to the UNIX filesystem to improve
 its performance.
-Since the UNIX file system interface
+Since the UNIX filesystem interface
 is well understood and not inherently slow,
 this development retained the abstraction and simply changed
 the underlying implementation to increase its throughput.
 Consequently, users of the system have not been faced with
 massive software conversion.
 .PP
-Problems with file system performance have been dealt with
+Problems with filesystem performance have been dealt with
 extensively in the literature; see [Smith81a] for a survey.
-Previous work to improve the UNIX file system performance has been
+Previous work to improve the UNIX filesystem performance has been
 done by [Ferrin82a].
 The UNIX operating system drew many of its ideas from Multics,
 a large, high performance operating system [Feiertag71].
 Other work includes Hydra [Almes78],
 Spice [Thompson80],
-and a file system for a LISP environment [Symbolics81].
+and a filesystem for a LISP environment [Symbolics81].
 A good introduction to the physical latencies of disks is
 described in [Pechura83].
-.ds RH Old file system
+.ds RH Old filesystem
 .sp 2
 .ne 1i

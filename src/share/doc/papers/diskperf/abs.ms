@@ -64,14 +64,14 @@ and the Defense Advance Research Projects Agency (DoD) under
 Arpa Order No. 4031 monitored by Naval Electronic System Command under
 Contract No. N00039-82-C-0235.
 .FE
-Measurements were made of the UNIX file system
+Measurements were made of the UNIX filesystem
 throughput for various I/O operations using the most attractive currently
 available Winchester disks and controllers attached to both the
 native busses (SBI/CMI) and the UNIBUS on both VAX 11/780s and VAX 11/750s.
 The tests were designed to highlight the performance of single
 and dual drive subsystems operating in the 4.2BSD
 .I
-fast file system
+fast filesystem
 .R
 environment.
 Many of the results of the tests were initially counter-intuitive

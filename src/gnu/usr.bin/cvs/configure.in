@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.27 2017/03/26 16:23:13 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.29 2017/04/02 22:33:31 tg Exp $
 dnl
 dnl configure.in for cvs
 
@@ -1080,7 +1080,7 @@ AC_ARG_ENABLE(
   [case-sensitivity],
   AC_HELP_STRING(
     [--enable-case-sensitivity],
-    [Force CVS to expect a case sensitive file system.  Enabling this on a case
+    [Force CVS to expect a case sensitive filesystem.  Enabling this on a case
      insensitive system should have little effect on the server or client
      operation, though client users may ocassionally be suprised that the CVS
      server appears to be case sensitive.  Disabling this for a case sensitive
@@ -1089,7 +1089,7 @@ AC_ARG_ENABLE(
      Disabling this for a case sensitive client will cause the client to ask
      servers to behave case insensitively, which could cause confusion for
      users, but also probably no real harm.  (default autoselects based on the
-     case sensitivity of the file system containing the current working
+     case sensitivity of the filesystem containing the current working
      directory)]),
     [case "$enable_case_sensitivity" in
        yes | no | auto) ;;
@@ -1100,7 +1100,7 @@ AC_ARG_ENABLE(
   [enable_case_sensitivity=auto])
 
 acx_forced=' (forced)'
-AC_MSG_CHECKING([for a case sensitive file system])
+AC_MSG_CHECKING([for a case sensitive filesystem])
 if test $enable_case_sensitivity = auto; then
   dnl
   dnl Check for a case insensitive filesystem, like Mac OS X and Windows have.
@@ -1122,7 +1122,7 @@ AC_MSG_RESULT([$enable_case_sensitivity$acx_forced])
 if test $enable_case_sensitivity = no; then
   AC_DEFINE([FILENAMES_CASE_INSENSITIVE], [1],
             [Define if this executable will be running on case insensitive
-             file systems.  In the client case, this means that it will request
+             filesystems.  In the client case, this means that it will request
              that the server pretend to be case insensitive if it isn't
              already.])
   dnl Compile fncase.c (containing fncase() & fncmp()) to handle file name

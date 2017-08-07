@@ -923,7 +923,7 @@ This can be fixed by using a home-grown \fBsystem\fP\|() replacement.
 .IP \(bu 3
 Security of the source repository is currently not dealt with directly.
 The usual UNIX approach of user-group-other security permissions through
-the file system is utilized, but nothing else.
+the filesystem is utilized, but nothing else.
 \fBcvs\fP could likely be a set-group-id executable that checks a
 protected database to verify user access permissions for particular objects
 before allowing any operations to affect those objects.

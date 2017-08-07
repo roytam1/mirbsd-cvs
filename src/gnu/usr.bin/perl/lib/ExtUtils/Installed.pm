@@ -137,7 +137,7 @@ sub new {
     return(bless($self, $class));
 }
 
-# VMS's non-case preserving file-system means the package name can't
+# VMS's non-case preserving filesystem means the package name can't
 # be reconstructed from the filename.
 sub _module_name {
     my($file, $orig_module) = @_;

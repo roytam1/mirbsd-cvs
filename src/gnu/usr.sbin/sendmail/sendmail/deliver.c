@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/time.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.10 2014/06/09 15:17:46 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.11 2017/04/20 21:12:34 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if HASSETUSERCONTEXT
@@ -5748,7 +5748,7 @@ hostsignature(m, host)
 	else if (m->m_argv[0] != NULL &&
 		 strcmp(m->m_argv[0], "FILE") == 0)
 	{
-		/* rendezvous in the file system, no MX records */
+		/* rendezvous in the filesystem, no MX records */
 		return host;
 	}
 #endif /* NETUNIX */

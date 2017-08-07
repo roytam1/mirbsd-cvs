@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.20 2012/05/21 20:50:32 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.21 2014/02/10 20:07:57 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2009
@@ -3246,7 +3246,7 @@ Link your object files with @option{-lgcov} or @option{-fprofile-arcs}
 @item
 Run the program on a representative workload to generate the arc profile
 information. This may be repeated any number of times. You can run
-concurrent instances of your program, and provided that the file system
+concurrent instances of your program, and provided that the filesystem
 supports locking, the data files will be correctly updated. Also
 @code{fork} calls are detected and correctly handled (double counting
 will not happen).

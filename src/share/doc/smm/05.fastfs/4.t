@@ -35,7 +35,7 @@ Performance
 .PP
 Ultimately, the proof of the effectiveness of the
 algorithms described in the previous section
-is the long term performance of the new file system.
+is the long term performance of the new filesystem.
 .PP
 Our empirical studies have shown that the inode layout policy has
 been effective.
@@ -49,9 +49,9 @@ disk accesses for inodes being cut by a factor of eight.
 This is most encouraging for programs such as spooling daemons that
 access many small files,
 since these programs tend to flood the
-disk request queue on the old file system.
+disk request queue on the old filesystem.
 .PP
-Table 2 summarizes the measured throughput of the new file system.
+Table 2 summarizes the measured throughput of the new filesystem.
 Several comments need to be made about the conditions under which these
 tests were run.
 The test programs measure the rate at which user programs can transfer
@@ -74,8 +74,8 @@ There was no contention for either the CPU or the disk arm.
 The only difference between the UNIBUS and MASSBUS tests
 was the controller.
 All tests used an AMPEX Capricorn 330 megabyte Winchester disk.
-As Table 2 shows, all file system test runs were on a VAX 11/750.
-All file systems had been in production use for at least
+As Table 2 shows, all filesystem test runs were on a VAX 11/750.
+All filesystems had been in production use for at least
 a month before being measured.
 The same number of system calls were performed in all tests;
 the basic system call overhead was a negligible portion of
@@ -87,7 +87,7 @@ box;
 c c|c s s
 c c|c c c.
 Type of	Processor and	Read
-File System	Bus Measured	Speed	Bandwidth	% CPU
+Filesystem	Bus Measured	Speed	Bandwidth	% CPU
 _
 old 1024	750/UNIBUS	29 Kbytes/sec	29/983 3%	11%
 new 4096/1024	750/UNIBUS	221 Kbytes/sec	221/983 22%	43%
@@ -96,13 +96,13 @@ new 4096/1024	750/MASSBUS	466 Kbytes/sec	466/983 47%	73%
 new 8192/1024	750/MASSBUS	466 Kbytes/sec	466/983 47%	54%
 .TE
 .ce 1
-Table 2a \- Reading rates of the old and new UNIX file systems.
+Table 2a \- Reading rates of the old and new UNIX filesystems.
 .TS
 box;
 c c|c s s
 c c|c c c.
 Type of	Processor and	Write
-File System	Bus Measured	Speed	Bandwidth	% CPU
+Filesystem	Bus Measured	Speed	Bandwidth	% CPU
 _
 old 1024	750/UNIBUS	48 Kbytes/sec	48/983 5%	29%
 new 4096/1024	750/UNIBUS	142 Kbytes/sec	142/983 14%	43%
@@ -111,36 +111,36 @@ new 4096/1024	750/MASSBUS	323 Kbytes/sec	323/983 33%	94%
 new 8192/1024	750/MASSBUS	466 Kbytes/sec	466/983 47%	95%
 .TE
 .ce 1
-Table 2b \- Writing rates of the old and new UNIX file systems.
+Table 2b \- Writing rates of the old and new UNIX filesystems.
 .DE
 .KE
 .PP
-Unlike the old file system,
-the transfer rates for the new file system do not
+Unlike the old filesystem,
+the transfer rates for the new filesystem do not
 appear to change over time.
 The throughput rate is tied much more strongly to the
 amount of free space that is maintained.
-The measurements in Table 2 were based on a file system
+The measurements in Table 2 were based on a filesystem
 with a 10% free space reserve.
 Synthetic work loads suggest that throughput deteriorates
 to about half the rates given in Table 2 when the file
 systems are full.
 .PP
 The percentage of bandwidth given in Table 2 is a measure
-of the effective utilization of the disk by the file system.
+of the effective utilization of the disk by the filesystem.
 An upper bound on the transfer rate from the disk is calculated 
 by multiplying the number of bytes on a track by the number
 of revolutions of the disk per second.
 The bandwidth is calculated by comparing the data rates
-the file system is able to achieve as a percentage of this rate.
-Using this metric, the old file system is only
+the filesystem is able to achieve as a percentage of this rate.
+Using this metric, the old filesystem is only
 able to use about 3\-5% of the disk bandwidth,
-while the new file system uses up to 47%
+while the new filesystem uses up to 47%
 of the bandwidth.
 .PP
 Both reads and writes are faster in the new system than in the old system.
 The biggest factor in this speedup is because of the larger
-block size used by the new file system.
+block size used by the new filesystem.
 The overhead of allocating blocks in the new system is greater
 than the overhead of allocating blocks in the old system,
 however fewer blocks need to be allocated in the new system
@@ -148,19 +148,19 @@ because they are bigger.
 The net effect is that the cost per byte allocated is about
 the same for both systems.
 .PP
-In the new file system, the reading rate is always at least
+In the new filesystem, the reading rate is always at least
 as fast as the writing rate.
 This is to be expected since the kernel must do more work when
 allocating blocks than when simply reading them.
 Note that the write rates are about the same 
-as the read rates in the 8192 byte block file system;
+as the read rates in the 8192 byte block filesystem;
 the write rates are slower than the read rates in the 4096 byte block
-file system.
+filesystem.
 The slower write rates occur because
 the kernel has to do twice as many disk allocations per second,
 making the processor unable to keep up with the disk transfer rate.
 .PP
-In contrast the old file system is about 50%
+In contrast the old filesystem is about 50%
 faster at writing files than reading them.
 This is because the write system call is asynchronous and
 the kernel can generate disk transfer
@@ -184,12 +184,12 @@ the requests are presented to the disk in a much better order.
 Even though the writes are still asynchronous,
 they are already presented to the disk in minimum seek
 order so there is no gain to be had by reordering them.
-Hence the disk seek latencies that limited the old file system
-have little effect in the new file system.
+Hence the disk seek latencies that limited the old filesystem
+have little effect in the new filesystem.
 The cost of allocation is the factor in the new system that 
 causes writes to be slower than reads.
 .PP
-The performance of the new file system is currently
+The performance of the new filesystem is currently
 limited by memory to memory copy operations
 required to move data from disk buffers in the
 system's address space to data buffers in the user's
@@ -201,7 +201,7 @@ using the VAX virtual memory management hardware.
 This would be especially desirable when transferring
 large amounts of data.
 We did not implement this because it would change the
-user interface to the file system in two major ways:
+user interface to the filesystem in two major ways:
 user programs would be required to allocate buffers on page boundaries, 
 and data would disappear from buffers after being written.
 .PP
@@ -211,8 +211,8 @@ This would allow contiguous disk blocks to be read
 in a single disk transaction.
 Many disks used with UNIX systems contain either
 32 or 48 512 byte sectors per track.
-Each track holds exactly two or three 8192 byte file system blocks,
-or four or six 4096 byte file system blocks.
+Each track holds exactly two or three 8192 byte filesystem blocks,
+or four or six 4096 byte filesystem blocks.
 The inability to use contiguous disk blocks
 effectively limits the performance
 on these disks to less than 50% of the available bandwidth.
@@ -231,7 +231,7 @@ and the current throughput rates are already limited by the
 speed of the available processors.
 .PP
 Currently only one block is allocated to a file at a time.
-A technique used by the DEMOS file system
+A technique used by the DEMOS filesystem
 when it finds that a file is growing rapidly,
 is to preallocate several blocks at once,
 releasing them when the file is closed if they remain unused.

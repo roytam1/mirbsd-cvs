@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.11 2007/07/14 21:25:11 bsiegert Exp $
+# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.12 2008/06/08 20:30:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=		GNOME Virtual File System
+COMMENT=		GNOME virtual filesystem
 
 VERSION=		2.18.1
 DASH_VER=		2

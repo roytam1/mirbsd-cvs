@@ -54,7 +54,7 @@ Both
 and
 .Fa to
 must be of the same type (that is, both directories or both
-non-directories), and must reside on the same file system.
+non-directories), and must reside on the same filesystem.
 .Pp
 .Fn rename
 guarantees that if
@@ -137,7 +137,7 @@ The link named by
 .Fa to
 and the file named by
 .Fa from
-are on different logical devices (file systems).
+are on different logical devices (filesystems).
 Note that this error code will not be returned if the implementation
 permits cross-device links.
 .It Bq Er ENOSPC
@@ -147,7 +147,7 @@ system containing the directory.
 .It Bq Er EDQUOT
 The directory in which the entry for the new name
 is being placed cannot be extended because the
-user's quota of disk blocks on the file system
+user's quota of disk blocks on the filesystem
 containing the directory has been exhausted.
 .It Bq Er EIO
 An I/O error occurred while making or updating a directory entry.
@@ -178,7 +178,7 @@ The
 function conforms to
 .St -p1003.1-88 .
 .Sh CAVEATS
-The system can deadlock if a loop in the file system graph is present.
+The system can deadlock if a loop in the filesystem graph is present.
 This loop takes the form of an entry in directory
 .Sq Pa a ,
 say

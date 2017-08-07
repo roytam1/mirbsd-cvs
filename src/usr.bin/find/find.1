@@ -208,16 +208,16 @@ flags specified exactly match those of the file.
 .It Ic -follow
 Follow symbolic links.
 .It Ic -fstype Ar type
-True if the file is contained in a file system of type
+True if the file is contained in a filesystem of type
 .Ar type .
-Two special file system types are recognized:
+Two special filesystem types are recognized:
 .Dq local
 and
 .Dq rdonly .
-These do not describe actual file system types;
-the former matches any file system physically mounted on the system where
+These do not describe actual filesystem types;
+the former matches any filesystem physically mounted on the system where
 .Nm
-is being executed whereas the latter matches any file system which is
+is being executed whereas the latter matches any filesystem which is
 mounted read-only.
 .It Ic -group Ar gname
 True if the file belongs to the group
@@ -510,7 +510,7 @@ that are newer than
 .Pp
 .Dl "$ find / \e( -newer ttt -or -user wnj \e) -print"
 .Pp
-Print out a list of all core files on local file systems:
+Print out a list of all core files on local filesystems:
 .Pp
 .Dl "$ find / \e! -fstype local -prune -or -name '*.core' -print"
 .Pp

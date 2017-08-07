@@ -34,15 +34,15 @@
 .SH
 \s+2Acknowledgements\s0
 .PP
-We thank Robert Elz for his ongoing interest in the new file system,
+We thank Robert Elz for his ongoing interest in the new filesystem,
 and for adding disk quotas in a rational and efficient manner.
 We also acknowledge Dennis Ritchie for his suggestions
 on the appropriate modifications to the user interface.
 We appreciate Michael Powell's explanations on how
-the DEMOS file system worked;
+the DEMOS filesystem worked;
 many of his ideas were used in this implementation.
 Special commendation goes to Peter Kessler and Robert Henry for acting
-like real users during the early debugging stage when file systems were
+like real users during the early debugging stage when filesystems were
 less stable than they should have been.
 The criticisms and suggestions by the reviews contributed significantly
 to the coherence of the paper.
@@ -59,7 +59,7 @@ Contract No. N00039-82-C-0235.
 .LP
 .IP [Almes78] 20
 Almes, G., and Robertson, G.
-"An Extensible File System for Hydra"
+"An Extensible Filesystem for Hydra"
 Proceedings of the Third International Conference on Software Engineering,
 IEEE, May 1978.
 .IP [Bass81] 20
@@ -117,7 +117,7 @@ ACM Transactions on Programming Languages and Systems,
 ACM, 5, 1. Jan 1983. pp 46-55
 .IP [Powell79] 20
 Powell, M.
-"The DEMOS File System",
+"The DEMOS Filesystem",
 Proceedings of the Sixth Symposium on Operating Systems Principles,
 ACM, Nov 1977. pp 33-42
 .IP [Ritchie74] 20
@@ -133,7 +133,7 @@ Smith, A.
 "Bibliography on File and I/O System Optimization and Related Topics",
 Operating Systems Review, 15, 4. Oct 1981. pp 39-54
 .IP [Symbolics81] 20
-"Symbolics File System",
+"Symbolics Filesystem",
 Symbolics Inc, 9600 DeSoto Ave, Chatsworth, CA 91311
 Aug 1981.
 .IP [Thompson78] 20
@@ -143,7 +143,7 @@ Bell System Technical Journal, 57, 6, part 2. pp 1931-1946
 July-August 1978.
 .IP [Thompson80] 20
 Thompson, M.
-"Spice File System",
+"Spice Filesystem",
 Carnegie-Mellon University,
 Department of Computer Science, Pittsburg, PA 15213
 #CMU-CS-80, Sept 1980.

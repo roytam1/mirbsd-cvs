@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.h,v 1.8 2009/07/23 19:32:25 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.h,v 1.9 2010/03/06 23:24:17 tg Exp $ */
 /*	$NetBSD: pwcache.h,v 1.5 2003/11/10 08:51:51 wiz Exp $	*/
 
 /*-
@@ -42,7 +42,7 @@
  * Constants and data structures used to implement group and password file
  * caches. Traditional passwd/group cache routines perform quite poorly with
  * archives. The chances of hitting a valid lookup with an archive is quite a
- * bit worse than with files already resident on the file system. These misses
+ * bit worse than with files already resident on the filesystem. These misses
  * create a MAJOR performance cost. To address this problem, these routines
  * cache both hits and misses.
  *

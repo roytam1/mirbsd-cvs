@@ -621,7 +621,7 @@ void remove_bookmark_link(int cur,
     } else {
 #ifndef VMS
 	/*
-	 * Rename won't work across file systems.  Check if this is the case
+	 * Rename won't work across filesystems.  Check if this is the case
 	 * and do something appropriate.  Used to be ODD_RENAME
 	 */
 #if defined(_WINDOWS) || defined(WIN_EX)

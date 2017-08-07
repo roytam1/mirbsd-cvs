@@ -1,6 +1,6 @@
-$NetBSD: README,v 1.3 2004/12/20 20:51:42 jmc Exp $
+$NetBSD: README,v 1.4 2009/01/03 08:25:35 lukem Exp $
 
-makefs - build a file system image from a directory tree
+makefs - build a filesystem image from a directory tree
 
 NOTES:
 
@@ -13,28 +13,28 @@ NOTES:
 user overview:
 --------------
 
-makefs creates a file system image from a given directory tree.
-the following file system types can be built:
-	ffs	BSD fast file system
+makefs creates a filesystem image from a given directory tree.
+the following filesystem types can be built:
+	ffs	BSD fast filesystem
+	cd9660	ISO 9660 filesystem
 
-Support for the following file systems maybe be added in the future
-	ext2fs	Linux EXT2 file system
-	fat	MS-DOS `FAT' file system (FAT12, FAT16, FAT32)
-	cd9660	ISO 9660 file system
+Support for the following filesystems maybe be added in the future
+	ext2fs	Linux EXT2 filesystem
+	fat	MS-DOS `FAT' filesystem (FAT12, FAT16, FAT32)
 
-Various file system independent parameters and contraints can be
+Various filesystem independent parameters and contraints can be
 specified, such as:
-	- minimum file system size (in KB)
-	- maximum file system size (in KB)
+	- minimum filesystem size (in KB)
+	- maximum filesystem size (in KB)
 	- free inodes
 	- free blocks (in KB)
 	- mtree(8) specification file containing permissions and ownership
 	  to use in image, overridding the settings in the directory tree
 	- file containing list of files to specifically exclude or include
 	- fnmatch(3) pattern of filenames to exclude or include
-	- endianness of target file system
+	- endianness of target filesystem
 
-File system specific parameters can be given as well, with a command
+Filesystem specific parameters can be given as well, with a command
 line option such as "-o fsspeccific-options,comma-separated".
 For example, ffs would allow tuning of:
 	- block & fragment size
@@ -42,8 +42,8 @@ For example, ffs would allow tuning of:
 	- number of blocks per inode
 	- minimum free space
 
-Other file systems might have controls on how to "munge" file names to
-fit within the constraints of the target file system.
+Other filesystems might have controls on how to "munge" file names to
+fit within the constraints of the target filesystem.
 
 Exit codes:
 	0	all ok
@@ -56,8 +56,8 @@ Exit codes:
 Implementation overview:
 ------------------------
 
-The implementation must allow for easy addition of extra file systems
-with minimal changes to the file system independent sections.
+The implementation must allow for easy addition of extra filesystems
+with minimal changes to the filesystem independent sections.
 
 The main program will:
 	- parse the options, including calling fs-specific routines to
@@ -76,13 +76,13 @@ The main program will:
 
 Each fs-specific module should have the following external interfaces:
 
-    prepare_options	optional file system specific defaults that need to be
+    prepare_options	optional filesystem specific defaults that need to be
 			setup before parsing fs-specific options.
 
     parse_options	parse the string for fs-specific options, feeding
 			errors back to the user as appropriate
 
-    cleanup_options	optional file system specific data that need to be
+    cleanup_options	optional filesystem specific data that need to be
 			cleaned up when done with this filesystem.
 
     make_fs		take the data structures representing the
@@ -94,7 +94,7 @@ Each fs-specific module should have the following external interfaces:
 
 prepare_options and cleanup_options are optional and can be NULL.
 
-NOTE: All file system specific options are referenced via the fs_specific
+NOTE: All filesystem specific options are referenced via the fs_specific
 pointer from the fsinfo_t strucutre. It is up to the filesystem to allocate
 and free any data needed for this via the prepare and cleanup callbacks.
 

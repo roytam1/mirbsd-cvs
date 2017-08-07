@@ -29,7 +29,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.5 2012/12/18 13:13:01 bsiegert Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.6 2012/12/31 20:19:50 tg Exp $");
 
 #ifdef lint
 char *
@@ -67,7 +67,7 @@ const char *const
 	"File too large",			/* 27 - EFBIG */
 	"No space left on device",		/* 28 - ENOSPC */
 	"Illegal seek",				/* 29 - ESPIPE */
-	"Read-only file system",		/* 30 - EROFS */
+	"Read-only filesystem",		/* 30 - EROFS */
 	"Too many links",			/* 31 - EMLINK */
 	"Broken pipe",				/* 32 - EPIPE */
 
@@ -123,7 +123,7 @@ const char *const
 	"Too many users",			/* 68 - EUSERS */
 	"Disk quota exceeded",			/* 69 - EDQUOT */
 
-/* Network File System */
+/* Network Filesystem */
 	"Stale NFS file handle",		/* 70 - ESTALE */
 	"Too many levels of remote in path",	/* 71 - EREMOTE */
 	"RPC struct is bad",			/* 72 - EBADRPC */

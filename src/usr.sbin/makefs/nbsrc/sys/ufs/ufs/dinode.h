@@ -1,4 +1,4 @@
-/*	$NetBSD: dinode.h,v 1.19 2005/12/11 12:25:28 christos Exp $	*/
+/*	$NetBSD: dinode.h,v 1.21 2009/06/28 09:26:18 ad Exp $	*/
 
 /*
  * Copyright (c) 2002 Networks Associates Technology, Inc.
@@ -45,11 +45,15 @@
  *	@(#)dinode.h	8.9 (Berkeley) 3/29/95
  */
 
+/*
+ * NOTE: COORDINATE ON-DISK FORMAT CHANGES WITH THE FREEBSD PROJECT.
+ */
+
 #ifndef	_UFS_UFS_DINODE_H_
 #define	_UFS_UFS_DINODE_H_
 
 /*
- * The root inode is the root of the file system.  Inode 0 can't be used for
+ * The root inode is the root of the filesystem.  Inode 0 can't be used for
  * normal purposes and historically bad blocks were linked to inode 1, thus
  * the root inode is 2.  (Inode 1 is no longer used for this purpose, however
  * numerous dump tapes make this assumption, so we are stuck with it).
@@ -96,7 +100,7 @@ struct ufs1_dinode {
 	int32_t		di_gen;		/* 108: Generation number. */
 	u_int32_t	di_uid;		/* 112: File owner. */
 	u_int32_t	di_gid;		/* 116: File group. */
-	int32_t		di_spare[2];	/* 120: Reserved; currently unused */
+	u_int64_t	di_modrev;	/* 120: i_modrev for NFSv4 */
 };
 
 struct ufs2_dinode {
@@ -122,7 +126,8 @@ struct ufs2_dinode {
 	int64_t		di_extb[NXADDR];/*  96: External attributes block. */
 	int64_t		di_db[NDADDR];	/* 112: Direct disk blocks. */
 	int64_t		di_ib[NIADDR];	/* 208: Indirect disk blocks. */
-	int64_t		di_spare[3];	/* 232: Reserved; currently unused */
+	u_int64_t	di_modrev;	/* 232: i_modrev for NFSv4 */
+	int64_t		di_spare[2];	/* 240: Reserved; currently unused */
 };
 
 /*

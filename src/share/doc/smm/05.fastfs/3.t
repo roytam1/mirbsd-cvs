@@ -29,18 +29,18 @@
 .\"
 .\"	@(#)3.t	8.1 (Berkeley) 6/8/93
 .\"
-.ds RH New file system
+.ds RH New filesystem
 .NH
-New file system organization
+New filesystem organization
 .PP
-In the new file system organization (as in the
-old file system organization),
-each disk drive contains one or more file systems.
-A file system is described by its super-block,
-located at the beginning of the file system's disk partition.
+In the new filesystem organization (as in the
+old filesystem organization),
+each disk drive contains one or more filesystems.
+A filesystem is described by its super-block,
+located at the beginning of the filesystem's disk partition.
 Because the super-block contains critical data,
 it is replicated to protect against catastrophic loss.
-This is done when the file system is created;
+This is done when the filesystem is created;
 since the super-block data does not change,
 the copies need not be referenced unless a head crash
 or other hard disk error causes the default super-block
@@ -48,18 +48,18 @@ to be unusable.
 .PP
 To insure that it is possible to create files as large as
 $2 sup 32$ bytes with only two levels of indirection,
-the minimum size of a file system block is 4096 bytes.
-The size of file system blocks can be any power of two
+the minimum size of a filesystem block is 4096 bytes.
+The size of filesystem blocks can be any power of two
 greater than or equal to 4096.
-The block size of a file system is recorded in the 
-file system's super-block
-so it is possible for file systems with different block sizes
+The block size of a filesystem is recorded in the 
+filesystem's super-block
+so it is possible for filesystems with different block sizes
 to be simultaneously accessible on the same system.
 The block size must be decided at the time that
-the file system is created;
-it cannot be subsequently changed without rebuilding the file system.
+the filesystem is created;
+it cannot be subsequently changed without rebuilding the filesystem.
 .PP
-The new file system organization divides a disk partition
+The new filesystem organization divides a disk partition
 into one or more areas called
 .I "cylinder groups".
 A cylinder group is comprised of one or more consecutive
@@ -71,9 +71,9 @@ a bit map describing available blocks in the cylinder group,
 and summary information describing the usage of data blocks
 within the cylinder group.
 The bit map of available blocks in the cylinder group replaces
-the traditional file system's free list.
+the traditional filesystem's free list.
 For each cylinder group a static number of inodes
-is allocated at file system creation time.
+is allocated at filesystem creation time.
 The default policy is to allocate one inode for each 2048
 bytes of space in the cylinder group, expecting this
 to be far more than will ever be needed. 
@@ -99,16 +99,16 @@ is used for data blocks.\(dg
 .FS
 \(dg While it appears that the first cylinder group could be laid
 out with its super-block at the ``known'' location,
-this would not work for file systems
+this would not work for filesystems
 with blocks sizes of 16 kilobytes or greater.
 This is because of a requirement that the first 8 kilobytes of the disk
 be reserved for a bootstrap program and a separate requirement that
-the cylinder group information begin on a file system block boundary.
-To start the cylinder group on a file system block boundary,
-file systems with block sizes larger than 8 kilobytes 
+the cylinder group information begin on a filesystem block boundary.
+To start the cylinder group on a filesystem block boundary,
+filesystems with block sizes larger than 8 kilobytes 
 would have to leave an empty space between the end of
 the boot block and the beginning of the cylinder group.
-Without knowing the size of the file system blocks,
+Without knowing the size of the filesystem blocks,
 the system would not know what roundup function to use
 to find the beginning of the first cylinder group.
 .FE
@@ -116,10 +116,10 @@ to find the beginning of the first cylinder group.
 Optimizing storage utilization
 .PP
 Data is laid out so that larger blocks can be transferred
-in a single disk transaction, greatly increasing file system throughput.
-As an example, consider a file in the new file system
+in a single disk transaction, greatly increasing filesystem throughput.
+As an example, consider a file in the new filesystem
 composed of 4096 byte data blocks.
-In the old file system this file would be composed of 1024 byte blocks.
+In the old filesystem this file would be composed of 1024 byte blocks.
 By increasing the block size, disk accesses in the new file
 system may transfer up to four times as much information per
 disk transaction.
@@ -129,14 +129,14 @@ even larger data transfers are possible before requiring a seek.
 .PP
 The main problem with 
 larger blocks is that most UNIX
-file systems are composed of many small files.
+filesystems are composed of many small files.
 A uniformly large block size wastes space.
-Table 1 shows the effect of file system
-block size on the amount of wasted space in the file system.
+Table 1 shows the effect of filesystem
+block size on the amount of wasted space in the filesystem.
 The files measured to obtain these figures reside on
 one of our time sharing
 systems that has roughly 1.2 gigabytes of on-line storage.
-The measurements are based on the active user file systems containing
+The measurements are based on the active user filesystems containing
 about 920 megabytes of formatted space.
 .KF
 .DS B
@@ -148,10 +148,10 @@ Space used	% waste	Organization
 _
 775.2 Mb	0.0	Data only, no separation between files
 807.8 Mb	4.2	Data only, each file starts on 512 byte boundary
-828.7 Mb	6.9	Data + inodes, 512 byte block UNIX file system
-866.5 Mb	11.8	Data + inodes, 1024 byte block UNIX file system
-948.5 Mb	22.4	Data + inodes, 2048 byte block UNIX file system
-1128.3 Mb	45.6	Data + inodes, 4096 byte block UNIX file system
+828.7 Mb	6.9	Data + inodes, 512 byte block UNIX filesystem
+866.5 Mb	11.8	Data + inodes, 1024 byte block UNIX filesystem
+948.5 Mb	22.4	Data + inodes, 2048 byte block UNIX filesystem
+1128.3 Mb	45.6	Data + inodes, 4096 byte block UNIX filesystem
 .TE
 Table 1 \- Amount of wasted space as a function of block size.
 .DE
@@ -160,16 +160,16 @@ The space wasted is calculated to be the percentage of space
 on the disk not containing user data.
 As the block size on the disk
 increases, the waste rises quickly, to an intolerable
-45.6% waste with 4096 byte file system blocks.
+45.6% waste with 4096 byte filesystem blocks.
 .PP
 To be able to use large blocks without undue waste,
 small files must be stored in a more efficient way.
-The new file system accomplishes this goal by allowing the division
-of a single file system block into one or more
+The new filesystem accomplishes this goal by allowing the division
+of a single filesystem block into one or more
 .I "fragments".
-The file system fragment size is specified
-at the time that the file system is created;
-each file system block can optionally be broken into
+The filesystem fragment size is specified
+at the time that the filesystem is created;
+each filesystem block can optionally be broken into
 2, 4, or 8 fragments, each of which is addressable.
 The lower bound on the size of these fragments is constrained
 by the disk sector size,
@@ -178,7 +178,7 @@ The block map associated with each cylinder group
 records the space available in a cylinder group
 at the fragment level;
 to determine if a block is available, aligned fragments are examined.
-Figure 1 shows a piece of a map from a 4096/1024 file system.
+Figure 1 shows a piece of a map from a 4096/1024 filesystem.
 .KF
 .DS B
 .TS
@@ -188,7 +188,7 @@ Bits in map	XXXX	XXOO	OOXX	OOOO
 Fragment numbers	0-3	4-7	8-11	12-15
 Block numbers	0	1	2	3
 .TE
-Figure 1 \- Example layout of blocks and fragments in a 4096/1024 file system.
+Figure 1 \- Example layout of blocks and fragments in a 4096/1024 filesystem.
 .DE
 .KE
 Each bit in the map records the status of a fragment;
@@ -203,16 +203,16 @@ In this example,
 fragments 6\-9 cannot be allocated as a full block;
 only fragments 12\-15 can be coalesced into a full block.
 .PP
-On a file system with a block size of 4096 bytes
+On a filesystem with a block size of 4096 bytes
 and a fragment size of 1024 bytes,
 a file is represented by zero or more 4096 byte blocks of data,
 and possibly a single fragmented block.
-If a file system block must be fragmented to obtain
+If a filesystem block must be fragmented to obtain
 space for a small amount of data,
 the remaining fragments of the block are made
 available for allocation to other files.
 As an example consider an 11000 byte file stored on
-a 4096/1024 byte file system.
+a 4096/1024 byte filesystem.
 This file would uses two full size blocks and one
 three fragment portion of another block.
 If no block with three aligned fragments is
@@ -275,11 +275,11 @@ fragmented block expands to a full block.
 Fragment reallocation can be minimized
 if the user program writes a full block at a time,
 except for a partial block at the end of the file.
-Since file systems with different block sizes may reside on
+Since filesystems with different block sizes may reside on
 the same system,
-the file system interface has been extended to provide
+the filesystem interface has been extended to provide
 application programs the optimal size for a read or write.
-For files the optimal size is the block size of the file system
+For files the optimal size is the block size of the filesystem
 on which the file is being accessed.
 For other objects, such as pipes and sockets,
 the optimal size is the underlying buffer size.
@@ -289,42 +289,42 @@ a package used by most user programs.
 This feature is also used by
 certain system utilities such as archivers and loaders
 that do their own input and output management
-and need the highest possible file system bandwidth.
+and need the highest possible filesystem bandwidth.
 .PP
-The amount of wasted space in the 4096/1024 byte new file system
+The amount of wasted space in the 4096/1024 byte new filesystem
 organization is empirically observed to be about the same as in the
-1024 byte old file system organization.
-A file system with 4096 byte blocks and 512 byte fragments
+1024 byte old filesystem organization.
+A filesystem with 4096 byte blocks and 512 byte fragments
 has about the same amount of wasted space as the 512 byte
-block UNIX file system.
-The new file system uses less space
+block UNIX filesystem.
+The new filesystem uses less space
 than the 512 byte or 1024 byte
-file systems for indexing information for
+filesystems for indexing information for
 large files and the same amount of space
 for small files.
 These savings are offset by the need to use
 more space for keeping track of available free blocks.
 The net result is about the same disk utilization
-when a new file system's fragment size
-equals an old file system's block size.
+when a new filesystem's fragment size
+equals an old filesystem's block size.
 .PP
 In order for the layout policies to be effective,
-a file system cannot be kept completely full.
-For each file system there is a parameter, termed
+a filesystem cannot be kept completely full.
+For each filesystem there is a parameter, termed
 the free space reserve, that
-gives the minimum acceptable percentage of file system
+gives the minimum acceptable percentage of filesystem
 blocks that should be free.
 If the number of free blocks drops below this level
 only the system administrator can continue to allocate blocks.
 The value of this parameter may be changed at any time,
-even when the file system is mounted and active.
+even when the filesystem is mounted and active.
 The transfer rates that appear in section 4 were measured on file
 systems kept less than 90% full (a reserve of 10%).
 If the number of free blocks falls to zero,
-the file system throughput tends to be cut in half,
-because of the inability of the file system to localize
+the filesystem throughput tends to be cut in half,
+because of the inability of the filesystem to localize
 blocks in a file.
-If a file system's performance degrades because
+If a filesystem's performance degrades because
 of overfilling, it may be restored by removing
 files until the amount of free space once again
 reaches the minimum acceptable level.
@@ -335,21 +335,21 @@ The free space reserve must be added to the
 percentage of waste when comparing the organizations given
 in Table 1.
 Thus, the percentage of waste in
-an old 1024 byte UNIX file system is roughly
-comparable to a new 4096/512 byte file system
+an old 1024 byte UNIX filesystem is roughly
+comparable to a new 4096/512 byte filesystem
 with the free space reserve set at 5%.
-(Compare 11.8% wasted with the old file system
+(Compare 11.8% wasted with the old filesystem
 to 6.9% waste + 5% reserved space in the
-new file system.)
+new filesystem.)
 .NH 2 
-File system parameterization
+Filesystem parameterization
 .PP
 Except for the initial creation of the free list,
-the old file system ignores the parameters of the underlying hardware.
+the old filesystem ignores the parameters of the underlying hardware.
 It has no information about either the physical characteristics
 of the mass storage device,
 or the hardware that interacts with it.
-A goal of the new file system is to parameterize the 
+A goal of the new filesystem is to parameterize the 
 processor capabilities and
 mass storage characteristics
 so that blocks can be allocated in an
@@ -360,12 +360,12 @@ and the characteristics of the mass storage devices.
 Disk technology is constantly improving and
 a given installation can have several different disk technologies
 running on a single processor.
-Each file system is parameterized so that it can be
+Each filesystem is parameterized so that it can be
 adapted to the characteristics of the disk on which
 it is placed.
 .PP
 For mass storage devices such as disks,
-the new file system tries to allocate new blocks
+the new filesystem tries to allocate new blocks
 on the same cylinder as the previous block in the same file. 
 Optimally, these new blocks will also be 
 rotationally well positioned.
@@ -428,15 +428,15 @@ minimum number of milliseconds between the completion of a data
 transfer and the initiation of
 another data transfer on the same cylinder
 can be changed at any time,
-even when the file system is mounted and active.
-If a file system is parameterized to lay out blocks with
+even when the filesystem is mounted and active.
+If a filesystem is parameterized to lay out blocks with
 a rotational separation of 2 milliseconds,
 and the disk pack is then moved to a system that has a
 processor requiring 4 milliseconds to schedule a disk operation,
 the throughput will drop precipitously because of lost disk revolutions
 on nearly every block.
 If the eventual target machine is known, 
-the file system can be parameterized for it
+the filesystem can be parameterized for it
 even though it is initially created on a different processor.
 Even if the move is not known in advance,
 the rotational layout delay can be reconfigured after the disk is moved
@@ -445,8 +445,8 @@ characteristics of the new host.
 .NH 2
 Layout policies
 .PP
-The file system layout policies are divided into two distinct parts.
-At the top level are global policies that use file system
+The filesystem layout policies are divided into two distinct parts.
+At the top level are global policies that use filesystem
 wide summary information to make decisions regarding
 the placement of new inodes and data blocks.
 These routines are responsible for deciding the
@@ -459,7 +459,7 @@ Below the global policy routines are
 the local allocation routines that use a locally optimal scheme to
 lay out data blocks.
 .PP
-Two methods for improving file system performance are to increase
+Two methods for improving filesystem performance are to increase
 the locality of reference to minimize seek latency 
 as described by [Trivedi80], and
 to improve the layout of data to make larger transfers possible
@@ -474,7 +474,7 @@ the local cylinder group may run out of space
 forcing the data to be scattered to non-local cylinder groups.
 Taken to an extreme,
 total localization can result in a single huge cluster of data
-resembling the old file system.
+resembling the old filesystem.
 The global policies try to balance the two conflicting
 goals of localizing data that is concurrently accessed
 while spreading out unrelated data.
@@ -503,7 +503,7 @@ group may have no more than 2048 inodes.)
 This puts a small and constant upper bound on the number of
 disk transfers required to access the inodes
 for all the files in a directory.
-In contrast, the old file system typically requires
+In contrast, the old filesystem typically requires
 one disk transfer to fetch the inode for each file in a directory.
 .PP
 The other major resource is data blocks.
@@ -526,13 +526,13 @@ when a file exceeds 48 kilobytes,
 and at every megabyte thereafter.*
 .FS
 * The first spill over point at 48 kilobytes is the point
-at which a file on a 4096 byte block file system first
+at which a file on a 4096 byte block filesystem first
 requires a single indirect block.  This appears to be
 a natural first point at which to redirect block allocation.
 The other spillover points are chosen with the intent of
 forcing block allocation to be redirected when a
 file has used about 25% of the data blocks in a cylinder group.
-In observing the new file system in day to day use, the heuristics appear
+In observing the new filesystem in day to day use, the heuristics appear
 to work well in minimizing the number of completely filled
 cylinder groups.
 .FE
@@ -580,9 +580,9 @@ to all cylinder groups.
 .PP
 Quadratic hash is used because of its speed in finding
 unused slots in nearly full hash tables [Knuth75].
-File systems that are parameterized to maintain at least
+Filesystems that are parameterized to maintain at least
 10% free space rarely use this strategy.
-File systems that are run without maintaining any free
+Filesystems that are run without maintaining any free
 space typically have so few free blocks that almost any
 allocation is random;
 the most important characteristic of

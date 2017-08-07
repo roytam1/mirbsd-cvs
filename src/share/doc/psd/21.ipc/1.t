@@ -72,11 +72,11 @@ to maintain in a distributed environment.
 Earlier attempts at extending the IPC facilities of UNIX have
 met with mixed reaction.  The majority of the problems have
 been related to the fact that these facilities have been tied to
-the UNIX file system, either through naming or implementation.
+the UNIX filesystem, either through naming or implementation.
 Consequently, the IPC facilities provided in 4.2BSD were
 designed as a totally independent subsystem.  The BSD IPC
 allows processes to rendezvous in many ways. 
-Processes may rendezvous through a UNIX file system-like
+Processes may rendezvous through a UNIX filesystem-like
 name space (a space where all names are path names)
 as well as through a
 network name space.  In fact, new name spaces may

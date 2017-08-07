@@ -207,7 +207,7 @@ ALDFLAGS        = -mam_sparc -n -Ttext 40000 -Bstatic -e start -L$(SPARCLIBDIR)
 /*
  * The rest of this files consists of rules to allow cross-compilation
  * and installation of binaries and data files from the Unix host to
- * the Amoeba file system.
+ * the Amoeba filesystem.
  */
 
 /* #ifdef CROSS_COMPILING */

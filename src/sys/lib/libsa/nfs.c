@@ -446,7 +446,7 @@ nfs_open(char *path, struct open_file *f)
 			goto out;
 		}
 
-		/* allocate file system specific data structure */
+		/* allocate filesystem specific data structure */
 		newfd = alloc(sizeof(*newfd));
 		newfd->iodesc = currfd->iodesc;
 		newfd->off = 0;

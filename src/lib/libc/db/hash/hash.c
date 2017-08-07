@@ -52,7 +52,7 @@
 #include "page.h"
 #include "extern.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/db/hash/hash.c,v 1.3 2013/10/31 20:06:16 tg Exp $");
 
 static int   alloc_segs(HTAB *, int);
 static int   flush_meta(HTAB *);
@@ -288,7 +288,7 @@ init_hash(HTAB *hashp, const char *file, HASHINFO *info)
 	memset(hashp->SPARES, 0, sizeof(hashp->SPARES));
 	memset(hashp->BITMAPS, 0, sizeof (hashp->BITMAPS));
 
-	/* Fix bucket size to be optimal for file system */
+	/* Fix bucket size to be optimal for filesystem */
 	if (file != NULL) {
 		if (stat(file, &statbuf))
 			return (NULL);

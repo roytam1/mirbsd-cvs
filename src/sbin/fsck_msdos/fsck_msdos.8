@@ -37,7 +37,7 @@
 .Os
 .Sh NAME
 .Nm fsck_msdos
-.Nd DOS/Windows (FAT) file system consistency checker
+.Nd DOS/Windows (FAT) filesystem consistency checker
 .Sh SYNOPSIS
 .Nm fsck_msdos
 .Op Fl fpny
@@ -47,10 +47,10 @@ The
 .Nm
 utility verifies and repairs
 .Tn FAT
-file systems (more commonly known as
+filesystems (more commonly known as
 .Tn DOS
-file systems).
-It checks the specified file systems and tries to repair all
+filesystems).
+It checks the specified filesystems and tries to repair all
 detected inconsistencies, requesting confirmation before
 making any changes.
 .Pp
@@ -58,13 +58,13 @@ If the
 .Fl p
 flag is given,
 .Nm
-preens the specified file systems.
+preens the specified filesystems.
 It is normally started this way by
 .Xr fsck 8
 run from
 .Xr rc 8
-during automatic reboot, when a FAT file system is detected.
-When preening file systems,
+during automatic reboot, when a FAT filesystem is detected.
+When preening filesystems,
 .Nm
 will fix common inconsistencies non-interactively.
 If more serious problems are found,
@@ -78,7 +78,7 @@ The options are as follows:
 This option is ignored by
 .Nm fsck_msdos ,
 and is present only for compatibility with programs that
-check other file system types for consistency, such as
+check other filesystem types for consistency, such as
 .Xr fsck_ffs 8 .
 .It Fl n
 Assume a
@@ -88,11 +88,11 @@ response to all questions asked by
 except for
 .Dq CONTINUE? ,
 which is assumed to be affirmative.
-File systems will not be opened for writing.
-This is the default for file systems to be checked that are
+Filesystems will not be opened for writing.
+This is the default for filesystems to be checked that are
 concurrently mounted writable.
 .It Fl p
-Preen the specified file systems.
+Preen the specified filesystems.
 .It Fl y
 Causes
 .Nm

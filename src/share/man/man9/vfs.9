@@ -40,13 +40,13 @@
 .Os
 .Sh NAME
 .Nm vfs
-.Nd kernel interface to file systems
+.Nd kernel interface to filesystems
 .Sh DESCRIPTION
-The virtual file system,
+The virtual filesystem,
 .Nm VFS ,
-is the kernel interface to file systems.
-The interface specifies the calls for the kernel to access file systems.
-It also specifies the core functionality that a file system must provide
+is the kernel interface to filesystems.
+The interface specifies the calls for the kernel to access filesystems.
+It also specifies the core functionality that a filesystem must provide
 to the kernel.
 .Pp
 The focus of
@@ -55,7 +55,7 @@ activity is the
 .Em vnode
 and is discussed in
 .Xr vnode 9 .
-.\" File system operations such as mounting and syncing are discussed in
+.\" Filesystem operations such as mounting and syncing are discussed in
 .\" .Xr vfsops 9 .
 .Sh SEE ALSO
 .Xr intro 9 ,

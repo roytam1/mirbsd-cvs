@@ -199,7 +199,7 @@ cd9660_open(v)
 /*
  * Close called
  *
- * Update the times on the inode on writeable file systems.
+ * Update the times on the inode on writeable filesystems.
  */
 /* ARGSUSED */
 int

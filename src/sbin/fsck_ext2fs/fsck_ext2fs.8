@@ -36,7 +36,7 @@
 .Os
 .Sh NAME
 .Nm fsck_ext2fs
-.Nd Second Extended File System consistency check and interactive repair
+.Nd Second Extended Filesystem consistency check and interactive repair
 .Sh SYNOPSIS
 .Nm fsck_ext2fs
 .Op Fl dfnpy
@@ -45,12 +45,12 @@
 .Ar filesystem ...
 .Sh DESCRIPTION
 .Nm
-performs interactive file system consistency checks and repairs for each of
-the file systems specified.
+performs interactive filesystem consistency checks and repairs for each of
+the filesystems specified.
 It is normally invoked from
 .Xr fsck 8 .
 .Pp
-The kernel takes care that only a restricted class of innocuous file system
+The kernel takes care that only a restricted class of innocuous filesystem
 inconsistencies can happen unless hardware or software failures intervene.
 These are limited to the following:
 .Pp
@@ -76,25 +76,25 @@ mode (with the
 option) will correct; if it encounters other inconsistencies, it exits
 with an abnormal return status.
 For each corrected inconsistency one or more lines will be printed
-identifying the file system on which the correction will take place,
+identifying the filesystem on which the correction will take place,
 and the nature of the correction.
-After successfully correcting a file system,
+After successfully correcting a filesystem,
 .Nm
-will print the number of files on that file system
+will print the number of files on that filesystem
 and the number of used and free blocks.
 .Pp
 If sent a
 .Dv QUIT
 signal,
 .Nm
-will finish the file system checks, then exit with an abnormal return status.
+will finish the filesystem checks, then exit with an abnormal return status.
 .Pp
 Without the
 .Fl p
 option,
 .Nm
-audits and interactively repairs inconsistent conditions for file systems.
-If the file system is inconsistent, the operator is prompted for concurrence
+audits and interactively repairs inconsistent conditions for filesystems.
+If the filesystem is inconsistent, the operator is prompted for concurrence
 before each correction is attempted.
 It should be noted that some of the corrective actions which are not
 correctable under the
@@ -107,7 +107,7 @@ is to wait for the operator to respond
 .Dq yes
 or
 .Dq no .
-If the operator does not have write permission on the file system,
+If the operator does not have write permission on the filesystem,
 .Nm
 will default to a
 .Fl n
@@ -118,20 +118,20 @@ The following flags are interpreted by
 .Bl -tag -width indent
 .It Fl b Ar block#
 Use the block specified immediately after the flag as
-the super block for the file system.
+the super block for the filesystem.
 Block 8193 is usually an alternate super block.
 .It Fl d
 Print debugging output.
 .It Fl f
-Force checking of file systems.
-Normally, if a file system is cleanly unmounted, the kernel will set a
+Force checking of filesystems.
+Normally, if a filesystem is cleanly unmounted, the kernel will set a
 .Dq clean flag
-in the file system superblock and
+in the filesystem superblock and
 .Nm
-will not check the file system.
+will not check the filesystem.
 This option forces
 .Nm
-to check the file system, regardless of the state of the clean flag.
+to check the filesystem, regardless of the state of the clean flag.
 .It Fl m Ar mode
 Use the
 .Ar mode
@@ -150,8 +150,8 @@ response to all questions asked by
 except for
 .Dq CONTINUE? ,
 which is assumed to be affirmative.
-File systems will not be opened for writing.
-This is the default for file systems to be checked that are
+Filesystems will not be opened for writing.
+This is the default for filesystems to be checked that are
 concurrently mounted writable.
 .It Fl p
 Specify
@@ -172,14 +172,14 @@ Inconsistencies checked are as follows:
 .It
 Blocks claimed more than once by inodes or the free map.
 .It
-Blocks claimed by an inode outside the range of the file system.
+Blocks claimed by an inode outside the range of the filesystem.
 .It
 Incorrect link counts.
 .It
 Size checks:
 .Bl -item -compact -offset indent
 .It
-Directory size not a multiple of file system block size.
+Directory size not a multiple of filesystem block size.
 .It
 Partially truncated file.
 .El
@@ -202,7 +202,7 @@ or having the wrong inode number.
 Super Block checks:
 .Bl -item -compact -offset indent
 .It
-More blocks for inodes than there are in the file system.
+More blocks for inodes than there are in the filesystem.
 .It
 Bad free block map format.
 .It
@@ -228,7 +228,7 @@ The diagnostics produced by
 .Nm
 are fully enumerated and explained in Appendix A of
 .Rs
-.%T "Fsck_ffs \- The UNIX File System Check Program"
+.%T "Fsck_ffs \- The UNIX Filesystem Check Program"
 .Re
 .Sh SEE ALSO
 .Xr fs 5 ,
@@ -237,6 +237,6 @@ are fully enumerated and explained in Appendix A of
 .Xr mount_ext2fs 8 ,
 .Xr rc 8
 .Rs
-.%T "Fsck_ffs \- The UNIX File System Check Program"
+.%T "Fsck_ffs \- The UNIX Filesystem Check Program"
 .%O /usr/share/doc/smm/03.fsck_ffs
 .Re

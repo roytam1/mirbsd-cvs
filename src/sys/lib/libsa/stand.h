@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.16 2011/01/03 19:02:54 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.17 2013/10/31 20:06:58 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -52,7 +52,7 @@ struct open_file;
 #define NENTS(x)	(sizeof (x) / sizeof (x[0]))
 
 /*
- * This structure is used to define file system operations in a file system
+ * This structure is used to define filesystem operations in a filesystem
  * independent way.
  */
 struct fs_ops {
@@ -96,8 +96,8 @@ struct open_file {
 	int		f_flags;	/* see F_* below */
 	struct devsw	*f_dev;		/* pointer to device operations */
 	void		*f_devdata;	/* device specific data */
-	struct fs_ops	*f_ops;		/* pointer to file system operations */
-	void		*f_fsdata;	/* file system specific data */
+	struct fs_ops	*f_ops;		/* pointer to filesystem operations */
+	void		*f_fsdata;	/* filesystem specific data */
 	off_t		f_offset;	/* current file offset (F_RAW) */
 };
 
@@ -107,7 +107,7 @@ extern struct open_file files[];
 /* f_flags values */
 #define	F_READ		0x0001	/* file opened for reading */
 #define	F_WRITE		0x0002	/* file opened for writing */
-#define	F_RAW		0x0004	/* raw device open - no file system */
+#define	F_RAW		0x0004	/* raw device open - no filesystem */
 #define F_NODEV		0x0008	/* network open - no device */
 
 #define isupper(c)	((c) >= 'A' && (c) <= 'Z')

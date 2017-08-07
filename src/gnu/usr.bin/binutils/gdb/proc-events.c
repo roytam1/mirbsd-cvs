@@ -1,4 +1,4 @@
-/* Machine-independent support for SVR4 /proc (process file system)
+/* Machine-independent support for SVR4 /proc (process filesystem)
 
    Copyright 1999, 2000, 2004 Free Software Foundation, Inc.
 
