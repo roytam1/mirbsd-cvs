@@ -24,7 +24,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.13 2013/11/30 23:20:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.16 2017/07/08 15:11:58 tg Exp $");
 
 /* From: X11/xc/programs/xterm/wcwidth.c,v 1.10 */
 
@@ -38,7 +38,7 @@ static int mb_ucsbsearch(const struct mb_ucsrange arr[], size_t elems,
 
 /*
  * Generated from the Unicode Character Database, Version 10.0.0, by
- * MirOS: contrib/code/Snippets/eawparse,v 1.3 2014/11/16 12:16:24 tg Exp $
+ * MirOS: contrib/code/Snippets/eawparse,v 1.10 2017/07/12 22:47:26 tg Exp $
  */
 
 static const struct mb_ucsrange mb_ucs_combining[] = {
@@ -291,14 +291,16 @@ static const struct mb_ucsrange mb_ucs_fullwidth[] = {
 	{ 0x2B1B, 0x2B1C },
 	{ 0x2B50, 0x2B50 },
 	{ 0x2B55, 0x2B55 },
-	{ 0x2E80, 0x303E },
-	{ 0x3040, 0xA4CF },
+	{ 0x2E80, 0x3029 },
+	{ 0x302E, 0x303E },
+	{ 0x3040, 0x3098 },
+	{ 0x309B, 0xA4CF },
 	{ 0xA960, 0xA97F },
 	{ 0xAC00, 0xD7A3 },
 	{ 0xF900, 0xFAFF },
 	{ 0xFE10, 0xFE19 },
 	{ 0xFE30, 0xFE6F },
-	{ 0xFF00, 0xFF60 },
+	{ 0xFF01, 0xFF60 },
 	{ 0xFFE0, 0xFFE6 }
 };
 
