@@ -13221,6 +13221,12 @@ Waypoint: OCA5A2 GCHBA8
 Title: Kamelleboom
 Tag: D1 T15 Regular Multi recommended
 ----
+ID: 2183
+Date: 08.08.2017
+Waypoint: GC789VF
+Title: Nico's Wald - # das Kaiser - Wilhelm - Denkmal
+Tag: D2 T35 Micro Tradi
+----
 ID: p20170812
 Date: 12.08.2017
 Waypoint: GE0327 GC79BNM OC13CDD TC1URL
