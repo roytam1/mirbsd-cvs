@@ -124,6 +124,7 @@ querysave	Prompt to save each modified buffer
 		Use in a macro: "querysave,query,killjoe"
 
 killjoe		Exit joe immediately without checking for modified buffers
+abendjoe	Same, but with errorlevel 1
 
 Files
 -----

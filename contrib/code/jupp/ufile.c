@@ -1067,3 +1067,12 @@ int ukilljoe(BW *bw)
 	leave = 1;
 	return 0;
 }
+
+extern int main_rv;
+
+int
+uabendjoe(BW *bw)
+{
+	main_rv = 1;
+	return (ukilljoe(bw));
+}
