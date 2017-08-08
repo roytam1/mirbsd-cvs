@@ -408,7 +408,7 @@ baud_reset(int bbaud)
 	upc = DIVIDEND / baud;
 	if (obuf)
 		joe_free(obuf);
-	if (!(TIMES * upc))
+	if ((TIMES * upc) == 0)
 		obufsiz = 4096;
 	else {
 		obufsiz = 1000000 / (TIMES * upc);
