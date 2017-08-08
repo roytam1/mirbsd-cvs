@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libpthread/Makefile,v 1.7 2007/05/19 22:08:26 tg Exp $
+# $MirOS: src/lib/libpthread/Makefile,v 1.8 2007/06/21 14:40:21 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2004/01/18 23:54:20 marc Exp $
 #
 # The pthread library is formed from the FreeBSD uthread sources of 
@@ -7,7 +7,7 @@
 SRCDIR=		${.CURDIR}
 LIBCSRCDIR=	${.CURDIR}/../libc
 
-SHLIB_VERSION?=	11.0
+SHLIB_VERSION?=	11.1
 LIB=		pthread
 LINTFLAGS=	-z
 CPPFLAGS+=	-DPTHREAD_KERNEL -D_POSIX_THREADS -D_THREAD_SAFE -DLIBC_SCCS
