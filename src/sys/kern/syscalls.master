@@ -1,4 +1,4 @@
-;	$MirOS: src/sys/kern/syscalls.master,v 1.8 2006/01/09 18:34:16 tg Exp $
+;	$MirOS: src/sys/kern/syscalls.master,v 1.10 2007/05/19 21:33:07 tg Exp $
 ;	$OpenBSD: syscalls.master,v 1.76 2004/07/15 14:35:34 deraadt Exp $
 ;	$NetBSD: syscalls.master,v 1.32 1996/04/23 10:24:21 mycroft Exp $
 ;	@(#)syscalls.master	8.2 (Berkeley) 1/13/94
@@ -64,7 +64,7 @@
 			    mode_t mode); } ocreat
 9	STD		{ int sys_link(const char *path, const char *link); }
 10	STD		{ int sys_unlink(const char *path); }
-11	OBSOL		execv
+11	STD		{ int sys_getentropy(void *buf, size_t nbyte); }
 12	STD		{ int sys_chdir(const char *path); }
 13	STD		{ int sys_fchdir(int fd); }
 14	STD		{ int sys_mknod(const char *path, mode_t mode, \
