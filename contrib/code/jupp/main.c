@@ -185,7 +185,8 @@ int edloop(int flg)
 
 unsigned char **mainenv;
 
-int main(int argc, char **argv, char **envp)
+static int
+main_init(int argc, char **argv, char **envp, SCRN **np)
 {
 	CAP *cap;
 	unsigned char *s;
@@ -411,10 +412,23 @@ int main(int argc, char **argv, char **envp)
 		msgnw(((BASE *)lastw(maint)->object)->parent, msgbuf);
 	}
 
+	*np = n;
+	return 0;
+}
+
+int
+main(int argc, char **argv, char **envp)
+{
+	int rv;
+	SCRN *n;
+
+	if ((rv = main_init(argc, argv, envp, &n)))
+		return (rv);
+
 	edloop(0);
 	vclose(vmem);
 	nclose(n);
 	if (exmsg)
 		fprintf(stderr, "\n%s\n", exmsg);
-	return 0;
+	return (0);
 }
