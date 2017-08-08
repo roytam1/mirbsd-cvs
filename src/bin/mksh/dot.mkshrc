@@ -56,6 +56,13 @@ smores() (
 	done
 )
 
+# customise your favourite editor here; the first one found is used
+for EDITOR in "${EDITOR:-}" jupp jstar mcedit ed vi; do
+	EDITOR=$(\\builtin whence -p "$EDITOR") || EDITOR=
+	[[ -n $EDITOR && -x $EDITOR ]] && break
+	EDITOR=
+done
+
 \\builtin alias ls=ls l='ls -F' la='l -a' ll='l -l' lo='l -alo'
 \: "${HOSTNAME:=$(\\builtin ulimit -c 0; \\builtin print -r -- $(hostname \
     2>/dev/null))}${EDITOR:=/bin/ed}${TERM:=vt100}${USER:=$(\\builtin ulimit \
@@ -617,7 +624,6 @@ done
 #\\builtin export LANG=C LC_CTYPE=$p LC_MEASUREMENT=$p LC_MESSAGES=$p LC_PAPER=$p
 #\\builtin set -U
 
-p=$(\\builtin whence -p jupp) && EDITOR=$p
 \\builtin unset p
 
 \: place customisations above this line
