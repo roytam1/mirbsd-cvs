@@ -39,14 +39,27 @@ __RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.117 2016/01/14 23:18:09 tg Exp $");
 #define PSTOPPED	3
 
 typedef struct proc Proc;
-struct proc {
-	Proc *next;		/* next process in pipeline (if any) */
-	pid_t pid;		/* process id */
+/* to take alignment into consideration */
+struct proc_dummy {
+	Proc *next;
+	pid_t pid;
 	int state;
-	int status;		/* wait status */
+	int status;
+	char command[128];
+};
+/* real structure */
+struct proc {
+	/* next process in pipeline (if any) */
+	Proc *next;
+	/* process id of this Unix process in the job */
+	pid_t pid;
+	/* one of the four P… above */
+	int state;
+	/* wait status */
+	int status;
 	/* process command string from vistree */
-	char command[256 - (ALLOC_OVERHEAD + sizeof(Proc *) +
-	    sizeof(pid_t) + 2 * sizeof(int))];
+	char command[256 - (ALLOC_OVERHEAD +
+	    offsetof(struct proc_dummy, command[0]))];
 };
 
 /* Notify/print flag - j_print() argument */
