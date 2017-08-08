@@ -73,6 +73,7 @@ fi
 \: "${MKSH:=$(\\builtin whence -p mksh)}${MKSH:=/bin/mksh}"
 \\builtin export MKSH
 
+# prompts
 PS4='[$EPOCHREALTIME] '; PS1='#'; (( USER_ID )) && PS1='$'; PS1=$'\001\r''${|
 	\\builtin typeset e=$?
 
@@ -86,6 +87,8 @@ PS4='[$EPOCHREALTIME] '; PS1='#'; (( USER_ID )) && PS1='$'; PS1=$'\001\r''${|
 
 	\\builtin return $e
 } '"$PS1 "
+
+# utilities
 \\builtin alias doch='sudo mksh -c "$(\\builtin fc -ln -1)"'
 \\builtin command -v rot13 >/dev/null || \\builtin alias rot13='tr \
     abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ \
@@ -103,6 +106,7 @@ else
 	}
 fi
 
+# NUL-safe and EBCDIC-safe hexdump (from stdin)
 function hd_mksh {
 	\\builtin typeset -Uui16 -Z11 pos=0
 	\\builtin typeset -Uui16 -Z5 hv=2147483647
@@ -592,6 +596,11 @@ function enable {
 }
 
 \: place customisations below this line
+
+# some defaults follow — you are supposed to adjust these to your
+# liking; by default we add ~/.etc/bin and ~/bin (whichever exist)
+# to $PATH, set $SHELL to mksh, set some defaults for man and less
+# and show a few more possible things for users to begin moving in
 
 for p in ~/.etc/bin ~/bin; do
 	[[ -d $p/. ]] || \\builtin continue
