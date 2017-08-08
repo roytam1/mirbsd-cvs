@@ -1,7 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/12/30 16:26:17 naddy Exp $
-bin/dbd
-bin/j2d
-bin/jday
-include/jday.h
-lib/libjday.a
-man/man1/jday.1

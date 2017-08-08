@@ -1,6 +1,0 @@
-mcabber is an ncurses-based Jabber/XMPP client.
-
-mcabber includes features such as SSL support, MUC (Multi-User
-Chat) support, history logging, command completion, OpenPGP
-support and external action triggers. Please read the manual page
-for more information.
