@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/unistd.h,v 1.9 2015/02/09 21:50:44 tg Exp $ */
+/**	$MirOS: src/include/unistd.h,v 1.10 2015/02/11 21:42:22 tg Exp $ */
 /*	$OpenBSD: unistd.h,v 1.53 2005/05/27 17:45:56 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
@@ -221,6 +221,7 @@ int	 swapctl(int cmd, const void *arg, int misc);
 int	 symlink(const char *, const char *);
 void	 sync(void);
 int	 syscall(int, ...);
+int	 getentropy(void *, size_t);
 int	 truncate(const char *, off_t);
 int	 ttyslot(void);
 unsigned int	 ualarm(unsigned int, unsigned int);

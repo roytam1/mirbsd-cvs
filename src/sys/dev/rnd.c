@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/rnd.c,v 1.74 2013/10/24 08:32:37 tg Exp $ */
+/* $MirOS: src/sys/dev/rnd.c,v 1.75 2014/02/20 00:30:24 tg Exp $ */
 
 /*-
  * rnd.c -- A strong random number generator
@@ -1145,4 +1145,24 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 	}
 
 	return (rv);
+}
+
+int
+sys_getentropy(struct proc *p, void *v, register_t *retval)
+{
+	struct sys_getentropy_args /* {
+		syscallarg(void *) buf;
+		syscallarg(size_t) nbyte;
+	} */ *uap = v;
+	char buf[256];
+	int error;
+
+	if (SCARG(uap, nbyte) > sizeof(buf))
+		return (EIO);
+	arc4random_buf(buf, SCARG(uap, nbyte));
+	if ((error = copyout(buf, SCARG(uap, buf), SCARG(uap, nbyte))) != 0)
+		return (error);
+	explicit_bzero(buf, sizeof(buf));
+	retval[0] = 0;
+	return (0);
 }

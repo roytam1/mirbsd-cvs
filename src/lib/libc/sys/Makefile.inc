@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.9 2008/12/27 21:17:55 tg Exp $
+# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.10 2009/11/09 21:30:54 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.73 2005/06/17 20:37:31 drahn Exp $
 # $NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
 # @(#)Makefile.inc	8.1 (Berkeley) 6/17/93
@@ -44,7 +44,8 @@ ASM=	accept.o access.o acct.o adjtime.o bind.o chdir.o chflags.o chmod.o \
 	close.o closefrom.o connect.o dup.o dup2.o fchdir.o \
 	fchflags.o fchmod.o fchown.o fchroot.o fcntl.o fhopen.o fhstat.o \
 	fhstatfs.o flock.o fpathconf.o fstat.o \
-	fstatfs.o fsync.o futimes.o getdirentries.o getegid.o geteuid.o \
+	fstatfs.o fsync.o futimes.o getentropy.o getdirentries.o \
+	getegid.o geteuid.o \
 	getfh.o getfsstat.o getgid.o getgroups.o getitimer.o getpeereid.o \
 	getpeername.o \
 	getpgid.o \
@@ -195,8 +196,8 @@ LintSysPseudoNoerr.c: ${LIBCSRCDIR}/sys/makelintstub.sh \
 MAN+=	accept.2 access.2 acct.2 adjtime.2 bind.2 brk.2 chdir.2 chflags.2 \
 	chmod.2 chown.2 chroot.2 clock_gettime.2 close.2 closefrom.2 connect.2 \
 	dup.2 execve.2 _exit.2 fcntl.2 fhopen.2 \
-	flock.2 fork.2 fsync.2 getdirentries.2 \
-	getfh.2 getfsstat.2 getgid.2 getgroups.2 getitimer.2 getlogin.2 \
+	flock.2 fork.2 fsync.2 getdirentries.2 getfh.2 getfsstat.2 \
+	getentropy.2 getgid.2 getgroups.2 getitimer.2 getlogin.2 \
 	getpeername.2 getpeereid.2 getpgrp.2 \
 	getpid.2 getpriority.2 getrlimit.2 getrusage.2 getsid.2 getsockname.2 \
 	getsockopt.2 gettimeofday.2 getuid.2 intro.2 issetugid.2 ioctl.2 \
