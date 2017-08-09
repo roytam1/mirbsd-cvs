@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R55</h2>
+<h2>mksh(1) R56</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -51,9 +51,9 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R55</strong> from
- <em>12 April 2017</em>.<br />In the oldstable bugfixing-only series, the
- current version is <em>mksh R50f</em> from <em>19 April 2015</em>.</p>
+<p>The current version of mksh is <strong>mksh R56</strong> from
+ <em>8 August 2017</em>.<br />In the oldstable bugfixing-only series, the
+ current version is <em>mksh R54</em> from <em>12 November 2016</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -200,39 +200,39 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R55.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R55.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R55.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R55.tgz</a></li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R56.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R56.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R55.tgz) = 494988a6420a160f8f3663c9b699b90d6ecfc434</li>
-  <li>TIGER (mksh-R55.tgz) = 9f50b8bc4ceb74399511068b1a63cb77bf74136d97bdc2f9</li>
-  <li>3316087405 404432 /MirOS/dist/mir/mksh/mksh-R55.tgz</li>
-  <li>MD5 (mksh-R55.tgz) = 718c44251b52c48e7312903273e263f4</li>
+  <li>RMD160 (mksh-R56.tgz) = 4edbde92523e31f5f1a401ad623ccaa3433ef217</li>
+  <li>TIGER (mksh-R56.tgz) = e6951bb1746d3a2eaeb1dd769b0c16258f4efd080ce18bdd</li>
+  <li>327150704 414865 /MirOS/dist/mir/mksh/mksh-R56.tgz</li>
+  <li>MD5 (mksh-R56.tgz) = fedd42b11d2bda84921afcc8de3912e3</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
-  <li>RMD160 (mksh-R50f.tgz) = e0de1dd07e6ca02830407b9db43de8f5c98d800f</li>
-  <li>TIGER (mksh-R50f.tgz) = db437ce08d7c6a8449c5ba5827a9742cbaca7c16be261971</li>
-  <li>571627567 377797 /MirOS/dist/mir/mksh/mksh-R50f.tgz</li>
-  <li>MD5 (mksh-R50f.tgz) = c3bdd668992e7369165910f0902fa854</li>
+  <li>RMD160 (mksh-R54.tgz) = 3b3435b60dc040995b1a63289c7169a08175dd95</li>
+  <li>TIGER (mksh-R54.tgz) = 82815a629764443896b46f03931a8d1bde102d72a30d645c</li>
+  <li>1161958218 395538 /MirOS/dist/mir/mksh/mksh-R54.tgz</li>
+  <li>MD5 (mksh-R54.tgz) = be0a6fb93b4a5f927bcc1893bb6692f8</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 <h3 id="cats">Preformatted Documentation</h3><ul>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R55.cat1.gz">catman</a> — <a
-  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R55.cat1.gz">lksh</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R55.htm.gz">XHTML</a> — <a
-  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R55.htm.gz">lksh</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R55.pdf">PDF</a> — <a
-  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R55.pdf">lksh</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R55.txt.gz">plaintext</a> — <a
-  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R55.txt.gz">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56.cat1.gz">catman</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56.cat1.gz">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56.htm.gz">XHTML</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56.htm.gz">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56.pdf">PDF</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56.pdf">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56.txt.gz">plaintext</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56.txt.gz">lksh</a></li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar -xzf mksh-R55.tgz</tt> will work. It will create all
+ so a simple <tt>tar -xzf mksh-R56.tgz</tt> will work. It will create all
  files in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -892,6 +892,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
 </p>
+<p id="p56">R56: Building with -DMKSH_ASSUME_UTF8=0 no longer causes a
+ known failure in the testsuite. Building with dietlibc or klibc though
+ causes a warning about <tt>offsetof</tt> and dynamic “command”. You can
+ now choose which UTF-8 locale to use with <tt>test.sh -U</tt>.</p>
 <p id="p55">R55: <tt>make repool</tt> needs mksh R55’s bugfix on the host.
  OS/2 builds with “textmode” (CR+LF as newline) now need <tt>Build.sh -T</tt>.
  Persistent history is now supported by lksh as well, unless explicitly
@@ -1159,6 +1163,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="ccur"><i>current</i>:
  <tt>HISTSIZE</tt> will, in a future version, be limited to 65535.
  <i>(unfinished…)</i></p>
+<p id="c56">R56: Aliases support ‘.’, ‘:’ and ‘[’ in names again (though
+ “[[” is still forbidden). POSIX character classes and the BSD re_format(7)
+ extensions <tt>[[:\&lt;:]]</tt> and <tt>[[:\&gt;:]]</tt> (quoted due to
+ shell syntax issues) have been added (ASCII/EBCDIC only). Some experimental
+ changes to the history code might help with the vanishing entries phenomena.
+ Switching to POSIX mode now disables UTF-8 mode and forces <tt>exec</tt>
+ to a <tt>PATH</tt> search and to use execve(2). In <tt>dot.mkshrc</tt> the
+ <tt>hd_mksh</tt> function to hexdump using builtins is now always available,
+ and <strong>the default editor selection has changed</strong>: it’s moved
+ to near the top of the file and now has a priority list users can change.</p>
 <p id="c55">R55:
  The POSIX declaration utility concept is introduced, which also applies
  to commands having variable assignments and redirections preceding them.
@@ -1261,11 +1275,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r56">R56 is a bugfix release with some experimental fixes:</p><ul>
  <li>[tg, Seb] Do not apply alias name restrictions to hash/tilde tracking</li>
  <li>[tg] Restore ‘.’, ‘:’ and ‘[’ in alias names (“[[” is still forbidden)</li>
  <li>[tg] Fix accidentally defanged <tt>$PATHSEP</tt> test</li>
@@ -1281,6 +1298,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] New matching code for bracket expressions, full POSIX (8bit)</li>
  <li>[komh] Exclude FAT/HPFS/NTFS-unsafe tests on OS/2 (and Cygwin/MSYS)</li>
  <li>[tg] Update to Unicode 10.0.0</li>
+ <li>[tg, selk] Make <tt>readonly</tt> idempotent</li>
+ <li>[tg, multiplexd] When truncating the persistent history, do not change
+  the underlying file, do all operations on the locked one; do not stop
+  using the history <em>at all</em> if it has been truncated</li>
+ <li>[tg, J�rg] Turn off UTF-8 mode upon turning on POSIX mode</li>
+ <li>[Martijn Dekker, Geoff Clare, many on the Austin list, tg] In POSIX mode,
+  make the <tt>exec</tt> builtin force a <tt>$PATH</tt> search plus execve</li>
+ <li>[tg] Fix GCC 7, Coverity Scan warnings</li>
+ <li>[tg, Michal Hlavinka] Track background process PIDs even interactive</li>
+ <li>[tg] Always expose mksh’s hexdump shell function; speed it up by working
+  on the input in chunks; use character classes to make it EBCDIC safe</li>
+ <li>[tg] Revamp <tt>dot.mkshrc</tt> default editor selection mechanism</li>
 </ul>
 <p id="r55">R55 is mostly a feature release with summary bugfixes:</p><ul>
  <li>[komh] Fix OS/2 search_access() and UNC path logic</li>

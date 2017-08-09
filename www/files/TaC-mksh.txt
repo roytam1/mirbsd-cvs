@@ -12,7 +12,7 @@ if any are found. We don't think so though.)
 All paths are relative to The MirOS Project's CVS repository.
 
 
-The following files form The MirBSD Korn Shell R53:
+The following files form The MirBSD Korn Shell R56:
 - build system
   * mksh/Build.sh
 - testsuite driver
@@ -41,6 +41,7 @@ The following files form The MirBSD Korn Shell R53:
   * mksh/main.c
   * mksh/mirhash.h
   * mksh/misc.c
+  * mksh/os2.c
   * mksh/rlimits.opt
   * mksh/sh.h
   * mksh/sh_flags.opt
@@ -123,6 +124,10 @@ The MirBSD Korn Shell (mksh) is
 Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
 	      2011, 2012, 2013, 2014, 2015, 2016
 	mirabilos <m@mirbsd.org>
+Copyright (c) 2015
+	KO Myung-Hun <komh@chollian.net>
+Copyright (c) 2015
+	Daniel Richard G. <skunk@iSKUNK.ORG>
 All rights reserved.
 
 The mksh logo is
