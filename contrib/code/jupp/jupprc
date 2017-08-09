@@ -1,4 +1,4 @@
- "jupp" resource file for JOE 3.7*nix (c) 1997-2016 Thorsten Glaser
+ "jupp" resource file for JOE 3.7*nix (c) 1997-2017 Thorsten Glaser
  Provided that these terms and disclaimer and all copyright notices
  are retained or reproduced in an accompanying document, permission
  is granted to deal in this work without restriction, including un-
@@ -13,7 +13,7 @@
  damage or existence of a defect, except proven that it results out
  of said person's immediate fault when using the work as intended.
 
--asis
+ -asis
 -assume_color
  -baud 9600
 -dopadding
@@ -172,6 +172,7 @@
 --highlight
 -syntax c
 -c_comment
+-cpp_comment
 
  === C Shell
 *.csh
@@ -468,6 +469,8 @@
 -c_comment
 -cpp_comment
 
+ #HOOK#3702 filename matching
+
 :defmenu juppoptions
 mode,"transpose",rtn	% % Transpose menus% % % %Ztranspose% % 
 mode,complete,complete	% % (All options...)
@@ -558,8 +561,6 @@ mode,"orphan",rtn	% % -orphan% % % % % % % % % % % %Zorphan% %
 mode,"skiptop",rtn	% % -skiptop% % % % % % % % % % %Zskiptop% % 
 mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% % 
 
- #HOOK#3702 filename matching
-
 {Basic
 \i   Help Screen    turn off with ^J     more help with ESC . (^[.)              \i
 \i \i\u\bCURSOR\b\u           \u\bGOTO\b\u             \u\bBLOCK\b\u    \u\bDELETE\b\u    \u\bMISC\b\u         \u\bEXIT\b\u       \i \i
@@ -574,11 +575,11 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 
 {Windows
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
-\i \i^KO Split the window in half         ^KE Load file into window               \i \i
-\i \i^KG Make current window bigger       ^KT Make current window smaller         \i \i
-\i \i^KN Go to the window below           ^KP Go to the window above              \i \i
-\i \i^KQ Eliminate the current window     ^KI Show all windows / Show one window  \i \i
-\i \i^K; Do ctags search into new window  ^K- Edit scratch buffer in new window   \i \i
+\i \i^KO Split the window in half          ^KE Load file into window              \i \i
+\i \i^KG Make current window bigger        ^KT Make current window smaller        \i \i
+\i \i^KN Go to the window below            ^KP Go to the window above             \i \i
+\i \i^KQ Eliminate the current window      ^KI Show all windows / Show one window \i \i
+\i \i^K; Split screen and do ctags search  ^K- Edit scratch buffer in new window  \i \i
 \i \i Warning: ^KE trashes the current window if open at least twice (from ^KO)!  \i \i
 \i \i\u\bSpecial help for XON/XOFF aware terminals\b\u                                    \i \i
 \i \i You can use \b^[q\b and \b^[s\b instead of \b^Q\b and \b^S\b to initiate a command.         \i \i
@@ -592,19 +593,20 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i^[? Query    ^QM Math     \u\bCharSEARCH\b\u  \u\bQUOTE\b\u       \u\bDELETE\b\u      \u\bBOOKMARKS\b\u      \i \i
 \i \i^[D Dump     ^[H Message  ^QH forwrd   ` Ctrl-    ^[Y yank    ^K 0-9 Set     \i \i
 \i \i^[ 0-9 Play  ^N  Play #0  ^QG backwd  ^P Meta-    ^[O word<   ^Q 0-9 Goto    \i \i
-\i \i \u\bIn math mode\b\u, use 0xCAFE for hex. Press ^[. four times for more help.       \i \i
+\i \i \u\bIn math mode\b\u, use 0xCAFE for hex. Press ^[. four times for more math help.  \i \i
 \i \i \u\bPredefined variables:\b\u byte col height line lines top width                  \i \i
 }
 
 {Programs
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
-\i \i\u\bGOTO\b\u                  \u\bCOMPILING\b\u                     \u\bINDENT\b\u       \u\bSLIDING\b\u     \i \i
-\i \i^Q- to column number  ^[C Compile & parse errors    ^K. more     ^W up       \i \i
-\i \i^QI to line number    ^[E Parse errors              ^K, less     ^Z down     \i \i
-\i \i^QP previous place    ^[N goto previous error       ^KA center   \u\bSPECIAL\b\u     \i \i
-\i \i^K= next place        ^[M next error     ^Q[ matching brace      ^[- jexecmd \i \i
-\i \i \b\uSpecial\u:\b ^K] delete whitespace at EOL; ^Q= search for merge conflict marker \i \i
-\i \i \b\uFreedroidz\u:\b ^KF save current *.nxc file, compile, transfer to the NXT brick \i \i
+\i \i\u\bGOTO\b\u                               \u\bCOMPILING\b\u                    \u\bSLIDING\b\u      \i \i
+\i \i^Q] matching brace, ^Q[ reverse    ^[C compile & parse errors   ^W up        \i \i
+\i \i^Q= merge conflict marker          ^[E parse errors             ^Z down      \i \i
+\i \i^Q- to column number  \u\bINDENT\b\u       ^KF save, compile & upload to NXT brick   \i \i
+\i \i^QI to line number    ^K. more     \u\bGOTO AFTER COMPILING\b\u                      \i \i
+\i \i^QP previous place    ^K, less     ^[N previous error                        \i \i
+\i \i^K= next place        ^KA centre   ^[M next error      \u\bSPECIAL\b\u               \i \i
+\i \i                      ^K] kill whitespace at EOL       ^[- jupp command line \i \i
 }
 
 {Search
@@ -624,15 +626,15 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 {SearchOptions
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
 \i \iSearch options:                                                              \i \i
-\i \i   r Replace                                                                 \i \i
-\i \i   k Restrict search to highlighted block, which can be rectangular          \i \i
-\i \i   b Search backward instead of forward                                      \i \i
-\i \i   i Ignore case                                                             \i \i
-\i \i   a Search across all loaded files                                          \i \i
-\i \i   e Search across all files in Grep or Compile error list                   \i \i
-\i \i   w Wrap to beginning of file for this search                               \i \i
-\i \i   n Do not wrap to beginning of file for this search                        \i \i
-\i \i   nnn Perform exaclty nnn replacements                                      \i \i
+\i \i     r => replace                                                            \i \i
+\i \i     k => restrict search to highlighted block, which can be rectangular     \i \i
+\i \i     b => search backward instead of forward                                 \i \i
+\i \i     i => ignore case                                                        \i \i
+\i \i     a => search across all loaded files                                     \i \i
+\i \i     e => search across all files in Grep or Compile error list              \i \i
+\i \i     w => wrap to beginning of file for this search                          \i \i
+\i \i     n => do not wrap to beginning of file for this search                   \i \i
+\i \i   nnn => perform exactly nnn (number) replacements                          \i \i
 }
 
 {Math
@@ -667,7 +669,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2016-10-07; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2017-01-11; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#3703 additional help screens
@@ -732,14 +734,11 @@ stop		^[ )
 
 :main
 :inherit windows
+:def freedroidz splitw,prevw,scratch,"nbc-Output",rtn,nextw,save,markk,bol,markb,prevw,prevw,blkcpy,nextw,nextw,rtn,prevw,eol,"'",bol,qrepl,"'",rtn,rtn,"'\\\\''",rtn,"r",backs,backs,backs,bol,"LC_ALL=C; export LC_ALL; fn='",eol,rtn,"p=--posix; sed $p -e q </dev/null >/dev/null 2>&1 || p=; fns=$(echo \"$fn\" | sed $p -e 's[^^][&]g; s\\^\\\\^g'); (case $fn in",rtn,"*.nxc) ;;",rtn,"*) echo '==> Error: filename not *.nxc'; exit ;;",rtn,"esac",rtn,"echo \"Compiling $fn\"",rtn,"nbc -sm- -d \"$fn\" 2>&1; x=$?",rtn,"if test $x = 0; then echo '==> OK'; else echo '==> Error code:' $x; fi",rtn,") | tr '\\n' '' | sed $p -e 's!# *\\([^]*\\)File \"[^\"]*/\\('\"$fns\"'\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' -e 's!#\\([^]*\\)File \"\\([^\"]*\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' | tr '' '\\n'",rtn,nmark,filt,"sh",rtn,rtn,"Press ^KQ to close this window!",rtn,parserr
+:def docompile edit,rtn,filt,query,parserr
  #HOOK#3705 main keybindings
 bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof	^K ]
 ffirst,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw							^Q =
-splitw,prevw,scratch,"nbc-Output",rtn,nextw,save,markk,bol,markb,prevw,prevw,blkcpy,nextw,nextw,rtn,prevw,eol,"'",bol,qrepl,"'",rtn,rtn,"'\\\\''",rtn,"r",backs,backs,backs,bol,"fn='",eol,rtn,"case $fn in",rtn,"*.nxc) ;;",rtn,"*) echo '==> Error: filename not *.nxc'; exit ;;",rtn,"esac",rtn,"nbc -d \"$fn\"; x=$?",rtn,"if test $x = 0; then echo '==> OK'; else echo '==> Error code:' $x; fi",rtn,nmark,filt,"sh",rtn,rtn,"Press ^KQ to close this window!",rtn	^K F
-splitw,prevw,scratch,"nbc-Output",rtn,nextw,save,markk,bol,markb,prevw,prevw,blkcpy,nextw,nextw,rtn,prevw,eol,"'",bol,qrepl,"'",rtn,rtn,"'\\\\''",rtn,"r",backs,backs,backs,bol,"fn='",eol,rtn,"case $fn in",rtn,"*.nxc) ;;",rtn,"*) echo '==> Error: filename not *.nxc'; exit ;;",rtn,"esac",rtn,"nbc -d \"$fn\"; x=$?",rtn,"if test $x = 0; then echo '==> OK'; else echo '==> Error code:' $x; fi",rtn,nmark,filt,"sh",rtn,rtn,"Press ^KQ to close this window!",rtn	^K f
-splitw,prevw,scratch,"nbc-Output",rtn,nextw,save,markk,bol,markb,prevw,prevw,blkcpy,nextw,nextw,rtn,prevw,eol,"'",bol,qrepl,"'",rtn,rtn,"'\\\\''",rtn,"r",backs,backs,backs,bol,"fn='",eol,rtn,"case $fn in",rtn,"*.nxc) ;;",rtn,"*) echo '==> Error: filename not *.nxc'; exit ;;",rtn,"esac",rtn,"nbc -d \"$fn\"; x=$?",rtn,"if test $x = 0; then echo '==> OK'; else echo '==> Error code:' $x; fi",rtn,nmark,filt,"sh",rtn,rtn,"Press ^KQ to close this window!",rtn	^K ^F
-edit,rtn,filt,query,parserr	^[ C
-edit,rtn,filt,query,parserr	^[ c
 begin_marking,uparw,toggle_marking	^[ [ 1 ; 2 A
 begin_marking,dnarw,toggle_marking	^[ [ 1 ; 2 B
 begin_marking,rtarw,toggle_marking	^[ [ 1 ; 2 C
@@ -896,8 +895,13 @@ nmark		^K h
 nxterr		^[ M
 nxterr		^[ m
 open		^[ b
+docompile	^[ C
+docompile	^[ c
 parserr		^[ E
 parserr		^[ e
+freedroidz	^K F
+freedroidz	^K ^F
+freedroidz	^K f
 pgdn		.kN
 pgdn		^C
 pgdn		^[ [ 6 ~
@@ -937,9 +941,9 @@ shrinkw		^K t
 splitw		^K O
 splitw		^K ^O
 splitw		^K o
-splitw,tag	^K ;
 stat		^Q ?
 stat		^[ q ?
+splitw,tag	^K ;
 tomarkb		^Q B
 tomarkb		^Q ^B
 tomarkb		^Q b
