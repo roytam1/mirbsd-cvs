@@ -582,12 +582,12 @@ Other requests:
 • handle combining characters in the scrn array somehow
 • add a soft line break flag: display as line-wrapped, do not
   save any newlines introduced by that
+• perhaps wrap at U+00AD?
 • put all configuration files into /usr/share; use XDG dirs for
   overriding (HOME, maybe site?)
 • rc.c: struct glopts.set (int*) violates the strict aliasing
   rule as it’s treated as (unsigned char *) for type 2 (global
   option string), consider a union instead (check local types!)
-• presentation mode (^KP, ^KN, ^QBKBQKKKK/) on some F-keys
 • …
 
 __________________________________________________________________
