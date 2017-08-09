@@ -4007,6 +4007,7 @@
 ./usr/share/man/cat2/futimes.0
 ./usr/share/man/cat2/getdirentries.0
 ./usr/share/man/cat2/getegid.0
+./usr/share/man/cat2/getentropy.0
 ./usr/share/man/cat2/geteuid.0
 ./usr/share/man/cat2/getfh.0
 ./usr/share/man/cat2/getfsstat.0

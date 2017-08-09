@@ -685,6 +685,7 @@
 ./man2/futimes.htm
 ./man2/getdirentries.htm
 ./man2/getegid.htm
+./man2/getentropy.htm
 ./man2/geteuid.htm
 ./man2/getfh.htm
 ./man2/getfsstat.htm
