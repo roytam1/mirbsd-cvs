@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2002/12/07 06:12:58 marcm Exp $
-bin/cabextract
-man/man1/cabextract.1

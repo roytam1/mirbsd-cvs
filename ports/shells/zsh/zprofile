@@ -1,6 +1,0 @@
-# $MirSecuCron$
-# $MirOS$
-
-emulate sh
-. /etc/profile
-emulate zsh
