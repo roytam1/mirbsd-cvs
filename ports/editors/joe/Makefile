@@ -2,7 +2,7 @@
 
 COMMENT=		Joe's Own Editor (jupp)
 CATEGORIES=		editors
-DISTNAME=		joe-3.1jupp30
+DISTNAME=		joe-3.1jupp31
 HOMEPAGE=		http://mirbsd.de/jupp
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
