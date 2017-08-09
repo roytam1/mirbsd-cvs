@@ -1,6 +1,6 @@
 .\" $MirOS: src/share/man/man9/style.9,v 1.25 2014/12/15 22:14:02 tg Exp $
 .\"-
-.\" Copyright (c) 2002-2015 The MirOS Project.
+.\" Copyright (c) 2002-2017 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
@@ -88,7 +88,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: February 11 2016 $
+.Dd $Mdocdate: December 15 2014 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -601,10 +601,16 @@ statement, unless that statement is more than a single line (in which
 case they are permitted), it contains a comment (in which case they
 are recommended), or it contains a label (in which case they are mandated).
 A separate project may choose to mandate braces for all cases.
-Always document single-semicolon bodies with a comment; here, same line is ok.
+Avoid empty bodies if at all possible; otherwise, insert a redundant
+.Ic continue
+statement inside them or, at least, add a comment (here, same line is ok).
 .Bd -literal -offset indent
 for (p = buf; *p != \*(aq\e0\*(aq; ++p)
-	;	/* nothing */
+	continue;	/* modern; optionally comment why nothing */
+for (p = buf; *p != \*(aq\e0\*(aq; ++p)
+	;	/* nothing; old style */
+for (p = buf; *p != \*(aq\e0\*(aq; ++p)
+	/* nothing */;	/* old style, less legible */
 while (/* CONSTCOND */ 1)	/* or: for (;;) */
 	stmt;
 while (/* CONSTCOND */ 1) {
