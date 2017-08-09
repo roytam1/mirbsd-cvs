@@ -3,8 +3,8 @@
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
 /*-
- * Copyright © 2013, 2015
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2015, 2017
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1991 The Regents of the University of California.
  * All rights reserved.
  *
@@ -221,7 +221,8 @@ int	 swapctl(int cmd, const void *arg, int misc);
 int	 symlink(const char *, const char *);
 void	 sync(void);
 int	 syscall(int, ...);
-int	 getentropy(void *, size_t);
+int	 getentropy(void *, size_t)
+		__attribute__((__bounded__(__buffer__, 1, 2)));
 int	 truncate(const char *, off_t);
 int	 ttyslot(void);
 unsigned int	 ualarm(unsigned int, unsigned int);
