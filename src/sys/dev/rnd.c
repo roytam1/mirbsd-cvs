@@ -261,8 +261,10 @@
 #include <sys/disk.h>
 #include <sys/ioctl.h>
 #include <sys/malloc.h>
+#include <sys/mount.h>
 #include <sys/fcntl.h>
 #include <sys/vnode.h>
+#include <sys/syscallargs.h>
 #include <sys/sysctl.h>
 #include <sys/timeout.h>
 #include <sys/poll.h>
@@ -1155,12 +1157,17 @@ sys_getentropy(struct proc *p, void *v, register_t *retval)
 		syscallarg(size_t) nbyte;
 	} */ *uap = v;
 	char buf[256];
+	size_t nbyte;
 	int error;
 
-	if (SCARG(uap, nbyte) > sizeof(buf))
+	if ((nbyte = SCARG(uap, nbyte)) > sizeof(buf))
 		return (EIO);
-	arc4random_buf(buf, SCARG(uap, nbyte));
-	if ((error = copyout(buf, SCARG(uap, buf), SCARG(uap, nbyte))) != 0)
+
+	if (copyin(SCARG(uap, buf), buf, nbyte) == 0)
+		rnd_lopool_add(buf, nbyte);
+
+	arc4random_buf(buf, nbyte);
+	if ((error = copyout(buf, SCARG(uap, buf), nbyte)) != 0)
 		return (error);
 	explicit_bzero(buf, sizeof(buf));
 	retval[0] = 0;

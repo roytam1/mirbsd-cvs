@@ -1,4 +1,5 @@
-.\"	$OpenBSD: getentropy.2,v 1.4 2014/06/15 07:24:19 jmc Exp $
+.\" $MirOS$
+.\" $OpenBSD: getentropy.2,v 1.4 2014/06/15 07:24:19 jmc Exp $
 .\"
 .\" Copyright (c) 2014 Theo de Raadt
 .\"
@@ -14,7 +15,7 @@
 .\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
-.Dd $Mdocdate: June 15 2014 $
+.Dd $Mdocdate: August 8 2017 $
 .Dt GETENTROPY 2
 .Os
 .Sh NAME
@@ -30,6 +31,9 @@ fills a buffer with high-quality seed-grade entropy, which can
 be used as input for process-context random
 generators like
 .Xr arc4random 3 .
+On
+.Mx ,
+the previous contents of the buffer is added to the kernel lopool first.
 .Pp
 The maximum buffer size permitted is 256 bytes.
 If
