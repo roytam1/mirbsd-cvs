@@ -726,7 +726,7 @@ ht-0.7.4-0|editors/ht,||file editor/viewer/analyzer for executables (uses X11) (
 ht-0.7.4-0-no_x11|editors/ht,no_x11||file editor/viewer/analyzer for executables (uses GNU Make)|http:/hte.sourceforge.net/|editors/ht/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors||:devel/gmake||any|y|y|y|y
 jed-0.99.16-0|editors/jed,||text editor (uses X11)|http://space.mit.edu/~davis/jed/|editors/jed/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors|slang.14::devel/libslang|||any|y|y|y|y
 jed-0.99.16-0-no_x11|editors/jed,no_x11||text editor|http://space.mit.edu/~davis/jed/|editors/jed/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors|slang.14::devel/libslang|||any|y|y|y|y
-joe-3.1jupp30-0|editors/joe,||Joe's Own Editor (jupp)|http://mirbsd.de/jupp|editors/joe/DESCR|Thorsten Glaser <tg@mirbsd.org>|editors||||any|y|y|y|y
+joe-3.1jupp31-0|editors/joe,||Joe's Own Editor (jupp)|http://mirbsd.de/jupp|editors/joe/DESCR|Thorsten Glaser <tg@mirbsd.org>|editors||||any|y|y|y|y
 jove-4.16-0|editors/jove,||Jonathan's Own Version of Emacs||editors/jove/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|editors||||any|n|y|n|y
 mg-20070309-0|editors/mg,||small and secure emacs-like editor||editors/mg/pkg/DESCR|Thorsten Glaser <tg@mirbsd.de>|editors||||any|y|y|y|y
 nano-2.2.3-0|editors/nano,||Free Pico clone with some new features|http://www.nano-editor.org/|editors/nano/DESCR|Andreas Gockel <miros@unixforge.de>|editors||:devel/metaauto autoconf->=2.61-1,<2.62:devel/autoconf/2.61 automake->=1.9.6-5,<1.10:devel/automake/1.9||any|y|y|y|y
@@ -2109,7 +2109,7 @@ bash-2.05b-1-static|shells/bash,static||GNU Bourne Again Shell|http://cnswww.cns
 csh-20070404-0|shells/csh,||BSD ‘C’ Shell||shells/csh/pkg/DESCR|Thorsten Glaser <tg@mirbsd.de>|shells devel||||any|y|y|y|y
 es-0.9b1-0|shells/es,||extensible shell, derived from plan9's rc||shells/es/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 heirloom-sh-050706-1|shells/heirloom,||portable variant of the traditional Unix (Bourne) shell (uses BZip2)|http://heirloom.sourceforge.net/sh.html|shells/heirloom/pkg/DESCR|Thorsten Glaser <tg@mirbsd.de>|shells||bzip2-*:archivers/bzip2||any|n|y|n|y
-mksh-55-0|shells/mksh,||MirBSD Korn Shell|http://mirbsd.de/mksh|shells/mksh/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
+mksh-56-0|shells/mksh,||MirBSD Korn Shell|http://mirbsd.de/mksh|shells/mksh/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 sash-3.6-0|shells/sash,||stand-alone shell with built-in commands|http://www.canb.auug.org.au/~dbell/|shells/sash/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 scsh-0.6.2-0|shells/scsh,||Unix shell embedded in Scheme|http://www.scsh.net/|shells/scsh/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|lang shells||||any|y|y|y|y
 tcsh-6.13.00-0|shells/tcsh,||C shell with file name completion and command line editing|http://www.tcsh.org|shells/tcsh/pkg/DESCR|Stephen Paskaluk <sap@mirbsd.org>|shells||||any|y|y|y|y
