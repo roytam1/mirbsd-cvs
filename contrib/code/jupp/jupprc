@@ -581,7 +581,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i^KQ Eliminate the current window      ^KI Show all windows / Show one window \i \i
 \i \i^K; Split screen and do ctags search  ^K- Edit scratch buffer in new window  \i \i
 \i \i Warning: ^KE trashes the current window if open at least twice (from ^KO)!  \i \i
-\i \i\u\bSpecial help for XON/XOFF aware terminals\b\u                                    \i \i
+\i \i\u\bSpecial help for XON/XOFF aware terminals:\b\u                                   \i \i
 \i \i You can use \b^[q\b and \b^[s\b instead of \b^Q\b and \b^S\b to initiate a command.         \i \i
 }
 
@@ -593,7 +593,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i^[? Query    ^QM Math     \u\bCharSEARCH\b\u  \u\bQUOTE\b\u       \u\bDELETE\b\u      \u\bBOOKMARKS\b\u      \i \i
 \i \i^[D Dump     ^[H Message  ^QH forwrd   ` Ctrl-    ^[Y yank    ^K 0-9 Set     \i \i
 \i \i^[ 0-9 Play  ^N  Play #0  ^QG backwd  ^P Meta-    ^[O word<   ^Q 0-9 Goto    \i \i
-\i \i \u\bIn math mode\b\u, use 0xCAFE for hex. Press ^[. four times for more math help.  \i \i
+\i \i \u\bIn math mode,\b\u use 0xCAFE for hex. Press ^[. four times for more math help.  \i \i
 \i \i \u\bPredefined variables:\b\u byte col height line lines top width                  \i \i
 }
 
@@ -611,13 +611,13 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 
 {Search
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
-\i \i\u\bSpecial search sequences\b\u                                                     \i \i
+\i \i\u\bSpecial search sequences:\b\u                                                    \i \i
 \i \i    \\^  \\$  matches beg./end of line       \\?     match any single char      \i \i
 \i \i    \\<  \\>  matches beg./end of word       \\*     match 0 or more chars      \i \i
 \i \i    \\c     matches balanced C expression   \\\\     matches a \\                \i \i
 \i \i    \\[..]  matches one of a set            \\n     matches a newline          \i \i
 \i \i    \\+     matches 0 or more of the character which follows the \\+           \i \i
-\i \i\u\bSpecial replace sequences\b\u                                                    \i \i
+\i \i\u\bSpecial replace sequences:\b\u                                                   \i \i
 \i \i    \\&     replaced with text which matched search string                    \i \i
 \i \i    \\0 - 9 replaced with text which matched \bN\bth \\*, \\?, \\c, \\+, or \\[..]     \i \i
 \i \i    \\\\     replaced with \\                 \\n     replaced with newline      \i \i
@@ -625,7 +625,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 
 {SearchOptions
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
-\i \iSearch options:                                                              \i \i
+\i \i Search options:                                                             \i \i
 \i \i     r => replace                                                            \i \i
 \i \i     k => restrict search to highlighted block, which can be rectangular     \i \i
 \i \i     b => search backward instead of forward                                 \i \i
@@ -661,6 +661,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i      -                        Read/Write to/from standard I/O               \i \i
 \i \i      filename,START,SIZE      Read/Write a part of a file/device            \i \i
 \i \i          Give START/SIZE in decimal (255), octal (0377) or hex (0xFF)       \i \i
+\i \i \u\bPresentation mode:\b\u F6=fullscreen; F7=previous, F8=next win; F9=filter/again \i \i
 }
 
 {Joe
@@ -669,7 +670,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2017-01-11; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2017-08-08; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#3703 additional help screens
@@ -701,6 +702,7 @@ arg		^[ q q
 explode		^K I
 explode		^K ^I
 explode		^K i
+explode		^[ [ 1 7 ~
 help		^J
 help		^[ [ 1 1 ~
 hnext		^[ .
@@ -714,10 +716,12 @@ msg		^[ h
 nextw		^K N
 nextw		^K ^N
 nextw		^K n
+nextw		^[ [ 1 9 ~
 play		^[ 0 TO 9
 prevw		^K P
 prevw		^K ^P
 prevw		^K p
+prevw		^[ [ 1 8 ~
 query		^[ ?
 quote		`
 quote8		^P
@@ -840,6 +844,7 @@ ffirst		^Q ^F
 ffirst		^Q f
 ffirst		^[ q f
 filt		^K /
+nmark,filt,uparw	^[ [ 2 0 ~
 fmtblk		^K D
 fmtblk		^K ^D
 fmtblk		^K d
