@@ -62,7 +62,8 @@ mws_content <<'EOF'
  there’s an empty github site whose affiliation is unclear as well</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
  mksh R56, dated 2017-08-08 (8 August 2017); the previous bugfix was
- mksh R54, dated 2016-11-12 (12 November 2016); link to active <a
+ mksh R54, dated 2016-11-12 (12 November 2016); link to <a
+ href="@@RELPATH@@mksh-faq.htm">FAQ</a> and to the active <a
  href="@@RELPATH@@mksh.htm#clog">development tree changelog</a></p>
 <p><a href="https://github.com/komh/mksh-os2">mksh-os2</a> for OS/2:
  merged into mksh R55 upstream; binaries available from komh</p>

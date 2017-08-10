@@ -8,7 +8,7 @@ mws_putheader '$MirOS: www/src/mksh.hts,v 1.638 2017/03/19 22:46:57 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
- <li><a href="#irc">Documentation and Support</a> (IRC, manual page,
+ <li><a href="#irc">Documentation and Support</a> (FAQ, IRC, manual page,
   mailing lists, RSS feeds, …)</li>
  <li><a href="#build">Installation</a></li>
  <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
@@ -169,8 +169,10 @@ mws_content <<'EOF'
  but beware of the <a href="mksh_old.htm#contrib">differences</a> (ATTENTION
  outdated content behind that link) to other shells. Some
  ISBNs are listed at the end of the manual page.</p>
-<p>The <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> collects news and wlog
- entries regarding mksh.</p>
+<p>A collection of some frequently asked questions is available as the <a
+ href="@@RELPATH@@mksh-faq.htm">mksh FAQ</a>. The <a
+ href="@@RELPATH@@tag_mksh.rss">RSS feed</a> collects news and wlog entries
+ regarding mksh.</p>
 <p>If you require additional assistance or want to discuss bugs, features
  or enhancements, write to the <a href="mailto:miros-mksh@mirbsd.org">mailing
  list</a> (or subscribe to it by sending an eMail to the <a

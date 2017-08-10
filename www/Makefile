@@ -39,6 +39,7 @@ SRCS+=		main.hts
 SRCS+=		makefs.hts
 SRCS+=		man.hts
 SRCS+=		mksh.hts mksh_bld.hts mksh_old.hts
+SRCS+=		mksh-faq.hts
 SRCS+=		oldnews.hts
 SRCS+=		pax.hts
 SRCS+=		pkgsrc.hts

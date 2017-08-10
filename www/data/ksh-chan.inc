@@ -32,6 +32,11 @@ the aim is as generic as ksh93’s (interactive and script use;
 embedding is not yet possible) and to be very portable, also
 to include some extensions of its own. It’s Unicode aware.
 ----
+Title: Frequently Asked Questions for The MirBSD Korn Shell
+Link: http://www.mirbsd.org/mksh-faq.htm
+
+Questions you never knew you’d ask.
+----
 Title: mksh external (optional) bugtracker
 Link: https://bugs.launchpad.net/mksh
 

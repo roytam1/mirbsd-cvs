@@ -2091,7 +2091,7 @@ this hack; it's derived from the original
 which did print the delimiter character so you were out of luck
 if you did not have any non-printing characters.
 .Pp
-Since Backslashes and other special characters may be
+Since backslashes and other special characters may be
 interpreted by the shell, to set
 .Ev PS1
 either escape the backslash itself
@@ -2106,7 +2106,7 @@ in reverse video
 .Pq colour would work, too ,
 in the prompt string:
 .Bd -literal -offset indent
-x=$(print \e\e001)
+x=$(print \e\e001) # otherwise unused char
 PS1="$x$(print \e\er)$x$(tput so)$x\e$PWD$x$(tput se)$x\*(Gt "
 .Ed
 .Pp
@@ -6897,3 +6897,9 @@ commands starting with what was already entered.
 .Nm
 separates the shortcuts: Cursor Up goes up one command
 and PgUp searches the history as described above.
+.Ss "My question is not answered here!"
+Check
+.Pa http://www.mirbsd.org/mksh\-faq.htm
+which contains a collection of frequently asked questions about
+.Nm
+in general, for packagers, etc. while these above are in user scope.
