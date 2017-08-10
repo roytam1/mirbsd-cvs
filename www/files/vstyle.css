@@ -338,12 +338,25 @@ li.markindex {
 
 div.wlentry {
 	padding-top:9px;
-	margin:0px;
+	/*      ↑   →   ↓   ←   */
+	margin:0px 0px 1em 0px;
+}
+
+div.wlentry p {
+	margin-bottom:0px;
 }
 
 div.wltitle {
 	padding-bottom:3px;
 	border-bottom:2px solid #666;
+}
+
+h3.wlentry {
+	display:inline;
+}
+
+h3.wlentry tt {
+	font-weight:normal;
 }
 
 h2.wlentry {
