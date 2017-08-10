@@ -235,7 +235,7 @@ rs-fish:
 
 depend: .depend
 
-.depend: ${TOP}/mk/mkdepend ${DEPSRCS}
+.depend: ${TOP}/mk/mkdepend ${DEPSRCS} ${.CURDIR}/Makefile
 	-rm -f $@
 	${U_ENV} ${MKSH} ${TOP}/mk/mkdepend ${DEPSRCS}
 
