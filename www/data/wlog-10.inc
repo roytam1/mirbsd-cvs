@@ -11396,3 +11396,90 @@ Tag: bug debian event grml news pcli rant security tip work
  enough cases to count (yes it’s possible to construct situations in which
  this hurts the copyleft fraction, but no, they’re nowhere near 100%).</p>
 ----
+Date: 10.08.2017
+Author: tg@
+Title: New mksh and jupp releases, mksh FAQ, jupprc for JOE 4.4; MuseScore
+Tag: debian mksh news pcli
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> R56 was released with experimental
+ fixes for the “history no longer persisted when HISTFILE near-full” and <a
+ href="https://bugzilla.redhat.com/show_bug.cgi?id=1479320">interactive shell
+ cannot <tt>wait</tt> on coprocess by PID</a> issues (I hope they do not
+ introduce any regressioins) and otherwise as a bugfix release. You might
+ wish to know the <tt>$EDITOR</tt> selection mechanism in <tt>dot.mkshrc</tt>
+ changed. Some more alias characters are allowed again, and POSIX character
+ classes (for ASCII, and EBCDIC, only) appeared by popular vote.</p>
+<p>mksh now has a <a href="@@RELPATH@@mksh-faq.htm">FAQ</a>; enjoy.
+ Do feel free to contribute (answers, too, of course).</p>
+<p>The <a href="@@RELPATH@@jupp.htm">jupp</a> text editor has also received
+ a new release; asides from being much smaller, and updated (mksh too, btw)
+ to Unicode 10, and some segfault fixes, it features falling back to using
+ <tt>/dev/tty</tt> if stdin or stdout is not a terminal (for use on GNU with
+ <tt>find | xargs jupp</tt>, since they don’t have our xargs(1) <tt>-o</tt>
+ option yet), a new command to exit nonzero (sometimes, utilities invoking
+ the generic visual editor need this), and “presentation mode”.</p>
+<p>Presentation mode, crediting Natureshadow, is basically putting your
+ slides as (UTF-8, with fancy stuff inside) plaintext files into one
+ directory, with sorting names (so e.g. zero-padded slide numbers as
+ filenames), presenting them with <tt>jupp *</tt> in a fullscreen xterm.
+ You’d hit F6 to switch to one-file view first, then present by using
+ F8 to go forward (F7 to go backward), and, for demonstrations, F9 to
+ pipe the entire slide through an external command (could be just “sh”)
+ offering the previous one as default. Simple yet powerful; I imagine
+ Sven Guckes would love it, were he not such a vim user.</p>
+<p>The new release is offered as source tarball (as usual) and in distribution
+ packages, but also, again, a Win32 version as PKZIP archive (right-click on
+ <tt>setup.inf</tt> and hit I̲nstall to install it). Note that this comes
+ with its own (thankfully local) version of the Cygwin32 library (compatible
+ down to Windows 95, apparently), so if you have Cygwin installed yourself
+ you’re better off compiling it there and using your own version instead.</p>
+<p>I’ve also released a new DOS version of 2.8 with no code patches but an
+ updated <tt>jupprc</tt>; the binary (self-extracting LHarc archive) this
+ time comes with all resource files, not just jupp’s.</p>
+<p>Today, the <tt>jupprc</tt> drop-in file for JOE 3.7 got a matching update
+ (and some fixes for bugs discovered during that) and I added a new one for
+ JOE 4.4 (the former being in Debian wheezy, the latter in jessie, stretch
+ and buster/sid). It’s a bit rudimentary (the new shell window functionality
+ is absent) but, mostly, gives the desired jupp feeling, more so than just
+ using stock jstar would.</p><ul>
+  <li><a href="http://www.mirbsd.org/jupp.htm#fetch">source tarballs</a></li>
+  <li><a href="http://www.mirbsd.org/jupp.htm#bins">Win32 binaries</a></li>
+  <li><a href="http://www.mirbsd.org/jupp.htm#bdos">DOS binaries</a></li>
+  <li><a href="http://www.mirbsd.org/cvs.cgi/contrib/code/jupp/jupprc?only_with_tag=joe-2_8-msdos">drop-in jupprc for JOE 2.8</a>, or to update jupp 2.8</li>
+  <li><a href="http://www.mirbsd.org/cvs.cgi/contrib/code/jupp/jupprc?only_with_tag=jupprc-for-joe-3_7">drop-in jupprc for JOE 3.7</a></li>
+  <li><a href="http://www.mirbsd.org/cvs.cgi/contrib/code/jupp/jupprc?only_with_tag=jupprc-for-joe-4_4">drop-in jupprc for JOE 4.4</a></li>
+</ul>
+<p>CVS’ ability to commit to multiple branches of a file at the same time,
+ therefore grouping the commit (by commitid at least, unsure if cvsps et al.
+ can be persuaded to recognise it). If you don’t know what cvs(GNU) is: it
+ is a proper (although not distributed) version control system and the best
+ for centralised tasks. (For decentral tasks, abusing git as pseudo-VCS has
+ won by popularity vote; take this as a comparison.)</p>
+<p>If desired, I can make these new versions available in my <a
+ href="https://www.mirbsd.org/~tg/Debs/debidx.htm">“WTF” APT repository</a>
+ on request. (Debian buster/sid users: please change “https” to “http”
+ there, the site is only available with TLSv1.0 as it doesn’t require
+ bank-level security.)</p>
+<p>I’d welcome it very much if people using an OS which does not yet carry
+ either to package it there. Message me when one more is added, too ☺</p>
+<p>In unrelated news I uploaded MuseScore 2.1 to Debian unstable, mostly
+ because the maintainers are busy (though I could comaintain it if needed,
+ I’d just need help with the C++ and CMake details). Bonus side effect is
+ that I can now build 2.2~ test versions with patches of mine added I plan
+ to produce to fix some issues (and submit upstream) ☻</p>
+<!-- RSS stop -->
+<p>In other news, I’m working on a new i386+sparc MirBSD snapshot more than
+ ever. Mostly to get everything old out from under my feet before tackling
+ the LibreSSL import (to get TLSv1.2 support, due to the aforementioned
+ idio…decision). I’ve yet to see whether our G++ port works on sparc, and
+ I’ve yet to create ports for libGLU and xlock which used to be in the base
+ X system but had to go away for being written in an unmaintainable language
+ (plus a system is only reliable if it has only one libstdc++), but it’ll be
+ a good stepping stone (plus mfny asked for a sparc snapshot on IRC). I was
+ considering distributing ISOs at FrOSCon but, with an installed user base
+ in the single digits (likely), you can imagine how useful that’d be. (Fun
+ side idea: distribute ISOs with a boot menu where you can choose not only
+ MirBSD installer or live system but also “minimal Debian system directly
+ booting into the MirBSD live system running under qemu-kvm”. But I’ve got
+ not enough spare time right now.)</p>
+----

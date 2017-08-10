@@ -13227,6 +13227,18 @@ Waypoint: GC789VF
 Title: Nico's Wald - # das Kaiser - Wilhelm - Denkmal
 Tag: D2 T35 Micro Tradi
 ----
+ID: 2184
+Date: 09.08.2017
+Waypoint: GC79H26
+Title: Wilkommen in Bachem
+Tag: D1 T25 Small Tradi
+----
+ID: 2185
+Date: 10.08.2017
+Waypoint: CC9A07
+Title: Where are Dougal and Florence?
+Tag: MC1 Challenge
+----
 ID: p20170812
 Date: 12.08.2017
 Waypoint: GE0327 GC79BNM OC13CDD TC1URL
