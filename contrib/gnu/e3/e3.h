@@ -1,7 +1,8 @@
-; $MirOS: contrib/gnu/e3/e3.h,v 1.4 2013/01/02 22:53:03 tg Exp $
+; $MirOS: contrib/gnu/e3/e3.h,v 1.6 2017/08/10 20:38:59 tg Exp $
 ;
 ;--------------------------------------------------------------------------
-;  e3.asm v2.8 Copyright (C) 2000-10 Albrecht Kleine
+;  e3.h v2.8 Copyright (C) 2000-10 Albrecht Kleine
+;  e3 in MirBSD Copyright (c) 2009, 2017 mirabilos
 ;
 ;  see GNU copyright details in e3.asm
 ;--------------------------------------------------------------------------
@@ -84,7 +85,7 @@ db 10					;7
 db 10					;8
 db "Bad file descriptor",10		;9
 db "No child processes",10		;10
-db 10					;11		
+db 10					;11
 db "Memory exhausted",10		;12
 db "Permission denied",10		;13
 db 10					;14
@@ -113,7 +114,7 @@ db "R/O filesystem",10			;30
 	%define TERMIOS_SET   804c7414h	;TIOCSETA
 	%define TERMIOS_GET   404c7413h	;TIOCGETA
 	%define TERMIOS_WSIZE 40087468h	;TIOCGWINSZ
-	;		      rw	
+	;		      rw
 	;		        size
 	;			  't'
 	;			    nr.
@@ -128,7 +129,7 @@ extern errno
 %undef USE_PIPE
 	%define SYS_fstat		;dummy
 	struc stat_struc
-.st_ino:	resd 2 
+.st_ino:	resd 2
 .st_size:	resd 2
 .st_dev:	resd 1
 .st_rdev:	resd 1
@@ -155,7 +156,7 @@ db 10					;7
 db 10					;8
 db "Bad file descriptor",10		;9
 db "No child processes",10		;10
-db 10					;11		
+db 10					;11
 db "Memory exhausted",10		;12
 db "Permission denied",10		;13
 db 10					;14
@@ -242,7 +243,7 @@ db 10					;7
 db 10					;8
 db "Bad file descriptor",10		;9
 db "No child processes",10		;10
-db 10					;11		
+db 10					;11
 db "Memory exhausted",10		;12
 db "Permission denied",10		;13
 db 10					;14
@@ -440,7 +441,7 @@ db 10					;7
 db 10					;8
 db "Bad file descriptor",10		;9
 db "No child processes",10		;10
-db 10					;11		
+db 10					;11
 db "Memory exhausted",10		;12
 db "Permission denied",10		;13
 db 10					;14
@@ -489,14 +490,14 @@ db "Broken pipe",10			;32
 	%define TERMIOS_SET   802c7414h		;TIOCSETA
 	%define TERMIOS_GET   402c7413h		;TIOCGETA
 	%define TERMIOS_WSIZE 40087468h
-	;		      rw	
+	;		      rw
 	;		        size
 	;			  't'
 	;			    nr.
 	%define NCCS 20
 	%define VMIN 16
 	%define speed_t3	resd
-	%define ICRNL	0x100 
+	%define ICRNL	0x100
 	%define IXON	0x200
 	%define ICANON	0x100
 	%define ISIG	0x80
@@ -568,7 +569,7 @@ db "Broken pipe",10			;32
 %ifdef OPENBSD
 %undef SYS_kill
 %undef SYS_sigaction
-%undef  SYS_fstat	
+%undef  SYS_fstat
 %define SYS_fstat	189	;could not test 292
 %endif
 
@@ -591,7 +592,7 @@ db "Broken pipe",10			;32
 .actime: time_t  2
 .modtime:time_t 2
 	endstruc
-	
+
 %undef CAPTURE_STDERR
 %ifdef EX
  %define USE_EX_NO_SED
@@ -615,22 +616,27 @@ db "Op not permitted",10		;1
 db "No such file|directory",10		;2
 db 10					;3
 db 10					;4
-db "Input/output",10			;5
+db "I/O error",10			;5
 db "No such device",10			;6
-db 10					;7
-db 10					;8
+db "Too many args",10			;7
+db "Can't exec "			;8
+%ifdef USE_EX_NO_SED
+db EX_PATH,10
+%else
+db SEDPATH,10
+%endif
 db "Bad file descriptor",10		;9
 db "No child processes",10		;10
-db 10					;11		
+db 10					;11
 db "Memory exhausted",10		;12
 db "Permission denied",10		;13
-db 10					;14
+db "Bad addr",10			;14
 db 10					;15
 db "Device busy",10			;16
 db "File exists",10			;17
 db 10					;18
-db "No such device",10			;19
-db 10					;20
+db "Op not supported",10		;19
+db "Not a directory",10			;20
 db "Is a directory",10			;21
 db "Invalid argument",10		;22
 db "Too many open files",10		;23
@@ -638,15 +644,10 @@ db "Too many open files",10		;24
 db "Inappropriate ioctl",10		;25
 db "Text file busy",10			;26
 db "File too large",10			;27
-db "No space on device",10		;28
+db "No space left",10			;28
 db "Illegal seek",10			;29
 db "R/O filesystem",10			;30
-db "Can't exec "			;31
-%ifdef USE_EX_NO_SED
-db EX_PATH,10
-%else
-db SEDPATH,10
-%endif
+db 10					;31
 db "Broken pipe",10			;32
 	%endmacro
 %ifdef LIBC

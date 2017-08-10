@@ -1,8 +1,9 @@
-; $MirOS: contrib/gnu/e3/e3.asm,v 1.7 2013/01/02 22:53:02 tg Exp $
+; $MirOS: contrib/gnu/e3/e3.asm,v 1.10 2017/08/10 21:12:33 tg Exp $
 ;
 ;--------------------------------------------------------------------
 ;
 ;  e3.asm v2.82 Copyright (C) 2000-2016 Albrecht Kleine
+;  e3 in MirBSD Copyright (c) 2009, 2017 mirabilos
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
