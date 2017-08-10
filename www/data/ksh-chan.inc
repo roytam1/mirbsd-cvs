@@ -112,7 +112,7 @@ Korn Shell language and is available for certain systems.
 Title: Which shell and version do I run? Ⅰ
 Link: https://www.mirbsd.org/cvs.cgi/contrib/code/Snippets/getshver?rev=HEAD
 
-<a href="https://www.mirbsd.org/cvs.cgi/~checkout~/contrib/code/Snippets/getshver?rev=HEAD;content-type=text%2Fplain">getshver</a>
+mirabilos’ <a href="https://www.mirbsd.org/cvs.cgi/~checkout~/contrib/code/Snippets/getshver?rev=HEAD;content-type=text%2Fplain">getshver</a>
 is a script that tells you which shell it runs under. It
 currently supports most Bourne Shell, POSIX Shell, Korn
 Shell, Z Shell, C Shell variants as well as the TCL Shell.
@@ -134,7 +134,6 @@ Python and whatnot. It’s a tad terse on the Korn Shell side, though.
 ----
 Title: shbot, as seen in #bash and #ksh
 Link: https://github.com/geirha/shbot
-Block: yes
 
 <p class="boxhead"><tt>shbot</tt> is a bot that takes from an IRC
  channel or query commands of the form…</p><div class="boxtext">

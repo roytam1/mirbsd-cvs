@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.85 2016/01/14 23:41:33 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.93 2017/08/10 19:25:15 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -97,7 +97,7 @@ while (( entryp < entries )); do
 	fi
 	[[ -n ${e_isbn[ent]} ]] && print -r '  <div class="wlsubtitle">'ISBN: \
 	    "${e_isbn[ent]}</div>"
-	if [[ -z ${e_block[ent]} ]]; then
+	if [[ ${ei_body[ent]::1} != '<' ]]; then
 		beg="<p>"
 		end="</p>"
 	else
