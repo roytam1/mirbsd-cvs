@@ -472,94 +472,93 @@
  #HOOK#3702 filename matching
 
 :defmenu juppoptions
-mode,"transpose",rtn	% % Transpose menus% % % %Ztranspose% % 
-mode,complete,complete	% % (All options...)
-mode,"keepup",rtn	% % Fast status line% % %Zkeepup% % 
-mode,"overwrite",rtn	T Overtype% % % % % % % % % % %Zoverwrite% % 
-mode,"autoindent",rtn	I Autoindent% % % % % % % % %Zautoindent% % 
-mode,"wordwrap",rtn	W Word wrap% % % % % % % % % %Zwordwrap% % 
-mode,"tab",rtn	D% Tab width% % % % % % % % % %Ztab% % 
-mode,"lmargin",rtn	L Left margin% % % % % % % %Zlmargin% % 
-mode,"rmargin",rtn	R Right margin% % % % % % %Zrmargin% % 
-mode,"square",rtn	X Rectangle mode% % % % %Zsquare% % 
-mode,"icase",rtn	% % Case insensitive% % %Zicase% % 
-mode,"wrap",rtn	% % Search wraps% % % % % % %Zwrap% % 
-mode,"autoswap",rtn	% % Autoswap mode% % % % % %Zautoswap% % 
-mode,"indentc",rtn	% % Indent char% % % % % % % %Zindentc% % 
-mode,"istep",rtn	% % Indent step% % % % % % % %Zistep% % 
-mode,"french",rtn	% % French spacing% % % % %Zfrench% % 
-mode,"highlight",rtn	H Highlighting% % % % % % %Zhighlight% % 
-mode,"spaces",rtn	% % Disable tabs% % % % % % %Zspaces% % 
-mode,"mid",rtn	C Center on scroll% % %Zmid% % 
-mode,"guess_crlf",rtn	% % Auto detect CR-LF %Zguess_crlf% % 
-mode,"guess_indent",rtn	% % Guess indent% % % % % % %Zguess_indent% % 
-mode,"crlf",rtn	Z CR-LF (MS-DOS)% % % % %Zcrlf% % 
-mode,"linums",rtn	N Line numbers% % % % % % %Zlinums% % 
-mode,"marking",rtn	M Marking% % % % % % % % % % % %Zmarking% % 
-mode,"asis",rtn	% % Meta chars as-is% % %Zasis% % 
-mode,"force",rtn	F Force last NL% % % % % %Zforce% % 
-mode,"nobackups",rtn	% % Disable backups% % % %Znobackups% % 
-mode,"lightoff",rtn	A Auto unmark% % % % % % % %Zlightoff% % 
-mode,"exask",rtn	% % Exit ask% % % % % % % % % % %Zexask% % 
-mode,"beep",rtn	B Beeps% % % % % % % % % % % % % %Zbeep% % 
-mode,"nosta",rtn	% % Disable status% % % % %Znosta% % 
-mode,"pg",rtn	% % # PgUp/PgDn lines %Zpg% % 
-mode,"csmode",rtn	C Continued search% % %Zcsmode% % 
-mode,"rdonly",rtn	O Read only% % % % % % % % % %Zrdonly% % 
-mode,"smarthome",rtn	% % Smart home key% % % % %Zsmarthome% % 
-mode,"indentfirst",rtn	% % To indent first% % % %Zindentfirst% % 
-mode,"smartbacks",rtn	% % Smart backspace% % % %Zsmartbacks% % 
-mode,"purify",rtn	% % Clean up indents% % %Zpurify% % 
-mode,"picture",rtn	P Picture mode% % % % % % %Zpicture% % 
-mode,"backpath",rtn	% % Backup file path...
-mode,"hex",rtn	G Hexedit mode% % % % % % %Zhex% % 
-mode,"syntax",rtn	Y Syntax: %y% % 
-mode,"encoding",rtn	E Encoding...
-mode,"language",rtn	V Language...
-mode,"break_hardlinks",rtn	% % Break hard links% % %Zbreak_hardlinks% % 
-mode,"break_links",rtn	% % Break links% % % % % % % %Zbreak_links% % 
-mode,"c_comment",rtn	% % ^Q] ign /*...*/% % % %Zc_comment% % 
-mode,"cpara",rtn	% % Para indent chars...
-mode,"cpp_comment",rtn	% % ^Q] ignores //...% %Zcpp_comment% % 
-mode,"floatmouse",rtn	% % Click past end% % % % %Zfloatmouse% % 
-mode,"flowed",rtn	% % Flawed text% % % % % % % %Zflowed% % 
-mode,"guess_non_utf8",rtn	% % Guess non-UTF-8% % % %Zguess_non_utf8% % 
-mode,"guess_utf8",rtn	% % Guess UTF-8% % % % % % % %Zguess_utf8% % 
-mode,"joe_state",rtn	% % Joe_state file% % % % %Zjoe_state% % 
-mode,"menu_above",rtn	% % Menu position% % % % % %Zmenu_above% % 
-mode,"menu_explorer",rtn	% % Menu explorer% % % % % %Zmenu_explorer% % 
-mode,"menu_jump",rtn	% % Jump into menu% % % % %Zmenu_jump% % 
-mode,"no_double_quoted",rtn	% % ^Q] no ign "..."% % %Zno_double_quoted% % 
-mode,"nobackup",rtn	% % No backup% % % % % % % % % %Znobackup% % 
-mode,"nocurdir",rtn	% % Disable cur.dir% % % %Znocurdir% % 
-mode,"nolocks",rtn	% % Disable locks% % % % % %Znolocks% % 
-mode,"nomodcheck",rtn	% % Dis. mtime check% % %Znomodcheck% % 
-mode,"pound_comment",rtn	% % ^Q] ignores #...% % %Zpound_comment% % 
-mode,"restore",rtn	% % Restore cursor% % % % %Zrestore% % 
-mode,"rtbutton",rtn	% % Right button% % % % % % %Zrtbutton% % 
-mode,"search_prompting",rtn	% % Search prompting% % %Zsearch_prompting% % 
-mode,"semi_comment",rtn	% % ^Q] ignores ;...% % %Zsemi_comment% % 
-mode,"single_quoted",rtn	% % ^Q] ignores '...'% %Zsingle_quoted% % 
-mode,"tex_comment",rtn	% % ^Q] ignores %%...% % %Ztex_comment% % 
-mode,"text_delimiters",rtn	% % Text delimiters...
-mode,"undo_keep",rtn	% % No. undo records% % %Zundo_keep% % 
-mode,"vhdl_comment",rtn	% % ^Q] ignores --...% %Zvhdl_comment% % 
-mode,"assume_256color",rtn	% % -assume_256color% % %Zassume_256color% % 
-mode,"assume_color",rtn	% % -assume_color% % % % % %Zassume_color% % 
-mode,"baud",rtn	% % Baud rate% % % % % % % % % %Zbaud% % 
-mode,"columns",rtn	% % -columns% % % % % % % % % % %Zcolumns% % 
-mode,"dopadding",rtn	% % -dopadding% % % % % % % % %Zdopadding% % 
-mode,"help",rtn	% % -help% % % % % % % % % % % % % %Zhelp% % 
-mode,"help_is_utf8",rtn	% % -help_is_utf8% % % % % %Zhelp_is_utf8% % 
-mode,"joexterm",rtn	% % -joexterm% % % % % % % % % %Zjoexterm% % 
-mode,"lines",rtn	% % -lines% % % % % % % % % % % % %Zlines% % 
-mode,"mouse",rtn	% % -mouse% % % % % % % % % % % % %Zmouse% % 
-mode,"nonotice",rtn	% % -nonotice% % % % % % % % % %Znonotice% % 
-mode,"notite",rtn	% % -notite% % % % % % % % % % % %Znotite% % 
-mode,"noxon",rtn	% % XON/XOFF usable% % % %Znoxon% % 
-mode,"orphan",rtn	% % -orphan% % % % % % % % % % % %Zorphan% % 
-mode,"skiptop",rtn	% % -skiptop% % % % % % % % % % %Zskiptop% % 
-mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% % 
+mode,"transpose",rtn	% % Transpose% menus% % % %Ztranspose%
+mode,complete,complete	% % (All% options...)
+mode,"keepup",rtn	% % Fast% status% line% % %Zkeepup%
+mode,"overwrite",rtn	T% Overtype% % % % % % % % % % %Zoverwrite%
+mode,"autoindent",rtn	I% Autoindent% % % % % % % % %Zautoindent%
+mode,"wordwrap",rtn	W% Word% wrap% % % % % % % % % %Zwordwrap%
+mode,"tab",rtn	D% Tab% width% % % % % % % % % %Ztab%
+mode,"lmargin",rtn	L% Left% margin% % % % % % % %Zlmargin%
+mode,"rmargin",rtn	R% Right% margin% % % % % % %Zrmargin%
+mode,"square",rtn	X% Rectangle% mode% % % % %Zsquare%
+mode,"icase",rtn	% % Case% insensitive% % %Zicase%
+mode,"wrap",rtn	% % Search% wraps% % % % % % %Zwrap%
+mode,"autoswap",rtn	% % Autoswap% mode% % % % % %Zautoswap%
+mode,"indentc",rtn	% % Indent% char% % % % % % % %Zindentc%
+mode,"istep",rtn	% % Indent% step% % % % % % % %Zistep%
+mode,"french",rtn	% % French% spacing% % % % %Zfrench%
+mode,"highlight",rtn	H% Highlighting% % % % % % %Zhighlight%
+mode,"spaces",rtn	% % Disable% tabs% % % % % % %Zspaces%
+mode,"mid",rtn	C% Center% on% scroll% % %Zmid%
+mode,"guess_crlf",rtn	% % Auto% detect% CR-LF% %Zguess_crlf%
+mode,"guess_indent",rtn	% % Guess% indent% % % % % % %Zguess_indent%
+mode,"crlf",rtn	Z% CR-LF% (MS-DOS)% % % % %Zcrlf%
+mode,"linums",rtn	N% Line% numbers% % % % % % %Zlinums%
+mode,"marking",rtn	M% Marking% % % % % % % % % % % %Zmarking%
+mode,"asis",rtn	% % Meta% chars% as-is% % %Zasis%
+mode,"force",rtn	F% Force% last% NL% % % % % %Zforce%
+mode,"nobackups",rtn	% % Disable% backups% % % %Znobackups%
+mode,"lightoff",rtn	A% Auto% unmark% % % % % % % %Zlightoff%
+mode,"exask",rtn	% % Exit% ask% % % % % % % % % % %Zexask%
+mode,"beep",rtn	B% Beeps% % % % % % % % % % % % % %Zbeep%
+mode,"nosta",rtn	% % Disable% status% % % % %Znosta%
+mode,"pg",rtn	% % #% PgUp/PgDn% lines% %Zpg%
+mode,"csmode",rtn	C% Continued% search% % %Zcsmode%
+mode,"rdonly",rtn	O% Read% only% % % % % % % % % %Zrdonly%
+mode,"smarthome",rtn	% % Smart% home% key% % % % %Zsmarthome%
+mode,"indentfirst",rtn	% % To% indent% first% % % %Zindentfirst%
+mode,"smartbacks",rtn	% % Smart% backspace% % % %Zsmartbacks%
+mode,"purify",rtn	% % Clean% up% indents% % %Zpurify%
+mode,"picture",rtn	P% Picture% mode% % % % % % %Zpicture%
+mode,"backpath",rtn	% % Backup% file% path...
+mode,"hex",rtn	G% Hexedit% mode% % % % % % %Zhex%
+mode,"syntax",rtn	Y% Syntax...% %y
+mode,"encoding",rtn	E% Encoding...% [%Zencoding%]
+mode,"language",rtn	V% Language...
+mode,"break_hardlinks",rtn	% % Break% hard% links% % %Zbreak_hardlinks%
+mode,"break_links",rtn	% % Break% links% % % % % % % %Zbreak_links%
+mode,"c_comment",rtn	% % ^Q]% ign% /*...*/% % % %Zc_comment%
+mode,"cpara",rtn	% % Para% chars% [%Zcpara%]
+mode,"cpp_comment",rtn	% % ^Q]% ignores% //...% %Zcpp_comment%
+mode,"floatmouse",rtn	% % Click% past% end% % % % %Zfloatmouse%
+mode,"flowed",rtn	% % Flawed% text% % % % % % % %Zflowed%
+mode,"guess_non_utf8",rtn	% % Guess% non-UTF-8% % % %Zguess_non_utf8%
+mode,"guess_utf8",rtn	% % Guess% UTF-8% % % % % % % %Zguess_utf8%
+mode,"joe_state",rtn	% % Joe_state% file% % % % %Zjoe_state%
+mode,"menu_above",rtn	% % Menu% position% % % % % %Zmenu_above%
+mode,"menu_explorer",rtn	% % Menu% explorer% % % % % %Zmenu_explorer%
+mode,"menu_jump",rtn	% % Jump% into% menu% % % % %Zmenu_jump%
+mode,"no_double_quoted",rtn	% % ^Q]% no% ign% "..."% % %Zno_double_quoted%
+mode,"nobackup",rtn	% % No% backup% % % % % % % % % %Znobackup%
+mode,"nocurdir",rtn	% % Disable% cur.dir% % % %Znocurdir%
+mode,"nolocks",rtn	% % Disable% locks% % % % % %Znolocks%
+mode,"nomodcheck",rtn	% % Dis.% mtime% check% % %Znomodcheck%
+mode,"pound_comment",rtn	% % ^Q]% ignores% #...% % %Zpound_comment%
+mode,"restore",rtn	% % Restore% cursor% % % % %Zrestore%
+mode,"rtbutton",rtn	% % Right% button% % % % % % %Zrtbutton%
+mode,"search_prompting",rtn	% % Search% prompting% % %Zsearch_prompting%
+mode,"semi_comment",rtn	% % ^Q]% ignores% ;...% % %Zsemi_comment%
+mode,"single_quoted",rtn	% % ^Q]% ignores% '...'% %Zsingle_quoted%
+mode,"tex_comment",rtn	% % ^Q]% ignores% %%...% % %Ztex_comment%
+mode,"text_delimiters",rtn	% % Text% delimiters...
+mode,"undo_keep",rtn	% % No.% undo% records% % %Zundo_keep%
+mode,"vhdl_comment",rtn	% % ^Q]% ignores% --...% %Zvhdl_comment%
+mode,"assume_256color",rtn	% % -assume_256color% % %Zassume_256color%
+mode,"assume_color",rtn	% % -assume_color% % % % % %Zassume_color%
+mode,"baud",rtn	% % Baud% rate% % % % % % % % % %Zbaud%
+mode,"columns",rtn	% % -columns% % % % % % % % % % %Zcolumns%
+mode,"dopadding",rtn	% % -dopadding% % % % % % % % %Zdopadding%
+mode,"help_is_utf8",rtn	% % -help_is_utf8% % % % % %Zhelp_is_utf8%
+mode,"joexterm",rtn	% % -joexterm% % % % % % % % % %Zjoexterm%
+mode,"lines",rtn	% % -lines% % % % % % % % % % % % %Zlines%
+mode,"mouse",rtn	% % -mouse% % % % % % % % % % % % %Zmouse%
+mode,"nonotice",rtn	% % -nonotice% % % % % % % % % %Znonotice%
+mode,"notite",rtn	% % -notite% % % % % % % % % % % %Znotite%
+mode,"noxon",rtn	% % XON/XOFF% usable% % % %Znoxon%
+mode,"orphan",rtn	% % -orphan% % % % % % % % % % % %Zorphan%
+mode,"skiptop",rtn	% % -skiptop% % % % % % % % % % %Zskiptop%
+mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs%
 
 {Basic
 \i   Help Screen    turn off with ^J     more help with ESC . (^[.)              \i
@@ -649,7 +648,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i    a=10 assign a variable      sum cnt  Sum, count                          \i \i
 \i \i 2+3:ins multiple commands      avg dev  Average, std. deviation             \i \i
 \i \i    e pi constants              \uOPERATORS\u                                    \i \i
-\i \i     ans previous result        ! ^  * / %  + -  < <= > >= == !=  &&  ||  ? :\i \i
+\i \i     ans previous result        ! ^  * / %  + -  < <= > >= == !=  && ||  ? : \i \i
 }
 
 {Names
@@ -670,7 +669,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2017-08-08; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2017-08-09; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#3703 additional help screens
