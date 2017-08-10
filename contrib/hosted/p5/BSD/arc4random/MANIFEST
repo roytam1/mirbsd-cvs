@@ -1,5 +1,0 @@
-lib/BSD/arc4random.pm
-MANIFEST
-Makefile.PL
-README
-arc4rnd_xs.c
