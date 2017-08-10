@@ -14,9 +14,9 @@
 ;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;  GNU General Public License for more details.
 ;
-;  You should have received a copy of the GNU General Public License
-;  along with this program; if not, write to the Free Software
-;  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;  You should have received a copy of the GNU General Public License along
+;  with this program; if not, write to the Free Software Foundation, Inc.,
+;  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ;
 ;----------------------------------------------------------------------
 ;
@@ -111,7 +111,7 @@ prog1:	xor esi,esi			;init for 'no args'
 noarg:
 %else
 %ifdef DYN ;------------------------------------------------------------
-; This is to be called from dynamic linked libc startup code 
+; This is to be called from dynamic linked libc startup code
 ; just like you would expect:  int main(int argc,char**argv)
 ; (for experimental purpose only)
 ;
@@ -273,7 +273,7 @@ E3exit:	call KursorStatusLine
 	push byte 0			;return code
 	call ExitProcess		;Ready&Exit
 %else
-	mov ecx,TERMIOS_SET 
+	mov ecx,TERMIOS_SET
 	call IOctlTerminal0		;restore termios settings
 	jmp Exit
 %endif
@@ -323,7 +323,7 @@ ISVI1:					;in VI: most control is done in command mode...
 NormChar:test byte [mode], EM | PI
 	jz NOEM0
 	call ShowBl0			;i.e. "mov byte [showblock],0"
-NOEM0:	
+NOEM0:
 %ifdef UTF8
 %ifdef UTF8RTSx_wont			;won't overwrite more than one single ASCII byte at once...
 	cmp byte [isUTF8],0		;...with a 2- or 3-byte UTF-8 character entered from keyboard.
@@ -342,7 +342,7 @@ noUTF_A:
 	jmp short OverWriteChar
 %else
 	jnz OverWriteChar
-%endif	
+%endif
 NormCh2:push eax
 %ifdef W32LF
 	call CheckEof
@@ -384,7 +384,7 @@ KeyVICmdr:call ReadOneChar		;repl one char (except newline)
 KeyVICmdr1:
 %ifdef USE_UNDO
 	call DataForUndoOverwrite
-%endif	
+%endif
 KeyVICmdr2:mov byte [edi],al
 	jmp short SetChg
 ;-------
@@ -462,7 +462,7 @@ BZNret:	ret
 ;
 KeyRetNoInd:xor eax,eax
 	jmp short KeyRetNInd
-KeyRet:	
+KeyRet:
 ;;; %define NO_AUTO_INDENT		;for Izzy
 %ifndef NO_AUTO_INDENT
 %ifdef SELFTEST
@@ -475,7 +475,7 @@ KeyRet:
 	inc esi
 	or eax,eax
 	jz KeyRetNInd
-	mov ebx,eax	
+	mov ebx,eax
 	xor eax,eax
 	dec eax
 KeyRetSrch:inc eax			;search non (SPACE or TABCHAR)
@@ -608,10 +608,10 @@ KeyHome:call CountToLineBegin		;i.e. goto point X
 	ret
 ;-------
 Marker_above_cursor:
-	; Y.......marker line .......	
+	; Y.......marker line .......
 	; ...........................
 	; ........cursor line........
-	; X				;								
+	; X				;
 	mov dword [EmaMark],ecx		;i.e. store point Y
 	call KeyEnd
 	inc edi				;i.e. goto point X
@@ -674,7 +674,7 @@ KD2:
 	mov byte [VInolinebased],1
 	call KeyEmaAltW2
 	jmp DeleteByte
-;-------	
+;-------
 KeyDell2:cmp edi,sot			;delete newline char
 	jbe KeyIns3
 	dec dword [linenr]
@@ -690,10 +690,10 @@ KeyEmaCtrlT:
 	cmp byte [edi],NEWLINE
 	jnz KECT
 	dec edi
-KECT:	
+KECT:
 %ifdef USE_UNDO
 	call DataForUndoXchange
-%endif	
+%endif
 	mov al,byte [edi]
 	xchg al,byte [edi-1]
 	call KeyVICmdr2			;mov byte [edi],al / mov byte [changed],CHANGED
@@ -971,7 +971,7 @@ CtrlTEnd1:call CheckEof
 KeyEmaCtrlW:mov ecx,[showblock]
 	cmp byte[mode],PI
 	jne NOPI1
-KECW:	
+KECW:
 %ifndef AMD64
 	jecxz KeyCtrlY
 %else
@@ -1439,7 +1439,7 @@ ELZ3:	cmp al,NEWLINE
 	cmp al,SPACECHAR
 	jae ELZ9			;simply ignore chars like carriage_return etc.
 ELZ99:	mov al,'.'
-ELZ9:	
+ELZ9:
 %ifndef W32
 	cmp al,7fh
 	jb ELZ7
@@ -1454,7 +1454,7 @@ ELZ9:
 YXCVB:
 %endif
 %endif
-ELZ7:	
+ELZ7:
 %endif
 	cmp bl,byte [columns]		;screen width
 	jae DispEndLine			;continue reading line until end
@@ -1469,7 +1469,7 @@ ELZ7:
 	and al,0c0h
 	cmp al,080h
 	pop eax
-	jz UByte234			;MSB 10...... =do not count 
+	jz UByte234			;MSB 10...... =do not count
 ;	jb CountByte			;MSB 01...... 00...... count valid 7bit ASCII
 ;	push eax			;is UTF8 starter byte
 ;	mov al,byte [esi]		;check next byte for valid UTF8 follower byte
@@ -1523,7 +1523,7 @@ FillLine2:pop ecx
 ;----------------------------------------------------------------------
 ; three helper subroutines called by DispNewScreen
 ; dealing ESC sequences for character attributes
-; 
+;
 %ifdef CURSORMGNT
 SetInverseStatus:
 	push ecx		;returns zero flag
@@ -1843,10 +1843,10 @@ lop7:	jecxz lop7end
 	jb below128
 	mov al,'.'			;do not disp char>127 in ASCII mode, but '.' place holder
 below128:
-	stosb	
+	stosb
 	dec ecx
 	jmp short lop7
-lop7end:	
+lop7end:
 %endif
 	mov ecx,edx
 	sub ecx,ebx
@@ -1986,7 +1986,7 @@ Delete1:lea esi,[ecx+ebx]		;do not delete at last character position
 	push esi
 	mov ecx,ebx			;TODO: check this
 	lea esi,[edi+1]
-	dec ebx				;decrease char count in buffer	
+	dec ebx				;decrease char count in buffer
 DeloopUTF8:
 %ifdef UTF8RTSx_wont			;Keep UTF8 bytes together even in deleting
 	cmp byte [isUTF8],0
@@ -2094,7 +2094,7 @@ ReadChar:mov eax,edi
 	mov [veryold],eax
 GetChar:call ReadOneChar		;ah=0xFF for usual keys
 %ifdef W32
-	cmp ah,0FEh			;cursor key		
+	cmp ah,0FEh			;cursor key
 	jnz GC33
 	shl eax,8
 	ret
@@ -2203,7 +2203,7 @@ NOEM7:	and al,0x5F
 	mov al,0x3D
 	jmp short RCready_1
 ;-------
-Other:	
+Other:
 %ifdef W32
 	ret
 %else
@@ -2445,7 +2445,7 @@ CCVend: mov [ch2linebeg],edx		;ch2linebeg: interface to Key... functions
 	cmp byte[edi-1],RETURN
 	jnz CCV2
 	dec byte [ch2linebeg]		;don't count in RETURN char
-CCV2:	
+CCV2:
 %endif
 	ret
 ;-------
@@ -2831,7 +2831,7 @@ Kloop:	lodsb
 	stosb
 	or al,al
 	jnz Kloop
-KECY2:  mov [EmaKiSize],ebx	
+KECY2:  mov [EmaKiSize],ebx
 KECY0:	call CloseClipboard
 KECY3:	POP_ALL
 KECY:
@@ -2902,7 +2902,7 @@ KEAW:	sub eax,ecx			;eax end / ecx beg
 	call IsViMode
 	jz KEAW3
 	call ShowBl0			;i.e. "mov byte [showblock],0"
-KEAW3:	
+KEAW3:
 %ifdef W32
 	cmp byte[mode],NE		;Nedit ^C
 	jnz KEAW4
@@ -2990,7 +2990,7 @@ NF1:
 NF4:	mov byte [edi-1],0
 	jmp short GetFile
 NF3:	cmp al,TABCHAR
-	jz NF4	
+	jz NF4
 %else
 	lodsb
 	stosb
@@ -3037,10 +3037,10 @@ GetFile:
 	pop dword [ErrNr]
 	jmp OSerror
 regFile:
-%endif	
+%endif
 	and eax,777q
 	mov [perms],eax
-%ifdef SYS_utime	
+%ifdef SYS_utime
 	mov eax,[fstatbuf+stat_struc.st_mtime]
 	mov [accesstime+utimbuf_struc.modtime],eax
 %endif
@@ -3081,7 +3081,7 @@ SF0:	lodsb
 %ifdef ARMCPU
 	stosb
 	shr eax,8
-	stosb	
+	stosb
 	shr eax,8
 	stosb
 	shr eax,8
@@ -3509,7 +3509,7 @@ FindText:mov ch,[grossklein]		;ff or df
 	jb find1
 	and al,ch			;FIXME: check UTF-8 stuff !!
 ;-------
-find1:	add edi,[vorwarts]		;+1 or -1 (increase or decrease pointer) 
+find1:	add edi,[vorwarts]		;+1 or -1 (increase or decrease pointer)
 	mov cl,byte [edi]
 	cmp cl,41h
 	jb find6
@@ -3677,13 +3677,13 @@ modeOK:	ret
 ; Oleg's suggestion / Sat Mar 16 17:58:06
 ;
 %ifdef USE_EXT_MOVE
-KeyHome2:cmp byte[edi-1],NEWLINE	
+KeyHome2:cmp byte[edi-1],NEWLINE
 	jz KCQPjmp
 	jmp KeyHome
 ;-------
-KeyEnd2:cmp byte[edi],NEWLINE	
+KeyEnd2:cmp byte[edi],NEWLINE
 	jz KCQPjmp
-	jmp KeyEnd	
+	jmp KeyEnd
 ;-------
 KeyCtrlQR2:cmp edi,sot
 	jz KCQPjmp
@@ -3691,7 +3691,7 @@ KeyCtrlQR2:cmp edi,sot
 ;-------
 KeyCtrlQC2:cmp edi,ebp
 KCQPjmp:jz near KeyCtrlQP
-	jmp KeyCtrlQC 
+	jmp KeyCtrlQC
 %endif
 ;-----------------------------------------------------------------------
 %ifdef SYS_kill
@@ -3779,7 +3779,7 @@ IOctlTerminal:mov ebx,stdin		;expects EDX termios or winsize structure ptr
 ;------
 ReadFile0:
 %ifdef W32
-	;all API: 
+	;all API:
 	;- direction flag is cleared before and after call
 	;- preserves ebx,esi,edi,ebp
 	PUSH_ALL
@@ -3910,7 +3910,7 @@ Write_File:
 	push edx			;destr
 	push byte 0
 	push dword w32result
-	push edx			
+	push edx
 	push ecx			;buffer
 	push ebx			;handle
 	call WriteFile
@@ -4042,7 +4042,7 @@ ReadLink:mov al,SYS_readlink
 %endif
 ;-------
 %ifdef SYS_fchmod
-Fchmod:	
+Fchmod:
 %ifdef LIBC
 	push ecx
 	push ebx
@@ -4117,7 +4117,7 @@ RenameFile:
 	mov [ErrNr],eax
 	neg eax
 	ret
-RenameFileOkay:	
+RenameFileOkay:
 	xor eax,eax
 	ret
 %else
@@ -4283,7 +4283,7 @@ Fru:	neg eax
 	push dword nbsdint
 %else
 	push eax
-%endif	
+%endif
 	int 80h
 nbsdint:
 	pop ebx
@@ -4370,7 +4370,7 @@ Pipe:
 %ifdef MIRBSD
 	mov ax,SYS_pipe
 	jmp short IntCall2
-%else	
+%else
 %ifdef FREEBSD
 	mov eax,SYS_pipe
 	push edi
@@ -4400,7 +4400,7 @@ Execve:	mov al,SYS_execve
 Wait4:	mov al,SYS_wait4		;set ecx to buffer!
 %ifdef AMD64
 	xor rbx,rbx
-	dec rbx	
+	dec rbx
 %else
 	xor ebx,ebx
 	dec ebx
@@ -4785,8 +4785,8 @@ notready:mov ecx,screenbuffer
 ;			(for one of WS   PI   EM   VI  NE modes)
 ; 		this should insert the result of 5602 into text.
 ;
-; Use values +-0, 0.000001 ,... up to 999999999999.999999 
-; and + - * / 
+; Use values +-0, 0.000001 ,... up to 999999999999.999999
+; and + - * /
 ; and ( )
 ; and r  (for using the last result in next calculation)
 ; and p  =3.141593
@@ -4823,7 +4823,7 @@ EquChar:inc edi
 	fmulp st1
 	fbstp [x87]
 	push byte 12			;12 digits
-	pop ecx				
+	pop ecx
 	xor dh,dh			;flag for suppressing leading 0
 	lea esi,[x87+9]			;9 BCD data byte and sign
 	std
@@ -4903,7 +4903,7 @@ RRR:	jz RecReturn
 	jz short rPlus
 	cmp al,'-'
 	jnz short CheckNP
-	inc byte[signctl]		;2 for minus 
+	inc byte[signctl]		;2 for minus
 rPlus:	inc byte[signctl]		;1 for plus
 	jmp short RecConti		;continue
 
@@ -4974,7 +4974,7 @@ Number:	FLDZ
 num_ctr:call DigitHlp
 	jc int_end
 	loop num_ctr			;error if >12 digits
-isErr:	
+isErr:
 	mov esp,[stackptr]		;restore stack pos for math calc
 %endif ;USE_MATH
 %ifdef BEEP_IN_VI
@@ -5010,7 +5010,7 @@ dec_ctr:cld
 	mov bl,al
 	mov [edi],al			;important if abort at digit 1,3,5
 	call DigitHlp
-	jc decend	
+	jc decend
 	add al,bl
 	std
 	stosb
@@ -5084,14 +5084,14 @@ DataForUndoDelete:
 ;
 ; Data collector for "delete" by PUSHING undo data into a frame on the undo stack,
 ; growing to higher addresses, using a variable size (16+X byte) data structure:
-; 
+;
 ; |12345679|--WHERE-|--SIZE--|<data>....X       |PREV-PTR|--NEXT--| ......
 ; |  =sign |  =edi  |  =eax  |                  |        |        |
 ; |        |        |        |                  |        |        |
 ; | edx+0  | edx+4  | edx+8  | edx+12           |edx+16+X|edx+20+X| <----- ADDRESSES
 ;                                                         ^^^^^^^^
 ;                                                         NEXT_undo_frame_address stored in [undoptr]
-; If the data size is > undobuffer size we have to 
+; If the data size is > undobuffer size we have to
 ; save the data otherwise, i.e. in a file:
 ; |1234567B|--WHERE-|--SIZE--|<PREV-PTR|--NEXT--| ......
 ; |  =sign |  =edi  |  =eax  |         |        |
@@ -5123,7 +5123,7 @@ noundo_info:mov esi,sot			;i.e. huge undo data
 	mov eax,ebp
 	sub eax,sot			;ebp -sot == size of buffer
 	jmp short OVWdata
-;-------	
+;-------
 DFok:					;i.e. small undo data
 	mov ecx,eax			;extra data size / size of copy
 	call InitUndoFrame
@@ -5141,7 +5141,7 @@ DFok:					;i.e. small undo data
 ;-------
 DataForUndoOverwrite:
 ;
-; Data collector for "overwrite" by PUSHING data on a stack, 
+; Data collector for "overwrite" by PUSHING data on a stack,
 ; growing to higher addresses, using a data structure like in DataForUndoInsert
 ;
 	PUSH_ALL
@@ -5151,7 +5151,7 @@ DataForUndoOverwrite:
 	jmp short OVWdata
 DataForUndoXchange:
 ;
-; Data collector for "Emacs ^T" by PUSHING data on a stack, 
+; Data collector for "Emacs ^T" by PUSHING data on a stack,
 ; growing to higher addresses, using a data structure like in DataForUndoOverWrite
 ;
 	PUSH_ALL
@@ -5163,9 +5163,9 @@ DataForUndoInsert:
 ;
 ; Data collector for "insert" by PUSHING data on a stack,
 ; growing to higher addresses, using a fixed size (16 byte) data structure:
-; 
+;
 ; |12345678|--WHERE-|--SIZE--|PREV-PTR|--NEXT--| .........
-; |  =sign |  =edi  |  =eax  |        |        |     
+; |  =sign |  =edi  |  =eax  |        |        |
 ; |        |        |        |        |        |
 ; | edx+0  | edx+4  | edx+8  | edx+12 |edx+16  |edx+20  <----- ADDRESSES
 ;                                      ^^^^^^^^
@@ -5184,7 +5184,7 @@ OVWdata:mov [edx+4],edi			;where
 	mov [edx+8],eax			;how much chars (or the character itself)
 	mov [edx+12],edx		;this frame is the prev frame for the next one
 	lea eax,[edx+16]		;address of next frame
-DFex:	mov [undoptr],eax		;let undoptr point to next frame 
+DFex:	mov [undoptr],eax		;let undoptr point to next frame
 	POP_ALL
 DFUI:	ret
 ;----------------------------------------------------------------------
@@ -5261,7 +5261,7 @@ KUjmp:	jmp CheckENum			;renumbering because we have changed the cursor position
 RollBack:call KeyUndo
 	or edx,edx
 	jnz RollBack
-	jmp short KUjmp	
+	jmp short KUjmp
 %endif
 ;----------------------------------------------------------------------
 ;
@@ -5275,7 +5275,7 @@ RollBack:call KeyUndo
 ;                                                                   [undoptr]
 ;NOW AFTER WRAP:
 ;|PREV-PTR<-space_for_new_frame->ame********any_frame*******PREV-PTR---------------| buffer_end
-;         ^^^^^^^^               ^^^^^^^^^^ ^^^^^^^^^         
+;         ^^^^^^^^               ^^^^^^^^^^ ^^^^^^^^^
 ;        [undoptr]               invalid     last ok frame
 ;                               frame part
 ;
@@ -5284,7 +5284,7 @@ InitUndoFrame:mov edx,[undoptr]		;get current frame
 	mov esi,undobuffer_end-24
 	sub esi,ecx			;extra data if exist
 	cmp edx,esi			;low memory?
-	jb IUFret			;leave if far away from buffer end 
+	jb IUFret			;leave if far away from buffer end
 ;-------
 	mov ebx,[edx-4]			;fetch PREV-PTR frame address @[undoptr-4]
 	mov edx,undobuffer		;wrap around: now BACK AT BUFFER BEGIN...
@@ -5379,7 +5379,7 @@ ScanTable: 	;another xlat table containing offsets in jumptab1 table
 	db 1	;(up)
 	db 4	;(right)
 	db 6	;(dn)
-	db DoNo	;29h ignored 
+	db DoNo	;29h ignored
 	db DoNo	;2ah ditto
 	db DoNo	;2bh ditto
 	db DoNo	;2ch ditto
@@ -5525,7 +5525,7 @@ VIcmdTable:db Beep;0
 	db Beep	;'@'
 	db 2Eh	;'A'
 	db 12h	;'B' left word
-	db 4Bh	;'C' Change rest of line 
+	db 4Bh	;'C' Change rest of line
 	db 4Ch	;'D' Delete rest of line (not unlike ^QY in WStar)
 	db Beep	;'E'
 	db Beep	;'F'
@@ -5833,7 +5833,7 @@ jumptab1:	;Storing 16 bit offsets is valid only for code less size 64 kbyte...
 	dw KeyHelp	-_start ;3Dh	general
 	dw KeyEditMode	-_start ;3Eh	general
 	dw KeyDell	-_start ;3Fh	vi
-	dw KeyVICmdS	-_start ;40h	vi	
+	dw KeyVICmdS	-_start ;40h	vi
 	dw KeyVICmdZ	-_start ;41h	vi
 	dw KeyVICmdz	-_start ;42h	vi
 	dw KeyVIcmde	-_start ;43h	vi
@@ -5841,7 +5841,7 @@ jumptab1:	;Storing 16 bit offsets is valid only for code less size 64 kbyte...
 	dw KeyVICmdm	-_start ;45h	vi
 	dw KeyVICmdy	-_start ;46h	vi
 	dw KeyEmaCtrlXF	-_start ;47h	emacs (extended ^KD from WS)
-%ifdef USE_PIPE	
+%ifdef USE_PIPE
 	dw KeyCtrlKP	-_start ;48h    use sed-pipe in WS,Emacs,Pico
 %else
 	dw SimpleRet	-_start ;48h
@@ -5905,7 +5905,7 @@ jumps1 equ ($-jumptab1) / esize
 	dw KeyUndo	-_start	;^u 15 (abort in Input)
 %else
 	dw SimpleRet	-_start	;^u
-%endif	
+%endif
 	dw KeyIns	-_start	;^v 16
 	dw KeyScrollUp	-_start	;^w 17
 	dw KeyDown	-_start	;^x 18
@@ -5915,7 +5915,7 @@ jumps1 equ ($-jumptab1) / esize
 	dw SimpleRet	-_start	;1c
 	dw SimpleRet	-_start	;1d
 	dw SimpleRet	-_start	;1e
-%ifdef ROLLBACK	
+%ifdef ROLLBACK
 	dw RollBack	-_start	;1f  for internal testing of UNDO ring buffer only
 %else
 	dw SimpleRet	-_start	;1f
@@ -5943,7 +5943,7 @@ jumps1 equ ($-jumptab1) / esize
 	dw KeyEmaCtrlS	-_start	;^s
 	dw KeyEmaCtrlT	-_start	;^t
 %ifdef UTF8RTS
-	dw KeyUTF8switch-_start	;^u UTF8 mode switcher 
+	dw KeyUTF8switch-_start	;^u UTF8 mode switcher
 	; (ATTENZIONE: that is NOT emacs stuff like: 'C-u runs the command universal-argument')
 %else
 	dw SimpleRet	-_start	;^u
@@ -5993,7 +5993,7 @@ jumps1 equ ($-jumptab1) / esize
 	dw KeyEmaCtrlS	-_start	;^w 17
 	dw KeyCtrlKQ	-_start	;^x 18
 	dw KeyPgUp	-_start	;^y 19
-%ifdef SYS_kill	
+%ifdef SYS_kill
 	dw KeySuspend	-_start ;^z 1A  (not in pico)
 %else
 	dw SimpleRet	-_start	;^z
@@ -6042,7 +6042,7 @@ jumps1 equ ($-jumptab1) / esize
 	dw KeySuspend	-_start ;^z 1A
 %else
 	dw SimpleRet	-_start	;^z
-%endif	
+%endif
 	dw SimpleRet	-_start	;^[ 1B
 	dw SimpleRet	-_start	;^\ 1C
 	dw SimpleRet	-_start	;^] 1D
@@ -6367,15 +6367,15 @@ section .data				;unused in Linux/FreeBSD/BeOS: save byte in ELF header
 bits 32					;unused in W32: save byte in PE header
 %endif
 ;-----------------------------------------------------------------------
-%ifdef NETBSD				;added Sun Oct  9 10:10:00 CEST 2005 
+%ifdef NETBSD				;added Sun Oct  9 10:10:00 CEST 2005
 section .note.netbsd.ident
 align 4
  dd 7
  dd 4
  dd 1
  db "NetBSD",0,0
- dd 0 
-%endif 
+ dd 0
+%endif
 ;-----------------------------------------------------------------------
 %ifdef MIRBSD
 section .note.miros.ident
@@ -6393,9 +6393,9 @@ align 4
  dd 4
  dd 1
  db "OpenBSD",0
- dd 0 
-%endif 
-%endif 
+ dd 0
+%endif
+%endif
 ;-----------------------------------------------------------------------
 section .bss
 bits 32
@@ -6458,7 +6458,7 @@ numeriere	resd 1			;byte controls re-numeration
 read_b		resd 1			;buffer for getchar
 %ifdef W32
 		resd 4			;4 extra due size INPUT_RECORD in w32
-%endif		
+%endif
 isbold		resd 1			;control of bold display of ws-blocks
 inverse		resd 1
 insstat		resd 1
@@ -6488,7 +6488,7 @@ sigaction	resd 40
 ;------
 perms		resd 1
 %ifdef SYS_fstat
- fstatbuf:	resb stat_struc_size	
+ fstatbuf:	resb stat_struc_size
 %endif
 %ifdef SYS_utime
  accesstime:	resb utimbuf_struc_size
@@ -6526,7 +6526,7 @@ mode		resd 1
 readfds		resd 1			;select data struc
 timevalsec	resd 1			;lowest
 timevalusec	resd 1			;most significant
-                                                
+
 
 buffercopysize	equ 1024
 buffercopy	resb buffercopysize
