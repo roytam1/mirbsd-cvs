@@ -8,7 +8,7 @@ while getopts "n" ch; do
 	case $ch {
 	(n)	noact=1 ;;
 	(*)
-		print -u2 Syntax error.
+		print -ru2 Syntax error.
 		exit 1
 		;;
 	}
@@ -85,28 +85,28 @@ set -A fwpk -- "${!fwp[@]}"
 fwpks=${#fwpk[*]}
 fwpkl=${fwpk[fwpks - 1]}
 if (( xentries != fwpkl )); then
-	print -u2 "$xentries entries, but the highest found# is $fwpkl"
+	print -ru2 "$xentries entries, but the highest found# is $fwpkl"
 	exit 1
 fi
 
 (( noact )) && exit 0
 
 {
-	print '<p><a href="#wpts" style="border:0;"><img style="border:0;"'
-	print " alt=\"$statname WP=$fwpkl on $datadate\""
-	print " src=\"@@RELPATH@@WP$committer.png\" /></a></p>"
+	print -r '<p><a href="#wpts" style="border:0;"><img style="border:0;"'
+	print -r " alt=\"$statname WP=$fwpkl on $datadate\""
+	print -r " src=\"@@RELPATH@@WP$committer.png\" /></a></p>"
 	if (( ${#gcbanners[*]} )); then
-		print '<h2 id="banners">Banners et al.</h2>'
+		print -r '<h2 id="banners">Banners et al.</h2>'
 		for x in "${gcbanners[@]}"; do
 			[[ $x = *'<'@(div|form|p|table|h[3-6])* ]] || \
 			    x="<p>$x</p>"
 			print -r -- "$x"
 		done
 	fi
-	print "<h2 id=\"wpts\">Waypoints: $fwpkl</h2>"
+	print -r "<h2 id=\"wpts\">Waypoints: $fwpkl</h2>"
 	ent=${ei_indir[entries - 1]}
 	[[ ${e_id[ent]} != p+([0-9]) ]]; didprosp=$?; didul=0
-	(( didprosp )) && print '<ul' \
+	(( didprosp )) && print -r '<ul' \
 	    'style="position:relative; left:-20px; margin-bottom:1em; list-style:circle;">'
 	i_sum=0
 	numec=0
@@ -185,8 +185,8 @@ fi
 			xtx='(prosp.)'
 		else
 			if (( !didul++ )); then
-				(( didprosp )) && print -n '</ul>'
-				print '<ul style="position:relative; left:-20px;">'
+				(( didprosp )) && print -nr '</ul>'
+				print -r '<ul style="position:relative; left:-20px;">'
 			fi
 			xid=${e_id[ent]}
 			xtx="#$xid"
@@ -323,7 +323,7 @@ fi
 		done
 		print -nr " $sep ${e_title[ent]}"
 		if [[ -n ${ei_body[ent]} ]]; then
-			print '\n<div class="gc_body">'
+			print -r '\n<div class="gc_body">'
 			#XXX some may be too lax or strict
 			print -r -- "${ei_body[ent]}" | perl -pe '
 				s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPSUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|global)|BC\d+)\b@
@@ -350,31 +350,31 @@ fi
 					$wp =~ /^2/ ? "<a href=\"http://wiki.xkcd.com/geohashing/$wp\">$wp</a>" :
 					$wp;
 				@eg'
-			print -n '</div>'
+			print -nr '</div>'
 		fi
-		print '</li>'
+		print -r '</li>'
 	done
-	print '</ul>'
+	print -r '</ul>'
 	(( numtot = numec + numga + numgc + numgd + numge + numgg + numnc + \
 	    numoc + numox + numsh + numtc + numvx + num_b + num_w + num_x ))
-	print -n "<p>Totals: $numtot waypoint links ($i_sum without virtual-ish)"
-	(( numga )) && print -n ", Australia $numga"
-	(( num_b )) && print -n ", BesserCacher $num_b"
-	(( numec )) && print -n ", Extremcaching $numec"
-	(( numgc )) && print -n ", Groundspeak <!-- gc.com, waymarking --> $numgc"
-	(( numgd )) && print -n ", Geodashing <!-- (gpsgames) --> $numgd"
-	(( numge )) && print -n ", GPSgames <!-- geocaching --> $numge"
-	(( numgg )) && print -n ", GeoGolf <!-- (gpsgames) --> $numgg"
-	(( num_x )) && print -n ", Geo Hashing <!-- xkcd.com --> $num_x"
-	(( numnc )) && print -n ", Navicaching $numnc"
-	(( numoc )) && print -n ", Opencaching <!-- network --> $numoc"
-	(( numox )) && print -n ", ex-Garmin $numox"
-	(( numsh )) && print -n ", Shutterstock <!-- (gpsgames) --> $numsh"
-	(( numtc )) && print -n ", TerraCaching <!-- TC/LC/CC --> $numtc"
-	(( numvx )) && print -n ", GeoVexilla <!-- (gpsgames) --> $numvx"
-	(( num_w )) && print -n ", Wherigo Cartridges $num_w"
-	print ".</p>"
-	print '<p style="font-size:small;">“virtual-ish”' means Cyber, \
+	print -nr "<p>Totals: $numtot waypoint links ($i_sum without virtual-ish)"
+	(( numga )) && print -nr ", Australia $numga"
+	(( num_b )) && print -nr ", BesserCacher $num_b"
+	(( numec )) && print -nr ", Extremcaching $numec"
+	(( numgc )) && print -nr ", Groundspeak <!-- gc.com, waymarking --> $numgc"
+	(( numgd )) && print -nr ", Geodashing <!-- (gpsgames) --> $numgd"
+	(( numge )) && print -nr ", GPSgames <!-- geocaching --> $numge"
+	(( numgg )) && print -nr ", GeoGolf <!-- (gpsgames) --> $numgg"
+	(( num_x )) && print -nr ", Geo Hashing <!-- xkcd.com --> $num_x"
+	(( numnc )) && print -nr ", Navicaching $numnc"
+	(( numoc )) && print -nr ", Opencaching <!-- network --> $numoc"
+	(( numox )) && print -nr ", ex-Garmin $numox"
+	(( numsh )) && print -nr ", Shutterstock <!-- (gpsgames) --> $numsh"
+	(( numtc )) && print -nr ", TerraCaching <!-- TC/LC/CC --> $numtc"
+	(( numvx )) && print -nr ", GeoVexilla <!-- (gpsgames) --> $numvx"
+	(( num_w )) && print -nr ", Wherigo Cartridges $num_w"
+	print -r ".</p>"
+	print -r '<p style="font-size:small;">“virtual-ish”' means Cyber, \
 	    GeoDashing, GeoGolf, GeoHashing, GeoVexilla, Lab Caches, \
 	    Locationless, Shutterspot, Waymarking, Wherigo'</p>'
 } >"WP$committer.png~"

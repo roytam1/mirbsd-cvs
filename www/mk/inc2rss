@@ -61,11 +61,11 @@ function rss_putheader {
 		[[ -z $x ]] && continue
 		print -r -- "    $x"
 	done
-	print " </generator>"
+	print -r " </generator>"
 }
 
 function rss_putfooter {
-	print "</channel></rss>"
+	print -r "</channel></rss>"
 }
 
 function rss_output {
@@ -109,7 +109,7 @@ function rss_output {
 	fi
 	if [[ $title = *'<'* || $title = *'>'* ||
 	    ${title//'&#'+([0-9]);} = *'&'* ]]; then
-		print -u2 Error: RSS title cannot contain HTML \
+		print -ru2 Error: RSS title cannot contain HTML \
 		    and only numeric entities!
 		exit 1
 	fi
@@ -137,7 +137,7 @@ function rss_output {
 		[[ $eauthor = *\(*\)* ]] || eauthor="$eauthor (MirOS Developer$uauthor)"
 		print -r -- "<author>${eauthor}</author>"
 	fi
-	print "<description>"
+	print -r "<description>"
 	if [[ -n ${e_pictures[ent]} ]]; then
 		set -A rcmd -- sed
 		for i in ${e_pictures[ent]}; do
@@ -154,7 +154,7 @@ function rss_output {
 	[[ $x = *'<!-- RSS stop -->'* ]] && \
 	    x="${x%%@(<!-- RSS stop -->)*}<p><a href=\"$mws__canonsite/permalinks/${ei_srcf[ent]}_${eid}.htm\">(read more…)</a></p>"
 	"${rcmd[@]}" <<<"$x" | mws_content | xhtml_escape
-	print "</description></item>"
+	print -r "</description></item>"
 }
 
 rm -f stamp_tag_$name

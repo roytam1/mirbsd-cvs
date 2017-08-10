@@ -27,7 +27,7 @@ for x in *.cfg; do
 	[[ -z $t ]] || eval $t
 	for t in $targets; do
 		if [[ $t != +([0-9a-z_]) ]]; then
-			print -u2 "Invalid tag '$t' in data/$x.cfg"
+			print -ru2 "Invalid tag '$t' in data/$x.cfg"
 			continue
 		fi
 		eval linktarget_$t=$x
@@ -57,7 +57,7 @@ function output {
 	else
 		xmllang=
 	fi
-	print "<div class=\"wlentry\"$xmllang>"
+	print -r "<div class=\"wlentry\"$xmllang>"
 	if [[ -n ${e_title[ent]} ]]; then
 		subtitle='<div class="wlsubtitle">'"${title}</div>$nl"
 		title="${e_title[ent]}"
@@ -210,9 +210,9 @@ while (( entryp >= 0 )); do
 		continue
 	fi
 	if (( entryc < cutoff )); then
-		print "mws_content <<'EOF_cutoff_$name'" >>${name}.cut~
+		print -r "mws_content <<'EOF_cutoff_$name'" >>${name}.cut~
 		output @@RELPATH@@permalinks/ >>${name}.cut~
-		print EOF_cutoff_$name >>${name}.cut~
+		print -r EOF_cutoff_$name >>${name}.cut~
 	else
 		output permalinks/ | mws_content >>$fn~
 	fi

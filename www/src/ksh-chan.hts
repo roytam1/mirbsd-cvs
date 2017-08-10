@@ -87,14 +87,14 @@ integer entryp=0
 while (( entryp < entries )); do
 	ent=${ei_indir[entryp++]}
 	[[ -n ${e_title[ent]} ]] || continue
-	print "<div class=\"wlentry\"><div class=\"wltitle\">"
+	print -r "<div class=\"wlentry\"><div class=\"wltitle\">"
 	if [[ -n ${e_link[ent]} ]]; then
-		print "  <h2 class=\"wlentry\"><a" \
+		print -r "  <h2 class=\"wlentry\"><a" \
 		    "href=\"${e_link[ent]}\">${e_title[ent]}</a></h2>"
 	else
-		print "  <h2 class=\"wlentry\">${e_title[ent]}</h2>"
+		print -r "  <h2 class=\"wlentry\">${e_title[ent]}</h2>"
 	fi
-	[[ -n ${e_isbn[ent]} ]] && print '  <div class="wlsubtitle">'ISBN: \
+	[[ -n ${e_isbn[ent]} ]] && print -r '  <div class="wlsubtitle">'ISBN: \
 	    "${e_isbn[ent]}</div>"
 	if [[ -z ${e_block[ent]} ]]; then
 		beg="<p>"
@@ -103,9 +103,9 @@ while (( entryp < entries )); do
 		beg=
 		end=
 	fi
-	print " </div>$beg"
-	print "${ei_body[ent]}"
-	print "$end</div>"
+	print -r -- " </div>$beg"
+	print -r -- "${ei_body[ent]}"
+	print -r -- "$end</div>"
 done | mws_content
 
 mws_content <<'EOF'
