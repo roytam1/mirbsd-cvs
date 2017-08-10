@@ -2,7 +2,7 @@
 ;
 ;--------------------------------------------------------------------
 ;
-;  e3.asm v2.8 Copyright (C) 2000-2010 Albrecht Kleine
+;  e3.asm v2.82 Copyright (C) 2000-2016 Albrecht Kleine
 ;
 ;  This program is free software; you can redistribute it and/or modify
 ;  it under the terms of the GNU General Public License as published by
@@ -3144,13 +3144,7 @@ OSejmp0:js OSejmp9			;OSerror
 %endif
 %ifdef SYS_fstat
 	mov ecx,[fstatbuf+stat_struc.st_uid]
-%ifdef UIDGID_WORD			;Linux special
-	mov edx,ecx
-	shr edx,16
-	movzx ecx,cx			;OLD and ecx,0xffff
-%else
 	mov edx,[fstatbuf+stat_struc.st_gid]
-%endif
 	call ChownFile
 %endif
 ;-------
@@ -3410,12 +3404,8 @@ InitVars:mov byte [text],NEWLINE	;don't touch esi!
 %ifdef SYS_fstat
 	dec eax
 	dec eax				;eax == -1 i.e. no changes in fchown
-%ifdef UIDGID_WORD			;Linux special
-	mov [fstatbuf+stat_struc.st_uid],eax	;both: giduid
-%else
 	mov [fstatbuf+stat_struc.st_gid],eax
 	mov [fstatbuf+stat_struc.st_uid],eax
-%endif
 %endif
 	jmp ShowBl1			;i.e. mov byte [showblock],1
 ;-------
@@ -4756,13 +4746,7 @@ CopyToBackup:PUSH_ALL
 	call OpenFile
 	xchg ebx,eax
 	mov ecx,[fstatbuf+stat_struc.st_uid]
-%ifdef UIDGID_WORD                      ;Linux special
-	mov edx,ecx
-	shr edx,16
-	movzx ecx,cx			;OLD and ecx,0xffff
-%else
 	mov edx,[fstatbuf+stat_struc.st_gid]
-%endif
 	call ChownFile
 ;-------
 	xor edi,edi			;init eof indicator
@@ -6108,7 +6092,7 @@ align 2
 editmode:db 'p WSp Pip Emp NE'
 ;
 helptext:
-db "MicroEditor e3 v2.8"
+db "MicroEditor e3 v2.82"
 %ifdef YASM
 db "Y"
 %endif
@@ -6117,7 +6101,7 @@ db "-UTF8 ",0C2h,0A9h
 %else
 db " (C)"
 %endif
-db "2000-10 A.Kleine",10
+db "2000-16 A.Kleine",10
 db "Enter filename or leave with RETURN",10,10
 %ifdef YASM
 %ifdef UTF8
