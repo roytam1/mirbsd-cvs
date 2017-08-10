@@ -268,27 +268,26 @@ db "R/O file system",10			;30
 	%define VMIN 6
 ;-------
 %ifndef AMD64
-	;asm/stat.h
-	%define UIDGID_WORD
 	struc stat_struc
-.st_dev:	resd 1
-.st_ino:	resd 1		;unsigned long  st_ino;
-.st_mode:	resw 1		;unsigned short st_mode;
-.st_nlink:	resw 1
-.st_uid:	resw 1
-.st_gid:	resw 1
-.st_rdev:	resd 1
-.st_size:	resd 1
-.st_blksize:	resd 1
-.st_blocks:	resd 1
-.st_atime:	resd 1
-.__unused1:	resd 1
-.st_mtime:	resd 1
-.__unused2:	resd 1
-.st_ctime:	resd 1
-.__unused3:	resd 1
-.__unused4:	resd 1
-.__unused5:	resd 1
+.st_dev:	resq 1
+.st_ino:	resd 1
+.st_nlink:	resd 1
+.st_mode:	resq 1
+.st_uid:	resd 1
+.st_gid:	resd 1
+.__unused0:	resd 1
+.st_rdev:	resq 1
+.st_size:	resq 1
+.st_blksize:	resq 1
+.st_blocks:	resq 1
+.st_atime:	resq 1
+.__unused1:	resq 1
+.st_mtime:	resq 1
+.__unused2:	resq 1
+.st_ctime:	resq 1
+.__unused3:	resq 1
+.__unused4:	resq 1
+.__unused5:	resq 1
 	endstruc
 
 %define SYS_exit	1
@@ -304,7 +303,7 @@ db "R/O file system",10			;30
 %define SYS_kill	37
 %define SYS_rename	38
 %define SYS_pipe	42
-%define SYS_brk		45
+;;;%define SYS_brk		45
 %define SYS_ioctl	54
 %define SYS_dup2	63
 %define SYS_sigaction	67
@@ -312,7 +311,7 @@ db "R/O file system",10			;30
 %define SYS_readlink	85
 %define SYS_fchmod	94
 %define SYS_fchown	95
-%define SYS_fstat	108
+%define SYS_fstat	197
 %define SYS_wait4	114
 %define SYS_select	142
 %ifndef ARMCPU
@@ -340,6 +339,7 @@ db "R/O file system",10			;30
 .__unused4:	resq 1
 .__unused5:	resq 1
 	endstruc
+
 %define SYS_exit	60
 %define SYS_fork	57
 %define SYS_read	0
@@ -353,7 +353,7 @@ db "R/O file system",10			;30
 %define SYS_kill	62
 %define SYS_rename	82
 %define SYS_pipe	22
-%define SYS_brk		12
+;;;%define SYS_brk		12
 %define SYS_ioctl	16
 %define SYS_dup2	33
 %define SYS_rt_sigaction 13

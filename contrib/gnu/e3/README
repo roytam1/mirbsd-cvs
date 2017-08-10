@@ -1,13 +1,26 @@
-News of May 2010
-================
+1. OVERVIEW
+===========
+e3 is a micro text editor with an executable code size between 
+3800 and 35000 bytes, depending on used assembler options,
+platform and self compressor.
+Except for 'syntax highlighting', the e3 binary supports all of the basic
+functions one expects plus built in arithmetic calculations. If you have 
+installed the stream editor 'sed' you can use these tools as sub-processes,
+getting the full power of regular expressions.
 
-Nearly 3 years after the 'final release' here is once more 
-a release of e3: version 2.8. This version was reduced down
-to the minimum, i.e, armlinux, e3c and elks parts are
-removed, if interested still use e3-2.7.1.
+e3 can use Wordstar-, EMACS-, Pico, Nedit or vi-like key bindings,
+whichever the user chooses.
+Also the user can calculate arithmetics inside the text.
 
-In 2.8 there are fixed some bugs, most of them are related with
-UTF-8 processing, thus related to the Linux versions of e3.
+e3's assembler version is available on 9 important OS,
+using 16/32/64 bit CPUs.
+
+Beginning in version 2.6.0 e3 does support UTF-8 coding of unicode
+characters like this: α   ( <---should be a greek alpha )
+
+
+2. BUILD on Linux, *BSD
+================================================
 
 Also the Makefile destinations are reduced to:
 	make		# same as make 32 (needs NASM)
@@ -23,29 +36,167 @@ NASM_OR_YASM=nasm	# or yasm
 Editing e3.h opens some other choices, most important
 the choice between default UTF-8 and 7bit-only support.
 
-BTW, the people of YASM and NASM did good jobs last years,
-so you can build the 64 bit version of e3 using same
-code with both NASM or YASM assemblers without differences.
-I have used NASM v.2.08 and YASM v.1.0.0.2319 for this release.
-
 About more changes, see top of ChangeLog file.
 
-	******************************************
-	* All of you who have never heard of e3  *
-	* now continue reading README_OLD.       *
-	* README_OLD is not quite up-to-date but *   
-	* gives some more information about e3.  *
-	******************************************
--- 
-Enjoy!
-Albrecht
 
-===============================================================================
+3. BUILD on Win/DOS
+===================
+A. For assembling of e3 you need  NASM assembler nasm-0.99.05 
+   and ALINK (Anthony's Linker) and Win32 Import Library (win32.lib)
+   Both are available for free on the net.
+
+B. Type 'make' , i.e. run make.bat, and move e3.exe, e3-16.com 
+   and e3*.bat wherever you want.
+
+C. Optional: some more editable options are on top of e3.h: 
+   for example, if you don't like WS mode, choice an other default mode 
+   by setting DEFAULT_MODE to one of EM, NE, PI or VI . In this
+   case you would not need to call one of the batches to run
+   your favourite mode.
+
+
+4. BASIC USAGE
+==============
+* All versions of e3 accept a filename as argument; see the man page.
+
+* There is a status and input line, where you can enter filenames, 
+  find-texts, line numbers  etc.  In the lower right corner you will find
+  a code like "WS" showing the selected editor mode and a help
+  pointer (EXCEPT vi).
+
+* e3 changes the appearance of the cursor (to reverse) depending on 
+  insert/overwrite mode (on Linux text console only). 
+
+* For details on key bindings read each e3xx's initial page or 
+  type Alt-H during edit (for vi use  ESC:h). 
+  
+* On some computers (BeOS, QNX etc.) Alt-key combinations won't work: 
+  press <ESC> followed by the key, e.g. press ESC and H instead of Alt-H.
+
+* e3 shows a dot for characters below ASCII 20h and greater 7Fh
+  (except on win9x and except on UTF-8 version).
+
+* At the end of an edit cycle, e3 asks you something like "SAVE? Ynl".  Press
+  "n" to NOT save, "l" for SAVE and LOAD new, any other for SAVE and EXIT.
+
+
+5. ARITHMETICS
+==============
+You can do some simple arithmetic calculations inside your text. 
+For example:
+                 1234+56*78=
+place cursor here^ and press one of:
+
+   ^KN  for WSTAR mode
+   ^QC  for PICO mode
+   ^X^N for EMACS mode
+   #    for VI command mode
+   ^K   for NEDIT mode
+This should insert the result of 5602 into text.
+
+
+Use values -999999999999.999999 ... -0.000001, 0, 0.000001 up to
+999999999999.999999  and operators +-*/ and ( ) .
+
+Some more examples:
+ 2+4*8=34
+ 2/3*3=2
+ -4*-3--5*-4=-8
+ 4-3--4-3=2
+ -5*-(13+-2*(3+4))+2=-3
+ (7*(((((6+2+(((((1)))))))))))=63
+ (13120-9972)/9972=0.315684
+ 100000000+0.000001=100000000.000001
+ 10000000000+1=10000000001
+ 1+1*2*3*4*5*6*7*8*9*10=3628801
+ 7.627891*2.643189=20.161958
+ 10000000000/8=1250000000
+
+Some problems:
+ 100000000000+1.00001=99999997953.00001	<--loss of precision!
+ 8/0=					<--not possible. You know.
+ 					   (e3 says "beep")
+ 100000000*100000000=			<--overflow 
+
+Two specials: 
+ 12*p=37.699112				<--p is PI 3.14.....
+ r+20=57.699112				<--r is result of last calculation
+ 
+This arithmetic calculator is the smallest and simplest I could write.
+It takes only some hundred byte in the executable because it does NOT use 
+precise BCD arithmetics, but built in x87-coprocessor features. So please 
+do NOT expect very high precision. 
+
+
+
+6. MIXED HINTS
+==============
+* The emacs-mode version has currently a kill buffer but no kill ring,
+  so be careful about that. I'm sure, inside some 1000 byte you won't 
+  expect a complete Emacs key set, but IMHO you get the most important part.
+
+* The Pico mode is both: extended and incomplete compared to some Pico options,
+  new are some ^J (delete) and ^Q (quick_move) keys.
+
+* The win9x version does no accept any filename on the command line if this 
+  filename contains blank spaces.
+
+* You can choose inside the edit session (w/o leaving e3) between the 
+  different edit modes, for example:
+	-start  e3em <filename>
+		---> now using Emacs style keys.
+	-type   altX
+	-type	e3vi
+		---> welcome in the land of vi!
+	-type   <ESC>;
+	-type   e3ws
+		---> you are entering Wordstar emulation sector!
+	....etc....
+  This VERY hot keys are ^KM (for WS), ^QM (for Pico), altX (for Emacs),
+  ^E (for Nedit) and <ESC>; (for vi-mode).
+  
+  Note: on some computers press ESC X instead of altX.
+
+* Everytime if e3vi does not recognize a vi-mode ex command, e3vi will pipe
+  the whole editor text buffer through /bin/sed or /bin/ex. I.e. you can use 
+  pure sed or ex commands like:
+	1,6 s/foo/bar/
+	2,$ d
+	8,$ w filecopy
+	/remove_me/d
+  ***TAKE CARE***: "sed" or "ex" won't know your current cursor position in e3!
+  What call to subprogram (either ex or sed) is compiled in
+  you can find in helptext:
+	"pipe buffer through /bin/sed"    
+	vs.    
+	"pipe buffer through /bin/ex"
+  You should know this because the syntax is not equal:
+	s/./\./		<--sed syntax
+	1,$ s/./\./g	<-- ex syntax
+  Also you should know what "sed" version you have installed,
+  because sed 2.x and sed 3.x are quite different.
+  You can use this new buffer pipe features also from WS-, Pico- and Emacs modes
+  by pressing ^KP (Wordstar), or ^JP (Pico), or ^X^P (Emacs).
+
+* There is no predefined UNDO level count. You can expect to UNDO at least
+  one last insert-, delete-, overwrite- or sed_pipe-operation, but in most 
+  cases there are lots of UNDO stages available.  e3 has a fixed size undo buffer
+  and will use an external helper file if some deleted data is bigger sized 
+  than the undo buffer. This buffer is organized as a ring, overwriting 
+  older UNDO information if neccessary. So one never can say exactly 
+  how many UNDO operations are possible. 
+  For using the UNDO press one of:
+   ^U   for WSTAR mode
+   ^QU  for PICO mode
+   ^_   for EMACS mode
+   u    for VI command mode
+   ^U   for NEDIT mode
+
+------------------------------------------------------------------------
 
 README for mini editor e3 release 2.7.1
 
 (c) GPL 2000-07 Albrecht Kleine  
-kleine@ak.sax.de  
 
 
 1. OVERVIEW
@@ -183,19 +334,7 @@ Or adjust 'Makefile' and build e3arm on the destination ARM box.
 3. RELEASE NOTES
 ================
 
-FINAL RELEASE with some adjustments for supporting current 
-NASM and YASM assemblers both supporting  for 32/64 bit.
-So now on LINUX(x86) beside
-	make
-	make yasm
-	make yasm64
-you have the NEW make destinations
-	make nasm64
-	make nasm32	(<- same as pure 'make')
-
-Please don't try old NASMs or YASMs. It won't work.
-
-Except Linux (16/32/64 bit) no more binaries are included.
+[removed, see README and ChangeLog]
 
 
 
