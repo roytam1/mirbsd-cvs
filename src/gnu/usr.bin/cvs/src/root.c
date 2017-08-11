@@ -771,23 +771,19 @@ parse_cvsroot (const char *root_in)
 	if ((p = strchr (cvsroot_copy, ':')) != NULL)
 	{
 	    *p++ = '\0';
-	    if (strlen(p))
+	    if (*p)
 	    {
+		char qch;
+
 		q = p;
-		while (*q)
+		while ((qch = *q++))
 		{
-		    if (!isdigit(*q++))
-		    {
-			error (0, 0,
-"CVSROOT may only specify a positive, non-zero, integer port (not `%s').",
-				p);
-			error (0, 0,
-                               "Perhaps you entered a relative pathname?");
-			goto error_exit;
-		    }
+		    if (!isdigit(qch))
+			goto parse_port_error;
 		}
 		if ((newroot->port = atoi (p)) <= 0)
 		{
+ parse_port_error:
 		    error (0, 0,
 "CVSROOT may only specify a positive, non-zero, integer port (not `%s').",
 			    p);
@@ -798,11 +794,12 @@ parse_cvsroot (const char *root_in)
 	}
 
 	/* copy host */
-	if (*cvsroot_copy != '\0')
+	if (*cvsroot_copy != '\0') {
 	    /* blank hostnames are invalid, but for now leave the field NULL
 	     * and catch the error during the sanity checks later
 	     */
 	    newroot->hostname = xstrdup (cvsroot_copy);
+	}
 
 	/* restore the '/' */
 	cvsroot_copy = firstslash;
