@@ -329,6 +329,7 @@ function mws__content {
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
 	    -e 's^	<span style="display:none;">	</span>' \
+	    -e 's@@WTF=\([^@]*\)@@<a href="@@RELPATH@@wtf.cgi?q=\1">\1</a>g' \
 	    -e "s@@ABSPATH@@$mws__abspathg" \
 	    -e "s@@RELPATH@@$mws__relpathg" \
 	    -e "s@@HEADER@@$mws__headerg" \
@@ -344,6 +345,7 @@ function mws__content_keeptabs {
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ss][Pp][Aa][Rr][Cc])<a href="@@RELPATH@@htman/sparc/man\2/\1.htm" class="manlink">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's@@WTF=\([^@]*\)@@<a href="@@RELPATH@@wtf.cgi?q=\1">\1</a>g' \
 	    -e "s@@ABSPATH@@$mws__abspathg" \
 	    -e "s@@RELPATH@@$mws__relpathg" \
 	    -e "s@@HEADER@@$mws__headerg" \
