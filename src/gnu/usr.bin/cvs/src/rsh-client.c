@@ -55,8 +55,9 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
     char *cvs_server = (root->cvs_server != NULL
 			? root->cvs_server : getenv ("CVS_SERVER"));
     int i = 0;
-    /* This needs to fit "rsh", "-b", "-l", "USER", "-p", port, "host",
-       "cmd (w/ args)", and NULL.  We leave some room to grow. */
+    /* This needs to fit "rsh", "-b", "-l", "USER", "-p", port,
+       "--", "host", "cvs", "-R", "server", and NULL.
+       We leave some room to grow. */
     char *rsh_argv[16];
     char argvport[16];
 
@@ -106,6 +107,9 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
 	rsh_argv[i++] = "-p";
 	rsh_argv[i++] = argvport;
     }
+
+    /* Only non-option arguments from here. (CVE-2017-12836) */
+    rsh_argv[i++] = "--";
 
     rsh_argv[i++] = root->hostname;
     rsh_argv[i++] = cvs_server;
@@ -190,6 +194,8 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
 		*p++ = "-p";
 		*p++ = argvport;
 	}
+
+	*p++ = "--";
 
 	*p++ = root->hostname;
 	*p++ = command;
