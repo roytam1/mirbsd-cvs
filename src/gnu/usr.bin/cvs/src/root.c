@@ -650,26 +650,27 @@ parse_cvsroot (const char *root_in)
 	    TRACE (TRACE_DATA, "CVSROOT option=`%s' value=`%s'", p, q);
 	    if (!strcasecmp (p, "proxy"))
 	    {
-		newroot->proxy_hostname = xstrdup (q);
+		if (!(newroot->proxy_hostname = validate_hostname(q))) {
+			error(0, 0, "Invalid proxy hostname: %s", q);
+			goto error_exit;
+		}
 	    }
 	    else if (!strcasecmp (p, "proxyport"))
 	    {
 		char *r = q;
-		if (*r == '-') r++;
-		while (*r)
-		{
-		    if (!isdigit(*r++))
-		    {
+
+		do {
+		    if (!isdigit(*r)) {
+ proxy_port_error:
 			error (0, 0,
 "CVSROOT may only specify a positive, non-zero, integer proxy port (not `%s').",
 			       q);
 			goto error_exit;
 		    }
-		}
-		if ((newroot->proxy_port = atoi (q)) <= 0)
-		    error (0, 0,
-"CVSROOT may only specify a positive, non-zero, integer proxy port (not `%s').",
-			   q);
+		} while (*++r);
+		if ((newroot->proxy_port = atoi(q)) <= 0 ||
+		    newroot->proxy_port > 65535)
+			goto proxy_port_error;
 	    }
 	    else if (!strcasecmp (p, "CVS_RSH"))
 	    {
@@ -783,8 +784,7 @@ parse_cvsroot (const char *root_in)
 		    if (!isdigit(qch))
 			goto parse_port_error;
 		}
-		if ((newroot->port = atoi (p)) <= 0)
-		{
+		if ((newroot->port = atoi(p)) <= 0 || newroot->port > 65535) {
  parse_port_error:
 		    error (0, 0,
 "CVSROOT may only specify a positive, non-zero, integer port (not `%s').",
