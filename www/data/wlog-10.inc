@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.482 2016/07/28 23:19:23 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.490 2017/08/10 20:23:13 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -11482,4 +11482,37 @@ Tag: debian mksh news pcli
  MirBSD installer or live system but also “minimal Debian system directly
  booting into the MirBSD live system running under qemu-kvm”. But I’ve got
  not enough spare time right now.)</p>
+----
+Date: 11.08.2017 23:27
+Author: tg@
+Title: [PSA] Fixing CVE-2017-12836 (Debian #871810) in GNU cvs
+Tag: archaeology bug debian pcli security
+
+<p>Considering I’ve become the de-facto upstream of cvs(GNU) even if not
+ yet formally the de-iure upstream maintainer, fixing this bug obviously
+ falls to me — not <em>quite</em> the way I had planned passing this
+ evening after coming homw from work and a decent and, worse, very filling
+ meal at the local Croatian restaurant. But, so’s life.</p>
+<p>The problem here is basically that CVS invokes ssh(1) (well, <tt>rsh</tt>
+ originally…) but doesn’t add the argument separator “--” before the
+ (user-provided) hostname, which when starting with a hyphen-minus will
+ be interpreted by ssh as an argument. (Apparently the other @@WTF=VCS@@es
+ also had additional vulnerabilities such as not properly escaping semicoloi
+ or pipes from the shell or unescaping percent-escaped fun characters, but
+ that doesn’t affect us.)</p>
+<p><a href="http://www.mirbsd.org/cvs.cgi/src/gnu/usr.bin/cvs/src/rsh-client.c.diff?r1=1.6;r2=1.7">The
+ obvious fix</a> and the one I implemented first is to simply add the dashes.
+ This will also be backported to Debian {,{,old}old}stable-security.</p>
+<p>Then I looked at other VCSes out of which only one did this, but they all
+ added extra paranoia hostname checks (some of them passing invalid hostnames,
+ such as those with underscores in them). OK, I thought, then also let’s <a
+ href="http://www.mirbsd.org/cvs.cgi/src/gnu/usr.bin/cvs/src/root.c.diff?r1=1.11;r2=1.18">add
+ extra checks to CVS’ repository reference handling</a>. This will end up in
+ Debian sid and MirBSD, pending passing the regression tests of course… hah,
+ while writing this article I had to fixup because a test failed. Anyway, it’s
+ not strictly necessary @@WTF=AFAICT@@ to fix the issue.</p>
+<p>tl;dr: a fix will end up in Debian <tt>*stable-security</tt> and can be
+ taken out of <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=871810">my
+ mail to the bugreport</a>; another few changes for robustness are being tested
+ and then added to both MirBSD and Debian sid.</p>
 ----
