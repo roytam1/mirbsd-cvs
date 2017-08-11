@@ -1,4 +1,7 @@
 /*
+ * Copyright © 2017
+ *	mirabilos <m@mirbsd.org>
+ *
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
  * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
@@ -494,6 +497,7 @@ free_cvsroot_t (cvsroot_t *root)
     free (root);
 }
 
+
 #if defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
 static char *validate_hostname(const char *) __attribute__((__malloc__));
 #endif /* defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT) */
@@ -836,6 +840,7 @@ parse_cvsroot (const char *root_in)
 #if defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
     if (newroot->username && ! newroot->hostname)
     {
+	/* this defangs sanity.sh tests for remote reject, though */
  bad_hostname:
 	error (0, 0, "Missing or bad hostname in CVSROOT.");
 	goto error_exit;

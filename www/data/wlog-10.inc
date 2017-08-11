@@ -11483,7 +11483,7 @@ Tag: debian mksh news pcli
  booting into the MirBSD live system running under qemu-kvm”. But I’ve got
  not enough spare time right now.)</p>
 ----
-Date: 11.08.2017 23:27
+Date: 11.08.2017 23:49
 Author: tg@
 Title: [PSA] Fixing CVE-2017-12836 (Debian #871810) in GNU cvs
 Tag: archaeology bug debian pcli security
@@ -11506,7 +11506,7 @@ Tag: archaeology bug debian pcli security
 <p>Then I looked at other VCSes out of which only one did this, but they all
  added extra paranoia hostname checks (some of them passing invalid hostnames,
  such as those with underscores in them). OK, I thought, then also let’s <a
- href="http://www.mirbsd.org/cvs.cgi/src/gnu/usr.bin/cvs/src/root.c.diff?r1=1.11;r2=1.18">add
+ href="http://www.mirbsd.org/cvs.cgi/src/gnu/usr.bin/cvs/src/root.c.diff?r1=1.11;r2=1.19">add
  extra checks to CVS’ repository reference handling</a>. This will end up in
  Debian sid and MirBSD, pending passing the regression tests of course… hah,
  while writing this article I had to fixup because a test failed. Anyway, it’s
@@ -11514,5 +11514,7 @@ Tag: archaeology bug debian pcli security
 <p>tl;dr: a fix will end up in Debian <tt>*stable-security</tt> and can be
  taken out of <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=871810">my
  mail to the bugreport</a>; another few changes for robustness are being tested
- and then added to both MirBSD and Debian sid.</p>
+ and then added to both MirBSD and Debian sid. The impact is likely small, as
+ it’s hard to get a user (if you find one, in the first place) to use a crafted
+ CVSROOT string, which is easy to spot as well.</p>
 ----

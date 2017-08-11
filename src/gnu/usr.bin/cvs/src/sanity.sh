@@ -1,6 +1,6 @@
 #! /bin/sh
 :
-# $MirOS: src/gnu/usr.bin/cvs/src/sanity.sh,v 1.5 2016/11/08 23:04:37 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/src/sanity.sh,v 1.17 2017/03/28 17:48:24 tg Exp $
 #-
 # set DISABLE_ANY_RSH=1 to skip rsh and ssh calls
 #
@@ -22053,9 +22053,10 @@ ${CPROG} \[init aborted\]: Bad CVSROOT: .:ext:${hostname}:crerepos.\."
 	    # can look up '..' and want to ask the user about the unknown host
 	    # key or somesuch.  Which error message we get depends on whether
 	    # false finishes running before we try to talk to it or not.
+	    # We don't even get to talk to it as of 1.12.13-MirOS-0AB8.2 tho.
 	    dotest_fail crerepos-6a "CVS_RSH=false ${testcvs} -q -d ../crerepos get ." \
-"${SPROG} \[checkout aborted\]: end of file from server (consult above messages if any)" \
-"${SPROG} \[checkout aborted\]: received broken pipe signal"
+"${SPROG} checkout: Missing or bad hostname in CVSROOT\.
+${SPROG} \[checkout aborted\]: Bad CVSROOT: .\.\./crerepos.\."
 	    cd ..
 	    rm -r 1
 
