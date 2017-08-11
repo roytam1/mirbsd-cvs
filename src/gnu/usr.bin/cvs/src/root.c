@@ -811,11 +811,7 @@ parse_cvsroot (const char *root_in)
 	}
 
 	/* check and copy host */
-	if (!(newroot->hostname = validate_hostname(cvsroot_copy)) &&
-	    *cvsroot_copy != '\0') {
-		error(0, 0, "Invalid server hostname: %s", cvsroot_copy);
-		goto error_exit;
-	}
+	newroot->hostname = validate_hostname(cvsroot_copy);
 
 	/* restore the '/' */
 	cvsroot_copy = firstslash;
@@ -840,6 +836,7 @@ parse_cvsroot (const char *root_in)
 #if defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
     if (newroot->username && ! newroot->hostname)
     {
+ bad_hostname:
 	error (0, 0, "Missing or bad hostname in CVSROOT.");
 	goto error_exit;
     }
@@ -954,10 +951,7 @@ parse_cvsroot (const char *root_in)
     }
 
     if (check_hostname && !newroot->hostname)
-    {
-	error (0, 0, "Didn't specify hostname in CVSROOT.");
-	goto error_exit;
-    }
+	goto bad_hostname;
 
     if (no_port && newroot->port)
     {
