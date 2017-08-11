@@ -763,7 +763,22 @@ parse_cvsroot (const char *root_in)
 		/* a blank username is impossible, so leave it NULL in that
 		 * case so we know to use the default username
 		 */
+	    {
+		/* for want of strcspn */
+		if (/* no at, obviously */ strchr(cvsroot_copy, '@') ||
+		    /* no colon, interference with CVSROOT/passwd file */
+		    strchr(cvsroot_copy, ':') ||
+		    /* no linefeeds, interference with pserver protocol */
+		    strchr(cvsroot_copy, '\012')) {
+			error(0, 0, "Bad username \"%s\"", cvsroot_copy);
+			goto error_exit;
+		}
+		/* other limitations include not beginning with a
+		 * hyphen-minus but that’s not even a requirement
+		 * in POSIX, let alone other operating environments…
+		 */
 		newroot->username = xstrdup (cvsroot_copy);
+	    }
 
 	    cvsroot_copy = ++p;
 	}
