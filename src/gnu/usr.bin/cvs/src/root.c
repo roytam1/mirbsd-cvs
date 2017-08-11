@@ -774,7 +774,6 @@ parse_cvsroot (const char *root_in)
 	    if (strlen(p))
 	    {
 		q = p;
-		if (*q == '-') q++;
 		while (*q)
 		{
 		    if (!isdigit(*q++))
