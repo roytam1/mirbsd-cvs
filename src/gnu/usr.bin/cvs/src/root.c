@@ -811,7 +811,11 @@ parse_cvsroot (const char *root_in)
 	}
 
 	/* check and copy host */
-	newroot->hostname = validate_hostname(cvsroot_copy);
+	if (!(newroot->hostname = validate_hostname(cvsroot_copy)) &&
+	    *cvsroot_copy != '\0') {
+		error(0, 0, "Invalid server hostname: %s", cvsroot_copy);
+		goto error_exit;
+	}
 
 	/* restore the '/' */
 	cvsroot_copy = firstslash;
