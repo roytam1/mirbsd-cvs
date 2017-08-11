@@ -494,7 +494,9 @@ free_cvsroot_t (cvsroot_t *root)
     free (root);
 }
 
-
+#if defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
+static char *validate_hostname(const char *) __attribute__((__malloc__));
+#endif /* defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT) */
 
 /*
  * Parse a CVSROOT string to allocate and return a new cvsroot_t structure.
@@ -793,13 +795,8 @@ parse_cvsroot (const char *root_in)
 	    }
 	}
 
-	/* copy host */
-	if (*cvsroot_copy != '\0') {
-	    /* blank hostnames are invalid, but for now leave the field NULL
-	     * and catch the error during the sanity checks later
-	     */
-	    newroot->hostname = xstrdup (cvsroot_copy);
-	}
+	/* check and copy host */
+	newroot->hostname = validate_hostname(cvsroot_copy);
 
 	/* restore the '/' */
 	cvsroot_copy = firstslash;
@@ -824,7 +821,7 @@ parse_cvsroot (const char *root_in)
 #if defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
     if (newroot->username && ! newroot->hostname)
     {
-	error (0, 0, "Missing hostname in CVSROOT.");
+	error (0, 0, "Missing or bad hostname in CVSROOT.");
 	goto error_exit;
     }
 
@@ -1127,3 +1124,78 @@ main (int argc, char *argv[])
    /* NOTREACHED */
 }
 #endif
+
+#if defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT)
+#define CLS_INVALID	0
+#define CLS_INSIDE	1
+#define CLS_OUTSIDE	2
+#define CLS_SEPARATOR	4
+/* EBCDIC safe */
+#define CLASSIFY(x)	classify[(unsigned char)(x)]
+static char *
+validate_hostname(const char *s)
+{
+	char *buf, *cp;
+	size_t sz;
+	static char classify_initialised = 0, *classify;
+
+	/* initialise classification table */
+	if (!classify_initialised) {
+		const char *ccp;
+
+		classify = xmalloc(256);
+		for (sz = 0; sz < 256; ++sz)
+			CLASSIFY(sz) = CLS_INVALID;
+		for (ccp = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		    *ccp; ++ccp)
+			CLASSIFY(*ccp) = CLS_INSIDE | CLS_OUTSIDE;
+		CLASSIFY('-') = CLS_INSIDE;
+		CLASSIFY('.') = CLS_SEPARATOR;
+		classify_initialised = 1;
+	}
+
+	/* total size limit tolerating a trailing dot */
+	if ((sz = strlen(s)) > 256)
+		return (NULL);
+	buf = xstrdup(s);
+
+	/* drop trailing dot */
+	if ((unsigned char)buf[sz - 1] == (unsigned char)'.')
+		buf[--sz] = '\0';
+	/* recheck */
+	if (sz > 255) {
+ err:
+		free(buf);
+		return (NULL);
+	}
+
+	/* check each label */
+	cp = buf;
+ loop:
+	/* must begin with [0-9A-Za-z] */
+	if (!(CLASSIFY(*cp++) & CLS_OUTSIDE))
+		goto err;
+	sz = 1;
+	/* arbitrary many [0-9A-Za-z-] */
+	while (CLASSIFY(*cp) & CLS_INSIDE) {
+		++cp;
+		++sz;
+	}
+	/* except the last must have been [0-9A-Za-z] again */
+	if (!(CLASSIFY(cp[-1]) & CLS_OUTSIDE))
+		goto err;
+	/* maximum label size */
+	if (sz > 63)
+		goto err;
+	/* next label? */
+	if (CLASSIFY(*cp) & CLS_SEPARATOR) {
+		++cp;
+		goto loop;
+	}
+	/* must be end of string now */
+	if (*cp)
+		goto err;
+	/* it is, everything okay */
+	return (buf);
+}
+#endif /* defined(CLIENT_SUPPORT) || defined (SERVER_SUPPORT) */
