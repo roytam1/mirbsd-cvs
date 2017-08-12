@@ -1,4 +1,5 @@
 .\" soelim cvs.ms | pic | tbl | troff -ms
+.\" $MirOS$
 .\" @(#)cvs.ms 1.2 92/01/30
 .\"
 .\"	troff source to the cvs USENIX article, Winter 1990, Washington, D.C.
@@ -108,7 +109,7 @@ RCS
 .SM
 SCCS
 .LG
-[Bell] serialize file modifications by
+[Bell] serialise file modifications by
 allowing only one developer to have a writable copy of a particular file at
 any one point in time.
 That developer is said to
@@ -312,7 +313,7 @@ Simply stated, a developer copies an object without locking it, modifies
 the copy, and then merges the modified copy with the original.
 This paradigm allows developers to work in isolation from one another since
 changes are made to copies of objects.
-Because locks are not used, development is not serialized and can proceed
+Because locks are not used, development is not serialised and can proceed
 in parallel.
 Developers, however, must merge objects after the changes have been made.
 In particular, a developer must resolve conflicts when the same object has
@@ -853,7 +854,7 @@ However, bringing the tree up-to-date with the current kernel sources, once
 it has been checked out, takes only 1.5 wall clock minutes.
 Updating the \fIcomplete\fP 128 MByte source tree under \fBcvs\fP control
 (17243 files/1005 directories) takes roughly 28 wall clock minutes and
-utilizes one-third of the machine.
+utilises one-third of the machine.
 For now this is entirely acceptable; improvements on these numbers will
 possibly be made in the future.
 .NH 2
@@ -923,7 +924,7 @@ This can be fixed by using a home-grown \fBsystem\fP\|() replacement.
 .IP \(bu 3
 Security of the source repository is currently not dealt with directly.
 The usual UNIX approach of user-group-other security permissions through
-the filesystem is utilized, but nothing else.
+the filesystem is utilised, but nothing else.
 \fBcvs\fP could likely be a set-group-id executable that checks a
 protected database to verify user access permissions for particular objects
 before allowing any operations to affect those objects.

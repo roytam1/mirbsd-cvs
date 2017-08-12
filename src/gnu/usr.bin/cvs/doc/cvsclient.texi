@@ -11,7 +11,7 @@
   {28truecm}{21truecm}%
  \globaldefs = 0%
 @end tex
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvsclient.texi,v 1.7 2016/11/08 23:04:35 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvsclient.texi,v 1.8 2017/01/09 22:54:26 tg Exp $
 @include version-client.texi
 
 @dircategory Programming
@@ -161,7 +161,7 @@ invoked with one argument, @code{server}.  Once it invokes the server,
 the client proceeds to start the cvs protocol.
 
 @item kserver
-The kerberized server listens on a port (in the current implementation,
+The kerberised server listens on a port (in the current implementation,
 by having inetd call "cvs kserver") which defaults to 1999.  The client
 connects, sends the usual kerberos authentication information, and then
 starts the cvs protocol.  Note: port 1999 is officially registered for
@@ -229,7 +229,7 @@ The authentication fails.  After sending this response, the server may
 close the connection.  The @var{code} is a code describing why it
 failed, intended for computer consumption.  The only code currently
 defined is @samp{0} which is nonspecific, but clients must silently
-treat any unrecognized codes as nonspecific.
+treat any unrecognised codes as nonspecific.
 The @var{text} should be supplied to the
 user.  Compatibility note: @sc{cvs} 1.9.10 and older clients will print
 @code{unrecognized auth response} and @var{text}, and then exit, upon
@@ -405,13 +405,13 @@ separated by @samp{,}.
 @var{mode-type} is an identifier composed of alphanumeric characters.
 Currently specified: @samp{u} for user, @samp{g} for group, @samp{o}
 for other (see below for discussion of whether these have their POSIX
-meaning or are more loose).  Unrecognized values of @var{mode-type}
+meaning or are more loose).  Unrecognised values of @var{mode-type}
 are silently ignored.
 
 @var{data} consists of any data not containing @samp{,}, @samp{\0} or
 @samp{\n}.  For @samp{u}, @samp{g}, and @samp{o} mode types, data
 consists of alphanumeric characters, where @samp{r} means read, @samp{w}
-means write, @samp{x} means execute, and unrecognized letters are
+means write, @samp{x} means execute, and unrecognised letters are
 silently ignored.
 
 The two most obvious ways in which the mode matters are: (1) is it
@@ -525,7 +525,7 @@ For @code{Notify}, see the description of that request.
 
 By convention, requests which begin with a capital letter do not elicit
 a response from the server, while all others do -- save one.  The
-exception is @samp{gzip-file-contents}.  Unrecognized requests will
+exception is @samp{gzip-file-contents}.  Unrecognised requests will
 always elicit a response from the server, even if that request begins
 with a capital letter.
 
@@ -580,7 +580,7 @@ the server to send a redirect for write operations.  Requires either an
 Response expected: no.
 Notify a primary server of a server which referred us.  Intended to allow
 a primary (write) server to update the read-only mirror a client is using
-for reads to minimize races on any subsequent updates from the client.
+for reads to minimise races on any subsequent updates from the client.
 
 @item Directory @var{local-directory} \n
 @itemx Relative-directory @var{local-directory} \n
@@ -840,7 +840,7 @@ timezone as appropriate.  An example of this format is:
 @end example
 
 There is no requirement that the client and server clocks be
-synchronized.  The client just sends its recommendation for a timestamp
+synchronised.  The client just sends its recommendation for a timestamp
 (based on file timestamps or whatever), and the server should just believe
 it (this means that the time might be in the future, for example).
 
@@ -1433,7 +1433,7 @@ The @code{Root} request need not have been previously sent.
 
 @item @var{other-request} @var{text} \n
 Response expected: yes.
-Any unrecognized request expects a response, and does not
+Any unrecognised request expects a response, and does not
 contain any additional data.  The response will normally be something like
 @samp{error  unrecognized request}, but it could be a different error if
 a previous request which doesn't expect a response produced an error.
@@ -1659,7 +1659,7 @@ format is:
 @end example
 
 There is no requirement that the client and server clocks be
-synchronized.  The server just sends its recommendation for a timestamp
+synchronised.  The server just sends its recommendation for a timestamp
 (based on its own clock, presumably), and the client should just believe
 it (this means that the time might be in the future, for example).
 
@@ -1776,7 +1776,7 @@ Although sometimes scripts and clients will have little choice, the
 exact text which is output is subject to vary at the discretion of the
 server and the example output given in this document is just that,
 example output.  Servers are encouraged to use the @samp{MT} response,
-and future versions of this document will hopefully standardize more of
+and future versions of this document will hopefully standardise more of
 the @samp{MT} tags; see @ref{Text tags}.
 
 @item Mbinary \n
@@ -1808,12 +1808,12 @@ especially in a language like perl or awk.
 
 The @var{tagname} can have several forms.  If it starts with @samp{a}
 to @samp{z} or @samp{A} to @samp{Z}, then it represents tagged text.
-If the implementation recognizes @var{tagname}, then it may interpret
+If the implementation recognises @var{tagname}, then it may interpret
 @var{data} in some particular fashion.  If the implementation does not
-recognize @var{tagname}, then it should simply treat @var{data} as
+recognise @var{tagname}, then it should simply treat @var{data} as
 text to be sent to the user (similar to an @samp{M} response).  There
 are two tags which are general purpose.  The @samp{text} tag is
-similar to an unrecognized tag in that it provides text which will
+similar to an unrecognised tag in that it provides text which will
 ordinarily be sent to the user.  The @samp{newline} tag is used
 without @var{data} and indicates that a newline will ordinarily be
 sent to the user (there is no provision for embedding newlines in the
@@ -2152,13 +2152,13 @@ authentication failure.
 The protocol uses an extra network turnaround for protocol negotiation
 (@code{valid-requests}).  It might be nice to avoid this by having the
 client be able to send requests and tell the server to ignore them if
-they are unrecognized (different requests could produce a fatal error if
-unrecognized).  To do this there should be a standard syntax for
+they are unrecognised (different requests could produce a fatal error if
+unrecognised).  To do this there should be a standard syntax for
 requests.  For example, perhaps all future requests should be a single
 line, with mechanisms analogous to @code{Argumentx}, or several requests
 working together, to provide greater amounts of information.  Or there
 might be a standard mechanism for counted data (analogous to that used
-by @code{Modified}) or continuation lines (like a generalized
+by @code{Modified}) or continuation lines (like a generalised
 @code{Argumentx}).  It would be useful to compare what HTTP is planning
 in this area; last I looked they were contemplating something called
 Protocol Extension Protocol but I haven't looked at the relevant IETF

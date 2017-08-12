@@ -536,8 +536,8 @@ in conjunction with an rsync data push after completion of each write request on
 \par Write requests should introduce as few new delays into the write process as possible.
 \par 
 \par }\pard \qj \li0\ri0\widctlpar\aspalpha\aspnum\faauto\qj \li0\ri0\widctlpar\aspalpha\aspnum\faauto\pnrdate0\pnrnot1\adjustright\rin0\lin0\itap0 {\revised\revauth1\revdttm-2038016926 Secondary}{\revised\revauth1\revdttm-2038016936 
- repository servers should stay as closely synchronized with the primary server as possible.  }{\deleted\revauthdel1\revdttmdel-2038016936 Secondary repository servers should}{\deleted\revauthdel1\revdttmdel-2038016937 
- stay as closely synchronized with the primary server as possible.}{\deleted\revauthdel1\revdttmdel-2038016936   }{This includes updating a secondary }{\revised\revauth1\revdttm-2038016925 that}{\deleted\revauthdel1\revdttmdel-2038016925 which}{
+ repository servers should stay as closely synchronised with the primary server as possible.  }{\deleted\revauthdel1\revdttmdel-2038016936 Secondary repository servers should}{\deleted\revauthdel1\revdttmdel-2038016937 
+ stay as closely synchronised with the primary server as possible.}{\deleted\revauthdel1\revdttmdel-2038016936   }{This includes updating a secondary }{\revised\revauth1\revdttm-2038016925 that}{\deleted\revauthdel1\revdttmdel-2038016925 which}{
  just served as a proxy before releasing its client since otherwise the client may find its workspace out of sync with its read repository.
 \par }{\revised\revauth1\revdttm-2038016934 
 \par }\pard \qj \li0\ri0\widctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 {\revised\revauth1\revdttm-2038016934 Regression tests should be provided to insure that these new features are not broken by future work on CVS.
@@ -581,12 +581,12 @@ ch has write access to the entire CVS repository on each secondary.
 \par The }{\f2 CVSROOT/loginfo}{ file in the primary repository will need to be configured to push changes to secondaries on commit.  To queue updates, }{\f2 cvslock}{ should be used to lock a single, arbitrary, \'93update\'94
  directory with every commit.  This will allow only a single }{\f2 rsync}{ process to run on any secondary at any given time and avoid over-utilization of bandwidth.
 \par 
-\par There should exist a script that can be run to resynchronize the entire repository of each secondary server in the event that synchronization is lost since unsynchronized secondaries could prevent commits. 
+\par There should exist a script that can be run to resynchronise the entire repository of each secondary server in the event that synchronization is lost since unsynchronised secondaries could prevent commits. 
 \par \line The primary server will intuit its status as the primary by noting that its hostname is the one specified in CVSROOT/config as the pr
 imary.  Thus, all the secondary repositories may be configured and reconfigured by simply configuring or reconfiguring the primary repository since the primary will know to ignore secondary configuration options.
 \par 
 \par }{\revised\revauth1\revdttm-2038016924 New}{\deleted\revauthdel1\revdttmdel-2038016924 A n}{\deleted\revauthdel1\revdttmdel-2038016923 ew}{ }{\revised\revauth1\revdttm-2038016924 scripting}{\deleted\revauthdel1\revdttmdel-2038016924 CVSROOT/posttag}{ hook
-}{\revised\revauth1\revdttm-2038016924 s}{ will be needed to synchronize }{\revised\revauth1\revdttm-2038016924 files}{\deleted\revauthdel1\revdttmdel-2038016924 CVSROOT/val-tags}{ after }{\deleted\revauthdel1\revdttmdel-2038016924 a }{tag}{
+}{\revised\revauth1\revdttm-2038016924 s}{ will be needed to synchronise }{\revised\revauth1\revdttm-2038016924 files}{\deleted\revauthdel1\revdttmdel-2038016924 CVSROOT/val-tags}{ after }{\deleted\revauthdel1\revdttmdel-2038016924 a }{tag}{
 \revised\revauth1\revdttm-2038016924 , admin, and the watch family of}{ operation}{\revised\revauth1\revdttm-2038016923 s}{.
 \par }\pard \qj \li0\ri0\widctlpar\aspalpha\aspnum\faauto\qj \li0\ri0\widctlpar\aspalpha\aspnum\faauto\pnrauth1\pnrdate-2038016924\pnrnot1\adjustright\rin0\lin0\itap0 {\revised\revauth1\revdttm-2038016924 
 \par Secondary repository servers will also need to be set up to pull updates from the primary following a proxy event.  This will require an SSH server daemon on the primary similar to the secondary SSH server daemon specified in the previous paragraph.

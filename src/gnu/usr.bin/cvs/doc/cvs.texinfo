@@ -359,7 +359,7 @@ have to know the relative positions of everything else,
 you wind up requiring the entire repository to be
 checked out.
 
-If you modularize your work, and construct a build
+If you modularise your work, and construct a build
 system that will share files (via links, mounts,
 @code{VPATH} in @file{Makefile}s, etc.), you can
 arrange your disk usage however you like.
@@ -515,11 +515,11 @@ define one module per project.
 As a way of introducing @sc{cvs}, we'll go through a
 typical work-session using @sc{cvs}.  The first thing
 to understand is that @sc{cvs} stores all files in a
-centralized @dfn{repository} (@pxref{Repository}); this
+centralised @dfn{repository} (@pxref{Repository}); this
 section assumes that a repository is set up.
 @c I'm not sure that the sentence concerning the
 @c repository quite tells the user what they need to
-@c know at this point.  Might need to expand on "centralized"
+@c know at this point.  Might need to expand on "centralised"
 @c slightly (maybe not here, maybe further down in the example?)
 
 Suppose you are working on a simple compiler.  The source
@@ -1579,7 +1579,7 @@ should contain @file{CVSROOT/Emptydir}.
 This file lists the files and directories in the
 working directory.
 The first character of each line indicates what sort of
-line it is.  If the character is unrecognized, programs
+line it is.  If the character is unrecognised, programs
 reading the file should silently skip that line, to
 allow for future expansion.
 
@@ -1808,7 +1808,7 @@ by the client; the non-client/server @sc{cvs} consults
 @cindex CVSROOT, module name
 @cindex Defining modules (intro)
 
-@c FIXME: this node should be reorganized into "general
+@c FIXME: this node should be reorganised into "general
 @c information about admin files" and put the "editing
 @c admin files" stuff up front rather than jumping into
 @c the details of modules right away.  Then the
@@ -2948,7 +2948,7 @@ the password.
 @c FIXME: The bit about "access to the repository
 @c implies general access to the system is *not* specific
 @c to pserver; it applies to kerberos and SSH and
-@c everything else too.  Should reorganize the
+@c everything else too.  Should reorganise the
 @c documentation to make this clear.
 The separate @sc{cvs} password file (@pxref{Password
 authentication server}) allows people
@@ -4318,7 +4318,7 @@ copy the changes onto another branch.
 @c until it is ready for the main trunk.  The whole
 @c thing is generally speaking more akin to the
 @c "Revision management" node although it isn't clear to
-@c me whether policy matters should be centralized or
+@c me whether policy matters should be centralised or
 @c distributed throughout the relevant sections.
 Suppose that release 1.0 of tc has been made.  You are continuing to
 develop tc, planning to create release 1.1 in a couple of months.  After a
@@ -5165,7 +5165,7 @@ For example, the following commands add the file
 @file{backend.c} to the repository:
 
 @c This example used to specify
-@c     -m "Optimizer and code generation passes."
+@c     -m "Optimiser and code generation passes."
 @c to the cvs add command, but that doesn't work
 @c client/server (see log2 in sanity.sh).  Should fix CVS,
 @c but also seems strange to document things which
@@ -5327,7 +5327,7 @@ U oj.c
 cvs add: oj.c, version 1.1.1.1, resurrected
 @end example
 
-If you realize your mistake before you run the
+If you realise your mistake before you run the
 @code{remove} command you can use @code{update} to
 resurrect the file:
 
@@ -5773,12 +5773,12 @@ Note: you can control what is logged to this file by using the
 @node user-defined logging
 @section User-defined logging
 
-@c FIXME: probably should centralize this information
+@c FIXME: probably should centralise this information
 @c here, at least to some extent.  Maybe by moving the
 @c loginfo, etc., nodes here and replacing
 @c the "user-defined logging" node with one node for
 @c each method.
-You can customize @sc{cvs} to log various kinds of
+You can customise @sc{cvs} to log various kinds of
 actions, in whatever manner you choose.  These
 mechanisms operate by executing a script at various
 times.  The script might append a message to a file
@@ -5797,7 +5797,7 @@ respectively, you can also use the @samp{-i},
 @samp{-o}, @samp{-e}, and @samp{-t} options in the
 modules file.  For a more flexible way of giving
 notifications to various users, which requires less in
-the way of keeping centralized scripts up to date, use
+the way of keeping centralised scripts up to date, use
 the @code{cvs watch add} command (@pxref{Getting
 Notified}); this command is useful even if you are not
 using @code{cvs watch on}.
@@ -6512,7 +6512,7 @@ int main(int argc,
 You can now go ahead and commit this as revision 1.7.
 
 @example
-$ cvs commit -m "Initialize scanner. Use symbolic exit values." driver.c
+$ cvs commit -m "Initialise scanner. Use symbolic exit values." driver.c
 Checking in driver.c;
 /usr/local/cvsroot/yoyodyne/tc/driver.c,v  <--  driver.c
 new revision: 1.7; previous revision: 1.6
@@ -7053,7 +7053,7 @@ Reserved and unreserved checkouts each have pros and
 cons.  Let it be said that a lot of this is a matter of
 opinion or what works given different groups' working
 styles, but here is a brief description of some of the
-issues.  There are many ways to organize a team of
+issues.  There are many ways to organise a team of
 developers.  @sc{cvs} does not try to enforce a certain
 organization.  It is a tool that can be used in several
 ways.
@@ -7075,7 +7075,7 @@ difficult they are to resolve.  The experience with
 many groups is that they occur rarely and usually are
 relatively straightforward to resolve.
 
-The rarity of serious conflicts may be surprising, until one realizes
+The rarity of serious conflicts may be surprising, until one realises
 that they occur only when two developers disagree on the proper design
 for a given section of code; such a disagreement suggests that the
 team has not been communicating properly in the first place.  In order
@@ -7406,7 +7406,7 @@ It is common to embed the @code{$@splitrcskeyword{Id}$} string in
 the source files so that it gets passed through to
 generated files.  For example, if you are managing
 computer program source code, you might include a
-variable which is initialized to contain that string.
+variable which is initialised to contain that string.
 Or some C compilers may provide a @code{#pragma ident}
 directive.  Or a document management system might
 provide a way to pass a string through to generated
@@ -7666,7 +7666,7 @@ It should be noted that a patch to provide both the
 has been around a long time. However, that patch
 implemented these features using @code{tag=} and
 @code{tagexpand=} keywords and those keywords are NOT
-recognized.
+recognised.
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node Log keyword
@@ -8110,7 +8110,7 @@ have to be `root' in order to perform @sc{cvs} operations.
 
 When @code{PreservePermissions} is in use, some @sc{cvs}
 operations (such as @samp{cvs status}) will not
-recognize a file's hard link structure, and so will
+recognise a file's hard link structure, and so will
 emit spurious warnings about mismatching hard links.
 The reason is that @sc{cvs}'s internal structure does not
 make it easy for these operations to collect all the
@@ -8180,12 +8180,12 @@ and for an alphabetical list of all @sc{cvs} commands,
 @c The idea is that we want to move the commands which
 @c are described here into the main body of the manual,
 @c in the process reorganizing the manual to be
-@c organized around what the user wants to do, not
-@c organized around CVS commands.
+@c organised around what the user wants to do, not
+@c organised around CVS commands.
 @c
 @c Note that many users do expect a manual which is
-@c organized by command.  At least some users do.
-@c One good addition to the "organized by command"
+@c organised by command.  At least some users do.
+@c One good addition to the "organised by command"
 @c section (if any) would be "see also" links.
 @c The awk manual might be a good example; it has a
 @c reference manual which is more verbose than Invoking
@@ -8985,7 +8985,7 @@ client/server @sc{cvs} and is likely to disappear in
 a future release of @sc{cvs}.
 
 @item -i
-Useless with @sc{cvs}.  This creates and initializes a
+Useless with @sc{cvs}.  This creates and initialises a
 new @sc{rcs} file, without depositing a revision.  With
 @sc{cvs}, add files with the @code{cvs add} command
 (@pxref{Adding files}).
@@ -9755,7 +9755,7 @@ happened to checkout last week.  If others in your
 group would like to work on this software with you, but
 without disturbing main-line development, you could
 commit your change to a new branch.  Others can then
-checkout your experimental stuff and utilize the full
+checkout your experimental stuff and utilise the full
 benefit of @sc{cvs} conflict resolution.  The scenario might
 look like:
 
@@ -13613,7 +13613,7 @@ programs whenever something is committed.
 
 There are three kinds of programs that can be run on
 commit.  They are specified in files in the repository,
-as described below.  The following table summarizes the
+as described below.  The following table summarises the
 file names and the purpose of the corresponding
 programs.
 
@@ -13726,10 +13726,10 @@ and/or white space are now parsable), to remove the deprecated @samp{1} from
 your @file{loginfo} command line templates, you will most likely have to
 rewrite any scripts called by the hook to handle the new argument format.
 
-Also note that the way @samp{%} followed by unrecognized characters and by
+Also note that the way @samp{%} followed by unrecognised characters and by
 @samp{@{@}} was treated in past versions of CVS is not strictly adhered to as
 there were bugs in the old versions.  Specifically, @samp{%@{@}} would eat the
-next character and unrecognized strings resolved only to the empty string,
+next character and unrecognised strings resolved only to the empty string,
 which was counter to what was stated in the documentation.  This version will
 do what the documentation said it should have (if you were using only some
 combination of @samp{%@{sVv@}}, e.g. @samp{%@{sVv@}}, @samp{%@{sV@}}, or
@@ -14467,7 +14467,7 @@ This list is constructed in the following way.
 
 @itemize @bullet
 @item
-The list is initialized to include certain file name
+The list is initialised to include certain file name
 patterns: names associated with @sc{cvs}
 administration, or with other common source control
 systems; common names for patch files, object files,
@@ -14635,7 +14635,7 @@ Likewise for the home directory of @var{user}, use
 the server machine, and don't get any reasonable
 expansion if pserver (@pxref{Password authenticated})
 is in use; therefore user variables (see below) may be
-a better choice to customize behavior based on the user
+a better choice to customise behavior based on the user
 running @sc{cvs}.
 @c Based on these limitations, should we deprecate ~?
 @c What is it good for?  Are people using it?
@@ -15321,7 +15321,7 @@ to use the optional developer communication features.
 @c If you "cvs rm" and commit using 1.3, then you'll
 @c want to run "rcs -sdead <file,v>" on each of the
 @c files in the Attic if you then want 1.5 and
-@c later to recognize those files as dead (I think the
+@c later to recognise those files as dead (I think the
 @c symptom if this is not done is that files reappear
 @c in joins).  (Wait: the above will work but really to
 @c be strictly correct we should suggest checking
