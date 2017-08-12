@@ -2889,7 +2889,7 @@ serve_notify (char *arg)
     pending_error = 0;
     if (alloc_pending (80))
 	strcpy (pending_error_text,
-		"E Protocol error; misformed Notify request");
+		"E Protocol error; malformed Notify request");
     if (data != NULL)
 	free (data);
     if (new != NULL)

@@ -31187,7 +31187,7 @@ noop
 EOF
 
 	    dotest server-9 "${servercvs} server" \
-"E Protocol error; misformed Notify request
+"E Protocol error; malformed Notify request
 error  " <<EOF
 Root ${TESTDIR}/crerepos
 Directory .

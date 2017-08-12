@@ -15,17 +15,18 @@
 #include "fileattr.h"
 #include "watch.h"
 
+__RCSID("$MirOS$");
+
 const char *const watch_usage[] =
 {
     "Usage: %s %s {on|off|add|remove} [-lR] [-a <action>]... [<path>]...\n",
-    "on/off: turn on/off read-only checkouts of files\n",
-    "add/remove: add or remove notification on actions\n",
-    "-l (on/off/add/remove): Local directory only, not recursive\n",
-    "-R (on/off/add/remove): Process directories recursively (default)\n",
-    "-a (add/remove): Specify what actions, one of\n",
-    "    edit,unedit,commit,all,none (defaults to all, multiple -a\n",
-    "    options are permitted)\n",
-    "(Specify the --help global option for a list of other help options)\n",
+    "on/off: Turn on/off read-only checkouts of files.\n",
+    "add/remove: Add or remove notification on actions.\n",
+    "-l (on/off/add/remove): Local directory only, not recursive.\n",
+    "-R (on/off/add/remove): Process directories recursively (default).\n",
+    "-a (add/remove): Specify what actions, one of: `edit', `unedit',\n",
+    "                 `commit', `all', or `none' (defaults to `all').\n",
+    "(Specify the --help global option for a list of other help options.)\n",
     NULL
 };
 
@@ -53,6 +54,8 @@ watch_modify_watchers (const char *file, struct addremove_args *what)
     int add_tedit_pending;
     int add_tunedit_pending;
     int add_tcommit_pending;
+
+    TRACE( TRACE_FUNCTION, "modify_watchers ( %s )", file );
 
     who = getcaller ();
     who_len = strlen (who);
@@ -222,30 +225,57 @@ addremove_fileproc (void *callerdat, struct file_info *finfo)
     return 0;
 }
 
+static int addremove_filesdoneproc (void * callerdat, int err, const char * repository,
+                                           const char *update_dir, List * entries)
+{
+    int set_default = the_args.setting_default;
+    int dir_check = 0;
+
+    while ( !set_default && dir_check < the_args.num_dirs )
+    {
+	/* If we are recursing, then just see if the first part of update_dir 
+	   matches any of the specified directories. Otherwise, it must be an exact
+	   match. */
+	if ( the_args.local )
+	    set_default = strcmp( update_dir, the_args.dirs[ dir_check ] )==0;
+	else 
+	    set_default = strncmp( update_dir, the_args.dirs[ dir_check ], strlen( the_args.dirs[ dir_check ] ) ) == 0;
+	dir_check++;
+    }
+
+    if (set_default)
+	watch_modify_watchers (NULL, &the_args);
+    return err;
+}
 
 
 static int
 watch_addremove (int argc, char **argv)
 {
     int c;
-    int local = 0;
     int err;
     int a_omitted;
+    int arg_index;
+    int max_dirs;
 
     a_omitted = 1;
     the_args.commit = 0;
     the_args.edit = 0;
     the_args.unedit = 0;
+    the_args.num_dirs = 0;
+    the_args.dirs = NULL;
+    the_args.local = 0;
+
     optind = 0;
     while ((c = getopt (argc, argv, "+lRa:")) != -1)
     {
 	switch (c)
 	{
 	    case 'l':
-		local = 1;
+		the_args.local = 1;
 		break;
 	    case 'R':
-		local = 0;
+		the_args.local = 0;
 		break;
 	    case 'a':
 		a_omitted = 0;
@@ -279,6 +309,25 @@ watch_addremove (int argc, char **argv)
     argc -= optind;
     argv += optind;
 
+    the_args.num_dirs = 0;
+    max_dirs = 4; /* Arbitrary choice. */
+    the_args.dirs = xmalloc( sizeof( const char * ) * max_dirs );
+
+    TRACE (TRACE_FUNCTION, "watch_addremove (%d)", argc);
+    for ( arg_index=0; arg_index<argc; ++arg_index )
+    {
+	TRACE( TRACE_FUNCTION, "\t%s", argv[ arg_index ]);
+	if ( isdir( argv[ arg_index ] ) )
+	{
+	    if ( the_args.num_dirs >= max_dirs )
+	    {
+		max_dirs *= 2;
+		the_args.dirs = (const char ** )xrealloc( (void *)the_args.dirs, max_dirs );
+	    }
+	    the_args.dirs[ the_args.num_dirs++ ] = argv[ arg_index ];
+	}
+    }
+
     if (a_omitted)
     {
 	the_args.edit = 1;
@@ -292,7 +341,7 @@ watch_addremove (int argc, char **argv)
 	start_server ();
 	ign_setup ();
 
-	if (local)
+	if (the_args.local)
 	    send_arg ("-l");
 	/* FIXME: copes poorly with "all" if server is extended to have
 	   new watch types and client is still running an old version.  */
@@ -305,7 +354,7 @@ watch_addremove (int argc, char **argv)
 	if (!the_args.edit && !the_args.unedit && !the_args.commit)
 	    option_with_arg ("-a", "none");
 	send_arg ("--");
-	send_files (argc, argv, local, 0, SEND_NO_CONTENTS);
+	send_files (argc, argv, the_args.local, 0, SEND_NO_CONTENTS);
 	send_file_names (argc, argv, SEND_EXPAND_WILD);
 	send_to_server (the_args.adding ?
                         "watch-add\012" : "watch-remove\012",
@@ -316,14 +365,17 @@ watch_addremove (int argc, char **argv)
 
     the_args.setting_default = (argc <= 0);
 
-    lock_tree_promotably (argc, argv, local, W_LOCAL, 0);
+    lock_tree_promotably (argc, argv, the_args.local, W_LOCAL, 0);
 
     err = start_recursion
-	(addremove_fileproc, NULL, NULL, NULL, NULL,
-	 argc, argv, local, W_LOCAL, 0, CVS_LOCK_WRITE,
+	(addremove_fileproc, addremove_filesdoneproc, NULL, NULL, NULL,
+	 argc, argv, the_args.local, W_LOCAL, 0, CVS_LOCK_WRITE,
 	 NULL, 1, NULL);
 
     Lock_Cleanup ();
+    free( (void *)the_args.dirs );
+    the_args.dirs = NULL;
+
     return err;
 }
 
@@ -379,10 +431,10 @@ watch (int argc, char **argv)
 
 static const char *const watchers_usage[] =
 {
-    "Usage: %s %s [-lR] [files...]\n",
-    "\t-l\tProcess this directory only (not recursive).\n",
-    "\t-R\tProcess directories recursively.\n",
-    "(Specify the --help global option for a list of other help options)\n",
+    "Usage: %s %s [-lR] [<file>]...\n",
+    "-l\tProcess this directory only (not recursive).\n",
+    "-R\tProcess directories recursively (default).\n",
+    "(Specify the --help global option for a list of other help options.)\n",
     NULL
 };
 
@@ -409,7 +461,7 @@ watchers_fileproc (void *callerdat, struct file_info *finfo)
 	    cvs_output (p++, 1);
 	if (*p == '\0')
 	{
-	    /* Only happens if attribute is misformed.  */
+	    /* Only happens if attribute is malformed.  */
 	    cvs_output ("\n", 1);
 	    break;
 	}

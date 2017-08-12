@@ -17,7 +17,7 @@
 #include "edit.h"
 #include "fileattr.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_edit_c,v 1.2 2010/09/15 20:57:00 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/edit.c,v 1.5 2010/09/19 19:43:03 tg Exp $");
 
 static int watch_onoff (int, char **);
 
@@ -268,7 +268,7 @@ void editors_output (const char *fullname, const char *p)
             cvs_output (p++, 1);
         if (*p == '\0')
         {
-            /* Only happens if attribute is misformed.  */
+            /* Only happens if attribute is malformed.  */
             cvs_output ("\n", 1);
             break;
         }
