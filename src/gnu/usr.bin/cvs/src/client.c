@@ -4931,7 +4931,7 @@ send_max_dotdot (argc, argv)
     {
         if (supported_request ("Max-dotdot"))
         {
-            char buf[10];
+            char buf[12];
             sprintf (buf, "%d", max_level);
 
             send_to_server ("Max-dotdot ", 0);
