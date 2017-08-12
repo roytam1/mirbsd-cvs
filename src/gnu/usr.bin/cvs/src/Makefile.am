@@ -129,7 +129,10 @@ EXTRA_DIST = \
 	build_src.com \
 	sanity.sh
 
-check-local: localcheck remotecheck proxycheck
+# noredirectcheck currently stalls in config2-init-3 because
+# it gets back a compressed(?) response from the server it
+# cannot deal with and waits for commands? replies?
+check-local: localcheck remotecheck proxycheck #noredirectcheck
 
 .PHONY: localcheck
 localcheck: sanity.config.sh
@@ -142,6 +145,10 @@ remotecheck: all sanity.config.sh
 .PHONY: proxycheck
 proxycheck: all sanity.config.sh
 	$(SHELL) $(srcdir)/sanity.sh -p `pwd`/cvs$(EXEEXT)
+
+.PHONY: noredirectcheck
+noredirectcheck: all sanity.config.sh
+	$(SHELL) $(srcdir)/sanity.sh -n `pwd`/cvs$(EXEEXT)
 
 # Our distclean targets
 distclean-local:
