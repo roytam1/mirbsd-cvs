@@ -11511,6 +11511,10 @@ Tag: archaeology bug debian pcli security
  Debian sid and MirBSD, pending passing the regression tests of course… hah,
  while writing this article I had to fixup because a test failed. Anyway, it’s
  not strictly necessary @@WTF=AFAICT@@ to fix the issue.</p>
+<p>Update, about 2⅕ hours past midnight (the testsuite runs for several hours):
+ of course, the “sanirt” testsuite (which itself is rather insane…) also needs
+ adjustments, plus a bonus fix (for something that got broken when the recent
+ allow-root-regex patch was merged and got fixed in the same go to…night).</p>
 <p>tl;dr: a fix will end up in Debian <tt>*stable-security</tt> and can be
  taken out of <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=871810">my
  mail to the bugreport</a>; another few changes for robustness are being tested

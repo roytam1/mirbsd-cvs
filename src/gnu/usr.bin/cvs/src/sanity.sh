@@ -700,6 +700,10 @@ EOF
 #! $TESTSHELL
 hostname=\$1
 shift
+if test x"\$hostname" = x"--"; then
+	hostname=\$1
+	shift
+fi
 exec \
 $CVS_RSH \
 	 \$hostname \
@@ -2693,7 +2697,9 @@ export CVS_SERVER
 
 # No need to check the PID of the last client since we are testing with
 # Redirect disabled.
-proot_arg="--allow-root=$SECONDARY_CVSROOT_DIRNAME --allow-root=$PRIMARY_CVSROOT_DIRNAME"
+proot_arg="--allow-root=$SECONDARY_CVSROOT_DIRNAME \
+	--allow-root=$TESTDIR/crerepos \
+	--allow-root=$PRIMARY_CVSROOT_DIRNAME"
 exec $CVS_SERVER_secondary_wrapper_orig \$proot_arg "\$@"
 EOF
 	cat <<EOF >$TESTDIR/primary-wrapper
