@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.8 2011/12/04 22:50:41 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.9 2017/08/12 18:15:18 tg Exp $
 # Makefile for GNU CVS program.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -615,7 +615,10 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 	uninstall-am uninstall-binPROGRAMS uninstall-info-am
 
 
-check-local: localcheck remotecheck proxycheck
+# noredirectcheck currently stalls in config2-init-3 because
+# it gets back a compressed(?) response from the server it
+# cannot deal with and waits for commands? replies?
+check-local: localcheck remotecheck proxycheck #noredirectcheck
 
 .PHONY: localcheck
 localcheck: sanity.config.sh
@@ -628,6 +631,10 @@ remotecheck: all sanity.config.sh
 .PHONY: proxycheck
 proxycheck: all sanity.config.sh
 	$(SHELL) $(srcdir)/sanity.sh -p `pwd`/cvs$(EXEEXT)
+
+.PHONY: noredirectcheck
+noredirectcheck: all sanity.config.sh
+	$(SHELL) $(srcdir)/sanity.sh -n `pwd`/cvs$(EXEEXT)
 
 # Our distclean targets
 distclean-local:
