@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.360 2017/03/28 23:12:36 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.373 2017/08/12 17:14:20 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -13245,6 +13245,19 @@ Waypoint: GE0327 GC79BNM OC13CDD TC1URL
 Title: August-Eis ⅯⅯⅩⅦ
 nTF: 0
 Tag: D1 T1 Event
+----
+ID: 2187
+Date: 13.08.2017
+Waypoint: GC789TV
+Title: Nico's Wald - # die Kreuzung
+Tag: D15 T2 Small Tradi
+----
+ID: 2188
+Date: 13.08.2017
+Waypoint: OC13D9B
+Title: Bildstock am Wegesrand
+nTF: 0
+Tag: D45 T1 Virtual
 ----
 ID: p20481102
 Date: 02.11.2048

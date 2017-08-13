@@ -11512,7 +11512,7 @@ Tag: archaeology bug debian pcli security
  while writing this article I had to fixup because a test failed. Anyway, it’s
  not strictly necessary @@WTF=AFAICT@@ to fix the issue.</p>
 <p>Update, about 2⅕ hours past midnight (the testsuite runs for several hours):
- of course, the “sanirt” testsuite (which itself is rather insane…) also needs
+ of course, the “sanity” testsuite (which itself is rather insane…) also needs
  adjustments, plus a bonus fix (for something that got broken when the recent
  allow-root-regex patch was merged and got fixed in the same go to…night).</p>
 <p>tl;dr: a fix will end up in Debian <tt>*stable-security</tt> and can be
