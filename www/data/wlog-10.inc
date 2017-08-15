@@ -11491,7 +11491,7 @@ Tag: archaeology bug debian pcli security
 <p>Considering I’ve become the de-facto upstream of cvs(GNU) even if not
  yet formally the de-iure upstream maintainer, fixing this bug obviously
  falls to me — not <em>quite</em> the way I had planned passing this
- evening after coming homw from work and a decent and, worse, very filling
+ evening after coming home from work and a decent and, worse, very filling
  meal at the local Croatian restaurant. But, so’s life.</p>
 <p>The problem here is basically that CVS invokes ssh(1) (well, <tt>rsh</tt>
  originally…) but doesn’t add the argument separator “--” before the
@@ -11521,4 +11521,6 @@ Tag: archaeology bug debian pcli security
  and then added to both MirBSD and Debian sid. The impact is likely small, as
  it’s hard to get a user (if you find one, in the first place) to use a crafted
  CVSROOT string, which is easy to spot as well.</p>
+<p>Update, Monday: apparently someone took care of the DSA and DLA yesterday
+ after ACCEPTing the uploads — thanks, I was outside during the day.</p>
 ----

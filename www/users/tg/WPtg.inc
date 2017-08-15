@@ -13259,6 +13259,79 @@ Title: Bildstock am Wegesrand
 nTF: 0
 Tag: D45 T1 Virtual
 ----
+ID: 2189
+Date: 14.08.2017
+Waypoint: GCHBTG
+Title: Kottenforst Trilogie
+Tag: D2 T2 Regular Multi recommended
+----
+ID: 2190
+Date: 14.08.2017
+Waypoint: GC6101P
+Title: Für Radfahrer #12
+Tag: D15 T3 Micro Tradi
+----
+ID: 2191
+Date: 14.08.2017
+Waypoint: GC5YBVV
+Title: Neue Bänke an &#34;alter&#34; Aussicht
+Tag: D25 T1 Small Tradi recommended
+----
+ID: 2192
+Date: 14.08.2017
+Waypoint: GC72DGV
+Title: Für Radfahrer #16
+Tag: D1 T2 Micro Tradi
+----
+ID: 2193
+Date: 14.08.2017
+Waypoint: GC53YNK
+Title: HARIBO
+Tag: D15 T2 Regular Tradi
+----
+ID: 2194
+Date: 14.08.2017
+Waypoint: GC72FA6
+Title: Für Radfahrer #18
+Tag: D15 T2 Micro Multi
+----
+ID: 2195
+Date: 14.08.2017
+Waypoint: GC53GHW
+Title: 96 Wohneinheiten - Das grüne Haus - &#34;realoaded&#34;
+Tag: D15 T2 Micro Tradi
+----
+ID: 2196
+Date: 14.08.2017
+Waypoint: GC52MZR
+Title: Benjamins Reiterhof
+Tag: D15 T2 Regular Tradi
+----
+ID: 2197
+Date: 14.08.2017
+Waypoint: GC726FF
+Title: Für Radfahrer #21
+Tag: D15 T2 Micro Multi
+----
+ID: 2198
+Date: 14.08.2017
+Waypoint: GC37WBG
+Title: Stopp &amp; Go
+Tag: D2 T2 Micro Tradi
+----
+ID: 2199
+Date: 14.08.2017
+Waypoint: GC64YRQ
+Title: Wegpeilung
+Tag: D15 T15 Micro Multi
+----
+ID: 2200
+Date: 15.08.2017
+Waypoint: GC6NK9R
+Banner: jpg
+Title: Leitplanke? Na klar!
+Tag: D1 T1 Micro Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
