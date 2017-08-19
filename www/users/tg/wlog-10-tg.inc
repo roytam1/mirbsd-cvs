@@ -1815,3 +1815,10 @@ Tag: plan snapshot
 <p>Yes, well. Sorry. Didn’t manage Beltane, not this one either. But,
  progress.</p>
 ----
+Date: 16.08.2017
+Author: tg@
+Title: FrOSCon
+Tag: event fun pcli personal
+
+<p>I’ll not respond, much, until next Monday. We have FrOSCon.</p>
+----

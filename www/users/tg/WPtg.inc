@@ -13332,6 +13332,18 @@ Banner: jpg
 Title: Leitplanke? Na klar!
 Tag: D1 T1 Micro Tradi
 ----
+ID: 2201
+Date: 17.08.2017
+Waypoint: CC6IPO
+Title: Sundial/Roundabout Twofer
+Tag: MC3 Challenge
+----
+ID: 2202
+Date: 19.08.2017
+Waypoint: GC79DBK
+Title: Blackbox im Bücherschrank
+Tag: D15 T2 Small Tradi recommended
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
