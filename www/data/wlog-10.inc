@@ -11523,4 +11523,10 @@ Tag: archaeology bug debian pcli security
  CVSROOT string, which is easy to spot as well.</p>
 <p>Update, Monday: apparently someone took care of the DSA and DLA yesterday
  after ACCEPTing the uploads — thanks, I was outside during the day.</p>
+<p><strong>Update 2017-08-25:</strong> It was <a
+ href="http://bugs.debian.org/873201">noted</a> that ssh(1) does not parse
+ its command line correctly, and therefore the patch above <em>might</em>
+ not be enough in the general case. However, I still think it’s good enough
+ for CVS because it constructs its command line in a way that doesn’t let
+ users exploit that bug.</p>
 ----

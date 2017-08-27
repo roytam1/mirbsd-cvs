@@ -13336,6 +13336,7 @@ ID: 2201
 Date: 17.08.2017
 Waypoint: CC6IPO
 Title: Sundial/Roundabout Twofer
+nTF: 2
 Tag: MC3 Challenge
 ----
 ID: 2202
@@ -13343,6 +13344,13 @@ Date: 19.08.2017
 Waypoint: GC79DBK
 Title: Blackbox im Bücherschrank
 Tag: D15 T2 Small Tradi recommended
+----
+ID: p20170927
+Date: 27.09.2017
+Waypoint: GE0328 GC7B2XQ OC13E3B TC43CS
+Title: We ♥ Meßdorfer Feld (3.0) ♻
+nTF: 0
+Tag: D15 T2 CITO
 ----
 ID: p20481102
 Date: 02.11.2048
