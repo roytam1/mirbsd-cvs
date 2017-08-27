@@ -3688,7 +3688,7 @@ vi_hook(int ch)
 				return (1);
 			cmdlen = 0;
 			argc1 = 0;
-			if (ctype(ch, C_DIGIT)) {
+			if (ctype(ch, C_DIGIT) && ord(ch) != ord('0')) {
 				argc1 = ksh_numdig(ch);
 				state = VARG1;
 			} else {
@@ -3743,7 +3743,7 @@ vi_hook(int ch)
 
 	case VEXTCMD:
 		argc2 = 0;
-		if (ctype(ch, C_DIGIT)) {
+		if (ctype(ch, C_DIGIT) && ord(ch) != ord('0')) {
 			argc2 = ksh_numdig(ch);
 			state = VARG2;
 			return (0);
