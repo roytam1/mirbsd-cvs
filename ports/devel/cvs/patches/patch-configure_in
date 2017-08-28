@@ -5,9 +5,9 @@ $MirOS: ports/devel/cvs/patches/patch-configure_in,v 1.8 2017/01/28 21:31:45 tg 
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.])
  
--AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirDebian-23],
+-AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirDebian-24],
 -	[bug-cvs@nongnu.org],[cvs])
-+AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirPorts-19],
++AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirPorts-20],
 +	[miros-discuss@mirbsd.org],[cvs])
  AC_CONFIG_SRCDIR(src/cvs.h)
  AC_CONFIG_AUX_DIR(build-aux)
