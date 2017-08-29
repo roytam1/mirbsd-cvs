@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2003/10/12 21:33:43 jolan Exp $
-@lib lib/libtasn1.so.0.2

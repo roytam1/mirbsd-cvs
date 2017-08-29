@@ -1,7 +1,0 @@
-# $MirOS$
-
-LINK	instbin					sbin/mountd
-LINK	instbin					sbin/nfsd
-LINK	instbin					sbin/portmap
-LINK	instbin					usr/bin/rpcinfo
-LINK	instbin					usr/bin/showmount
