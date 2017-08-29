@@ -402,7 +402,7 @@ check-0.8.4-0|devel/check,||unit test framework for C programs|http://check.sf.n
 cmake-2.8.11.2-0|devel/cmake,||portable build system (uses C++)|http://www.cmake.org/|devel/cmake/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|devel|archive::archivers/libarchive curl::net/curl|||any|y|y|y|y
 cook-2.21-0|devel/cook,||like make(1), but more powerful and clean|http://www.canb.auug.org.au/~millerp/cook/|devel/cook/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|devel|intl:gettext->=0.10.38:devel/gettext pkgview/libiconv/lib/iconv:libiconv->=1.9.1-6:converters/libiconv|||any|y|y|y|y
 cscope-15.5-0|devel/cscope,||code browsing program|http://cscope.sourceforge.net/|devel/cscope/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|devel||||any|y|y|y|y
-cvs-1.12.13-19|devel/cvs,||Concurrent Versions System|http://www.nongnu.org/cvs/|devel/cvs/DESCR|Thorsten Glaser <tg@mirbsd.org>|devel essentials||:devel/metaauto autoconf->=2.61-1,<2.62:devel/autoconf/2.61 automake->=1.9.6-5,<1.10:devel/automake/1.9||any|y|y|y|y
+cvs-1.12.13-20|devel/cvs,||Concurrent Versions System|http://www.nongnu.org/cvs/|devel/cvs/DESCR|Thorsten Glaser <tg@mirbsd.org>|devel essentials||:devel/metaauto autoconf->=2.61-1,<2.62:devel/autoconf/2.61 automake->=1.9.6-5,<1.10:devel/automake/1.9||any|y|y|y|y
 cvs2cl-2.38-1|devel/cvs2cl,||generate GNU-style ChangeLogs from CVS repositories|http://www.red-bean.com/cvs2cl/|devel/cvs2cl/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|devel||||any|y|y|y|y
 cvsgraph-1.7.0-0|devel/cvsgraph,||graphical representation of CVS repository|http://www.akhphd.au.dk/~bertho/cvsgraph/|devel/cvsgraph/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|devel|gd.18::graphics/gd|:devel/metaauto autoconf->=2.61-1,<2.62:devel/autoconf/2.61||any|y|y|y|y
 cvslock-0.2-0|devel/cvslock,||safely manipulate and inspect CVS respositories||devel/cvslock/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|devel||||any|y|y|y|y
@@ -2109,7 +2109,7 @@ bash-2.05b-1-static|shells/bash,static||GNU Bourne Again Shell|http://cnswww.cns
 csh-20070404-0|shells/csh,||BSD ‘C’ Shell||shells/csh/pkg/DESCR|Thorsten Glaser <tg@mirbsd.de>|shells devel||||any|y|y|y|y
 es-0.9b1-0|shells/es,||extensible shell, derived from plan9's rc||shells/es/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 heirloom-sh-050706-1|shells/heirloom,||portable variant of the traditional Unix (Bourne) shell (uses BZip2)|http://heirloom.sourceforge.net/sh.html|shells/heirloom/pkg/DESCR|Thorsten Glaser <tg@mirbsd.de>|shells||bzip2-*:archivers/bzip2||any|n|y|n|y
-mksh-56-0|shells/mksh,||MirBSD Korn Shell|http://mirbsd.de/mksh|shells/mksh/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
+mksh-56b-0|shells/mksh,||MirBSD Korn Shell|http://mirbsd.de/mksh|shells/mksh/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 sash-3.6-0|shells/sash,||stand-alone shell with built-in commands|http://www.canb.auug.org.au/~dbell/|shells/sash/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|shells||||any|y|y|y|y
 scsh-0.6.2-0|shells/scsh,||Unix shell embedded in Scheme|http://www.scsh.net/|shells/scsh/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|lang shells||||any|y|y|y|y
 tcsh-6.13.00-0|shells/tcsh,||C shell with file name completion and command line editing|http://www.tcsh.org|shells/tcsh/pkg/DESCR|Stephen Paskaluk <sap@mirbsd.org>|shells||||any|y|y|y|y
