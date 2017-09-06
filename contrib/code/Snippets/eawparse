@@ -72,17 +72,20 @@ main(void)
 	register unsigned int x;
 	unsigned int s = 0;
 
+	/* everything is 0 (narrow) by default, i.e. no action */
 	bzero(w, sizeof(w));
+
 EOF
 
 (( glibc )) || cat >>eawparse.hlp.c <<'EOF'
-	/* default CJK/Yi blocks to Wide */
+	/* default CJK/Yi blocks to Wide (mgk25) */
 	for (x = 0x2E80; x <= 0xA4CF; ++x)
 		w[x] = Q_W;
 	for (x = 0xA960; x <= 0xA97F; ++x)
 		w[x] = Q_W;
 	for (x = 0xFE30; x <= 0xFE6F; ++x)
 		w[x] = Q_W;
+
 EOF
 
 function do_type_beg_end {
@@ -92,15 +95,18 @@ function do_type_beg_end {
 		else
 			print "	for (x = 0x$beg; x <= 0x$end; ++x)"
 			print "		w[x] = $type;"
-		fi 
+		fi
 	done >>eawparse.hlp.c
 }
 
+print '	/* handle EastAsianWidth.txt lines */' >>eawparse.hlp.c
 set -A sedargs -- -n
 (( glibc )) && sedargs+=(-e '/<reserved-.*>\.\.<reserved-.*>/d')
 sedargs+=(-e '/^\([0-9A-F]\{4,6\}\)\(\.\.\([0-9A-F]\{4,6\}\)\)\{0,1\};\([NAHWF]a*\).*$/s//Q_\4 \1 \3/p')
 sed "${sedargs[@]}" <"$eaw" | do_type_beg_end
+print >>eawparse.hlp.c
 
+print '	/* handle UnicodeData.txt lines */' >>eawparse.hlp.c
 # codepoint name category combining bidi decomp decimal digit numeric mirrored uni1name 10646comment uppermap lowermap titlemap
 while IFS=';' read cp name category combining bidi rest; do
 	# combining characters are at least one of:
@@ -111,10 +117,13 @@ while IFS=';' read cp name category combining bidi rest; do
 	[[ $category = @(Me|Mn|Cf) || $bidi = NSM ]] || continue
 	print "	w[0x$cp] = QC;"
 done <"$ucd" >>eawparse.hlp.c
+print >>eawparse.hlp.c
 
+print '	/* handle PropList.txt lines */' >>eawparse.hlp.c
 set -A sedargs -- -n
 sedargs+=(-e '/^\([0-9A-F]\{4,6\}\)\(\.\.\([0-9A-F]\{4,6\}\)\)\{0,1\} *; *Prepended_Concatenation_Mark\([^a-zA-Z_].*\)*$/s//Q_Na \1 \3/p')
 sed "${sedargs[@]}" <"$prp" | do_type_beg_end
+print >>eawparse.hlp.c
 
 cat >eawparse.out <<'EOF'
 struct mb_ucsrange {
