@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/Snippets/eawparse,v 1.5 2017/07/11 13:11:59 tg Exp $
+# $MirOS: contrib/code/Snippets/eawparse,v 1.10 2017/07/12 22:47:26 tg Exp $
 #-
 # Copyright © 2013, 2014, 2017
 #	mirabilos <m@mirbsd.org>
@@ -19,8 +19,9 @@
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
 #-
-# Parse the Unicode EastAsianWidth.txt and UnicodeData.txt file into
-# wcwidth lists. Act more glibc-compatible if -g flag is passed.
+# Parse the UCD EastAsianWidth.txt, PropList.txt and UnicodeData.txt
+# files into wcwidth (for a binary search algorithm) lists. Act more
+# glibc-compatible if the -g flag is passed.
 
 [[ $1 != -g ]]; glibc=$?
 
@@ -40,6 +41,7 @@ function findfile {
 
 eaw=${|findfile EastAsianWidth.txt;}
 ucd=${|findfile UnicodeData.txt;}
+prp=${|findfile PropList.txt;}
 cd "$rpd"
 rm -f eawparse.*
 for x in eawparse.*; do
@@ -83,17 +85,21 @@ EOF
 		w[x] = Q_W;
 EOF
 
+function do_type_beg_end {
+	while read type beg end rest; do
+		if [[ -z $end ]]; then
+			print "	w[0x$beg] = $type;"
+		else
+			print "	for (x = 0x$beg; x <= 0x$end; ++x)"
+			print "		w[x] = $type;"
+		fi 
+	done >>eawparse.hlp.c
+}
+
 set -A sedargs -- -n
 (( glibc )) && sedargs+=(-e '/<reserved-.*>\.\.<reserved-.*>/d')
-sedargs+=(-e '/^\([0-9A-F]\{4,6\}\)\(\.\.\([0-9A-F]\{4,6\}\)\)\{0,1\};\([NAHWF]a*\).*$/s//\4 \1 \3/p')
-sed "${sedargs[@]}" <"$eaw" | while read type beg end; do
-	if [[ -z $end ]]; then
-		print "	w[0x$beg] = Q_$type;"
-		continue
-	fi
-	print "	for (x = 0x$beg; x <= 0x$end; ++x)"
-	print "		w[x] = Q_$type;"
-done >>eawparse.hlp.c
+sedargs+=(-e '/^\([0-9A-F]\{4,6\}\)\(\.\.\([0-9A-F]\{4,6\}\)\)\{0,1\};\([NAHWF]a*\).*$/s//Q_\4 \1 \3/p')
+sed "${sedargs[@]}" <"$eaw" | do_type_beg_end
 
 # codepoint name category combining bidi decomp decimal digit numeric mirrored uni1name 10646comment uppermap lowermap titlemap
 while IFS=';' read cp name category combining bidi rest; do
@@ -105,6 +111,10 @@ while IFS=';' read cp name category combining bidi rest; do
 	[[ $category = @(Me|Mn|Cf) || $bidi = NSM ]] || continue
 	print "	w[0x$cp] = QC;"
 done <"$ucd" >>eawparse.hlp.c
+
+set -A sedargs -- -n
+sedargs+=(-e '/^\([0-9A-F]\{4,6\}\)\(\.\.\([0-9A-F]\{4,6\}\)\)\{0,1\} *; *Prepended_Concatenation_Mark\([^a-zA-Z_].*\)*$/s//Q_Na \1 \3/p')
+sed "${sedargs[@]}" <"$prp" | do_type_beg_end
 
 cat >eawparse.out <<'EOF'
 struct mb_ucsrange {
