@@ -13345,9 +13345,139 @@ Waypoint: GC79DBK
 Title: Blackbox im Bücherschrank
 Tag: D15 T2 Small Tradi recommended
 ----
+ID: 2203
+Date: 01.09.2017
+Waypoint: GC5VAM1
+Title: DJs ABC - Raststätte Hunsrück West
+Tag: D2 T15 Micro Tradi
+----
+ID: 2204
+Date: 01.09.2017
+Waypoint: GC22GY8
+Title: A6 - TB Hotel Hockenheimring West
+Tag: D2 T15 Small Tradi
+----
+ID: 2205
+Date: 01.09.2017
+Waypoint: GC6DQZ4
+Title: Stilles Bänkle
+Tag: D15 T15 Micro Multi
+----
+ID: 2206
+Date: 01.09.2017
+Waypoint: GC6Y6DA
+Title: Am Feld
+Tag: D15 T3 Small Tradi
+----
+ID: 2207
+Date: 02.09.2017
+Waypoint: GCZ0CG
+Title: Yellow Gate Bridge
+Tag: D15 T15 Micro Mystery
+----
+ID: 2208
+Date: 02.09.2017
+Waypoint: GC504AQ
+Title: Losnummer 17
+Tag: D1 T2 Micro Tradi
+----
+ID: 2209
+Date: 02.09.2017
+Waypoint: GCZ0CC
+Title: Geistliche Tretmühle
+Tag: D15 T1 Micro Tradi
+----
+ID: 2210
+Date: 02.09.2017
+Waypoint: GCVK2F
+Title: MK-Filstal 2 - Der Zahn der Zeit
+Tag: D25 T15 Micro Tradi
+----
+ID: 2211
+Date: 02.09.2017
+Waypoint: GCRQ90
+Title: Ponticulus Lacus
+Tag: D1 T1 Micro Tradi
+----
+ID: 2212
+Date: 02.09.2017
+Waypoint: GC4E0KE
+Title: Hörjeräd
+Tag: D1 T15 Micro Tradi
+----
+ID: 2213
+Date: 10.09.2017
+Waypoint: GC3EVG0
+Title: GC &amp; TB Haltestelle
+Tag: D15 T15 Regular Tradi
+----
+ID: 2214
+Date: 10.09.2017
+Waypoint: GC65CCY BC2439
+Banner: jpg
+Title: Panzerknacker #1 - Hey Mann wo ist mein Safe?
+Tag: D45 T25 Regular Mystery exceptional
+----
+ID: 2215
+Date: 10.09.2017
+Waypoint: GC67BR3
+Banner: jpg
+Title: Panzerknacker #2 - Der Geldautomat
+Tag: D25 T3 Regular Tradi exceptional
+----
+ID: 2216
+Date: 10.09.2017
+Waypoint: GC63WHY
+Title: A 61 - TB Hotel &#34;Mach mal Pause...&#34;
+Tag: D15 T15 Regular Tradi recommended
+----
+ID: 2217
+Date: 10.09.2017
+Waypoint: GC704CK OC13749
+Title: Bücherschrank Maximiliansau
+Tag: D1 T15 Micro Tradi
+----
+ID: 2218
+Date: 10.09.2017
+Waypoint: GC278B
+Title: Goldgrund
+Tag: D1 T15 Regular Tradi recommended
+----
+ID: 2219
+Date: 10.09.2017
+Waypoint: GC43EH7
+Title: A81 - Raststätte Schönbuch West
+Tag: D15 T15 Small Tradi
+----
+ID: 2220
+Date: 10.09.2017
+Waypoint: GCWFR6 BC2532
+Title: World Cache (Germany)
+Tag: D35 T3 Regular Mystery exceptional
+----
+ID: 2221
+Date: 10.09.2017
+Waypoint: GC2C73B
+Title: Wärmeanomalie Bad Urach
+Tag: D1 T1 Earth
+----
+ID: 2222
+Date: 10.09.2017
+Waypoint: OC12E83
+Banner: jpg
+Title: Parken und Peilen
+Tag: D1 T15 Micro Multi
+----
+ID: 2223
+Date: 10.09.2017
+Waypoint: GC4T6QQ
+Title: DJs ABC - Raststätte Hunsrück Ost
+Tag: D2 T2 Micro Tradi
+----
 ID: p20170927
 Date: 27.09.2017
 Waypoint: GE0328 GC7B2XQ OC13E3B TC43CS
+Banner: jpg
 Title: We ♥ Meßdorfer Feld (3.0) ♻
 nTF: 0
 Tag: D15 T2 CITO
