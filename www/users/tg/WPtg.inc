@@ -13406,69 +13406,75 @@ Title: Hörjeräd
 Tag: D1 T15 Micro Tradi
 ----
 ID: 2213
-Date: 10.09.2017
+Date: 09.09.2017
 Waypoint: GC3EVG0
 Title: GC &amp; TB Haltestelle
 Tag: D15 T15 Regular Tradi
 ----
 ID: 2214
-Date: 10.09.2017
+Date: 09.09.2017
 Waypoint: GC65CCY BC2439
 Banner: jpg
 Title: Panzerknacker #1 - Hey Mann wo ist mein Safe?
 Tag: D45 T25 Regular Mystery exceptional
 ----
 ID: 2215
-Date: 10.09.2017
+Date: 09.09.2017
 Waypoint: GC67BR3
 Banner: jpg
 Title: Panzerknacker #2 - Der Geldautomat
 Tag: D25 T3 Regular Tradi exceptional
 ----
 ID: 2216
-Date: 10.09.2017
+Date: 09.09.2017
 Waypoint: GC63WHY
 Title: A 61 - TB Hotel &#34;Mach mal Pause...&#34;
 Tag: D15 T15 Regular Tradi recommended
 ----
 ID: 2217
-Date: 10.09.2017
+Date: 09.09.2017
+Waypoint: OC11D87
+Title: Lebensretter (Safari)
+Tag: D2 T1 Safari
+----
+ID: 2218
+Date: 09.09.2017
 Waypoint: GC704CK OC13749
 Title: Bücherschrank Maximiliansau
 Tag: D1 T15 Micro Tradi
 ----
-ID: 2218
-Date: 10.09.2017
+ID: 2219
+Date: 09.09.2017
 Waypoint: GC278B
 Title: Goldgrund
 Tag: D1 T15 Regular Tradi recommended
 ----
-ID: 2219
-Date: 10.09.2017
+ID: 2220
+Date: 09.09.2017
 Waypoint: GC43EH7
 Title: A81 - Raststätte Schönbuch West
 Tag: D15 T15 Small Tradi
 ----
-ID: 2220
-Date: 10.09.2017
+ID: 2221
+Date: 09.09.2017
 Waypoint: GCWFR6 BC2532
 Title: World Cache (Germany)
 Tag: D35 T3 Regular Mystery exceptional
 ----
-ID: 2221
-Date: 10.09.2017
+ID: 2222
+Date: 09.09.2017
 Waypoint: GC2C73B
 Title: Wärmeanomalie Bad Urach
 Tag: D1 T1 Earth
 ----
-ID: 2222
+ID: 2223
 Date: 10.09.2017
 Waypoint: OC12E83
 Banner: jpg
 Title: Parken und Peilen
 Tag: D1 T15 Micro Multi
 ----
-ID: 2223
+ID: 2224
 Date: 10.09.2017
 Waypoint: GC4T6QQ
 Title: DJs ABC - Raststätte Hunsrück Ost
