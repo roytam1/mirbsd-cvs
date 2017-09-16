@@ -4679,14 +4679,14 @@ Tag: D3 T3 Large Multi recommended exceptional
 ----
 ID: 826
 Date: 19.04.2014
-Waypoint: GC43VM8
+Waypoint: GC43VM8 BC1453
 Banner: jpg
 Title: Der &#34;08/15&#34; Cache
 Tag: D35 T2 Large Multi exceptional
 ----
 ID: 827
 Date: 19.04.2014
-Waypoint: GC3ANNG
+Waypoint: GC3ANNG BC1183
 Title: Das &#34;blaue&#34; Wunder... der Bonus
 Tag: D25 T15 Regular Mystery
 ----
@@ -5160,7 +5160,7 @@ Tag: D25 T15 Small Tradi recommended
 ----
 ID: 903
 Date: 14.06.2014
-Waypoint: GC23VXF
+Waypoint: GC23VXF BC311
 Title: Schinderhannes
 Tag: D1 T25 Large Tradi recommended exceptional
 ----
@@ -13479,6 +13479,12 @@ Date: 10.09.2017
 Waypoint: GC4T6QQ
 Title: DJs ABC - Raststätte Hunsrück Ost
 Tag: D2 T2 Micro Tradi
+----
+ID: 2225
+Date: 16.09.2017
+Waypoint: GC2EH9W
+Title: crazy pics # 4
+Tag: D35 T1 Micro Mystery
 ----
 ID: p20170927
 Date: 27.09.2017
