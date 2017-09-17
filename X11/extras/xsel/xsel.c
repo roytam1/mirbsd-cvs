@@ -2,6 +2,11 @@
  * xsel -- manipulate the X selection
  * Copyright (C) 2001 Conrad Parker <conrad@vergenet.net>
  * UTF-8 support by Sergey Kogan <kogan@sklad.bacon.ru>
+ * Debian changes (c) 2002 by Thom May <thom@debian.org>
+ *  with contributions from Joe Nahmias <jello@debian.org>
+ *  and Hans de Goede <hdegoede@redhat.com>
+ * via Fedora from Carlos Maddela <maddela@labyrinth.net.au>
+ *  per Josue Ortega <josue@debian.org>
  * MirBSD changes (c) 2011 by Thorsten Glaser <tg@mirbsd.org>
  *
  * Permission to use, copy, modify, distribute, and sell this software and
@@ -483,7 +488,8 @@ get_append_property (XSelectionEvent * xsl, unsigned char ** buffer,
 
   debug_property (D_TRACE, xsl->requestor, xsl->property, target, length);
 
-  if (target != XA_STRING) {
+  if (target != utf8_atom && target != XA_STRING &&
+      target != compound_text_atom) {
     print_debug (D_OBSC, "target %s not XA_STRING in get_append_property()",
                  get_atom_name (target));
     free (*buffer);
@@ -733,8 +739,11 @@ copy_sel (unsigned char * s)
 {
   unsigned char * new_sel = NULL;
 
-  new_sel = xs_strdup (s);
-  current_alloc = total_input = xs_strlen (s);
+  if (s)
+    new_sel = xs_strdup (s);
+  else
+    new_sel = xs_strdup ("");
+  current_alloc = total_input = xs_strlen (new_sel);
 
   return new_sel;
 }
@@ -1195,7 +1204,7 @@ change_property (Display * display, Window requestor, Atom property,
   it->chunk = MIN (it->max_elements, it->nelements - it->offset);
 
   /* Wait for that property to get deleted */
-  print_debug (D_TRACE, "Waiting on intial property deletion (%s)",
+  print_debug (D_TRACE, "Waiting on initial property deletion (%s)",
                get_atom_name (it->property));
 
   return HANDLE_INCOMPLETE;
