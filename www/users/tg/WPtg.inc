@@ -13486,7 +13486,127 @@ Waypoint: GC2EH9W
 Title: crazy pics # 4
 Tag: D35 T1 Micro Mystery
 ----
-ID: p20170927
+ID: 2226
+Date: 23.09.2017
+Waypoint: OC13E97
+Title: Der Bierbrunnen zu Köln
+nTF: 2
+Tag: D15 T1 Virtual
+----
+ID: 2227
+Date: 23.09.2017
+Waypoint: GC6X8C2
+Title: Der Lichhof
+Tag: D1 T15 Micro Multi
+----
+ID: 2228
+Date: 23.09.2017
+Waypoint: GC33ER7
+Title: crazy pics # 12
+Tag: D25 T25 Small Mystery
+----
+ID: 2229
+Date: 24.09.2017
+Waypoint: GC6AXJ3
+Title: Wer wohnt den hier?
+Tag: D1 T15 Micro Tradi
+----
+ID: 2230
+Date: 24.09.2017
+Waypoint: GC7BVNH
+Title: EKB Kindercache der 2. Versuch
+Tag: D15 T2 Regular Tradi
+----
+ID: 2231
+Date: 24.09.2017
+Waypoint: GC6AXJV
+Title: Endlich bekomme ich wieder Besuch
+Tag: D1 T15 Micro Tradi
+----
+ID: 2232
+Date: 24.09.2017
+Waypoint: GC6FH0B
+Title: Dose mit Ausblick
+Tag: D1 T15 Small Tradi
+----
+ID: 2233
+Date: 24.09.2017
+Waypoint: GC6DT1Z
+Title: Ich liebe diesen Baum
+Tag: D15 T15 Micro Tradi
+----
+ID: 2234
+Date: 24.09.2017
+Waypoint: GC6T94Y
+Title: Sommer, Sonne, Strand
+Tag: D15 T2 Micro Tradi
+----
+ID: 2235
+Date: 24.09.2017
+Waypoint: GC6RXNH
+Title: Es gab mich früher an jeder Ecke
+Tag: D15 T2 Small Tradi
+----
+ID: 2236
+Date: 24.09.2017
+Waypoint: GC6NY7E
+Title: Die griechische oder römische Statur reloaded
+Tag: D15 T15 Small Tradi
+
+Echt schön gestalteter Cache von kaninchen4dieHunde, wie eigentlich
+die meisten in der heutigen Runde. Solche Statuen haben wir früher
+im Kunstunterricht gemacht…
+----
+ID: 2237
+Date: 24.09.2017
+Waypoint: GC6T947
+Title: Bei mir piept es
+Tag: D15 T2 Small Tradi
+----
+ID: 2238
+Date: 24.09.2017
+Waypoint: GC5Q08X
+Title: Pause verdient?
+Tag: D1 T15 Micro Tradi
+----
+ID: 2239
+Date: 24.09.2017
+Waypoint: GC719W0
+Title: Welches Märchen soll das denn sein?
+Tag: D1 T15 Small Tradi
+----
+ID: 2240
+Date: 24.09.2017
+Waypoint: GC6TNT9
+Title: Nur ein Petling
+Tag: D15 T2 Micro Tradi
+----
+ID: 2241
+Date: 24.09.2017
+Waypoint: GC6MV0C
+Title: Was mache ich eigentlich hier unten?
+Tag: D15 T2 Micro Tradi
+----
+ID: 2242
+Date: 24.09.2017
+Waypoint: GC6ME6J
+Title: ASB Kindercache die Zweite
+Tag: D15 T15 Regular Tradi
+----
+ID: 2243
+Date: 24.09.2017
+Waypoint: GC6TF43
+Title: Sonst stehe ich in deutschen Gärten
+Tag: D15 T2 Micro Tradi
+----
+ID: 2244
+Date: 24.09.2017
+Waypoint: GC3Y1BY BC1974
+Banner: jpg
+Title: TB Hotel &#34;Op de Eck&#34;
+Tag: D25 T15 Other Tradi recommended
+----
+ID: 2245
 Date: 27.09.2017
 Waypoint: GE0328 GC7B2XQ OC13E3B TC43CS
 Banner: jpg
