@@ -130,6 +130,16 @@ them; ECMA-404 is silent on this but forbids them for conformant texts).
 To add insult to injury, RFC4627 listed ECMA-262 as normative reference;
 RFC7159 lists ECMA-262 and ECMA-404 as informative only.
 
+Testsuites:
+- http://www.json.org/JSON_checker/test.zip (RFC 4627, apparently,
+  as it does not allow a top-level Value, only Array and Object)
+- https://github.com/nst/JSONTestSuite (RFC 7159, although it still
+  requires support for files encoded in UTF-16)
++ deliberate deviations carefully (NUL disallowing, Unicode/UTF-16
+  validity requirement for content, UTF-8 encoding requirement for
+  JSON text, disallowing unencoded chars from astral planes like
+  in ECMA, etc.)
+
 /* security considerations */
 - ensure no invalid things (e.g. unencoded SMP characters) show up
   + see below about codepoints from astral planes and RFC7159 badness
@@ -193,4 +203,4 @@ RFC7159 lists ECMA-262 and ECMA-404 as informative only.
 - Arrays emit undefined values as literalnull
 
 ___________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.6 2014/11/26 12:01:47 tg Exp $
+$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.15 2017/04/24 21:29:42 tg Exp $
