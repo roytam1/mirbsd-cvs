@@ -1783,6 +1783,24 @@ do_realpath(const char *upath)
 					/* keep them, e.g. for UNC pathnames */
 					Xput(xs, xp, '/');
 				}
+#ifdef MKSH_DOSPATH
+				/* drive letter? */
+				if (ctype(ip[0], C_ALPHA) && ip[1] == ':') {
+					/* keep it */
+					Xput(xs, xp, *ip++);
+					Xput(xs, xp, *ip++);
+					/* as well as a leading (back)slash */
+					if (mksh_cdirsep(*ip))
+						Xput(xs, xp, *ip++);
+					/*
+					 * XXX else: get the cwd on that drive
+					 * XXX and prepend it here as this is
+					 * XXX a drive-qualified relative path
+					 * XXX which we are supposed to convert
+					 * XXX to an absolute (with drive) one
+					 */
+				}
+#endif
 			}
 		}
 		/* otherwise (no symlink) merely go on */
