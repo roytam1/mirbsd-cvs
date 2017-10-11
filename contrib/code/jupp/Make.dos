@@ -3,6 +3,10 @@
 
 # MS-DOS Makefile for Joe's Own Editor
 
+# According to JOE 2.2 release notes, this can be compiled
+# with Borland C++ 3.0 in "Large" model. Unsure about other
+# versions or compilers or whether this applies to 2.8 too.
+
 ###############
 # Configuration
 ###############
