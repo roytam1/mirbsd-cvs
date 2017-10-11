@@ -21,11 +21,14 @@
  */
 
 #define INCL_DOS
+#define INCL_DOSFILEMGR
+#define INCL_DOSMISC
 #include <os2.h>
 
 #include "sh.h"
 
 #include <klibc/startup.h>
+#include <errno.h>
 #include <io.h>
 #include <unistd.h>
 #include <process.h>
@@ -556,4 +559,53 @@ static void
 cleanup(void)
 {
 	cleanup_temps();
+}
+
+int
+getdrvwd(char **cpp, unsigned int drvltr)
+{
+	PBYTE *cp;
+	ULONG sz;
+	APIRET rc;
+	ULONG drvno;
+
+	if (DosQuerySysInfo(QSV_MAX_PATH_LENGTH, QSV_MAX_PATH_LENGTH,
+	    &sz, sizeof(sz)) != 0) {
+		errno = EDOOFUS;
+		return (-1);
+	}
+
+	/* allocate 'X:/' plus sz plus NUL */
+	checkoktoadd((size_t)sz, (size_t)4);
+	cp = aresize(*cpp, (size_t)sz + (size_t)4, ATEMP);
+	cp[0] = drvltr;
+	cp[1] = ':';
+	cp[2] = '/';
+	drvno = (rtt2asc(drvltr) | 0x20U) - rtt2asc('a') + 1;
+	/* NUL is part of space within buffer passed */
+	++sz;
+	if ((rc = DosQueryCurrentDir(drvno, cp + 3, &sz)) == 0) {
+		/* success! */
+		*cpp = cp;
+		return (0);
+	}
+	afree(cp, ATEMP);
+	*cpp = NULL;
+	switch (rc) {
+	case 15: /* invalid drive */
+		errno = ENOTBLK;
+		break;
+	case 26: /* not dos disk */
+		errno = ENODEV;
+		break;
+	case 108: /* drive locked */
+		errno = EDEADLK;
+		break;
+	case 111: /* buffer overflow */
+		errno = ENAMETOOLONG;
+		break;
+	default:
+		errno = EINVAL;
+	}
+	return (-1);
 }
