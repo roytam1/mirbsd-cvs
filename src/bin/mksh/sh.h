@@ -2741,7 +2741,8 @@ extern int tty_init_fd(void);	/* initialise tty_fd, tty_devtty */
 #define mksh_abspath(s)			__extension__({			\
 	const char *mksh_abspath_s = (s);				\
 	(mksh_cdirsep(mksh_abspath_s[0]) ||				\
-	    mksh_drvltr(mksh_abspath_s));				\
+	    (mksh_drvltr(mksh_abspath_s) &&				\
+	    mksh_cdirsep(mksh_abspath_s[2])));				\
 })
 #define mksh_cdirsep(c)			__extension__({			\
 	char mksh_cdirsep_c = (c);					\
