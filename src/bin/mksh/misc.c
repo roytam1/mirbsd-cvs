@@ -1785,7 +1785,7 @@ do_realpath(const char *upath)
 				}
 #ifdef MKSH_DOSPATH
 				/* drive letter? */
-				if (ctype(ip[0], C_ALPHA) && ip[1] == ':') {
+				if (mksh_drvltr(ip)) {
 					/* keep it */
 					Xput(xs, xp, *ip++);
 					Xput(xs, xp, *ip++);
@@ -1948,6 +1948,8 @@ make_path(const char *cwd, const char *file,
  * ..					..
  * ./foo				foo
  * foo/../../../bar			../../bar
+ * C:/../foo				C:/foo
+ * C:../foo				C:../foo
  */
 void
 simplify_path(char *p)
@@ -1955,6 +1957,12 @@ simplify_path(char *p)
 	char *dp, *ip, *sp, *tp;
 	size_t len;
 	bool needslash;
+
+#ifdef MKSH_DOSPATH
+	/* keep drive letter */
+	if (mksh_drvltr(p))
+		p += 2;
+#endif
 
 	switch (*p) {
 	case 0:
