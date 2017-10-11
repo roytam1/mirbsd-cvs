@@ -2734,11 +2734,14 @@ extern int tty_init_fd(void);	/* initialise tty_fd, tty_devtty */
 #endif
 
 #ifdef MKSH_DOSPATH
+#define mksh_drvltr(s)			__extension__({			\
+	const char *mksh_drvltr_s = (s);				\
+	(ctype(mksh_drvltr_s[0], C_ALPHA) && mksh_drvltr_s[1] == ':');	\
+})
 #define mksh_abspath(s)			__extension__({			\
 	const char *mksh_abspath_s = (s);				\
 	(mksh_cdirsep(mksh_abspath_s[0]) ||				\
-	    (ctype(mksh_abspath_s[0], C_ALPHA) &&			\
-	    mksh_abspath_s[1] == ':'));					\
+	    mksh_drvltr(mksh_abspath_s));				\
 })
 #define mksh_cdirsep(c)			__extension__({			\
 	char mksh_cdirsep_c = (c);					\
@@ -2746,8 +2749,7 @@ extern int tty_init_fd(void);	/* initialise tty_fd, tty_devtty */
 })
 #define mksh_sdirsep(s)			__extension__({			\
 	const char *mksh_sdirsep_s = (s);				\
-	((char *)((ctype(mksh_sdirsep_s[0], C_ALPHA) &&			\
-	    mksh_sdirsep_s[1] == ':' &&					\
+	((char *)((mksh_drvltr(mksh_sdirsep_s) &&			\
 	    !mksh_cdirsep(mksh_sdirsep_s[2])) ?				\
 	    (mksh_sdirsep_s + 1) : strpbrk(mksh_sdirsep_s, "/\\")));	\
 })
