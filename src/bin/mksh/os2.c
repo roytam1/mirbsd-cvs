@@ -21,8 +21,6 @@
  */
 
 #define INCL_DOS
-#define INCL_DOSFILEMGR
-#define INCL_DOSMISC
 #include <os2.h>
 
 #include "sh.h"
