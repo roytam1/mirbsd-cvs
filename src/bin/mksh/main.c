@@ -661,8 +661,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 		if (Flag(FLOGIN))
 			include(substitute("$HOME/.profile", 0), 0, NULL, true);
 		if (Flag(FTALKING)) {
-			cp = substitute(substitute("${ENV:-" MKSHRC_PATH "}",
-			    0), DOTILDE);
+			cp = substitute("${ENV:-" MKSHRC_PATH "}", DOTILDE);
 			if (cp[0] != '\0')
 				include(cp, 0, NULL, true);
 		}
