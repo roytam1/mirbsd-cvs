@@ -1280,13 +1280,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[komh] Remove redundant OS/2-specific code, clean up others</li>
+ <li>[komh, tg] Fix drive-qualified (absolute and relative) DOS-style path
+  support in realpath functionality, partially other places</li>
+ <li>[tg] Don’t substitute <tt>${ENV:-~/.mkshrc}</tt> result again</li>
+ <li>[tg] Improve OS/2 $PATH (et al.) handling, drive-relative paths</li>
+ <li>[tg] Add MKSH_ENVDIR compile-time option for Jehanne and Plan 9</li>
+</ul>
 <p id="r56b">R56b is a bugfix-only release everyone should upgrade to:</p><ul>
  <li>[tg] Reference the FAQ webpage</li>
  <li>[panpo, Riviera] Fix documentation bug wrt. Esc+Ctrl-L</li>
