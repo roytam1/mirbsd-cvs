@@ -2,7 +2,7 @@
 /*	$NetBSD: ar_io.c,v 1.5 1996/03/26 23:54:13 mrg Exp $	*/
 
 /*-
- * Copyright (c) 2012, 2016
+ * Copyright (c) 2012, 2016, 2017
  *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
@@ -176,7 +176,9 @@ ar_open(const char *name)
 		return(-1);
 	}
 	if (S_ISDIR(arsb.st_mode)) {
-		paxwarn(0, "Cannot write an archive on top of a directory %s",
+		paxwarn(0, act == LIST || act == EXTRACT ?
+		    "Cannot read an archive from a directory %s" :
+		    "Cannot write an archive on top of a directory %s",
 		    arcname);
 		(void)close(arfd);
 		arfd = -1;
