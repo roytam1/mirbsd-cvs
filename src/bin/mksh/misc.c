@@ -2188,6 +2188,17 @@ c_cd(const char **wp)
 		return (2);
 	}
 
+#ifdef MKSH_DOSPATH
+	if (mksh_drvltr(dir) && !mksh_cdirsep(dir[2]) &&
+	    !getdrvwd(&tryp, ord(*dir))) {
+		dir = shf_smprintf(Tf_sss, tryp,
+		    dir[2] ? "/" : "", dir + 2);
+		afree(tryp, ATEMP);
+		afree(allocd, ATEMP);
+		allocd = dir;
+	}
+#endif
+
 #ifdef MKSH__NO_PATH_MAX
 	/* only a first guess; make_path will enlarge xs if necessary */
 	XinitN(xs, 1024, ATEMP);
