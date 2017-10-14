@@ -184,7 +184,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.838 2017/08/07 21:39:26 tg Exp $");
 #endif
-#define MKSH_VERSION "R56 2017/08/29"
+#define MKSH_VERSION "R56 2017/10/14"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -2566,7 +2566,6 @@ void setextlibpath(const char *, const char *);
 int access_ex(int (*)(const char *, int), const char *, int);
 int stat_ex(const char *, struct stat *);
 const char *real_exec_name(const char *);
-int getdrvwd(char **, unsigned int);
 #endif
 /* shf.c */
 struct shf *shf_open(const char *, int, int, int);
@@ -2757,6 +2756,7 @@ extern int tty_init_fd(void);	/* initialise tty_fd, tty_devtty */
 	    (mksh_sdirsep(mksh_vdirsep_s) != NULL)) &&			\
 	    (strcmp(mksh_vdirsep_s, T_builtin) != 0));			\
 })
+int getdrvwd(char **, unsigned int);
 #else
 #define mksh_abspath(s)			(ord((s)[0]) == ord('/'))
 #define mksh_cdirsep(c)			(ord(c) == ord('/'))
