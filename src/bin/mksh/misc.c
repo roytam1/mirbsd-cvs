@@ -2189,6 +2189,7 @@ c_cd(const char **wp)
 	}
 
 #ifdef MKSH_DOSPATH
+	tryp = NULL;
 	if (mksh_drvltr(dir) && !mksh_cdirsep(dir[2]) &&
 	    !getdrvwd(&tryp, ord(*dir))) {
 		dir = shf_smprintf(Tf_sss, tryp,
