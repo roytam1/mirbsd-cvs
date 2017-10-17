@@ -1291,6 +1291,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Don’t substitute <tt>${ENV:-~/.mkshrc}</tt> result again</li>
  <li>[tg] Improve OS/2 $PATH (et al.) handling, drive-relative paths</li>
  <li>[tg] Add MKSH_ENVDIR compile-time option for Jehanne and Plan 9</li>
+ <li>[tg] Limit nesting when parsing malformed code (Debian #878947)</li>
 </ul>
 <p id="r56b">R56b is a bugfix-only release everyone should upgrade to:</p><ul>
  <li>[tg] Reference the FAQ webpage</li>
