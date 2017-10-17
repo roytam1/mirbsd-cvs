@@ -6,6 +6,7 @@
  *  with contributions from Joe Nahmias <jello@debian.org>
  *  and Hans de Goede <hdegoede@redhat.com>
  * via Fedora from Carlos Maddela <maddela@labyrinth.net.au>
+ * and from Carlos Maddela <e7appew@gmail.com>
  *  per Josue Ortega <josue@debian.org>
  * MirBSD changes (c) 2011 by Thorsten Glaser <tg@mirbsd.org>
  *
@@ -1810,8 +1811,8 @@ main(int argc, char *argv[])
   Boolean show_help = False;
   Boolean do_append = False, do_clear = False;
   Boolean do_keep = False, do_exchange = False;
-  Boolean do_input = False, do_output = False;
-  Boolean dont_input = True, dont_output = False;
+  Boolean do_input = False, do_output = False, force_input = False;
+  Boolean dont_input = True, dont_output = False, force_output = False;
   Boolean want_clipboard = False, do_delete = False;
   Window root;
   Atom selection = XA_PRIMARY, test_atom;
@@ -1917,18 +1918,22 @@ main(int argc, char *argv[])
     return (0);
   }
 
-  if (fstat (0, &in_statbuf) == -1) {
-    err(1, "fstat error on stdin");
-  }
-  if (fstat (1, &out_statbuf) == -1) {
-    err(1, "fstat error on stdout");
+  if (do_input || force_input) {
+    if (fstat (0, &in_statbuf) == -1) {
+      err(1, "fstat error on stdin");
+    }
+    if (S_ISDIR(in_statbuf.st_mode)) {
+      err(1, "-: Is a directory");
+    }
   }
 
-  if (S_ISDIR(in_statbuf.st_mode)) {
-    err(1, "-: Is a directory");
-  }
-  if (S_ISDIR(out_statbuf.st_mode)) {
-    err(1, "stdout: Is a directory");
+  if (do_output || force_output) {
+    if (fstat (1, &out_statbuf) == -1) {
+      err(1, "fstat error on stdout");
+    }
+    if (S_ISDIR(out_statbuf.st_mode)) {
+      err(1, "stdout: Is a directory");
+    }
   }
 
   timeout = timeout_ms * 1000;
