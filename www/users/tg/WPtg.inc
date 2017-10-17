@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.373 2017/08/12 17:14:20 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.381 2017/09/27 20:42:31 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -13613,6 +13613,42 @@ Banner: jpg
 Title: We ♥ Meßdorfer Feld (3.0) ♻
 nTF: 0
 Tag: D15 T2 CITO
+----
+ID: 2246
+Date: 01.10.2017
+Waypoint: GC7A90B
+Title: Ritterburg in der Dornenweide
+Tag: D2 T45 Micro Tradi recommended
+----
+ID: 2247
+Date: 01.10.2017
+Waypoint: GC7AKBF
+Title: Project 750
+Tag: D15 T2 Micro Multi
+----
+ID: 2248
+Date: 01.10.2017
+Waypoint: GC783Z1
+Title: Ey da müßte Musik sein
+Tag: D45 T15 Micro Mystery
+----
+ID: 2249
+Date: 01.10.2017
+Waypoint: GC4WWQ5
+Title: Team Holzer's Home
+Tag: D15 T15 Small Tradi
+----
+ID: 2250
+Date: 08.10.2017
+Waypoint: GC22EMC
+Title: Basaltsäule in Sankt Augustin
+Tag: D1 T1 Earth
+----
+ID: 2251
+Date: 17.10.2017
+Waypoint: GC7CB5W
+Title: Fortitudo - Runde 6
+Tag: D35 T25 Small Multi
 ----
 ID: p20481102
 Date: 02.11.2048
