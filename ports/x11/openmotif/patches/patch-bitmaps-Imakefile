@@ -1,9 +1,0 @@
-$MirOS$
---- bitmaps/Imakefile.orig	Thu Apr 28 23:41:03 2005
-+++ bitmaps/Imakefile	Thu Apr 28 23:41:18 2005
-@@ -56,4 +56,4 @@ HEADERS = \
- 
- all::
- 
--InstallMultipleFlags($(HEADERS),$(XPROJECTROOT)/include/X11/bitmaps/,$(INSTINCFLAGS))
-+InstallMultipleFlags($(HEADERS),$(PROJECTROOT)/include/X11/bitmaps/,$(INSTINCFLAGS))

@@ -1,4 +1,0 @@
-@comment $MirOS$
-include/xvid.h
-lib/libxvidcore.a
-%%SHARED%%

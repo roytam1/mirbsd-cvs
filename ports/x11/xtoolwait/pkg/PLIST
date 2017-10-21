@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2001/06/08 06:53:09 kevlo Exp $
-bin/xtoolwait
-man/cat1/xtoolwait.0

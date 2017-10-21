@@ -1,9 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/04/03 02:47:48 espie Exp $
-@pkgcfl hc-*
-bin/b2g
-bin/g2b
-bin/hc
-man/man1/hc.1
-share/hc/hc.tab
-share/hc/hc-supp.tab
-@dirrm share/hc
