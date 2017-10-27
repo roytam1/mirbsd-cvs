@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.47 2012/07/06 14:34:33 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.48 2017/08/07 20:18:09 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 #-
@@ -13,7 +13,7 @@
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.47 2012/07/06 14:34:33 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.48 2017/08/07 20:18:09 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -67,7 +67,7 @@ option		MFS			# memory filesystem
 
 option		TCP_SACK		# Selective Acknowledgements for TCP
 option		TCP_ECN			# Explicit Congestion Notification for TCP
-option		TCP_FACK		# Forward Acknowledgements for TCP
+#option		TCP_FACK		# Forward Acknowledgements for TCP
 option		TCP_SIGNATURE		# TCP MD5 Signatures
 
 option		NFSCLIENT		# Nightmare Filesystem client
