@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/man/Makefile,v 1.11 2014/11/26 19:48:58 tg Exp $
+# $MirOS: src/lib/libssl/man/Makefile,v 1.12 2014/11/26 20:02:21 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2008/07/28 23:44:10 jsg Exp $
 
 .include <bsd.own.mk>		# for NOMAN
@@ -226,6 +226,7 @@ MANALL=	\
 	d2i_X509_NAME.cat3 \
 	d2i_X509_REQ.cat3 \
 	d2i_X509_SIG.cat3 \
+	bio.cat3 \
 	des_modes.cat7 \
 	dh.cat3 \
 	dsa.cat3 \
