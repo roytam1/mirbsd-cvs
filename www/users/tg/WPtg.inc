@@ -13650,6 +13650,18 @@ Waypoint: GC7CB5W
 Title: Fortitudo - Runde 6
 Tag: D35 T25 Small Multi
 ----
+ID: 2252
+Date: 27.10.2017
+Waypoint: GC512Q7
+Title: Laufradrunde Wasserland
+Tag: D15 T15 Small Multi
+----
+ID: 2253
+Date: 29.10.2017
+Waypoint: GC5GH2J
+Title: crazy pics # 9
+Tag: D15 T1 Micro Mystery
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
