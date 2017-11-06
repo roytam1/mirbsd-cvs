@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.16 2011/06/21 18:37:09 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.18 2017/01/29 01:06:45 tg Exp $
 #-
 # Initialisation file for MirOS ksh (pdksh, sh), (s)ash and GNU bash
 # Fallback mode only for non-Korn-shells, though.
@@ -203,13 +203,13 @@ ddg() {
 
 # GooGle Search
 ggs() {
-	local _q _IFS
+	\\builtin typeset _q _IFS
 
 	_IFS=$IFS
 	IFS=+
 	_q="$*"
 	IFS=$_IFS
-	${BROWSER:-lynx} "http://www.google.com/search?hl=la&pws=0&num=100&safe=off&q=$_q"
+	${BROWSER:-lynx} "http://www.google.com/search?filter=0&gfe_rd=cr&gws_rd=cr&hl=la&ie=utf8&num=100&oe=utf8&pws=0&safe=off&ud=0&q=$_q"
 }
 
 function ggr {		# Google GRoups
