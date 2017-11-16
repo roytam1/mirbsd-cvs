@@ -655,6 +655,14 @@ sub tell_i {
   $silent || &print;
 }
 
+sub tell_hi {
+  local($pfx, $msg) = @_;
+
+  $msg =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
+
+  &tell_i("$pfx$msg");
+}
+
 sub strip_idmsg {
   $unverified = 1;
   if ($args =~ /^([-+])/) {
@@ -2271,21 +2279,17 @@ while (1) {
 	&ctcp($newarg, $1);
       } elsif (!$printchan && &eq($newarg, $talkchannel)) {
 	&dohooks("public", $newarg, $args);
-	$args =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
-	&tell_i("<${who}> $args");
+	&tell_hi("<${who}> ", $args);
       } elsif ($newarg =~ /^[\#\&\+]/) {
 	&dohooks("public", $newarg, $args);
-	$args =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
-	&tell_i("<${who}:${newarg}> $args");
+	&tell_hi("<${who}:${newarg}> ", $args);
       } elsif (&eq ($newarg, $nick)) {
 	print "`#ssfe#t/m $who \n" if $ssfe;
 	print "`#ssfe#o[$who$puh1] $args\n" if $ssfe;
 	&dohooks("msg", $args);
-	$args =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
-	&tell_i("[\cb${who}\cb${puh1}] $args");
+	&tell_hi("[\cb${who}\cb${puh1}] ", $args);
       } else {
-	$args =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
-	&tell_i("[\cb${who}\cb${puh1}:${newarg}\cb] $args");
+	&tell_hi("[\cb${who}\cb${puh1}:${newarg}\cb] ", $args);
       }
     } elsif ($cmd eq 'NOTICE') {
       &yetonearg;
