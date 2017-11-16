@@ -187,7 +187,9 @@ sub update_charset {
 	"LOCALHOST", "", "CTCP", "no",
 	"USERINFO", "", "FINGER", "", "IRCNAME", "", "EIGHT_BIT", "on",
 	"LOADPATH", join(":", @loadpath), "CTRL_T", "/next", "UTF", "on",
-	"CHARSET", "iso-8859-1", "SHOWTIME", "on", "HIGHLIGHT", "off");
+	"CHARSET", "iso-8859-1", "SHOWTIME", "on", "HIGHLIGHT_NICK", "off",
+	"HIGHLIGHT_STYLE", "u");
+$highlight_style = "\c_";
 
 $raw_mode=$opt_r || (!-t STDOUT);
 $ansi=!$raw_mode && $ENV{"TERM"} =~ /^vt|^xterm|^ansi/i;
@@ -938,9 +940,15 @@ sub doset {
 	&tell("*\cbE\cb* Can't write to logfile $logfile");
       }
     }
-  } elsif ($var eq 'HIGHLIGHT') {
+  } elsif ($var eq 'HIGHLIGHT_NICK') {
     $val =~ tr/A-Z[]\\~/a-z{}|^/;
     $set{$var}=$val if $val =~ /^(on|off)$/;
+  } elsif ($var eq 'HIGHLIGHT_STYLE') {
+    $val =~ tr/A-Z[]\\~/a-z{}|^/;
+    $set{$var} = $1 if $val =~ /^(b|i|u)/;
+    $highlight_style = "\cb" if $set{$var} eq "b";
+    $highlight_style = "\cv" if $set{$var} eq "i";
+    $highlight_style = "\c_" if $set{$var} eq "u";
   } elsif (defined($sets{$var})) {
     local($f)=$sets{$var};
     eval { &$f($val); };
@@ -2263,20 +2271,20 @@ while (1) {
 	&ctcp($newarg, $1);
       } elsif (!$printchan && &eq($newarg, $talkchannel)) {
 	&dohooks("public", $newarg, $args);
-	$args =~ s/\Q$nick\E/\x00\cv$&\x00\cv/ig if $set{"HIGHLIGHT"} eq 'on';
+	$args =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
 	&tell_i("<${who}> $args");
       } elsif ($newarg =~ /^[\#\&\+]/) {
 	&dohooks("public", $newarg, $args);
-	$args =~ s/\Q$nick\E/\x00\cv$&\x00\cv/ig if $set{"HIGHLIGHT"} eq 'on';
+	$args =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
 	&tell_i("<${who}:${newarg}> $args");
       } elsif (&eq ($newarg, $nick)) {
 	print "`#ssfe#t/m $who \n" if $ssfe;
 	print "`#ssfe#o[$who$puh1] $args\n" if $ssfe;
 	&dohooks("msg", $args);
-	$args =~ s/\Q$nick\E/\x00\cv$&\x00\cv/ig if $set{"HIGHLIGHT"} eq 'on';
+	$args =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
 	&tell_i("[\cb${who}\cb${puh1}] $args");
       } else {
-	$args =~ s/\Q$nick\E/\x00\cv$&\x00\cv/ig if $set{"HIGHLIGHT"} eq 'on';
+	$args =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
 	&tell_i("[\cb${who}\cb${puh1}:${newarg}\cb] $args");
       }
     } elsif ($cmd eq 'NOTICE') {

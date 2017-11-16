@@ -284,9 +284,10 @@ Sets a variable, or unsets it (if preceded with a '-'), or shows one
 (giving a name only) or shows them all (without arguments).
 Do a /help set <variable> for help on specific variables.
 The list of SET variables is:
-CHARSET    CTCP       CTRL_T     EIGHT_BIT  FINGER
-IRCNAME    HIGHLIGHT  LOADPATH   LOCALHOST  PRINTCHAN
-PRINTUH    SENDAHEAD  SHOWTIME   USERINFO   UTF
+CHARSET         FINGER             LOADPATH        SENDAHEAD
+CTCP            HIGHLIGHT_NICK     LOCALHOST       SHOWTIME
+CTRL_T          HIGHLIGHT_STYLE    PRINTCHAN       USERINFO
+EIGHT_BIT       IRCNAME            PRINTUH         UTF
 Note that sirc scripts may add their own SET variables.
 @set charset
 Sets the local character set assumed.
@@ -311,8 +312,14 @@ The default is "on", unless sirc is started with -7.
 Sets the CTCP finger reply.
 The default is "keep your fingers touching yourself", or whatever is
 set in the $IRCFINGER environment variable.
-@set highlight
+@set highlight_nick
 Enables highlighting incoming messages containing the own nickname.
+@set highlight_style
+Controls how highlighted nicknames are displayed.
+  b        --  embolden highlighted phrases
+  i        --  invert highlighted phrases
+  u        --  underline highlighted phrases
+The default is "u".
 @set ircname
 Sets the IRCNAME for the next connection.  The default is a rude reply
 or whatever is in the $SIRCNAME or $IRCNAME environment variables.
