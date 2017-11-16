@@ -2299,17 +2299,17 @@ while (1) {
       } elsif ($newarg =~ /^[\#\&\+]/) {
 	&dohooks("notice", $newarg, $args);
 	$msgchannel = $newarg;
-	&tell_i("-${who}/${newarg}- $args");
+	&tell_hi("-${who}/${newarg}- ", $args);
       } elsif ($who =~ /\./) {
 	&dohooks("server_notice", $args);
 	$args="*** ".$args unless ($args =~ /^\*/);
 	&tell($args);
       } elsif (&eq($newarg, $nick)) {
 	&dohooks("notice", $newarg, $args);
-	&tell_i("-\cb${who}\cb${puh1}- $args");
+	&tell_hi("-\cb${who}\cb${puh1}- ", $args);
       } else {
 	&dohooks("notice", $newarg, $args);
-	&tell_i("-\cb$who$puh1:${newarg}\cb- $args");
+	&tell_hi("-\cb$who$puh1:${newarg}\cb- ", $args);
       }
     } elsif ($cmd eq 'KICK') {
       &yetonearg;
