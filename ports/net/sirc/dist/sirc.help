@@ -2,7 +2,7 @@
 Welcome to sirc v. $version, by orabidoo  (last changed: $date),
 a small and simple IRC client written in perl, with extensions for
 $MirOS: ports/net/sirc/dist/sirc.help,v 1.12 2017/11/16 23:35:41 tg Exp $ by
-mirabilos <m@mirbsd.org> and others.
+mirabilos <m@mirbsd.org>, multiplex'd and others.
 
 To get help on a particular topic, type "/help <topic>"  (without the
 <>s or the ""s)
@@ -243,11 +243,6 @@ Can be shortened to O.
 Usage: OPER <nickname> <password>
 Lets you becomes an IRC Operator on your current server.
 You need to have an O:line for this, and to know the password.
-@query
-Usage: QUERY [<nick>|<#channel>]
-Starts sending lines to <nick> or <#channel> by default, instead of
-sending them to your current channel. If you don't specify a nick,
-stops your current query.
 @part
 Usage: PART [*|<#channel[,#channel,...]>] [message]
 Leaves the specified channel(s), optionally giving a parting message.
@@ -257,6 +252,11 @@ Usage: PING <nickname>|<channelname>
 Sends a CTCP ping to the given nickname or channel. You're likely
 to get a CTCP PING reply with the number of seconds it took for the
 message to get to the user's client and back.
+@query
+Usage: QUERY [<nick>|<#channel>]
+Starts sending lines to <nick> or <#channel> by default, instead of
+sending them to your current channel. If you don't specify a nick,
+stops your current query.
 @quit
 Usage: QUIT [<text>]
 Quits sirc, with an optional parting message.
@@ -268,11 +268,11 @@ Can be shortened to Q.
 @randex
 Usage: RANDEX [<nick>|<#channel>] [seed]
 Send entropy to the specified peer, initiate the RANDEX protocol.
-@rping
-Undernet oper-only command, for newer 2.9 servers.
 @rehash
 Usage: REHASH
 Forces the server to re-read its configuration file.
+@rping
+Undernet oper-only command, for newer 2.9 servers.
 @say
 Usage: SAY <text>
 Says the text on the current channel.
@@ -424,6 +424,11 @@ server is running, if it wasn't disabled everywhere... but it is.
 Usage: VERSION [<server>]
 Shows the version number of the client, and of the the specified,
 (or the one you're using, by default).
+@w
+Usage: W <nick>
+Shows WHOIS information for the given user, but asking their
+server for it, which displays idle time.
+Short for /WHOIS <nick> <nick>.
 @wallops
 Usage: WALLOPS <text>
 Sends a message to all the IRC Operators. Has been disabled or
@@ -447,21 +452,6 @@ See also: W.
 Usage: WHOWAS <nick> [<count>]
 Shows information about the given nickname if it was used recently.
 If <count> is specified, shows at most <count> entries.
-@w
-Usage: W <nick>
-Shows WHOIS information for the given user, but asking their
-server for it, which displays idle time.
-Short for /WHOIS <nick> <nick>.
-@newuser
-IRC is an international multi-user chat network organised in channels;
-each IRC user is known by a nickname. Communication with other users
-is either by private messages or by talking in channels.
-
-All sirc commands begin with a /, and anything that does not begin
-with a / is sent to your current channel.
-
-To get started, it will be useful to check the help on the following
-commands:  NICK, QUIT, LIST, WHOIS, MSG, JOIN, HOP, LL, keys
 @keys
 If you are using sirc with the full-screen interface (ssfe), these
 editing keys are recognised (with ^key meaning Control-key):
@@ -486,3 +476,13 @@ editing keys are recognised (with ^key meaning Control-key):
   ^x h            - toggle hold mode
   ^y              - yank line in the history without sending it
   ^z              - suspend sirc - you come back with 'fg', or never
+@newuser
+IRC is an international multi-user chat network organised in channels;
+each IRC user is known by a nickname. Communication with other users
+is either by private messages or by talking in channels.
+
+All sirc commands begin with a /, and anything that does not begin
+with a / is sent to your current channel.
+
+To get started, it will be useful to check the help on the following
+commands:  NICK, QUIT, LIST, WHOIS, MSG, JOIN, HOP, LL, keys
