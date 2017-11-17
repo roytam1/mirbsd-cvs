@@ -1,24 +1,25 @@
 @main
 Welcome to sirc v. $version, by orabidoo  (last changed: $date),
 a small and simple IRC client written in perl, with extensions for
-$MirOS: ports/net/sirc/dist/sirc.help,v 1.8 2017/06/25 23:28:33 tg Exp $ by
+$MirOS: ports/net/sirc/dist/sirc.help,v 1.12 2017/11/16 23:35:41 tg Exp $ by
 mirabilos <m@mirbsd.org> and others.
 
 To get help on a particular topic, type "/help <topic>"  (without the
 <>s or the ""s)
 
 List of topics for help:
-ADMIN     ALIAS    AWAY       BYE       CD          CLEAR    CONNECT
-CTCP      DEOP     DESCRIBE   DIE       DISCONNECT  EVAL     EXIT
-HELP      IGNORE   INFO       INVITE    JOIN        KICK     KILL
-LEAVE     LINKS    LIST       LL        LOAD        LUSERS   MAP
-ME        MODE     MOTD       MSG       NAMES       NEXT     NICK
-NOTE      NOTICE   NOTIFY     NS        OP          OPER     PART
-PING      QUERY    QUIT       QUOTE     RANDEX      REHASH   RPING
-SAY       SERVER   SET        SIGNOFF   SILENCE     SQUIT    STATS
-SYSTEM    TIME     TOPIC      TRACE     UMODE       UPING    USERS
-VERSION   WALLOPS  WHO        WHOIS     WHOWAS      W        keys
-newuser
+ADMIN       EVAL        LIST        NOTE        REHASH      TRACE
+ALIAS       EXIT        LL          NOTICE      RPING       UMODE
+AWAY        HELP        LOAD        NOTIFY      SAY         UPING
+BYE         HIGHLIGHT   LUSERS      NS          SERVER      USERS
+CD          IGNORE      MAP         OP          SET         VERSION
+CLEAR       INFO        ME          OPER        SIGNOFF     W
+CONNECT     INVITE      MODE        PART        SILENCE     WALLOPS
+CTCP        JOIN        MOTD        PING        SQUIT       WHO
+DEOP        KICK        MSG         QUERY       STATS       WHOIS
+DESCRIBE    KILL        NAMES       QUIT        SYSTEM      WHOWAS
+DIE         LEAVE       NEXT        QUOTE       TIME        keys
+DISCONNECT  LINKS       NICK        RANDEX      TOPIC       newuser
 @admin
 Usage: ADMIN [<server>|<nickname>]
 Asks for administrative details about the given server or the server
@@ -82,6 +83,13 @@ Quits sirc, with an optional parting message.
 @help
 Usage: HELP <topic>
 Gets help on the specified topic, as you can see.
+@highlight
+Usage: HIGHLIGHT [-][<pattern>]
+Controls highlighting of arbitrary phrases.
+Without arguments, shows you the current highlight list.
+With a "-" as single argument, clears it.
+If you specify a perlre(1) pattern (which may contain spaces),
+it will be added to the list, or removed if it begins with a "-".
 @ignore
 Usage: IGNORE [-][<pattern>]
 Lets you ignore messages and notices from a list of users.

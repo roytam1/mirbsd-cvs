@@ -658,7 +658,13 @@ sub tell_i {
 sub tell_hi {
   local($pfx, $msg) = @_;
 
-  $msg =~ s/\Q$nick\E/\x00$highlight_style$&\x00$highlight_style/ig if $set{"HIGHLIGHT_NICK"} eq 'on';
+  local($pat) = join('|', @highlight);
+  if ($set{"HIGHLIGHT_NICK"} eq 'on') {
+    $pat .= '|' if $pat ne '';
+    $pat .= "\Q$nick\E";
+  }
+
+  $msg =~ s/$pat/\x00$highlight_style$&\x00$highlight_style/ig if $pat ne '';
 
   &tell_i("$pfx$msg");
 }
@@ -1142,7 +1148,7 @@ sub docommand {
 	$p=$_;
 	$p =~ s/\\//g;
 	$p =~ s/\.\*/*/g;
-	&tell("*** $p");
+	&tell("***  $p");
       }
     } else {
       local($d, $p)=('');
@@ -1166,6 +1172,22 @@ sub docommand {
 	&tell("*** Ignoring $p ... what a relief!");
 	push(@ignore, $newarg);
       }
+    }
+  } elsif ($cmd eq 'HIGHLIGHT') {
+    if ($args eq '-') {
+      @highlight=();
+      &tell("*** Highlight list cleared");
+    } elsif ($args eq '') {
+      &tell("*** Current highlighting patterns:");
+      foreach (@highlight) {
+	&tell("***  $_");
+      }
+    } elsif ($args =~ s/^-//) {
+      &tell("*** Removing $args from highlight list");
+      @highlight = grep(($_ ne $args), @highlight);
+    } else {
+      &tell("*** Adding $args to highlight list");
+      push(@highlight, $args);
     }
   } elsif ($cmd eq 'ECHO') {
     &print($args);
