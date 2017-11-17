@@ -18,8 +18,9 @@ The RANDEX protocol originated in this client.
 
 The new command ACCEPT from ratbox-ircd (Freeforge et al.) is
 supported as well as the CAPAB IDENTIFY-MSG from dancer-ircd
-(Freenode/OPN et al.) which is invoked automatically and shows
-messages from identified users with different hooks («»[[¬]]).
+and the newer variant CAP (Freenode/OPN et al.) which is
+invoked automatically and shows messages from identified users
+with different hook-like markers («»[[¬]]).
 
 SSL is supported via /usr/sbin/openssl (which must be in your
 current $PATH) by prefixing the port number with an 's' letter.
