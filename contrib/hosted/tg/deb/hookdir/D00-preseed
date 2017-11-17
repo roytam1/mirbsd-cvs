@@ -4,4 +4,7 @@
 # Not complicated enough for copyright.
 
 set -ex
-echo man-db man-db/auto-update boolean false | debconf-set-selections
+debconf-set-selections <<\EOF
+man-db man-db/build-database boolean false
+man-db man-db/auto-update boolean false
+EOF
