@@ -1,5 +1,8 @@
 /*
+ * Copyright © 2017 mirabilos <m@mirbsd.org>
  * Copyright (C) 1996-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (c) 2017 Patrick Keshishian
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +21,7 @@
 #include "buffer.h"
 #include "pagealign_alloc.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.19 2016/10/22 03:30:33 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/buffer.c,v 1.2 2016/10/22 14:33:29 tg Exp $");
 
 #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
 
@@ -1052,7 +1055,14 @@ buf_copy_lines (struct buffer *outbuf, struct buffer *inbuf, int command)
 	}
 
 	/* Put in the command.  */
-	buf_append_char (outbuf, command);
+	switch (command) {
+	case CVS_OUTPUT_EX_LOGM:
+		buf_output0 (outbuf, "LOGM");
+		break;
+	default:
+		buf_append_char (outbuf, command);
+		break;
+	}
 	buf_append_char (outbuf, ' ');
 
 	if (inbuf->data != nldata)

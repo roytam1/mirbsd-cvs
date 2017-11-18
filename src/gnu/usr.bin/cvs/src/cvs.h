@@ -1,6 +1,7 @@
 /* $MirOS: src/gnu/usr.bin/cvs/src/cvs.h,v 1.6 2011/06/11 02:56:58 tg Exp $ */
 
 /*
+ * Copyright © 2017 mirabilos <m@mirbsd.org>
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
  * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
@@ -920,11 +921,15 @@ void tag_check_valid (const char *, int, char **, int, int, char *, bool);
 
 /* From server.c and documented there.  */
 void cvs_output (const char *, size_t);
+void cvs_output_ex (const char *, size_t, int);
 void cvs_output_binary (char *, size_t);
 void cvs_outerr (const char *, size_t);
 void cvs_flusherr (void);
 void cvs_flushout (void);
 void cvs_output_tagged (const char *, const char *);
+int supported_response (const char *);
+
+#define CVS_OUTPUT_EX_LOGM	0x80000001
 
 extern const char *global_session_id;
 

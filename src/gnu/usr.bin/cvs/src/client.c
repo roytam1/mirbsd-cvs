@@ -20,7 +20,7 @@
 #include "buffer.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/client.c,v 1.5 2012/02/07 17:31:26 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/client.c,v 1.8 2017/08/12 01:51:22 tg Exp $");
 
 #ifdef CLIENT_SUPPORT
 
@@ -3079,6 +3079,7 @@ struct response responses[] =
        rs_optional),
     RSP_LINE("M", handle_m, response_type_normal, rs_essential),
     RSP_LINE("Mbinary", handle_mbinary, response_type_normal, rs_optional),
+    RSP_LINE("LOGM", handle_m, response_type_normal, rs_optional),
     RSP_LINE("E", handle_e, response_type_normal, rs_essential),
     RSP_LINE("F", handle_f, response_type_normal, rs_optional),
     RSP_LINE("MT", handle_mt, response_type_normal, rs_optional),

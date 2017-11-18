@@ -1,12 +1,17 @@
-/* This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.  */
+/*
+ * Copyright © 2017 mirabilos <m@mirbsd.org>
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
 
 #include "cvs.h"
 
@@ -548,8 +553,8 @@ alloc_pending_warning (size_t size)
 
 
 
-static int
-supported_response (char *name)
+int
+supported_response (const char *name)
 {
     struct response *rs;
 
@@ -7703,6 +7708,12 @@ krb_encrypt_buffer_initialize( struct buffer *buf, int input,
 void
 cvs_output (const char *str, size_t len)
 {
+    cvs_output_ex (str, len, 'M');
+}
+
+void
+cvs_output_ex (const char *str, size_t len, int buftag)
+{
     if (len == 0)
 	len = strlen (str);
 #ifdef SERVER_SUPPORT
@@ -7711,7 +7722,7 @@ cvs_output (const char *str, size_t len)
 	if (buf_to_net)
 	{
 	    buf_output (saved_output, str, len);
-	    buf_copy_lines (buf_to_net, saved_output, 'M');
+	    buf_copy_lines (buf_to_net, saved_output, buftag);
 	}
 # if HAVE_SYSLOG_H
 	else
@@ -7726,7 +7737,7 @@ cvs_output (const char *str, size_t len)
 	if (protocol)
 	{
 	    buf_output (saved_output, str, len);
-	    buf_copy_lines (protocol, saved_output, 'M');
+	    buf_copy_lines (protocol, saved_output, buftag);
 	    buf_send_counted (protocol);
 	}
 # if HAVE_SYSLOG_H
