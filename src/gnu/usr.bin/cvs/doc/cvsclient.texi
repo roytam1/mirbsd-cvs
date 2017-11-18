@@ -483,12 +483,13 @@ a dollar sign (@samp{$}).
 In various contexts, for example the @code{Argument} request and the
 @code{M} response, one transmits what is essentially an arbitrary
 string.  Often this will have been supplied by the user (for example,
-the @samp{-m} option to the @code{ci} request).  The protocol has no
-mechanism to specify the character set of such strings; it would be
-fairly safe to stick to the invariant ISO 646 character set but the
-existing practice is probably to just transmit whatever the user
-specifies, and hope that everyone involved agrees which character set is
-in use, or sticks to a common subset.
+the @samp{-m} option to the @code{ci} request will show up in the
+@code{LOGM} response).  The protocol has no mechanism to specify the
+character set of such strings; it would have been, initially, fairly
+safe to stick to the invariant ISO 646 character set but the existing
+practice is probably to just transmit whatever the user specifies,
+and hope that everyone involved agrees which character set is in use,
+or sticks to a common subset. In modern times, UTF-8 should be used.
 
 @node Dates
 @section Dates
@@ -1779,12 +1780,19 @@ example output.  Servers are encouraged to use the @samp{MT} response,
 and future versions of this document will hopefully standardise more of
 the @samp{MT} tags; see @ref{Text tags}.
 
+@item LOGM @var{text} \n
+Exactly the same as @code{M} but only sent if the client indicates
+supporting it via @code{Valid-responses}, used exclusively for log
+message payload (that is, in @code{cvs log} and @code{cvs rlog},
+the text body the user originally has entered with the @samp{-m}
+option to the @code{ci} request).
+
 @item Mbinary \n
 Additional data: file transmission (note: compressed file transmissions
-are not supported).  This is like @samp{M}, except the contents of the
+are not supported).  This is like @code{M}, except the contents of the
 file transmission are binary and should be copied to standard output
 without translation to local text file conventions.  To transmit a text
-file to standard output, servers should use a series of @samp{M} requests.
+file to standard output, servers should use a series of @code{M} requests.
 
 @item E @var{text} \n
 Same as @code{M} but send to stderr not stdout.
@@ -1811,7 +1819,7 @@ to @samp{z} or @samp{A} to @samp{Z}, then it represents tagged text.
 If the implementation recognises @var{tagname}, then it may interpret
 @var{data} in some particular fashion.  If the implementation does not
 recognise @var{tagname}, then it should simply treat @var{data} as
-text to be sent to the user (similar to an @samp{M} response).  There
+text to be sent to the user (similar to an @code{M} response).  There
 are two tags which are general purpose.  The @samp{text} tag is
 similar to an unrecognised tag in that it provides text which will
 ordinarily be sent to the user.  The @samp{newline} tag is used
