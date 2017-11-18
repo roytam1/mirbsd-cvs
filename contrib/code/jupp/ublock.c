@@ -998,10 +998,12 @@ static int dofilt(BW *bw, unsigned char *s, void *object, int *notify)
 	fname = vsncpy(NULL, 0, sc("JOE_FILENAME="));
 	tf = bw->b->name ? bw->b->name : (unsigned char *)"Unnamed";
 	fname = vsncpy(sv(fname), sz(tf));
-	putenv((char *)fname);
 #endif
 	sh = getushell();
 	if (!fork()) {
+#ifdef HAVE_PUTENV
+		putenv((char *)fname);
+#endif
 		signrm(1);
 		close(0);
 		close(1);
