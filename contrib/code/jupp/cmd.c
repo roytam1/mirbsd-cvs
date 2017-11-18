@@ -92,6 +92,17 @@ static int unop(void)
 	return (0);
 }
 
+#if !WANT_FORK
+static int
+unommu(BW *bw) {
+	msgnw(bw->parent, US "Sorry, not supported without MMU");
+	return (-1);
+}
+#define ubknd	unommu
+#define ubuild	unommu
+#define urun	unommu
+#endif
+
 CMD cmds[] = {
 	{US "abendjoe", TYPETW + TYPEPW + TYPEMENU + TYPEQW, uabendjoe, NULL, 0, NULL},
 	{US "abort", TYPETW + TYPEPW + TYPEMENU + TYPEQW, uabort, NULL, 0, NULL},
