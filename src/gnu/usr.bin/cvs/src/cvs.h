@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/cvs.h,v 1.6 2011/06/11 02:56:58 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/cvs.h,v 1.8 2017/11/18 22:05:12 tg Exp $ */
 
 /*
  * Copyright © 2017 mirabilos <m@mirbsd.org>
@@ -27,7 +27,7 @@
 /* Add GNU attribute suppport.  */
 #ifndef __attribute__
 /* This feature is available in gcc versions 2.5 and later.  */
-# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 5) || __STRICT_ANSI__
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 5) || (defined(__STRICT_ANSI__) && (__STRICT_ANSI__))
 #  define __attribute__(Spec) /* empty */
 # else
 #   if __GNUC__ == 2 && __GNUC_MINOR__ < 96
@@ -591,7 +591,8 @@ void cat_module (int status);
 void check_entries (char *dir);
 void close_module (DBM * db);
 void copy_file (const char *from, const char *to);
-void fperrmsg (FILE * fp, int status, int errnum, char *message,...);
+void fperrmsg (FILE * fp, int status, int errnum, char *message, ...)
+	__attribute__ ((__format__(__printf__, 4, 5)));
 
 int ign_name (char *name);
 void ign_add (char *ign, int hold);
@@ -624,7 +625,8 @@ void signals_register (RETSIGTYPE (*handler)(int));
 void cleanup_register (void (*handler) (void));
 
 void update_delproc (Node * p);
-void usage (const char *const *cpp);
+void usage (const char *const *cpp)
+	__attribute__((__noreturn__));
 void xchmod (const char *fname, int writable);
 List *Find_Names (char *repository, int which, int aflag,
 		  List ** optentries);

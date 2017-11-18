@@ -16,6 +16,9 @@
 
 #include "cvs.h"
 
+__RCSID("$MirOS$");
+
+static const
 #ifdef CLIENT_SUPPORT
 #ifdef SERVER_SUPPORT
 char *config_string = " (client/server)\n";
@@ -81,4 +84,3 @@ version (int argc, char **argv)
 #endif
     return err;
 }
-	

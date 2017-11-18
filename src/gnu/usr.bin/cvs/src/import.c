@@ -27,7 +27,7 @@
 
 __RCSID("$MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.10 2010/09/19 19:43:04 tg Exp $");
 
-static char *get_comment (const char *user);
+static const char *get_comment (const char *user);
 static int add_rev (char *message, RCSNode *rcs, char *vfile,
 			  char *vers);
 static int add_tags (RCSNode *rcs, char *vfile, char *vtag, int targc,
@@ -887,7 +887,8 @@ add_tags (RCSNode *rcs, char *vfile, char *vtag, int targc, char **targv)
  */
 struct compair
 {
-    char *suffix, *comlead;
+    const char *suffix;
+    const char *comlead;
 };
 
 static const struct compair comtable[] =
@@ -994,13 +995,13 @@ static const struct compair comtable[] =
 
 
 
-static char *
+static const char *
 get_comment (const char *user)
 {
     char *cp, *suffix;
     char *suffix_path;
     int i;
-    char *retval;
+    const char *retval;
 
     suffix_path = xmalloc (strlen (user) + 5);
     cp = strrchr (user, '.');

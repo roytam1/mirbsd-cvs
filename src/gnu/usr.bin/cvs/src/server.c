@@ -25,7 +25,7 @@
 #include "getline.h"
 #include "getnline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.12 2017/03/26 15:54:10 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.15 2017/11/18 22:05:12 tg Exp $");
 
 int server_active = 0;
 
@@ -691,6 +691,9 @@ serve_valid_responses (char *arg)
  */
 static pid_t command_pid;
 
+static void outbuf_memory_error (struct buffer *)
+	__attribute__((__noreturn__));
+
 static void
 outbuf_memory_error (struct buffer *buf)
 {
@@ -714,6 +717,8 @@ error ENOMEM Virtual memory exhausted.\n";
 }
 
 
+static void input_memory_error (struct buffer *)
+	__attribute__((__noreturn__));
 
 static void
 input_memory_error (struct buffer *buf)
@@ -5893,7 +5898,7 @@ static void serve_valid_requests (char *arg);
 /*
  * Parts of this table are shared with the client code,
  * but the client doesn't need to know about the handler
- * functions.
+ * functions. It likes to write to the flags field, though.
  */
 
 struct request requests[] =

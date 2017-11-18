@@ -28,7 +28,7 @@
 
 #include "getdelim.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_getdelim_c,v 1.2 2010/09/15 20:56:59 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdelim.c,v 1.4 2010/09/19 19:42:59 tg Exp $");
 
 #if !HAVE_FLOCKFILE
 # undef flockfile
@@ -82,12 +82,12 @@ getdelim (char **lineptr, size_t *n, int delimiter, FILE *fp)
       }
 
       /* Make enough space for len+1 (for final NUL) bytes.  */
-      if (cur_len + 1 >= *n)
+      if ((size_t)cur_len + 1U >= *n)
 	{
 	  size_t needed = 2 * (cur_len + 1) + 1;   /* Be generous. */
 	  char *new_lineptr;
 
-	  if (needed < cur_len)
+	  if (needed < (size_t)cur_len)
 	    {
 	      result = -1;
 	      goto unlock_return;

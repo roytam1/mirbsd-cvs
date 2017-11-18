@@ -33,13 +33,13 @@ static void write_dbmfile (char *temp);
 /* Structure which describes an administrative file.  */
 struct admin_file {
    /* Name of the file, within the CVSROOT directory.  */
-   char *filename;
+   const char *filename;
 
    /* This is a one line description of what the file is for.  It is not
       currently used, although one wonders whether it should be, somehow.
       If NULL, then don't process this file in mkmodules (FIXME?: a bit of
       a kludge; probably should replace this with a flags field).  */
-   char *errormsg;
+   const char *errormsg;
 
    /* Contents which the file should have in a new repository.  To avoid
       problems with brain-dead compilers which choke on long string constants,

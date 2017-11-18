@@ -1,11 +1,7 @@
-#if HAVE_CONFIG_H
-# include <config.h>
-#endif
-
 #include <stddef.h>
 #include <stdio.h>
 
-#if HAVE_STDIO_EXT_H
+#if defined(HAVE_STDIO_EXT_H) && (HAVE_STDIO_EXT_H)
 # include <stdio_ext.h>
 #endif
 
