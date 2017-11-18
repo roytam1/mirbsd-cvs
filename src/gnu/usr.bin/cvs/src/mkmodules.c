@@ -15,15 +15,15 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.12 2011/06/10 22:08:46 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.17 2017/11/18 23:04:55 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
 #endif
 
-static int checkout_file (char *file, char *temp);
+static int checkout_file (const char *file, char *temp);
 static char *make_tempfile (void);
-static void rename_rcsfile (char *temp, char *real);
+static void rename_rcsfile (const char *temp, const char *real);
 
 #ifndef MY_NDBM
 static void rename_dbmfile (char *temp);
@@ -869,7 +869,7 @@ make_tempfile (void)
    there is an error, print a message and return 1 (FIXME: probably
    not a very clean convention).  On success, return 0.  */
 static int
-checkout_file (char *file, char *temp)
+checkout_file (const char *file, char *temp)
 {
     char *rcs;
     RCSNode *rcsnode;
@@ -1111,7 +1111,7 @@ rename_dbmfile( char *temp )
 #endif				/* !MY_NDBM */
 
 static void
-rename_rcsfile (char *temp, char *real)
+rename_rcsfile (const char *temp, const char *real)
 {
     char *bak;
     struct stat statbuf;
