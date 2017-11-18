@@ -208,6 +208,18 @@ AC_CHECK_FUNCS([alarm mkdir mkstemp putenv setlocale strchr strdup utime setpgid
 AC_CHECK_FUNCS([setitimer sigaction sigvec siginterrupt sigprocmask isatty])
 AC_CHECK_FUNCS([strlcpy strlcat nl_langinfo get_current_dir_name ctime popen])
 
+AC_ARG_ENABLE([fork],
+[  --disable-fork          disable use of fork],
+	use_fork=$enableval, use_fork=yes)
+test x"$use_fork" = x"no" && ac_cv_func_fork=no
+AC_CHECK_FUNCS([fork unsetenv])
+case $use_fork:$ac_cv_func_fork in
+no:*) use_fork=0 ;;
+*:yes) use_fork=1 ;;
+*) use_fork=0 ;;
+esac
+AC_DEFINE_UNQUOTED([WANT_FORK], [$use_fork], [We have fork(2) and want to use it])
+
 AC_CHECK_DECLS([strlcpy, strlcat, popen])
 AC_CHECK_DECLS([ctime], [], [], [AC_INCLUDES_DEFAULT
 #ifdef TIME_WITH_SYS_TIME
