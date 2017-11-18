@@ -1,6 +1,7 @@
 \input texinfo @c -*- texinfo -*-
 
 @setfilename cvsclient.info
+@set MBSDPATCHLEVEL -MirOS-0AB8.4
 @tex
  % set PA4 paper size (can print on both DIN ISO A4 and US Letter)
  \globaldefs = 1%
@@ -11,7 +12,7 @@
   {28truecm}{21truecm}%
  \globaldefs = 0%
 @end tex
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvsclient.texi,v 1.8 2017/01/09 22:54:26 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvsclient.texi,v 1.10 2017/11/18 22:24:45 tg Exp $
 @include version-client.texi
 
 @dircategory Programming
@@ -25,9 +26,8 @@
 This document describes the client/server protocol used by CVS.  It does
 not describe how to use or administer client/server CVS; for that,
 @pxref{Top, the regular CVS manual,, cvs, the regular CVS manual}.
-This is version @value{VERSION} of the protocol
-specification---@xref{Introduction}, for more on what this version number
-means.
+This specification applies to
+@sc{cvs} version @value{VERSION}@value{MBSDPATCHLEVEL} and up.
 
 @menu
 * Introduction::      What is CVS and what is the client/server protocol for?
