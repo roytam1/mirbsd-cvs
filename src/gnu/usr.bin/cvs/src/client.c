@@ -3807,9 +3807,10 @@ connect_to_forked_server (cvsroot_t *root, struct buffer **to_server_p,
     /* This is pretty simple.  All we need to do is choose the correct
        cvs binary and call piped_child. */
 
-     char *command[3];
+    char *command[4];
+    int ncommand = 0;
 
-    command[0] = (root->cvs_server
+    command[ncommand++] = (root->cvs_server
 		  ? root->cvs_server : getenv ("CVS_SERVER"));
     if (!command[0] || !command[0][0])
 # ifdef SERVER_SUPPORT
@@ -3821,7 +3822,7 @@ connect_to_forked_server (cvsroot_t *root, struct buffer **to_server_p,
          * such that this casting isn't needed, but I don't know how.  If I
          * declare it as (const char *command[]), the compiler complains about
          * an incompatible arg 1 being passed to piped_child and if I declare
-         * it as (char *const command[3]), then the compiler complains when I
+         * it as (char *const command[4]), then the compiler complains when I
          * assign values to command[i].
          */
 	command[0] = (char *)program_path;
@@ -3833,11 +3834,15 @@ connect_to_forked_server (cvsroot_t *root, struct buffer **to_server_p,
     }
 # endif /* SERVER_SUPPORT */
     
-    command[1] = "server";
-    command[2] = NULL;
+    if (readonlyfs)
+        command[ncommand++] = "-R";
+    command[ncommand++] = "server";
+    command[ncommand++] = NULL;
 
-    TRACE (TRACE_FUNCTION, "Forking server: %s %s",
-	   command[0] ? command[0] : "(null)", command[1]);
+    TRACE (TRACE_FUNCTION, "Forking server: %s %s %s",
+	   command[0] ? command[0] : "(null)",
+	   command[1] ? command[1] : "(null)",
+	   command[2] ? command[2] : "");
 
     child_pid = piped_child (command, &tofd, &fromfd, false);
     if (child_pid < 0)
