@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/loginfo,v 1.33 2015/12/09 14:31:04 tg Exp $
+# $MirOS: CVSROOT/loginfo,v 1.35 2017/03/26 14:42:10 tg Exp $
 #-
 # Note: with the current system, the last directory to be committed
 # into “wins” the eMail and changelog location. This will be replaced
@@ -40,7 +40,7 @@
 # Thus %{sv} is a legal format string, but will only be replaced with
 # file name and new revision.
 # It also generates multiple arguments for each file being operated upon.
-# That is, if two files, file1 & file2, are being commited from 1.1 to
+# That is, if two files, file1 & file2, are being committed from 1.1 to
 # version 1.1.2.1 and from 1.1.2.2 to 1.1.2.3, respectively, %{sVv} will
 # generate the following six arguments in this order:
 # file1, 1.1, 1.1.2.1, file2, 1.1.2.2, 1.1.2.3.

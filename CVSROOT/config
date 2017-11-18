@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/config,v 1.6 2008/10/26 21:02:40 tg Exp $
+# $MirOS: CVSROOT/config,v 1.7 2009/08/02 09:55:44 tg Exp $
 #-
 
 # Set 'SystemAuth' to 'no' if pserver shouldn't check system users/passwords.
@@ -85,7 +85,7 @@ UseNewInfoFmtStrings=yes
 # Set 'MaxCommentLeaderLength' to the maximum length permitted for the
 # automagically determined comment leader used when expanding the Log
 # keyword, in bytes.  CVS's behavior when the automagically determined
-# comment leader exceeds this length is dependant on the value of
+# comment leader exceeds this length is dependent on the value of
 # 'UseArchiveCommentLeader' set in this file.  'unlimited' is a valid
 # setting for this value.  Defaults to 20 bytes.
 #
