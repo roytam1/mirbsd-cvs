@@ -110,14 +110,6 @@ static void cdata(B *b, unsigned char *dat, int siz)
 
 static int doushell(BW *bw, unsigned char *cmd, int *notify, int build)
 {
-#ifdef __MSDOS__
-	if (notify) {
-		*notify = 1;
-	}
-	varm(s);
-	msgnw(bw->parent, "Sorry, no sub-processes in DOS (yet)");
-	return -1;
-#else
 	MPX *m;
 	unsigned char **s;
 	unsigned char *u;
@@ -154,7 +146,6 @@ static int doushell(BW *bw, unsigned char *cmd, int *notify, int build)
 		bw->b->pid = m->pid;
 	}
 	return 0;
-#endif
 }
 
 int ubknd(BW *bw)
