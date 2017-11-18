@@ -1002,7 +1002,7 @@ static int dofilt(BW *bw, unsigned char *s, void *object, int *notify)
 #endif
 	sh = getushell();
 	if (!fork()) {
-		signrm();
+		signrm(1);
 		close(0);
 		close(1);
 		close(2);

@@ -167,9 +167,9 @@ void ttgtsz PARAMS((int *x, int *y));
  */
 void sigjoe PARAMS((void));
 
-/* void signrm(void);  Set above signals back to their default values.
+/* void signrm(int inchild);  Set above signals back to their default values.
  */
-void signrm PARAMS((void));
+void signrm PARAMS((int));
 
 /* MPX *mpxmk(int fd,int pid,
  *             void (*func)(),void *object,
