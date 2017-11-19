@@ -4,8 +4,8 @@ COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
 VSN=			1.12.13
 # track both in patches/patch-configure_in as well!
-DASH_VER=		20
-DEBIAN_REV=		24		# in sync with MirOS-0AB8.3 revision
+DASH_VER=		21
+DEBIAN_REV=		25		# in sync with MirOS-0AB8.4 revision
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 

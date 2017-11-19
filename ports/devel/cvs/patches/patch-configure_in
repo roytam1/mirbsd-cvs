@@ -1,17 +1,15 @@
 $MirOS: ports/devel/cvs/patches/patch-configure_in,v 1.8 2017/01/28 21:31:45 tg Exp $
---- configure.in.orig	Sat Apr 29 23:42:17 2017
-+++ configure.in	Sat Apr 29 23:42:21 2017
-@@ -17,8 +17,8 @@ but WITHOUT ANY WARRANTY; without even t
+--- configure.in.orig	Sun Nov 19 22:06:58 2017
++++ configure.in	Sun Nov 19 22:07:38 2017
+@@ -17,7 +17,7 @@ but WITHOUT ANY WARRANTY; without even t
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.])
  
--AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirDebian-24],
--	[bug-cvs@nongnu.org],[cvs])
-+AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirPorts-20],
-+	[miros-discuss@mirbsd.org],[cvs])
+-AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirDebian-25],
++AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirPorts-21],
+ 	[miros-discuss@mirbsd.org],[cvs])
  AC_CONFIG_SRCDIR(src/cvs.h)
  AC_CONFIG_AUX_DIR(build-aux)
- AM_INIT_AUTOMAKE([gnu 1.9.2 dist-bzip2 no-define])
 @@ -113,7 +113,7 @@ dnl
  dnl Yeah, put the value in a variable add it to the substitution list
  dnl then have configure create sanity.sh from sanity.sh.in...
