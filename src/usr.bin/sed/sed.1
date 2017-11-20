@@ -1,4 +1,4 @@
-.\"	$OpenBSD: sed.1,v 1.47 2015/11/04 21:28:27 tedu Exp $
+.\"	$OpenBSD: sed.1,v 1.50 2017/07/19 21:28:19 jmc Exp $
 .\"
 .\" Copyright (c) 1992, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -32,7 +32,7 @@
 .\"
 .\"	from: @(#)sed.1	8.2 (Berkeley) 12/30/93
 .\"
-.Dd $Mdocdate: November 4 2015 $
+.Dd $Mdocdate: July 19 2017 $
 .Dt SED 1
 .Os
 .Sh NAME
@@ -305,7 +305,6 @@ only when the pattern space is selected.
 .br
 .Ar text
 .Xc
-.Pp
 Write
 .Ar text
 to standard output immediately before each attempt to read a line of input,
@@ -322,7 +321,6 @@ If the label is not specified, branch to the end of the script.
 .br
 .Ar text
 .Xc
-.Pp
 Delete the pattern space.
 With 0 or 1 address or at the end of a 2-address range,
 .Ar text
@@ -348,7 +346,6 @@ to the hold space.
 .br
 .Ar text
 .Xc
-.Pp
 Write
 .Ar text
 to the standard output.
@@ -442,9 +439,13 @@ The value of
 .Ar flags
 in the substitute function is zero or more of the following:
 .Bl -tag -width "XXXXXX" -offset indent
-.It Cm 0 No ... Cm 9
-Make the substitution only for the N'th occurrence of the regular
-expression in the pattern space.
+.It Ar N
+Make the substitution only for the
+.Ar N Ap th
+occurrence of the regular expression in the pattern space, where
+.Ar N
+is a positive integer starting with
+.Cm 1 No ... Cm 9 .
 .It Cm g
 Make the substitution for all non-overlapping matches of the
 regular expression, not just the first one.
@@ -511,6 +512,17 @@ the default output is suppressed.
 This is the same as specifying the
 .Fl n
 option on the command line.
+.El
+.Sh ENVIRONMENT
+.Bl -tag -width COLUMNS
+.It Ev COLUMNS
+If set to a positive integer,
+output from the
+.Ic l
+function is formatted to the given width in columns.
+Otherwise,
+.Nm
+defaults to the terminal with, or 80 columns if the output is not a terminal.
 .El
 .Sh EXIT STATUS
 .Ex -std sed
