@@ -1,7 +1,7 @@
 .\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.24 2016/01/16 22:42:50 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.62 2009/07/14 05:10:21 jmc Exp $
 .\"
-.\" Copyright (c) 2003, 2004, 2006, 2007, 2009, 2013, 2014, 2016
+.\" Copyright (c) 2003, 2004, 2006, 2007, 2009, 2013, 2014, 2016, 2017
 .\"	mirabilos <m@mirbsd.org>
 .\" Copyright (c) 1991
 .\"	The Regents of the University of California.
@@ -41,10 +41,10 @@
 .nr %R 1
 .nr %T 1
 .nr %V 1
-.nr Ad 12n
 .nr Ac 3
-.nr Ao 12n
+.nr Ad 12n
 .nr An 12n
+.nr Ao 12n
 .nr Aq 12n
 .nr Ar 12n
 .nr Bc 3
@@ -56,21 +56,21 @@
 .nr Dc 3
 .nr Do 10n
 .nr Dq 12n
-.nr Ds 6n
 .nr Dq 12n
+.nr Ds 6n
 .nr Dv 12n
 .nr Ec 3
 .nr El 1
+.nr Em 10n
 .nr Eo 12n
 .nr Eq 12n
-.nr Em 10n
 .nr Er 12n
 .nr Ev 15n
 .nr Fa 12n
-.nr Fl 10n
 .nr Fc 3
-.nr Fo 16n
+.nr Fl 10n
 .nr Fn 16n
+.nr Fo 16n
 .nr I1 6n
 .nr I2 12n
 .nr I3 18n
@@ -81,25 +81,25 @@
 .nr Nm 10n
 .nr No 12n
 .nr Ns 2
-.nr Oo 10n
 .nr Oc 3
+.nr Oo 10n
 .nr Op 14n
 .nr Pa 32n
-.nr Pf 12n
 .nr Pc 3
+.nr Pf 12n
 .nr Po 12n
 .nr Pq 12n
 .nr Qc 3
 .nr Ql 16n
 .nr Qo 12n
+.nr Rv 1
 .nr Sc 3
 .nr So 12n
 .nr Sq 12n
-.nr Sy 6n
 .nr Sx 16n
-.nr Rv 1
-.nr Tn 10n
+.nr Sy 6n
 .nr Ta 1
+.nr Tn 10n
 .nr Tv 1
 .nr Tx 22n
 .nr Va 12n
