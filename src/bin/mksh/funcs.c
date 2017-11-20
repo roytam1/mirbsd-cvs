@@ -3533,7 +3533,7 @@ c_cat(const char **wp)
 					continue;
 				}
 				if (errno == EPIPE) {
-					/* fake receiving signel */
+					/* fake receiving signal */
 					rv = ksh_sigmask(SIGPIPE);
 				} else {
 					/* an error occured during writing */
