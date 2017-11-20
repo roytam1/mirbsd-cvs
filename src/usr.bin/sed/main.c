@@ -1,7 +1,7 @@
-/*	$OpenBSD: main.c,v 1.31 2016/01/01 20:55:13 tb Exp $	*/
+/*	$OpenBSD: main.c,v 1.35 2017/08/01 18:05:53 martijn Exp $	*/
 
 /*-
- * Copyright (c) 2016
+ * Copyright (c) 2016, 2017
  *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1992 Diomidis Spinellis.
  * Copyright (c) 1992, 1993
@@ -54,7 +54,7 @@
 #include "defs.h"
 #include "extern.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/sed/main.c,v 1.2 2016/03/04 19:42:26 tg Exp $");
 
 /*
  * Linked list of units (strings and files) to be compiled
@@ -109,6 +109,8 @@ static int next_files_have_lines(void);
 
 int termwidth;
 
+int pledge_wpath, pledge_rpath;
+
 int
 main(int argc, char *argv[])
 {
@@ -154,18 +156,18 @@ main(int argc, char *argv[])
 	argc -= optind;
 	argv += optind;
 
-	if ((p = getenv("COLUMNS")))
+	termwidth = 0;
+	if ((p = getenv("COLUMNS")) != NULL)
 		termwidth = strtonum(p, 0, INT_MAX, NULL);
-	if (termwidth == 0 &&
-	    ioctl(STDOUT_FILENO, TIOCGWINSZ, &win) == 0 &&
+	if (termwidth == 0 && ioctl(STDOUT_FILENO, TIOCGWINSZ, &win) == 0 &&
 	    win.ws_col > 0)
 		termwidth = win.ws_col;
 	if (termwidth == 0)
-		termwidth = 60;
+		termwidth = 80;
 
 #if defined(__OpenBSD__) && !defined(__MirBSD__)
 	if (inplace != NULL) {
-		if (pledge("stdio rpath wpath cpath fattr", NULL) == -1)
+		if (pledge("stdio rpath wpath cpath fattr chown", NULL) == -1)
 			error(FATAL, "pledge: %s", strerror(errno));
 	} else {
 		if (pledge("stdio rpath wpath cpath", NULL) == -1)
@@ -182,11 +184,30 @@ main(int argc, char *argv[])
 	compile();
 
 	/* Continue with first and start second usage */
-	if (*argv)
+	if (*argv) {
+#if defined(__OpenBSD__) && !defined(__MirBSD__)
+		if (!pledge_wpath && inplace == NULL) {
+			if (pledge("stdio rpath", NULL) == -1)
+				error(FATAL, "pledge: %s", strerror(errno));
+		}
+#endif
 		for (; *argv; argv++)
 			add_file(*argv);
-	else
+	} else {
+#if defined(__OpenBSD__) && !defined(__MirBSD__)
+		if (!pledge_wpath && !pledge_rpath) {
+			if (pledge("stdio", NULL) == -1)
+				error(FATAL, "pledge: %s", strerror(errno));
+		} else if (pledge_rpath) {
+			if (pledge("stdio rpath", NULL) == -1)
+				error(FATAL, "pledge: %s", strerror(errno));
+		} else if (pledge_wpath) {
+			if (pledge("stdio wpath cpath", NULL) == -1)
+				error(FATAL, "pledge: %s", strerror(errno));
+		}
+#endif
 		add_file(NULL);
+	}
 	process();
 	cfclose(prog, NULL);
 	if (fclose(stdout))
@@ -338,7 +359,7 @@ mf_fgets(SPACE *sp, enum e_spflag spflag)
 			fclose(infile);
 			if (*oldfname != '\0') {
 				if (rename(fname, oldfname) != 0) {
-					error(WARNING, "rename()");
+					warning("rename()");
 					unlink(tmpfname);
 					exit(1);
 				}
@@ -398,7 +419,7 @@ mf_fgets(SPACE *sp, enum e_spflag spflag)
 			outfname = "stdout";
 		}
 		if ((infile = fopen(fname, "r")) == NULL) {
-			error(WARNING, "%s", strerror(errno));
+			warning("%s", strerror(errno));
 			rval = 1;
 			continue;
 		}

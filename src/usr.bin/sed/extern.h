@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: extern.h,v 1.11 2015/10/26 14:08:47 mmcc Exp $ */
+/**	$MirOS: src/usr.bin/sed/extern.h,v 1.2 2016/03/04 19:42:26 tg Exp $ */
+/*	$OpenBSD: extern.h,v 1.13 2017/08/01 18:05:53 martijn Exp $ */
 /*-
  * Copyright (c) 1992 Diomidis Spinellis.
  * Copyright (c) 1992, 1993
@@ -42,6 +42,7 @@ extern size_t maxnsub;
 extern u_long linenum;
 extern size_t appendnum;
 extern int Eflag, aflag, eflag, nflag;
+extern int pledge_wpath, pledge_rpath;
 extern const char *fname, *outfname;
 extern FILE *infile, *outfile;
 
@@ -50,7 +51,10 @@ void	 compile(void);
 void	 cspace(SPACE *, const char *, size_t, enum e_spflag);
 char	*cu_fgets(char **, size_t *);
 void	 error(int, const char *, ...)
-    __attribute__((__format__(__printf__, 2, 3)));
+	    __dead
+	    __attribute__((__format__(__printf__, 2, 3)));
+void	 warning(const char *, ...)
+	    __attribute__((__format__(__printf__, 1, 2)));
 int	 mf_fgets(SPACE *, enum e_spflag);
 int	 lastline(void);
 void	 process(void);
