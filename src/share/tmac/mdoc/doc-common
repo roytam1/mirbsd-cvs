@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.24 2016/01/16 22:42:50 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.26 2017/11/20 01:05:48 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.62 2009/07/14 05:10:21 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2006, 2007, 2009, 2013, 2014, 2016, 2017
@@ -45,6 +45,7 @@
 .nr Ad 12n
 .nr An 12n
 .nr Ao 12n
+.nr Ap 2
 .nr Aq 12n
 .nr Ar 12n
 .nr Bc 3
