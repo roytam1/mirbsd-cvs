@@ -1,7 +1,18 @@
-$MirOS$
+$MirOS: ports/misc/screen/patches/patch-process_c,v 1.1 2010/01/09 20:17:04 tg Exp $
 --- process.c.orig	Thu Sep 18 12:53:32 2003
-+++ process.c	Sat Jan  9 20:12:25 2010
-@@ -5625,6 +5625,21 @@ char *data;	/* dummy */
++++ process.c	Tue Nov 28 19:53:28 2017
+@@ -541,8 +541,8 @@ InitKeytab()
+   ktab['='].nr = RC_REMOVEBUF;
+ #endif
+ /* co-opting "^A [<>=]", looking for alternatives */
+-  ktab['>'].nr = ktab[Ctrl('.')].nr = RC_BUMPRIGHT;
+-  ktab['<'].nr = ktab[Ctrl(',')].nr = RC_BUMPLEFT;
++  ktab['>'].nr = RC_BUMPRIGHT;
++  ktab['<'].nr = RC_BUMPLEFT;
+   ktab['='].nr = RC_COLLAPSE;
+ #ifdef POW_DETACH
+   ktab['D'].nr = RC_POW_DETACH;
+@@ -5666,6 +5666,21 @@ char *data;	/* dummy */
      {
        if (ch < ' ' || ch == '\177')
  	return;

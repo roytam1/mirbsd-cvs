@@ -1,7 +1,7 @@
 $MirOS: ports/misc/screen/patches/patch-doc_screen_1,v 1.4 2007/02/11 01:33:45 tg Exp $
 $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
 --- doc/screen.1.orig	Fri Dec  5 13:51:35 2003
-+++ doc/screen.1	Sat Jan  9 20:07:11 2010
++++ doc/screen.1	Tue Nov 28 20:41:25 2017
 @@ -64,28 +64,19 @@ exits.
  Everything you type is sent to the program running in the current window.
  The only exception to this is the one keystroke that is used to initiate
@@ -76,7 +76,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  specifies the command character to be \fIx\fP and the character generating a
  literal command character to \fIy\fP (when typed after the command character).
 -The default is \*QC-a\*U and `a', which can be specified as \*Q-e^Aa\*U.
-+The default is \*Q^A\*U and `a', which can be specified as \*Q-e^Aa\*U.
++The default is \*Q^A\*U and 'a', which can be specified as \*Q-e^Aa\*U.
  When creating a
  .I screen
  session, this option sets the default command character. In a multiuser
@@ -373,16 +373,18 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .PD
  Copy and paste a previous (command) line.
 -.IP "\fBC-a >\fP	(writebuf)"
-+.IP "\fB^A>\fP	(writebuf)"
- Write paste buffer to a file.
+-Write paste buffer to a file.
 -.IP "\fBC-a <\fP	(readbuf)"
-+.IP "\fB^A<\fP	(readbuf)"
- Reads the screen-exchange file into the paste buffer.
+-Reads the screen-exchange file into the paste buffer.
 -.IP "\fBC-a =\fP	(removebuf)"
 -Removes the file used by \fBC-a <\fP and \fPC-a >\fP.
 -.IP "\fBC-a ,\fP	(license)"
-+.IP "\fB^A=\fP	(removebuf)"
-+Removes the file used by \fB^A<\fP and \fP^A>\fP.
++.IP "\fB^A<\fP	(bumpleft)"
++Moves the current window left.
++.IP "\fB^A>\fP	(bumpright)"
++Moves the current window right.
++.IP "\fB^A=\fP	(collapse)"
++Reorders window positions to remove gaps in window numbers.
 +.IP "\fB^A,\fP	(license)"
  Shows where
  .I screen
@@ -423,7 +425,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .PP
  Customization can also be done 'on-line'. To enter the command mode type
 -`C-a :'. Note that commands starting with \*Qdef\*U change default values,
-+`^A:'. Note that commands starting with \*Qdef\*U change default values,
++'^A:'. Note that commands starting with \*Qdef\*U change default values,
  while others change current settings.
  .PP
  The following commands are available:
@@ -485,7 +487,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .sp
  .ne 3
  .B bindkey
-@@ -1105,9 +1100,9 @@ the
+@@ -1105,12 +1100,22 @@ the
  window (using the paste buffer, where a copy remains):
  .PP
  .nf
@@ -498,7 +500,20 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .fi
  .sp
  .ne 3
-@@ -1167,8 +1162,8 @@ Change the \fIcurrent directory\fP of
++.B bumpleft
++.PP
++Swaps window with previous one on window list.
++.sp
++.ne 3
++.B bumpright
++.PP
++Swaps window with next one on window list.
++.sp
++.ne 3
+ .BR "c1 " [ on | off ]
+ .PP
+ Change c1 code processing. \*QC1 on\*U tells screen to treat
+@@ -1167,8 +1172,8 @@ Change the \fIcurrent directory\fP of
  to the specified directory or, if called without an argument,
  to your home directory (the value of the environment variable $HOME).
  All windows that are created by means of the \*Qscreen\*U command
@@ -509,16 +524,28 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  Without a chdir command, this would be the directory from which
  .I screen
  was invoked.
-@@ -1197,7 +1192,7 @@ starting with 'def...'. 
+@@ -1185,6 +1190,11 @@ affect all the windows you create intera
+ Clears the current window and saves its image to the scrollback buffer.
+ .sp
+ .ne 3
++.B collapse
++.PP
++Reorders windows on window list, removing number gaps between them.
++.sp
++.ne 3
+ .B colon
+ .RI [ prefix ]
+ .PP
+@@ -1197,7 +1207,7 @@ starting with 'def...'. 
  
  If you consider this as the `Ex command mode' of 
  .IR screen ,
 -you may regard \*QC-a esc\*U (copy mode) as its `Vi command mode'.
-+you may regard \*Q^Aesc\*U (copy mode) as its `Vi command mode'.
++you may regard \*Q^Aesc\*U (copy mode) as its 'Vi command mode'.
  .sp 
  .ne 3
  .B command
-@@ -1261,11 +1256,11 @@ of the top, center or bottom line of the
+@@ -1261,11 +1271,11 @@ of the top, center or bottom line of the
  \fBB\fP, \fBE\fP move the cursor WORD by WORD (as in vi).
  .br 
  .ti -2n
@@ -532,7 +559,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .br
  .ti -2n
  \fBg\fP moves to the beginning of the buffer.
-@@ -1309,7 +1304,7 @@ digits 
+@@ -1309,7 +1319,7 @@ digits 
  \fB0\fP..\fB9\fP which
  is taken as a repeat count. 
  .br
@@ -541,7 +568,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  11 to 15 into the paste buffer.
  .br
  .ti -4n
-@@ -1319,9 +1314,9 @@ Example: \*QC-a C-[ H 10 j 5 Y\*U will c
+@@ -1319,9 +1329,9 @@ Example: \*QC-a C-[ H 10 j 5 Y\*U will c
  .ti -2n
  \fB?\fP \fIVi\fP-like search backward.
  .ti -2n 
@@ -553,7 +580,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .ti -4n
  .IR Specials :
  .br
-@@ -1337,14 +1332,14 @@ does. Press 
+@@ -1337,14 +1347,14 @@ does. Press 
  given, both default to the current cursor position. 
  .br
  Example: Try this on a rather full text screen: 
@@ -570,7 +597,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  
  and notice the difference in the amount of text copied.
  .br
-@@ -1373,10 +1368,10 @@ the screen-exchange file (/tmp/screen-ex
+@@ -1373,10 +1383,10 @@ the screen-exchange file (/tmp/screen-ex
  finished. 
  .br
  This example demonstrates how to dump the whole scrollback buffer 
@@ -583,16 +610,16 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .br
  .ti -2n
  \fBx\fP exchanges the first mark and the current cursor position. You
-@@ -1398,7 +1393,7 @@ No longer exists, use \*Qreadreg\*U inst
+@@ -1398,7 +1408,7 @@ No longer exists, use \*Qreadreg\*U inst
  .ne 3
  .BR "crlf " [ on | off ]
  .PP
 -This affects the copying of text regions with the `C-a [' command. If it is set
-+This affects the copying of text regions with the `^A[' command. If it is set
++This affects the copying of text regions with the '^A[' command. If it is set
  to `on', lines will be separated by the two character sequence `CR' - `LF'. 
  Otherwise (default) only `LF' is used.
  When no parameter is given, the state is toggled.
-@@ -1583,7 +1578,7 @@ windows is changed. Initial setting is `
+@@ -1583,7 +1593,7 @@ windows is changed. Initial setting is `
  .PP
  Same as the \fBwrap\fP command except that the default setting for new 
  windows is changed. Initially line-wrap is on and can be toggled with the 
@@ -601,7 +628,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .sp
  .ne 3
  .BR "defwritelock on" | off | auto
-@@ -1669,7 +1664,7 @@ and then compile the entry with 
+@@ -1669,7 +1679,7 @@ and then compile the entry with 
  The echo command may be used to annoy 
  .I screen
  users with a 'message of the
@@ -610,7 +637,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  The option \*Q-n\*U may be used to suppress the line feed.
  See also \*Qsleep\*U.
  Echo is also useful for online checking of environment variables.
-@@ -1684,7 +1679,9 @@ how to interpret the input/output. The f
+@@ -1684,7 +1694,9 @@ how to interpret the input/output. The f
  sets the encoding of the current window. Each window can emulate
  a different encoding. The optional second parameter overwrites
  the encoding of the connected terminal. It should never be
@@ -621,7 +648,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  There is also a way to select a terminal encoding depending on
  the terminal type by using the \*QKJ\*U termcap entry.
  
-@@ -1702,7 +1699,7 @@ Set the command character to \fIx\fP and
+@@ -1702,7 +1714,7 @@ Set the command character to \fIx\fP and
  command character (by triggering the \*Qmeta\*U command) to \fIy\fP (similar
  to the \-e option).
  Each argument is either a single character, a two-character sequence
@@ -630,7 +657,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  number (specifying the ASCII code of the character), or a backslash followed
  by a second character, such as \*Q\e^\*U or \*Q\e\e\*U.
  The default is \*Q^Aa\*U.
-@@ -1864,7 +1861,7 @@ scrollback buffer.
+@@ -1864,7 +1876,7 @@ scrollback buffer.
  .PP
  If set to "on", 
  .I screen
@@ -639,16 +666,16 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  otherwise these files are overwritten each time.
  Default is `off'.
  .sp
-@@ -1965,7 +1962,7 @@ For example csh has the command \*Q!!\*U
+@@ -1965,7 +1977,7 @@ For example csh has the command \*Q!!\*U
  .I Screen
  allows you to have a primitive way of re-calling \*Qthe command that
  started ...\*U: You just type the first letter of that command, then hit
 -`C-a {' and
-+`^A{' and
++'^A{' and
  .I screen
  tries to find a previous line that matches with the `prompt character' 
  to the left of the cursor. This line is pasted into this window's input queue.
-@@ -2056,9 +2053,9 @@ switches to the previously displayed win
+@@ -2056,9 +2068,9 @@ switches to the previously displayed win
  Note:
  .I Emacs
  users should keep this command in mind, when killing a line.
@@ -660,7 +687,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .sp
  .ne 3
  .B lastmsg
-@@ -2125,7 +2122,7 @@ This controls if the window is `logged i
+@@ -2125,7 +2137,7 @@ This controls if the window is `logged i
  When no parameter is given, the login state of the window is toggled.
  Additionally to that toggle, it is convenient having a `log in' and a `log out'
  key. E.\|g. `bind I login on' and `bind O login off' will map these
@@ -669,16 +696,16 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  The default setting (in config.h.in) should be \*Qon\*U for a 
  .I screen
  that runs under suid-root.
-@@ -2187,7 +2184,7 @@ See also \*Qbindkey\*U.
+@@ -2187,7 +2199,7 @@ See also \*Qbindkey\*U.
  This is a method of changing the keymap used for copy/history mode.
  The string is made up of \fIoldchar\fP=\fInewchar\fP pairs which are
  separated by `:'. Example: The string \*QB=^B:F=^F\*U will change the 
 -keys `C-b' and `C-f' to the vi style binding (scroll up/down fill page).
-+keys `^B' and `^F' to the vi style binding (scroll up/down fill page).
++keys '^B' and '^F' to the vi style binding (scroll up/down fill page).
  This happens to be the default binding for `B' and `F'.
  The command \*Qmarkkeys h=^B:l=^F:$=^E\*U would set the mode for an emacs-style
  binding.
-@@ -2207,7 +2204,7 @@ already existing windows. The number may
+@@ -2207,7 +2219,7 @@ already existing windows. The number may
  .ne 3
  .B meta
  .PP
@@ -687,7 +714,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .sp
  .ne 3
  .BR "monitor " [ on | off ]
-@@ -2436,9 +2433,9 @@ keyboard. This command can be used to bi
+@@ -2436,9 +2448,9 @@ keyboard. This command can be used to bi
  .PP
  Kill all windows and terminate
  .IR screen .
@@ -699,7 +726,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  Use the empty bind command (as in \*Qbind '^\e'\*U) to remove a key binding.
  .sp
  .ne 3
-@@ -2470,8 +2467,8 @@ the 
+@@ -2470,8 +2482,8 @@ the 
  window (using register p, where a copy remains):
  .PP
  .nf
@@ -710,7 +737,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .fi
  .sp
  .ne 3
-@@ -2571,7 +2568,7 @@ See also chapter \*QWINDOW TYPES\*U.
+@@ -2571,7 +2583,7 @@ See also chapter \*QWINDOW TYPES\*U.
  .PP
  Set the size of the scrollback buffer for the current windows to \fInum\fP 
  lines. The default scrollback is 100 lines.
@@ -719,7 +746,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  current setting.
  .sp
  .ne 3
-@@ -2632,7 +2629,7 @@ a '-' character, the shell will be start
+@@ -2632,7 +2644,7 @@ a '-' character, the shell will be start
  .B "shelltitle \fItitle\fP"
  .PP
  Set the title for all shells created during startup or by
@@ -728,7 +755,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  For details about what a title is, see the discussion
  entitled \*QTITLES (naming windows)\*U.
  .sp
-@@ -2664,7 +2661,7 @@ It may be used to give users a chance to
+@@ -2664,7 +2676,7 @@ It may be used to give users a chance to
  .B "slowpaste \fImsec\fP"
  .PP
  Define the speed at which text is inserted into the current window by the 
@@ -737,7 +764,22 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  If the slowpaste value is nonzero text is written character by character.
  .I screen
  will make a pause of \fImsec\fP milliseconds after each single character write 
-@@ -3445,9 +3442,9 @@ pause the output of the current window.
+@@ -3414,11 +3426,11 @@ were set before the last change was made
+ color-change stack).
+ .PP
+ Examples:
+-.IP "\*QG\*U"
++.IP "%{G}"
+ set color to bright green
+-.IP "\*Q+b r\*U"
++.IP "%{+b r}"
+ use bold red
+-.IP "\*Q= yd\*U"
++.IP "%{= yd}"
+ clear all attributes, write in default color on yellow background.
+ .IP "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<"
+ The available windows centered at the current window and truncated to
+@@ -3445,9 +3457,9 @@ pause the output of the current window.
  You can still send these characters to the current program, but you must use
  the appropriate two-character
  .I screen
@@ -750,7 +792,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  that intercepts these characters.
  .PP
  Each window has an initial flow-control value set with either the
-@@ -3455,7 +3452,7 @@ Each window has an initial flow-control 
+@@ -3455,7 +3467,7 @@ Each window has an initial flow-control 
  option or the \*Qdefflow\*U .screenrc command. Per default the windows
  are set to automatic flow-switching.
  It can then be toggled between the three states 'fixed on', 'fixed off'
@@ -759,7 +801,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .PP
  The automatic flow-switching mode deals with
  flow control using the TIOCPKT mode (like \*Qrlogin\*U does). If
-@@ -3467,7 +3464,7 @@ keypad \- when it is enabled, flow-contr
+@@ -3467,7 +3479,7 @@ keypad \- when it is enabled, flow-contr
  Of course, you can still manipulate flow-control manually when needed.
  .PP
  If you're running with flow-control enabled and find that pressing the
@@ -768,7 +810,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  6-8 lines have scrolled by, try running
  .I screen
  with the \*Qinterrupt\*U
-@@ -3482,21 +3479,21 @@ One disadvantage is that the virtual ter
+@@ -3482,21 +3494,21 @@ One disadvantage is that the virtual ter
  non-flushed version of the output, which in rare cases can cause
  minor inaccuracies in the output.
  For example, if you switch screens and return, or update the screen
@@ -793,7 +835,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  the title commands.
  Normally the name displayed is the actual command name of the program
  created in the window.
-@@ -3510,7 +3507,7 @@ a \*Qscreen\*U command and thus can have
+@@ -3510,7 +3522,7 @@ a \*Qscreen\*U command and thus can have
  .B \-t
  option.
  Interactively, there is the title-string escape-sequence
@@ -802,7 +844,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  The former can be output from an application to control the window's name
  under software control, and the latter will prompt for a name when typed.
  You can also bind pre-defined names to keys with the \*Qtitle\*U command
-@@ -3574,7 +3571,7 @@ running, and revert to \*Qcsh\*U upon co
+@@ -3574,7 +3586,7 @@ running, and revert to \*Qcsh\*U upon co
  bind R screen -t '% |root:' su
  .PP
  Having this command in your .screenrc would bind the key
@@ -811,7 +853,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  auto-title name of \*Qroot:\*U.
  For this auto-title to work, the screen could look something
  like this:
-@@ -3596,10 +3593,10 @@ of the command, and revert to simply \*Q
+@@ -3596,10 +3608,10 @@ of the command, and revert to simply \*Q
  .fi
  .sp
  The first binding doesn't have any arguments, so it would prompt you
@@ -825,7 +867,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .PP
  One thing to keep in mind when adding a null title-escape-sequence to
  your prompt is that some shells (like the csh) count all the non-control
-@@ -4416,12 +4413,12 @@ Examples in the 
+@@ -4416,12 +4428,12 @@ Examples in the 
  .I screen
  distribution package for private and global initialization files.
  .IP $SYSSCREENRC 
@@ -840,7 +882,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  .IP $SCREENDIR/S-<login>
  .IP /local/screens/S-<login>
  Socket directories (default)
-@@ -4442,7 +4439,7 @@ Output log files created by the log func
+@@ -4442,7 +4454,7 @@ Output log files created by the log func
  or
  .IP /etc/termcap
  Terminal capability databases
@@ -849,7 +891,7 @@ $OpenBSD: patch-doc_screen_1,v 1.4 2003/09/26 23:50:55 brad Exp $
  Login records
  .IP $LOCKPRG
  Program that locks a terminal.
-@@ -4555,9 +4552,9 @@ does not make use of hardware tabs.
+@@ -4555,9 +4567,9 @@ does not make use of hardware tabs.
  must be installed as set-uid with owner root on most systems in order
  to be able to correctly change the owner of the tty device file for
  each window.

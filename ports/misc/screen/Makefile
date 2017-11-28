@@ -5,11 +5,9 @@ NOT_FOR_PLATFORM=	Interix:*:*
 
 COMMENT=		multi-screen window manager
 VERSION=		4.0.3
-DASH_VER=		19
+DASH_VER=		20
 DISTNAME=		screen-${VERSION}
 CATEGORIES=		misc
-MASTER_SITES=		http://ftp.uni-erlangen.de/pub/utilities/screen/ \
-			ftp://ftp.uni-erlangen.de/pub/utilities/screen/
 HOMEPAGE=		http://www.gnu.org/software/screen/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -18,6 +16,12 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
+
+PATCHFILES=		patch-bumpandcollapse.diff:0
+PATCH_DIST_STRIP=	-p1
+MASTER_SITES=		http://ftp.uni-erlangen.de/pub/utilities/screen/ \
+			ftp://ftp.uni-erlangen.de/pub/utilities/screen/
+MASTER_SITES0=		http://quesera.com/reynhout/misc/screen+bumpandcollapse/
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes

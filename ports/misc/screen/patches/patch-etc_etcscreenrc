@@ -1,6 +1,6 @@
 $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.17 2014/04/02 16:12:28 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Tue May 19 16:43:48 2015
++++ etc/etcscreenrc	Tue Nov 28 19:42:23 2017
 @@ -1,12 +1,13 @@
 +# $MirSecuCron$
 +# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.17 2014/04/02 16:12:28 tg Exp $
@@ -121,20 +121,20 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.17 2014/04/02 16:12:
 +
 +# omit seconds on the clock; escape characters ^A (default), ^O, ^P, ^X
 +escape ^Aa
-+hardstatus alwayslastline "%{wm}A %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++hardstatus alwayslastline "%{wm}A %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Oo
-+#hardstatus alwayslastline "%{wm}O %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#hardstatus alwayslastline "%{wm}O %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Pp
-+#hardstatus alwayslastline "%{wm}P %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#hardstatus alwayslastline "%{wm}P %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Xx
-+#hardstatus alwayslastline "%{wm}X %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#hardstatus alwayslastline "%{wm}X %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +
 +# display seconds on the clock; escape characters ^A, ^O, ^P, ^X
 +#escape ^Aa
-+#hardstatus alwayslastline "%{wm}A %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#hardstatus alwayslastline "%{wm}A %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Oo
-+#hardstatus alwayslastline "%{wm}O %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#hardstatus alwayslastline "%{wm}O %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Pp
-+#hardstatus alwayslastline "%{wm}P %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#hardstatus alwayslastline "%{wm}P %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Xx
-+#hardstatus alwayslastline "%{wm}X %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#hardstatus alwayslastline "%{wm}X %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "

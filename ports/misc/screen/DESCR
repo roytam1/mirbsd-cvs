@@ -1,4 +1,4 @@
-Screen is a full-screen window manager that multiplexes a physical
+GNU screen is a full-screen window manager that multiplexes a physical
 terminal between several processes (typically interactive shells).
 Each virtual terminal provides the functions of a DEC VT100 terminal
 and, in addition, several control functions from the ANSI X3.64 (ISO
@@ -9,7 +9,8 @@ regions between windows.
 
 This version of GNU screen is capable of auto-detecting whether it's
 being run on a terminal with ISO 8859, UTF-8 or other encoding, as if
-running wsconfig(8) -U or ports/sysutils/chkuterm on the tty.
+running wsconfig(8) -U or ports/sysutils/chkuterm on the tty. It also
+supports the bumpleft/bumpright and collapse commands.
 
 Flavours:
 	static - Build with statically linked binaries.
