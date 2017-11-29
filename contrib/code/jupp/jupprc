@@ -81,7 +81,7 @@
 \i \i^Q- to column number  ^K. more     \u\bGOTO AFTER COMPILING\b\u                      \i \i
 \i \i^QI to line number    ^K, less     ^[N previous error                        \i \i
 \i \i^QO to byte offset    ^KA centre   ^[M next error      \u\bSPECIAL\b\u               \i \i
-\i \i^K= next place        ^K] kill whitespace at EOL       ^[- jupp command line \i \i
+\i \i^K= next place        ^K] kill whitespace at EOL/EOF   ^[- jupp command line \i \i
 }
 
 {Search
@@ -116,7 +116,7 @@
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2017-08-10; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
+\i \i @(#) jupprc 2017-11-29; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
 }
 
  #HOOK#2802 additional help screens
@@ -190,7 +190,7 @@ stop		^[ )
 :inherit windows
 :def docompile edit,rtn,filt,query,parserr
  #HOOK#2804 main keybindings
-bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof	^K ]
+eof," ",bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,ffirst,"\\[^\\n]",rtn,"b",rtn,rtarw,rtn,markb,rtn,eof,markk,blkdel	^K ]
 ffirst,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw							^Q =
 backs		^?
 backs		^H
