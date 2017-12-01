@@ -444,6 +444,22 @@
 -syntax tcl
 -pound_comment
 
+ === TeX
+*.cls
+-syntax tex
+-tex_comment
+-no_double_quoted
+
+*.sty
+-syntax tex
+-tex_comment
+-no_double_quoted
+
+*.tex
+-syntax tex
+-tex_comment
+-no_double_quoted
+
  === Verilog
 *.v
 -syntax verilog
