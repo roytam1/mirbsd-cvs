@@ -78,25 +78,13 @@
 -syntax diff
 
 *.sh*
--syntax sh
--pound_comment
-
 *.ksh*
--syntax sh
--pound_comment
-
 *.mksh*
--syntax sh
--pound_comment
-
 *.bash*
 -syntax sh
 -pound_comment
 
 *tmp/mutt-*
- -wordwrap
--syntax mail
-
 *tmp/pico.*
  -wordwrap
 -syntax mail
@@ -122,50 +110,14 @@
 
  === C, C++, Objective-C
 *.C
--syntax c
--c_comment
--cpp_comment
-
 *.c
--syntax c
--c_comment
--cpp_comment
-
 *.cc
--syntax c
--c_comment
--cpp_comment
-
 *.cpp
--syntax c
--c_comment
--cpp_comment
-
 *.cxx
--syntax c
--c_comment
--cpp_comment
-
 *.c++
--syntax c
--c_comment
--cpp_comment
-
 *.h
--syntax c
--c_comment
--cpp_comment
-
 *.hh
--syntax c
--c_comment
--cpp_comment
-
 *.hpp
--syntax c
--c_comment
--cpp_comment
-
 *.h++
 -syntax c
 -c_comment
@@ -183,83 +135,28 @@
 
  === C Shell
 *.csh
--syntax csh
--pound_comment
-
 *.login
--syntax csh
--pound_comment
-
 *.logout
--syntax csh
--pound_comment
-
 *.tcsh
--syntax csh
--pound_comment
-
 *.tcshrc
--syntax csh
--pound_comment
-
 *
 +#!\+\[	 ]\+\[a-z/]/\+tcsh\>
--syntax csh
--pound_comment
-
-*
 +#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+tcsh\>
 -syntax csh
 -pound_comment
 
  === Diff
 *.diff
--highlight
--syntax diff
-
 *.patch
--highlight
--syntax diff
-
 *.rej
--highlight
--syntax diff
-
 *.debdiff
--highlight
--syntax diff
-
 *
 +---\[ ]
--highlight
--syntax diff
-
-*
 +***\[ ]
--highlight
--syntax diff
-
-*
 +Index: \*\n======================================================
--highlight
--syntax diff
-
-*
 +Index: \*\ndiff\*\n--- \*\n+++\[ ]
--highlight
--syntax diff
-
-*
 +\[=?]\*\n--- \*\n+++\[ ]
--highlight
--syntax diff
-
-*
 +diff\*\n--- \*\n+++\[ ]
--highlight
--syntax diff
-
-*
 +diff --git\*\nindex\*\n--- \*\n+++\[ ]
 -highlight
 -syntax diff
@@ -274,38 +171,23 @@
 
  === FORTRAN
 *.f
--syntax fortran
-
 *.for
--syntax fortran
-
 *.FOR
--syntax fortran
-
 *.f77
--syntax fortran
-
 *.F77
--syntax fortran
-
 *.f90
--syntax fortran
-
 *.F90
 -syntax fortran
 
  === GNU autoconf
 *.ac
--syntax conf
+-syntax m4
 
 *.am
 -syntax conf
 
  === HTML
 *.htm
--encoding utf8
--syntax html
-
 *.html
 -encoding utf8
 -syntax html
@@ -319,7 +201,7 @@
 
  === Joe Syntax File
 *.jsf
--syntax conf
+-syntax jsf
 
  === flex
 *.l
@@ -329,13 +211,10 @@
 
  === LISP
 *.lisp
--syntax lisp
-
 *.lsp
--syntax lisp
-
 *.el
 -syntax lisp
+-semi_comment
 
  === M4
 *.m4
@@ -343,9 +222,6 @@
 
  === Make
 *akefile
--syntax conf
--pound_comment
-
 *AKEFILE
 -syntax conf
 -pound_comment
@@ -356,29 +232,17 @@
 
  === Pascal
 *.p
--syntax pascal
-
 *.pas
 -syntax pascal
 
  === Perl
 *.pl
--syntax perl
--pound_comment
-
 *.pm
--syntax perl
--pound_comment
-
-*
-+#!\+\[	 ]\+\[a-z/]/perl
--syntax perl
--pound_comment
-
 *
 +#!\+\[	 ]\+\[a-z/]/env\+\[	 ]perl
 -syntax perl
 -pound_comment
+-single_quoted
 
  === PHP
 *.php
@@ -388,29 +252,13 @@
 
  === Python
 *.py
--encoding utf8
--syntax python
--pound_comment
--tab 4
--indentc 32
--istep 4
--spaces
-
 *
 +#!\+\[	 ]\+\[a-z/]/python
--encoding utf8
--syntax python
--pound_comment
--tab 4
--indentc 32
--istep 4
--spaces
-
-*
 +#!\+\[	 ]\+\[a-z/]/env\+\[	 ]python
 -encoding utf8
 -syntax python
 -pound_comment
+-single_quoted
 -tab 4
 -indentc 32
 -istep 4
@@ -418,30 +266,11 @@
 
  === Bourne, Korn, POSIX Shell
 *profile
--syntax sh
--pound_comment
-
 *
 +:\[	 \n]
--syntax sh
--pound_comment
-
-*
 +#!\+\[	 ]\+\[a-z/]/\+\[bd]\+ash\>
--syntax sh
--pound_comment
-
-*
 +#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+\[bd]\+ash\>
--syntax sh
--pound_comment
-
-*
 +#!\+\[	 ]\+\[a-z/]/\+\[a-z]ksh\+\[0-9._-]\>
--syntax sh
--pound_comment
-
-*
 +#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+\[a-z]ksh\+\[0-9._-]\>
 -syntax sh
 -pound_comment
@@ -451,11 +280,16 @@
 -syntax tcl
 -pound_comment
 
+ === TeX
+*.cls
+*.sty
+*.tex
+-syntax tex
+-tex_comment
+-no_double_quoted
+
  === Verilog
 *.v
--syntax verilog
--istep 2
-
 *.vh
 -syntax verilog
 -istep 2
@@ -701,7 +535,7 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
 \i \i \dGPLv2 JOE 4.4 with jupprc; partial functionality unmapped, missing, broken.\d \i \i
-\i \i @(#) jupprc 2017-11-29; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2017-11-31; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#4403 additional help screens
