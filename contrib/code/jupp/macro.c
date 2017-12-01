@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/macro.c,v 1.6 2010/04/08 15:31:01 tg Exp $ */
+/* $MirOS: contrib/code/jupp/macro.c,v 1.8 2017/03/19 19:19:50 tg Exp $ */
 /*
  *	Keyboard macros
  *	Copyright
@@ -581,7 +581,7 @@ static int doarg(BW *bw, unsigned char *s, void *object, int *notify)
 
 	if (notify)
 		*notify = 1;
-	num = calc(bw, s);
+	num = calcl(bw, s);
 	if (merrf) {
 		msgnw(bw->parent, merrt);
 		return -1;
