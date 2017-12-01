@@ -30,6 +30,7 @@
 	*		string
 	"\""		idle
 	"\\"		string_escape	recolor=-1
+	"\n"		idle
 
 :string_escape Escape
 	*		string
@@ -37,3 +38,4 @@
 :string_sq String
 	*		string_sq
 	"\'"		idle
+	"\n"		idle
