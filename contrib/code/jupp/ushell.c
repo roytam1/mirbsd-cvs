@@ -39,6 +39,7 @@
 
 extern int orphan;
 
+#if WANT_FORK
 /* Executed when shell process terminates */
 
 static void cdone(B *b)
@@ -108,7 +109,6 @@ static void cdata(B *b, unsigned char *dat, int siz)
 	cfollow(b,byte);
 }
 
-#if WANT_FORK
 static int doushell(BW *bw, unsigned char *cmd, int *notify, int build)
 {
 	MPX *m;

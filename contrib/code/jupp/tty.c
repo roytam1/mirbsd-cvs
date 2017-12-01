@@ -603,7 +603,9 @@ static time_t last_time;
 
 int ttgetc(void)
 {
+#if WANT_FORK
 	int stat_;
+#endif
 	time_t new_time;
 
 	tickon();
@@ -869,7 +871,6 @@ static void mpxend(void)
 	if (have)
 		havec = pack.ch;
 }
-#endif
 
 /* Get a pty/tty pair.  Returns open pty in 'ptyfd' and returns tty name
  * string in static buffer or NULL if couldn't get a pair.
@@ -1039,7 +1040,6 @@ static unsigned char **newenv(unsigned char **old, unsigned char *s)
 
 /* Create a shell process */
 
-#if WANT_FORK
 MPX *mpxmk(int *ptyfd, const unsigned char *cmd, unsigned char **args, void (*func) (/* ??? */), void *object, void (*die) (/* ??? */), void *dieobj)
 {
 	unsigned char buf[80];
