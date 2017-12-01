@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /* $OpenBSD: tcpdrop.c,v 1.4 2004/05/22 23:55:22 deraadt Exp $ */
 
 /*
@@ -34,7 +33,11 @@
 #include <stdlib.h>
 #include <netdb.h>
 
+__RCSID("$MirOS$");
+
 extern char *__progname;
+
+static char *splitarg(char *);
 
 /*
  * Drop a tcp connection.
@@ -48,6 +51,24 @@ main(int argc, char **argv)
 	char lhbuf[NI_MAXHOST], lsbuf[NI_MAXSERV];
 	struct tcp_ident_mapping tir;
 	int gaierr, rval = 0;
+
+	if (argc == 3) {
+		char *rpl[6];
+
+		rpl[0] = argv[0];
+		if ((rpl[1] = strdup(argv[1])) == NULL)
+			err(1, "strdup");
+		rpl[2] = splitarg(rpl[1]);
+		if ((rpl[3] = strdup(argv[2])) == NULL)
+			err(1, "strdup");
+		rpl[4] = splitarg(rpl[3]);
+		rpl[5] = NULL;
+
+		if (rpl[2] && rpl[4]) {
+			argc = 5;
+			argv = rpl;
+		}
+	}
 
 	if (argc != 5) {
 		fprintf(stderr, "usage: %s laddr lport faddr fport\n",
@@ -100,4 +121,28 @@ main(int argc, char **argv)
 	freeaddrinfo(laddr);
 	freeaddrinfo(faddr);
 	exit(rval);
+}
+
+static char *
+splitarg(char *s)
+{
+	char *cp, *sp;
+
+	cp = strrchr(s, '.');
+	sp = strrchr(s, ':');
+
+	if (cp == NULL) {
+		if (sp == NULL)
+			return (NULL);
+		cp = sp;
+	} else if (sp != NULL && sp > cp)
+		cp = sp;
+
+	sp = cp++;
+	while (*cp >= '0' && *cp <= '9')
+		++cp;
+	if (*cp != '\0')
+		return (NULL);
+	*sp++ = '\0';
+	return (sp);
 }
