@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/jupp/Make-w32.sh,v 1.10 2017/01/10 18:45:38 tg Exp $
+# $MirOS: contrib/code/jupp/Make-w32.sh,v 1.14 2017/01/11 21:23:52 tg Exp $
 
 usage() {
 	print -ru2 "Usage: $0 [-bCgn]"
@@ -60,8 +60,7 @@ export CPPFLAGS='-DJUPPRC_BUILTIN_NAME=\"jupp32rc\"'
     --prefix=c:/windows/system32 \
     --sysconfdir=c:/windows/system32 \
     --disable-dependency-tracking \
-    --disable-curses \
-    --disable-termcap \
+    --disable-terminfo \
     --disable-search-libs \
     --disable-getpwnam \
     --disable-termidx \
