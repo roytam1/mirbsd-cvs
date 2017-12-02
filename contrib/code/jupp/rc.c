@@ -557,7 +557,7 @@ static int doopt1(BW *bw, unsigned char *s, int *xx, int *notify)
 			ret = -1;
 			break;
 		}
-		v = calcldec(bw, s);
+		v = calcl(bw, s) - 1L;
 		if (merrf) {
 			msgnw(bw->parent, merrt);
 			ret = -1;

@@ -29,6 +29,8 @@ const unsigned char *merrt;
 static char math_res[JOE_MSGBUFSIZE];
 static char *math_exp;
 
+static double calc(BW *bw, unsigned char *s);
+
 static RETSIGTYPE fperr(int unused)
 {
 	if (!merrf)
@@ -152,7 +154,8 @@ typedef long joe_imaxt;
 #define JOE_IMAXT "l"
 #endif
 
-double calc(BW *bw, unsigned char *s)
+static double
+calc(BW *bw, unsigned char *s)
 {
 	double result;
 	struct var *v;
@@ -276,6 +279,12 @@ int umathres(BW *bw)
 {
 	binss(bw->cursor, (void *)math_res);
 	return 0;
+}
+
+long
+calcl(BW *bw, unsigned char *s)
+{
+	return ((long)calc(bw, s));
 }
 #else
 long
