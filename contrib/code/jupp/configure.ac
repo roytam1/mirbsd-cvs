@@ -53,7 +53,7 @@ AC_ARG_ENABLE(curses,
 [  --disable-curses        disable use of curses library],
 	curses=$enableval, curses=yes)
 test x"$curses" = x"yes" && \
-    search_libs_term="$search_libs_term tinfo ncurses curses"
+    search_libs_term="$search_libs_term tinfo ncursesw ncurses curses"
 
 AC_ARG_ENABLE(termcap,
 [  --disable-termcap       disable use of termcap library],
