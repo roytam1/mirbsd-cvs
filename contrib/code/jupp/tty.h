@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/tty.h,v 1.5 2012/12/30 18:18:07 tg Exp $ */
 /*
  *	TTY interface header file
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_TTY_H
 #define _JOE_TTY_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 /* void ttopen(void);  Open the tty (attached to stdin) for use inside of JOE
  *

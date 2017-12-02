@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Search & Replace system
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_USEARCH_H
 #define _JOE_USEARCH_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 SRCH *mksrch PARAMS((unsigned char *pattern, unsigned char *replacement, int ignore, int backwards, int repeat, int replace, int rest));
 void rmsrch PARAMS((SRCH *srch));

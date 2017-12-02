@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Single-key query windows
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_QW_H
 #define _JOE_QW_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_UFILE_C
+__RCSID("$MirOS$");
+#endif
 
 /* QW *mkqw(W *w, char *prompt, int (*func)(), int (*abrt)(), void *object);
  * Create a query window for the given window

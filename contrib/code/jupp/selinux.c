@@ -1,6 +1,7 @@
-/* $MirOS: contrib/code/jupp/selinux.c,v 1.6 2012/11/10 16:22:20 tg Exp $ */
-
 #include "config.h"
+
+__RCSID("$MirOS$");
+
 #if defined(HAVE_SELINUX_HDR) && defined(HAVE_SELINUX_FUN)
 #define WITH_SELINUX
 #else

@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/umath.c,v 1.4 2012/12/20 20:11:54 tg Exp $ */
 /*
  *	Math
  *	Copyright
@@ -9,7 +8,8 @@
 #include "config.h"
 #include "types.h"
 
-#include <stdio.h>
+__RCSID("$MirOS$");
+
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
 #endif

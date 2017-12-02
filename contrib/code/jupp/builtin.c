@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/builtin.c,v 1.3 2012/09/02 14:44:36 tg Exp $ */
 /*
  *	Built-in config files
  *	Copyright
@@ -9,7 +8,8 @@
 
 #include "config.h"
 
-#include <stdio.h>
+__RCSID("$MirOS$");
+
 #include <stdlib.h>
 #include <string.h>
 

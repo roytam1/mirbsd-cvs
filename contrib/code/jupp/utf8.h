@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/utf8.h,v 1.3 2010/04/08 15:31:06 tg Exp $ */
 /*
  *	UTF-8 Utilities
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _Iutf8
 #define _Iutf8 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 #include "i18n.h"
 

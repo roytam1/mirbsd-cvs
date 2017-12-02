@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	File selection menu
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_TAB_H
 #define _JOE_TAB_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_UFILE_C
+__RCSID("$MirOS$");
+#endif
 
 int cmplt PARAMS((BW *bw));
 

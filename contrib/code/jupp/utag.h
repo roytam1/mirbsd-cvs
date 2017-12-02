@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /* 
  *	tags file symbol lookup
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_UTAG_H
 #define _JOE_UTAG_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 int utag PARAMS((BW *bw));
 

@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/va.c,v 1.2 2008/05/13 13:08:32 tg Exp $ */
 /*
  *	Variable length array of strings
  *	Copyright
@@ -7,6 +6,8 @@
  *	This file is part of JOE (Joe's Own Editor)
  */
 #include "config.h"
+
+__RCSID("$MirOS$");
 
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>

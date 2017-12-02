@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/scrn.h,v 1.3 2009/10/18 14:52:57 tg Exp $ */
 /*
  *	Device independant tty interface for JOE
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_SCRN_H
 #define _JOE_SCRN_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 #include "tty.h"		/* ttputc() */
 

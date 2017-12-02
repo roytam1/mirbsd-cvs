@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/utf8.c,v 1.17 2017/01/10 23:20:48 tg Exp $ */
 /*
  *	UTF-8 Utilities
  *	Copyright
@@ -11,7 +10,8 @@
 #include "config.h"
 #include "types.h"
 
-#include <stdio.h>
+__RCSID("$MirOS$");
+
 #include <string.h>
 
 #ifdef HAVE_STDLIB_H

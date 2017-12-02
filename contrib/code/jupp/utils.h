@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/utils.h,v 1.3 2008/05/13 13:08:31 tg Exp $ */
 /*
  *	Various utilities
  *
@@ -11,11 +10,10 @@
 #ifndef _JOE_UTILS_H
 #define _JOE_UTILS_H 1
 
-#include "config.h"
-
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>			/* we need size_t, ssize_t */
+#ifdef EXTERN_B_C
+__RCSID("$MirOS$");
 #endif
+
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
 #endif

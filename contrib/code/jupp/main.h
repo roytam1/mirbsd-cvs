@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/main.h,v 1.2 2008/05/13 13:08:23 tg Exp $ */
 /*
  *	Editor startup and edit loop
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_MAIN_H
 #define _JOE_MAIN_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_B_C
+__RCSID("$MirOS$");
+#endif
 
 extern const char null[];
 

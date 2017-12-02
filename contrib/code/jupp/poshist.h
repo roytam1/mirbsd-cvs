@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Position history
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_POSHIST_H
 #define _JOE_POSHIST_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 void afterpos PARAMS((void));
 void aftermove PARAMS((W *w, P *p));

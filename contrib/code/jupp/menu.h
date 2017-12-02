@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Menu selection window
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_MENU_H
 #define _JOE_MENU_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 /* Create a menu */
 /* FIXME: ??? ---> */

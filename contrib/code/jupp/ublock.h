@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  * 	Highlighted block functions
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_UBLOCK_H
 #define _JOE_UBLOCK_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 extern int square;
 extern int lightoff;

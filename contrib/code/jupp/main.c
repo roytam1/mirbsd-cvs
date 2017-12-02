@@ -1,5 +1,3 @@
-/* $MirOS: contrib/code/jupp/main.c,v 1.29 2017/08/08 21:27:39 tg Exp $ */
-
 #define JUPP_IS_COPYRIGHT_C_BY "2017 mirabilos"
 
 /*-
@@ -30,10 +28,12 @@
  * Editor startup and main edit loop
  */
 
+#define EXTERN
 #include "config.h"
 #include "types.h"
 
-#include <stdio.h>
+__RCSID("$MirOS$");
+
 #include <fcntl.h>
 #include <string.h>
 #ifdef HAVE_STDLIB_H

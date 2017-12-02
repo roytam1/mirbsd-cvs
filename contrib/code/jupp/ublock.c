@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/ublock.c,v 1.14 2017/11/18 16:30:21 tg Exp $ */
 /*
  * 	Highlighted block functions
  *	Copyright
@@ -9,12 +8,11 @@
 #include "config.h"
 #include "types.h"
 
+__RCSID("$MirOS$");
+
 #include <unistd.h>
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
 #endif
 #ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>

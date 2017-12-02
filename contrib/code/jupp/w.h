@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/w.h,v 1.2 2008/05/13 13:08:33 tg Exp $ */
 /*
  *	Window management
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_W_H
 #define _JOE_W_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 /***************/
 /* Subroutines */

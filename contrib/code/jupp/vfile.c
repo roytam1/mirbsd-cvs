@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/vfile.c,v 1.7 2013/08/19 21:11:45 tg Exp $ */
 /*
  *	Software virtual memory system
  *	Copyright
@@ -9,9 +8,8 @@
 #include "config.h"
 #include "types.h"
 
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
+__RCSID("$MirOS$");
+
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif

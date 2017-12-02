@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/tab.c,v 1.3 2008/07/28 00:12:07 tg Exp $ */
 /*
  *	File selection menu
  *	Copyright
@@ -9,9 +8,8 @@
 #include "config.h"
 #include "types.h"
 
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
+__RCSID("$MirOS$");
+
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif

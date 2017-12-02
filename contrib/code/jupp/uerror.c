@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/uerror.c,v 1.3 2008/05/13 13:08:27 tg Exp $ */
 /*
  *	Compiler error handler
  *	Copyright
@@ -9,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-#include <stdio.h>
+__RCSID("$MirOS$");
 
 #include "b.h"
 #include "bw.h"

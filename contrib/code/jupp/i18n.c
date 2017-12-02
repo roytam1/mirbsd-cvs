@@ -1,7 +1,6 @@
 #if 0
 .if "0" == "1"
 #endif
-/* $MirOS: contrib/code/jupp/i18n.c,v 1.19 2017/07/08 15:38:52 tg Exp $ */
 /*
  *	UNICODE/ISO-10646 functions for JOE
  *	Copyright
@@ -21,6 +20,8 @@
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
 #endif
+
+__RCSID("$MirOS$");
 
 #include "charmap.h"
 #include "utf8.h"

@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/cmd.h,v 1.3 2008/07/28 00:12:06 tg Exp $ */
 /*
  *	Command execution
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_CMD_H
 #define _JOE_CMD_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 extern CMD cmds[];		/* Built-in commands */
 extern int dobeep;

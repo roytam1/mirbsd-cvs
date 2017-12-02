@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/regex.c,v 1.4 2010/04/08 15:31:03 tg Exp $ */
 /*
  *	Regular expression subroutines
  *	Copyright
@@ -9,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-#include <stdio.h> 
+__RCSID("$MirOS$");
 
 #include "b.h"
 #include "utf8.h"

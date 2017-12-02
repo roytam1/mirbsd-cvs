@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Incremental search
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_UISRCH_H
 #define _JOE_UISRCH_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 int uisrch PARAMS((BW *bw));
 int ursrch PARAMS((BW *bw));

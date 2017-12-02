@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Key-map handler
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_KBD_H
 #define _JOE_KBD_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 /* KMAP *mkkmap(void);
  * Create an empty keymap

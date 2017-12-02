@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/uformat.c,v 1.2 2008/05/13 13:08:28 tg Exp $ */
 /*
  *	User text formatting functions
  *	Copyright
@@ -8,6 +7,8 @@
  */
 #include "config.h"
 #include "types.h"
+
+__RCSID("$MirOS$");
 
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>

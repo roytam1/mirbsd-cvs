@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/blocks.c,v 1.3 2010/01/03 18:22:03 tg Exp $ */
 /*
  *	Fast block move/copy subroutines
  *	Copyright
@@ -7,6 +6,8 @@
  *	This file is part of JOE (Joe's Own Editor)
  */
 #include "config.h"
+
+__RCSID("$MirOS$");
 
 /* This module requires ALIGNED and SIZEOF_INT to be defined correctly */
 

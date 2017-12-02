@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/help.h,v 1.2 2008/05/13 13:08:22 tg Exp $ */
 /*
  *	Help system
  *	Copyright
@@ -10,8 +9,9 @@
 #ifndef _JOE_HELP_H
 #define _JOE_HELP_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 extern struct help *help_actual;
 

@@ -1,26 +1,12 @@
-/* $MirOS: contrib/code/jupp/types.h,v 1.13 2014/07/25 21:41:49 tg Exp $ */
-
 #ifndef _JOE_TYPES_H
 #define _JOE_TYPES_H
 
-#include "config.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 /* Prefix to make string constants unsigned */
 #define US (unsigned char *)
-
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>				/* we need pid_t */
-#endif
-
-/* from mksh */
-#if defined(DEBUG) || defined(__COVERITY__)
-#define mkssert(e)	do { if (!(e)) exit(255); } while (/* CONSTCOND */ 0)
-#else
-#define mkssert(e)	do { } while (/* CONSTCOND */ 0)
-#endif
-
-/* from mksh */
-#define NELEM(a)	(sizeof(a) / sizeof((a)[0]))
 
 #define LINK(type) struct { type *next; type *prev; }
 

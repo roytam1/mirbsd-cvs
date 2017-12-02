@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/pw.c,v 1.4 2008/07/28 00:12:06 tg Exp $ */
 /*
  *	Prompt windows
  *	Copyright
@@ -8,6 +7,8 @@
  */
 #include "config.h"
 #include "types.h"
+
+__RCSID("$MirOS$");
 
 #include <stdlib.h>
 #include <string.h>

@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Compiler error handler
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_UERROR_H
 #define _JOE_UERROR_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_B_C
+__RCSID("$MirOS$");
+#endif
 
 int unxterr PARAMS((BW *bw));
 int uprverr PARAMS((BW *bw));

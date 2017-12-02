@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/scrn.c,v 1.26 2017/08/08 16:09:43 tg Exp $ */
 /*
  *	Device independant TTY interface for JOE
  *	Copyright
@@ -9,7 +8,8 @@
 #include "config.h"
 #include "types.h"
 
-#include <stdio.h>
+__RCSID("$MirOS$");
+
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
 #endif

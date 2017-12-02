@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Doubly linked list primitives
  *	Copyright
@@ -9,7 +8,9 @@
 #ifndef _JOE_QUEUE
 #define _JOE_QUEUE 1 
 
-#include "config.h"
+#ifdef EXTERN_B_C
+__RCSID("$MirOS$");
+#endif
 
 extern void *ITEM;
 extern void *QUEUE;

@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/bw.h,v 1.3 2009/10/18 14:52:56 tg Exp $ */
 /*
  *	Edit buffer window generation
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_BW_H
 #define _JOE_BW_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 extern int dspasis;
 extern int mid;

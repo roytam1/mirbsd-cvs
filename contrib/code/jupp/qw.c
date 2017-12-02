@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/qw.c,v 1.3 2008/05/13 13:08:24 tg Exp $ */
 /*
  *	Query windows
  *	Copyright
@@ -8,6 +7,8 @@
  */
 #include "config.h"
 #include "types.h"
+
+__RCSID("$MirOS$");
 
 #include <stdlib.h>
 

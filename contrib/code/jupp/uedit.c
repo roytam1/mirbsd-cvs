@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/uedit.c,v 1.17 2017/03/19 19:19:51 tg Exp $ */
 /*
  *	Basic user edit functions
  *	Copyright
@@ -9,7 +8,8 @@
 #include "config.h"
 #include "types.h"
 
-#include <stdio.h>
+__RCSID("$MirOS$");
+
 #include <string.h>
 
 #ifdef HAVE_BSD_STRING_H

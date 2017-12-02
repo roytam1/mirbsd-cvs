@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/va.h,v 1.2 2008/05/13 13:08:32 tg Exp $ */
 /*
  *	Variable length arrays of strings
  *	Copyright
@@ -9,7 +8,9 @@
 #ifndef _JOE_VA_H
 #define _JOE_VA_H 1
 
-#include "config.h"
+#ifdef EXTERN_B_C
+__RCSID("$MirOS$");
+#endif
 
 #include "vs.h"
 

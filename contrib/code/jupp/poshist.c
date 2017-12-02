@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Position history
  *	Copyright
@@ -8,6 +7,8 @@
  */
 #include "config.h"
 #include "types.h"
+
+__RCSID("$MirOS$");
 
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>

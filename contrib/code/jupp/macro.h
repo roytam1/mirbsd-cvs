@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Keyboard macros
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_MACRO_H
 #define _JOE_MACRO_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 /* Set when macro is recording: for status line */
 extern struct recmac *recmac;

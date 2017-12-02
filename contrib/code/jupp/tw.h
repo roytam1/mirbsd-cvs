@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/tw.h,v 1.2 2008/05/13 13:08:27 tg Exp $ */
 /*
  *	Text editing windows
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_TW_H
 #define _JOE_TW_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 BW *wmktw PARAMS((SCREEN *t, B *b));
 

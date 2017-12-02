@@ -8,7 +8,10 @@
 	done | perl -pe 's/[^\ca-~]/sprintf "\\x%02X", unpack("U", $&)/eg'
  */
 
+#include "config.h"
 #include "types.h"
+
+__RCSID("$MirOS$");
 
 #ifndef JUPPRC_BUILTIN_NAME
 #define JUPPRC_BUILTIN_NAME "jupprc"
@@ -550,5 +553,4 @@ const unsigned char * const builtins[] = {
 		":querysr\n"
 		"type		^@ TO \xFF\n"
 ,	NULL
-,	"@(#) $MirOS: contrib/code/jupp/builtins.c,v 1.24 2017/01/11 22:23:45 tg Exp $"
 };

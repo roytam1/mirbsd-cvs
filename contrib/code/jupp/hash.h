@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Simple hash table
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_HASH_H
 #define _JOE_HASH_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 unsigned long hash PARAMS((unsigned char *s));
 HASH *htmk PARAMS((int len));

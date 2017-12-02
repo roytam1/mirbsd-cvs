@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	Directory package for older UNIXs
  *	Copyright
@@ -6,6 +5,8 @@
  *
  *	This file is part of JOE (Joe's Own Editor)
  */
+
+__RCSID("$MirOS$");
 
 struct direct {
 	short d_ino;

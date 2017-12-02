@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/pw.h,v 1.2 2008/05/13 13:08:24 tg Exp $ */
 /*
  *	Prompt windows
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_PW_H
 #define _JOE_PW_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_CMD_C
+__RCSID("$MirOS$");
+#endif
 
 /* BW *wmkpw(BW *bw,char *prompt,int (*func)(),char *huh,int (*abrt)(),
              int (*tab)(),void *object,int *notify);

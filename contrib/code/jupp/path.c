@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/path.c,v 1.9 2013/08/19 22:03:19 tg Exp $ */
 /* 
  *	Directory and path functions
  *	Copyright
@@ -9,8 +8,8 @@
 #include "config.h"
 #include "types.h"
 
-#include <stdio.h>
-#include <sys/types.h>
+__RCSID("$MirOS$");
+
 #ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif

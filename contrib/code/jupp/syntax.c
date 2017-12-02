@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/syntax.c,v 1.12 2016/10/07 19:43:55 tg Exp $ */
 /*
  *	Syntax highlighting DFA interpreter
  *	Copyright
@@ -8,6 +7,9 @@
  */
 
 #include "config.h"
+
+__RCSID("$MirOS$");
+
 #include <stdlib.h>
 #include <string.h>
 #include "b.h"

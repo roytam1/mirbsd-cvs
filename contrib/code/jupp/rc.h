@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/rc.h,v 1.3 2008/05/13 13:08:24 tg Exp $ */
 /*
  *	*rc file parser
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_RC_H
 #define _JOE_RC_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN
+__RCSID("$MirOS$");
+#endif
 
 extern OPTIONS pdefault;
 extern OPTIONS fdefault;

@@ -1,4 +1,6 @@
-/* $MirOS: contrib/code/jupp/builtin.h,v 1.1 2009/10/18 14:17:34 tg Exp $ */
+#ifdef EXTERN_RC_C
+__RCSID("$MirOS$");
+#endif
 
 /* Support for built-in config files */
 

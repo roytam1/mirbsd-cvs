@@ -1,4 +1,3 @@
-/* $MirOS$ */
 /*
  *	UNDO system
  *	Copyright
@@ -9,8 +8,9 @@
 #ifndef _JOE_UNDO_H
 #define _JOE_UNDO_H 1
 
-#include "config.h"
-#include "types.h"
+#ifdef EXTERN_B_C
+__RCSID("$MirOS$");
+#endif
 
 extern int inundo;
 extern int justkilled;

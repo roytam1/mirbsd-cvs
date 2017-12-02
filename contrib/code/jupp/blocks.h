@@ -1,4 +1,3 @@
-/* $MirOS: contrib/code/jupp/blocks.h,v 1.3 2010/01/03 18:22:03 tg Exp $ */
 /*
  *	Fast block move/copy subroutines
  *	Copyright
@@ -9,7 +8,9 @@
 #ifndef _JOE_BLOCKS_H
 #define _JOE_BLOCKS_H 1
 
-#include "config.h"
+#ifdef EXTERN_B_C
+__RCSID("$MirOS$");
+#endif
 
 /* char *mmove(char *d,char *s,int sz); Copy 'sz' bytes from 's' to 'd'.
  * Chooses either mbkwd or mfwrd to do this such that the data won't get
