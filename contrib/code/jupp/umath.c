@@ -97,7 +97,10 @@ static double expr(int prec, struct var **rtv)
 		while ((*ptr >= '0' && *ptr <= '9') || ((*ptr | 0x20) >= 'a' && (*ptr | 0x20) <= 'f'))
 			++ptr;
 	} else if ((*ptr >= '0' && *ptr <= '9') || *ptr == '.') {
-		x = strtod(ptr, (char **)&ptr);
+		char *eptr;
+
+		x = strtod(ptr, &eptr);
+		ptr = (unsigned char *)eptr;
 	} else if (*ptr == '(') {
 		++ptr;
 		x = expr(0, &v);
