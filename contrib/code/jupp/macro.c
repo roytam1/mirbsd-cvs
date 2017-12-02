@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/jupp/macro.c,v 1.10 2017/12/02 02:07:28 tg Exp $");
 
 #include <string.h>
 #ifdef HAVE_STDLIB_H
@@ -27,7 +27,6 @@ __RCSID("$MirOS$");
 #include "undo.h"
 #include "utils.h"
 #include "vs.h"
-#include "utf8.h"
 #include "charmap.h"
 #include "w.h"
 

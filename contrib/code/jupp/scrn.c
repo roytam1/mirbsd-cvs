@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/jupp/scrn.c,v 1.28 2017/12/02 02:07:31 tg Exp $");
 
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
@@ -20,7 +20,6 @@ __RCSID("$MirOS$");
 #include "scrn.h"
 #include "termcap.h"
 #include "charmap.h"
-#include "utf8.h"
 #include "utils.h"
 
 int skiptop = 0;
