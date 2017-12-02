@@ -30,7 +30,7 @@
 # Define colors
 
 =Idle
-=Preproc blue
+=Preproc yellow
 =Comment green
 =Constant cyan
 =Escape bold cyan

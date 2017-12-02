@@ -22,7 +22,7 @@
 
 =Idle
 =Bad		bold red
-=Preproc 	blue
+=Preproc 	yellow
 =Define		bold blue
 =Comment 	green
 =IncLocal	cyan

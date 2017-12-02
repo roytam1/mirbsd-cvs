@@ -22,7 +22,7 @@
 
 =Idle
 =Error		red bold
-=Tag		blue
+=Tag		yellow
 =Attr		cyan
 =Constant	blue bold
 =EntityRef	magenta
