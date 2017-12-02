@@ -225,6 +225,22 @@ else
 	echo "DISabling use of fork() and concurrent subshells (NOMMU)!"
 fi
 
+AC_ARG_ENABLE([fpu],
+[  --disable-fpu           disable use of floating point arithmetics],
+	use_fpu=$enableval, use_fpu=yes)
+if test x"$use_fpu" = x"no"; then
+	use_fpu=0
+else
+	use_fpu=1
+fi
+AC_DEFINE_UNQUOTED([WANT_MATH], [$use_fpu], [Can we use the FPU?])
+if test $use_fpu = 1; then
+	echo "Enabling use of floating point arithmetics"
+else
+	echo "DISabling Math support for lack of an FPU!"
+fi
+
+
 AC_CHECK_DECLS([strlcpy, strlcat, popen])
 AC_CHECK_DECLS([ctime], [], [], [AC_INCLUDES_DEFAULT
 #ifdef TIME_WITH_SYS_TIME
