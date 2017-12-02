@@ -16,6 +16,7 @@
 #include <sys/stat.h>
 #endif
 #include <fcntl.h>
+#include <limits.h>
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
 #endif
@@ -51,7 +52,7 @@ void vflsh(void)
 	for (vfile = vfiles.link.next; vfile != &vfiles; vfile = vfile->link.next) {
 		last = -1;
 	      loop:
-		addr = MAXLONG;
+		addr = LONG_MAX;
 		vlowest = NULL;
 		for (x = 0; x != HTSIZE; x++)
 			for (vp = htab[x]; vp; vp = vp->next)
@@ -89,7 +90,7 @@ void vflshf(VFILE *vfile)
 	int x;
 
       loop:
-	addr = MAXLONG;
+	addr = LONG_MAX;
 	vlowest = NULL;
 	for (x = 0; x != HTSIZE; x++)
 		for (vp = htab[x]; vp; vp = vp->next)

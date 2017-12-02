@@ -52,9 +52,6 @@
 
 #endif
 
-#define MAXINT  ((((unsigned int)-1)/2)-1)
-#define MAXLONG ((((unsigned long)-1L)/2)-1)
-
 #include <stdio.h>
 #ifndef EOF
 #define EOF -1

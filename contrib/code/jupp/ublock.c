@@ -19,6 +19,7 @@
 #ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>
 #endif
+#include <limits.h>
 
 #include "b.h"
 #include "pw.h"
@@ -1043,7 +1044,7 @@ static int dofilt(BW *bw, unsigned char *s, void *object, int *notify)
 				       markk->line - markb->line + 1,
 				       markk->xcol);
 
-		tmp = bread(fr[0], MAXLONG);
+		tmp = bread(fr[0], LONG_MAX);
 		if (piscol(tmp->eof))
 			height = tmp->eof->line + 1;
 		else
@@ -1070,7 +1071,7 @@ static int dofilt(BW *bw, unsigned char *s, void *object, int *notify)
 		if (!flg)
 			prgetc(p);
 		bdel(markb, p);
-		binsb(p, bread(fr[0], MAXLONG));
+		binsb(p, bread(fr[0], LONG_MAX));
 		if (!flg) {
 			pset(p,markk);
 			prgetc(p);
