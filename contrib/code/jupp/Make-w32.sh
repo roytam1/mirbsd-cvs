@@ -101,5 +101,5 @@ chmod 444 *
 cd ..
 zip -D -X -9 -k ../JWIN31$jWIN.ZIP $jtop/*
 cd ..
-ls -l JWIN31$jWIN.ZIP
+ls -l JWIN31$jWIN.*
 (( nocln )) || rm -rf mkw32
