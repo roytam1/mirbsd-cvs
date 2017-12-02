@@ -9,7 +9,7 @@
 #define _JOE_MENU_H 1
 
 #ifdef EXTERN_CMD_C
-__RCSID("$MirOS$");
+__IDSTRING(rcsid_menu_h, "$MirOS: contrib/code/jupp/menu.h,v 1.3 2017/12/02 02:07:29 tg Exp $");
 #endif
 
 /* Create a menu */

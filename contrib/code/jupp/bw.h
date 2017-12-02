@@ -9,7 +9,7 @@
 #define _JOE_BW_H 1
 
 #ifdef EXTERN_CMD_C
-__RCSID("$MirOS$");
+__IDSTRING(rcsid_bw_h, "$MirOS: contrib/code/jupp/bw.h,v 1.5 2017/12/02 02:07:24 tg Exp $");
 #endif
 
 extern int dspasis;

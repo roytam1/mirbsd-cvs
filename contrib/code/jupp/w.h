@@ -9,7 +9,7 @@
 #define _JOE_W_H 1
 
 #ifdef EXTERN
-__RCSID("$MirOS$");
+__IDSTRING(rcsid_w_h, "$MirOS: contrib/code/jupp/w.h,v 1.5 2017/12/02 02:07:38 tg Exp $");
 #endif
 
 /***************/

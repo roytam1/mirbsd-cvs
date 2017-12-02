@@ -9,7 +9,7 @@
 #define _JOE_UERROR_H 1
 
 #ifdef EXTERN_B_C
-__RCSID("$MirOS$");
+__IDSTRING(rcsid_uerror_h, "$MirOS: contrib/code/jupp/uerror.h,v 1.3 2017/12/02 02:07:34 tg Exp $");
 #endif
 
 int unxterr PARAMS((BW *bw));

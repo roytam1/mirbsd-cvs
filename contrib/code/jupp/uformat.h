@@ -9,7 +9,7 @@
 #define _JOE_UFORMAT_H 1
 
 #ifdef EXTERN_CMD_C
-__RCSID("$MirOS$");
+__IDSTRING(rcsid_uformat_h, "$MirOS: contrib/code/jupp/uformat.h,v 1.3 2017/12/02 02:07:35 tg Exp $");
 #endif
 
 int ucenter PARAMS((BW *bw));

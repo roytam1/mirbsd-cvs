@@ -2,7 +2,7 @@
 #define _JOE_TYPES_H
 
 #ifdef EXTERN
-__RCSID("$MirOS$");
+__IDSTRING(rcsid_types_h, "$MirOS: contrib/code/jupp/types.h,v 1.16 2017/12/02 02:07:33 tg Exp $");
 #endif
 
 /* Prefix to make string constants unsigned */

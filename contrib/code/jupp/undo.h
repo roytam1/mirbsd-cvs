@@ -9,7 +9,7 @@
 #define _JOE_UNDO_H 1
 
 #ifdef EXTERN_B_C
-__RCSID("$MirOS$");
+__IDSTRING(rcsid_undo_h, "$MirOS: contrib/code/jupp/undo.h,v 1.3 2017/12/02 02:07:36 tg Exp $");
 #endif
 
 extern int inundo;

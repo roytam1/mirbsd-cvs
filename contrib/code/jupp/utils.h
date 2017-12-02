@@ -11,7 +11,7 @@
 #define _JOE_UTILS_H 1
 
 #ifdef EXTERN_B_C
-__RCSID("$MirOS: contrib/code/jupp/utils.h,v 1.5 2017/12/02 02:07:37 tg Exp $");
+__IDSTRING(rcsid_utils_h, "$MirOS: contrib/code/jupp/utils.h,v 1.7 2017/12/02 03:52:35 tg Exp $");
 #endif
 
 #ifdef HAVE_SIGNAL_H
