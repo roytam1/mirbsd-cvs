@@ -25,8 +25,6 @@ done
 extrawarnings="-Wall -Wextra"
 (( debug )) && extrawarnings="$extrawarnings -g3"
 extrawarnings="$extrawarnings -Wno-unused-parameter"
-echo "N: gcc-3.4.4-999 does not support -Wno-missing-field-initializers"
-echo "N: expect warnings about those, they are known, do not report them"
 extrawarnings="$extrawarnings -Wno-old-style-definition -Wno-strict-prototypes"
 extrawarnings="$extrawarnings -Wno-cast-qual"
 extrawarnings="$extrawarnings -Wno-missing-prototypes -Wno-missing-declarations"

@@ -116,8 +116,8 @@ static void grmem(H *hdr, unsigned char *ptr, int ofst, unsigned char *blk, int 
 }
 
 
-static H nhdrs = { {&nhdrs, &nhdrs} };
-static H ohdrs = { {&ohdrs, &ohdrs} };
+static H nhdrs = { {&nhdrs, &nhdrs}, 0, 0, 0, 0 };
+static H ohdrs = { {&ohdrs, &ohdrs}, 0, 0, 0, 0 };
 
 /* Header allocation */
 static H *halloc(void)
@@ -147,7 +147,7 @@ static void hfreechn(H *h)
 }
 
 
-static P frptrs = { {&frptrs, &frptrs} };
+static P frptrs = { {&frptrs, &frptrs}, NULL, 0, 0, NULL, 0, 0, 0, 0, 0, 0, NULL };
 
 /* Pointer allocation */
 static P *palloc(void)
@@ -161,8 +161,8 @@ static void pfree(P *p)
 }
 
 /* Doubly linked list of buffers and free buffer structures */
-static B bufs = { {&bufs, &bufs} };
-static B frebufs = { {&frebufs, &frebufs} };
+static B bufs = { {&bufs, &bufs}, NULL, NULL, NULL, 0, 0, 0, 0, 0, NULL, { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, { NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, 0 }, NULL, NULL, 0, 0, 0, 0, 0, 0 };
+static B frebufs = { {&frebufs, &frebufs}, NULL, NULL, NULL, 0, 0, 0, 0, 0, NULL, { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }, { NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL, 0, 0 }, NULL, NULL, 0, 0, 0, 0, 0, 0 };
 
 B *bnext(void)
 {

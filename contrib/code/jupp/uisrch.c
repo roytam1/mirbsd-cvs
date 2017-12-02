@@ -32,7 +32,7 @@ unsigned char *lastpat = NULL;	/* Previous pattern */
 
 extern SRCH *globalsrch;	/* Existing SRCH structure */
 
-IREC fri = { {&fri, &fri} };	/* Free-list of irecs */
+IREC fri = { {&fri, &fri}, 0, 0, 0, 0 };	/* Free-list of irecs */
 
 static IREC *alirec(void)
 {				/* Allocate an IREC */

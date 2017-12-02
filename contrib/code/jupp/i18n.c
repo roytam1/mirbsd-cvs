@@ -6935,7 +6935,6 @@ CPPFLAGS+=	-DTEST -DTEST_I18N
 
 .ifdef __CRAZY
 COPTS+=		-Wno-unused-parameter \
-		-Wno-missing-field-initializers \
 		-Wno-old-style-definition -Wno-strict-prototypes \
 		-Wno-cast-qual \
 		-Wno-missing-prototypes -Wno-missing-declarations

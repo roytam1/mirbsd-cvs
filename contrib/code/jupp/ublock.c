@@ -53,8 +53,8 @@ typedef struct marksav MARKSAV;
 struct marksav {
 	LINK(MARKSAV) link;
 	P *markb, *markk;
-} markstack = { { &markstack, &markstack} };
-MARKSAV markfree = { {&markfree, &markfree} };
+} markstack = { { &markstack, &markstack}, NULL, NULL };
+MARKSAV markfree = { {&markfree, &markfree}, NULL, NULL };
 int nstack = 0;
 
 int upsh(BW *bw)
