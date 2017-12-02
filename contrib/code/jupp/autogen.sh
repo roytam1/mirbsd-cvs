@@ -1,8 +1,8 @@
 #!/bin/mksh
 # $MirOS: contrib/code/jupp/autogen.sh,v 1.13 2009/03/29 13:04:11 tg Exp $
 #-
-# Copyright © 2004, 2005, 2006, 2008
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+# Copyright © 2004, 2005, 2006, 2008, 2017
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -64,6 +64,6 @@ if autoconf; then
 else
 	(( rv = rv ? rv : 1 ))
 fi
-rm -rf autom4te.cache
+rm -rf autom4te.cache *~
 find . -type l -print0 | xargs -0 rm
 exit $rv
