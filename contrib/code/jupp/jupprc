@@ -37,7 +37,7 @@
  #HOOK#2801 global/default flags
 
 {Basic
-\i   Help Screen    turn off with ^J     more help with ESC . (^[.)              \i
+\i   Help Screen    turn off with ^J     more help with Esc+. (^[.)              \i
 \i \i\u\bCURSOR\b\u           \u\bGOTO\b\u             \u\bBLOCK\b\u    \u\bDELETE\b\u    \u\bMISC\b\u         \u\bEXIT\b\u       \i \i
 \i \i^S left ^D right ^R  prev. screen ^KV move ^G  char  ^B  reformat ^KX save   \i \i
 \i \i^E up   ^X down  ^C  next screen  ^KC copy ^Y  line  ^V  overtype ^KQ abort  \i \i
@@ -116,7 +116,7 @@
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2017-11-29; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
+\i \i @(#) jupprc 2017-12-02; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
 }
 
  #HOOK#2802 additional help screens
