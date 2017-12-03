@@ -1180,7 +1180,7 @@ static int dounicode(BW *bw, unsigned char *s, void *object, int *notify)
 {
 	int num;
 
-	sscanf((char *)s,"%x",&num);
+	num = ustolb(s, NULL, 0, 0x10FFFF, USTOL_HEX | USTOL_TRIM | USTOL_EOS);
 	if (notify)
 		*notify = 1;
 	vsrm(s);

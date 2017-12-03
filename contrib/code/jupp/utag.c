@@ -75,7 +75,7 @@ static int dotag(BW *bw, unsigned char *s, void *obj, int *notify)
 					long line = 0;
 
 					if (buf[y] >= '0' && buf[y] <= '9') {
-						sscanf((char *)(buf + y), "%ld", &line);
+						line = ustol(buf + y, NULL, USTOL_AUTO);
 						if (line >= 1) {
 							int omid = mid;
 

@@ -153,10 +153,15 @@ static int parseit(struct charmap *map,unsigned char *s, long int row)
 	for (y = x; s[y] >= '0' && s[y] <= '9'; ++y) ;
 
 	/* Save line number */
-	if (x != y)
-		sscanf((char *)(s + x), "%ld", &line);
-	if (line != -1)
-		--line;
+	if (x != y) {
+		void *vp;
+
+		line = ustol(s + x, &vp, USTOL_DEC);
+		if (!vp)
+			line = -1;
+		else
+			--line;
+	}
 
 	/* Look for ':' */
 	flg = 0;

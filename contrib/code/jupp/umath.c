@@ -90,12 +90,11 @@ static double expr(int prec, struct var **rtv)
 		*ptr = c;
 	} else if (ptr[0] == '0' && (ptr[1] | 0x20) == 'x') {
 		unsigned long xi;
+		void *dp;
 
-		sscanf((char *)ptr, "%li", &xi);
+		xi = ustol(ptr, &dp, USTOL_AUTO);
 		x = (double)xi;
-		ptr += 2;
-		while ((*ptr >= '0' && *ptr <= '9') || ((*ptr | 0x20) >= 'a' && (*ptr | 0x20) <= 'f'))
-			++ptr;
+		ptr = dp;
 	} else if ((*ptr >= '0' && *ptr <= '9') || *ptr == '.') {
 		char *eptr;
 

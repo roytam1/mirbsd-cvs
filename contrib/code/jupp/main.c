@@ -204,11 +204,11 @@ main_init(int argc, char **argv, char **envp, SCRN **np)
 	run = namprt(argv[0]);
 
 	if ((s = (unsigned char *)getenv("LINES")) != NULL)
-		sscanf((char *)s, "%d", &lines);
+		lines = ustol(s, NULL, USTOL_DEC | USTOL_EOS);
 	if ((s = (unsigned char *)getenv("COLUMNS")) != NULL)
-		sscanf((char *)s, "%d", &columns);
+		columns = ustol(s, NULL, USTOL_DEC | USTOL_EOS);
 	if ((s = (unsigned char *)getenv("BAUD")) != NULL)
-		sscanf((char *)s, "%u", &Baud);
+		Baud = ustol(s, NULL, USTOL_DEC | USTOL_EOS);
 	if (getenv("DOPADDING"))
 		dopadding = 1;
 	if (getenv("NOXON"))
@@ -354,7 +354,7 @@ main_init(int argc, char **argv, char **envp, SCRN **np)
 					old_context = bw->o.context;
 					while (backopt != c) {
 						if (argv[backopt][0] == '+') {
-							sscanf((char *)(argv[backopt] + 1), "%ld", &lnum);
+							lnum = ustol(argv[backopt] + 1, NULL, USTOL_TRIM | USTOL_EOS);
 							++backopt;
 						} else {
 							if (glopt(argv[backopt] + 1, argv[backopt + 1], &bw->o, 0) == 2)
