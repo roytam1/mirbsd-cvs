@@ -30,8 +30,8 @@ CFARGS+=	--enable-win32reloc
 FSFISLIB=	No
 
 .ifdef __CRAZY
-COPTS+=		-Wno-unused-parameter \
-		-Wno-old-style-definition -Wno-strict-prototypes \
+COPTS+=		-Wno-old-style-definition \
+		-Wno-unused-parameter -Wno-strict-prototypes \
 		-Wno-cast-qual \
 		-Wno-missing-prototypes -Wno-missing-declarations
 .endif
