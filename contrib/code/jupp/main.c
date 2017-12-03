@@ -55,6 +55,7 @@ __RCSID("$MirOS: contrib/code/jupp/main.c,v 1.32 2017/12/02 02:07:28 tg Exp $");
 #include "w.h"
 #include "charmap.h"
 #include "syntax.h"
+#include "utils.h"
 
 extern int mid, dspasis, help, pgamnt, nobackups, lightoff, exask, lines, columns, dopadding, marking, dobeep;
 
