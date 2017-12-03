@@ -6,7 +6,7 @@
 AC_PREREQ(2.54)
 
 #### Here's the only place where to change version number ####
-AC_INIT(joe, 3.1jupp31)
+AC_INIT(joe, 3.1jupp31dev)
 #### But see main.c for the Copyright (c) owner and year! ####
 AC_CONFIG_SRCDIR([b.c])
 
@@ -112,7 +112,13 @@ AC_SUBST(sysconfjoesubdir)
 AC_ARG_ENABLE([win32reloc],
 [  --enable-win32reloc     enable win32 self-relocation],
 	[win32reloc=$enableval], [win32reloc=no])
-AM_CONDITIONAL([JUPP_WIN32RELOC], [test x"$win32reloc" = x"yes"])
+if test x"$win32reloc" = x"yes"; then
+	JUPP_WIN32RELOC=1
+else
+	JUPP_WIN32RELOC=0
+	AC_DEFINE_UNQUOTED([JOERC], ["$sysconfdir$sysconfjoesubdir"], [Unix absolute paths base])
+fi
+AC_DEFINE_UNQUOTED([JUPP_WIN32RELOC], [$JUPP_WIN32RELOC], [Use Win32 argv0-relative paths?])
 if test x"$win32reloc" = x"yes"; then
 	joeinitfile='\\fBjoerc\\fR in the same directory as the binary resides in'
 	joeinitcopy='which resides in the same directory as the binary'
