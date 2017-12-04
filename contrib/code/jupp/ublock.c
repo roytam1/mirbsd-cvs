@@ -1116,10 +1116,6 @@ static int checkmark(BW *bw)
 
 int ufilt(BW *bw)
 {
-#ifdef __MSDOS__
-	msgnw(bw->parent, "Sorry, no sub-processes in DOS (yet)");
-	return -1;
-#else
 	switch (checkmark(bw)) {
 	case 0:
 		if (wmkpw(bw->parent, US "Command to filter block through (^C to abort): ", &filthist, dofilt, NULL, NULL, utypebw, NULL, NULL, locale_map))
@@ -1136,7 +1132,6 @@ int ufilt(BW *bw)
 		msgnw(bw->parent, US "No block");
 		return -1;
 	}
-#endif
 }
 
 /* Force region to lower case */
