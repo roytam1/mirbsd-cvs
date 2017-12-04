@@ -2,7 +2,8 @@
 
 __RCSID("$MirOS: contrib/code/jupp/selinux.c,v 1.8 2017/12/02 02:07:31 tg Exp $");
 
-#if defined(HAVE_SELINUX_HDR) && defined(HAVE_SELINUX_FUN)
+#if defined(HAVE_SELINUX_CONTEXT_H) && defined(HAVE_SELINUX_SELINUX_H) && \
+    defined(HAVE_SELINUX_FUN)
 #define WITH_SELINUX
 #else
 #undef WITH_SELINUX
