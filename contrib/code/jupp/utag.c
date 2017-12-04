@@ -132,18 +132,18 @@ int utag(BW *bw)
 	BW *pbw;
 
 	pbw = wmkpw(bw->parent, US "Tag search: ", &taghist, dotag, NULL, NULL, cmplt, NULL, NULL, locale_map);
-	if (pbw && joe_isalnum_(bw->b->o.charmap,brch(bw->cursor))) {
+	if (pbw && joe_isalnux(bw->b->o.charmap,brch(bw->cursor))) {
 		P *p = pdup(bw->cursor);
 		P *q = pdup(p);
 		int c;
 
-		while (joe_isalnum_(bw->b->o.charmap,(c = prgetc(p))))
+		while (joe_isalnux(bw->b->o.charmap,(c = prgetc(p))))
 			/* do nothing */;
 		if (c != NO_MORE_DATA) {
 			pgetc(p);
 		}
 		pset(q, p);
-		while (joe_isalnum_(bw->b->o.charmap,(c = pgetc(q))))
+		while (joe_isalnux(bw->b->o.charmap,(c = pgetc(q))))
 			/* do nothing */;
 		if (c != NO_MORE_DATA) {
 			prgetc(q);
