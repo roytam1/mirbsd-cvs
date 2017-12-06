@@ -535,7 +535,7 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
 \i \i \dGPLv2 JOE 4.4 with jupprc; partial functionality unmapped, missing, broken.\d \i \i
-\i \i @(#) jupprc 2017-12-02; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2017-12-06; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#4403 additional help screens
@@ -605,9 +605,9 @@ stop		^[ )
 :inherit windows
 :def freedroidz splitw,prevw,scratch,"nbc-Output",rtn,nextw,save,markk,bol,markb,prevw,prevw,blkcpy,nextw,nextw,rtn,prevw,eol,"'",bol,qrepl,"'",rtn,rtn,"'\\\\''",rtn,"r",backs,backs,backs,bol,"LC_ALL=C; export LC_ALL; fn='",eol,"; p=--posix; sed $p -e q </dev/null >/dev/null 2>&1 || p=; r=$(sed $p -e 's[^^][&]g; s\\^\\\\^g' <<EOF",rtn,"$fn",rtn,"EOF",rtn,"); (case $fn in *.nxc) ;; *) echo '==> Error: filename not *.nxc'; exit ;; esac; echo \"Compiling $fn\"; nbc -sm- -d \"$fn\" 2>&1; x=$?; if test $x = 0; then echo '==> OK'; else echo '==> Error code:' $x; fi) | tr '\\n' '' | sed $p -e 's!# *\\([^]*\\)File \"[^\"]*/\\('\"$r\"'\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' -e 's!#\\([^]*\\)File \"\\([^\"]*\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' | tr '' '\\n'",rtn,nmark,filt,"sh",rtn,rtn,"Press ^KQ to close this window!",rtn,parserr
 :def docompile edit,rtn,filt,query,parserr
+:def fixwhitespace eof," ",bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\$",rtn,rtn,rtn,"r",eof,ffirst,"\\[^\\n]",rtn,"b",rtn,rtn,markb,rtn,eof,markk,blkdel
+:def conflictmarker ffirst,"\\^\\[<>=]\\{7}\\[ \\n]",rtn,rtn,ltarw
  #HOOK#4405 main keybindings
-eof," ",bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,ffirst,"\\[^\\n]",rtn,"b",rtn,rtarw,rtn,markb,rtn,eof,markk,blkdel	^K ]
-ffirst,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw							^Q =
 paste					^[ ] 5 2 ;	base64 paste (obsolete)
 brpaste					^[ [ 2 0 0 ~
 brpaste_done				^[ [ 2 0 1 ~
@@ -619,6 +619,8 @@ begin_marking,bol,toggle_marking	^[ [ 1 ; 2 H
 begin_marking,eol,toggle_marking	^[ [ 1 ; 2 F
 begin_marking,bof,toggle_marking	^[ [ 1 ; 6 H
 begin_marking,eof,toggle_marking	^[ [ 1 ; 6 F
+fixwhitespace	^K ]
+conflictmarker	^Q =
 backs		^?
 backs		^H
 backw		^[ o
