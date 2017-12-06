@@ -24,10 +24,7 @@ done
 
 extrawarnings="-Wall -Wextra"
 (( debug )) && extrawarnings="$extrawarnings -g3"
-extrawarnings="$extrawarnings -Wno-old-style-definition"
-extrawarnings="$extrawarnings -Wno-unused-parameter -Wno-strict-prototypes"
-extrawarnings="$extrawarnings -Wno-cast-qual"
-extrawarnings="$extrawarnings -Wno-missing-prototypes -Wno-missing-declarations"
+extrawarnings="$extrawarnings -Wno-unused-parameter -Wno-cast-qual"
 
 export LC_ALL=C
 set -ex

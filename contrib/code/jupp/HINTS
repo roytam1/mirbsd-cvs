@@ -5,11 +5,7 @@ GCC
 ---
 
 Disable the following warnings; the code doesn't cope with it:
--Wno-pointer-sign
--Wno-old-style-definition
--Wno-unused-parameter -Wno-strict-prototypes
--Wno-cast-qual
--Wno-missing-prototypes -Wno-missing-declarations
+-Wno-pointer-sign -Wno-unused-parameter -Wno-cast-qual
 
 UTF-8
 -----

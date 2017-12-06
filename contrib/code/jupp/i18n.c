@@ -6937,10 +6937,7 @@ CPPFLAGS+=	-DTEST -DTEST_I18N
 .include <bsd.own.mk>
 
 .ifdef __CRAZY
-COPTS+=		-Wno-old-style-definition \
-		-Wno-unused-parameter -Wno-strict-prototypes \
-		-Wno-cast-qual \
-		-Wno-missing-prototypes -Wno-missing-declarations
+COPTS+=		-Wno-unused-parameter -Wno-cast-qual
 .endif
 
 .include <bsd.prog.mk>
