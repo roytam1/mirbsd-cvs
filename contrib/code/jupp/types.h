@@ -31,7 +31,7 @@ typedef struct point P;
 typedef struct options OPTIONS;
 typedef struct macro MACRO;
 typedef struct cmd CMD;
-typedef struct entry HENTRY;
+typedef struct hentry HENTRY;
 typedef struct hash HASH;
 typedef struct kmap KMAP;
 typedef struct kbd KBD;
@@ -141,12 +141,12 @@ struct recmac {
 /* Command entry */
 
 struct cmd {
-	unsigned char	*name;		/* Command name */
-	int	flag;		/* Execution flags */
+	const unsigned char *name;	/* Command name */
+	const unsigned char *negarg;	/* Command to use if arg was negative */
 	int	(*func) ();	/* Function bound to name */
 	MACRO	*m;		/* Macro bound to name */
+	int	flag;		/* Execution flags */
 	int	arg;		/* 0= arg is meaningless, 1= ok */
-	unsigned char	*negarg;	/* Command to use if arg was negative */
 };
 
 
@@ -175,8 +175,8 @@ struct buffer {
 };
 
 
-struct entry {
-	unsigned char	*name;
+struct hentry {
+	const unsigned char *name;
 	HENTRY	*next;
 	void	*val;
 };
@@ -329,7 +329,7 @@ struct menu {
 	void	*object;
 };
 
-struct hentry {
+struct s_hentry {
 	int	next;
 	int	loc;
 };
@@ -442,8 +442,8 @@ struct scrn {
 
 	int	*compose;	/* Line compose buffer */
 	int	*ofst;		/* stuff for magic */
-	struct hentry	*htab;
-	struct hentry	*ary;
+	struct s_hentry	*htab;
+	struct s_hentry	*ary;
 };
 
 

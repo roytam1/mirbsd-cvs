@@ -125,7 +125,7 @@ static int doushell(BW *bw, unsigned char *cmd, int *notify, int build)
 		*notify = 1;
 	}
 	if (bw->b->pid) {
-		msgnw(bw->parent, US "Program already running in this window");
+		msgnw(bw->parent, UC "Program already running in this window");
 		varm(s);
 		return -1;
 	}
@@ -133,7 +133,7 @@ static int doushell(BW *bw, unsigned char *cmd, int *notify, int build)
 
 	if (!(m = mpxmk(&bw->b->out, name, s, cdata, bw->b, build ? cdone_parse : cdone, bw->b))) {
 		varm(s);
-		msgnw(bw->parent, US "No ptys available");
+		msgnw(bw->parent, UC "No ptys available");
 		return -1;
 	} else {
 		bw->b->pid = m->pid;
@@ -144,7 +144,7 @@ static int doushell(BW *bw, unsigned char *cmd, int *notify, int build)
 int ubknd(BW *bw)
 {
 	if (!getenv("SHELL")) {
-        	msgnw(bw->parent, US "\"SHELL\" environment variable not defined or exported");
+        	msgnw(bw->parent, UC "\"SHELL\" environment variable not defined or exported");
         }
 	return doushell(bw, NULL, NULL, 0);
 }

@@ -298,7 +298,7 @@ static int saver(BW *bw, int c, struct savereq *req, int *notify)
 {
 	int fl;
 	if (c == 'n' || c == 'N') {
-		msgnw(bw->parent, US "Couldn't make backup file... file not saved");
+		msgnw(bw->parent, UC "Couldn't make backup file... file not saved");
 		if (req->callback) {
 			return req->callback(bw, req, -1, notify);
 		} else {
@@ -600,7 +600,7 @@ int doedit(BW *bw, unsigned char *s, void *obj, int *notify)
 int okrepl(BW *bw)
 {
 	if (bw->b->count == 1 && bw->b->changed) {
-		msgnw(bw->parent, US "Can't replace modified file");
+		msgnw(bw->parent, UC "Can't replace modified file");
 		return -1;
 	} else {
 		return 0;

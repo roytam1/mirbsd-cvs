@@ -191,7 +191,7 @@ MACRO *mparse(MACRO *m, unsigned char *buf, int *sta)
 				}
 			} else
 				m = mkmacro(-1, 1, 0, NULL);
-			addmacro(m, mkmacro(buf[x], 1, 0, findcmd(US "type")));
+			addmacro(m, mkmacro(buf[x], 1, 0, findcmd(UC "type")));
 			++x;
 		}
 		if (buf[x] == '\"')
@@ -500,7 +500,7 @@ int ustop(void)
 			rmmacro(kbdmacro[r->n]);
 		kbdmacro[r->n] = r->m;
 		if (recmac)
-			record(m = mkmacro(r->n + '0', 1, 0, findcmd(US "play"))), rmmacro(m);
+			record(m = mkmacro(r->n + '0', 1, 0, findcmd(UC "play"))), rmmacro(m);
 		joe_free(r);
 	}
 	return 0;

@@ -532,7 +532,7 @@ static int doopt1(BW *bw, unsigned char *s, int *xx, int *notify)
 		} else if (v >= glopts[x].low && v <= glopts[x].high)
 			*glopts[x].set.i = v;
 		else {
-			msgnw(bw->parent, US "Value out of range");
+			msgnw(bw->parent, UC "Value out of range");
 			ret = -1;
 		}
 		break;
@@ -552,7 +552,7 @@ static int doopt1(BW *bw, unsigned char *s, int *xx, int *notify)
 		} else if (v >= glopts[x].low && v <= glopts[x].high)
 			*(int *) ((unsigned char *) &bw->o + glopts[x].ofst) = v;
 		else {
-			msgnw(bw->parent, US "Value out of range");
+			msgnw(bw->parent, UC "Value out of range");
 			ret = -1;
 		}
 		break;
@@ -568,7 +568,7 @@ static int doopt1(BW *bw, unsigned char *s, int *xx, int *notify)
 		} else if (v >= glopts[x].low && v <= glopts[x].high)
 			*(int *) ((unsigned char *) &bw->o + glopts[x].ofst) = v;
 		else {
-			msgnw(bw->parent, US "Value out of range");
+			msgnw(bw->parent, UC "Value out of range");
 			ret = -1;
 		}
 		break;
@@ -591,7 +591,7 @@ static int dosyntax(BW *bw, unsigned char *s, int *xx, int *notify)
 		if ((syn = load_dfa(s)))
 			bw->o.syntax = syn;
 		else
-			msgnw(bw->parent, US "Syntax definition file not found");
+			msgnw(bw->parent, UC "Syntax definition file not found");
 	} else
 		bw->o.syntax = NULL;
 
@@ -681,7 +681,7 @@ static int doencoding(BW *bw, unsigned char *s, int *xx, int *notify)
 		map = fdefault.charmap;
 
 	if (map && map->type && check_for_hex(bw)) {
-		msgnw(bw->parent, US "UTF-8 encoding not allowed with hex-edit windows");
+		msgnw(bw->parent, UC "UTF-8 encoding not allowed with hex-edit windows");
 		if (notify)
 			*notify = 1;
 		return -1;
@@ -692,7 +692,7 @@ static int doencoding(BW *bw, unsigned char *s, int *xx, int *notify)
 		joe_snprintf_1((char *)msgbuf, JOE_MSGBUFSIZE, "%s encoding assumed for this file", map->name);
 		msgnw(bw->parent, msgbuf);
 	} else
-		msgnw(bw->parent, US "Character set not found");
+		msgnw(bw->parent, UC "Character set not found");
 
 	vsrm(s);
 	bw->b->o = bw->o;

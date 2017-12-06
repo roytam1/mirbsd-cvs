@@ -31,8 +31,8 @@ extern int dobeep;
 /* CMD *findcmd(char *s);
  * Return command address for given name
  */
-CMD *findcmd(unsigned char *s);
-void addcmd(unsigned char *s, MACRO *m);
+CMD *findcmd(const unsigned char *s);
+void addcmd(const unsigned char *s, MACRO *m);
 
 /* Execute a command.  Returns return value of command */
 int execmd(CMD *cmd, int k);

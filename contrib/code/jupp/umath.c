@@ -308,7 +308,7 @@ calcl(BW *bw, unsigned char *s)
 int
 unomath(BW *bw)
 {
-	msgnw(bw->parent, US "Sorry, compiled without Math");
+	msgnw(bw->parent, UC "Sorry, compiled without Math");
 	return (-1);
 }
 #endif

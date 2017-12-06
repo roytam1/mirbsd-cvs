@@ -12,10 +12,10 @@
 __IDSTRING(rcsid_hash_h, "$MirOS: contrib/code/jupp/hash.h,v 1.4 2017/12/02 17:00:48 tg Exp $");
 #endif
 
-unsigned long hash(unsigned char *s);
+unsigned long hash(const unsigned char *s);
 HASH *htmk(int len);
 void htrm(HASH *ht);
-void *htadd(HASH *ht, unsigned char *name, void *val);
-void *htfind(HASH *ht, unsigned char *name);
+void *htadd(HASH *ht, const unsigned char *name, void *val);
+void *htfind(HASH *ht, const unsigned char *name);
 
 #endif
