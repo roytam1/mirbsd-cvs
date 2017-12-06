@@ -8,11 +8,12 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/kbd.c,v 1.5 2017/12/02 02:07:28 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/kbd.c,v 1.6 2017/12/04 22:15:38 tg Exp $");
 
 #include <stdlib.h>
 #include <string.h>
 
+#include "kbd.h"
 #include "macro.h"
 #include "termcap.h"
 #include "utils.h"

@@ -9,12 +9,11 @@
 #define _JOE_MENU_H 1
 
 #ifdef EXTERN_CMD_C
-__IDSTRING(rcsid_menu_h, "$MirOS: contrib/code/jupp/menu.h,v 1.4 2017/12/02 17:00:49 tg Exp $");
+__IDSTRING(rcsid_menu_h, "$MirOS: contrib/code/jupp/menu.h,v 1.5 2017/12/06 21:16:58 tg Exp $");
 #endif
 
 /* Create a menu */
-/* FIXME: ??? ---> */
-MENU *mkmenu(W *w, unsigned char **s, int (*func) (/* ??? */), int (*abrt) (/* ??? */), int (*backs) (/* ??? */), int cursor, void *object, int *notify);
+MENU *mkmenu(W *w, unsigned char **s, jpoly_int *func, jpoly_int *abrt, jpoly_int *backs, int cursor, void *object, int *notify);
 
 /* Menu user functions */
 

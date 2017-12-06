@@ -9,7 +9,7 @@
 #define _Iutf8 1
 
 #ifdef EXTERN
-__IDSTRING(rcsid_utf8_h, "$MirOS: contrib/code/jupp/utf8.h,v 1.6 2017/12/02 17:00:52 tg Exp $");
+__IDSTRING(rcsid_utf8_h, "$MirOS: contrib/code/jupp/utf8.h,v 1.7 2017/12/06 21:17:04 tg Exp $");
 #endif
 
 #include "i18n.h"
@@ -50,7 +50,7 @@ int utf8_decode_fwrd(unsigned char **p,int *plen);
 
 void utf8_init(struct utf8_sm *utf8_sm);
 
-void joe_locale();
+void joe_locale(void);
 void to_utf8(struct charmap *map,unsigned char *s,int c);
 int from_utf8(struct charmap *map,unsigned char *s);
 

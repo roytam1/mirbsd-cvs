@@ -9,7 +9,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/cmd.c,v 1.19 2017/12/02 02:07:25 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/cmd.c,v 1.21 2017/12/06 21:41:01 tg Exp $");
 
 #include <stdlib.h>
 #include <string.h>
@@ -53,7 +53,8 @@ int uexecmd(BW *bw);
 
 /* Command table */
 
-int ubeep(BW *bw, int k)
+static int
+ubeep(void)
 {
 	ttputc(7);
 	return 0;

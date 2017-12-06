@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/tab.c,v 1.7 2017/12/02 02:07:32 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/tab.c,v 1.9 2017/12/06 21:41:03 tg Exp $");
 
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -17,6 +17,7 @@ __RCSID("$MirOS: contrib/code/jupp/tab.c,v 1.7 2017/12/02 02:07:32 tg Exp $");
 #include "blocks.h"
 #include "menu.h"
 #include "path.h"
+#include "tab.h"
 #include "tty.h"
 #include "utils.h"
 #include "va.h"

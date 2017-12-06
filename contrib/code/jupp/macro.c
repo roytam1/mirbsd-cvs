@@ -8,13 +8,14 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/macro.c,v 1.12 2017/12/06 16:37:40 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/macro.c,v 1.14 2017/12/06 21:41:02 tg Exp $");
 
 #include <string.h>
 #include <stdlib.h>
 
 #include "b.h"
 #include "cmd.h"
+#include "macro.h"
 #include "main.h"
 #include "pw.h"
 #include "qw.h"
