@@ -132,7 +132,7 @@ int utag(BW *bw)
 {
 	BW *pbw;
 
-	pbw = wmkpw(bw->parent, US "Tag search: ", &taghist, dotag, NULL, NULL, cmplt, NULL, NULL, locale_map);
+	pbw = wmkpw(bw->parent, UC "Tag search: ", &taghist, dotag, NULL, NULL, cmplt, NULL, NULL, locale_map);
 	if (pbw && joe_isalnux(bw->b->o.charmap,brch(bw->cursor))) {
 		P *p = pdup(bw->cursor);
 		P *q = pdup(p);

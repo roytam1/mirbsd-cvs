@@ -200,7 +200,7 @@ WATOM watompw = {
 
 /* Create a prompt window */
 
-BW *wmkpw(W *w, unsigned char *prompt, B **history, jpoly_int *func, const unsigned char *huh, jpoly_int *abrt, jpoly_int *tab, void *object, int *notify, struct charmap *map)
+BW *wmkpw(W *w, const unsigned char *prompt, B **history, jpoly_int *func, const unsigned char *huh, jpoly_int *abrt, jpoly_int *tab, void *object, int *notify, struct charmap *map)
 {
 	W *new;
 	PW *pw;
@@ -220,7 +220,7 @@ BW *wmkpw(W *w, unsigned char *prompt, B **history, jpoly_int *func, const unsig
 	pw->abrt = abrt;
 	pw->tab = tab;
 	pw->object = object;
-	pw->prompt = (unsigned char *)strdup((char *)prompt);
+	pw->prompt = (unsigned char *)strdup((const char *)prompt);
 	pw->promptlen = fmtlen(prompt);
 	pw->promptofst = 0;
 	pw->pfunc = func;

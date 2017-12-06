@@ -1116,12 +1116,12 @@ int ufilt(BW *bw)
 {
 	switch (checkmark(bw)) {
 	case 0:
-		if (wmkpw(bw->parent, US "Command to filter block through (^C to abort): ", &filthist, dofilt, NULL, NULL, utypebw, NULL, NULL, locale_map))
+		if (wmkpw(bw->parent, UC "Command to filter block through (^C to abort): ", &filthist, dofilt, NULL, NULL, utypebw, NULL, NULL, locale_map))
 			return 0;
 		else
 			return -1;
 	case 1:
-		if (wmkpw(bw->parent, US "Command to filter file through (^C to abort): ", &filthist, dofilt, NULL, NULL, utypebw, NULL, NULL, locale_map))
+		if (wmkpw(bw->parent, UC "Command to filter file through (^C to abort): ", &filthist, dofilt, NULL, NULL, utypebw, NULL, NULL, locale_map))
 			return 0;
 		else
 			return -1;

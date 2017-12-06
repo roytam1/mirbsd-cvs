@@ -16,7 +16,7 @@ __IDSTRING(rcsid_pw_h, "$MirOS: contrib/code/jupp/pw.h,v 1.7 2017/12/06 21:16:58
              int (*tab)(),void *object,int *notify);
  * Create a prompt window for the given window
  */
-BW *wmkpw(W *w, unsigned char *prompt, B **history, jpoly_int *func, const unsigned char *huh, jpoly_int *abrt, jpoly_int *tab, void *object, int *notify, struct charmap *map);
+BW *wmkpw(W *w, const unsigned char *prompt, B **history, jpoly_int *func, const unsigned char *huh, jpoly_int *abrt, jpoly_int *tab, void *object, int *notify, struct charmap *map);
 
 int ucmplt(BW *bw, int k);
 

@@ -800,7 +800,7 @@ static int doopt(MENU *m, int x, void *object, int flg)
 
 	case 9:
 		joe_snprintf_1((char *)buf, OPT_BUF_SIZE, (char *)glopts[x].yes,
-		    bw->b->o.syntax ? bw->b->o.syntax->name : US "(unset)");
+		    bw->b->o.syntax ? bw->b->o.syntax->name : UC "(unset)");
 		m->parent->notify = 0;
 		wabort(m->parent);
 		if (wmkpw(bw->parent, buf, NULL, dosyntax, NULL, NULL, syntaxcmplt, NULL, notify, locale_map))
