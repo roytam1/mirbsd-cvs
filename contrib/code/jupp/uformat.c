@@ -8,14 +8,10 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/jupp/uformat.c,v 1.4 2017/12/02 02:07:35 tg Exp $");
 
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
-#ifdef HAVE_STRING_H
 #include <string.h>
-#endif
 
 #include "b.h"
 #include "ublock.h"

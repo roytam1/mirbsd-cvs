@@ -8,16 +8,12 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/vfile.c,v 1.10 2017/12/02 02:07:38 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/vfile.c,v 1.12 2017/12/04 22:15:40 tg Exp $");
 
-#ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
-#endif
 #include <fcntl.h>
 #include <limits.h>
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
 #include <unistd.h>
 
 #include "blocks.h"

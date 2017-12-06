@@ -8,12 +8,10 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/macro.c,v 1.10 2017/12/02 02:07:28 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/macro.c,v 1.12 2017/12/06 16:37:40 tg Exp $");
 
 #include <string.h>
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
 
 #include "b.h"
 #include "cmd.h"

@@ -9,12 +9,10 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/rc.c,v 1.29 2017/12/03 02:36:02 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/rc.c,v 1.30 2017/12/04 22:15:38 tg Exp $");
 
 #include <string.h>
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
 
 #ifdef HAVE_BSD_STRING_H
 #include <bsd/string.h>

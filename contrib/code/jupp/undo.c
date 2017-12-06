@@ -8,11 +8,9 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/undo.c,v 1.4 2017/12/02 02:07:36 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/undo.c,v 1.5 2017/12/02 18:50:03 tg Exp $");
 
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
 
 #include "b.h"
 #include "blocks.h"

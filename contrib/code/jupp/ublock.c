@@ -8,16 +8,12 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/ublock.c,v 1.17 2017/12/02 02:07:34 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/ublock.c,v 1.20 2017/12/04 22:15:39 tg Exp $");
 
-#include <unistd.h>
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
-#ifdef HAVE_SYS_WAIT_H
 #include <sys/wait.h>
-#endif
 #include <limits.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "b.h"
 #include "pw.h"

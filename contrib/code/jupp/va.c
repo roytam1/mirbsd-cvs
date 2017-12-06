@@ -7,11 +7,9 @@
  */
 #include "config.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/jupp/va.c,v 1.4 2017/12/02 02:07:37 tg Exp $");
 
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
 
 #include "utils.h"
 #include "va.h"

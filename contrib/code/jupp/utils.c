@@ -8,15 +8,11 @@
  */
 #include "config.h"
 
-__RCSID("$MirOS: contrib/code/jupp/utils.c,v 1.6 2017/12/02 03:52:34 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/utils.c,v 1.8 2017/12/04 21:53:35 tg Exp $");
 
 #include <errno.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
+#include <unistd.h>
 
 #include "charmap.h"
 #include "blocks.h"

@@ -9,18 +9,12 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/ufile.c,v 1.13 2017/12/02 02:07:35 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/ufile.c,v 1.14 2017/12/02 04:32:42 tg Exp $");
 
-#include <unistd.h>
-#ifdef HAVE_SYS_STAT_H
 #include <sys/stat.h>
-#endif
-#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
-#endif
-#ifdef HAVE_STDLIB_H
 #include <stdlib.h>
-#endif
+#include <unistd.h>
 
 #ifdef UTIME
 #include <utime.h>
