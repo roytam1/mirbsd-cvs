@@ -116,7 +116,7 @@
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2017-12-02; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
+\i \i @(#) jupprc 2017-12-06; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
 }
 
  #HOOK#2802 additional help screens
@@ -189,9 +189,11 @@ stop		^[ )
 :main
 :inherit windows
 :def docompile edit,rtn,filt,query,parserr
+:def fixwhitespace eof," ",bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,ffirst,"\\[^\\n]",rtn,"b",rtn,rtarw,rtn,markb,rtn,eof,markk,blkdel
+:def conflictmarker ffirst,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw
  #HOOK#2804 main keybindings
-eof," ",bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,ffirst,"\\[^\\n]",rtn,"b",rtn,rtarw,rtn,markb,rtn,eof,markk,blkdel	^K ]
-ffirst,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw							^Q =
+fixwhitespace	^K ]
+conflictmarker	^Q =
 backs		^?
 backs		^H
 backw		^[ o
