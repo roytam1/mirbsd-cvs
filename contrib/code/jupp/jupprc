@@ -189,7 +189,7 @@ stop		^[ )
 :main
 :inherit windows
 :def docompile edit,rtn,filt,query,parserr
-:def fixwhitespace eof," ",bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,ffirst,"\\[^\\n]",rtn,"b",rtn,rtarw,rtn,markb,rtn,eof,markk,blkdel
+:def fixwhitespace eof," ",bof,"a",qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,rtn,ffirst,"\\^\\[^\\n]",rtn,"b",rtn,eol,markb,bof,delch,eof,markk,blkdel,ffirst,"\\?",rtn,"b",rtn,eol,rtn
 :def conflictmarker ffirst,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw
  #HOOK#2804 main keybindings
 fixwhitespace	^K ]
