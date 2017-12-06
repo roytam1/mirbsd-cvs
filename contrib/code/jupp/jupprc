@@ -467,7 +467,7 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i    \\^  \\$  matches beg./end of line       \\.  match any single char         \i \i
 \i \i    \\<  \\>  matches beg./end of word       \\!  match char or expression      \i \i
 \i \i    \\(  \\)  grouping                       \\|  match left or right           \i \i
-\i \i    \\[a-z]  matches one of a set                                             \i \i
+\i \i    \\[a-z]  matches one of a set, ^ inverts                                  \i \i
 \i \i    \\{1,3}  match 1 to 3 occurrences       \\?  match 0 or 1 occurrence       \i \i
 \i \i    \\+      match one or more occurrence   \\*  match 0 or more occurrences   \i \i
 \i \i \b\uWarning: syntax in JOE-4.1 changed!\u Read on for replace / escape sequences.\b \i \i
