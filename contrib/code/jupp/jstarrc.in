@@ -1,4 +1,4 @@
- $MirOS: contrib/code/jupp/jstarrc.in,v 1.24 2016/10/08 17:44:19 tg Exp $
+ $MirOS: contrib/code/jupp/jstarrc.in,v 1.25 2017/01/11 00:41:18 tg Exp $
 
                          Initialization file for JOE
                            WordStar / Turbo-C Joe
@@ -100,7 +100,7 @@
   %y  Syntax
 
  The formatting escape sequences may also be given:
- 
+
   \i  Inverse
   \u  Underline
   \b  Bold
