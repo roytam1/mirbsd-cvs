@@ -2028,13 +2028,15 @@ unsigned char *parsens(unsigned char *s, long int *skip, long int *amnt)
 
 	*skip = 0;
 	*amnt = LONG_MAX;
-	for (x = sLEN(n) - 1; x > 0 && ((n[x] >= '0' && n[x] <= '9') || n[x] == 'x' || n[x] == 'X'); --x) ;
+	for (x = sLEN(n) - 1; x > 0 && ((n[x] >= '0' && n[x] <= '9') || (n[x] | 0x20) == 'x'); --x)
+		/* nothing */;
 	if (n[x] == ',') {
 		void *vp;
 
 		n[x] = 0;
 		*skip = ustol(n + x + 1, &vp, USTOL_EOS);
-		for (--x; x > 0 && ((n[x] >= '0' && n[x] <= '9') || n[x] == 'x' || n[x] == 'X'); --x) ;
+		for (--x; x > 0 && ((n[x] >= '0' && n[x] <= '9') || (n[x] | 0x20) == 'x'); --x)
+			/* nothing */;
 		if (n[x] == ',') {
 			n[x] = 0;
 			if (vp != NULL)

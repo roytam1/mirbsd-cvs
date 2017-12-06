@@ -168,16 +168,7 @@ MACRO *mparse(MACRO *m, unsigned char *buf, int *sta)
 					buf[x] = 9;
 					break;
 				case 'x':
-					c = 0;
-					if (buf[x + 1] >= '0' && buf[x + 1] <= '9')
-						c = c * 16 + buf[++x] - '0';
-					else if ((buf[x + 1] >= 'a' && buf[x + 1] <= 'f') || (buf[x + 1] >= 'A' && buf[x + 1] <= 'F'))
-						c = c * 16 + (buf[++x] & 0xF) + 9;
-					if (buf[x + 1] >= '0' && buf[x + 1] <= '9')
-						c = c * 16 + buf[++x] - '0';
-					else if ((buf[x + 1] >= 'a' && buf[x + 1] <= 'f') || (buf[x + 1] >= 'A' && buf[x + 1] <= 'F'))
-						c = c * 16 + (buf[++x] & 0xF) + 9;
-					buf[x] = c;
+					x += 1 + ustoc_hex(buf + x + 1, &c, USTOC_MAX);
 					break;
 				case '0':
 				case '1':
@@ -189,12 +180,7 @@ MACRO *mparse(MACRO *m, unsigned char *buf, int *sta)
 				case '7':
 				case '8':
 				case '9':
-					c = buf[x] - '0';
-					if (buf[x + 1] >= '0' && buf[x + 1] <= '7')
-						c = c * 8 + buf[++x] - '0';
-					if (buf[x + 1] >= '0' && buf[x + 1] <= '7')
-						c = c * 8 + buf[++x] - '0';
-					buf[x] = c;
+					x += ustoc_oct(buf + x, &c, USTOC_MAX);
 					break;
 				}
 			}

@@ -455,6 +455,7 @@ void rmcap(CAP *cap)
 static unsigned char escape(unsigned char **s)
 {
 	unsigned char c = *(*s)++;
+	int i;
 
 	if (c == '^' && **s)
 		if (**s != '?')
@@ -473,12 +474,9 @@ static unsigned char escape(unsigned char **s)
 		case '5':
 		case '6':
 		case '7':
-			c -= '0';
-			if (**s >= '0' && **s <= '7')
-				c = (c << 3) + *((*s)++) - '0';
-			if (**s >= '0' && **s <= '7')
-				c = (c << 3) + *((*s)++) - '0';
-			return c;
+			(*s)--;
+			*s += ustoc_oct(*s, &i, USTOC_MAX);
+			return i;
 		case 'e':
 		case 'E':
 			return 27;
