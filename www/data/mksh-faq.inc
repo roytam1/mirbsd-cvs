@@ -1,4 +1,4 @@
-RCSID: $MirOS$
+RCSID: $MirOS: www/data/mksh-faq.inc,v 1.1 2017/08/10 19:25:15 tg Exp $
 ToC: spelling
 Title: How do you spell <tt>mksh</tt>? How do you pronounce it?
 
@@ -30,6 +30,53 @@ Title: I’m a $OS (<i>Android, …</i>) user, so what’s mksh?
  href="https://forum.xda-developers.com/showpost.php?p=33550523&amp;postcount=1553">not
  caused by mksh</a> but by some other code invoking mksh to do something
  on its behalf.</p>
+----
+ToC: kornshell
+Title: How does this relate to ksh or the Korn Shell?
+
+<p>The Korn Shell (AT&amp;T ksh) was authored by David Korn; two major
+ flavours exist (ksh88 and ksh93), the latter having been maintained
+ until 2012 (last formal release) and 2014 (last beta snapshot), with
+ development having been taken up by a third party around November 2017.
+ A ksh86 did exist.</p>
+<p>AT&amp;T ksh88 is “the (original) Korn Shell”. Other implementations,
+ of varying quality (MKS Toolkit’s MKS ksh being named as an example of
+ the lower end, MirBSD’s mksh at the upper end). They are all <em>not</em>
+ “Korn Shell” or “ksh”. However, mksh got blessed by David Korn, as long
+ as it cannot be confused with the original Korn Shell.</p>
+<p>The POSIX shell standard, while lacking most Korn Shell features, was
+ largely based on AT&amp;T ksh88, with some from the Bourne shell.</p>
+<p>mksh is the currently active development of what started as the Public
+ Domain Bourne Shell in the mid-1980s with ksh88-compatibl-ish extensions
+ having been added later, making the Public Domain Korn Shell (pdksh),
+ which, while never officially blessed, was the only way for most to get
+ a Korn Shell-like command interpreter for AT&amp;T’s was proprietary,
+ closed-source code for a very long time. pdksh’s development ended in
+ 1999, with some projects like Debian and NetBSD® creating small bug fixes
+ (which often introduced new bugs) as part of maintenance. Around 2003,
+ OpenBSD started cleaning up their shipped version of pdksh, removing old
+ and compatibility code and modernising it. In 2002, development of what
+ is now mksh started as the system shell of MirBSD, which took over almost
+ all of OpenBSD’s cleanup, adding compatibility to other operating systems
+ back on top of it, and after 2004, independent, massive development of
+ bugfixes including a complete reorganisation of the way the parser works,
+ and of new features both independent and compatible with other shells
+ (ksh93, GNU bash, zsh, BSD csh) started and was followed by working with
+ the group behind POSIX to fix issues both in the standard and in mksh.
+ mksh became the system shell in several other operating systems and Linux
+ distributions and Android and thus is likely the Korn shell, if not Unix
+ shell, flavour with the largest user base. It has replaced pdksh in all
+ contemporary systems except QNX, NetBSD® and OpenBSD (who continue to
+ maintain their variant on “low flame”).</p>
+<p>dtksh is the “Desktop Korn Shell”, a build of AT&amp;T ksh93 with some
+ additional built-in utilities for graphics programming (windows, menu
+ bars, dialogue boxes, etc.) utilising Motif bindings.</p>
+<p>MKS ksh is a proprietary reimplemention aiming for, but not quite
+ getting close to, ksh88 compatibility.</p>
+<p>SKsh is an AmigaOS-specific Korn Shell-lookalike by Steve Koren.</p>
+<p>The <a href="@@RELPATH@@ksh-chan.htm">Homepage of the <tt>#ksh</tt>
+ channel on Freenode IRC</a> contains more information about the Korn
+ Shell in general and its flavours.</p>
 ----
 ToC: packaging
 Title: How should I package mksh? (common cases)
