@@ -6,6 +6,7 @@ GCC
 
 Disable the following warnings; the code doesn't cope with it:
 -Wno-pointer-sign -Wno-unused-parameter -Wno-cast-qual
+-Wno-strict-prototypes
 
 UTF-8
 -----

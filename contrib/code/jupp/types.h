@@ -2,7 +2,7 @@
 #define _JOE_TYPES_H
 
 #ifdef EXTERN
-__IDSTRING(rcsid_types_h, "$MirOS: contrib/code/jupp/types.h,v 1.21 2017/12/06 23:02:06 tg Exp $");
+__IDSTRING(rcsid_types_h, "$MirOS: contrib/code/jupp/types.h,v 1.23 2017/12/07 00:35:13 tg Exp $");
 #endif
 
 /* Prefix to make string constants unsigned */
@@ -29,7 +29,7 @@ __IDSTRING(rcsid_types_h, "$MirOS: contrib/code/jupp/types.h,v 1.21 2017/12/06 2
 #define TYPEQW		0x1000
 
 /* polymorph function pointers, which do not use compiler type checking */
-#if 0
+#ifndef GCC_Wstrict_prototypes
 typedef int jpoly_int();
 typedef void jpoly_void();
 #else
