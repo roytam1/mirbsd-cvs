@@ -12,7 +12,6 @@
 __IDSTRING(rcsid_b_h, "$MirOS: contrib/code/jupp/b.h,v 1.7 2017/12/06 21:16:54 tg Exp $");
 #endif
 
-/* 31744 */
 extern unsigned char stdbuf[stdsiz];
 
 extern int force;		/* Set to have final '\n' added to file */

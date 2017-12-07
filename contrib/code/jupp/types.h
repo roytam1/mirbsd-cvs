@@ -12,7 +12,11 @@ __IDSTRING(rcsid_types_h, "$MirOS: contrib/code/jupp/types.h,v 1.21 2017/12/06 2
 #define LINK(type) struct { type *next; type *prev; }
 
 #define KEYS		256
+#ifdef SMALL
+#define stdsiz		4096
+#else
 #define stdsiz		8192
+#endif
 #define FITHEIGHT	4		/* Minimum text window height */
 #define LINCOLS		6
 #define NPROC		8		/* Number of processes we keep track of */
