@@ -13662,6 +13662,38 @@ Waypoint: GC5GH2J
 Title: crazy pics # 9
 Tag: D15 T1 Micro Mystery
 ----
+ID: 2254
+Date: 05.11.2017
+Waypoint: GC7AA0V
+Title: Fallobstwiese
+Tag: D1 T1 Micro Tradi
+----
+ID: 2255
+Date: 05.11.2017
+Waypoint: GC6FW2Y
+Title: Ein Bürgermeister...
+Tag: D3 T15 Micro Mystery
+----
+ID: 2256
+Date: 24.11.2017
+Waypoint: GC7E49C
+Title: Save the world
+Tag: D15 T1 Small Tradi
+----
+ID: 2257
+Date: 24.11.2017
+Waypoint: GC7EJCT GE0329 OC14154 TC6W67
+Title: Finite Incantatem!
+nTF: 0
+Tag: D1 T1 Event
+----
+ID: 2258
+Date: 25.11.2017
+Waypoint: GC6R6DF
+Banner: gif
+Title: RB28
+Tag: D2 T1 Micro Mystery
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
