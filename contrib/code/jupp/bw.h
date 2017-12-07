@@ -9,13 +9,13 @@
 #define _JOE_BW_H 1
 
 #ifdef EXTERN_CMD_C
-__IDSTRING(rcsid_bw_h, "$MirOS: contrib/code/jupp/bw.h,v 1.6 2017/12/02 17:00:48 tg Exp $");
+__IDSTRING(rcsid_bw_h, "$MirOS: contrib/code/jupp/bw.h,v 1.7 2017/12/06 21:16:55 tg Exp $");
 #endif
 
 extern int dspasis;
 extern int mid;
 
-void bwfllw(BW *w);
+void bwfllw(jobject);
 void bwins(BW *w, long int l, long int n, int flg);
 void bwdel(BW *w, long int l, long int n, int flg);
 void bwgen(BW *w, int linums);
