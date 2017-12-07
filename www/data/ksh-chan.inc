@@ -10,16 +10,6 @@ as shared library. It’s also locale aware and thus Unicode
 ready on most modern operating systems.
 <a href="http://www2.research.att.com/~astopen/download/">Download</a>
 ----
-Title: AT&amp;T Beta Downloads
-Link: http://www2.research.att.com/sw/download/beta/
-
-Beta versions of the original Korn Shell can often be found here.
-----
-Title: AT&amp;T Alpha Downloads
-Link: http://www2.research.att.com/sw/download/alpha/
-
-Alpha versions of the original Korn Shell can often be found here.
-----
 Title: Homepage of the MirBSD Korn Shell
 Link: @@RELPATH@@mksh.htm
 
@@ -37,6 +27,17 @@ Link: http://www.mirbsd.org/mksh-faq.htm
 
 Questions you never knew you’d ask.
 ----
+Title: (archived version of the) ksh FAQ
+Link: http://web.archive.org/web/20130527195150/http://www2.research.att.com/~gsf/download/ksh/faq.html
+
+FAQ for the Korn Shell, including which variants exist.
+----
+Title: ksh93 current development
+Link: https://github.com/att/ast
+
+Repository in which someone other than the original continues
+development of AT&amp;T ksh93.
+----
 Title: mksh external (optional) bugtracker
 Link: https://bugs.launchpad.net/mksh
 
@@ -44,12 +45,6 @@ The MirOS Project normally uses eMail and IRC for bug handling.
 However, some people prefer a web application. Launchpad offered,
 so this is the mksh external bugtracker which such people can use.
 Its bugmail will also be sent to the mksh mailing list.
-----
-Title: Homepage of Glenn Fowler
-Link: http://gsf.cococlyde.org/download
-
-This site occasionally contains links to newer AT&amp;T material
-than what’s available from the official sites.
 ----
 Title: mksh snapshot downloads
 Link: https://www.mirbsd.org/MirOS/dist/mir/mksh/snapshot/
@@ -64,6 +59,22 @@ Link: @@RELPATH@@permalinks/wlog-10_e20130718-tg.htm
 
 Read about the currently published source and binary snapshot
 of the developing port of mksh(1) to native Win32 API.
+----
+Title: Homepage of Glenn Fowler
+Link: http://gsf.cococlyde.org/download
+
+This site occasionally contains links to newer AT&amp;T material
+than what’s available from the official sites.
+----
+Title: AT&amp;T Beta Downloads
+Link: http://www2.research.att.com/sw/download/beta/
+
+Beta versions of the original Korn Shell can often be found here.
+----
+Title: AT&amp;T Alpha Downloads
+Link: http://www2.research.att.com/sw/download/alpha/
+
+Alpha versions of the original Korn Shell can often be found here.
 ----
 Title: Homepage of the Public Domain Korn Shell
 Link: http://www.cs.mun.ca/~michael/pdksh/
@@ -324,9 +335,4 @@ Link: http://www.grymoire.com/Unix/
 
 Collection of Unix-related documents, with some sections on shells
 and related utilities.
-----
-Title: (archived version of the) ksh FAQ
-Link: http://web.archive.org/web/20130527195150/http://www2.research.att.com/~gsf/download/ksh/faq.html
-
-FAQ for the Korn Shell, including which variants exist.
 ----
