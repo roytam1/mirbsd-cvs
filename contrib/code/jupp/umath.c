@@ -236,6 +236,7 @@ calc(BW *bw, unsigned char *s)
 static int domath(BW *bw, unsigned char *s, void *object, int *notify)
 {
 	calc(bw, s);
+	vsrm(s);
 
 	if (notify) {
 		*notify = 1;
@@ -244,7 +245,6 @@ static int domath(BW *bw, unsigned char *s, void *object, int *notify)
 		msgnw(bw->parent, merrt);
 		return -1;
 	}
-	vsrm(s);
 	memcpy(msgbuf, math_res, JOE_MSGBUFSIZE);
 	if (bw->parent->watom->what != TYPETW) {
 		binsm(bw->cursor, sz(msgbuf));

@@ -884,6 +884,7 @@ int doinsf(BW *bw, unsigned char *s, void *object, int *notify)
 			if (error) {
 				msgnw(bw->parent, msgs[-error]);
 				brm(tmp);
+				vsrm(s);
 				return -1;
 			}
 			if (piscol(tmp->eof))
@@ -904,8 +905,10 @@ int doinsf(BW *bw, unsigned char *s, void *object, int *notify)
 			}
 			brm(tmp);
 			updall();
+			vsrm(s);
 			return 0;
 		} else {
+			vsrm(s);
 			msgnw(bw->parent, UC "No block");
 			return -1;
 		}
