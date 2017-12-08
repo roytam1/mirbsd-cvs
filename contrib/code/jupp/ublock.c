@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/ublock.c,v 1.28 2017/12/08 01:42:02 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/ublock.c,v 1.29 2017/12/08 02:17:23 tg Exp $");
 
 #include <sys/wait.h>
 #include <limits.h>
@@ -638,7 +638,7 @@ void setindent(BW *bw)
 	} while (pisindent(p) >= indent || pisblank(p));
 	pnextl(p);
 	/* Maybe skip blank lines at beginning */
-      done:
+ done:
 	p_goto_bol(p);
 	p->xcol = piscol(p);
 	if (markb)

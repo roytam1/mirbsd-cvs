@@ -228,7 +228,7 @@ int umdnarw(MENU *m)
 {
 	int col = m->cursor % m->perline;
 
-        m->cursor -= col;
+	m->cursor -= col;
 
 	if (m->cursor + m->perline < m->nitems) {
 		m->cursor += m->perline;

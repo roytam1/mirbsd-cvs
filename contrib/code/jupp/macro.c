@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/macro.c,v 1.17 2017/12/08 01:16:37 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/macro.c,v 1.18 2017/12/08 02:00:39 tg Exp $");
 
 #include <string.h>
 #include <stdlib.h>
@@ -130,7 +130,7 @@ MACRO *mparse(MACRO *m, unsigned char *buf, int *sta)
 {
 	int y, c, x = 0;
 
-      macroloop:
+ macroloop:
 
 	/* Skip whitespace */
 	while (joe_isblank(locale_map,buf[x]))

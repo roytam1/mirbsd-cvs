@@ -32,7 +32,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/main.c,v 1.37 2017/12/06 23:02:03 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/main.c,v 1.38 2017/12/07 02:10:16 tg Exp $");
 
 #include <fcntl.h>
 #include <string.h>
@@ -281,7 +281,7 @@ main_init(int argc, char **argv, char **envp, SCRN **np)
 	fprintf(stderr, "Couldn't open '%s'\n", s);
 	return 1;
 
-      donerc:
+ donerc:
 	help_init(s);
 	for (c = 1; argv[c]; ++c) {
 		if (argv[c][0] == '-') {

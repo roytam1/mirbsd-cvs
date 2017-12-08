@@ -7,7 +7,7 @@
  */
 #include "config.h"
 
-__RCSID("$MirOS: contrib/code/jupp/va.c,v 1.5 2017/12/06 21:17:04 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/va.c,v 1.6 2017/12/08 02:00:43 tg Exp $");
 
 #include <stdlib.h>
 
@@ -168,7 +168,7 @@ aELEMENT *vawords(aELEMENT *a, unsigned char *s, int len, unsigned char *sep, in
 		a = vamk(10);
 	else
 		a = vatrunc(a, 0);
-      loop:
+ loop:
 	x = vsspan(s, len, sep, seplen);
 	s += x;
 	len -= x;
