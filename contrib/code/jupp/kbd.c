@@ -149,13 +149,15 @@ static unsigned char *range(unsigned char *seq, int *vv, int *ww)
 
 /* Add a binding to a keymap */
 
-static KMAP *kbuild(CAP *cap, KMAP *kmap, unsigned char *seq, void *bind, int *err, unsigned char *capseq, int seql)
+static KMAP *
+kbuild(CAP *cap, KMAP *kmap, unsigned char *seq, void *bind, int *err,
+    const unsigned char *capseq, int seql)
 {
 	int v, w;
 
 	if (!seql && seq[0] == '.' && seq[1]) {
 		int x, c;
-		unsigned char *s;
+		const unsigned char *s;
 
 		for (x = 0; seq[x] && seq[x] != ' '; ++x) ;
 		c = seq[x];
