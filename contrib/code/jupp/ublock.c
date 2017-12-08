@@ -871,7 +871,7 @@ int doinsf(BW *bw, unsigned char *s, void *object, int *notify)
 {
 	if (notify)
 		*notify = 1;
-	if (square)
+	if (square) {
 		if (markv(1)) {
 			B *tmp;
 			long width = markk->xcol - markb->xcol;
@@ -908,6 +908,7 @@ int doinsf(BW *bw, unsigned char *s, void *object, int *notify)
 		} else {
 			msgnw(bw->parent, UC "No block");
 			return -1;
+		}
 	} else {
 		int ret = 0;
 		B *tmp = bload(s);
