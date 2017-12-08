@@ -586,43 +586,34 @@ int ublkcpy(BW *bw)
 
 int dowrite(BW *bw, unsigned char *s, void *object, int *notify)
 {
+	int fl;
+	int ret = 0;
+
 	if (notify)
 		*notify = 1;
-	if (markv(1)) {
-		if (square) {
-			int fl;
-			int ret = 0;
-			B *tmp = pextrect(markb,
-					  markk->line - markb->line + 1,
-					  markk->xcol);
-
-			if ((fl = bsave(tmp->bof, s, tmp->eof->byte, 0)) != 0) {
-				msgnw(bw->parent, msgs[-fl]);
-				ret = -1;
-			}
-			brm(tmp);
-			if (lightoff)
-				unmark(bw);
-			vsrm(s);
-			return ret;
-		} else {
-			int fl;
-			int ret = 0;
-
-			if ((fl = bsave(markb, s, markk->byte - markb->byte, 0)) != 0) {
-				msgnw(bw->parent, msgs[-fl]);
-				ret = -1;
-			}
-			if (lightoff)
-				unmark(bw);
-			vsrm(s);
-			return ret;
-		}
-	} else {
+	if (!markv(1)) {
 		vsrm(s);
 		msgnw(bw->parent, UC "No block");
-		return -1;
+		return (-1);
 	}
+	if (square) {
+		B *tmp = pextrect(markb,
+				  markk->line - markb->line + 1,
+				  markk->xcol);
+
+		fl = bsave(tmp->bof, s, tmp->eof->byte, 0);
+		brm(tmp);
+	} else {
+		fl = bsave(markb, s, markk->byte - markb->byte, 0);
+	}
+	if (fl != 0) {
+		msgnw(bw->parent, msgs[-fl]);
+		ret = -1;
+	}
+	if (lightoff)
+		unmark(bw);
+	vsrm(s);
+	return (ret);
 }
 
 /* Set highlighted block on a program block */
