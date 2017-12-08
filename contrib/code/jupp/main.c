@@ -236,7 +236,7 @@ main_init(int argc, char **argv, char **envp, SCRN **np)
 			fprintf(stderr, "There were errors in '%s'.  Use it anyway?", s);
 			fflush(stderr);
 			if (fgets((char *)buf, 8, stdin) != NULL &&
-			    (buf[0] == 'y' || buf[0] == 'Y'))
+			    (buf[0] | 0x20) == 'y')
 				goto donerc;
 		}
 	}
@@ -255,7 +255,7 @@ main_init(int argc, char **argv, char **envp, SCRN **np)
 			fprintf(stderr, "There were errors in '%s'.  Use it anyway?", s);
 			fflush(stderr);
 			if (fgets((char *)buf, 8, stdin) != NULL &&
-			    (buf[0] == 'y' || buf[0] == 'Y'))
+			    (buf[0] | 0x20) == 'y')
 				goto donerc;
 		}
 	}
@@ -274,7 +274,7 @@ main_init(int argc, char **argv, char **envp, SCRN **np)
 		fprintf(stderr, "There were errors in '%s'.  Use it anyway?", s);
 		fflush(stderr);
 		if (fgets((char *)buf, 8, stdin) != NULL &&
-		    (buf[0] == 'y' || buf[0] == 'Y'))
+		    (buf[0] | 0x20) == 'y')
 			goto donerc;
 	}
 
