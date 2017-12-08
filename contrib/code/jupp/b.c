@@ -504,7 +504,7 @@ int pispure(P *p,int c)
 		if (pgetc(q)!=c) {
 			prm(q);
 			return 0;
-                }
+		}
 	prm(q);
 	return 1;
 }
@@ -2062,7 +2062,7 @@ unsigned char *parsens(unsigned char *s, long int *skip, long int *amnt)
 				n[x] = '/';
 				if (passwd) {
 					unsigned char *z = vsncpy(NULL, 0,
-							 sz((unsigned char *)(passwd->pw_dir)));
+					    sz((unsigned char *)(passwd->pw_dir)));
 
 					z = vsncpy(z, sLEN(z), sz(n + x));
 					vsrm(n);

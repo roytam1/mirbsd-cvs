@@ -80,8 +80,8 @@ __RCSID("$MirOS: contrib/code/jupp/path.c,v 1.15 2017/12/06 21:16:58 tg Exp $");
 #endif
 #define skip_drive_letter(path)	do_if_drive_letter((path), (path) += 2)
 
-#ifndef		_PATH_TMP
-#    define	_PATH_TMP	"/tmp/"
+#ifndef _PATH_TMP
+#define _PATH_TMP	"/tmp/"
 #endif
 
 #if !defined(PATH_MAX) && !defined(HAVE_GET_CURRENT_DIR_NAME)

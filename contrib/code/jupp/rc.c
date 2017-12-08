@@ -668,7 +668,7 @@ check_for_hex(BW *bw)
 	for (w = bw->parent->link.next; w != bw->parent; w = w->link.next)
 		if ((w->watom == &watomtw || w->watom == &watompw) &&
 		    w->object.bw->b == bw->b && w->object.bw->o.hex)
-		    	return 1;
+			return 1;
 	return 0;
 }
 

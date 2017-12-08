@@ -64,17 +64,17 @@ static void menudisp(jobject jO, int flg __attribute__((__unused__)))
 
 			/* Generate field */
 			genfield(m->t->t,
-			         s + col,
-			         a + col,
-			         m->x + col,
-			         m->y + y,
-			         0,
-			         m->list[x + y*m->perline + m->top],
-			         strlen((char *)m->list[x + y*m->perline + m->top]),
-			         atr,
-			         m->width,
-			         0,
-				 NULL);
+			    s + col,
+			    a + col,
+			    m->x + col,
+			    m->y + y,
+			    0,
+			    m->list[x + y*m->perline + m->top],
+			    strlen((char *)m->list[x + y*m->perline + m->top]),
+			    atr,
+			    m->width,
+			    0,
+			    NULL);
 
 			col += m->width;
 

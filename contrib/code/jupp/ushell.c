@@ -55,17 +55,17 @@ static void cfollow(B *b,long byte)
 {
 	W *w;
 	if ((w = maint->topwin) != NULL) {
-	 	do {
-	 		if ((w->watom->what & TYPETW) &&
+		do {
+			if ((w->watom->what & TYPETW) &&
 			    w->object.bw->b == b &&
 			    w->object.bw->cursor->byte == byte) {
-	 			BW *bw = w->object.bw;
-	 			p_goto_eof(bw->cursor);
+				BW *bw = w->object.bw;
+				p_goto_eof(bw->cursor);
 				bw->cursor->xcol = piscol(bw->cursor);
-	 		}
-		w = w->link.next;
-	 	} while (w != maint->topwin);
-	 }
+			}
+			w = w->link.next;
+		} while (w != maint->topwin);
+	}
 }
 
 static void cdata(B *b, unsigned char *dat, int siz)
@@ -150,8 +150,8 @@ static int doushell(BW *bw, unsigned char *cmd, int *notify, int build)
 int ubknd(BW *bw)
 {
 	if (!getenv("SHELL")) {
-        	msgnw(bw->parent, UC "\"SHELL\" environment variable not defined or exported");
-        }
+		msgnw(bw->parent, UC "\"SHELL\" environment variable not defined or exported");
+	}
 	return doushell(bw, NULL, NULL, 0);
 }
 

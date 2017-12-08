@@ -24,8 +24,8 @@ KMAP *kmap_getcontext(unsigned char *name, int docreate);
 
 /* int procrc(CAP *cap, char *name);  Process an rc file
    Returns 0 for success
-          -1 for file not found
-           1 for syntax error (errors written to stderr)
+	  -1 for file not found
+	   1 for syntax error (errors written to stderr)
 */
 int procrc(CAP *cap, unsigned char *name);
 

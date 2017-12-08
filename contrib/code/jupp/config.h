@@ -60,7 +60,7 @@
 
 #include <stdio.h>
 #ifndef EOF
-#define EOF -1
+#define EOF (-1)
 #endif
 #define NO_MORE_DATA EOF
 

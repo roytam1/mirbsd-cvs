@@ -657,10 +657,10 @@ SCRN *nopen(CAP *cap)
 	leave = 1;
 	ttclose();
 	signrm(0);
-#ifdef	DEBUG
+#ifdef DEBUG
 	/* these are strings, but I do not know if %s is appropriate -mirabilos */
-        fprintf(stderr,"cm=%d ch=%d cv=%d ho=%d lf=%d DO=%d ll=%d up=%d UP=%d cr=%d\n",
-                       t->cm, t->ch, t->cv, t->ho, t->lf, t->DO, t->ll, t->up, t->UP, t->cr);
+	fprintf(stderr,"cm=%d ch=%d cv=%d ho=%d lf=%d DO=%d ll=%d up=%d UP=%d cr=%d\n",
+		       t->cm, t->ch, t->cv, t->ho, t->lf, t->DO, t->ll, t->up, t->UP, t->cr);
 #endif
 	fprintf(stderr,"Sorry, your terminal can't do absolute cursor positioning.\nIt's broken\n");
 	return NULL;

@@ -37,17 +37,17 @@ static void dispqw(jobject jO, int flg __attribute__((__unused__)))
 	/* Generate prompt */
 	w->t->t->updtab[w->y] = 1;
 	genfield(w->t->t,
-	         w->t->t->scrn + w->y * w->t->t->co + w->x,
-	         w->t->t->attr + w->y * w->t->t->co + w->x,
-	         w->x,
-	         w->y,
-	         qw->promptofst,
-	         qw->prompt,
-	         qw->promptlen,
-	         0,
-	         w->w - w->x,
-	         1,
-		 NULL);
+	    w->t->t->scrn + w->y * w->t->t->co + w->x,
+	    w->t->t->attr + w->y * w->t->t->co + w->x,
+	    w->x,
+	    w->y,
+	    qw->promptofst,
+	    qw->prompt,
+	    qw->promptlen,
+	    0,
+	    w->w - w->x,
+	    1,
+	    NULL);
 }
 
 static void dispqwn(jobject jO, int flg __attribute__((__unused__)))
@@ -72,17 +72,17 @@ static void dispqwn(jobject jO, int flg __attribute__((__unused__)))
 	/* Generate prompt */
 	w->t->t->updtab[w->y] = 1;
 	genfield(w->t->t,
-	         w->t->t->scrn + w->y * w->t->t->co + w->x,
-	         w->t->t->attr + w->y * w->t->t->co + w->x,
-	         w->x,
-	         w->y,
-	         qw->promptofst,
-	         qw->prompt,
-	         qw->promptlen,
-	         0,
-	         w->w - w->x,
-	         1,
-		 NULL);
+	    w->t->t->scrn + w->y * w->t->t->co + w->x,
+	    w->t->t->attr + w->y * w->t->t->co + w->x,
+	    w->x,
+	    w->y,
+	    qw->promptofst,
+	    qw->prompt,
+	    qw->promptlen,
+	    0,
+	    w->w - w->x,
+	    1,
+	    NULL);
 }
 
 /* When user hits a key in a query window */
