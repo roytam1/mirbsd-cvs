@@ -129,17 +129,21 @@ static int doushell(BW *bw, unsigned char *cmd, int *notify, int build)
 	if (bw->b->pid) {
 		msgnw(bw->parent, UC "Program already running in this window");
 		varm(s);
+		vsrm(cmd);
 		return -1;
 	}
 	p_goto_eof(bw->cursor);
 
 	if (!(m = mpxmk(&bw->b->out, name, s, cdata, bw->b, build ? cdone_parse : cdone, bw->b))) {
 		varm(s);
+		vsrm(cmd);
 		msgnw(bw->parent, UC "No ptys available");
 		return -1;
 	} else {
 		bw->b->pid = m->pid;
 	}
+	varm(s);
+	vsrm(cmd);
 	return 0;
 }
 

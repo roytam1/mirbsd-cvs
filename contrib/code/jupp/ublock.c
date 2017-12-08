@@ -968,18 +968,20 @@ static int dofilt(BW *bw, unsigned char *s, void *object, int *notify)
 		flg = 1;
 		goto ok;
 	} if (!markv(1)) {
+		vsrm(s);
 		msgnw(bw->parent, UC "No block");
 		return -1;
 	}
-      ok:
-
+ ok:
 	if (pipe(fr)) {
+		vsrm(s);
 		msgnw(bw->parent, UC "Pipe error");
 		return (-1);
 	}
 	if ((tf = mktmp(NULL, &fw)) == NULL) {
 		close(fr[0]);
 		close(fr[1]);
+		vsrm(s);
 		msgnw(bw->parent, UC "Cannot create temporary file");
 		return (-1);
 	}

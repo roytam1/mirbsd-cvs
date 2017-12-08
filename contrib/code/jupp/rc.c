@@ -683,6 +683,7 @@ static int doencoding(BW *bw, unsigned char *s, int *xx, int *notify)
 		map = fdefault.charmap;
 
 	if (map && map->type && check_for_hex(bw)) {
+		vsrm(s);
 		msgnw(bw->parent, UC "UTF-8 encoding not allowed with hex-edit windows");
 		if (notify)
 			*notify = 1;
