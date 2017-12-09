@@ -5344,6 +5344,7 @@
 ./usr/share/man/cat3/betoh64.0
 ./usr/share/man/cat3/bindresvport.0
 ./usr/share/man/cat3/bindresvport_sa.0
+./usr/share/man/cat3/bio.0
 ./usr/share/man/cat3/bit_alloc.0
 ./usr/share/man/cat3/bit_clear.0
 ./usr/share/man/cat3/bit_decl.0

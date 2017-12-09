@@ -3094,6 +3094,7 @@
 ./man3/betoh64.htm
 ./man3/bindresvport.htm
 ./man3/bindresvport_sa.htm
+./man3/bio.htm
 ./man3/bit_alloc.htm
 ./man3/bit_clear.htm
 ./man3/bit_decl.htm
