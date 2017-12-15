@@ -3328,7 +3328,7 @@ stdin:
 		echo B
 	      ) &
 	    ' &
-	sleep 2
+	sleep 5
 	echo Left overs: *
 expected-stdout:
 	A
@@ -3392,7 +3392,7 @@ stdin:
 		(sleep 1; foo) &
 		foo
 	    ' &
-	sleep 2
+	sleep 5
 	echo Left overs: *
 expected-stdout:
 	hi
@@ -6702,7 +6702,7 @@ name: regression-65
 description:
 	check for a regression with sleep builtin and signal mask
 category: !nojsig
-time-limit: 3
+time-limit: 5
 stdin:
 	sleep 1
 	echo blub |&
