@@ -6,7 +6,7 @@ mws_setheadline jupp — the Editor which sucks less
 mws_putheader '$MirOS: www/src/jupp.hts,v 1.63 2016/10/30 04:28:06 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp31</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp32</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -116,8 +116,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp31.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp31.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp31.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp31.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
@@ -126,10 +126,10 @@ mws_content <<'EOF'
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
 <!-- cd /MirOS/dist/jupp; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
- <li>RMD160 (joe-3.1jupp31.tgz) = 477c97566b6470b7d893d400dddfc3d2819220f7</li>
- <li>TIGER (joe-3.1jupp31.tgz) = f5992d7a70160869ae3b920ec43c1cea979e72745f3e9f5d</li>
- <li>4114873678 469576 /MirOS/dist/jupp/joe-3.1jupp31.tgz</li>
- <li>MD5 (joe-3.1jupp31.tgz) = efc3200ba42d78bf0bf6b9ecaefde05f</li>
+ <li>RMD160 (joe-3.1jupp32.tgz) = 636ce08ea379fe18664b9ef005d148c4fcf73ae5</li>
+ <li>TIGER (joe-3.1jupp32.tgz) = 59f539721a5aed4df29b836e215064cde5007c07773b00b7</li>
+ <li>3576131056 469855 /MirOS/dist/jupp/joe-3.1jupp32.tgz</li>
+ <li>MD5 (joe-3.1jupp32.tgz) = a7d56a1c4487da5c6223209d6911356d</li>
   <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp3.cpio.gz) = cd07c69dee589c3e64e1ee5ee08ae7f355095fba</li>
  <li>TIGER (joe-2.8jupp3.cpio.gz) = 31a0f51e6dc01d84fb09529e921124e5f1ba81f23bd5c1ac</li>
@@ -139,9 +139,9 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Starting with jupp19, use a command like<br />
- <tt>$ tar -xzf joe-3.1jupp31.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp31.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp31.tgz</tt> # any POSIX® archiver<br />
+ <tt>$ tar -xzf joe-3.1jupp32.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp32.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp32.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -182,6 +182,25 @@ $ $SUDO make install</pre>
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
  <li id="bwin">jupp 3.x for Unix:<ul>
+  <li>JOE 3.1jupp32 for Windows® (cygwin32 stand-alone compiled; 80486;
+   PKzip archive (can be unpacked out of the box from Windows XP onwards,
+   or (on 16- and 32-bit systems only) with the shareware version of <a
+   href="@@ABSPATH@@/MirOS/webstuff/pkunzip.exe">PKunzip for MS-DOS®</a>);
+   comes with its own copy of <tt>cygwin1.dll</tt> (not installed system-wide);
+   easy installation: right-click on the INF file and select _I_nstall (this
+   even clears up previous installations into the system directory). If you
+   already have Cygwin, you can delete <tt>C:\PROGRAMME\JUPP\CYGWIN1.DLL</tt>.
+   (Installation from per-user mounted network shares will not succeed
+   on Windows 7; copy to a global location such as <tt>C:\TEMP</tt>
+   beforehand.) You may have to acknowledge a warning for a missing digital
+   signature. — Download and checksums:<ul>
+    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JWIN31W.ZIP">https://www.mirbsd.org/MirOS/dist/jupp/JWIN31W.ZIP</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JWIN31W.ZIP">http://pub.allbsd.org/MirOS/dist/jupp/JWIN31W.ZIP</a></li>
+    <li>RMD160 (JWIN31W.ZIP) = 1d81d8fe6920da063e6361ce623ff7d21810fbc7</li>
+    <li>TIGER (JWIN31W.ZIP) = 2cb3f21dda5257b16764a8872d8bdd6993d36dc4b568e530</li>
+    <li>605351941 956401 /MirOS/dist/jupp/JWIN31W.ZIP</li>
+    <li>MD5 (JWIN31W.ZIP) = 15e6e29586ef95292db48d8e8daf7c1a</li>
+  </ul></li>
   <li>JOE 3.1jupp31 for Windows® (cygwin32 stand-alone compiled; 80486;
    PKzip archive (can be unpacked out of the box from Windows XP onwards,
    or (on 16- and 32-bit systems only) with the shareware version of <a
@@ -306,7 +325,7 @@ $ $SUDO make install</pre>
    distribution and proceed to the binaries. The SRPMs (source RPM in
    the <tt>*/src/</tt> subdirectories) should be all the same.</li>
  <li id="bdeb">Debian packages are available at <a
-  href="https://eurynome.mirbsd.org/debs/debidx.htm">The MirDebian
+  href="http://www.mirbsd.org/~tg/Debs/debidx.htm">The MirDebian
   “WTF” APT repository</a> for etch/hardy/lenny and in Debian proper
   for squeeze-backports and wheezy onwards. Called <tt>jupp</tt>, these
   do not conflict but cooperate with an installed <tt>joe</tt> package
@@ -364,18 +383,9 @@ $ $SUDO make install</pre>
 
 <h2 id="wishlist">Wishlist</h2>
 <p>It’d be cool if jupp could…</p><ul>
- <li>figure out how jupp32 can syntax-highlight (probably by enabling
-  colours in ANSI by default, it works on win9x only with ANSI.SYS
-  loaded, but maybe it works by default on win2k+ and on contemporary
-  ANSI terminals)</li>
- <li>reposition the cursor correctly upon entering hex edit mode (found
-  by Natureshadow; probably easy to fix, I await <em>your</em> patch!)
-  XXX this looks fixed, please confirm</li>
  <li>redraw a line if it has been scrolled and had combining
   characters in it before — actually, scrap that; make that:
   handle Unicode combining characters, <em>at all</em>…</li>
- <li>look for <tt>${0}rc</tt> in <tt>$(dirname $0)/</tt> (somewhat
-  superseded by the built-in minimal-<tt>jupprc</tt> now though…)</li>
  <li>soft line break: display as line-wrapped, but save no newlines</li>
  <li>have an mdoc(7) page actually describing its keybindings</li>
  <li>attach labels to ftypes; allow ftypes to inherit from these
@@ -396,6 +406,27 @@ $ $SUDO make install</pre>
 <!--
 <p>[2017-07-08] Changes in the current development version:</p><ul>
 -->
+<p id="r3_1j32">[2017-12-16] Changes for joe-3.1jupp32:</p><ul>
+ <li>Harmonise help rendering in <tt>jupprc</tt>
+  (also for 2.8, 3.7, (NEW) 4.4)</li>
+ <li>Update internationalisation data to Unicode 10.0.0 with bugfixes</li>
+ <li>Don’t limit <tt>JOE_FILENAME</tt></li>
+ <li>Optionally be NOMMU-safe: use vfork(2), disable stuff needing fork(2)</li>
+ <li>Let <tt>^K]</tt> also remove whitespace at EOF</li>
+ <li>Major code cleanup and a lot of warning fixes</li>
+ <li>Improve syntax highlighting (conf, c, all dark blue-using ones)</li>
+ <li>Don’t use sscanf(3) any more (dietlibc complains about bloat)</li>
+ <li>Add way to disable use of the FPU (including Math), for klibc</li>
+ <li>Make assume_color[sic!] actually work</li>
+ <li>Recognise libncursesw for tgetflag(3); add --disable-terminfo</li>
+ <li>Add a flag to disable SELinux even if found</li>
+ <li>Modernise C features to C89 (prototypes!)</li>
+ <li>Do not crash if inserting text from a macro after cursor moved</li>
+ <li>With <tt>-DSMALL</tt>, use 8 KiB less .bss</li>
+ <li>Do not write duplicate entries, e.g. into filename history</li>
+ <li>Begin handling some pointer polymorphism more correctly</li>
+ <li>Plug a few memory leaks</li>
+</ul>
 <p id="r3_1j31">[2017-08-08] Changes for joe-3.1jupp31:</p><ul>
  <li>Spelling and warning fixes from Lintian and Debian GCC</li>
  <li>Fix &lt;bsd/string.h&gt; usage issue on Haiku</li>
