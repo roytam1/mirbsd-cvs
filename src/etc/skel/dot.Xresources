@@ -204,3 +204,14 @@ VXTerm*VT100*font5:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
 VXTerm*VT100*font6:		-misc-vga-bold-r-normal--16-120-96-96-c-80-ibm-cp437
 VXTerm*visualBell:		true
 VXTerm*VT100*geometry:		80x25
+
+! Add CLIPBOARD support to xterm, as much as possible with this version:
+! Shift while selecting/pasting uses CLIPBOARD (fallback to cutbuffer#1)
+! Shift-Insert has Ctrl as toggle between PRIMARY and CLIPBOARD
+*VT100*translations: #override \n\
+	 Shift~Ctrl<KeyPress>Insert:insert-selection(PRIMARY, CUT_BUFFER0) \n\
+	 Shift Ctrl<KeyPress>Insert:insert-selection(CLIPBOARD, CUT_BUFFER1) \n\
+	~Shift~Ctrl<Btn2Up>:insert-selection(PRIMARY, CUT_BUFFER0) \n\
+	 Shift~Ctrl<Btn2Up>:insert-selection(CLIPBOARD, CUT_BUFFER1) \n\
+	~Shift<BtnUp>:select-end(PRIMARY, CUT_BUFFER0) \n\
+	 Shift<BtnUp>:select-end(CLIPBOARD, CUT_BUFFER1)
