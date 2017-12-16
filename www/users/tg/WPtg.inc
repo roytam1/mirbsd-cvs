@@ -13694,6 +13694,12 @@ Banner: gif
 Title: RB28
 Tag: D2 T1 Micro Mystery
 ----
+ID: 2259
+Date: 16.12.2017
+Waypoint: GC2BZNJ
+Title: crazy pics # 1
+Tag: D35 T2 Small Mystery
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
