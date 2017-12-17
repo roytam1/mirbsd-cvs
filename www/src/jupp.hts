@@ -3,7 +3,7 @@
 
 mws_setname subprojects/jupp "jupp — Programmer’s Editor"
 mws_setheadline jupp — the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.63 2016/10/30 04:28:06 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.72 2017/12/16 22:56:32 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp32</em> for Unix/GNU compatible systems. This page is
@@ -17,7 +17,6 @@ mws_content <<'EOF'
  <li><a href="#fetch">Download</a> source code</li>
  <li><a href="#bins">Ready-to-use Binaries</a></li>
  <li><a href="#build">Compilation Instructions</a></li>
- <li><a href="#wishlist">Wishlist</a></li>
  <li><a href="#clog">ChangeLog for jupp 3.x</a> (Unix)</li>
  <li><a href="#cdos">ChangeLog for jupp 2.x</a> (DOS)</li>
 </ul>
@@ -380,27 +379,6 @@ $ $SUDO make install</pre>
  appear in the <em>jupp 3.x</em> versions only. The jupprc-for-joe-3_7 CVS
  branch, again, is incompatible with the others; it has limited success
  bringing some jupp features to upstream JOE.</p>
-
-<h2 id="wishlist">Wishlist</h2>
-<p>It’d be cool if jupp could…</p><ul>
- <li>redraw a line if it has been scrolled and had combining
-  characters in it before — actually, scrap that; make that:
-  handle Unicode combining characters, <em>at all</em>…</li>
- <li>soft line break: display as line-wrapped, but save no newlines</li>
- <li>have an mdoc(7) page actually describing its keybindings</li>
- <li>attach labels to ftypes; allow ftypes to inherit from these
-  labels, instead of fdefault; add UI to apply an ftype, including
-  fdefault, to the current buffer (requested by Wayne Cuddy)</li>
- <li>use ftypes for paste mode (including disabling status line
-  updates and, maybe, using not the help cards for indication)</li>
- <li>have groups in regexen like <tt>\+\(foo\)</tt></li>
- <li>put all “configuration” into <tt>/usr/share/</tt> and have them
-  (all, not just *rc) overridable from the user’s home; use XDG dirs
-  while at it maybe? and replace autoconf with mirtoconf, and use
-  serial numbers for versions (jupp-26 follows joe-3.1jupp25)</li>
- <li>do charset conversion and support more charsets, both SBCS and
-  Unicode (UTF-{16,32}{BE,LE} for example) sponsored by ⮡ tarent</li>
-</ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
 <!--
