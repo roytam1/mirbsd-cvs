@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-# $MirOS: www/files/raw.cgi,v 1.7 2014/07/15 22:19:19 tg Exp $
+# $MirOS: www/files/raw.cgi,v 1.11 2015/12/27 02:25:09 tg Exp $
 #-
 # Copyright © 2012, 2014, 2015
 #	mirabilos <m@mirbsd.org>
@@ -253,13 +253,13 @@ if (@files > 0) {
 		my ($s, $n) = split /\//, $k, 2;
 		my $x = $k . ".htm";
 		if ($a eq '-') {
-			push(@wtfresults, "https://www.mirbsd.org/man" . $x);
+			push(@wtfresults, "http://www.mirbsd.org/man" . $x);
 			next;
 		}
 		$_ = $a;
 		my @aa = split;
 		foreach my $r (@aa) {
-			push(@wtfresults, "https://www.mirbsd.org/htman/" . $r . "/man" . $x);
+			push(@wtfresults, "http://www.mirbsd.org/htman/" . $r . "/man" . $x);
 		}
 	}
 	foreach my $k (grep(/^INFO/, @res)) {
@@ -268,13 +268,13 @@ if (@files > 0) {
 		$s = "GNU";
 		my $x = $k . ".html";
 		if ($a eq '-') {
-			push(@wtfresults, "https://www.mirbsd.org/man" . $x);
+			push(@wtfresults, "http://www.mirbsd.org/man" . $x);
 			next;
 		}
 		$_ = $a;
 		my @aa = split;
 		foreach my $r (@aa) {
-			push(@wtfresults, "https://www.mirbsd.org/htman/" . $r . "/man" . $x);
+			push(@wtfresults, "http://www.mirbsd.org/htman/" . $r . "/man" . $x);
 		}
 	}
 }

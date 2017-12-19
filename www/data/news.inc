@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.167 2017/05/05 23:15:13 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.168 2017/08/07 19:15:04 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -674,7 +674,7 @@ Date: 10.03.2008
  after which it started. You must subscribe to it manually, as
  we have no way to embed it in any header; it is implemented as
  a symbolic link to the latest respective feed:</p>
-<p><a href="@@RELPATH@@wlog.rss">https://www.mirbsd.org/wlog.rss</a></p>
+<p><a href="@@RELPATH@@wlog.rss">http://www.mirbsd.org/wlog.rss</a></p>
 <p>Of course, you can instead continue to use the versioned feeds.</p>
 ----
 Title: MirPorts running on MidnightBSD
@@ -1477,7 +1477,7 @@ Tag: mksh
 <p>Since bsiegert@ has not indicated willingness to take over Freshmeat
  announcements of mksh releases, and I am almost unable and certainly
  unwilling to, this ceases our use of said site's services. Please use <a
- href="@@RELPATH@@tag_mksh.rss">https://www.mirbsd.org/tag_mksh.rss</a>
+ href="@@RELPATH@@tag_mksh.rss">http://www.mirbsd.org/tag_mksh.rss</a>
  to keep informed about things related to the MirBSD Korn Shell.</p>
 ----
 Date: 11.04.2009 18:23

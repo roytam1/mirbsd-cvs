@@ -12,7 +12,7 @@ That implementation ("minijson") was created for tarent solutions GmbH.
 Everything else in here was independently made. Still credits to ⮡ tarent
 for sponsoring the initial development and giving it a reason.
 
-More thoughts: https://www.mirbsd.org/permalinks/wlog-10_e20121201-tg.htm
+More thoughts: http://www.mirbsd.org/permalinks/wlog-10_e20121201-tg.htm
 
 
 Any JSON (JavaScript Object Notation) text shall be encoded in Unicode.
@@ -203,4 +203,4 @@ Testsuites:
 - Arrays emit undefined values as literalnull
 
 ___________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.15 2017/04/24 21:29:42 tg Exp $
+$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.16 2017/10/09 19:07:43 tg Exp $

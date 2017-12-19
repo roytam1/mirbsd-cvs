@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.45 2010/01/10 19:21:37 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.47 2012/12/23 19:19:48 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -94,7 +94,7 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 		pdi->bios_heads = 16;
 		pdi->bios_cylinders = 16;
 		pdi->bios_sectors = 32;
-		/* https://www.mirbsd.org/permalinks/news_e20090126-tg.htm */
+		/* http://www.mirbsd.org/permalinks/news_e20090126-tg.htm */
 		pdi->flags |= BDI_LBA | BDI_EL_TORITO;
 		pdi->old_bios_edd = (lback | 9) & 7;
 		return (0);

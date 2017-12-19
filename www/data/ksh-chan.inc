@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.29 2015/07/12 19:09:52 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.35 2017/12/07 23:54:13 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -121,9 +121,9 @@ words about. Nevertheless, it implements some part of the
 Korn Shell language and is available for certain systems.
 ----
 Title: Which shell and version do I run? Ⅰ
-Link: https://www.mirbsd.org/cvs.cgi/contrib/code/Snippets/getshver?rev=HEAD
+Link: http://www.mirbsd.org/cvs.cgi/contrib/code/Snippets/getshver?rev=HEAD
 
-mirabilos’ <a href="https://www.mirbsd.org/cvs.cgi/~checkout~/contrib/code/Snippets/getshver?rev=HEAD;content-type=text%2Fplain">getshver</a>
+mirabilos’ <a href="http://www.mirbsd.org/cvs.cgi/~checkout~/contrib/code/Snippets/getshver?rev=HEAD;content-type=text%2Fplain">getshver</a>
 is a script that tells you which shell it runs under. It
 currently supports most Bourne Shell, POSIX Shell, Korn
 Shell, Z Shell, C Shell variants as well as the TCL Shell.

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.103 2015/09/10 19:46:28 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.104 2016/11/06 20:15:39 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -2892,9 +2892,9 @@ Author: tg@
 
 <p>This is probably the last entry in this wlog. If you are using the RSS
  feeds, you might either want to subscribe to <a
- href="@@RELPATH@@wlog-10.rss">https://www.mirbsd.org/wlog-10.rss</a>, or
+ href="@@RELPATH@@wlog-10.rss">http://www.mirbsd.org/wlog-10.rss</a>, or
  change your subscription to the new (as of yesterday) feed at <a
- href="@@RELPATH@@wlog.rss">https://www.mirbsd.org/wlog.rss</a>, which is
+ href="@@RELPATH@@wlog.rss">http://www.mirbsd.org/wlog.rss</a>, which is
  a symbolic link to the current developers’ weblog.</p>
 <p>A fix for the ppp(8) security vulnerability has been committed to
  MirOS #10-stable already. This is still in time for the release, and

@@ -3,7 +3,7 @@
 
 mws_setname legacy/mirrors "MirOS Legacy Content"
 mws_setheadline MirOS mirrors
-mws_putheader '$MirOS: www/src/mirrors.hts,v 1.4 2009/06/21 11:01:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mirrors.hts,v 1.5 2010/08/28 20:31:24 tg Exp $'
 mws_content <<'EOF'
 <h2>Kinds of mirrors</h2>
 
@@ -17,7 +17,7 @@ mws_content <<'EOF'
 
 <h3>Website</h3>
 <p><a href="http://mirbsd.de/">Another list</a>.</p><ul>
-<li><a href="https://www.mirbsd.org/">mirbsd.mirsolutions.de</a>
+<li><a href="http://www.mirbsd.org/">mirbsd.mirsolutions.de</a>
  (www and distfiles, updated frequently)</li>
 </ul>
 <p>Note: distfiles is <tt>/MirOS/distfiles/</tt> &ndash; where you can

@@ -93,7 +93,7 @@ a request to credit various authors and trademarks. TINLA, and if
 this is not enough for you seek legal counsel yourself.
 
 The preferred form of modification for X bitmap fonts is BDF or
-an equivalence transformation: https://www.mirbsd.org/man1/bdfctool
+an equivalence transformation: http://www.mirbsd.org/man1/bdfctool
 
 __________________________________________________________________________
-$MirOS: contrib/fonts/fixed/README.dist,v 1.2 2015/01/24 16:01:14 tg Exp $
+$MirOS: contrib/fonts/fixed/README.dist,v 1.5 2016/10/04 19:37:20 tg Exp $

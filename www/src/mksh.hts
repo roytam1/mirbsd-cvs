@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh — the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.652 2017/08/10 19:25:16 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.656 2017/10/17 23:47:42 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -202,9 +202,9 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz</a></li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>

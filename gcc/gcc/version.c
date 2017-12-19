@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/version.c,v 1.57 2016/07/27 00:04:38 tg Exp $ */
+/* $MirOS: gcc/gcc/version.c,v 1.58 2017/04/03 02:38:53 tg Exp $ */
 
 #include "version.h"
 
@@ -19,7 +19,7 @@ const char version_string[] = "3.4.6 (propolice; gpc; MirOS 0AB8)";
 #ifdef GPC
 const char bug_report_url[] = "<URL:http://www.gnu-pascal.de/todo.html>";
 #else
-const char bug_report_url[] = "<URL:https://www.mirbsd.org/>";
+const char bug_report_url[] = "<URL:http://www.mirbsd.org/>";
 #endif
 
 /* This is for mbsd_bug (binutils-and-gcc cross build package) */

@@ -1,4 +1,4 @@
-┋ $MirOS: contrib/samples/utf-8,v 1.17 2017/08/07 21:38:50 tg Exp $
+┋ $MirOS: contrib/samples/utf-8,v 1.18 2017/11/18 12:25:27 tg Exp $
 
 The Unicode 10.0.0 Basic Multilingual Plane
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
@@ -19,7 +19,7 @@ ded that unicode characters above U+00FF can only be
 pasted while they are still marked in the source ux‐
 term and the latter is visible on the screen. Alter‐
 natively you can copy them using an UTF-8 aware edi‐
-tor such as jupp: https://www.mirbsd.org/jupp.htm
+tor such as jupp: http://www.mirbsd.org/jupp.htm
 
 Combining characters with single-cell width are pre‐
 fixed by two spaces in the table below. Places where

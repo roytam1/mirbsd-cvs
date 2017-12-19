@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.81 2015/04/12 19:36:24 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.84 2017/08/11 23:18:37 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -18,7 +18,7 @@ unset mws__relpath
 unset mws__canonpath
 unset mws__headline
 unset mws__fontsize
-mws__canonsite=https://www.mirbsd.org
+mws__canonsite=http://www.mirbsd.org
 nl='
 '
 

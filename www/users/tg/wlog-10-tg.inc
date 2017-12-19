@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.43 2017/03/16 23:14:04 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.47 2017/08/19 00:00:16 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -449,7 +449,7 @@ Author: tg@
 Title: WTF is Jessie; PA4 paper size
 Tag: debian pcli rant
 
-<p><a href="https://www.mirbsd.org/~tg/Debs/debidx.htm">My personal APT
+<p><a href="http://www.mirbsd.org/~tg/Debs/debidx.htm">My personal APT
  repository</a> now has a <tt>jessie</tt> suite – currently just a clone
  of the <tt>sid</tt> suite, but so, people can get on the correct “upgrade
  channel” already.</p>
@@ -464,7 +464,7 @@ Tag: debian pcli rant
  publish the repo, so it may grow. (popcon data is interesting. More than
  double the amount of machines I have installed that stuff on.)</p>
 <p><strong>Update:</strong> I’ve started writing a <tt>NEWS</tt> file and
- cobbled together an <a href="https://www.mirbsd.org/~tg/Debs/NEWS.rss">RSS
+ cobbled together an <a href="http://www.mirbsd.org/~tg/Debs/NEWS.rss">RSS
  2.0 feed</a> from that… still plaintext content, but at least signalling
  in feedreaders upon updates.</p>
 <hr />
@@ -914,7 +914,7 @@ Tag: work debian
 <p>I’ve pimped the <a href="https://evolvis.org/scm/viewvc.php/trunk/gforge_base/evolvisforge-5.1/src/common/include/minijson.php?root=evolvis&amp;view=markup">minijson</a> code in EvolvisForge to be a full-blown JSON encoder and decoder (lexer/parser) now. You wouldn’t believe just how much is broken in PHP (its own json_encode handles floats wrong in most locales, and mb_check_encoding doesn’t check the encoding of a multibyte string… at least, unlike Python, PHP manages to get 8bit okay though).</p>
 <p>Anyway, thought you want to know. If you ever need a Pure PHP JSON encoder/decoder, you know where to look. It’s 100% my code (although written during dayjob, so the exploitation rights are with tarent GmbH). Current licence is GPLv2+ or AGPLv3+. If you spot any bugs, you know <a href="https://evolvis.org/projects/evolvis-platfrm/">where to report</a> them. I think it should be good though. (Do note that JSON is case-sensitive, so “NULL”, “True” and “\N” or “\U20AC” are not valid, “null”, “true”, “\n” and “\u20AC” or “\u20ac” are.)</p>
 <p>I plan to store the “art_cust<em>123</em>” information in the user_prefs table in JSON now, instead of ‘|’-separated values, to avoid problems like these we had with broken database format and subsequent corruption of values, by using a dictionary (JSON Object) instead.</p>
-<p>The <a href="http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf">ECMA 262</a> standard (ECMAscript and JSON) is freely available, though. JSON is also additionally specified in <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a> which differs slightly (see <a href="https://www.mirbsd.org/cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">my notes</a> for details, mostly the goal element).</p>
+<p>The <a href="http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf">ECMA 262</a> standard (ECMAscript and JSON) is freely available, though. JSON is also additionally specified in <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC 4627</a> which differs slightly (see <a href="http://www.mirbsd.org/cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">my notes</a> for details, mostly the goal element).</p>
 
 <p>Update: fixed links</p>
 ----
@@ -961,7 +961,7 @@ Author: t.glaser@tarent.de (EvolvisForge blog)
 Title: mksh R40 is out, so what now?
 Tag: work debian
 
-<p><a href="https://www.mirbsd.org/mksh.htm#r40">mksh R40</a> has been released Sunday 12nd June. So, what can you do with <a href="https://www.mirbsd.org/man1/mksh">The MirBSD Korn Shell</a>?</p>
+<p><a href="http://www.mirbsd.org/mksh.htm#r40">mksh R40</a> has been released Sunday 12nd June. So, what can you do with <a href="http://www.mirbsd.org/man1/mksh">The MirBSD Korn Shell</a>?</p>
 
 <p>Have a look at the <a href="https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git">collection of shell snippets</a>, which admittedly is only the beginning – most scripts don’t make use of the <a href="http://freshmeat.net/projects/mksh">cool new features</a> yet. But they eventually will. The <a href="https://evolvis.org/projects/shellsnippets/">Shell-Toolkit</a> project is definitely worth a visit! (Admittedly not using <a href="http://packages.qa.debian.org/c/cvs.html">my most ❦ dear SCM</a>, but with a DVCS, every checkout is a clone, i.e. a backup, and none of the contributors must fear a central repo being taken down, which, for such a loose collection, is desirable.)</p>
 ----
@@ -1025,9 +1025,9 @@ Tag: debian work
 
 <p>Im ersten Teil bleibt alles beim alten, aber ein neuer Befehl ist am Schluß hinzugekommen. Was macht der?</p>
 
-<p>Nun, <code>/opt/mvn-debs/mvndput.sh</code> ist die <a href="https://www.mirbsd.org/mksh.htm">Magie</a>, die unterhalb des Pfades <code>/opt/mvn-debs</code> ein Debian-Repository mit dem Jobnamen <code>portal-setup</code> anlegt. Wir publizieren Pakete in die „dist“ <code>squeeze</code>, und darin in die „suite“ <code>main</code>. Das ist hier lediglich eine Konvention; normalerweise heißt die <em>dist</em> so wie die Debian-Version (sarge, dapper, etch, hardy, lenny, squeeze, …), für die das Paket gedacht ist, und die <em>suite</em> ist eine Unterkategorie – also zum Beispiel main/contrib/non-free oder main/restricted/universe/multiverse oder wtf/tarent/evolvis (in unserem Adminrepo). Man kann die aber auch frei Schnauze nennen (ich hab zum Beispiel im m68k-Repo eine <em>dist</em> namens „cross“, unterhalb derer eine Cross-Toolchain liegt).</p>
+<p>Nun, <code>/opt/mvn-debs/mvndput.sh</code> ist die <a href="http://www.mirbsd.org/mksh.htm">Magie</a>, die unterhalb des Pfades <code>/opt/mvn-debs</code> ein Debian-Repository mit dem Jobnamen <code>portal-setup</code> anlegt. Wir publizieren Pakete in die „dist“ <code>squeeze</code>, und darin in die „suite“ <code>main</code>. Das ist hier lediglich eine Konvention; normalerweise heißt die <em>dist</em> so wie die Debian-Version (sarge, dapper, etch, hardy, lenny, squeeze, …), für die das Paket gedacht ist, und die <em>suite</em> ist eine Unterkategorie – also zum Beispiel main/contrib/non-free oder main/restricted/universe/multiverse oder wtf/tarent/evolvis (in unserem Adminrepo). Man kann die aber auch frei Schnauze nennen (ich hab zum Beispiel im m68k-Repo eine <em>dist</em> namens „cross“, unterhalb derer eine Cross-Toolchain liegt).</p>
 
-<p>Das letzte Argument ist <code>*.changes</code>, was <a href="https://www.mirbsd.org/man1/mksh">die Shell</a> für uns expandiert: alle Dateien, die auf „.changes“ enden, werden dort (ASCIIbetisch sortiert) der Reihe nach aufgelistet.</p>
+<p>Das letzte Argument ist <code>*.changes</code>, was <a href="http://www.mirbsd.org/man1/mksh">die Shell</a> für uns expandiert: alle Dateien, die auf „.changes“ enden, werden dort (ASCIIbetisch sortiert) der Reihe nach aufgelistet.</p>
 
 <p>Das Skript prüft nun zunächst die Namen und Dateien auf Plausibilität (es sind schließlich immer nur gewisse Zeichen erlaubt) und schiebt dann vermittels dput ein Release (also eine *.changes + alle drin enthaltenen *.deb + dazugehörige *.dsc, *.diff.gz/*.debian.tgz, *.orig.tar.gz, oder *.tar.gz bei <em>native packages</em>) ins APT-Repository und läßt danach den Index regenerieren und PGP-signieren. <code>dput</code> ist ein schlaues Tool, es schreibt nämlich nach getaner Arbeit eine *.upload-Datei, in welcher dieser Fakt verzeichnet wird, sodaß Pakete auch wenn man den <em>workspace</em> nicht jedes Mal wegschmeißt nur einmalig hochgeladen werden. (Es existiert allerdings hier kein Schutz davor, den <em>workspace</em> zu leeren und ein Paket mit derselben Version aber anderem Inhalt ein zweites Mal hochzuladen. Nur die Systeme, die das installieren wollen, mögen einen dann ggf. nicht mehr so gerne.)</p>
 
@@ -1192,7 +1192,7 @@ Author: t.glaser@tarent.de (EvolvisForge blog)
 Title: Nicht Hardlink, sondern…?
 Tag: work debian
 
-<p><a href="https://www.mirbsd.org/wtf.cgi?TANSTA">TANSTA</a> “softlink”. <a href="https://www.mirbsd.org/wtf.cgi?ITYM">ITYM</a>: <a href="https://www.mirbsd.org/man7/symlink">symlink(7)</a></p>
+<p><a href="http://www.mirbsd.org/wtf.cgi?TANSTA">TANSTA</a> “softlink”. <a href="http://www.mirbsd.org/wtf.cgi?ITYM">ITYM</a>: <a href="http://www.mirbsd.org/man7/symlink">symlink(7)</a></p>
 
 <p>Actually, there’s “link” (also “hardlink”) and “symbolic link” (short “symlink”). (Oh, and reparse points, but let’s not get there, lest we mention *.lnk files…)</p>
 
@@ -1483,7 +1483,7 @@ Tag: work debian
 
 <p>Not much to clean though (the participants were nice and cleaned up after themselves ☺), so it’s mostly putting stuff back to where it belongs. Oh, and drinking more of the cool Belgian beer Geert (Linux upstream) brought ☻</p>
 
-<p>We were productive, reporting and fixing kernel bugs, fixing hardware, swapping and partitioning discs, upgrading software, getting buildds (mostly Amiga) back to work, trying X11 (kdrive) on a bare metal Atari Falcon (and finding a window manager that works with it), etc. – I hope someone else writes a report; for now we have a photo and a screenshot (made with trusty <a href="https://www.mirbsd.org/man1/xwd">xwd</a>). Watch the <tt>debian-68k</tt> mailing list archives for things to come.</p>
+<p>We were productive, reporting and fixing kernel bugs, fixing hardware, swapping and partitioning discs, upgrading software, getting buildds (mostly Amiga) back to work, trying X11 (kdrive) on a bare metal Atari Falcon (and finding a window manager that works with it), etc. – I hope someone else writes a report; for now we have a photo and a screenshot (made with trusty <a href="http://www.mirbsd.org/man1/xwd">xwd</a>). Watch the <tt>debian-68k</tt> mailing list archives for things to come.</p>
 
 <p>I think that, issues with electric cars aside, everyone liked the food places too ;-)</p>
 ----
@@ -1515,7 +1515,7 @@ Author: t.glaser@tarent.de (EvolvisForge blog)
 Title: tomcat7 init script is asynchronous
 Tag: work debian
 
-<p><a href="https://www.mirbsd.org/wtf.cgi?q=TIL">TIL</a>: the init script of <code>tomcat7</code> in Debian is asynchronous.</p>
+<p><a href="http://www.mirbsd.org/wtf.cgi?q=TIL">TIL</a>: the init script of <code>tomcat7</code> in Debian is asynchronous.</p>
 
 <p>For some piece of software, our rollout (install and upgrade) process works like this:</p>
 
@@ -1545,7 +1545,7 @@ Tag: work debian
 
 <hr />
 
-<p>PS: If someone is interested in an init script (Debian/LSB sysvinit, I made the effort to finally learn that… some months before the other system came) that starts Wildfly (formerly known as JBoss AS) synchronously, waiting until all *.?ar files are fully “deployed” before returning (though with a timeout in case it won’t ever finish), just <a href="mailto:t.glaser@tarent.de">ask</a> (maybe it will become a dialogue, in which we can improve it together). (We have two versions of it, the more actively maintained one is in a secret internal project though, so I’d have to merge it and ready it for publication though, plus the older one is AGPLv3, the newer one was relicenced to <a href="https://www.mirbsd.org/MirOS-Licence.htm">a BSDish licence</a>.)</p>
+<p>PS: If someone is interested in an init script (Debian/LSB sysvinit, I made the effort to finally learn that… some months before the other system came) that starts Wildfly (formerly known as JBoss AS) synchronously, waiting until all *.?ar files are fully “deployed” before returning (though with a timeout in case it won’t ever finish), just <a href="mailto:t.glaser@tarent.de">ask</a> (maybe it will become a dialogue, in which we can improve it together). (We have two versions of it, the more actively maintained one is in a secret internal project though, so I’d have to merge it and ready it for publication though, plus the older one is AGPLv3, the newer one was relicenced to <a href="http://www.mirbsd.org/MirOS-Licence.htm">a BSDish licence</a>.)</p>
 ----
 ID: evo-140
 Date: 26.02.2015 16:09:23
@@ -1553,7 +1553,7 @@ Author: t.glaser@tarent.de (EvolvisForge blog)
 Title: tomcat7 log encoding
 Tag: work debian
 
-<p><a href="https://www.mirbsd.org/wtf.cgi?q=TIL">TIL</a>: the encoding of the <code>catalina.out</code> file is dependent on the system locale, using standard Debian wheezy <code>tomcat7</code> package.</p>
+<p><a href="http://www.mirbsd.org/wtf.cgi?q=TIL">TIL</a>: the encoding of the <code>catalina.out</code> file is dependent on the system locale, using standard Debian wheezy <code>tomcat7</code> package.</p>
 
 <p>Fix for ‘?’ instead of umlauts in it:</p>
 
@@ -1564,7 +1564,7 @@ export LC_CTYPE
 EOF
 </pre>
 
-<p>My “problem” here is that I have the system locale be the “C” locale, to get predictable behaviour; applications that need it can set a locale by themselves. (Many don’t bother with POSIX locales and use different/separate means of determining especially encoding, but possibly also <a href="https://www.mirbsd.org/wtf.cgi?q=i18n">i18n</a>/<a href="https://www.mirbsd.org/wtf.cgi?q=l10n">l10n</a>. But it seems the POSIX locales are getting more and more used.)</p>
+<p>My “problem” here is that I have the system locale be the “C” locale, to get predictable behaviour; applications that need it can set a locale by themselves. (Many don’t bother with POSIX locales and use different/separate means of determining especially encoding, but possibly also <a href="http://www.mirbsd.org/wtf.cgi?q=i18n">i18n</a>/<a href="http://www.mirbsd.org/wtf.cgi?q=l10n">l10n</a>. But it seems the POSIX locales are getting more and more used.)</p>
 
 <p><b>Update:</b> There is also adding <tt>-Dfile.encoding=UTF-8</tt> to <tt>$JAVA_OPTS</tt> which seems to be more promising: no fiddling with locales, no breakage if someone defined <tt>LC_ALL</tt> already, and it sets <em>precisely</em> what it should set (the encoding) and nothing else (since the encoding does not need to correlate to any locale setting, why should it).</p>
 ----
@@ -1668,7 +1668,7 @@ Title: FixedMisc [MirOS] for GNU GRUB2
 Tag: debian fun news
 
 <p>If you install the <tt>xfonts-base</tt> package from <a
- href="https://www.mirbsd.org/~tg/Debs/debidx.htm">my APT repository</a>
+ href="http://www.mirbsd.org/~tg/Debs/debidx.htm">my APT repository</a>
  you now not only get the <tt>FixedMisc [MirOS]</tt> type from <a
  href="@@RELPATH@@about.htm#project">The MirOS Project type foundry</a>
  for the X Window System, but now also for GNU GRUB2:</p>
@@ -1682,7 +1682,7 @@ Tag: debian fun news
 <p>The combining and Katakana characters depicted in the above
  screenshot are the result of manual <tt>grub.cfg</tt> editing
  and for demonstration (bragging) purposes <em>only</em>.</p>
-<p>The <a href="https://www.mirbsd.org/~tg/Debs/NEWS.rss">RSS
+<p>The <a href="http://www.mirbsd.org/~tg/Debs/NEWS.rss">RSS
  feed of my APT repository</a> will also contain such news…</p>
 ----
 Date: 13.02.2016 18:10

@@ -3,7 +3,7 @@
 
 mws_setname subprojects/jupp "jupp — Programmer’s Editor"
 mws_setheadline jupp — the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.72 2017/12/16 22:56:32 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.73 2017/12/17 03:12:29 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp32</em> for Unix/GNU compatible systems. This page is
@@ -110,15 +110,16 @@ mws_content <<'EOF'
  package description</a> of The MirPorts Framework may aid other packagers
  in divining one. <a href="@@RELPATH@@cvs.cgi/jupp/jupprc">jupprc</a> is
  available in several flavours, one for JOE 2.8 (DOS), one for JOE 3.7-2
- (Unix), although these lack the core code patches applied in proper Jupp.</p>
+ and 4.4-1 (Unix), although these lack the core code patches applied in
+ proper Jupp.</p>
 
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">http://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
@@ -193,7 +194,7 @@ $ $SUDO make install</pre>
    on Windows 7; copy to a global location such as <tt>C:\TEMP</tt>
    beforehand.) You may have to acknowledge a warning for a missing digital
    signature. — Download and checksums:<ul>
-    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JWIN31W.ZIP">https://www.mirbsd.org/MirOS/dist/jupp/JWIN31W.ZIP</a></li>
+    <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/JWIN31W.ZIP">http://www.mirbsd.org/MirOS/dist/jupp/JWIN31W.ZIP</a></li>
     <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JWIN31W.ZIP">http://pub.allbsd.org/MirOS/dist/jupp/JWIN31W.ZIP</a></li>
     <li>RMD160 (JWIN31W.ZIP) = 1d81d8fe6920da063e6361ce623ff7d21810fbc7</li>
     <li>TIGER (JWIN31W.ZIP) = 2cb3f21dda5257b16764a8872d8bdd6993d36dc4b568e530</li>
@@ -337,7 +338,7 @@ $ $SUDO make install</pre>
    8086 or newer CPU), self-extracting LHarc archive — copy jupprc and
    jupp.exe to a directory in the %PATH% to install. Note that 640 KiB
    RAM are currently required in most cases, apparently. Download:<ul>
-    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JDOS283.EXE">https://www.mirbsd.org/MirOS/dist/jupp/JDOS283.EXE</a></li>
+    <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/JDOS283.EXE">http://www.mirbsd.org/MirOS/dist/jupp/JDOS283.EXE</a></li>
     <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JDOS283.EXE">http://pub.allbsd.org/MirOS/dist/jupp/JDOS283.EXE</a></li>
     <li>RMD160 (JDOS283.EXE) = 3f23f11b2afa667cd5617b024d8e614837ce1f94</li>
     <li>TIGER (JDOS283.EXE) = d76191398bbd96dc3d432c820378b3d19e74dd9b0b87375c</li>

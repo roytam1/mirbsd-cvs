@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.9 2010/01/06 19:11:55 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.10 2011/06/05 23:19:04 tg Exp $
 #-
 # Copyright (c) 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -341,7 +341,7 @@ Thorsten Glaser E<lt>tg@mirbsd.deE<gt>
 =head1 SEE ALSO
 
 The L<arc4random(3)> manual page, available online at:
-L<https://www.mirbsd.org/man/arc4random.3>
+L<http://www.mirbsd.org/man/arc4random.3>
 
 Perl's L<rand> and L<srand> functions via L<perlfunc> and L<perlfaq4>.
 
@@ -349,7 +349,7 @@ The B<randex.pl> plugin for Irssi, implementing the MirOS RANDEX
 protocol (entropy exchange over IRC), with CVSweb at:
 L<http://cvs.mirbsd.de/ports/net/irssi/files/randex.pl>
 
-L<https://www.mirbsd.org/a4rp5bsd.htm> when it's done being written.
+L<http://www.mirbsd.org/a4rp5bsd.htm> when it's done being written.
 
 =head1 COPYRIGHT AND LICENSE
 

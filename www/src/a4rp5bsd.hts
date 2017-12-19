@@ -1,6 +1,6 @@
 mws_setname subprojects/a4rp5bsd "BSD::arc4random — Perl bindings"
 mws_setheadline "Perl bindings for arc4random"
-mws_putheader '$MirOS: www/src/a4rp5bsd.hts,v 1.4 2011/06/05 23:49:17 tg Exp $'
+mws_putheader '$MirOS: www/src/a4rp5bsd.hts,v 1.5 2016/10/30 04:47:06 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -17,7 +17,7 @@ mws_content <<'EOF'
 <h2 id="download">Download</h2>
 <p>The current version is BSD::arc4random 1.50 dated 2011-06-05
  (5 Juni 2011). Download mirrors and checksums:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.50.tar.gz">https://www.mirbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.50.tar.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.50.tar.gz">http://www.mirbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.50.tar.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.50.tar.gz">http://pub.allbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.50.tar.gz</a></li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
  <li>RMD160 (BSD-arc4random-1.50.tar.gz) = 794d4f799e769b7d11ccc79ba733c190868df664</li>

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.490 2017/08/10 20:23:13 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.496 2017/08/27 23:54:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6814,7 +6814,7 @@ Tag: debian event grml
 	┌──┐              I ❦ STANDPLAN FROSCON 2010
 	│ F│reeWRT
 	├──┤
-	│ <a style="border:none;" href="https://www.mirbsd.org/">M</a>│<a style="border:none;" href="https://www.mirbsd.org/">irBSD</a>
+	│ <a style="border:none;" href="http://www.mirbsd.org/">M</a>│<a style="border:none;" href="http://www.mirbsd.org/">irBSD</a>
 	│  │
 	├──┤
 	│ <a style="border:none;" href="http://www.debian.org/">D</a>│<a style="border:none;" href="http://www.debian.org/">ebian</a>
@@ -9069,7 +9069,7 @@ Tag: debian pcli tip
 </div><p class="boxfoot">For display managers, similar files exist in
  <tt>/etc/kde4/kdm</tt> and related places.</p>
 <p><strong>Update:</strong> Also, newer xterm(1) justify <a
- href="https://www.mirbsd.org/cvs.cgi/contrib/samples/dot.Xresources?rev=HEAD">an
+ href="http://www.mirbsd.org/cvs.cgi/contrib/samples/dot.Xresources?rev=HEAD">an
  update to <tt>~/.Xresources</tt></a> for we can finally get rid of
  cut buffers, and get a blinking underline cursor to boot!</p>
 <!-- RSS stop -->
@@ -10107,7 +10107,7 @@ Title: mksh/Win32
 Tag: debian mksh news pcli
 
 <p>Michael Langguth and Scalaris AG asked me to publish <a
- href="https://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-w32-beta14.zip">the
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-w32-beta14.zip">the
  mksh/Win32 Beta 14</a> source and binary archive, and it is with joy
  I’m doing this.</p>
 <h3>Checksums and Hashes</h3><ul>

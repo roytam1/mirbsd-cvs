@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.21 2016/10/04 19:22:11 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.22 2016/11/19 17:57:59 tg Exp $';
 #-
 # Copyright © 2013, 2014, 2015, 2016
 #	mirabilos <m@mirbsd.org>
@@ -111,5 +111,5 @@ if ($query ne "") {
 	$found = 1 if $query =~ /http/;
 }
 
-$query = "https://www.mirbsd.org/wp.htm" unless $found;
+$query = "http://www.mirbsd.org/wp.htm" unless $found;
 &redirect($query);

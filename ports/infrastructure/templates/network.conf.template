@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.28 2016/10/21 21:59:17 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.29 2017/01/28 23:37:58 tg Exp $
 # $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
@@ -8,7 +8,6 @@
 
 # Default MirBSD backup site
 _MASTER_SITE_MIRBSD?=	\
-	https://www.mirbsd.org/MirOS/distfiles/ \
 	http://www.mirbsd.org/MirOS/distfiles/ \
 	http://pub.allbsd.org/MirOS/distfiles/ \
 	ftp://ftp.allbsd.org/pub/MirOS/distfiles/ \
