@@ -73,14 +73,15 @@ int ucenter(BW *bw)
 
 /* Return true if c is a character which can indent a paragraph */
 
-static int cpara(int c)
+static int
+cpara(int c)
 {
-	if (c == ' ' || c == '\t' || c == '\\' ||
-	    c == '>' || c == '|' || c == ':' || c == '*' || c == '/' ||
-	    c == ',' || c == '.' || c == '?' || c == ';' || c == ']' ||
-	    c == '}' || c == '=' || c == '+' || c == '-' || c == '_' ||
-	    c == ')' || c == '&' || c == '^' || c == '%' || c == '$' ||
-	    c == '#' || c == '@' || c == '!' || c == '~')
+	if (c == '\t' ||
+	    (c >= ' ' && c <= '&' && c != '"') ||
+	    (c >= /*(*/ ')' && c <= '/') ||
+	    (c >= ':' && c <= '@' && c != '<') ||
+	    (c >= '\\' && c <= '_') ||
+	    (c >= '|' && c <= '~'))
 		return 1;
 	else
 		return 0;
