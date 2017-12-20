@@ -9,12 +9,12 @@
 #define _JOE_RC_H 1
 
 #ifdef EXTERN
-__IDSTRING(rcsid_rc_h, "$MirOS: contrib/code/jupp/rc.h,v 1.7 2017/12/06 21:16:59 tg Exp $");
+__IDSTRING(rcsid_rc_h, "$MirOS: contrib/code/jupp/rc.h,v 1.9 2017/12/08 02:17:22 tg Exp $");
 #endif
 
 extern OPTIONS pdefault;
 extern OPTIONS fdefault;
-void setopt(B *b, unsigned char *name);
+void setopt(B *b, const unsigned char *name);
 
 /* KMAP *kmap_getcontext(char *name);
  * Find and return the KMAP for a given context name.  If none is found, an
