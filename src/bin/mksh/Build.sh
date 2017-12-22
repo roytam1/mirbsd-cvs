@@ -796,6 +796,8 @@ Harvey)
 	add_cppflags -DMKSH_ASSUME_UTF8
 	HAVE_ISSET_MKSH_ASSUME_UTF8=1
 	HAVE_ISOFF_MKSH_ASSUME_UTF8=0
+	add_cppflags -DMKSH__NO_SYMLINK
+	check_categories="$check_categories nosymlink"
 	add_cppflags -DMKSH_NO_CMDLINE_EDITING
 	add_cppflags -DMKSH__NO_SETEUGID
 	oswarn=' and will currently not work'
@@ -823,9 +825,11 @@ Jehanne)
 	: "${HAVE_TERMIOS_H=1}"
 	: "${HAVE_GETRUSAGE=1}"
 	: "${LDSTATIC=-static}"
+	add_cppflags -DMKSH_ASSUME_UTF8
 	HAVE_ISSET_MKSH_ASSUME_UTF8=1
 	HAVE_ISOFF_MKSH_ASSUME_UTF8=0
-	add_cppflags -DMKSH_ASSUME_UTF8
+	add_cppflags -DMKSH__NO_SYMLINK
+	check_categories="$check_categories nosymlink"
 	add_cppflags -DMKSH_NO_CMDLINE_EDITING
 	add_cppflags -DMKSH_DISABLE_REVOKE_WARNING
 	add_cppflags '-D_PATH_DEFPATH=\"/cmd\"'
@@ -962,6 +966,8 @@ Plan9)
 	add_cppflags -DMKSH_ASSUME_UTF8
 	HAVE_ISSET_MKSH_ASSUME_UTF8=1
 	HAVE_ISOFF_MKSH_ASSUME_UTF8=0
+	add_cppflags -DMKSH__NO_SYMLINK
+	check_categories="$check_categories nosymlink"
 	add_cppflags -DMKSH_NO_CMDLINE_EDITING
 	add_cppflags -DMKSH__NO_SETEUGID
 	oswarn=' and will currently not work'
