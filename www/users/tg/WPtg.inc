@@ -13700,6 +13700,30 @@ Waypoint: GC2BZNJ
 Title: crazy pics # 1
 Tag: D35 T2 Small Mystery
 ----
+ID: 2260
+Date: 17.12.2017
+Waypoint: GC6C0VE
+Title: Coole Truhe
+Tag: D3 T1 Micro Tradi
+----
+ID: 2261
+Date: 22.12.2017
+Waypoint: GC673X6
+Title: der rote Lebensretter
+Tag: D3 T15 Large Mystery
+----
+ID: 2262
+Date: 23.12.2017
+Waypoint: GC780DM
+Title: Wer schleimt denn da?
+Tag: D3 T15 Micro Mystery
+----
+ID: 2263
+Date: 25.12.2017
+Waypoint: GC2P3H3
+Title: TB Hotel A61 Rheinbach
+Tag: D15 T25 Large Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
