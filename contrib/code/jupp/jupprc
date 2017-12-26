@@ -63,20 +63,24 @@
  #HOOK#4401 global/default flags
 
  === Generic files
+[text]
  No '.' in filename?
 *
  Assume it's a text file and, except in jupp, we want wordwrap on.
  -wordwrap
 
+[not_text]
  Filename with '.' is probably not a text file.
 *.*
 
  === Patterns with multiple wildcards
  Order is latest match wins, so...
+[diff]
 */patch-*
 -highlight
 -syntax diff
 
+[shell]
 *.sh*
 *.ksh*
 *.mksh*
@@ -84,31 +88,36 @@
 -syntax sh
 -pound_comment
 
+[mail.edit]
 *tmp/mutt-*
 *tmp/pico.*
  -wordwrap
 -syntax mail
 
+[mail.822]
 */mail/*
 -syntax mail
 
+[diff]
 */patches/*
 -highlight
 -syntax diff
 
- === Assembly
+[asm.asm]
 *.asm
 -syntax asm
 -semi_comment
 
+[asm.S]
 *.S
 -syntax asm
 -c_comment
 
+[asm.s]
 *.s
 -syntax asm
 
- === C, C++, Objective-C
+[c]
 *.C
 *.c
 *.cc
@@ -123,53 +132,51 @@
 -c_comment
 -cpp_comment
 
-*.m
+[objc]
 -syntax c
 -c_comment
 
-*.nxc
+[nxc]
 --highlight
 -syntax c
 -c_comment
 -cpp_comment
 
- === C Shell
+[csh]
 *.csh
 *.login
 *.logout
 *.tcsh
 *.tcshrc
 *
-+#!\+\[	 ]\+\[a-z/]/\+tcsh\>
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+tcsh\>
++#![	 ]*[a-z/]*/t?csh\>
++#![	 ]*[a-z/]*/env[	 ]+t?csh\>
 -syntax csh
 -pound_comment
 
- === Diff
+[diff]
 *.diff
 *.patch
 *.rej
 *.debdiff
 *
-+---\[ ]
-+***\[ ]
-+Index: \*\n======================================================
-+Index: \*\ndiff\*\n--- \*\n+++\[ ]
-+\[=?]\*\n--- \*\n+++\[ ]
-+diff\*\n--- \*\n+++\[ ]
-+diff --git\*\nindex\*\n--- \*\n+++\[ ]
++---[ ]
++\*\*\*[ ]
++Index: .*\n======================================================
++Index: .*\ndiff.*\n--- .*\n\+\+\+[ ]
++[=?].*\n--- .*\n\+\+\+[ ]
++diff.*\n--- .*\n\+\+\+[ ]
++diff --git.*\nindex.*\n--- .*\n\+\+\+[ ]
 -highlight
 -syntax diff
 
- === eMail
+[mail.822]
 *.eml
--syntax mail
-
  Not quite eMail but still RFC822
 *.mht
 -syntax mail
 
- === FORTRAN
+[fortran]
 *.f
 *.for
 *.FOR
@@ -179,82 +186,83 @@
 *.F90
 -syntax fortran
 
- === GNU autoconf
+[autoconf]
 *.ac
 -syntax m4
 
+[automake]
 *.am
 -syntax conf
 
- === HTML
+[html]
 *.htm
 *.html
 -encoding utf8
 -syntax html
 
- === Java
+[java]
 *.java
 -encoding utf8
 -syntax java
 -c_comment
 -cpp_comment
 
- === Joe Syntax File
+[joesyntaxfile]
 *.jsf
 -syntax jsf
 
- === flex
+[lex]
 *.l
 -syntax lex
 -c_comment
 -cpp_comment
 
- === LISP
+[lisp]
 *.lisp
 *.lsp
 *.el
 -syntax lisp
 -semi_comment
 
- === M4
+[m4]
 *.m4
 -syntax m4
 
- === Make
+[make]
 *akefile
 *AKEFILE
 -syntax conf
 -pound_comment
 
- === Mason
+[mason]
 *.mas
 -syntax mason
 
- === Pascal
+[pascal]
 *.p
 *.pas
 -syntax pascal
 
- === Perl
+[perl]
 *.pl
 *.pm
 *
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]perl
++#![	 ]*[a-z/]*/env[	 ]+perl
 -syntax perl
 -pound_comment
 -single_quoted
 
- === PHP
+[php]
 *.php
 -syntax php
 -c_comment
 -cpp_comment
 
- === Python
+[python]
 *.py
 *
-+#!\+\[	 ]\+\[a-z/]/python
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]python
++#![	 ]*[a-z/]*/python
++#![	 ]*[a-z/]*/env[	 ]+python
 -encoding utf8
 -syntax python
 -pound_comment
@@ -264,23 +272,20 @@
 -istep 4
 -spaces
 
- === Bourne, Korn, POSIX Shell
+[shell]
 *profile
 *
-+:\[	 \n]
-+#!\+\[	 ]\+\[a-z/]/\+\[bd]\+ash\>
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+\[bd]\+ash\>
-+#!\+\[	 ]\+\[a-z/]/\+\[a-z]ksh\+\[0-9._-]\>
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+\[a-z]ksh\+\[0-9._-]\>
++:[	 \n]
++#![	 ]*[a-z/]*/(env[	 ]*)?([bd]?a?sh|[a-z]*ksh[0-9._-]*)\>
 -syntax sh
 -pound_comment
 
- === TCL
+[tcl]
 *.tcl
 -syntax tcl
 -pound_comment
 
- === TeX
+[tex]
 *.cls
 *.sty
 *.tex
@@ -288,23 +293,23 @@
 -tex_comment
 -no_double_quoted
 
- === Verilog
+[verilog]
 *.v
 *.vh
 -syntax verilog
 -istep 2
 
- === VHDL
+[vhdl]
 *.vhd
 -syntax vhdl
 -istep 2
 
- === XML
+[xml]
 *.xml
 -encoding utf8
 -syntax xml
 
- === yacc
+[yacc]
 *.y
 -syntax yacc
 -c_comment
@@ -535,7 +540,7 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
 \i \i \dGPLv2 JOE 4.4 with jupprc; partial functionality unmapped, missing, broken.\d \i \i
-\i \i @(#) jupprc 2017-12-06; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2017-12-26; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#4403 additional help screens
