@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.47 2017/08/19 00:00:16 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.49 2017/12/28 16:23:35 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -1821,4 +1821,13 @@ Title: FrOSCon
 Tag: event fun pcli personal
 
 <p>I’ll not respond, much, until next Monday. We have FrOSCon.</p>
+----
+Date: 28.12.2017
+Author: tg@
+Title: We had joy, we had fun… ♫ @ #34c3
+Tag: event fun snapshot
+
+<p><img src="https://mercurius.teckids.org/http-upload-get/4e87114b556dd8a28652e95cead02eb93a41ad41/kc8E5spSJHm0qu1NWG5zfE644nKv9L5hc9AO25Sj/IMG_20171228_162423.jpg"
+ alt="MirBSD/sparc poster mod" /></p>
+<p>MirBSD on the Sun</p>
 ----
