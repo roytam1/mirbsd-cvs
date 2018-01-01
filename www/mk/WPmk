@@ -54,7 +54,8 @@ if [[ $datadate != 20[0-9][0-9]/@(0[1-9]|1[012])/@(0[1-9]|[12][0-9]|3[01]) ]]; t
 	print -ru2 "No RCSID in WP$committer.inc"
 	exit 1
 fi
-datadate=${datadate:8:2}.${datadate:5:2}.${datadate::4}
+#datadate=${datadate:8:2}.${datadate:5:2}.${datadate::4} # DD.MM.YYYY (old German)
+datadate=${datadate::4}-${datadate:5:2}-${datadate:8:2}  # YYYY-MM-DD (ISO 8601)
 
 set -A fwp
 integer entryp=0
