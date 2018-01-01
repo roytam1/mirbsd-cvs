@@ -13724,6 +13724,91 @@ Waypoint: GC2P3H3
 Title: TB Hotel A61 Rheinbach
 Tag: D15 T25 Large Tradi
 ----
+ID: 2264
+Date: 27.12.2017
+Waypoint: GC2FRZN
+Banner: jpg
+Title: Grüner Ring Leipzig - Lärmschutzwand
+Tag: D15 T25 Small Tradi
+----
+ID: 2265
+Date: 27.12.2017
+Waypoint: GC6GQH8
+Title: Einjähriges Jubiläum - Jahrestag
+Tag: D1 T15 Micro Tradi
+----
+ID: 2266
+Date: 27.12.2017
+Waypoint: GC5KTPR
+Title: Rauchfrei
+Tag: D25 T15 Micro Tradi
+----
+ID: 2267
+Date: 28.12.2017
+Waypoint: GC1HFJD
+Banner: jpg
+Title: ärger Dich nich.....
+Tag: D2 T15 Micro Tradi
+----
+ID: 2268
+Date: 28.12.2017
+Waypoint: GC2Z19Y
+Banner: jpg
+Title: U-Bahn-Station
+Tag: D2 T15 Micro Multi
+----
+ID: 2269
+Date: 28.12.2017
+Waypoint: GC6NMBN
+Title: Leipziger Messe - Auf die Knie! (reloaded)
+Tag: D15 T25 Small Tradi
+----
+ID: 2270
+Date: 28.12.2017
+Waypoint: GC3NY0M BC2385
+Banner: jpg
+Title: Eventsäule - Project Geo Games 2012
+Tag: D3 T25 Regular Mystery
+----
+ID: 2271
+Date: 29.12.2017
+Waypoint: GC6RBPH
+Title: Gasometer Leipzig
+Tag: D25 T15 Micro Multi
+----
+ID: 2272
+Date: 30.12.2017
+Waypoint: OC12D10
+Title: Die Leipziger Messe
+nTF: 3
+Tag: D1 T1 Webcam
+----
+ID: 2273
+Date: 28.12.2017
+Waypoint: GC23HZD OC9D88
+Banner: gif
+Title: ICE AGE
+Tag: D15 T2 Earth
+----
+ID: 2274
+Date: 31.12.2017
+Waypoint: GC79GC2
+Title: The Same Procedure As Every Year
+Tag: D35 T35 Event
+----
+ID: 2275
+Date: 28.12.2017
+Waypoint: WMJGTG
+Title: »Eventsäule-Obelisk« - Leipzig, Germany
+Tag: Virtual
+----
+ID: 2276
+Date: 01.01.2018
+Waypoint: GC7F4DE
+Banner: jpg
+Title: First Cache of 2018
+Tag: D1 T1 Event
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
