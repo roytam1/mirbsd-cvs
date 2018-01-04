@@ -2244,3 +2244,46 @@ Tag: mksh pcli plan snapshot
 <p><a href="@@RELPATH@@wtf.htm">wtf</a> rocks; Eugen is working on an
  iOS äpp and already has a beta version which just needs bugfixing.</p>
 ----
+Date: 04.01.2018
+Title: The Intelpocalypse
+Tag: archaeology bug grml hardware pcli security
+
+<p>The unveiling of the three new CPU bug classes, collected in the two
+ brandbugs “Meltdown” and “Spectre”, has mostly shocked the BSDs; I’ve
+ got it on some authority that even FreeBSD was not informed ahead of
+ time, left alone the others. Thanks to laffer1 from MidnightBSD for a
+ couple of heads-up warnings into our direction!</p>
+<p>Here’s what I could gather until now (please <strong>do</strong>
+ correct me if I’m wrong):</p>
+<p><em>Meltdown</em> is specific to Intel® CPUs with out-of-order
+ execution, that is, all P6-class (Pentium Pro/MMX, Pentium Ⅱ, but
+ not Pentium Ⅰ/MMX) or newer (except old Atom) CPUs. It appears to
+ allow user processes to read kernel memory, but not across VMs, nor
+ to attack a hypervisor. A <em>variant for ARM</em> exists but AMD’s
+ x86 CPUs are supposedly safe. The KAISER/FUCKWIT/UASS/KPTI patches
+ for Linux fix this, at huge performance cost on x86, not so much on
+ ARM, and no cost for unaffected CPU models (runtime detected).</p>
+<p><em>Spectre</em> affects x86, ARM, POWER CPUs and possibly others.
+ I’ve not yet found information on whether it is also limited to CPUs
+ with out-of-order executions, but it seems likely. SPARC CPUs might
+ be safe; Solaris/SPARC64 is safe due to the way its memory addressing
+ works. If the OOO execution assumption is true, 80486 and P5 class
+ x86 CPUs are also safe. This one <em>does</em> allow cross-VM and
+ hypervisor attacks, so if the bare metal CPU is vulnerable, SOL.
+ There does not yet seem to be a generic fix; some hint at having to
+ patch the compiler and recompile everything with a workaround that
+ has a performance cost, even if the CPU is not affected, or was fixed
+ with a microcode update. AMD’s x86 CPUs are partially hit, one of the
+ variants does not work on them.</p>
+<p>“CERT recommends throwing away your CPU and buying an non-vulnerable
+ one” (thanks to El Reg), but nobody states which CPUs are not vulnerable.
+</p>
+<p>At the present time, we suggest any MirBSD/i386 instances that run
+ on any CPU other than an 80486 or P5-class (Pentium Ⅰ or a non-PPro MMX)
+ to be restricted to single user or trusted user access only, and no
+ untrusted software including ECMAscript to be run on them.</p>
+<p>Watch <a href="http://www.mirbsd.org/#news">this space</a> for updates.
+ Oh, and, if you know what you’re (and I’m) talking about, please, again,
+ <strong>do</strong> provide me with information necessary to provide those
+ updates, both to MirBSD and to this space. Thank you.</p>
+----

@@ -5,7 +5,7 @@ mws_setname main "Welcome to The MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
 mws_setheadline Welcome to the MirOS Project!
-mws_putheader '$MirOS: www/src/main.hts,v 1.19 2012/12/05 22:04:38 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.21 2016/03/06 18:37:53 tg Exp $'
 mws_content <<'EOF'
 <p class="rcsid">MirOS BSD &amp; MirPorts Framework – a wonderful
  operating system for a world of peace</p>
@@ -37,10 +37,12 @@ mws_content <<'EOF'
  href="/cvs.cgi/src/share/doc/README?rev=HEAD">cryptographically signed</a>
  using gzsig(1) in order to prevent abuse of our name and provide integrity
  of distfiles. In case of doubt, ask via <a href="irc.htm">IRC</a>.</p>
+<div id="news">
 EOF
 #DEPEND OBJ:news.cut
 . "${DST}/news.cut"
 mws_content <<'EOF'
+</div>
 
 <hr /><p>Read <a href="news.htm">older news</a>.</p>
 EOF
