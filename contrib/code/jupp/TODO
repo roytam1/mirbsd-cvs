@@ -598,8 +598,7 @@ Other requests:
 • plug memory leaks (Valgrind reports a few)
 • fix Coverity-pointed-out issues
 • rewrite allocation stuff, use lalloc struct tricks from mksh
-• Debian now demands #!/usr/bin/perl shebang for Perl scripts
-  (also fixup some joe4.4 jupprc ftypes)
+• fixup some joe4.4 jupprc ftypes
 • …
 
 __________________________________________________________________
