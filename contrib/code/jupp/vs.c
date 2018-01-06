@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/vs.c,v 1.10 2017/12/02 02:07:38 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/vs.c,v 1.11 2017/12/08 02:00:43 tg Exp $");
 
 #include <stdlib.h>
 
@@ -216,7 +216,8 @@ int vsscan(const sELEMENT *a, int alen, const sELEMENT *b, int blen)
 	return ~0;
 }
 
-int vsspan(sELEMENT *a, int alen, sELEMENT *b, int blen)
+int
+vsspan(const sELEMENT *a, int alen, const sELEMENT *b, int blen)
 {
 	int x;
 

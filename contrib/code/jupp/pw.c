@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/pw.c,v 1.13 2017/12/07 02:10:17 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/pw.c,v 1.14 2017/12/08 02:00:39 tg Exp $");
 
 #include <stdlib.h>
 #include <string.h>
@@ -200,7 +200,7 @@ static int abortpw(jobject jO)
 }
 
 WATOM watompw = {
-	US "prompt",
+	UC "prompt",
 	disppw,
 	bwfllw,
 	abortpw,

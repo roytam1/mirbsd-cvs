@@ -9,7 +9,7 @@
 #define _JOE_VA_H 1
 
 #ifdef EXTERN_B_C
-__IDSTRING(rcsid_va_h, "$MirOS: contrib/code/jupp/va.h,v 1.5 2017/12/02 17:00:52 tg Exp $");
+__IDSTRING(rcsid_va_h, "$MirOS: contrib/code/jupp/va.h,v 1.6 2017/12/06 21:17:04 tg Exp $");
 #endif
 
 #include "vs.h"
@@ -232,6 +232,6 @@ aELEMENT *vasort(aELEMENT *ary, int len);
  * Generate list of strings out of words in 's' seperated with the characters
  * in 'sep'.  The characters in 'sep' must be sorted.
  */
-aELEMENT *vawords(aELEMENT *a, unsigned char *s, int len, unsigned char *sep, int seplen);
+aELEMENT *vawords(aELEMENT *a, unsigned char *s, int len, const unsigned char *sep, int seplen);
 
 #endif

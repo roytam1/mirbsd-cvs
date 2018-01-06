@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/menu.c,v 1.14 2017/12/08 02:28:05 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/menu.c,v 1.15 2017/12/16 22:10:54 tg Exp $");
 
 #include <stdlib.h>
 #include <string.h>
@@ -390,7 +390,7 @@ static int menuabort(jobject jO)
 }
 
 WATOM watommenu = {
-	US "menu",
+	UC "menu",
 	menudisp,
 	menufllw,
 	menuabort,
