@@ -1,4 +1,4 @@
- "jupp" resource file for JOE 3.7*nix (c) 1997-2017 Thorsten Glaser
+ "jupp" resource file for JOE 3.7*nix (c) 1997-2018 Thorsten Glaser
  Provided that these terms and disclaimer and all copyright notices
  are retained or reproduced in an accompanying document, permission
  is granted to deal in this work without restriction, including un-
@@ -196,12 +196,12 @@
 -pound_comment
 
 *
-+#!\+\[	 ]\+\[a-z/]/\+tcsh\>
++#!\+\[	 ]\+\[/a-z0-9._-]/\+tcsh\>
 -syntax csh
 -pound_comment
 
 *
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+tcsh\>
++#!\+\[	 ]\+\[/a-z0-9._-]/env\[	 ]\+\[	 ]\+tcsh\>
 -syntax csh
 -pound_comment
 
@@ -364,12 +364,12 @@
 -pound_comment
 
 *
-+#!\+\[	 ]\+\[a-z/]/perl
++#!\+\[	 ]\+\[/a-z0-9._-]/perl
 -syntax perl
 -pound_comment
 
 *
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]perl
++#!\+\[	 ]\+\[/a-z0-9._-]/env\[	 ]\+\[	 ]perl
 -syntax perl
 -pound_comment
 
@@ -390,7 +390,7 @@
 -spaces
 
 *
-+#!\+\[	 ]\+\[a-z/]/python
++#!\+\[	 ]\+\[/a-z0-9._-]/python
 -encoding utf8
 -syntax python
 -pound_comment
@@ -400,7 +400,7 @@
 -spaces
 
 *
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]python
++#!\+\[	 ]\+\[/a-z0-9._-]/env\[	 ]\+\[	 ]python
 -encoding utf8
 -syntax python
 -pound_comment
@@ -420,22 +420,22 @@
 -pound_comment
 
 *
-+#!\+\[	 ]\+\[a-z/]/\+\[bd]\+ash\>
++#!\+\[	 ]\+\[/a-z0-9._-]/\+\[bda]sh\>
 -syntax sh
 -pound_comment
 
 *
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+\[bd]\+ash\>
++#!\+\[	 ]\+\[/a-z0-9._-]/env\[	 ]\+\[	 ]\+\[bda]sh\>
 -syntax sh
 -pound_comment
 
 *
-+#!\+\[	 ]\+\[a-z/]/\+\[a-z]ksh\+\[0-9._-]\>
++#!\+\[	 ]\+\[/a-z0-9._-]/\+\[a-z]ksh\+\[0-9._-]\>
 -syntax sh
 -pound_comment
 
 *
-+#!\+\[	 ]\+\[a-z/]/env\+\[	 ]\+\[a-z]ksh\+\[0-9._-]\>
++#!\+\[	 ]\+\[/a-z0-9._-]/env\[	 ]\+\[	 ]\+\[a-z]ksh\+\[0-9._-]\>
 -syntax sh
 -pound_comment
 
@@ -685,7 +685,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs%
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2017-12-06; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2018-01-05; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#3703 additional help screens
