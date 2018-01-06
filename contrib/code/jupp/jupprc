@@ -149,8 +149,7 @@
 *.tcsh
 *.tcshrc
 *
-+#![	 ]*[a-z/]*/t?csh\>
-+#![	 ]*[a-z/]*/env[	 ]+t?csh\>
++#![	 ]*[a-z/]*/(env[	 ]*)?t?csh\>
 -syntax csh
 -pound_comment
 
@@ -261,8 +260,7 @@
 [python]
 *.py
 *
-+#![	 ]*[a-z/]*/python
-+#![	 ]*[a-z/]*/env[	 ]+python
++#![	 ]*[a-z/]*/(env[	 ]*)?python
 -encoding utf8
 -syntax python
 -pound_comment
