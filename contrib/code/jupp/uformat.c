@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/uformat.c,v 1.9 2017/12/08 02:28:07 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/uformat.c,v 1.11 2017/12/20 22:29:02 tg Exp $");
 
 #include <stdlib.h>
 #include <string.h>
@@ -155,7 +155,7 @@ static long prefix(P *p)
  *     a blank line (or beginning of file) preceeding it.
  */
 
-int within = 0;
+static char within = 0;
 
 P *pbop(P *p)
 {
@@ -504,7 +504,8 @@ int ufmtblk(BW *bw)
 		utomarkk(bw);
 		within = 1;
 		do {
-			ubop(bw), uformat(bw);
+			ubop(bw);
+			uformat(bw);
 		} while (bw->cursor->byte > markb->byte);
 		within = 0;
 		markk->end = 0;
