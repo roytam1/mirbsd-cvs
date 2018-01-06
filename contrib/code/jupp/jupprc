@@ -37,7 +37,7 @@
 -rmsg  R%4r<%4l C%3c\u%4o|%4O\i\b%a|%A\b\i\u %u
 -smsg %dY-%dm-%dd ** Line %r Col %c Offset %o(0x%O, %p%%) %e%y %a(0x%A) Width %w ** %m%R %x
 -zmsg %dY-%dm-%dd ** Line %r Col %c Offset %o(0x%O, EOF) %e%y ** %m%R %x
--xmsg \i[ Joe's Own Editor v%v | %b | © 2018 jhallen, mirabilos ] ^J = Help\i
+-xmsg \i[ Joe's Own Editor v%v | %b | © 2018 jhallen, mirabilos ]\i \f\b^J = Help\b\f
 -aborthint ^C
 -helphint ^J
 -help_is_utf8
