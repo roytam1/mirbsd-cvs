@@ -77,6 +77,21 @@
  Order is latest match wins, so...
 [diff]
 */patch-*
+*/patches/*
+*.diff
+*.patch
+*.rej
+*.debdiff
+*
++---[ ]
++\*\*\*[ ]
++Index: .*\n======================================================
++Index: .*\ndiff.*\n--- .*\n\+\+\+[ ]
++([=?].*\n)*--- .*\n\+\+\+[ ]
++diff.*\n--- .*\n\+\+\+[ ]
++diff --git.*\nindex.*\n--- .*\n\+\+\+[ ]
++(Only|Nur) in[ ]
++[1-9][0-9]*[cda]
 -highlight
 -syntax diff
 
@@ -97,11 +112,6 @@
 [mail.822]
 */mail/*
 -syntax mail
-
-[diff]
-*/patches/*
--highlight
--syntax diff
 
 [asm.asm]
 *.asm
@@ -152,22 +162,6 @@
 +#![	 ]*[/a-z0-9._-]*/(env[	 ]+)?t?csh\>
 -syntax csh
 -pound_comment
-
-[diff]
-*.diff
-*.patch
-*.rej
-*.debdiff
-*
-+---[ ]
-+\*\*\*[ ]
-+Index: .*\n======================================================
-+Index: .*\ndiff.*\n--- .*\n\+\+\+[ ]
-+[=?].*\n--- .*\n\+\+\+[ ]
-+diff.*\n--- .*\n\+\+\+[ ]
-+diff --git.*\nindex.*\n--- .*\n\+\+\+[ ]
--highlight
--syntax diff
 
 [mail.822]
 *.eml
