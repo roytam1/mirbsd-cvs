@@ -246,7 +246,7 @@
 *.pl
 *.pm
 *
-+#![	 ]*[a-z/]*/env[	 ]+perl
++#![	 ]*[/a-z0-9._-]*/env[	 ]+perl
 -syntax perl
 -pound_comment
 -single_quoted
