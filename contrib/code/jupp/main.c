@@ -408,12 +408,17 @@ main_init(int argc, char **argv, char **envp, SCRN **np)
 		help_on(maint);
 	}
 	if (!nonotice) {
-		joe_snprintf_4((char *)msgbuf,JOE_MSGBUFSIZE,
+		int uninvert = fdefault.hmsg &&
+		    fdefault.hmsg[0] == '\\' &&
+		    fdefault.hmsg[1] == 'i';
+
+		joe_snprintf_5((char *)msgbuf, JOE_MSGBUFSIZE,
 		    "\\i[ Joe's Own Editor v" VERSION
-		    " | %s | %s " JUPP_IS_COPYRIGHT_C_BY " ]%s%s\\i",
+		    " | %s | %s " JUPP_IS_COPYRIGHT_C_BY " ]%s%s%s",
 		    locale_map->name, locale_map->type ? "©" : "(c)",
-		    fdefault.hmsg ? " " : "",
-		    fdefault.hmsg ? fdefault.hmsg : "");
+		    uninvert ? "\\i " : fdefault.hmsg ? " " : "",
+		    uninvert ? fdefault.hmsg + 2 : fdefault.hmsg ?
+		    fdefault.hmsg : "", uninvert ? "" : "\\i");
 		msgnw(lastw(maint)->object.base->parent, msgbuf);
 	}
 
