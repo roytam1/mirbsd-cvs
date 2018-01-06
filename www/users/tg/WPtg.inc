@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.381 2017/09/27 20:42:31 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.387 2018/01/01 22:01:56 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -13808,6 +13808,18 @@ Waypoint: GC7F4DE
 Banner: jpg
 Title: First Cache of 2018
 Tag: D1 T1 Event
+----
+ID: 2277
+Date: 02.01.2018
+Waypoint: GC7GEAD
+Title: Paläographie Mittelalter
+Tag: D25 T15 Small Mystery
+----
+ID: 2278
+Date: 06.01.2018
+Waypoint: GC7D94E
+Title: Spirit
+Tag: D25 T1 Micro Tradi
 ----
 ID: p20481102
 Date: 02.11.2048
