@@ -1,4 +1,4 @@
- "jupp" resource file for JOE 4.4*nix (c) 1997-2017 Thorsten Glaser
+ "jupp" resource file for JOE 4.4*nix (c) 1997-2018 Thorsten Glaser
  Provided that these terms and disclaimer and all copyright notices
  are retained or reproduced in an accompanying document, permission
  is granted to deal in this work without restriction, including un-
@@ -37,7 +37,7 @@
 -rmsg  R%4r<%4l C%3c\u%4o|%4O\i\b%a|%A\b\i\u %u
 -smsg %dY-%dm-%dd ** Line %r Col %c Offset %o(0x%O, %p%%) %e%y %a(0x%A) Width %w ** %m%R %x
 -zmsg %dY-%dm-%dd ** Line %r Col %c Offset %o(0x%O, EOF) %e%y ** %m%R %x
--xmsg \i[ Joe's Own Editor v%v | %b | © 2017 jhallen, mirabilos ] ^J = Help\i
+-xmsg \i[ Joe's Own Editor v%v | %b | © 2018 jhallen, mirabilos ] ^J = Help\i
 -aborthint ^C
 -helphint ^J
 -help_is_utf8
@@ -246,7 +246,7 @@
 *.pl
 *.pm
 *
-+#![	 ]*[/a-z0-9._-]*/env[	 ]+perl
++#![	 ]*[/a-z0-9._-]*/(env[	 ]+)?perl
 -syntax perl
 -pound_comment
 -single_quoted
@@ -538,7 +538,7 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
 \i \i \dGPLv2 JOE 4.4 with jupprc; partial functionality unmapped, missing, broken.\d \i \i
-\i \i @(#) jupprc 2017-12-26; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2018-01-05; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#4403 additional help screens
