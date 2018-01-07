@@ -17,7 +17,6 @@ __RCSID("$MirOS: contrib/code/jupp/path.c,v 1.21 2017/12/20 23:43:54 tg Exp $");
 #ifdef HAVE_PATHS_H
 #  include <paths.h>	/* for _PATH_TMP */
 #endif
-#include <limits.h>
 #include <stdlib.h>
 
 #ifdef HAVE_BSD_STRING_H

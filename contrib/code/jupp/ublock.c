@@ -11,7 +11,6 @@
 __RCSID("$MirOS: contrib/code/jupp/ublock.c,v 1.29 2017/12/08 02:17:23 tg Exp $");
 
 #include <sys/wait.h>
-#include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
 

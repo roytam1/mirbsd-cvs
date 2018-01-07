@@ -158,8 +158,8 @@ void vsrm(sELEMENT *vary);
  * sSIZ returns 0 if you pass it 0.  sSiz does not do this checking,
  * but can be used as an lvalue.
  */
-#define sSIZ(a) ((a) ? *((int *)(a) - 2) : 0)
-#define sSiz(a) (*((int *)(a) - 2))
+#define sSiz(a) jalloc_siz(a)
+#define sSIZ(a) ((a) ? sSiz(a) : 0)
 
 /* int sLEN(sELEMENT *vary);
  * int sLen(sELEMENT *vary);
@@ -173,8 +173,8 @@ void vsrm(sELEMENT *vary);
  * sLEN return a length of zero if 'vary' is 0.
  * sLen doesn't do this checking, but can be used as an lvalue
  */
-#define sLEN(a) ((a) ? *((int *)(a) - 1) : 0)
-#define sLen(a) (*((int *)(a) - 1))
+#define sLen(a) jalloc_len(a)
+#define sLEN(a) ((a) ? sLen(a) : 0)
 
 /* int slen(const sELEMENT *ary);
  * Compute length of char or variable length array by searching for termination

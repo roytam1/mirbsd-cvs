@@ -12,7 +12,6 @@ __RCSID("$MirOS: contrib/code/jupp/vfile.c,v 1.14 2017/12/08 02:00:43 tg Exp $")
 
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <limits.h>
 #include <stdlib.h>
 #include <unistd.h>
 

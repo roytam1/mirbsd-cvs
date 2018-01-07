@@ -11,7 +11,6 @@
 
 __RCSID("$MirOS: contrib/code/jupp/syntax.c,v 1.21 2017/12/08 02:00:41 tg Exp $");
 
-#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 #include "b.h"

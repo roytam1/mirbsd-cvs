@@ -12,7 +12,6 @@ __RCSID("$MirOS: contrib/code/jupp/bw.c,v 1.34 2017/12/20 22:50:32 tg Exp $");
 
 #include <string.h>
 #include <stdlib.h>
-#include <limits.h>
 
 #ifdef HAVE_BSD_STRING_H
 #include <bsd/string.h>

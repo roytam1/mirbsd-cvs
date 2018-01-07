@@ -597,7 +597,6 @@ Other requests:
   Unicode (UTF-{16,32}{BE,LE} for example) sponsored by ⮡ tarent
 • plug memory leaks (Valgrind reports a few)
 • fix Coverity-pointed-out issues
-• rewrite allocation stuff, use lalloc struct tricks from mksh
 • fixup some joe4.4 jupprc ftypes
 • …
 

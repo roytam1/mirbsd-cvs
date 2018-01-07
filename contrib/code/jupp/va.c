@@ -6,6 +6,7 @@
  *	This file is part of JOE (Joe's Own Editor)
  */
 #include "config.h"
+#include "types.h"
 
 __RCSID("$MirOS: contrib/code/jupp/va.c,v 1.7 2017/12/08 02:28:08 tg Exp $");
 
@@ -14,21 +15,22 @@ __RCSID("$MirOS: contrib/code/jupp/va.c,v 1.7 2017/12/08 02:28:08 tg Exp $");
 #include "utils.h"
 #include "va.h"
 
-aELEMENT *vamk(int len)
+aELEMENT *
+vamk(int len)
 {
-	int *new = malloc((1 + len) * sizeof(aELEMENT) + 2 * sizeof(int));
+	aELEMENT *rv;
 
-	new[0] = len;
-	new[1] = 0;
-	((aELEMENT *)(new + 2))[0] = aterm;
-	return (aELEMENT *)(new + 2);
+	rv = jalloc(NULL, len, sizeof(aELEMENT));
+	rv[0] = aterm;
+	return (rv);
 }
 
-void varm(aELEMENT *vary)
+void
+varm(aELEMENT *vary)
 {
 	if (vary) {
 		vazap(vary, 0, aLen(vary));
-		free((int *)vary - 2);
+		jfree(vary);
 	}
 }
 
@@ -43,17 +45,17 @@ int alen(aELEMENT *ary)
 		return 0;
 }
 
-aELEMENT *vaensure(aELEMENT *vary, int len)
+aELEMENT *
+vaensure(aELEMENT *vary, int len)
 {
-	if (!vary)
-		vary = vamk(len);
-	else if (len > aSiz(vary)) {
-		len += (len >> 2);
-		vary = (aELEMENT *)(2 + (int *)realloc((int *)vary - 2, (len + 1) * sizeof(aELEMENT) + 2 * sizeof(int)));
+	aELEMENT *rv;
 
-		aSiz(vary) = len;
-	}
-	return vary;
+	if (vary && len > aSiz(vary))
+		len += (len >> 2);
+	rv = jalloc(vary, len, sizeof(aELEMENT));
+	if (!vary)
+		rv[0] = aterm;
+	return (rv);
 }
 
 aELEMENT *vazap(aELEMENT *vary, int pos, int n)
