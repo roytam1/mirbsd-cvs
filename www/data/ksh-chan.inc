@@ -35,8 +35,9 @@ FAQ for the Korn Shell, including which variants exist.
 Title: ksh93 current development
 Link: https://github.com/att/ast
 
-Repository in which someone other than the original continues
-development of AT&amp;T ksh93.
+Repository in which a user (situ) who is a Red Hat employee
+continues development of AT&amp;T ksh93 reportedly AT&amp;T
+have no further interest in Korn Shell.
 ----
 Title: mksh external (optional) bugtracker
 Link: https://bugs.launchpad.net/mksh

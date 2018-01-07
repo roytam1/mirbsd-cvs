@@ -60,7 +60,7 @@ mws_content <<'EOF'
  ksh93v- (beta) dated 2014-09-29 (29 September 2014) and ksh93u+ (stable)
  dated 2012-08-01; download server unreachable, development dead.</p>
 <p><a href="https://github.com/att/ast">att/ast on github</a> has begun
- continuing development of ksh93, by an apparent user (3ʳᵈ party).</p>
+ continuing development of ksh93, apparently by Red Hat (3ʳᵈ party).</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
  mksh R56b, dated 2017-08-29 (29 August 2017); the previous bugfix was
  mksh R54, dated 2016-11-12 (12 November 2016); link to <a
