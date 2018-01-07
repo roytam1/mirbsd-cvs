@@ -343,7 +343,7 @@ int execmd(CMD *cmd, int k)
 
  skip:
 
-	/* Make dislayed cursor column equal the actual cursor column
+	/* Make displayed cursor column equal the actual cursor column
 	 * for commands which aren't simple vertical movements */
 	if (cmd->flag & EFIXXCOL)
 		bw->cursor->xcol = piscol(bw->cursor);
