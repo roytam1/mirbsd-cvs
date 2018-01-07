@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/hash.c,v 1.5 2017/12/06 21:41:02 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/hash.c,v 1.6 2017/12/08 02:00:39 tg Exp $");
 
 #include <stdlib.h>
 #include <string.h>
@@ -52,7 +52,7 @@ void *htadd(HASH *ht, const unsigned char *name, void *val)
 	int x;
 
 	if (!freentry) {
-		entry = calloc(64, sizeof(HENTRY));
+		entry = ralloc(64, sizeof(HENTRY));
 		for (x = 0; x != 64; ++x) {
 			entry[x].next = freentry;
 			freentry = entry + x;

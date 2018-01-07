@@ -9,7 +9,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/syntax.c,v 1.21 2017/12/08 02:00:41 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/syntax.c,v 1.23 2018/01/07 20:32:46 tg Exp $");
 
 #include <stdlib.h>
 #include <string.h>
@@ -255,10 +255,8 @@ struct high_syntax *load_dfa(const unsigned char *name)
 	if (!name)
 		return NULL;
 
-	if(!attr_buf) {
-		attr_size = 1024;
-		attr_buf = calloc(attr_size, sizeof(int));
-	}
+	if (!attr_buf)
+		attr_buf = ralloc((size_t)(attr_size = 1024), sizeof(int));
 
 	/* Find syntax table */
 
@@ -286,7 +284,8 @@ struct high_syntax *load_dfa(const unsigned char *name)
 	syntax->name = (const unsigned char *)strdup((const char *)name);
 	syntax->next = syntax_list;
 	syntax_list = syntax;
-	syntax->states = malloc(sizeof(struct high_state *) * (syntax->szstates = 64));
+	syntax->states = ralloc((size_t)(syntax->szstates = 64),
+	    sizeof(struct high_state *));
 	syntax->sync_lines = 120;
 
 	memset(clist, 0, sizeof(clist));
