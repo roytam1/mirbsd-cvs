@@ -16585,5 +16585,5 @@ U+FFFB   ￻ INTERLINEAR ANNOTATION TERMINATOR;Cf;0;ON;;;;;N;;;;;
 U+FFFC ￼  OBJECT REPLACEMENT CHARACTER;So;0;ON;;;;;N;;;;;
 U+FFFD �  REPLACEMENT CHARACTER;So;0;ON;;;;;N;;;;;
 
-______________________________________________________________________
+_______________________________________________________________________
 $MirOS: contrib/samples/unidata.txt,v 1.8 2013/11/30 23:20:16 tg Exp $
