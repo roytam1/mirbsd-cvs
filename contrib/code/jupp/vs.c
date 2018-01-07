@@ -34,13 +34,13 @@ vsrm(sELEMENT *vary)
 
 int slen(const sELEMENT *ary)
 {
-	if (ary) {
-		const sELEMENT *beg = ary;
-		while (scmp(*ary, sterm))
-			++ary;
-		return ary - beg;
-	} else
-		return 0;
+	const sELEMENT *beg = ary;
+
+	if (!ary)
+		return (0);
+	while (scmp(*ary, sterm))
+		++ary;
+	return (ary - beg);
 }
 
 sELEMENT *
