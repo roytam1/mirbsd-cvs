@@ -163,7 +163,7 @@ struct cmd {
 	const unsigned char *negarg;	/* Command to use if arg was negative */
 	jpoly_int *func;	/* Function bound to name */
 	MACRO	*m;		/* Macro bound to name */
-	int	flag;		/* Execution flags */
+	unsigned int flag;	/* Execution flags */
 	int	arg;		/* 0= arg is meaningless, 1= ok */
 };
 
