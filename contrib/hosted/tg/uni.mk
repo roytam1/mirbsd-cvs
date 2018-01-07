@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.1 2017/11/18 12:11:38 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.3 2018/01/07 00:22:33 tg Exp $'
 #-
 # Copyright © 2017, 2018
 #	mirabilos <m@mirbsd.org>
@@ -113,6 +113,8 @@ print -r -- "$rcsid"
 
 exec >uni_smp.txt
 exec 4>uni_acronyms
+print -ru4 -- " From miros${rcsid#?MirOS}"
+print -ru4 -- " From Unicode $vsn"
 print -r -- "Unicode $vsn (all planes)"
 eqlen=${%vsn}
 while (( eqlen-- )); do
