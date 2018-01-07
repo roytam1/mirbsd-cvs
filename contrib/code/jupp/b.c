@@ -9,7 +9,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/b.c,v 1.32 2018/01/06 00:28:29 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/b.c,v 1.33 2018/01/07 20:32:45 tg Exp $");
 
 #include <unistd.h>
 #include <sys/stat.h>
@@ -2627,6 +2627,7 @@ ttabrt(int sig, const char *msg)
 			fflush(f);
 			bsavefd(b->bof, fileno(f), b->eof->byte);
 		}
+	fclose(f);
 	if (sig)
 		ttclsn();
 }
