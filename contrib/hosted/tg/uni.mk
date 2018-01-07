@@ -21,6 +21,31 @@ rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.1 2017/11/18 12:11:38 tg Exp $'
 
 vsn=$(sed -n '1s/^.*Width-\(.*\)\.txt.*$/\1/p' <EastAsianWidth.txt)
 set -U
+set -A jamo_initial -- G GG N D DD R M B BB S SS '' J JJ C K T P H
+set -A jamo_medial -- A AE YA YAE EO E YEO YE O WA WAE OE YO U WEO WE WI YU EU YI I
+set -A jamo_final -- '' G GG GS N NI NH D L LG LM LB LS LT LP LH \
+    M B BS S SS NG J C K T P H
+while IFS= read -r line; do
+	if [[ $line != *'<Hangul Syllable, First>'* ]]; then
+		print -r -- "$line"
+		continue
+	fi
+	typeset -Uui16 -Z7 cdisp=0x${line%%;*}
+	line=${line#*;}
+	line=${line#*;}
+	IFS=';' read -r endcode x
+	let endc=0x$endcode
+	let begc=cdisp--
+	while (( ++cdisp <= endc )); do
+		(( j1 = cdisp - begc ))
+		(( j3 = j1 % 28 ))
+		(( j1 /= 28 ))
+		(( j2 = j1 % 21 ))
+		(( j1 /= 21 ))
+		n1='HANGUL SYLLABLE '${jamo_initial[j1]}${jamo_medial[j2]}${jamo_final[j3]}
+		print -r -- "${cdisp#16#};$n1;$line"
+	done
+done <UnicodeData.txt >UnicodeData.jamo
 
 exec >unidata.htm
 cat <<EOF
@@ -37,7 +62,7 @@ cat <<EOF
 <table style="table-layout:fixed; border:0px; padding:0px;">
 EOF
 td='<td style="width:3em;">'
-sed '/^10000/,$d' <UnicodeData.txt | while IFS= read -r line; do
+sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
 	typeset -i10 x=0x${line::4}
 	(( x = (x < 32) || (x >= 0x7F && x <= 0x9F) || \
 	    (x >= 0xD800 && x <= 0xDFFF) || \
@@ -60,7 +85,7 @@ while (( eqlen-- )); do
 done
 print =====================================
 print
-sed '/^10000/,$d' <UnicodeData.txt | while IFS= read -r line; do
+sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
 	typeset -Uui16 -Z7 x=0x${line::4}
 	typeset -i1 j
 	(( j = (x < 32) || (x >= 0xD800 && x <= 0xDFFF) || \
@@ -87,6 +112,7 @@ print _______________________________________________________________________
 print -r -- "$rcsid"
 
 exec >uni_smp.txt
+exec 4>uni_acronyms
 print -r -- "Unicode $vsn (all planes)"
 eqlen=${%vsn}
 while (( eqlen-- )); do
@@ -103,37 +129,49 @@ while IFS= read -r line; do
 		    (x >= 0xEF80 && x <= 0xEFFF) || (x > 0xFFFD) ? 1 : x ))
 		m=${j#1#}
 		n=${%m}
+		aO="($m) "
 		print -n "U+${x#16#} "
 		if (( n == -1 )); then
 			print -n " � "
+			aO=
 		elif (( n == 0 )); then
 			print -nr -- "  $m "
 		elif (( n == 1 )); then
 			print -nr -- "$m  "
+			(( x == 1#( || x == 1#) )) && aO="<$m> "
 		elif (( n == 2 )); then
 			print -nr -- "$m "
 		else
 			print -u2 Fatal $k $n
 			exit 1
 		fi
+		aO="U+${x#16#}	$aO"
 	else
+		aO="U-${wi#16#}	("
 		print -n "U-${wi#16#}  "
 		set +U
 		(( j = (wi >> 18) | 0xF0 ))
 		print -nr -- "${j#1#}"
+		aO+=${j#1#}
 		(( j = ((wi >> 12) & 0x3F) | 0x80 ))
 		print -nr -- "${j#1#}"
+		aO+=${j#1#}
 		(( j = ((wi >> 6) & 0x3F) | 0x80 ))
 		print -nr -- "${j#1#}"
+		aO+=${j#1#}
 		(( j = (wi & 0x3F) | 0x80 ))
 		print -nr -- "${j#1#}	"
+		aO+=${j#1#}
 		set -U
+		aO+=') '
 	fi
 	print -r -- "${line#*;}"
-done <UnicodeData.txt
+	print -ru4 -- "$aO${line#*;}"
+done <UnicodeData.jamo
 print
 print ______________________________________________________________________
 print -r -- "$rcsid"
+exec 4>&-
 
 exec >utf-8
 asn=
