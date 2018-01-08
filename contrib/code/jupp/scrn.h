@@ -1,5 +1,5 @@
 /*
- *	Device independant tty interface for JOE
+ *	device-independent TTY interface for JOE
  *	Copyright
  *		(C) 1992 Joseph H. Allen
  *
@@ -112,7 +112,7 @@ void utf8_putc(int c);
 #define HAS_COMBINING 0x200000
 
 void outatr(struct charmap *map,SCRN *t,int *scrn,int *attrf,int xx,int yy,int c,int a);
-void outatr_help(SCRN *,int *,int *,int,int,int,int);
+void outatr_help(SCRN *, int *, int *, int, int, int, int);
 
 /*
  * translate character and its attribute into something printable
