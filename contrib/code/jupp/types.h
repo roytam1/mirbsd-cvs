@@ -266,11 +266,11 @@ struct hash {
 
 
 struct help {
-	unsigned char	*text;		/* help text with attributes */
-	unsigned int	lines;		/* number of lines */
 	struct help	*prev;		/* previous help screen */
 	struct help	*next;		/* nex help screen */
 	unsigned char	*name;		/* context name for context sensitive help */
+	unsigned char	*text;		/* help text with attributes */
+	unsigned int	lines;		/* number of lines */
 };
 
 /* A key binding */
