@@ -503,12 +503,15 @@ int unictrl(unsigned int ucs)
 	    "<%X>", ucs));
 }
 
-int joe_wcwidth(int wide, unsigned int ucs)
+int
+joe_wcwidth(unsigned int ucs)
 {
+	int wide;
+
 #ifndef TEST
 	/* If terminal is not UTF-8 or file is not UTF-8: width is 1 */
 	/* FIXME */
-	if (!locale_map->type || !wide)
+	if (!locale_map->type)
 		return (1);
 #endif
 
@@ -6919,7 +6922,7 @@ main(int argc,char *argv[])
 	printf("print=%X\n",joe_iswprint(NULL,c));
 	printf("xdigit=%X\n",joe_iswxdigit(NULL,c));
 	printf("blank=%X\n",joe_iswblank(NULL,c));
-	printf("width=%X\n",joe_wcwidth(1,c));
+	printf("width=%X\n",joe_wcwidth(c));
 	printf("toupper=%X\n",joe_towupper(NULL,c));
 	printf("tolower=%X\n",joe_towlower(NULL,c));
 	return (0);
