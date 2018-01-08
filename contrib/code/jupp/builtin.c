@@ -66,7 +66,7 @@ int jfclose(JFILE *f)
 	return rtn;
 }
 
-/*XXX fails to honour len (256 or 1024, in practice) for builtins */
+/*XXX fails to honour len (= 1024, in practice) for builtins */
 unsigned char *
 jfgets(unsigned char *buf, int len, JFILE *f)
 {
