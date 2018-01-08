@@ -18,7 +18,7 @@ extern struct help *help_actual;
 void help_display(SCREEN *t);		/* display text in help window */
 void help_off(SCREEN *t);		/* turn help off */
 int help_on(SCREEN *t);			/* turn help on */
-int help_init(const unsigned char *filename);	/* load help file */
+void help_init(const unsigned char *filename);	/* load help file */
 struct help *find_context_help(const unsigned char *name);
 
 int u_help(BASE *base);			/* toggle help on/off */
