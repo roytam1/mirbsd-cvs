@@ -3,7 +3,7 @@
 
 mws_setname legacy/bsd-intro "MirOS Legacy Content"
 mws_setheadline What is BSD? What is OpenBSD?
-mws_putheader '$MirOS: www/src/bsd-intro.hts,v 1.4 2009/11/12 19:35:47 tg Exp $'
+mws_putheader '$MirOS: www/src/bsd-intro.hts,v 1.5 2009/11/12 22:26:55 tg Exp $'
 mws_content <<'EOF'
 <h2>Introduction</h2>
 
@@ -217,7 +217,7 @@ mws_content <<'EOF'
 
 <h4>BSD-related pages</h4>
 <ul>
- <li><a href="https://MirBSD.BSDadvocacy.org:8890/">MirOS Project</a>
+ <li><a href="http://www.mirbsd.org/">MirOS Project</a>
   (<a href="http://mirbsd.de/">alternative start page</a>)
   home page for users, with anoncvs and cvsweb, and a <a
   href="@@RELPATH@@mirwarum.htm">German essay about why SourceMill chose MirBSD</a>.</li>
@@ -226,9 +226,14 @@ mws_content <<'EOF'
  <li><a href="http://www.netbsd.org/">NetBSD</a> home page</li>
  <li>MicroBSD is now defunct, although some of their security
   related diffs to the OpenBSD kernel continue to live in MirBSD</li>
- <li><a href="http://www.ekkobsd.org/">ekkoBSD</a>, another fork of
+ <li>ekkoBSD, another fork of
   OpenBSD much like MirBSD, but without the ongoing synchronization,
   rather developed independently. Progresses slowly.</li>
+ <li><a href="http://www.midnightbsd.org/">MidnightBSD</a>, “The BSD
+  For Everyone”, a FreeBSD 6.x fork (later synchronising from newer
+  releases) with, while a different target market, much the same
+  problems as MirBSD; also, early <a href="@@RELPATH@@mksh.htm">mksh</a>
+  adopters</li>
  <li><a href="http://www.dragonflybsd.org">DragonflyBSD</a>, fork of
   the stable FreeBSD 4.x series. Trying to implement new features of
   the 5.x branch, but with different code.</li>
