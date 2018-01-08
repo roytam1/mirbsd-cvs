@@ -114,12 +114,6 @@ void utf8_putc(int c);
 void outatr(struct charmap *map,SCRN *t,int *scrn,int *attrf,int xx,int yy,int c,int a);
 void outatr_help(SCRN *, int *, int *, int, int, int, int);
 
-/*
- * translate character and its attribute into something printable
- */
-void xlat(int *attr, unsigned char *c);
-void xlat_utf_ctrl(int *attr, unsigned char *c);
-
 /* int eraeol(SCRN *t,int x,int y);
  *
  * Erase from screen coordinate to end of line.
