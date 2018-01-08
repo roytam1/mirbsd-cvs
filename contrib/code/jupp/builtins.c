@@ -18,7 +18,7 @@ __RCSID("$MirOS: contrib/code/jupp/builtins.c,v 1.26 2017/12/02 02:07:24 tg Exp 
 #endif
 
 const unsigned char * const builtins[] = {
-	US JUPPRC_BUILTIN_NAME, US
+	UC JUPPRC_BUILTIN_NAME, UC
 		"-assume_color\n"
 		"-dopadding\n"
 		"--force\n"

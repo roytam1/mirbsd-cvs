@@ -6,11 +6,11 @@ __IDSTRING(rcsid_builtin_h, "$MirOS: contrib/code/jupp/builtin.h,v 1.4 2017/12/0
 
 typedef struct jfile {
 	FILE *f;		/* Regular file, or NULL for built-in */
-	unsigned char *p;	/* Built-in file pointer */
+	const unsigned char *p;	/* Built-in file pointer */
 } JFILE;
 
 JFILE *jfopen(const unsigned char *name, const char *mode);
 unsigned char *jfgets(unsigned char *buf,int len,JFILE *f);
 int jfclose(JFILE *f);
 
-extern unsigned char *builtins[];
+extern const unsigned char * const builtins[];
