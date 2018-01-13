@@ -2071,5 +2071,8 @@ recheck_ctype(void)
 	if (isuc(ccp))
 		UTFMODE = 1;
 #endif
+
+	if (Flag(FPOSIX))
+		warningf(true, "early locale tracking enabled UTF-8 mode while in POSIX mode, you are now noncompliant");
 }
 #endif
