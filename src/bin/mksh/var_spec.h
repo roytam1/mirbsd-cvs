@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2009, 2011, 2012, 2016
+ * Copyright (c) 2009, 2011, 2012, 2016, 2018
  *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -53,6 +53,11 @@ FN(HISTFILE)
 #endif
 FN(HISTSIZE)
 FN(IFS)
+#ifdef MKSH_EARLY_LOCALE_TRACKING
+FN(LANG)
+FN(LC_ALL)
+FN(LC_CTYPE)
+#endif
 #ifdef __OS2__
 FN(LIBPATHSTRICT)
 #endif

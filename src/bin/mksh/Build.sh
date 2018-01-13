@@ -2427,7 +2427,7 @@ addsrcs '!' HAVE_STRLCPY strlcpy.c
 addsrcs USE_PRINTF_BUILTIN printf.c
 test 1 = "$USE_PRINTF_BUILTIN" && add_cppflags -DMKSH_PRINTF_BUILTIN
 test 1 = "$HAVE_CAN_VERB" && CFLAGS="$CFLAGS -verbose"
-add_cppflags -DMKSH_BUILD_R=562
+add_cppflags -DMKSH_BUILD_R=563
 
 $e $bi$me: Finished configuration testing, now producing output.$ao
 
@@ -2751,6 +2751,7 @@ MKSH_DISABLE_DEPRECATED		disable code paths scheduled for later removal
 MKSH_DISABLE_EXPERIMENTAL	disable code not yet comfy for (LTS) snapshots
 MKSH_DISABLE_TTY_WARNING	shut up warning about ctty if OS cant be fixed
 MKSH_DONT_EMIT_IDSTRING		omit RCS IDs from binary
+MKSH_EARLY_LOCALE_TRACKING	track utf8-mode from POSIX locale, for SuSE
 MKSH_MIDNIGHTBSD01ASH_COMPAT	set -o sh: additional compatibility quirk
 MKSH_NOPROSPECTOFWORK		disable jobs, co-processes, etc. (do not use)
 MKSH_NOPWNAM			skip PAM calls, for -static on glibc or Solaris

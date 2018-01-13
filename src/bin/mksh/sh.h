@@ -643,7 +643,7 @@ char *ucstrstr(char *, const char *);
 #endif
 #endif
 
-#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 562)
+#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 563)
 #error Must run Build.sh to compile this.
 extern void thiswillneverbedefinedIhope(void);
 int
@@ -2500,6 +2500,7 @@ void shprintf(const char *, ...)
     MKSH_A_FORMAT(__printf__, 1, 2);
 int can_seek(int);
 void initio(void);
+void recheck_ctype(void);
 int ksh_dup2(int, int, bool);
 short savefd(int);
 void restfd(int, int);
