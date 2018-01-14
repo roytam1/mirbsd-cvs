@@ -1,9 +1,9 @@
 $MirOS$
 
-2715364566 415088 mksh-R56b.tgz
-MD5 (mksh-R56b.tgz) = 6b65b3798f5f6a057fa541fc08cc2be9
-RMD160 (mksh-R56b.tgz) = b13068de976a6bf4d400ba3bd65b3001e0287f0c
-SHA1 (mksh-R56b.tgz) = 2fc5d8b405991fce5a80911b97377f4c4b4340e6
-SHA256 (mksh-R56b.tgz) = 40ec744eec256583e4e18907cde22af57c980286f535df47326fed07e48c9a7f
-SIZE (mksh-R56b.tgz) = 415088
-TIGER (mksh-R56b.tgz) = dd8b6e740f09110d188d43d35dd209b4422cb9fe08d455ae
+2186511968 417218 mksh-R56c.tgz
+MD5 (mksh-R56c.tgz) = 4799a9ac6d55871d79ba66713d928663
+RMD160 (mksh-R56c.tgz) = 3b0c0acccaed1f7989d0a4915154dd5ea48e86c0
+SHA1 (mksh-R56c.tgz) = 9ece178a2da2ed7e6fec86b0663b4fee0482d3c5
+SHA256 (mksh-R56c.tgz) = dd86ebc421215a7b44095dc13b056921ba81e61b9f6f4cdab08ca135d02afb77
+SIZE (mksh-R56c.tgz) = 417218
+TIGER (mksh-R56c.tgz) = 3f1a966c308cae61d73c00b2ddaf6079cd6508028444bb40
