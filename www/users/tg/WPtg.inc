@@ -13827,6 +13827,12 @@ Waypoint: GC7GCA2
 Title: JuristenCache
 Tag: D2 T1 Micro Mystery
 ----
+ID: 2280
+Date: 14.01.2018
+Waypoint: GC7B38B
+Title: Nico's Wald - # Neue Perspektiven reloaded
+Tag: D15 T2 Nano Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
