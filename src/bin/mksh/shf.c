@@ -2,7 +2,7 @@
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011,
- *		 2012, 2013, 2015, 2016, 2017
+ *		 2012, 2013, 2015, 2016, 2017, 2018
  *	mirabilos <m@mirbsd.org>
  * Copyright (c) 2015
  *	Daniel Richard G. <skunk@iSKUNK.ORG>
@@ -554,7 +554,7 @@ shf_getchar(struct shf *shf)
 	if (shf->rnleft == 0 && (shf_fillbuf(shf) == -1 || shf->rnleft == 0))
 		return (-1);
 	--shf->rnleft;
-	return (*shf->rp++);
+	return (ord(*shf->rp++));
 }
 
 /*
