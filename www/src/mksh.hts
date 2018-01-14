@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R56b</h2>
+<h2>mksh(1) R56c</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -51,9 +51,9 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R56b</strong> from
- <em>29 August 2017</em>.<br />In the oldstable bugfixing-only series, the
- current version is <em>mksh R54</em> from <em>12 November 2016</em>.</p>
+<p>The current version of mksh is <strong>mksh R56c</strong> from
+ <em>14 January 2018</em>.<!-- br />In the oldstable bugfixing-only series, the
+ current version is <em>mksh R54</em> from <em>12 November 2016</em>.--></p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -202,17 +202,17 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R56b.tgz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56c.tgz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R56c.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R56c.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R56c.tgz</a></li>
  <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R56b.tgz) = b13068de976a6bf4d400ba3bd65b3001e0287f0c</li>
-  <li>TIGER (mksh-R56b.tgz) = dd8b6e740f09110d188d43d35dd209b4422cb9fe08d455ae</li>
-  <li>2715364566 415088 /MirOS/dist/mir/mksh/mksh-R56b.tgz</li>
-  <li>MD5 (mksh-R56b.tgz) = 6b65b3798f5f6a057fa541fc08cc2be9</li>
+  <li>RMD160 (mksh-R56c.tgz) = 3b0c0acccaed1f7989d0a4915154dd5ea48e86c0</li>
+  <li>TIGER (mksh-R56c.tgz) = 3f1a966c308cae61d73c00b2ddaf6079cd6508028444bb40</li>
+  <li>2186511968 417218 /MirOS/dist/mir/mksh/mksh-R56c.tgz</li>
+  <li>MD5 (mksh-R56c.tgz) = 4799a9ac6d55871d79ba66713d928663</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R54.tgz) = 3b3435b60dc040995b1a63289c7169a08175dd95</li>
   <li>TIGER (mksh-R54.tgz) = 82815a629764443896b46f03931a8d1bde102d72a30d645c</li>
@@ -222,19 +222,19 @@ mws_content <<'EOF'
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 <h3 id="cats">Preformatted Documentation</h3><ul>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56b.cat1.gz">catman</a> — <a
-  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56b.cat1.gz">lksh</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56b.htm.gz">XHTML</a> — <a
-  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56b.htm.gz">lksh</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56b.pdf">PDF</a> — <a
-  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56b.pdf">lksh</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56b.txt.gz">plaintext</a> — <a
-  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56b.txt.gz">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56c.cat1.gz">catman</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56c.cat1.gz">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56c.htm.gz">XHTML</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56c.htm.gz">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56c.pdf">PDF</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56c.pdf">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R56c.txt.gz">plaintext</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R56c.txt.gz">lksh</a></li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar -xzf mksh-R56b.tgz</tt> will work. It will create all
+ so a simple <tt>tar -xzf mksh-R56c.tgz</tt> will work. It will create all
  files in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -656,6 +656,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h5 class="cr" id="oe_sgi">OS: IRIX</h5>
 <p>Support for IRIX64 6.5 appeared in mksh R33b.</p>
 
+<h5 class="cr" id="oe_jehanne">OS: Jehanne</h5>
+<p>A Plan 9 derivative with much improved support for the POSIX runtime
+ environment, can run mksh R56c and newer. Still work in progress, both
+ the operating system itself and the mksh port.</p>
+
 <h5 class="cr" id="oe_lynx">OS: LynxOS</h5>
 <p>Although the promised evaluation version never arrived, someone managed
  to test mksh R40f on LynxOS 3.</p>
@@ -894,6 +899,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
 </p>
+<p id="p56c">R56c: SuSE provided a patch to implement mediæval-scope
+ locale tracking (set ±U if the POSIX locale variables change within
+ the shell); this is provided as-is, use with care, and especially
+ do <em>not</em> use it in a system shell (with <tt>-o posix</tt>, it
+ throws a warning when triggered, as it invokes non-compliance).</p>
 <p id="p56b">R56b: The <tt>offsetof</tt> macro of dietlibc and klibc,
  which is upstream-buggy, is overridden with GCC 3+ to avoid a warning.</p>
 <p id="p56">R56: Building with -DMKSH_ASSUME_UTF8=0 no longer causes a
@@ -1167,6 +1177,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="ccur"><i>current</i>:
  <tt>HISTSIZE</tt> will, in a future version, be limited to 65535.
  <i>(unfinished…)</i></p>
+<p id="c56c">R56c: Bugfix-only release; some fixes might cause new warnings</p>
 <p id="c56b">R56b: Bugfix-only release</p>
 <p id="c56">R56: Aliases support ‘.’, ‘:’ and ‘[’ in names again (though
  “[[” is still forbidden). POSIX character classes and the BSD re_format(7)
@@ -1280,11 +1291,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r56c">R56c is a bugfix-only release everyone must upgrade to:</p><ul>
  <li>[komh] Remove redundant OS/2-specific code, clean up others</li>
  <li>[komh, tg] Fix drive-qualified (absolute and relative) DOS-style path
   support in realpath functionality, partially other places</li>
@@ -1292,6 +1306,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Improve OS/2 $PATH (et al.) handling, drive-relative paths</li>
  <li>[tg] Add MKSH_ENVDIR compile-time option for Jehanne and Plan 9</li>
  <li>[tg] Limit nesting when parsing malformed code (Debian #878947)</li>
+ <li>[tg] Update wcwidth data with bugfixed script (still Unicode 10;
+  resulting values are identical to glibc git master for extant chars)</li>
+ <li>[Dr. Werner Fink] Raise some time limits in the testsuite</li>
+ <li>[Shamar] Add support for the Jehanne operating system</li>
+ <li>[komh] Set stdin to text mode before executing child processes on OS/2</li>
+ <li>[komh] Pass arguments via a resonse file if executing a child fails</li>
+ <li>[Dr. Werner Fink] Early locale tracking as a compile-time option</li>
+ <li>[tg] Fix regressions introduced with new fast character classes</li>
 </ul>
 <p id="r56b">R56b is a bugfix-only release everyone should upgrade to:</p><ul>
  <li>[tg] Reference the FAQ webpage</li>
