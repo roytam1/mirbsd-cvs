@@ -1482,11 +1482,9 @@ extern unsigned int eek_ord;
 		    __FILE__, __LINE__, ord_c);		\
 	((unsigned int)(unsigned char)(c));		\
 })
-#define CORD(c)	ORD(c)
 #else
 #define ord(c)	((unsigned int)(unsigned char)(c))
-#define ORD(c)	((void)(c), ord(c))
-#define CORD(c)	ord(c)
+#define ORD(c)	ord(c) /* may evaluate arguments twice */
 #endif
 #if defined(MKSH_EBCDIC) || defined(MKSH_FAUX_EBCDIC)
 EXTERN unsigned short ebcdic_map[256];
