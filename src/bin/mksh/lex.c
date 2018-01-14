@@ -127,11 +127,11 @@ static int ignore_backslash_newline;
 static int
 getsc_i(void)
 {
-	o_getsc_r(o_getsc());
+	o_getsc_r((unsigned int)(unsigned char)o_getsc());
 }
 
 #if defined(MKSH_SMALL) && !defined(MKSH_SMALL_BUT_FAST)
-#define getsc()		((unsigned int)(unsigned char)(getsc_i()))
+#define getsc()		getsc_i()
 #else
 static int getsc_r(int);
 
@@ -141,7 +141,7 @@ getsc_r(int c)
 	o_getsc_r(c);
 }
 
-#define getsc()		((unsigned int)(unsigned char)(getsc_r(o_getsc())))
+#define getsc()		getsc_r((unsigned int)(unsigned char)o_getsc())
 #endif
 
 #define STATE_BSIZE	8
