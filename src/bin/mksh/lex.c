@@ -245,7 +245,7 @@ yylex(int cf)
 
 	/* collect non-special or quoted characters to form word */
 	while (!((c = getsc()) == 0 ||
-	    ((state == SBASE || state == SHEREDELIM) && cinttype(c, C_LEX1)))) {
+	    ((state == SBASE || state == SHEREDELIM) && ctype(c, C_LEX1)))) {
 		if (state == SBASE &&
 		    subshell_nesting_type == ORD(/*{*/ '}') &&
 		    (unsigned int)c == ORD(/*{*/ '}'))
@@ -296,7 +296,7 @@ yylex(int cf)
 			}
 			/* FALLTHROUGH */
  Sbase1:		/* includes *(...|...) pattern (*+?@!) */
-			if (cinttype(c, C_PATMO)) {
+			if (ctype(c, C_PATMO)) {
 				c2 = getsc();
 				if ((unsigned int)c2 == ORD('(' /*)*/)) {
 					*wp++ = OPAT;
