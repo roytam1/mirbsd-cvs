@@ -1474,14 +1474,17 @@ EXTERN char ifs0;
 extern unsigned int eek_ord;
 #define ORD(c)	((size_t)(c) > 0xFF ? eek_ord : \
 		    ((unsigned int)(unsigned char)(c)))
-#define ord(c)	({					\
+#define Oc(c,t)	__builtin_types_compatible_p(__typeof__(c), t)
+#define ord(c)	__builtin_choose_expr(			\
+    Oc((c), unsigned char) || Oc((c), char),		\
+    ((unsigned int)(unsigned char)(c)), ({		\
 	size_t ord_c = (c);				\
 							\
 	if (ord_c > 0xFF)				\
 		internal_errorf("%s:%d:ord(%zu)",	\
 		    __FILE__, __LINE__, ord_c);		\
 	((unsigned int)(unsigned char)(c));		\
-})
+}))
 #else
 #define ord(c)	((unsigned int)(unsigned char)(c))
 #define ORD(c)	ord(c) /* may evaluate arguments twice */
