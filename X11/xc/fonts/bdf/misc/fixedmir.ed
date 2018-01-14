@@ -1,9 +1,0 @@
-1a
-' "$MirOS: contrib/fonts/fixed/fixedmir.ed,v 1.3 2017/08/07 20:07:39 tg Exp $"
-.
-/^hFONT/s/-Misc-Fixed/-MirOS-FixedMisc/
-.g/-ko/s//-/
-/^pADD_STYLE_NAME/s/".*"/""/
-/^pFAMILY_NAME/s/".*"/"FixedMisc"/
-/^pFOUNDRY/s/".*"/"MirOS"/
-wq

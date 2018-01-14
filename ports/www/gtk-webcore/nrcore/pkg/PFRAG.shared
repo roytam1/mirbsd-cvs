@@ -1,3 +1,0 @@
-@comment $MirOS$
-@lib lib/libnrcore.so.0.0
-@lib lib/libnrcore_kwiq_gtk.so.0.0

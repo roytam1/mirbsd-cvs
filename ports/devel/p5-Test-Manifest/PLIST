@@ -1,4 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Test/Manifest.pm
-man/man3/Manifest${P5MAN3EXT}
-@dirrm ${P5SITE}/Test
