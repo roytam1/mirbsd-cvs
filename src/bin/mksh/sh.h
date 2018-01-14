@@ -1516,6 +1516,9 @@ extern void ebcdic_init(void);
 /* new fast character classes */
 #define ctype(c,t)	tobool(ksh_ctypes[ord(c)] & (t))
 /* helper functions */
+#define cinttype(c,t)	(intischar(c) ? \
+			tobool(ksh_ctypes[(unsigned char)(c)] & (t)) : 0)
+#define intischar(i)	((i) >= 0 && (i) <= 0xFF)
 #define ksh_isdash(s)	tobool(ord((s)[0]) == '-' && ord((s)[1]) == '\0')
 /* invariant distance even in EBCDIC */
 #define ksh_tolower(c)	(ctype(c, C_UPPER) ? (c) - 'A' + 'a' : (c))
