@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.49 2017/12/28 16:23:35 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.49 2017/12/28 16:25:33 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -1830,4 +1830,20 @@ Tag: event fun snapshot
 <p><img src="https://mercurius.teckids.org/http-upload-get/4e87114b556dd8a28652e95cead02eb93a41ad41/kc8E5spSJHm0qu1NWG5zfE644nKv9L5hc9AO25Sj/IMG_20171228_162423.jpg"
  alt="MirBSD/sparc poster mod" /></p>
 <p>MirBSD on the Sun</p>
+----
+Date: 10.01.2018
+Author: tg@
+Title: FOSDEM
+Tag: event fun
+
+<p>I’ve been going to FOSDEM for about half of my lifetime,
+ give or take a year I think. So, of course, I will be there
+ again this year. Thanks to my employer for sponsoring travel
+ and accommodation again.</p>
+<p>It’s a bit annoying that the future of alternative OSes is
+ a bit misty right now, depending on the hardware, but we’re
+ continuing development, in subprojects (like mksh(1) and
+ jupp(1), for example) and other projects (like Debian and
+ MuseScore, whom I’ll meet at FOSDEM again) while researching
+ possible fixes for the security theatre.</p>
 ----

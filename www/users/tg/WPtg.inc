@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.387 2018/01/01 22:01:56 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.388 2018/01/06 23:19:41 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -13820,6 +13820,12 @@ Date: 06.01.2018
 Waypoint: GC7D94E
 Title: Spirit
 Tag: D25 T1 Micro Tradi
+----
+ID: 2279
+Date: 09.01.2018
+Waypoint: GC7GCA2
+Title: JuristenCache
+Tag: D2 T1 Micro Mystery
 ----
 ID: p20481102
 Date: 02.11.2048
