@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R56 2017/10/17
+	@(#)MIRBSD KSH R56 2018/01/14
 description:
 	Check base version of full shell
 stdin:
@@ -39,7 +39,7 @@ name: KSH_VERSION
 category: !shell:legacy-yes
 ---
 expected-stdout:
-	@(#)LEGACY KSH R56 2017/10/17
+	@(#)LEGACY KSH R56 2018/01/14
 description:
 	Check base version of legacy shell
 stdin:
@@ -9025,6 +9025,15 @@ expected-stdout:
 	.b:a.b.c.d:
 	.c:a  b.c  d..:
 	.d:a b.c d..:
+---
+name: arrassign-eol
+description:
+	Commands after array assignments are not permitted
+stdin:
+	foo=(a b) env
+expected-exit: e != 0
+expected-stderr-pattern:
+	/syntax error: unexpected 'env'/
 ---
 name: arrassign-fnc-none
 description:
