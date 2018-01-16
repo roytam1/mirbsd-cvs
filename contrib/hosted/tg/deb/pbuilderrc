@@ -290,8 +290,15 @@ case $DISTRO in
 		x=apt
 		EXTRAPACKAGES='apt fakeroot'
 		;;
-	(*:etch|*:lenny|squeeze:*)
+	(*:etch)
 		EXTRAPACKAGES='apt debian-archive-keyring fakeroot'
+		;;
+	(*:lenny|squeeze:*)
+		EXTRAPACKAGES='apt debian-archive-keyring fakeroot'
+		# keep pbuilder from both using and removing it;
+		# the “c” wrapper from the shellsnippets repo will
+		# when used take care of enabling it (from bpo)
+		EATMYDATA=not-available
 		;;
 	(*:squeeze|*:wheezy)
 		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot'
