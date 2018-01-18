@@ -1,5 +1,5 @@
 $MirOS: contrib/code/jupp/LIST,v 1.8 2013/08/19 19:19:30 tg Exp $
------------------------------------------------------------------
+------------------------------------------------------------------
 
 Joe commands grouped by function
 
@@ -192,6 +192,7 @@ notmod		Clear the modified flag
 retype		Refresh screen
 shell		Suspend process or execute a sub-shell
 stat		Display cursor position
+sync		Call sync(2)
 tag		Tags file search
 txt		Insert text
 
