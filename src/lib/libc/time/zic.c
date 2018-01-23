@@ -14,7 +14,7 @@ typedef int	zic_t;
 #include "locale.h"
 #include "tzfile.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/time/zic.c,v 1.4 2016/07/06 18:54:42 tg Exp $");
 
 #ifndef ZIC_MAX_ABBR_LEN_WO_WARN
 #define ZIC_MAX_ABBR_LEN_WO_WARN	6
@@ -1526,7 +1526,7 @@ const char * const	name;
 	convert(eitol(timecnt), tzh.tzh_timecnt);
 	convert(eitol(typecnt), tzh.tzh_typecnt);
 	convert(eitol(charcnt), tzh.tzh_charcnt);
-	(void) strncpy(tzh.tzh_magic, TZ_MAGIC, sizeof tzh.tzh_magic);
+	memcpy(tzh.tzh_magic, TZ_MAGIC, sizeof(tzh.tzh_magic));
 #define DO(field)	(void) fwrite((void *) tzh.field, \
 				(size_t) sizeof tzh.field, (size_t) 1, fp)
 	DO(tzh_magic);
