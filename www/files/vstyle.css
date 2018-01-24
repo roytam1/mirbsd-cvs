@@ -498,3 +498,8 @@ pre {
 .u {
 	text-decoration:underline;
 }
+
+/* you forgot the alt attribute */
+img[alt=""], img:not([alt]) {
+	border:5px dashed #CC0000;
+}
