@@ -2,7 +2,7 @@
 .\"	$OpenBSD: ctime.3,v 1.31 2005/07/22 03:23:37 jaredy Exp $
 .\"
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: August 8 2007 $
 .Dt CTIME 3
 .Os
 .Sh NAME
@@ -224,17 +224,17 @@ The structure (of type)
 .Li struct tm
 includes the following fields:
 .Bd -literal -offset indent
-	int tm_sec;	 /* seconds (0 \- 60) */
-	int tm_min;	 /* minutes (0 \- 59) */
-	int tm_hour;	 /* hours (0 \- 23) */
-	int tm_mday;	 /* day of month (1 \- 31) */
-	int tm_mon;	 /* month of year (0 \- 11) */
-	time_t tm_year;  /* year \- 1900 */
-	int tm_wday;	 /* day of week (Sunday = 0) */
-	int tm_yday;	 /* day of year (0 \- 365) */
-	int tm_isdst;	 /* is summer time in effect? */
-	long tm_gmtoff;	 /* offset from UTC in seconds */
-	char *tm_zone;	 /* abbreviation of timezone name */
+int tm_sec;		/* seconds [0\-60] */
+int tm_min;		/* minutes [0\-59] */
+int tm_hour;		/* hours [0\-23] */
+int tm_mday;		/* day of month [1\-31] */
+int tm_mon;		/* month of year \- 1 [0\-11] */
+time_t tm_year;		/* years since 1900 */
+int tm_wday;		/* day of week (0 = sunday) */
+int tm_yday;		/* day of year [0\-365] */
+int tm_isdst;		/* summer time? [0 no, \*(Gt0 yes, \*(Lt0 unknown] */
+long tm_gmtoff;		/* offset from UTC in seconds */
+char *tm_zone;		/* abbreviation of timezone name */
 .Ed
 .Pp
 The
@@ -248,7 +248,7 @@ There is no guarantee that these fields will continue to exist
 in this form in future releases of this code.
 .Pp
 .Fa tm_isdst
-is non-zero if summer time is in effect.
+is greater than zero if summer time is in effect.
 .Pp
 .Fa tm_gmtoff
 is the offset (in seconds) of the time represented

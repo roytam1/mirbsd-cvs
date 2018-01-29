@@ -1,7 +1,7 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+.\" $MirOS: src/lib/libc/time/mirtime.3,v 1.1 2011/11/20 04:57:12 tg Exp $
 .\"-
-.\" Copyright (c) 2004, 2005, 2007, 2011
-.\"	Thorsten Glaser <tg@mirbsd.org>
+.\" Copyright (c) 2004, 2005, 2007, 2011, 2018
+.\"	mirabilos <m@mirbsd.org>
 .\"
 .\" Provided that these terms and disclaimer and all copyright notices
 .\" are retained or reproduced in an accompanying document, permission
@@ -18,7 +18,13 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate$
+.Dd $Mdocdate: November 20 2011 $
+.ie \n(.g \{\
+.	ds aq \(aq
+.\}
+.el \{\
+.	ds aq '
+.\}
 .Dt MIRDATE 3
 .Os
 .Sh NAME
@@ -104,9 +110,9 @@ with sensible values and
 with null values.
 .Pp
 To use these functions, macros and types, include at least one of
-.Pa <sys/time.h>
+.Pa \*(Ltsys/time.h\*(Gt
 and/or
-.Pa <time.h>
+.Pa \*(Lttime.h\*(Gt
 and check whether the macro
 .Dv SYSKERN_MIRTIME_H
 is defined
@@ -118,15 +124,15 @@ is a signed integral type of 32 or 64 bit, machine-dependent.
 .Vt struct tm
 consists of the following slots:
 .Bd -literal -offset indent
-int tm_sec;		/* seconds [0-60] */
-int tm_min;		/* minutes [0-59] */
-int tm_hour;		/* hours [0-23] */
-int tm_mday;		/* day of month [1-31] */
-int tm_mon;		/* month of year - 1 [0-11] */
-time_t tm_year;		/* year - 1900 */
+int tm_sec;		/* seconds [0\-60] */
+int tm_min;		/* minutes [0\-59] */
+int tm_hour;		/* hours [0\-23] */
+int tm_mday;		/* day of month [1\-31] */
+int tm_mon;		/* month of year \- 1 [0\-11] */
+time_t tm_year;		/* years since 1900 */
 int tm_wday;		/* day of week (0 = sunday) */
-int tm_yday;		/* day of year [0-365] */
-int tm_isdst;		/* summer time effective? [0/1] */
+int tm_yday;		/* day of year [0\-365] */
+int tm_isdst;		/* summer time? [0 no, \*(Gt0 yes, \*(Lt0 unknown] */
 long tm_gmtoff;		/* offset from UTC in seconds */
 char *tm_zone;		/* abbreviation of timezone name */
 .Ed
@@ -134,8 +140,8 @@ char *tm_zone;		/* abbreviation of timezone name */
 .Vt mirtime_mjd
 consists of the following slots:
 .Bd -literal -offset indent
-time_t mjd;		/* day of modified julian calendar */
-int32_t sec;		/* second within the day [0-86400] */
+time_t mjd;		/* Julian Date minus 2\*(aq400\*(aq000.5, floor'd */
+int32_t sec;		/* UTC (not TT) seconds into that [0\-86400] */
 .Ed
 .Sh SEE ALSO
 .Xr chroot 2 ,
