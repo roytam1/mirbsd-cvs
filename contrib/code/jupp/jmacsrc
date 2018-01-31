@@ -1,19 +1,21 @@
+ $MirOS: contrib/code/jupp/joerc,v 1.1.21.1.2.1 2018/01/31 20:38:34 tg Exp $
 
-                         Initialization file for JOE
-                                Gnu-Emacs Joe
+                         Initialisation file for JOE
+                                GNU-Emacs Joe
+
+ This file must be written in the 8-bit encoding, not UTF-8.
 
  JOE looks for this file in:
-	1 - .jmacsrc
-	2 - $HOME/.jmacsrc
-	3 - /usr/local/lib/jmacsrc
+	1 - $HOME/.jmacsrc
+	2 - /usr/local/lib/jmacsrc
 
  This file can include other files by placing the following include command
- in the first column:
+ in the first column (comment lines start with space or tab):
 
  :include filename
 
  FIRST SECTION: Default global options (these options can also be specified
- on the command line.  Also the NOXON, LINES, COLUMNS, DOPADDING and BAUD
+ on the command line. Also, the NOXON, LINES, COLUMNS, DOPADDING and BAUD
  options can be specified in environment variables):
 
  Put each option you want set in the first column:
@@ -21,104 +23,123 @@
  -option	Sets the option
  --option	Clears the option
 
- -mid		Cursor is recentered when scrolling is necessary
- -marking	Text between ^KB and cursor is highlighted
- -asis		Characters 128 - 255 shown as-is
- -force		Force final newline when files are saved
- -nobackups	If you don't want backup files to be created
+ -mid		Cursor is recentred when scrolling is necessary
+ -marking	Text between ^KB and cursor is highlighted; use with:
  -lightoff	Turn off highlighting after block copy or move
+ -asis		Characters 128 - 255 shown as-is
+-nobackups	If you don't want backup files to be created
+ -backpath path	Directory to store backup files in
+ -force		Force final newline when files are saved
  -exask		^KX always confirms file name
 -beep		Beep on errors and when cursor goes past extremes
  -nosta		Disable top-most status line
  -keepup	%k and %c status line escape sequences updated frequently
 -pg 1		No. lines to keep for PgUp/PgDn
 -csmode		^KF after a pervious search does a ^L instead
- -backpath path Directory to store backup files
  -nonotice	Disable copyright notice
 -noxon		Attempt to turn off ^S/^Q processing
 -orphan		Put extra files given on command line in orphaned buffers
 		instead of in windows
 -dopadding	Output pad characters (for when there is no tty handshaking)
  -lines nnn	Set no. screen lines
- -baud nnn	Set baud rate for terminal optimizations
+-baud 19200	Set baud rate for terminal optimisations
  -columns nnn	Set no. screen columns
  -help		Start with help on
  -skiptop nnn	Don't use top nnn lines of the screen
 
- Status line definition strings.  -lmsg defines the left-justified string and
- -rmsg defines the right-justified string.  The first character of -rmsg is
- the background fill character.  The following escape sequences can be used
- in these string:
+ Status line definition strings. -lmsg defines the left-justified string,
+ and -rmsg defines the right-justified string. The first character of -rmsg
+ is the background fill character.
+ The following escape sequences can be used in these strings:
 
-  %t  12 hour time
-  %u  24 hour time
-  %T  O for overtype mode, I for insert mode
-  %W  W if wordwrap is enabled
-  %I  A if autoindent is enabled
-  %X  Rectangle mode indicator
-  %n  File name
-  %m  '(Modified)' if file has been changed
-  %*  '*' if file has been changed
-  %R  Read-only indicator
-  %r  Row (line) number
-  %c  Column number
-  %o  Byte offset into file
-  %O  Byte offset into file in hex
-  %a  Ascii value of character under cursor
-  %A  Ascii value of character under cursor in hex
-  %k  Entered prefix keys
-  %p  Percent of file cursor is at
-  %l  No. lines in file
-  %S  '*SHELL*' if there is a shell running in window
-  %M  Macro recording message
+	%t	12-hour time
+	%u	24-hour time
+	%T	O for overtype mode, I for insert mode
+	%W	W if wordwrap is enabled
+	%I	A if autoindent is enabled
+	%X	rectangle mode indicator
+	%n	file name
+	%m	'(Modified)' if file has been changed
+	%*	'*' if file has been changed
+	%R	read-only indicator
+	%r	row (line) number
+	%c	column number
+	%o	byte offset into file (decimal)
+	%O	byte offset into file in hex
+	%a	ASCII value of character under cursor (decimal)
+	%A	ASCII value of character under cursor in hex
+	%p	percent of file cursor is at
+	%l	number of lines in file
+	%k	entered prefix keys
+	%S	'*SHELL*' if there is a shell running in window
+	%M	macro recording message
 
- The formatting escape sequences may also be given:
- 
-  \i  Inverse
-  \u  Underline
-  \b  Bold
-  \d  Dim
-  \f  Blink
+ These formatting escape sequences may also be given:
+
+	\i	Inverse
+	\u	Underline
+	\b	Bold
+	\d	Dim
+	\f	Blink
 
 -lmsg \i%k%T%W%I%X %* [%n] %M
--rmsg  %S Row %r Col %c %t  Ctrl-X H for help
+-rmsg  %S Row %r Col %c %u  Ctrl-X H for help
 
- SECOND SECTION: File name dependant local option settings:
+ SECOND SECTION: filename-dependent local option settings:
 
  Each line with '*' in the first column indicates the modes which should be
- files which match the regular expression.  If more than one regular
- expression matches the file name, than the last matching one is chosen.
+ set for files whose name matches the regular expression. If more than one
+ regular expression matches the file name, then the last matching one is
+ chosen.
 
  Here is a list of modes which can be set:
 
-	-wordwrap		Wordwrap
-	-autoindent		Auto indent
-	-overwrite		Overtype mode
-	-lmargin nnn		Left margin
-	-rmargin nnn		Right margin
 	-tab nnn		Tab width
-	-indentc nnn		Indentation character (32 for space, 9 for tab)
-	-istep nnn		Number of indentation columns
+
+	-indentc nnn		Indentation character (32 = space, 9 = tab)
+
+	-istep nnn		Amount of 'indentc's per indentation level
+
+	-spaces			Tab key inserts spaces instead of tabs
+
+	-square			Rectangular block mode
+
+	-crlf			File uses CR-LF at end of lines
+
+	-wordwrap		Wordwrap
+
+	-autoindent		Auto indent
+
+	-overwrite		Overtype mode
+
+	-lmargin nnn		Left margin
+
+	-rmargin nnn		Right margin
+
 	-french			One space after '.', '?' and '!' for wordwrap
-				and paragraph reformat instead of two.  Joe
+				and paragraph reformat instead of two. JOE
 				does not change the spacing you give, but
-				sometimes it must put spacing in itself.  This
-				selects how much is inserted.
+				sometimes it must put spacing in itself. This
+				selects how much is inserted in those cases.
 
-	-spaces			TAB inserts spaces instead of tabs.
+	-linums			Show line numbers in front of each line
 
-	-linums			Enable line numbers on each line
 	-rdonly			File is read-only
+
 	-keymap name		Keymap to use if not 'main'
-	-lmsg			Status line definition strings-
-	-rmsg			see previous section for more info.
+
+	-lmsg			Status line definition strings;
+	-rmsg			see previous section for more info
+
 	-mnew macro		Macro to execute when new files are loaded
 	-mold macro		Macro to execute when existing files are loaded
 	-msnew macro		Macro to execute when new files are saved
 	-msold macro		Macro to execute when existing files are saved
 
 	Macros for the above options are in the same format as in the key
-	binding section below- but without the key name strings.
+	binding section below but without the key name strings.
+
+ #HOOK#1 global/default flags
 
 *
 -wordwrap
@@ -130,21 +151,15 @@
 -autoindent
 
 *akefile
-
 *AKEFILE
-
 *rc
 
 *.p
 -autoindent
 
- THIRD SECTION: Named help screens:
+ #HOOK#2 filename matching
 
- Use \i to turn on/off inverse video
- Use \u to turn on/off underline
- Use \b to turn on/off bold
- Use \d to turn on/off dim
- Use \f to turn on/off flash
+ THIRD SECTION: Named help screens:
 
 {Basic
 \i   Help Screen    turn off with ^XH   more help with ^X.                       \i
@@ -158,7 +173,7 @@
 \i \i^R  backward     ^[G to line No. ^[ DEL word<  replace ^XX swap   ^X^B switch\i \i
 }
 
-{Editing 
+{Editing
 \i   Help Screen    turn off with ^XH   prev. screen ^X,  next screen ^X.        \i
 \i \i\uCASE\u           \uTRANSPOSE\u  \uINSERT\u    \uMACROS\u            \uPROGRAMS\u               \i \i
 \i \i^[U  Up word   ^T   Chars ^O  line  ^X( record        ^X^I Indent region     \i \i
@@ -207,20 +222,36 @@
 
 {Joe
 \i   Help Screen    turn off with ^XH   prev. screen ^X,                         \i
-\i \i Joe Allen's email address:  'jhallen@world.std.com'                         \i \i
+\i \i For bug reports and other information, refer to: \uhttp://mirbsd.de/jupp\u      \i \i
+}
+
+ #HOOK#3 additional help screens
+
+{CharTable
+\i   Help Screen    turn off with ^J     prev. screen ^[,    \uCharacter Map\u       \i
+\i \i Dec Hex  \u 0123 4567  89AB CDEF    0123 4567  89AB CDEF \u  Hex Dec            \i \i
+\i \i         |                                              |                    \i \i
+\i \i   0  00 | \u@ABC\u \uDEFG\u  \uHIJK\u \uLMNO\u    €‚ƒ „…†‡  ˆ‰Š‹ ŒŽ | 80  128            \i \i
+\i \i  16  10 | \uPQRS\u \uTUVW\u  \uXYZ[\u \u\\]^_\u    ‘’“ ”•–—  ˜™š› œžŸ | 90  144            \i \i
+\i \i  32  20 |  !"# $%&'  ()*+ ,-./     ¡¢£ ¤¥¦§  ¨©ª« ¬­®¯ | A0  160            \i \i
+\i \i  48  30 | 0123 4567  89:; <=>?    °±²³ ´µ¶·  ¸¹º» ¼½¾¿ | B0  176            \i \i
+\i \i  64  40 | @ABC DEFG  HIJK LMNO    ÀÁÂÃ ÄÅÆÇ  ÈÉÊË ÌÍÎÏ | C0  192            \i \i
+\i \i  80  50 | PQRS TUVW  XYZ[ \\]^_    ÐÑÒÓ ÔÕÖ×  ØÙÚÛ ÜÝÞß | D0  208            \i \i
+\i \i  96  60 | `abc defg  hijk lmno    àáâã äåæç  èéêë ìíîï | E0  224            \i \i
+\i \i 112  70 | pqrs tuvw  xyz{ |}~    ðñòó ôõö÷  øùúû üýþÿ | F0  240            \i \i
 }
 
  FOURTH SECTION: Key bindings:
 
  Section names you must provide:
 
-	:main		For editing window
-	:prompt		For prompt lines
-	:query		For single-character query lines
-	:querya		Singe-character query for quote
-	:querysr	Search & Replace single-character query
+	:main		editing window
+	:prompt		prompt lines
+	:query		single-character query lines
+	:querya		singe-character query for quote
+	:querysr	search-and-replace single-character query
 
- Other sections may be given as well for organization purposes or for
+ Other sections may be given as well for organisation purposes or for
  use with the '-keymap' option.
 
  Use:
@@ -229,11 +260,11 @@
 
  Keys:
 
- Use ^@ through ^_ and ^? for Ctrl chars
+ Use ^@ through ^_ and ^? for C0 control characters and DEL
  Use SP for space
  Use a TO b to generate a range of characters
 
- You can also use termcap string capability names.  For example:
+ You can also use termcap string capability names. For example:
 
 	.ku		Up
 	.kd		Down
@@ -246,24 +277,31 @@
 	.kP		PgUp
 	.kN		PgDn
 	.k1 - .k9	F1 - F9
-	.k0		F0 or F10... you decide.
+	.k0		F0 or F10
 	.k;		F10
 
  Macros:
 
- Simple macros can be made by comma seperating 2 or more command names.  For
- example:
+ Simple macros can be made by comma seperating two or more command names.
+ For example:
 
- bof,bol	^T Z		Goto beginning of last line
+ eof,bol	^T Z		Goto beginning of last line
 
- Also quoted matter is typed in literally:
+ Also quoted matter is typed in literally (backslashes escape):
 
  bol,">",dnarw	.k1		Quote news article line
 
- Macros may cross lines if they end with ,
+ Macros may cross lines if they end with a comma.
+ Commands or named macros may be created with :def.
+ For example, you can use...
+
+ :def foo eof,bol
+
+ ... to define a command foo which will go to the beginning of the last line.
 
 :windows		Bindings common to all windows
-type		^@ TO ÿ		Self insert
+ #HOOK#4 common keybindings
+type		^@ TO ÿ		Type a character
 abort		^G		Abort window
 abort		^X ^C
 abort		^C
@@ -273,6 +311,7 @@ uarg		^U		Repeat prefix
 uarg		^[ -
 uarg		^[ 0 TO 9
 help		^X h		Help
+help		^X H
 help		^X ^H
 hnext		^X .
 hprev		^X ,
@@ -298,17 +337,21 @@ stop		^X )		Stop recording macro
 :main			Text editing window
 :inherit windows
 
-  Spell-check macros
+ compile
+:def compile edit,rtn,filt,query,parserr
 
-:def spellfile filt,"cat >ispell.tmp;ispell ispell.tmp </dev/tty >/dev/tty;cat ispell.tmp;/bin/rm ispell.tmp",rtn,retype
-:def spellword psh,nextword,markk,prevword,markb,filt,"cat >ispell.tmp;ispell ispell.tmp </dev/tty >/dev/tty;tr -d <ispell.tmp '\\012';/bin/rm ispell.tmp",rtn,retype,nextword
+ spell check
+:def ispellfile filt,"cat >ispell.tmp;ispell ispell.tmp </dev/tty >/dev/tty;cat ispell.tmp;/bin/rm ispell.tmp",rtn,retype
+:def ispellword psh,nextword,markk,prevword,markb,filt,"cat >ispell.tmp;ispell ispell.tmp </dev/tty >/dev/tty;tr -d <ispell.tmp '\\012';/bin/rm ispell.tmp",rtn,retype,nextword
 
-spellword	^[ $
+ #HOOK#5 main keybindings
+
+ispellword	^[ $
 
 ctrl		^Q		Quote Ctrl chars
 ctrl		`		Quote Ctrl chars
 
-  Macros of non-existant emacs functions
+ Macros of non-existent Emacs functions
 
 psh,nextword,markk,prevword,markb,filt,
 "tr [a-z] [A-Z]",rtn,nextword	^[ u		Upcase word
@@ -345,12 +388,12 @@ ask			^X s
 drop,msg,"Mark set",rtn	^@			Drop anchor
 nextw,pgdn,prevw	^[ ^V			Scroll other window down
 nextw,pgup,prevw	^[ ^Z			Scroll other window up
- bol,nedge,pedge	^[ m			Gnu-emacs goto indentation
+ bol,nedge,pedge	^[ m			GNU-Emacs goto indentation
 nextw,nbuf,prevw	^X 4 b			Switch buffers other window
 nextw,edit,query,prevw	^X 4 f			Find file other window
 nextw,edit,query,prevw	^X 4 ^F
 nextw,tag,query,prevw	^X 4 .			Find tag other window
- ask,query,lose,query,abortbuf	^X ^C		Gnu-emacs: Abort buffer in window
+ ask,query,lose,query,abortbuf	^X ^C		GNU-Emacs: Abort buffer in window
 exsave			^X ^C			Save file and exit
 lose,query,abortbuf	^X k			Kill buffer in window
 lose,query,edit		^X ^V			Edit a file: no orphaned buffers
@@ -364,9 +407,9 @@ swap,msg,math,"line-z",rtn,
 " lines in region",rtn			^[ =	Count lines region
 mode,"O"				^X ^Q	Toggle read-only
 
-edit,rtn,filt,query,parserr		^X c	Compile
-nxterr					^X n
-prverr					^X p
+compile		^X c		Compile
+nxterr		^X n
+prverr		^X p
 
 backs		^?		Backspace
 backs		^H
@@ -500,11 +543,11 @@ uparwmenu	^P
 uparwmenu	^[ [ A
 uparwmenu	^[ O A
 
-:querysr		Search & replace query window
-type		^@ TO ÿ
-
 :query			Single-key query window
 :inherit windows
 
 :querya			Single-key query window for quoting
+type		^@ TO ÿ
+
+:querysr		Search & replace query window
 type		^@ TO ÿ
