@@ -34,7 +34,25 @@
 -tab 8
 --wordwrap
 
- #HOOK#2801 global/default flags
+ #HOOK#1 global/default flags
+
+ === Generic files
+ No '.' in filename?
+*
+ Assume it's a text file and, except in jupp, we want wordwrap on.
+ -wordwrap
+
+ Filename with '.' is probably not a text file.
+*.*
+
+ === Python
+*.py
+-tab 4
+-indentc 32
+-istep 4
+-spaces
+
+ #HOOK#2 filename matching
 
 {Basic
 \i   Help Screen    turn off with ^J     more help with Esc+. (^[.)              \i
@@ -119,7 +137,7 @@
 \i \i @(#) jupprc 2018-01-06; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
 }
 
- #HOOK#2802 additional help screens
+ #HOOK#3 additional help screens
 
 {CharTable
 \i   Help Screen    turn off with ^J     prev. screen ^[,    \uCharacter Map\u       \i
@@ -136,7 +154,7 @@
 }
 
 :windows
- #HOOK#2803 common keybindings
+ #HOOK#4 common keybindings
 type		^@ TO ÿ
 abort		^K Q
 abort		^K ^Q
@@ -192,7 +210,7 @@ stop		^[ )
 :def fixwhitespace eof," ",bof,"a",qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,rtn,ffirst,"\\^\\[^\\n]",rtn,"b",rtn,eol,markb,bof,delch,eof,markk,blkdel,ffirst,"\\?",rtn,"b",rtn,eol,rtn
 :def docompile edit,rtn,filt,query,parserr
 :def fmtln nmark,format,markk,bol,quote,"@",tomarkk,ffirst,quote,"@",rtn,"b",rtn,rtarw,rtn,tomarkk,quote,"@",bol,markb,dnarw,markk,blkcpy,uparw,uparw,delch,eol,delch,ffirst,quote,"@",rtn,rtn,backs,blkdel
- #HOOK#2804 main keybindings
+ #HOOK#5 main keybindings
 fixwhitespace	^K ]
 conflictmarker	^Q =
 backs		^?
