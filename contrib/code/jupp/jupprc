@@ -53,7 +53,7 @@
 -tab 8
 --wordwrap
 
- #HOOK#3701 global/default flags
+ #HOOK#1 global/default flags
 
  === Generic files
  No '.' in filename?
@@ -325,7 +325,7 @@
 -c_comment
 -cpp_comment
 
- === Joe Syntax File
+ === JOE Syntax File
 *.jsf
 -syntax jsf
 
@@ -500,7 +500,7 @@
 -c_comment
 -cpp_comment
 
- #HOOK#3702 filename matching
+ #HOOK#2 filename matching
 
 :defmenu juppoptions
 mode,"transpose",rtn	% % Transpose% menus% % % %Ztranspose%
@@ -703,7 +703,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs%
 \i \i @(#) jupprc 2018-01-06; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
- #HOOK#3703 additional help screens
+ #HOOK#3 additional help screens
 
 {CharTable
 \i   Help Screen    turn off with ^J     prev. screen ^[,    \uCharacter Map\u       \i
@@ -720,7 +720,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs%
 }
 
 :windows
- #HOOK#3704 common keybindings
+ #HOOK#4 common keybindings
 type		^@ TO ÿ
 abort		^K Q
 abort		^K ^Q
@@ -777,7 +777,7 @@ stop		^[ )
 :def freedroidz splitw,prevw,scratch,"nbc-Output",rtn,nextw,save,markk,bol,markb,prevw,prevw,blkcpy,nextw,nextw,rtn,prevw,eol,"'",bol,qrepl,"'",rtn,rtn,"'\\\\''",rtn,"r",backs,backs,backs,bol,"LC_ALL=C; export LC_ALL; fn='",eol,"; p=--posix; sed $p -e q </dev/null >/dev/null 2>&1 || p=; r=$(sed $p -e 's[^^][&]g; s\\^\\\\^g' <<EOF",rtn,"$fn",rtn,"EOF",rtn,"); (case $fn in *.nxc) ;; *) echo '==> Error: filename not *.nxc'; exit ;; esac; echo \"Compiling $fn\"; nbc -sm- -d \"$fn\" 2>&1; x=$?; if test $x = 0; then echo '==> OK'; else echo '==> Error code:' $x; fi) | tr '\\n' '' | sed $p -e 's!# *\\([^]*\\)File \"[^\"]*/\\('\"$r\"'\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' -e 's!#\\([^]*\\)File \"\\([^\"]*\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' | tr '' '\\n'",rtn,nmark,filt,"sh",rtn,rtn,"Press ^KQ to close this window!",rtn,parserr
 :def docompile edit,rtn,filt,query,parserr
 :def fmtln nmark,format,markk,bol,quote,"@",tomarkk,ffirst,quote,"@",rtn,"b",rtn,rtarw,rtn,tomarkk,quote,"@",bol,markb,dnarw,markk,blkcpy,uparw,uparw,delch,eol,delch,ffirst,quote,"@",rtn,rtn,backs,blkdel
- #HOOK#3705 main keybindings
+ #HOOK#5 main keybindings
 begin_marking,uparw,toggle_marking	^[ [ 1 ; 2 A
 begin_marking,dnarw,toggle_marking	^[ [ 1 ; 2 B
 begin_marking,rtarw,toggle_marking	^[ [ 1 ; 2 C
@@ -1083,7 +1083,7 @@ type		^@ TO ÿ
 
 :cua
 :inherit main
- #HOOK#3706 extra keybindings in CUA mode
+ #HOOK#6 extra keybindings in CUA mode
 undo		^Z
 blkdel,nmark	^X
 copy		^C
