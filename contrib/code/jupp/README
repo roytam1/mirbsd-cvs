@@ -4,8 +4,14 @@ This is Joe's Own Editor.  See the INFO file if you don't know what this is.
 A preformatted man page is in joe.man.  Joe.1 is an nroff formatted man
 page.
 
+Well actually, this is jupp, Programmers' Editor, the Editor which sucks less.
+It's got a Launchpad page, too: https://launchpad.net/jupp
+Although, you’re encouraged to ask stuff on IRC in #MirBSD on irc.freenode.net
+(Port 6697 SSL, 6667 insecure) or on miros-discuss@mirbsd.org (public mailing
+list, but do not send mail to junk@mirbsd.org, that's a spamtrap).
+
 =-=-=-=-=-=-=-=-=-=-=-=
-Installation proceedure
+Installation procedure
 =-=-=-=-=-=-=-=-=-=-=-=
 
 	Edit the Makefile to change the following options:
@@ -44,8 +50,8 @@ Installation proceedure
 
 USEAGE:	joe filenames
 
-	Optionally preceed each filename with +nnn to start at specified 
-line number.  
+	Optionally preceed each filename with +nnn to start at specified
+line number.
 
   Options:
 
@@ -60,7 +66,7 @@ line number.
  -nosta		Disable top-most status line
  -keepup	%k and %c status line escape sequences updated frequently
  -pg nnn	No. lines to keep for PgUp/PgDn
- -csmode	^KF after a pervious search does a ^L instead
+ -csmode	^KF after a previous search does a ^L instead
  -backpath path Directory to store backup files
  -nonotice	Disable copyright notice
  -noxon		Attempt to turn off ^S/^Q processing
@@ -102,9 +108,9 @@ environment variable.
 
 ** IMPORTANT **
 
-The baud rate must be correctly set or either typeahead will not interrupt 
-the screen update and scrolling wont be used or there will be annoying 
-delays in the screen update.  If you can't set the baud rate correctly with 
+The baud rate must be correctly set or either typeahead will not interrupt
+the screen update and scrolling wont be used or there will be annoying
+delays in the screen update.  If you can't set the baud rate correctly with
 'stty', give a numeric value in the environment variable 'BAUD' or to the
 command line options '-baud'.
 
@@ -119,17 +125,17 @@ Use the LINES and COLUMNS environment variables or the -lines and -columns
 command line options if you need the terminal size to be different than
 whatever the termcap entry or stty reports.
 
-Since most people use terminal emulators, JOE does not send out pad 
-characters.  If you're using a real terminal and the padding matters, set 
+Since most people use terminal emulators, JOE does not send out pad
+characters.  If you're using a real terminal and the padding matters, set
 the environment variable DOPADDING or give the command line option
 -dopadding.
 
 If you want joe to try to disable ^S/^Q processing, set the environment
 variable NOXON or command line option -noxon.
 
-A termcap file is included with JOE.  You might consider updating your own 
-termcap file with the entries in it, particularly if you use ANSI/VT100ish 
-terminals.  JOE understands some capabilities which are not usually supplied 
+A termcap file is included with JOE.  You might consider updating your own
+termcap file with the entries in it, particularly if you use ANSI/VT100ish
+terminals.  JOE understands some capabilities which are not usually supplied
 in normal termcap (see below).
 
                                  VARIATIONS
@@ -145,17 +151,17 @@ attempts to find this file in:
 	/usr/local/lib/termcap	Joe's termcap file
 	/etc/termcap		Normal system termcap file
 
-	Joe coppies its own termcap file to /usr/local/lib/termcap (or
+	Joe copies its own termcap file to /usr/local/lib/termcap (or
 wherever the system-wide joerc file is going to go) when 'make install' is
 run.
 
-	Termcap is better than terminfo because it is a more open standard. 
+	Termcap is better than terminfo because it is a more open standard.
 Programs can directly access the termcap database and future versions of
 terminfo may require programs to use curses.  The only argument in
 terminfo's favour is that it is faster than termcap.  To fix this problem,
 JOE will use a termcap index file if it exists and if it is up to date.
 
-	This is the proceedure to make the termcap index file:
+	This is the procedure to make the termcap index file:
 
 		make termidx
 		./termidx </etc/termcap >/etc/termcap.idx
@@ -259,7 +265,7 @@ If you use csh or tcsh, place this in your .cshrc file:
 
 	setenv JOETERM fansi
 
-If you use sh, ksh or bash, place this in your .profile file:
+If you use mksh, ksh, sh or GNU bash, place this in your .profile file:
 
 	JOETERM=fansi; export JOETERM
 
@@ -287,7 +293,7 @@ doing this:
 
 		TERMINFO=$HOME/.info; export TERMINFO
 
-		if you use bash, sh or ksh)
+		if you use mksh, ksh, sh or GNU bash)
 
 	4)	tic joe/terminfo
 
@@ -308,4 +314,3 @@ redirected, but you don't need to do 'joe -', you should simply redirect
 joe's stdin/stdout to /dev/tty:
 
 	joe filename  </dev/tty >/dev/tty
-

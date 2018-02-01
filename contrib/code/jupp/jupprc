@@ -82,9 +82,9 @@
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
 \i \i\u\bMACROS\b\u       \u\bMISC\b\u         \u\bSCROLL\b\u      \u\bSHELL\b\u       \u\bGOTO\b\u        \u\bI-SEARCH\b\u       \i \i
 \i \i^[( record   ^Q? status   ^Q. right   ^K' window  ^QB to ^KB  ^[R backwards  \i \i
-\i \i^[) stop     ^QQ repeat   ^Q, left    ^[! command ^QK to ^KK  ^[S forwards   \i \i
-\i \i^[? query    ^QM math     \u\bCharSEARCH\b\u  \u\bQUOTE\b\u       \u\bDELETE\b\u      \u\bBOOKMARKS\b\u      \i \i
-\i \i^[D dump     ^[H message  ^QH forwrd   ` Ctrl-    ^[Y yank    ^K 0-9 define  \i \i
+\i \i^[) stop     ^QQ repeat   ^Q, left    ^[' command ^QK to ^KK  ^[S forwards   \i \i
+\i \i^[/ query    ^QM math     \u\bCharSEARCH\b\u  \u\bQUOTE\b\u       \u\bDELETE\b\u      \u\bBOOKMARKS\b\u      \i \i
+\i \i^[? lst def  ^[H message  ^QH forwrd   ` Ctrl-    ^[Y yank    ^K 0-9 define  \i \i
 \i \i^[ 0-9 play  ^N  play #0  ^QG backwd  ^P Meta-    ^[O word<   ^Q 0-9 goto    \i \i
 \i \i \u\bIn math mode,\b\u hex does not work. All ops are floating point internally.     \i \i
 \i \i \u\bPredefined variables:\b\u byte col height line lines top width                  \i \i
@@ -134,7 +134,7 @@
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2018-01-06; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
+\i \i @(#) jupprc 2018-02-01; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
 }
 
  #HOOK#3 additional help screens
@@ -163,14 +163,14 @@ arg		^Q Q
 arg		^Q ^Q
 arg		^Q q
 arg		^[ q q
+explode		.k6
 explode		^K I
 explode		^K ^I
 explode		^K i
 explode		^[ [ 1 7 ~
-explode		.k6
+help		.k1
 help		^J
 help		^[ [ 1 1 ~
-help		.k1
 hnext		^[ .
 hprev		^[ ,
 math		^Q M
@@ -179,18 +179,18 @@ math		^Q m
 math		^[ q m
 msg		^[ H
 msg		^[ h
+nextw		.k8
 nextw		^K N
 nextw		^K ^N
 nextw		^K n
 nextw		^[ [ 1 9 ~
-nextw		.k8
 play		^[ 0 TO 9
+prevw		.k7
 prevw		^K P
 prevw		^K ^P
 prevw		^K p
 prevw		^[ [ 1 8 ~
-prevw		.k7
-query		^[ ?
+query		^[ /
 quote		`
 quote8		^P
 record		^[ (
@@ -206,13 +206,16 @@ stop		^[ )
 
 :main
 :inherit windows
-:def conflictmarker ffirst,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw
+:def dosrch ffirst
+:def dorepl qrepl
+:def conflictmarker dosrch,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw
 :def fixwhitespace eof," ",bof,"a",qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,rtn,ffirst,"\\^\\[^\\n]",rtn,"b",rtn,eol,markb,bof,delch,eof,markk,blkdel,ffirst,"\\?",rtn,"b",rtn,eol,rtn
 :def docompile edit,rtn,filt,query,parserr
 :def fmtln nmark,format,markk,bol,quote,"@",tomarkk,ffirst,quote,"@",rtn,"b",rtn,rtarw,rtn,tomarkk,quote,"@",bol,markb,dnarw,markk,blkcpy,uparw,uparw,delch,eol,delch,ffirst,quote,"@",rtn,rtn,backs,blkdel
+:def pvsrch prevpos
+:def inscurdate insf,"!date '+%Y-%m-%d'",rtn,eol,delch
+:def inscurtime insf,"!date '+%H:%M:%S'",rtn,eol,delch
  #HOOK#5 main keybindings
-fixwhitespace	^K ]
-conflictmarker	^Q =
 backs		^?
 backs		^H
 backw		^[ o
@@ -258,6 +261,9 @@ center		^K A
 center		^K ^A
 center		^K a
 col		^Q -
+col		^[ q -
+conflictmarker	^Q =
+conflictmarker	^[ q =
 crawll		^Q ,
 crawll		^[ q ,
 crawlr		^Q .
@@ -301,18 +307,19 @@ execmd		^[ -
 exsave		^K X
 exsave		^K ^X
 exsave		^K x
-ffirst		^Q F
-ffirst		^Q ^F
-ffirst		^Q f
-ffirst		^[ q f
+dosrch		^Q F
+dosrch		^Q ^F
+dosrch		^Q f
+dosrch		^[ q f
 filt		^K /
+fixwhitespace	^K ]
 fmtblk		^K D
 fmtblk		^K ^D
 fmtblk		^K d
+fmtln		^B
 fnext		.k3
 fnext		^L
 fnext		^[ [ 1 3 ~
-fmtln		^B
 fwrdc		^Q H ^@ TO ÿ
 fwrdc		^Q ^H ^@ TO ÿ
 fwrdc		^Q h ^@ TO ÿ
@@ -322,6 +329,8 @@ gomark		^[ q 0 TO 9
 groww		^K G
 groww		^K ^G
 groww		^K g
+inscurdate	^[ @
+inscurtime	^[ !
 insf		^K R
 insf		^K ^R
 insf		^K r
@@ -337,8 +346,7 @@ ltarw		^S
 ltarw		^[ O D
 ltarw		^[ [ D
 ltarw		^[ s
-macros		^[ D
-macros		^[ d
+macros		^[ ?
 markb		^K B
 markb		^K ^B
 markb		^K b
@@ -351,6 +359,8 @@ markl		^K l
 mode		^O
 mode,"T"	.kI
 mode,"T"	^V
+mode,"T"	^[ [ 2 ~
+mode,"T"	^[ [ L
 nextpos		^K =
 nextword	^F
 nextword	^[ [ 1 ; 5 C
@@ -367,9 +377,11 @@ parserr		^[ e
 pgdn		.kN
 pgdn		^C
 pgdn		^[ [ 6 ~
+pgdn		^[ [ G
 pgup		.kP
 pgup		^R
 pgup		^[ [ 5 ~
+pgup		^[ [ I
 play,"0"	^N
 prevpos		^Q P
 prevpos		^Q ^P
@@ -379,10 +391,14 @@ prevword	^A
 prevword	^[ [ 1 ; 5 D
 prverr		^[ N
 prverr		^[ n
-qrepl		^Q A
-qrepl		^Q ^A
-qrepl		^Q a
-qrepl		^[ q a
+pvsrch		^Q V
+pvsrch		^Q ^V
+pvsrch		^Q v
+pvsrch		^[ q v
+dorepl		^Q A
+dorepl		^Q ^A
+dorepl		^Q a
+dorepl		^[ q a
 redo		^^
 rindent		^K .
 rsrch		^[ R
@@ -391,7 +407,7 @@ rtarw		.kr
 rtarw		^D
 rtarw		^[ O C
 rtarw		^[ [ C
-run		^[ !
+run		^[ '
 save		^K S
 save		^K ^S
 save		^K s
@@ -436,10 +452,12 @@ yankpop		^[ y
 :prompt
 :inherit main
 abort		^C
+abort		^U
 complete	^I
 
 :menu
 :inherit windows
+abort		^U
 abort		^[ ^[
 backsmenu	^?
 backsmenu	^H
@@ -460,10 +478,10 @@ dnarwmenu	.kd
 dnarwmenu	^X
 dnarwmenu	^[ O B
 dnarwmenu	^[ [ B
-eof		^[ [ 1 ; 5 F
 eofmenu		^Q C
 eofmenu		^Q ^C
 eofmenu		^Q c
+eofmenu		^[ [ 1 ; 5 F
 eofmenu		^[ q c
 eolmenu		.@7
 eolmenu		.kH
@@ -484,8 +502,8 @@ rtarwmenu	^D
 rtarwmenu	^[ O C
 rtarwmenu	^[ [ C
 rtn		SP
-rtn		^I
 rtn		^J
+rtarwmenu	^I
 uparwmenu	.ku
 uparwmenu	^E
 uparwmenu	^[ O A

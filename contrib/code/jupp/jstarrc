@@ -1,4 +1,4 @@
- $MirOS: contrib/code/jupp/joerc,v 1.1.21.1.2.1 2018/01/31 20:38:34 tg Exp $
+ $MirOS: contrib/code/jupp/jstarrc,v 1.1.21.1.2.1 2018/01/31 22:39:54 tg Exp $
 
                          Initialisation file for JOE
                            WordStar / Turbo-C Joe
@@ -94,50 +94,42 @@
 
  Here is a list of modes which can be set:
 
-	-tab nnn		Tab width
+ -keymap name		Keymap to use if not 'main'
+ -square		Rectangular block mode
+ -overwrite		Overtype mode
+ -linums		Show line numbers in front of each line
+ -rdonly		File is read-only
+ -crlf			File uses CR-LF at end of lines
 
-	-indentc nnn		Indentation character (32 = space, 9 = tab)
+ -french		One space after '.', '?' and '!' for wordwrap and
+			paragraph reformat instead of two. JOE does not
+			change the spacing you give, but sometimes it must
+			put spacing in itself. This selects how much is
+			inserted in those cases.
 
-	-istep nnn		Amount of 'indentc's per indentation level
+ -lmargin nnn		Left margin
+ -rmargin nnn		Right margin
+ -tab nnn		Tab width
+ -indentc nnn		Indentation character (32 = space, 9 = tab)
+ -istep nnn		Amount of 'indentc's per indentation level
+ -spaces		Tab key inserts spaces instead of tabs
+ -wordwrap		Wordwrap
+ -autoindent		Auto indent
 
-	-spaces			Tab key inserts spaces instead of tabs
+ -lmsg			Status line definition strings;
+ -rmsg			see previous section for more info
 
-	-square			Rectangular block mode
+ -mnew macro		Macro to execute when new files are loaded
+ -mold macro		Macro to execute when existing files are loaded
+ -msnew macro		Macro to execute when new files are saved
+ -msold macro		Macro to execute when existing files are saved
 
-	-crlf			File uses CR-LF at end of lines
+ Macros for the above options are in the same format as in the key
+ binding section below but without the key name strings.
 
-	-wordwrap		Wordwrap
-
-	-autoindent		Auto indent
-
-	-overwrite		Overtype mode
-
-	-lmargin nnn		Left margin
-
-	-rmargin nnn		Right margin
-
-	-french			One space after '.', '?' and '!' for wordwrap
-				and paragraph reformat instead of two. JOE
-				does not change the spacing you give, but
-				sometimes it must put spacing in itself. This
-				selects how much is inserted in those cases.
-
-	-linums			Show line numbers in front of each line
-
-	-rdonly			File is read-only
-
-	-keymap name		Keymap to use if not 'main'
-
-	-lmsg			Status line definition strings;
-	-rmsg			see previous section for more info
-
-	-mnew macro		Macro to execute when new files are loaded
-	-mold macro		Macro to execute when existing files are loaded
-	-msnew macro		Macro to execute when new files are saved
-	-msold macro		Macro to execute when existing files are saved
-
-	Macros for the above options are in the same format as in the key
-	binding section below but without the key name strings.
+ Default local options:
+-crlf
+-french
 
  #HOOK#1 global/default flags
 
@@ -156,6 +148,13 @@
 
 *.p
 -autoindent
+
+ === Python
+*.py
+-tab 4
+-indentc 32
+-istep 4
+-spaces
 
  #HOOK#2 filename matching
 
@@ -318,7 +317,9 @@ arg		^Q q
 explode		^K I
 explode		^K ^I
 explode		^K i
+help		.k1
 help		^J
+help		^[ [ 1 1 ~
 nmark		^K H
 nmark		^K ^H
 nmark		^K h
@@ -335,8 +336,10 @@ nextw		^K ^N
 nextw		^K n
 pgdn		.kN		Screen down
 pgdn		^[ [ 6 ~
+pgdn		^[ [ G		SCO
 pgup		.kP		Screen up
 pgup		^[ [ 5 ~
+pgup		^[ [ I		SCO
 play		^[ 0 TO 9
 prevw		^K P
 prevw		^K ^P
@@ -417,10 +420,14 @@ blksave		^K w
 bof		^Q R		Goto beginning of file
 bof		^Q ^R
 bof		^Q r
-bol		.kh		Goto beginning of line
-bol		^Q S
+bof		^[ [ 1 ; 5 H
+bol		^Q S		Goto beginning of line
 bol		^Q ^S
 bol		^Q s
+bol		.kh
+bol		^[ [ 1 ~
+bol		^[ [ 7 ~
+bol		^[ [ H
 crawll		^Q ,
 crawlr		^Q .
 tos		^Q E
@@ -433,6 +440,7 @@ delbol		^Q ^H
 delbol		^Q ^?
 delch		.kD		Delete character
 delch		^G
+delch		^[ [ 3 ~
 deleol		^Q Y		Delete to end of line
 deleol		^Q ^Y
 deleol		^Q y
@@ -449,10 +457,15 @@ edit		^K e
 eof		^Q C		Go to end of file
 eof		^Q ^C
 eof		^Q c
+eof		^[ [ 1 ; 5 F
+eol		.@7
 eol		.kH		Go to end of line
 eol		^Q D
 eol		^Q ^D
 eol		^Q d
+eol		^[ [ 4 ~
+eol		^[ [ 8 ~
+eol		^[ [ F
 bos		^Q X
 bos		^Q ^X
 bos		^Q x
@@ -470,6 +483,8 @@ qrepl		^Q ^A
 qrepl		^Q a
 filt		^K /		Filter block
 fnext		^L		Find next
+fnext		.k3
+fnext		^[ [ 1 3 ~
 format		^B		Format paragraph
 fwrdc		^Q G ^@ TO ÿ
 fwrdc		^Q ^G ^@ TO ÿ
@@ -484,8 +499,10 @@ insf		^K ^R
 insf		^K r
 macros		^[ d		Dump macros
 macros		^[ ^D
-mode,"T"	^V		Insert/Overtype
 mode,"T"	.kI
+mode,"T"	^V		Insert/Overtype
+mode,"T"	^[ [ 2 ~
+mode,"T"	^[ [ L		SCO
 lindent		^K ,		Indent to left
 line		^Q I		Goto line no.
 line		^Q ^I
@@ -506,6 +523,7 @@ markl		^K l
 mode		^O
 nextpos		^K =		Goto next position in position history
 nextword	^F		Goto next word
+nextword	^[ [ 1 ; 5 C
 open		^N		Split line
 pgdn		^C
 pgup		^R
@@ -513,6 +531,7 @@ prevpos		^Q P
 prevpos		^Q ^P
 prevpos		^Q p
 prevword	^A		Previous word
+prevword	^[ [ 1 ; 5 D
 redo		^^		Redo changes
 rindent		^K .		Indent to right
 rtarw		.kr		Go right
@@ -565,10 +584,14 @@ backsmenu	^H
 bofmenu		^Q R
 bofmenu		^Q ^R
 bofmenu		^K r
-bolmenu		.kh
+bofmenu		^[ [ 1 ; 5 H
 bolmenu		^Q S
 bolmenu		^Q ^S
 bolmenu		^Q s
+bolmenu		.kh
+bolmenu		^[ [ 1 ~
+bolmenu		^[ [ 7 ~
+bolmenu		^[ [ H
 dnarwmenu	.kd
 dnarwmenu	^X
 dnarwmenu	^[ [ B
@@ -576,10 +599,15 @@ dnarwmenu	^[ O B
 eofmenu		^Q C
 eofmenu		^Q ^C
 eofmenu		^Q c
+eofmenu		^[ [ 1 ; 5 F
+eolmenu		.@7
 eolmenu		.kH
 eolmenu		^Q D
 eolmenu		^Q ^D
 eolmenu		^Q d
+eolmenu		^[ [ 4 ~
+eolmenu		^[ [ 8 ~
+eolmenu		^[ [ F
 ltarwmenu	.kl
 ltarwmenu	^S
 ltarwmenu	^[ [ D

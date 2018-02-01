@@ -1,4 +1,4 @@
-$MirOS: contrib/code/jupp/INFO,v 1.9 2008/05/13 16:17:42 tg Exp   tg Exp $
+$MirOS: contrib/code/jupp/INFO,v 1.1.21.1.2.1 2009/07/18 14:51:03 tg Exp $
 --------------------------------------------------------------------------
 
                                     Jupp
@@ -17,34 +17,35 @@ If you have questions, problems or suggestions,
 send email to: 'jhallen@world.std.com'
 
 
-	JOE is the professional freeware ASCII text screen editor for UNIX. 
+	JOE is the professional freeware ASCII text screen editor for UNIX.
 It makes full use of the power and versatility of UNIX, but lacks the steep
 learning curve and basic nonsense you have to deal with in every other UNIX
 editor. JOE has the feel of most IBM PC text editors: The key-sequences are
 reminiscent of WordStar and Turbo-C.  JOE is much more powerful than those
 editors, however.  JOE has all of the features a UNIX user should expect:
 full use of termcap/terminfo, excellent screen update optimizations (JOE is
-fully useable at 2400 baud), simple installation, and all of the
+fully usable at 2400 baud), simple installation, and all of the
 UNIX-integration features of VI.
 
 	JOE's initialization file determines much of JOE's personality and
 the name of the initialization file is simply the name of the editor
-executable followed by "rc".  JOE comes with four "rc" files in addition to
+executable followed by "rc".  JOE comes with five "rc" files in addition to
 the basic "joerc", which allow it to emulate these editors:
 
 	JPICO	- An enhanced version of the Pine mailer system's PICO
 		  editor.
 
-	JSTAR	- A complete immitation of WordStar including many "JOE"
-		  extensions.
+	JSTAR	- A complete imitation of WordStar in non-document mode
+		  including many "JOE" extensions.
 
 	RJOE	- A restricted version of JOE which allowed you to edit
 		  only the files specified on the command line.
 
-	JMACS	- A GNU-EMACS immitation which is about one order of
+	JMACS	- A GNU-Emacs imitation which is about one order of
 		  magnitude smaller than real GNU-EMACS.
 
-	JUPP	- A modern editor for programmers with WordStar-like bindings
+	JUPP	- A modern editor for programmers with WordStar-like
+		  bindings; an improvement over classical JSTAR
 
 Features:
 
@@ -57,7 +58,7 @@ lines. Control characters and characters above 127 can be displayed and
 entered- even ^Q and ^S.  The cursor's row and column number can be
 displayed in the status line.
 
-	The key layout is made to reduce terminal incompatibility nonsense. 
+	The key layout is made to reduce terminal incompatibility nonsense.
 ^Q and ^S are not used and both ^H and DEL are mapped to backspace.  Case
 does not matter in key sequences- ^K E, ^K e, and ^K ^E are each mapped to
 the same function.  The arrow keys and PageUp, PageDown, Home, End, Insert
@@ -65,7 +66,7 @@ and Delete keypad keys are read from the termcap entry and are assigned to
 the proper functions.  A simple initialization file, similar to Semware's
 Q-EDIT, allows key-bindings, simple macros and help windows to be defined.
 
-	JOE has full termcap/terminfo support and will work on any terminal. 
+	JOE has full termcap/terminfo support and will work on any terminal.
 JOE has the best screen update optimization algorithm available.  It uses
 VT100-style scrolling regions the way they are supposed to be used (I.E.,
 without building insert and delete line functions out of them) and has a
@@ -76,7 +77,7 @@ deferral is not bypassed by tty buffering.
 
 	JOE has multiple windows and lacks the confusing notion of a named
 buffers.  You just have files and windows.  When there are more windows than
-can fit on the screen, the Goto-Next-Window function scrolls through them. 
+can fit on the screen, the Goto-Next-Window function scrolls through them.
 The same file can have multiple windows opened on it.
 
 	JOE has VI-style unix integration.  You can filter a highlighted
@@ -88,7 +89,7 @@ name (including the command line) will also accept:
 		filename,start,size	to edit a portion of a file/device
 		-			to use stdin or stdout
 
-	File names on the command line may be preceeded by +nnn to start
+	File names on the command line may be preceded by +nnn to start
 editing at a specified line.
 
 	JOE has shell windows.  You can run a shell in a window and any
@@ -114,7 +115,7 @@ swapping on heavily loaded systems.
 
 	When you ask for help, one of six small help reference cards appears
 on the screen and remains while you continue to use the editor.  Here is the
-first help card:
+first help card for Joe:
 
 CURSOR           GO TO            BLOCK      DELETE   MISC         EXIT
 ^B left ^F right ^U  prev. screen ^KB begin  ^D char. ^KJ reformat ^KX save
@@ -125,10 +126,21 @@ SEARCH           ^KU top of file  ^KW file   ^J >line SPELL        ^KE new
 ^KF find text    ^KV end of file  ^KY delete ^_ undo  ^[N word     ^KR insert
 ^L  find next    ^KL to line No.  ^K/ filter ^^ redo  ^[L file     ^KD save
 
+	Other editor flavours differ; to get help for those, press either
+Ctrl-J (^J) for jstar and jupp, ^G for jpico, Ctrl-X followed (Ctrl depressed)
+by h (^Xh) for jmacs or, for joe and rjoe, ^KH (Ctrl-K+h).
+
+	The jupp and jstar flavours attempt to imitate WordStar in
+non-document mode; see here for more documentation on WordStar keybindings:
+
+		- http://www.stormbringer.org/pers/siaru/tlg/wsfile.txt
+
+		- http://www.stormbringer.org/pers/siaru/tlg/ws5file.txt
+
 	JOE has a powerful set of editing commands suitable for editing both
 text files and programs:
 
-		- search and replace system, including powerful regular 
+		- search and replace system, including powerful regular
 		  expressions (including matching of balanced C expressions).
 
 		- tags file search
@@ -160,7 +172,7 @@ text files and programs:
 		- can have EMACS-style cursor re-centering on scrolls
 
 		- characters between 128-255 can be shown as-is for
-		  non-english character sets
+		  non-English character sets
 
 		- Final newline can be forced on end of file
 
