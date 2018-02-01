@@ -94,8 +94,15 @@ sed -b -e "s!@jwin@!$jupp!g" -e "s!@ts@!$(date -u +%m/%d/%Y)!g" \
 		print -r -- "$line"
 	fi
 done >setup.inf
-sed -bi "/^setup.inf=1,,/s/^.*\$/$(stat -c '%n=1,,%s' setup.inf)/" setup.inf
-sed -bi "/^setup.inf=1,,/s/^.*\$/$(stat -c '%n=1,,%s' setup.inf)/" setup.inf
+sz=$(stat -c '%n=1,,%s' setup.inf)
+sed -bi "/^setup.inf=1,,/s/^.*\$/$sz/" setup.inf
+sz=$(stat -c '%n=1,,%s' setup.inf)
+sed -bi "/^setup.inf=1,,/s/^.*\$/$sz/" setup.inf
+if [[ $sz != "$(stat -c '%n=1,,%s' setup.inf)" ]]; then
+	print -rnu2 "Size of SETUP.INF destabilises between $sz and "
+	stat -c '%n=1,,%s' setup.inf
+	exit 1
+fi
 chmod 444 *
 cd ..
 zip -D -X -9 -k ../JWIN31$jWIN.ZIP $jtop/*
