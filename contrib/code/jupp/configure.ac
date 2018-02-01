@@ -216,10 +216,6 @@ if test x"$ac_cv_func_getcwd" != xyes; then
 		AC_MSG_ERROR([don't know how to get current working directory])
 	fi
 fi
-AC_CHECK_FUNCS([isblank])
-if test x"$ac_cv_func_isblank" = xyes; then
-	joe_ISBLANK
-fi
 AC_CHECK_FUNCS([alarm ctime fsync get_current_dir_name isatty mkdir mkstemp])
 AC_CHECK_FUNCS([nl_langinfo popen putenv setitimer setlocale setpgid])
 AC_CHECK_FUNCS([sigaction siginterrupt sigprocmask sigvec strchr strdup])
