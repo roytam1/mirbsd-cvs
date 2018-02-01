@@ -70,7 +70,7 @@ eol		Move cursor to end of line
 eop		Move cursor to end of paragraph
 fwrdc		Search forward for matching character
 gomark		Move cursor to a bookmark
-home		Move cursor to beginning of line
+home		Move cursor to beginning of line ("smart")
 line		Move cursor to specified line
 ltarw		Move cursor left
 nedge		Move cursor to next edge
