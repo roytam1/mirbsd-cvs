@@ -9745,6 +9745,10 @@ Waypoint: OC121DE
 Title: Spontan-Eis weil heiß
 nTF: 1
 Tag: D1 T1 Event
+
+Selbstverständlich war hier ein Event mit mehreren Personen.
+Wer etwas anderes behauptet war entweder nicht da oder hat
+ein Problem mit der Realität um ihn rum. Auch 2½ Jahre später.
 ----
 ID: 1628
 Date: 04.07.2015
@@ -13458,6 +13462,7 @@ Tag: D15 T15 Small Tradi
 ID: 2221
 Date: 09.09.2017
 Waypoint: GCWFR6 BC2532
+Banner: jpg
 Title: World Cache (Germany)
 Tag: D35 T3 Regular Mystery exceptional
 ----
@@ -13832,6 +13837,50 @@ Date: 14.01.2018
 Waypoint: GC7B38B
 Title: Nico's Wald - # Neue Perspektiven reloaded
 Tag: D15 T2 Nano Tradi
+----
+ID: 2281
+Date: 21.01.2018
+Waypoint: GC7CTA2
+Title: Moritz Cache #4
+Tag: D15 T15 Micro Tradi
+----
+ID: 2282
+Date: 02.02.2018
+Waypoint: GC79HYK
+Title: Call a book ☎ 📘
+Tag: D15 T15 Other Tradi recommended
+----
+ID: 2283
+Date: 02.02.2018
+Waypoint: GC4R3Y6
+Title: Le Tombois
+Tag: D15 T15 Small Tradi
+
+<p><img style="width:240px; height:320px; border:0px;"
+ src="https://s3.amazonaws.com/gs-geo-images/ce8d9592-fc5e-4658-a4d3-452ae61058cc.jpg"
+ alt="Photo vom Vermessungspunkt hinter der Kapelle" /></p>
+<p>This thing behind the chapel looks like a calibrated metering point in <a
+ href="https://www.ngs.noaa.gov/TOOLS/XYZ/xyz.shtml">XYZ coordinates</a>
+ for GPS. Information on this should be sent to the CO for inclusion into
+ the cache listing.</p>
+----
+ID: 2284
+Date: 02.02.2018
+Waypoint: GC7E8DQ
+Title: Chapelle Notre-Dame
+Tag: D15 T15 Nano Tradi
+----
+ID: 2285
+Date: 02.02.2018
+Waypoint: GC7B9YJ
+Title: Manneken Pis naked in public - Virtual Reward
+Tag: D25 T1 Virtual
+----
+ID: 2286
+Date: 02.02.2018
+Waypoint: GC7HAYK
+Title: Back in Brussels
+Tag: D1 T1 Event
 ----
 ID: p20481102
 Date: 02.11.2048

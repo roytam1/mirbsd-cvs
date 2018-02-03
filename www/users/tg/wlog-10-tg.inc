@@ -1847,3 +1847,20 @@ Tag: event fun
  MuseScore, whom I’ll meet at FOSDEM again) while researching
  possible fixes for the security theatre.</p>
 ----
+Date: 03.02.2018
+Author: tg@
+Title: Groeten vanuit Brussels, tĳdens FOSDEM
+Tag: event personal
+
+<p>I’m in Bruxelles again, as every year since 2001, for <a
+ href="https://fosdem.org/">FOSDEM</a>. (I only missed OSDEM
+ in 2000, mostly due to the curse of late birth.)</p>
+<p>To revive a tradition, I’ve attempted (and successfully
+ at that!) to find a place where we can eat Couscous Merguez,
+ and we met up with bsiegert@ and had some nice conversation
+ and, besides the overly LOUD!!! belly dance, delicious food.
+ It was nice to catch up with each other again.</p>
+<p>Other than that, see you over the next few days at ULB!
+ Don’t miss the MuseScore booth and the two Teckids talks.</p>
+<p>Colophon: complexity sucks.</p>
+----
