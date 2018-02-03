@@ -13856,10 +13856,9 @@ Waypoint: GC4R3Y6
 Title: Le Tombois
 Tag: D15 T15 Small Tradi
 
-<p><img style="width:240px; height:320px; border:0px;"
- src="https://s3.amazonaws.com/gs-geo-images/ce8d9592-fc5e-4658-a4d3-452ae61058cc.jpg"
- alt="Photo vom Vermessungspunkt hinter der Kapelle" /></p>
-<p>This thing behind the chapel looks like a calibrated metering point in <a
+<p><a
+ href="https://s3.amazonaws.com/gs-geo-images/ce8d9592-fc5e-4658-a4d3-452ae61058cc.jpg">This
+ thing behind the chapel</a> looks like a calibrated metering point in <a
  href="https://www.ngs.noaa.gov/TOOLS/XYZ/xyz.shtml">XYZ coordinates</a>
  for GPS. Information on this should be sent to the CO for inclusion into
  the cache listing.</p>
@@ -13881,6 +13880,48 @@ Date: 02.02.2018
 Waypoint: GC7HAYK
 Title: Back in Brussels
 Tag: D1 T1 Event
+----
+ID: 2287
+Date: 03.02.2018
+Waypoint: GC2Q0ZE
+Title: Ceci n'est pas une cache
+Tag: D2 T15 Small Tradi
+----
+ID: 2288
+Date: 03.02.2018
+Waypoint: GC6BHPJ
+Title: [☠!]↻
+Tag: D15 T1 Micro Tradi
+----
+ID: 2289
+Date: 03.02.2018
+Waypoint: GC4XCYK
+Title: XL Art Nouveau 8 Hôtel Ciamberlani
+Tag: D2 T1 Micro Tradi
+----
+ID: 2290
+Date: 03.02.2018
+Waypoint: GC4XCZ4
+Title: XL Art Nouveau 10 Hôtel Otlet
+Tag: D15 T1 Other Tradi
+----
+ID: 2291
+Date: 03.02.2018
+Waypoint: GC63NMY
+Title: Brussels Markets - Châtelain
+Tag: D15 T1 Nano Tradi
+----
+ID: 2292
+Date: 03.02.2018
+Waypoint: GC4XCY1
+Title: XL Art Nouveau 5 Sander Pierron
+Tag: D2 T1 Other Tradi recommended
+----
+ID: 2293
+Date: 03.02.2018
+Waypoint: GC4XCXP
+Title: XL Art Nouveau 4 Maison Blérot
+Tag: D2 T15 Other Tradi
 ----
 ID: p20481102
 Date: 02.11.2048

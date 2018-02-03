@@ -1827,8 +1827,10 @@ Author: tg@
 Title: We had joy, we had fun… ♫ @ #34c3
 Tag: event fun snapshot
 
-<p><img src="https://mercurius.teckids.org/http-upload-get/4e87114b556dd8a28652e95cead02eb93a41ad41/kc8E5spSJHm0qu1NWG5zfE644nKv9L5hc9AO25Sj/IMG_20171228_162423.jpg"
- alt="MirBSD/sparc poster mod" /></p>
+<p><a href="https://mercurius.teckids.org/http-upload-get/4e87114b556dd8a28652e95cead02eb93a41ad41/kc8E5spSJHm0qu1NWG5zfE644nKv9L5hc9AO25Sj/IMG_20171228_162423.jpg"><img
+ style="width:240px; height:320px; border:0px;"
+ src="https://mercurius.teckids.org/http-upload-get/4e87114b556dd8a28652e95cead02eb93a41ad41/kc8E5spSJHm0qu1NWG5zfE644nKv9L5hc9AO25Sj/IMG_20171228_162423.jpg"
+ alt="MirBSD/sparc poster mod" /></a></p>
 <p>MirBSD on the Sun</p>
 ----
 Date: 10.01.2018
