@@ -13856,12 +13856,12 @@ Waypoint: GC4R3Y6
 Title: Le Tombois
 Tag: D15 T15 Small Tradi
 
-<p><a
+<a
  href="https://s3.amazonaws.com/gs-geo-images/ce8d9592-fc5e-4658-a4d3-452ae61058cc.jpg">This
- thing behind the chapel</a> looks like a calibrated metering point in <a
+thing behind the chapel</a> looks like a calibrated metering point in <a
  href="https://www.ngs.noaa.gov/TOOLS/XYZ/xyz.shtml">XYZ coordinates</a>
- for GPS. Information on this should be sent to the CO for inclusion into
- the cache listing.</p>
+for GPS. Information on this should be sent to the CO for inclusion into
+the cache listing.
 ----
 ID: 2284
 Date: 02.02.2018
@@ -13922,6 +13922,36 @@ Date: 03.02.2018
 Waypoint: GC4XCXP
 Title: XL Art Nouveau 4 Maison Blérot
 Tag: D2 T15 Other Tradi
+----
+ID: 2294
+Date: 04.02.2018
+Waypoint: GC42T1K
+Title: Gavroche et les Ketjes
+Tag: D3 T1 Micro Tradi
+----
+ID: 2295
+Date: 04.02.2018
+Waypoint: GC3FBE
+Title: Brussels #1
+Tag: D1 T1 Nano Tradi
+----
+ID: 2296
+Date: 04.02.2018
+Waypoint: GC5MMYV
+Title: Pitstop Heverlee - directie Luik (aanvang)
+Tag: D15 T15 Small Tradi
+----
+ID: 2297
+Date: 04.02.2018
+Waypoint: GC452EE
+Title: Sportcentrum, de voetbal
+Tag: D15 T15 Micro Tradi
+----
+ID: 2298
+Date: 04.02.2018
+Waypoint: GC764GR
+Title: Jarno ' s trail #2
+Tag: D15 T15 Small Tradi
 ----
 ID: p20481102
 Date: 02.11.2048
