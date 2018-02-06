@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.496 2017/08/27 23:54:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.497 2017/12/19 00:56:23 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6130,8 +6130,8 @@ Date: 08.02.2010 17:39
 Tag: event
 
 <p>FOSDEM was a great success. Once more, thanks to Daniel Seuffert,
- Marius N&uuml;nnerich and the others from <a
- href="http://www.allbsd.de/en/">the AllBSD project</a>. We distributed
+ Marius N&uuml;nnerich and the others from
+ the AllBSD project. We distributed
  400 CDs with the latest snapshots, of which about 350 were distributed
  on Saturday alone. There was a stronger demand for French flyers
  compared to the last years; I think that more locals (i.e. Belgians)

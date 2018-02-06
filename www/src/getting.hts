@@ -3,7 +3,7 @@
 
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
-mws_putheader '$MirOS: www/src/getting.hts,v 1.27 2014/05/13 22:12:29 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.29 2016/03/06 18:37:52 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
  MirPorts framework, and the source tree. And you may want to read the
@@ -13,7 +13,7 @@ mws_content <<'EOF'
 
 <p>You can get MirOS CDs in exchange for a donation of your choice at events
  where the MirOS developers have a booth. Normally, this booth is held together
- with the <a href="http://www.allbsd.de/">AllBSD</a> people. Events with a
+ with the AllBSD people. Events with a
  MirOS booth include:</p>
 
 <ul>

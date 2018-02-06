@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.168 2017/08/07 19:15:04 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.170 2018/01/04 14:29:27 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1579,8 +1579,8 @@ Tag: event
 
 <p><a href="@@RELPATH@@main.htm">The MirOS Project</a> will be represented
  at <a href="http://www.linuxtag.org/2009/">LinuxTag 2009, Berlin, .de</a>
- by tg@ with kindly sponsored buttons, some at the joint booth of <a
- href="http://www.allbsd.de/">AllBSD</a> whose Daniel Seuffert
+ by tg@ with kindly sponsored buttons, some at the joint booth of
+ AllBSD whose Daniel Seuffert
  kindly sponsored CDs and flyers as usual, and may be seen at the <a
  href="http://www.holarse-linuxgaming.de/">Holarse</a> booth which has
  history with MirBSD&trade; on LinuxTag.</p>

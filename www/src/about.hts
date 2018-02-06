@@ -1,6 +1,6 @@
 mws_setname about 'About MirOS'
 mws_setheadline About MirOS
-mws_putheader '$MirOS: www/src/about.hts,v 1.6 2014/01/13 00:57:57 tg Exp $'
+mws_putheader '$MirOS: www/src/about.hts,v 1.7 2015/09/10 19:46:31 tg Exp $'
 mws_content <<'EOF'
 <p>On this page:</p>
 
@@ -18,10 +18,9 @@ mws_content <<EOF
  MirOS BSD (plus MirPorts) is deprecated.</p>
 
 <p>A very good general overview about MirOS BSD and MirPorts is available
- from our <a href="http://www.allbsd.de/src/Flyer/MirOS/">information
- flyers</a>, which are available in English, German, and French. They are
- distributed on various events by ourselves and/or the <a
- href="http://www.allbsd.de/">AllBSD</a> team.</p>
+ from our information flyers, which are <strong>(Update: currently not
+ at all)</strong> available in English, German, and French. They are
+ distributed on various events by ourselves and/or the AllBSD team.</p>
 
 <p>MirOS started after some differences in opinion between Theo de Raadt,
  the OpenBSD project leader, and Thorsten Glaser, who is now our lead
