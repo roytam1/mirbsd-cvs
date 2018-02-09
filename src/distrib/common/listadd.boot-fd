@@ -1,3 +1,0 @@
-# $MirOS$
-
-COPY	${DESTDIR}/usr/mdec/boot.fd		usr/mdec/boot

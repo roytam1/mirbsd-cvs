@@ -1,2 +1,0 @@
-@comment $MirOS: ports/x11/gnome/libgnomeprint/pkg/PLIST-cups,v 1.1.7.1 2005/03/18 16:00:30 tg Exp $
-lib/libgnomeprint/${VERSION}/modules/libgnomeprintcups.la
