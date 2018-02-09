@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.388 2018/01/06 23:19:41 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.393 2018/02/05 00:53:31 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -13952,6 +13952,18 @@ Date: 04.02.2018
 Waypoint: GC764GR
 Title: Jarno ' s trail #2
 Tag: D15 T15 Small Tradi
+----
+ID: 2299
+Date: 08.02.2018
+Waypoint: GC7H9FQ
+Title: Weißt du noch...
+Tag: D15 T15 Micro Mystery
+----
+ID: 2300
+Date: 09.02.2018
+Waypoint: CC5AZ0
+Title: Cyder Cyber
+Tag: MC2 Challenge
 ----
 ID: p20481102
 Date: 02.11.2048

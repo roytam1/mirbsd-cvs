@@ -14,7 +14,7 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/kwalletcli128.png" /></object></td></tr></table>
 
 <h2 id="main">CLI for the KDE Wallet</h2>
-<p>What's it? A command-line interface to the KDE Wallet, for KDE 3, 4,
+<p>What's it? A command-line interface to the KDE Wallet, for KDE 3, KDE 4
  and KF5 (so shell scripts, Python, etc. do not need to use DCOP or D-Bus
  directly to access it to store passwords, instead being able to call this
  convenient wrapper). KF5 does come with a <tt>kwallet-query</tt> utility,
@@ -29,15 +29,15 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/open_source_button.png" /></p>
 
 <h3 id="download">Download</h3>
-<p>Current version: kwalletcli 3.00 (2016-08-30)</p><ul>
+<p>Current version: kwalletcli 3.01 (2018-02-09)</p><ul>
 <!-- cd /MirOS/dist/hosted/kwalletcli; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
- <li>RMD160 (kwalletcli-3.00.tar.gz) = cf45d665d9e201e09b9d8e9e3356eb15f9f69bd2</li>
- <li>TIGER (kwalletcli-3.00.tar.gz) = fe9d6bee7ea425fe755a00c735721c7e5a56bd66b1bf0892</li>
- <li>1791328341 63989 /MirOS/dist/hosted/kwalletcli/kwalletcli-3.00.tar.gz</li>
- <li>MD5 (kwalletcli-3.00.tar.gz) = b5649a18a8187b0fabca7073fabe52c3</li>
+ <li>RMD160 (kwalletcli-3.01.tar.gz) = 4ea877244428cf031df5558b37413c621f6758d0</li>
+ <li>TIGER (kwalletcli-3.01.tar.gz) = e2961e415f28aba03975fe73fb88b010482ede8ef6fbb0a3</li>
+ <li>1298048588 64075 /MirOS/dist/hosted/kwalletcli/kwalletcli-3.01.tar.gz</li>
+ <li>MD5 (kwalletcli-3.01.tar.gz) = 83758f0edc7fb342d2c780a306eaf2c3</li>
  <li style="list-style:none;">Mirrors</li>
- <li><a href="http://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-3.00.tar.gz">Germany</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-3.00.tar.gz">Japan</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-3.01.tar.gz">Germany</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-3.01.tar.gz">Japan</a></li>
 </ul>
 
 <h3 id="contents">Ingredients</h3>
@@ -77,8 +77,8 @@ mws_content <<'EOF'
 <h2 id="packaging">Packaging</h2>
 <p><a href="http://packages.debian.org/kwalletcli">Debian</a> has a
  kwalletcli (KDE 4) package from squeeze to jessie. The lenny-backports
- repository contains a kwalletcli (KDE 3) package. Debian stretch will
- ship a kwalletcli compiled for KF5; KDE 3/4 packages will be available
+ repository contains a kwalletcli (KDE 3) package. Debian stretch and
+ newer ship a kwalletcli compiled for KF5; KDE 3/4 packages are available
  from the “WTF” APT repository (not official Debian). It is also packaged
  for Arch Linux, Slackware, several Gentoo portage overlays, in home:syeg
  on the OpenSuSE buildservice (various RPMs), for Chakra Linux, RHEL, and
@@ -183,7 +183,14 @@ else:
 <!--
 <p>Changes in the current (unreleased) development version:</p><ul>
 -->
-<p id="r3_00">kwalletclie 3.00</p><ul>
+<p id="r3_01">kwalletcli 3.01</p><ul>
+ <li>Improve kwalletcli(1) manpage, adding an example of using it
+  directly from the command line, and emphasising that only the
+  default Wallet can be addressed; hopefully, this implies strongly
+  enough that the folder/entry structure is <em>inside</em> the
+  Wallet; requested by Tomas Pospisek</li>
+</ul>
+<p id="r3_00">kwalletcli 3.00</p><ul>
  <li>Merge back from Debian packaging: add CXXFLAGS to CXX link invocation</li>
  <li>Make the manual pages more portable (add our portmdoc)</li>
  <li>Do not close stdin/stdout/stderr when calling other utilities</li>
