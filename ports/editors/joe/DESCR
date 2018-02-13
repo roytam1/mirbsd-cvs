@@ -1,5 +1,6 @@
 “Joe is world-famous Wordstar like text editor.”
 		-- Sourcefrog
+Note: in non-document mode only
 
 joe is the professional freeware ASCII text screen editor for
 UNIX®. It makes full use of the power and versatility of UNIX,
@@ -32,7 +33,7 @@ while not doing annoying things “automagically” (word wrap,
 for example). It can also double as hex editor and comes with
 a character map (ASCII / 8-bit) plus Unicode support.
 
-This is joe-3.x-jupp<y>, a GNU GPL version 1 licenced fork
+This is joe-3.x-jupp«y», a GNU GPL version 1 licenced fork
 of the current state-of-the-art JOE editor from Sourceforge,
 with Joe H. Allen himself starting development again after
 over eight years. The MirOS fork has added UTF-8 Support for

@@ -6,7 +6,8 @@ mws_setheadline jupp — the Editor which sucks less
 mws_putheader '$MirOS: www/src/jupp.hts,v 1.73 2017/12/17 03:12:29 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp32</em> for Unix/GNU compatible systems. This page is
+ with a set of updated *rc files available for download below,
+ and <em>joe-3.1jupp33</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -45,7 +46,7 @@ mws_content <<'EOF'
 <p>Basic differences between <em>joe</em> and <em>jupp</em> are:</p><ul>
  <li>obviously, another flavour, jupp, similar to jstar</li>
  <li>UTF-8 support on non-locale-aware OSses</li>
- <li>bug and security fixes</li>
+ <li>tons of bug and security fixes</li>
  <li>tab completion fixes</li>
  <li>code cleanup</li>
  <li>compiles with -Wall -Werror (on <a href="http://mirbsd.de/">MirBSD</a>),
@@ -78,7 +79,7 @@ mws_content <<'EOF'
   ^Q f \ [ ^ <i>tab</i> \ n <i>space</i> - ~ ] <i>return return</i></li>
  <li>Jump to first occurrence of word “rtn” in the files:<br />
   <tt>jupp -mold 'ffirst,"\\&lt;rtn\\&gt;",rtn,"i",rtn' /etc/joe/*rc</tt></li>
- <li>Remove whitespace from EOL: ^K ]</li>
+ <li>Remove whitespace from EOL and EOF: ^K ]</li>
  <li>Hex Editor: ^O g</li>
  <li>Jump to file offset: ^Q O</li>
  <li>Syntax highlighting: on/off ^O h — set syntax ^O y</li>
@@ -116,8 +117,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp32.tgz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp33.tgz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp33.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp33.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp33.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">http://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
@@ -126,10 +127,10 @@ mws_content <<'EOF'
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
 <!-- cd /MirOS/dist/jupp; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
- <li>RMD160 (joe-3.1jupp32.tgz) = 636ce08ea379fe18664b9ef005d148c4fcf73ae5</li>
- <li>TIGER (joe-3.1jupp32.tgz) = 59f539721a5aed4df29b836e215064cde5007c07773b00b7</li>
- <li>3576131056 469855 /MirOS/dist/jupp/joe-3.1jupp32.tgz</li>
- <li>MD5 (joe-3.1jupp32.tgz) = a7d56a1c4487da5c6223209d6911356d</li>
+ <li>RMD160 (joe-3.1jupp33.tgz) = 13b6a12cf17862024989347d434951b2b056cf52</li>
+ <li>TIGER (joe-3.1jupp33.tgz) = 07e034f4ad0d54aef1dde63be23d19415e084648784b6407</li>
+ <li>3399058488 471961 /MirOS/dist/jupp/joe-3.1jupp33.tgz</li>
+ <li>MD5 (joe-3.1jupp33.tgz) = 5f1fbf7b9af2fd0a3ee1cf4cec90a1f0</li>
   <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp3.cpio.gz) = cd07c69dee589c3e64e1ee5ee08ae7f355095fba</li>
  <li>TIGER (joe-2.8jupp3.cpio.gz) = 31a0f51e6dc01d84fb09529e921124e5f1ba81f23bd5c1ac</li>
@@ -139,9 +140,9 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Starting with jupp19, use a command like<br />
- <tt>$ tar -xzf joe-3.1jupp32.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp32.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp32.tgz</tt> # any POSIX® archiver<br />
+ <tt>$ tar -xzf joe-3.1jupp33.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp33.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp33.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -182,6 +183,25 @@ $ $SUDO make install</pre>
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
  <li id="bwin">jupp 3.x for Unix:<ul>
+  <li>JOE 3.1jupp33 for Windows® (cygwin32 stand-alone compiled; 80486;
+   PKzip archive (can be unpacked out of the box from Windows XP onwards,
+   or (on 16- and 32-bit systems only) with the shareware version of <a
+   href="@@ABSPATH@@/MirOS/webstuff/pkunzip.exe">PKunzip for MS-DOS®</a>);
+   comes with its own copy of <tt>cygwin1.dll</tt> (not installed system-wide);
+   easy installation: right-click on the INF file and select _I_nstall (this
+   even clears up previous installations into the system directory). If you
+   already have Cygwin, you can delete <tt>C:\PROGRAMME\JUPP\CYGWIN1.DLL</tt>.
+   (Installation from per-user mounted network shares will not succeed
+   on Windows 7; copy to a global location such as <tt>C:\TEMP</tt>
+   beforehand.) You may have to acknowledge a warning for a missing digital
+   signature. — Download and checksums:<ul>
+    <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/JWIN31X.ZIP">http://www.mirbsd.org/MirOS/dist/jupp/JWIN31X.ZIP</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JWIN31X.ZIP">http://pub.allbsd.org/MirOS/dist/jupp/JWIN31X.ZIP</a></li>
+    <li>RMD160 (JWIN31X.ZIP) = c1aa9639239edbfb3dfb511616f4609c140cf40a</li>
+    <li>TIGER (JWIN31X.ZIP) = be7d03a947a150ada4d848404ac744fca9d9e2c69ce61238</li>
+    <li>3116438933 958225 /MirOS/dist/jupp/JWIN31X.ZIP</li>
+    <li>MD5 (JWIN31X.ZIP) = 8d7c9ec1049d49add01235edb84a52e5</li>
+  </ul></li>
   <li>JOE 3.1jupp32 for Windows® (cygwin32 stand-alone compiled; 80486;
    PKzip archive (can be unpacked out of the box from Windows XP onwards,
    or (on 16- and 32-bit systems only) with the shareware version of <a
@@ -334,6 +354,15 @@ $ $SUDO make install</pre>
   separate joe package.</li>
  </ul></li>
  <li id="bdos">jupp 2.x for DOS:<ul>
+  <li>JOE 2.8jupp3+ (snapshot 20180213) for MS-DOS® and Unix: bundle of
+   the <tt>*rc</tt> files, self-extracting LHarc archive. Download:<ul>
+    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JxRC281.EXE">https://www.mirbsd.org/MirOS/dist/jupp/JxRC281.EXE</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JxRC281.EXE">http://pub.allbsd.org/MirOS/dist/jupp/JxRC281.EXE</a></li>
+    <li>RMD160 (JxRC281.EXE) = 3a8037413ed15cb22007b13b8d33244068593c77</li>
+    <li>TIGER (JxRC281.EXE) = 7ec20b4f0a0385a3eb340b7c537ddefd2a3c456d3adcc17c</li>
+    <li>2972678792 42352 /MirOS/dist/jupp/JxRC281.EXE</li>
+    <li>MD5 (JxRC281.EXE) = 69124f9f7fe9d1ad627f015b08e688d2</li>
+  </ul></li>
   <li>JOE 2.8jupp3 (released 20170809) for MS-DOS® (16-bit executable;
    8086 or newer CPU), self-extracting LHarc archive — copy jupprc and
    jupp.exe to a directory in the %PATH% to install. Note that 640 KiB
@@ -362,15 +391,6 @@ $ $SUDO make install</pre>
     <li>1316941124 105360 /MirOS/dist/jupp/JDOS281.EXE</li>
     <li>MD5 (JDOS281.EXE) = 382ff7d173fdb18553f96c6e5cdff2db</li>
   </ul></li>
-  <li>JOE 2.8jupp1 (released 20090718) for MS-DOS® and Unix: bundle of
-   the <tt>*rc</tt> files, self-extracting LHarc archive. Download:<ul>
-    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JxRC281.EXE">https://www.mirbsd.org/MirOS/dist/jupp/JxRC281.EXE</a></li>
-    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JxRC281.EXE">http://pub.allbsd.org/MirOS/dist/jupp/JxRC281.EXE</a></li>
-    <li>RMD160 (JxRC281.EXE) = c8b85b9edd1115ac4ac2e15042dd8d0a86618d20</li>
-    <li>TIGER (JxRC281.EXE) = 6b88c72fa8750cd7cafb68182da3ebff429a68b42efe8ad0</li>
-    <li>2084697129 35728 /MirOS/dist/jupp/JxRC281.EXE</li>
-    <li>MD5 (JxRC281.EXE) = 540870f1598ea3a4a9d4e688092f92f6</li>
-  </ul></li>
  </ul></li>
 </ul>
 <p>This list may change in the future. Please note that <em>jupp 2.8</em>
@@ -385,6 +405,23 @@ $ $SUDO make install</pre>
 <!--
 <p>[2017-07-08] Changes in the current development version:</p><ul>
 -->
+<p id="r3_1j33">[2018-02-13] Changes for joe-3.1jupp33:</p><ul>
+ <li>Fix several issues pointed out by Coverity Scan</li>
+ <li>Allow <em>any</em> char for <tt>{to,rv}match</tt>
+  (goto next same in given direction)</li>
+ <li>Fix regression: <tt>``</tt> did no longer insert a sole <tt>`</tt></li>
+ <li>Improved file type recognition</li>
+ <li>Render instruction to show online help as BLINKING BOLD to stand out</li>
+ <li>Let screen scroll back to the left on ^QL, ^B, ^KD, while in hex mode</li>
+ <li>Slightly safer saving of backup files, using fsync(2) if existent</li>
+ <li>Add new command “sync”, to use with save in key macro if desired</li>
+ <li>jupprc: add ^QV, ^[@, ^[! for better WordStar compatibility and move the
+  previous ^[! to ^[' to match ^K'; fix eolmenu; replace bol with home for
+  smarthome users; switch ^[? to show macros (matches WS), query moves to
+  ^[/ (which was unused); ^U can abort menu and prompt (matches WS)</li>
+ <li>Add WordStar documentation references (this and most prev. by crb3)</li>
+ <li>Sync improvements across rc files</li>
+</ul>
 <p id="r3_1j32">[2017-12-16] Changes for joe-3.1jupp32:</p><ul>
  <li>Harmonise help rendering in <tt>jupprc</tt>
   (also for 2.8, 3.7, (NEW) 4.4)</li>
