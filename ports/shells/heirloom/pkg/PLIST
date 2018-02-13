@@ -1,6 +1,0 @@
-@comment $MirOS$
-5bin/jsh
-5bin/sh
-bin/jsh
-man/cat1/jsh.0
-@dirrm 5bin

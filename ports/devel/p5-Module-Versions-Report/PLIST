@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Module/Versions/Report.pm
-@comment ${P5ARCH}/auto/Module-Versions-Report/.packlist
-man/man3/Module::Versions::Report${P5MAN3EXT}
-@dirrm ${P5ARCH}/auto/Module-Versions-Report
-@dirrm ${P5ARCH}/auto
-@dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Module/Versions
-@dirrm ${P5SITE}/Module

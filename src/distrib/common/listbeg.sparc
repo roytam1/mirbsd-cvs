@@ -1,6 +1,0 @@
-# $MirOS: src/distrib/common/listbeg.sparc,v 1.4 2010/01/17 00:36:23 tg Exp $
-
-SRCDIRS	distrib/special sys/arch/sparc/stand
-SRCDIRS	bin sbin usr.bin usr.sbin
-
-LIBS	-lutil -locurses -lm -lz -lmbfun

@@ -1,3 +1,0 @@
--Tcmd_t
--Tdisk_t
--Tmbr_t
