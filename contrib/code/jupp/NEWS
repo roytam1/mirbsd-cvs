@@ -5,7 +5,7 @@ jupp-current
 
 - …
 
-JOE 3.1jupp33
+JOE 3.1jupp34
 
 - rearrange the jupprc help cards, adding missing items
 - move isrch from ^[S to ^[T
@@ -13,7 +13,7 @@ JOE 3.1jupp33
 - move open from ^[b to ^]
 - fix massive allocation miscalculation typo
 
-JOE 3.1jupp34
+JOE 3.1jupp33
 
 - Fix several issues pointed out by Coverity Scan
   * dead code
