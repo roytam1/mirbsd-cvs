@@ -1,3 +1,0 @@
-@comment $MirOS: ports/emulators/kqemu/pkg/PLIST.MirBSD,v 1.1 2008/05/07 15:07:50 tg Exp $
-libdata/kqemu.o
-libdata/kqemu_mp.o

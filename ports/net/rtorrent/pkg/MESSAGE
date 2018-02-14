@@ -1,6 +1,0 @@
-+====================================================
-| To get started, copy the file
-| ${PREFIX}/share/examples/rtorrent/rtorrent.rc
-| to ~/.etc/rtorrent.rc and adjust as necessary.
-| It is highly recommended to use a session dir.
-+====================================================
