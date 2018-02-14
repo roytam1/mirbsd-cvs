@@ -917,7 +917,7 @@ umode(BW *bw)
 			s[x][n] = '\0';
 		}
 	}
-	s[x] = 0;
+	s[x] = NULL;
 	if (mkmenu(bw->parent, s, doopt, doabrt, NULL, optx, s, NULL))
 		return 0;
 	else
