@@ -1,8 +1,0 @@
-@comment $MirOS: PLIST $
-@comment $OpenBSD: PLIST,v 1.14 2004/04/22 02:56:10 naddy Exp $
-@unexec install-info --delete --info-dir=%D/info %D/info/tar.info
-bin/gtar
-info/tar.info
-@comment lib/charset.alias
-libexec/grmt
-@exec install-info --info-dir=%D/info %D/info/tar.info
