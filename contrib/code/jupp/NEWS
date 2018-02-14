@@ -7,6 +7,14 @@ jupp-current
 
 JOE 3.1jupp33
 
+- rearrange the jupprc help cards, adding missing items
+- move isrch from ^[S to ^[T
+- add/prefer ^QT for delbol
+- move open from ^[b to ^]
+- fix massive allocation miscalculation typo
+
+JOE 3.1jupp34
+
 - Fix several issues pointed out by Coverity Scan
   * dead code
   * use-after-free (minor)
