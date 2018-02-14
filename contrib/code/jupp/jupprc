@@ -410,119 +410,131 @@ mode,"pastehack",rtn	% % -pastehack% % % % % % % % %Zpastehack%
 mode,"regex",rtn	% % -regex% % % % % % % % % % % % %Zregex%
 mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 
-{Basic
+{General
 \i   Help Screen    turn off with ^J     more help with Esc+. (^[.)              \i
-\i \i\u\bCURSOR\b\u           \u\bGOTO\b\u             \u\bBLOCK\b\u    \u\bDELETE\b\u    \u\bMISC\b\u         \u\bEXIT\b\u       \i \i
-\i \i^S left ^D right ^R  prev. screen ^KV move ^G  char  ^B  reformat ^KX save   \i \i
-\i \i^E up   ^X down  ^C  next screen  ^KC copy ^Y  line  ^V  overtype ^KQ abort  \i \i
-\i \i^A previous word ^QS beg. of line ^KY kill ^T  >word ^QL refresh  ^KZ shell  \i \i
-\i \i^F next word     ^QD end of line  ^K/ pipe ^QY >line ^O  options  \u\bFILE\b\u       \i \i
-\i \i\u\bSEARCH\b\u           ^QR top of file  ^KB begin          \u\bBUFFER\b\u       ^KE new    \i \i
-\i \i^QF find first   ^QC end of file  ^KK end            ^U undo      ^KR import \i \i
-\i \i^L  find next    ^QP prev. place  ^KD reformat       ^^ redo      ^KW export \i \i
+\i \i \u\bEXIT\b\u       \u\bBLOCK DEF\b\u  \u\bBLOCK OP\b\u  \u\bSEARCH\b\u         \u\bDELETE:\b\u \b^H\b  <char  \b^Y\b  line  \i \i
+\i \i \b^KX\b save   \b^KB\b begin  \b^KV\b move  \b^QF\b find first         \b^G\b  >char  \b^QT\b <line \i \i
+\i \i \b^KQ\b abort  \b^KK\b end    \b^KC\b copy  \b^L\b  find next          \b^[o\b <word  \b^QY\b >line \i \i
+\i \i \u\bMISC\b\u       \b^KL\b line   \b^KY\b kill  \b^QA\b find and replace   \b^T\b  >word  \b^[Y\b yank  \i \i
+\i \i \b^QM\b math   \b^KH\b hide   \b^K/\b pipe  \b^QG\b char backwards  \u\bSHELL\b\u        \u\bFILE\b\u       \i \i
+\i \i \b^O\b  options   \u\bQUOTE\b\u    \u\bBUFFER\b\u   \b^QF\b char forwards   \b^KZ\b suspend  \b^KS\b save\das\d \i \i
+\i \i \b^[P\b pastemode  \b`\b Ctrl  \b^U\b undo  \b^[R\b incremental b.  \b^K'\b window   \b^KR\b import \i \i
+\i \i \b^[-\b cmdprompt \b^P\b Meta  \b^^\b redo  \b^[T\b incr. forwards  \b^['\b command  \b^KW\b export \i \i
+}
+
+{Movement
+\i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
+\i \i \u\bMovement in jupp:\b\u                   screen(top)                             \i \i
+\i \i                        upslide         \b^QE\b      page(top)   file(beginning) \i \i
+\i \i                             \b^W\b    (char)up        \b^R\b               \b^QR\b      \i \i
+\i \i  (beginning)line   (prev)word      left \b^E\b  right    (next)word   line(end) \i \i
+\i \i              \b^QS\b           \b^A\b      \b^S\b   \d<+>\d    \b^D\b            \b^F\b    \b^QD\b      \i \i
+\i \i                      downslide   (char)down     page(bottom)      file(end) \i \i
+\i \i                             \b^Z\b          \b^X\b        \b^C\b               \b^QC\b      \i \i
+\i \uWordStar diamond\u \i                       \b^QX\b \d<-\d screen(bottom)                \i \i
 }
 
 {Windows
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
-\i \i^KO split the window in half          ^KE load file into window              \i \i
-\i \i^KG make current window bigger        ^KT make current window smaller        \i \i
-\i \i^KN go to the window below            ^KP go to the window above             \i \i
-\i \i^KQ eliminate the current window      ^KI show all windows / show one window \i \i
-\i \i^K; split screen and do ctags search  ^K- edit scratch buffer in new window  \i \i
-\i \i Warning: ^KE trashes the current window if open at least twice (from ^KO)!  \i \i
-\i \i  \u\bSpecial help for XON/XOFF aware terminals:\b\u                                 \i \i
-\i \i You can use \b^[q\b and \b^[s\b instead of \b^Q\b and \b^S\b to initiate a command.         \i \i
+\i \i \b^KG\b make current window bigger     \b^KI\b show all windows / show one window   \i \i
+\i \i \b^KT\b make current window smaller    \b^KO\b split the current window in half     \i \i
+\i \i \b^KP\b go to the window above         \b^K-\b edit scratch buffer in new window    \i \i
+\i \i \b^KN\b go to the window below         \b^KQ\b eliminate the current window         \i \i
+\i \i \b^KE\b load file into window          \b^K;\b split screen and do a ctags search   \i \i
+\i \i Warning: \b^KE\b trashes the current window if open at least twice (from \b^KO\b)!  \i \i
+\i \i   \u\bSpecial help for XON/XOFF aware terminals:\b\u                                \i \i
+\i \i You can type \b^[q\b instead of \b^Q\b and \b^[s\b instead of \b^S\b for all commands.      \i \i
+}
+
+{Orientation
+\i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
+\i \i \u\bGOTO\b\u                        \u\bMISC\b\u                     \u\bINSERT MATH OR CURRENT\b\u \i \i
+\i \i \b^Q=\b merge conflict marker   \b^K\b \u0-9\u define bookmark   \b^[#\b equation  \b^[@\b date \i \i
+\i \i \b^QV\b start of last search    \b^V\b overtype mode         \b^[=\b result    \b^[!\b time \i \i
+\i \i \b^Q]\b next matching brace  \u\bGOTO\b\u                 \u\bREFORMAT\b\u        \u\bINDENT LINE\b\u   \i \i
+\i \i \b^Q[\b previous   "    "    \b^Q-\b column number    \b^B\b  line        \b^K.\b more      \i \i
+\i \i \b^QP\b previous place       \b^QI\b line number      \b^KD\b block       \b^K,\b less      \i \i
+\i \i \b^K=\b next place           \b^QO\b byte offset      \b^]\b  split line  \b^KA\b centre    \i \i
+\i \i \b^QB\b to ^KB  \b^QK\b to ^KK  \b^Q\b \u0-9\u bookmark #0-9  \b^K]\b fix whitespace at EOL/EOF \i \i
 }
 
 {Advanced
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
-\i \i\u\bMACROS\b\u       \u\bMISC\b\u         \u\bSCROLL\b\u      \u\bSHELL\b\u       \u\bGOTO\b\u        \u\bI-SEARCH\b\u       \i \i
-\i \i^[( record   ^Q? status   ^Q. right   ^K' window  ^QB to ^KB  ^[R backwards  \i \i
-\i \i^[) stop     ^QQ repeat   ^Q, left    ^[' command ^QK to ^KK  ^[S forwards   \i \i
-\i \i^[/ query    ^QM math     \u\bCharSEARCH\b\u  \u\bQUOTE\b\u       \u\bDELETE\b\u      \u\bBOOKMARKS\b\u      \i \i
-\i \i^[? lst def  ^[H message  ^QH forwrd   ` Ctrl-    ^[Y yank    ^K 0-9 define  \i \i
-\i \i^[ 0-9 play  ^N  play #0  ^QG backwd  ^P Meta-    ^[O word<   ^Q 0-9 goto    \i \i
-\i \i \u\bIn math mode,\b\u use 0xCAFE for hex. Press ^[. five times for more math help.  \i \i
-\i \i \u\bPredefined variables:\b\u byte col height line lines top width                  \i \i
-}
-
-{Programs
-\i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
-\i \i\u\bGOTO\b\u   ^QV start of last search    \u\bCOMPILING\b\u                    \u\bSLIDING\b\u      \i \i
-\i \i^Q= next merge conflict marker     ^[C compile & parse errors   ^W up        \i \i
-\i \i^Q] next matching brace            ^[E parse errors             ^Z down      \i \i
-\i \i^Q[ previous   "   "  \u\bINDENT\b\u       ^KF save, compile & upload to NXT brick   \i \i
-\i \i^Q- to column number  ^K. more     \u\bGOTO AFTER COMPILING\b\u                      \i \i
-\i \i^QI to line number    ^K, less     ^[N previous error                        \i \i
-\i \i^QO to byte offset    ^KA centre   ^[M next error      \u\bSPECIAL\b\u               \i \i
-\i \i^K= next place        ^K] kill whitespace at EOL/EOF   ^[- jupp command line \i \i
+\i \i \u\bCOMPILING\b\u                                \u\bMISC\b\u                               \i \i
+\i \i \b^[C\b compile \uand\u  \b^[E\b parse errors        \b^Q.\b scroll right                   \i \i
+\i \i \b^[M\b goto next... \b^[N\b previous error      \b^Q,\b scroll left                    \i \i
+\i \i \b^KF\b save, compile & upload to NXT brick  \b^QL\b refresh                        \i \i
+\i \i \u\bMACROS\b\u                                   \b^QQ\b repeat                         \i \i
+\i \i \b^[(\b record  \b^[/\b query  \b^[?\b list defined  \b^Q?\b status                         \i \i
+\i \i \b^[)\b stop   \b^N\b play #0  \b^[\b \u0-9\u play #0-9  \b^[H\b message                        \i \i
+\i \i \u\bMATH\b\u press \d^[.\d 4x for help; variables: \ubyte\u \ucol\u \uheight\u \uline\u \ulines\u \utop\u \uwidth\u \i \i
 }
 
 {Search
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
 \i \i \u\bSpecial search sequences:\b\u                                                   \i \i
-\i \i    \\^  \\$  matches beg./end of line       \\.  match any single char         \i \i
-\i \i    \\<  \\>  matches beg./end of word       \\!  match char or expression      \i \i
-\i \i    \\(  \\)  grouping                       \\|  match left or right           \i \i
-\i \i    \\[a-z]  matches one of a set, ^ inverts                                  \i \i
-\i \i    \\{1,3}  match 1 to 3 occurrences       \\?  match 0 or 1 occurrence       \i \i
-\i \i    \\+      match one or more occurrence   \\*  match 0 or more occurrences   \i \i
+\i \i    \b\\^\b  \b\\$\b  matches beg./end of line       \b\\.\b  match any single char         \i \i
+\i \i    \b\\<\b  \b\\>\b  matches beg./end of word       \b\\!\b  match char or expression      \i \i
+\i \i    \b\\(\b  \b\\)\b  grouping                       \b\\|\b  match left or right           \i \i
+\i \i    \b\\[a-z]\b  matches one of a set, \b^\b inverts                                  \i \i
+\i \i    \b\\{\b\u1\u\b,\b\u3\u\b}\b  match \u1\u to \u3\u occurrences       \b\\?\b  match 0 or 1 occurrence       \i \i
+\i \i    \b\\+\b      match one or more occurrence   \b\\*\b  match 0 or more occurrences   \i \i
 \i \i \b\uWarning: syntax in JOE-4.1 changed!\u Read on for replace / escape sequences.\b \i \i
 }
 
 {Escape sequences
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
 \i \i \u\bSpecial replace sequences:\b\u                                                  \i \i
-\i \i    \\&     replaced with entire match      \\1 - \\9  replaced with Nth group  \i \i
-\i \i    \\u \\l  convert next to upper/lower     \\U \\L    case convert until \\E    \i \i
+\i \i    \b\\&\b     replaced with entire match      \b\\\b\u1\u - \b\\\b\u9\u  replaced with \uN\uth group  \i \i
+\i \i    \b\\u\b \b\\l\b  convert next to upper/lower     \b\\U\b \b\\L\b    case convert until \b\\E\b    \i \i
 \i \i \u\bEscape sequences for search and replace:\b\u                                    \i \i
-\i \i    \\i / \\I   identifier start      \\t  tab         \\e      escape           \i \i
-\i \i    \\c / \\C   identifier continue   \\n  newline     \\r      carriage return  \i \i
-\i \i    \\d / \\D   digit / not a digit   \\b  backspace   \\\\      backslash        \i \i
-\i \i    \\w / \\W   wordc / not a word    \\a  alert       \\377    octal character  \i \i
-\i \i    \\s / \\C   space / not a space   \\f  form feed   \\xFF    hex character    \i \i
-\i \i    \\x{20AC}  Unicode code point                    \\p{Ll}  Unicode category \i \i
+\i \i    \b\\i\b / \b\\I\b   identifier start      \b\\t\b  tab         \b\\e\b      escape           \i \i
+\i \i    \b\\c\b / \b\\C\b   identifier continue   \b\\n\b  newline     \b\\r\b      carriage return  \i \i
+\i \i    \b\\d\b / \b\\D\b   digit / not a digit   \b\\b\b  backspace   \b\\\\\b      backslash        \i \i
+\i \i    \b\\w\b / \b\\W\b   wordc / not a word    \b\\a\b  alert       \b\\\b\u377\u    octal character  \i \i
+\i \i    \b\\s\b / \b\\C\b   space / not a space   \b\\f\b  form feed   \b\\x\b\uFF\u    hex character    \i \i
+\i \i    \b\\x{\b\u20AC\u\b}\b  Unicode code point                    \b\\p{\b\uLl\u\b}\b  Unicode category \i \i
 }
 
 {SearchOptions
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
 \i \i \u\bSearch options:\b\u                                                             \i \i
-\i \i     r => replace                                                            \i \i
-\i \i     k => restrict search to highlighted block, which can be rectangular     \i \i
-\i \i     b => search backward instead of forward                                 \i \i
-\i \i     i => ignore case                                                        \i \i
-\i \i     a => search across all loaded files                                     \i \i
-\i \i     e => search across all files in Grep or Compile error list              \i \i
-\i \i   w/n => wrap / do not wrap to beginning of file for this search            \i \i
-\i \i   y/x => search is JOE 4.1-format / unescaped \b. * + ? { } ( ) | [ ^ $\b regex \i \i
-\i \i   nnn => perform exactly nnn (number) replacements                          \i \i
+\i \i     \br\b => replace                                                            \i \i
+\i \i     \bk\b => restrict search to highlighted block, which can be rectangular     \i \i
+\i \i     \bb\b => search backward instead of forward                                 \i \i
+\i \i     \bi\b => ignore case                                                        \i \i
+\i \i     \ba\b => search across all loaded files                                     \i \i
+\i \i     \be\b => search across all files in Grep or Compile error list              \i \i
+\i \i   \bw\b/\bn\b => wrap / do not wrap to beginning of file for this search            \i \i
+\i \i   \by\b/\bx\b => search is JOE 4.1-format / unescaped \b. * + ? { } ( ) | [ ^ $\b regex \i \i
+\i \i   \unnn\u => perform exactly \unnn\u (number) replacements                          \i \i
 }
 
 {Math
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
-\i \i \uCOMMANDS\u (hit ^QM for math)    \uFUNCTIONS\u                                    \i \i
-\i \i     hex hex display mode       sin cos tab asin acos atan                   \i \i
-\i \i     dec decimal mode           sinh cosh tanh asinh acosh atanh             \i \i
-\i \i     ins type result into file  sqrt cbrt exp ln log                         \i \i
-\i \i    eval evaluate block         int floor ceil abs erg ergc                  \i \i
-\i \i    0xff enter number in hex    joe(..macro..) - runs an editor macro        \i \i
-\i \i    3e-4 floating point decimal \uBLOCK\u                                        \i \i
-\i \i    a=10 assign a variable      sum cnt  sum, count                          \i \i
-\i \i 2+3:ins multiple commands      avg dev  average, standard deviation         \i \i
-\i \i    e pi constants              \uOPERATORS\u                                    \i \i
-\i \i     ans previous result        ! ^  * / %  + -  < <= > >= == !=  && ||  ? : \i \i
+\i \i \u\bCOMMANDS\b\u (hit ^QM for math)    \u\bFUNCTIONS\b\u                                    \i \i
+\i \i     \bhex\b hex display mode       \bsin\b \bcos\b \btab\b \basin\b \bacos\b \batan\b                   \i \i
+\i \i     \bdec\b decimal mode           \bsinh\b \bcosh\b \btanh\b \basinh\b \bacosh\b \batanh\b             \i \i
+\i \i     \bins\b type result into file  \bsqrt\b \bcbrt\b \bexp\b \bln\b \blog\b                         \i \i
+\i \i    \beval\b evaluate block         \bint\b \bfloor\b \bceil\b \babs\b \berg\b \bergc\b                  \i \i
+\i \i    \b0x\b\uFF\u enter number in hex    \bjoe(\b\u..macro..\u\b)\b - runs an editor macro        \i \i
+\i \i    \u3\u\bE\b\u-4\u floating point decimal \u\bBLOCK\b\u                                        \i \i
+\i \i    \ua\u\b=\b\u10\u assign a variable      \bsum\b \bcnt\b  sum, count                          \i \i
+\i \i \u2+3\u\b:\b\uins\u multiple commands      \bavg\b \bdev\b  average, standard deviation         \i \i
+\i \i    \be\b \bpi\b constants              \u\bOPERATORS\b\u                                    \i \i
+\i \i     \bans\b previous result        \b!\b \b^\b \b\b \b*\b \b/\b \b%\b  \b+\b \b-\b  \b<\b \b<=\b \b>\b \b>=\b \b==\b \b!=\b  \b&&\b \b||\b  \u\b?\b \b:\b\u \i \i
 }
 
 {Names
 \i   Help Screen    turn off with ^J     prev. screen ^[,    next screen ^[.     \i
 \i \i At file name prompts use the cursor up/down keys to access a history of     \i \i
-\i \i recently used files or the tab key to complete them.  \bSpecial file names:\b   \i \i
-\i \i      !command                 Pipe in/out of a shell command                \i \i
-\i \i      >>filename               Append to a file                              \i \i
-\i \i      -                        Read/Write to/from standard I/O               \i \i
-\i \i      filename,START,SIZE      Read/Write a part of a file/device            \i \i
+\i \i recently used files or the tab key to complete them.  \u\bSpecial file names:\b\u   \i \i
+\i \i      \b!\b\ucommand\u                 Pipe in/out of a shell command                \i \i
+\i \i      \b>>\b\ufilename\u               Append to a file                              \i \i
+\i \i      \b-\b                        Read/Write to/from standard I/O               \i \i
+\i \i      \ufilename\u\b,\b\uSTART\u\b,\b\uSIZE\u      Read/Write a part of a file/device            \i \i
 \i \i          Give START/SIZE in decimal (255), octal (0377) or hex (0xFF)       \i \i
-\i \i \u\bPresentation mode:\b\u F6=fullscreen; F7=previous, F8=next win; F9=filter/again \i \i
+\i \i \u\bPresentation mode:\b\u \bF6\b=fullscreen; \bF7\b=previous, \bF8\b=next win; \bF9\b=filter/again \i \i
 }
 
 {Joe
@@ -532,7 +544,7 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
 \i \i \dGPLv2 JOE 4.4 with jupprc; partial functionality unmapped, missing, broken.\d \i \i
-\i \i @(#) jupprc 2018-02-01; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2018-02-14; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#3 additional help screens
@@ -550,6 +562,9 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i  96  60 | `abc defg  hijk lmno    àáâã äåæç  èéêë ìíîï | E0  224            \i \i
 \i \i 112  70 | pqrs tuvw  xyz{ |}~    ðñòó ôõö÷  øùúû üýþÿ | F0  240            \i \i
 }
+
+:def mathins math,uparw,home,markb,eol,markk,prevw,blkcpy,nextw,nmark,rtn
+:def mathres math,"ins",rtn
 
 :windows
  #HOOK#4 common keybindings
@@ -575,6 +590,8 @@ math		^Q M
 math		^Q ^M
 math		^Q m
 math		^[ q m
+mathins		^[ #
+mathres		^[ =
 msg		^[ H
 msg		^[ h
 nextw		.k8
@@ -679,10 +696,12 @@ crawll		^Q ,
 crawll		^[ q ,
 crawlr		^Q .
 crawlr		^[ q .
+delbol		^Q T
 delbol		^Q ^?
-delbol		^Q ^H
+delbol		^Q ^T
+delbol		^Q t
 delbol		^[ q ^?
-delbol		^[ q ^H
+delbol		^[ q t
 delch		.kD
 delch		^G
 delch		^[ [ 3 ~
@@ -750,8 +769,8 @@ inscurtime	^[ !
 insf		^K R
 insf		^K ^R
 insf		^K r
-isrch		^[ S
-isrch		^[ s
+isrch		^[ T
+isrch		^[ t
 lindent		^K ,
 line		^Q I
 line		^Q ^I
@@ -786,7 +805,7 @@ nmark		^K ^H
 nmark		^K h
 nxterr		^[ M
 nxterr		^[ m
-open		^[ b
+open		^]
 docompile	^[ C
 docompile	^[ c
 parserr		^[ E
