@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.393 2018/02/05 00:53:31 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.394 2018/02/09 18:24:41 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -13964,6 +13964,60 @@ Date: 09.02.2018
 Waypoint: CC5AZ0
 Title: Cyder Cyber
 Tag: MC2 Challenge
+----
+ID: 2301
+Date: 20.02.2018
+Waypoint: GC7E6ZT
+Title: Krolock
+Tag: D25 T25 Micro Tradi recommended
+----
+ID: 2302
+Date: 24.02.2018
+Waypoint: GC785CW
+Title: Blick auf Dido
+Tag: D15 T15 Micro Tradi
+----
+ID: 2303
+Date: 24.02.2018
+Waypoint: GC785C3
+Title: Was stinkt,... riecht das auch ?
+Tag: D15 T15 Small Tradi
+----
+ID: 2304
+Date: 24.02.2018
+Waypoint: GC784Y9
+Title: Eifelblick
+Tag: D15 T15 Micro Tradi
+----
+ID: 2305
+Date: 24.02.2018
+Waypoint: GC78508
+Title: In der Ruhe liegt die Kraft
+Tag: D15 T15 Micro Tradi
+----
+ID: 2306
+Date: 24.02.2018
+Waypoint: GC7851N
+Title: Yessi's Trainingsplatz
+Tag: D15 T15 Micro Tradi
+----
+ID: 2307
+Date: 25.02.2018
+Waypoint: GC7CN01
+Title: Mit dem Kopf durch die Wand
+Tag: D2 T15 Nano Tradi
+----
+ID: 2308
+Date: 25.02.2018
+Waypoint: OC14214
+Title: SSVC Bonn: Zoologisches Forschungsmuseum
+Tag: D15 T1 Virtual
+----
+ID: 2309
+Date: 25.02.2018
+Waypoint: GC17YC4
+Title: Lemmers Menagerie
+Tag: D3 T15 Nano Mystery
 ----
 ID: p20481102
 Date: 02.11.2048
