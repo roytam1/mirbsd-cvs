@@ -5,6 +5,14 @@ jupp-current
 
 - …
 
+JOE 3.1jupp36
+
+- fix too-wide prompt for ` command (needs only 73 columns now)
+- make ^QV/^QP after ^K] work
+- fix Teχ/LᴬTᴇX highlighting on black-on-white terminals
+- don’t forcibly disable -highlight for NXC files
+- fix substitution of paths into generated files
+
 JOE 3.1jupp35
 
 - rearrange the jupprc help cards, adding missing items
