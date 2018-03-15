@@ -108,6 +108,8 @@ uninstall-local:
 		rm -f $(DESTDIR)$(bindir)/$$i $(DESTDIR)$(man1dir)/$$i.1; \
 	done
 
+CLEANFILES = $(JOE_RCFILES) joe.1
+
 distclean-local:
 	rm -f *~
 	rm -f stamp-h.in charmaps/klingon syntax/asm.jsf syntax/c.jsf syntax/conf.jsf syntax/csh.jsf syntax/diff.jsf syntax/fortran.jsf syntax/html.jsf syntax/java.jsf syntax/lisp.jsf syntax/mail.jsf syntax/mason.jsf syntax/pascal.jsf syntax/perl.jsf syntax/php.jsf syntax/python.jsf syntax/sh.jsf syntax/tcl.jsf syntax/tex.jsf syntax/verilog.jsf syntax/vhdl.jsf syntax/xml.jsf
