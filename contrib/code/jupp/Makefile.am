@@ -20,21 +20,22 @@ JOE_RC_EDIT = sed \
 		-e 's@''jrcbefore''@$(jrcbefore)g' \
 		-e 's@''jrcafter''@$(jrcafter)g' \
 		-e 's@''SPELL''@$(SPELL)g' \
+		<'$?' >$@~ && mv -f $@~ $@
 
 jmacsrc: jmacsrc.in
-	$(JOE_RC_EDIT) <'$?' >$@~ && mv -f $@~ $@
+	$(JOE_RC_EDIT)
 
 joerc: joerc.in
-	$(JOE_RC_EDIT) <'$?' >$@~ && mv -f $@~ $@
+	$(JOE_RC_EDIT)
 
 jpicorc: jpicorc.in
-	$(JOE_RC_EDIT) <'$?' >$@~ && mv -f $@~ $@
+	$(JOE_RC_EDIT)
 
 jstarrc: jstarrc.in
-	$(JOE_RC_EDIT) <'$?' >$@~ && mv -f $@~ $@
+	$(JOE_RC_EDIT)
 
 rjoerc: rjoerc.in
-	$(JOE_RC_EDIT) <'$?' >$@~ && mv -f $@~ $@
+	$(JOE_RC_EDIT)
 
 INCLUDES = -DJOERC="\"$(sysconf_joedir)/\""
 
