@@ -1,6 +1,0 @@
-# $MirOS: src/distrib/common/listend.sparc-big,v 1.6 2009/04/16 13:20:23 tg Exp $
-
-# extra programmes
-LINK	instbin					bin/mt
-LINK	instbin					sbin/restore
-LINK	instbin					usr/bin/find

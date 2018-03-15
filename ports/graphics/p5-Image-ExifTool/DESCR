@@ -1,9 +1,0 @@
-ExifTool is a customizable set of Perl modules plus an application
-script for reading and writing meta information in image, audio and
-video files, including the maker note information of many digital
-cameras by various manufacturers such as Canon, Casio, FujiFilm, HP,
-JVC/Victor, Kodak, Leaf, Minolta/Konica-Minolta, Nikon, Olympus/Epson,
-Panasonic/Leica, Pentax/Asahi, Ricoh, Sanyo, Sigma/Foveon and Sony.
-
-Contrary to other such utilities, it can also work on PDF, PNG, JPG, and
-many other file types.
