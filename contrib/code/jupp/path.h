@@ -29,6 +29,7 @@ unsigned char *joesep(unsigned char *path);
 #endif
 
 #if JUPP_WIN32RELOC
+#undef JOERC
 extern unsigned char has_JOERC, *get_JOERC;
 void init_JOERC(void);
 #else
