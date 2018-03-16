@@ -14019,6 +14019,12 @@ Waypoint: GC17YC4
 Title: Lemmers Menagerie
 Tag: D3 T15 Nano Mystery
 ----
+ID: 2310
+Date: 09.03.2018
+Waypoint: GC1JRE2
+Title: Bin Tanken
+Tag: D25 T2 Micro Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
