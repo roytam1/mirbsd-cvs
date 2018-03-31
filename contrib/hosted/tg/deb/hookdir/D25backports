@@ -7,6 +7,8 @@
 #
 # Note: This will not work with pbuilder-satisfydepends-classic,
 # and on sarge not with pbuilder-satisfydepends (aptitude) either.
+# On stretch (new enough for pbuilder-satisfydepends-apt) it will
+# not work with that, but with pbuilder-satisfydepends-aptitude…
 
 unset LANGUAGE
 LC_ALL=C; export LC_ALL
@@ -18,7 +20,7 @@ case $d in
 	echo deb http://archive.debian.org/debian-backports/ \
 	    $d-backports main >>/etc/apt/sources.list
 	;;
-(wheezy|jessie)
+(wheezy|jessie|stretch)
 	echo deb http://httpredir.debian.org/debian/ \
 	    $d-backports main >>/etc/apt/sources.list
 	;;
