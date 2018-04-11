@@ -12,6 +12,9 @@
 #
 # Remember to add --debbuildopts "-m'$DEBEMAIL'" for porter uploads!
 #
+# For backports, use hookdir/D25backports and DIST=bp:dist[/arch],
+# or instantiate a separate DIST=dist-backports[-sloppy][/arch] chroot.
+#
 # To use a chroot with glibc 2.13 or older (Debian wheezy or older)
 # with Linux 4.8 or up, you may need to add this to /etc/default/grub:
 # GRUB_CMDLINE_LINUX="rootdelay=5 syscall.x32=y vsyscall=emulate net.ifnames=0 kaslr"
@@ -146,6 +149,16 @@ COMPONENTS_ubuntu='main universe'
 # to have a different shell prompt inside the chroot
 export debian_chroot="pbuild$$-$DIST"
 
+# support manual flagging as backports build using hookdir/D25backports
+if [[ $DIST = bp:* ]]; then
+	DIST=${DIST#*:}
+	DISTpfx=bp:
+	isbackports=manual
+else
+	DISTpfx=
+	isbackports=no
+fi
+
 # check $DIST for architecture
 case $DIST in
 */*)
@@ -183,7 +196,7 @@ case $DIST in
 	ARCHSUFFIX=
 	;;
 esac
-echo >&2 "I: Building for $DIST/$ARCHITECTURE"
+echo >&2 "I: Building for $DISTpfx$DIST/$ARCHITECTURE"
 
 # check $DIST for validity and load settings
 export DISTRIBUTION=${DIST%%-*}
@@ -196,7 +209,6 @@ for distro in $DISTROS; do
 		DISTRO=$distro
 		case $DIST in
 		($dist)
-			isbackports=no
 			;;
 		($dist-backports)
 			case $distro in
@@ -250,7 +262,7 @@ for distro in $DISTROS; do
 	test $distfound = 0 || break
 done
 if test $distfound = 0; then
-	echo >&2 "E: Unknown distribution/suite \$DIST: '$DIST'"
+	echo >&2 "E: Unknown distribution/suite in \$DIST: '$DIST'"
 	setuptofail
 	return
 fi
@@ -420,7 +432,7 @@ case $isbackports:$DIST in
 	fi
 	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $x $DISTRIBUTION-backports $COMPONENTS"
 	;;
-(no:*)
+(no:*|manual:*)
 	;;
 (sloppy:*)
 	eval x=\$MIRRORBACKPORTS_$DISTRIBUTION
@@ -473,6 +485,8 @@ esac
 test x"$isbackports" = x"no" || case $DISTRIBUTION in
     (etch|lenny)
 	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental ;;
+    (stretch)
+	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-aptitude ;;
     esac
 PBUILDERSATISFYDEPENDSOPT=(--check-key)
 
