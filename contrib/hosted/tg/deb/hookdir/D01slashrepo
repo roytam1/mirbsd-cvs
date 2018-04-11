@@ -1,7 +1,7 @@
 #!/bin/bash
-# $MirOS: contrib/hosted/tg/deb/hookdir/D00local,v 1.4 2014/12/20 14:27:01 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/hookdir/D01slashrepo,v 1.1 2018/03/29 16:46:28 tg Exp $
 #-
-# Copyright © 2014
+# Copyright © 2014, 2018
 #	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -29,6 +29,11 @@ this=D01slashrepo
 
 unset LANGUAGE
 LC_ALL=C; export LC_ALL
+
+test -d "$base/." || {
+	echo >&2 "E: D01slashrepo: base '$base' does not exist"
+	exit 1
+}
 
 shopt -s extglob
 base=${base%%*(/)}
