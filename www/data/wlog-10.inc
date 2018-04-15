@@ -11530,3 +11530,76 @@ Tag: archaeology bug debian pcli security
  for CVS because it constructs its command line in a way that doesn’t let
  users exploit that bug.</p>
 ----
+Date: 15.04.2018 21:11
+Author: tg@
+Title: mksh on Jehanne, a guest post by Shamar
+Tag: archaeology debian fun guest mksh pcli
+
+<p>Giacomo Tesio referenced mksh(1) in his <a
+ href="http://jehanne.io/2018/01/06/jehanne-in-2017.html">annual Jehanne
+ report</a> and provided a guest post (dated 2018-01-09, sorry for
+ posting it this late only) for us on his journey on porting <a
+ href="@@RELPATH@@mksh.htm#oe_jehanne">mksh</a> to Jehanne, his
+ Plan 9 derivative operating system. Read on for his story!</p>
+<!-- RSS stop --><hr />
+<h3>MirBSD's Korn Shell on <span style="text-decoration:line-through;">Plan9</span> Jehanne</h3>
+<p>Let start by saying that I'm not really a C programmer.<br />
+My last public contribution to a POSIX C program was a little improvement to the <a href="https://snort.org/" rel="noopener">Snort's</a> react module <a href="https://lists.snort.org/pipermail/snort-devel/2008-June/007680.html" rel="noopener">back in 2008</a>.</p>
+<p>So while I know the C language well enough, I do not know anything about the subtliness of the standard library and I have little experience with POSIX semantics.</p>
+<p>This is not a big issue with <a href="http://9p.io" rel="noopener">Plan 9</a>, since the C library and compiler are not standard anyway, but with <a href="http://jehanne.io" rel="noopener">Jehanne</a> (a Plan 9 derivative of my own) I want to build a simple, loosely coupled, system that can actually run useful free software ported from UNIX.</p>
+<p>So I ported RedHat's newlib to Jehanne on top of a new system library I wrote, <a title="LibPOSIX: POSIX emulation layer for Jehanne" href="https://github.com/JehanneOS/jehanne/tree/master/sys/src/lib/posix" rel="noopener">LibPOSIX</a>, that provides the necessary emulations. I wrote several test, checking they run the same on Linux and Jehanne, and then I begun looking for a real-world, battle tested, application to port first.</p>
+<p>I approached MirBSD's Korn Shell for several reason:</p>
+<ul>
+<li>it is simple, powerful and well written</li>
+<li>it has been ported to several different operating systems</li>
+<li>it has few dependencies</li>
+<li>it's the default shell in Android, so it's <strong>really</strong> battle tested</li>
+</ul>
+<p>I was very confident. I had read the <a title="POSIX.1-2008" href="http://pubs.opengroup.org/onlinepubs/9699919799/" rel="noopener">POSIX standard</a> after all! And I had a test suite!<br />I remember, I thought "Given newlib, how hard can it be?"</p>
+<p>The porting begun on September 1, 2017. It was completed by <a href="mailto:tg@mirbsd.org">tg</a> on <a href="https://github.com/MirBSD/mksh/commit/9f3c0efefcc086f42dc31eca3a5b4d101cf6c85c" rel="noopener">January 5, 2018</a>. <strong>125 nights</strong> later.</p>
+<p>Turn out, my POSIX emulation was <strong>badly broken</strong>. Not just because of the usual bugs that any piece of C can have: I didn't understood most POSIX semantics at all!</p>
+<p> </p>
+<p>First, <a href="http://felloff.net/usr/cinap_lenrek/" rel="noopener">Cinap</a> had to patiently explain me on <a href="irc://chat.freenode.net/cat-v">#cat-v</a> that UNIX signals are <a title="Signal safety in Linux" href="http://man7.org/linux/man-pages/man7/signal-safety.7.html" rel="noopener">reentrant</a>.<br />It took him a while: I wasn't able to understand.<br />Even now, I keep asking: "Why?!? Why they did this! why..."</p>
+<p> </p>
+<p>Fixed that, I saw that mksh was unable to execute <code>ls</code>: in Plan 9 common environment variables are lower case.<br />The <code>$PATH</code> variable is called <code>$path</code>, the <code>$CDPATH</code> variable is called <code>$cdpath</code> and so on.<br />Also, when appropriate, they are NULL separated char arrays, since they are exposed as files from the <a title="Plan 9's environment variables" href="http://man.cat-v.org/9front/3/env" rel="noopener">env</a> device, and <a href="http://man.cat-v.org/9front/1/rc" rel="noopener">rc</a> can get their size with a simple <code>seek</code>.</p>
+<p>I reflected on the issue for a while, tried several solutions to preserve both conventions (some of which even worked).<br />But finally, I surrended to the simplest solution: I adopted the POSIX convention for Jehanne.</p>
+<p><a title="A 9fans thread about variable names" href="https://marc.info/?t=150825129600008&amp;r=1&amp;w=2" rel="noopener">Aesthetics</a> amuse, but simplicity helps.</p>
+<p>However it was not enough: I needed to hook mksh startup to read the variables from the filesystem (just like rc does). How to do that cleanly? I asked on <a href="irc://chat.freenode.net/!/bin/mksh">#!/bin/mksh</a> and tg did not simply explained a poor noob how to do that. He did it <a title="commit: add MKSH_ENVDIR code for Jehanne" href="https://github.com/MirBSD/mksh/commit/d76a7e581369fc3a7d322cdc09d802d8ee708b9c" rel="noopener">himself</a>!</p>
+<p>I was enchanted by his kindness. So far Jehanne is just a toy. Still he spent his own time for me.</p>
+<p> </p>
+<p>But the journey was still ongoing.</p>
+<p>I realized that to run a command, mksh requires SIGCHLD support. I added it. The first implementation worked.</p>
+<p><strong>Once</strong>.</p>
+<p>It was able to run exactly <strong>one</strong> command in mksh. The shell stopped reading input after the second one.</p>
+<p>So I wrote it again from scratch. And it worked! Yuppy! :-)</p>
+<p>Till I tried <code>echo test | grep test</code></p>
+<p>Grep didn't get EOF, as mksh for some strange reason was keeping the pipe open.<br />
+   I extended <a title="File service providing dups of open files" href="http://man.cat-v.org/9front/3/dup" rel="noopener">devdup</a> to ensure <code>fcntl</code>'s emulation was working as expected. I rewrote <code>fcntl</code> emulation. Still broken.</p>
+<p>Out of despair I turned to annoy tg again over IRC. Talking with him I realized that the problem was the signal dispatching. So I rewrote it again, introducing a <a title="sys/posixly in Jehanne" href="https://github.com/JehanneOS/jehanne/blob/master/sys/src/lib/posix/posixly.c" rel="noopener">new 9P2000 file server</a> that handles signal IPC among POSIX processes, taking care of masks, ignored signals, <a title="In POSIX sigwait, sigtimedwait and sigwaitinfo wait for queued signals" href="http://pubs.opengroup.org/onlinepubs/9699919799/functions/sigtimedwait.html" rel="noopener">waited</a> ones.</p>
+<p>Finally <code>echo test | grep test</code> worked.</p>
+<p> </p>
+<p>But...</p>
+<p>mksh was blaming me with two annoying warnings:</p>
+<blockquote>
+<pre>mksh: No controlling tty: open /dev/tty: No such file or directory
+mksh: warning: won't have full job control</pre>
+</blockquote>
+<p>I asked tg and he tried to explain me what /dev/tty is, providing links about /dev/tty, /dev/ttyN and /dev/console.</p>
+<p>So I modified <a title="Plan 9's Virtual Terminal Emulator" href="http://man.cat-v.org/9front/1/vt" rel="noopener">vt</a> (and later <code>hmi/pipeconsole</code>) to provide /dev/tty as an alias to <a href="http://man.cat-v.org/9front/3/cons">/dev/cons</a>.</p>
+<p>The first warning was gone... but only the first one!</p>
+<p>It was not just a matter of warnings: I was unable to interrupt a script (what you do with Ctrl+C on unix).</p>
+<p> </p>
+<p>Down the rabbit hole, again.</p>
+<p>I had to study the complex semantics of tty job control (asking boring questions to tg, again).<br />
+   I had to fix <code>setsid</code>, <code>getsid</code>, <code>setpgid</code>, <code>getpgid</code>, <code>getpgrp</code> and to add support for termios' <code>tcgetpgrp</code> and <code>tcsetpgrp</code>.<br />
+   Worse: I had to mostly rewrite the file server I had just written. Sob!</p>
+<p>It took a while.<br />
+   In the process I realized that a <code>sys/posixly</code> instance actually represents a single terminal session..</p>
+<p> </p>
+<p>... did I say it took a while?</p>
+<p> </p>
+<p>Then, suddenly... I saw this, and it was like an epiphany:</p>
+<p><img src="http://jehanne.io/graphic/screenshot-20180106.png" alt="mksh running in Jehanne with full job control" /></p>
+<p> </p>
+<p>MirBSD's Korn Shell was working on Jehanne! What a happy new year! :-D</p>
+----
