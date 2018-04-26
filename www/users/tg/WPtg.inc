@@ -14335,11 +14335,11 @@ Title: Whirlpool – oder Hash the Cache
 nTF: 2
 Tag: D5 T15 Nano Mystery
 ----
-ID: p20180426
-Date: 26.04.2018
-Waypoint: GC7MM36
-Title: Tachartas reòiteag
-Tag: D1 T1 Event
+ID: 2362
+Date: 17.04.2018
+Waypoint: GC7K1FD
+Title: Airwaves
+Tag: D2 T1 Nano Tradi
 ----
 ID: p20481102
 Date: 02.11.2048

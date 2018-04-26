@@ -27,7 +27,7 @@ _inc2xhtml=	( (print '\n----'; sed -e '/^\#/d' -e '/^RCSID: \$$/d') | \
 		    -e 'sg' \
 		    | \
 		tr '' '\n')
-_xhtmldtd=	${TOP}/mk/xhtml11.dtd
+_xhtmldtd=	${TOP}/files/xhtml11.dtd
 _xhtmlbeg=	<?xml version="1.0"?> \
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" \
 		 "file://${_xhtmldtd}"> \

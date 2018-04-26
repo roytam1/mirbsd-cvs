@@ -11,7 +11,7 @@ mws__onload=
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_23100
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_16416
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -146,7 +146,7 @@ function mws_putheader {
 	fi
 	mws__content_categorised <<-EOF
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+		 "http://www.mirbsd.org/xhtml11.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
 		 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		 <meta http-equiv="Content-Style-Type" content="text/css" />

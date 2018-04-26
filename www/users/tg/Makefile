@@ -1,4 +1,4 @@
-# $MirOS: www/users/tg/Makefile,v 1.3 2014/04/14 20:03:25 tg Exp $
+# $MirOS: www/users/tg/Makefile,v 1.4 2014/08/16 20:19:54 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -26,7 +26,7 @@ _inc2xhtml=	( (print '\n----'; sed -e '/^\#/d' -e '/^RCSID: \$$/d') | \
 		    -e 'sg' \
 		    | \
 		tr '' '\n')
-_xhtmldtd=	${TOP}/mk/xhtml11.dtd
+_xhtmldtd=	${TOP}/files/xhtml11.dtd
 _xhtmlbeg=	<?xml version="1.0"?> \
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" \
 		 "file://${_xhtmldtd}"> \

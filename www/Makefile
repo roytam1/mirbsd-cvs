@@ -79,7 +79,7 @@ CLEANFILES+=	news.cut
 _htm_2xhtml=	(tr '\n' '﷐' | \
 		sed 's^.*<html'${_xhtmlbeg:Q}'' | \
 		tr '﷐' '\n')
-_xhtmldtd=	${TOP}/mk/xhtml11.dtd
+_xhtmldtd=	${TOP}/files/xhtml11.dtd
 _xhtmlbeg=	<?xml version="1.0"?> \
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" \
 		 "file://${_xhtmldtd}"> \

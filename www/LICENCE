@@ -1,4 +1,4 @@
-$MirOS: www/LICENCE,v 1.27 2016/01/04 19:10:24 tg Exp $
+$MirOS: www/LICENCE,v 1.29 2018/01/01 22:12:21 tg Exp $
 
 This is the source code for the generated part of the new
 website of the MirOS Project. The source code is licenced
@@ -19,9 +19,6 @@ Any “textual content” embedded in the website source code
 is obviously covered by the terms in files/LICENCE. (This
 is due to it being transformed into output which is cove‐
 red by these terms.)
-
-The mk/xhtml11.dtd file is xhtml11-flat.dtd from W3C (re-
-produced as-is, according to its licence).
 
 
 The MirOS Project web site source code is

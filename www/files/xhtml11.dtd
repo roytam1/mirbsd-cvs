@@ -11,18 +11,23 @@
      Copyright 1998-2000 World Wide Web Consortium
         (Massachusetts Institute of Technology, Institut National de
          Recherche en Informatique et en Automatique, Keio University).
+     Copyright 1998-2008 World Wide Web Consortium
+        (Massachusetts Institute of Technology, European Research Consortium
+         for Informatics and Mathematics, Keio University).
          All Rights Reserved.
 
-     Permission to use, copy, modify and distribute the XHTML DTD and its 
-     accompanying documentation for any purpose and without fee is hereby 
-     granted in perpetuity, provided that the above copyright notice and 
-     this paragraph appear in all copies.  The copyright holders make no 
+     Permission to use, copy, modify and distribute the XHTML DTD and its
+     accompanying documentation for any purpose and without fee is hereby
+     granted in perpetuity, provided that the above copyright notice and
+     this paragraph appear in all copies.  The copyright holders make no
      representation about the suitability of the DTD for any purpose.
 
      It is provided "as is" without expressed or implied warranty.
 
         Author:     Murray M. Altheim <altheim@eng.sun.com>
-        Revision:   $Id: xhtml11.dtd,v 1.20 2001/04/05 14:20:51 ahby Exp $
+        Revision:   $Id$
+	Bugfixes:   from [XHTMLMOD] 1.1 Second Edition; XHTML/1.1 2nd Ed.
+	Revision:   $MirOS$
 
 -->
 <!-- This is the driver file for version 1.1 of the XHTML DTD.
@@ -99,7 +104,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-inlstyle-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $
+     Revision: $Id$
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -147,7 +152,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-framework-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -193,7 +198,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-notations-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $
+     Revision: $Id$
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -314,12 +319,14 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-datatypes-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
+     + URIREF from xhtml-datatypes-1.mod,v 4.1 2001/04/06 19:23:32 altheim Exp $ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ENTITIES XHTML Datatypes 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-datatypes-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-datatypes-1.mod"
 
      Revisions:
      (none)
@@ -389,6 +396,9 @@
 <!-- a space-separated list of Uniform Resource Identifiers, see [URI] -->
 <!ENTITY % URIs.datatype "CDATA" >
 
+<!-- a relative URI reference consisting of an initial '#' and a fragment ID -->
+<!ENTITY % URIREF.datatype "CDATA" >
+
 <!-- end of xhtml-datatypes-1.mod -->
 ]]>
 
@@ -407,7 +417,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-qname-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -684,7 +694,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-events-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -811,12 +821,13 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-attribs-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ENTITIES XHTML Common Attributes 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-attribs-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-attribs-1.mod"
 
      Revisions:
      (none)
@@ -833,7 +844,7 @@
 >
 
 <!ENTITY % class.attrib
-     "class        NMTOKENS                 #IMPLIED"
+     "class        CDATA                    #IMPLIED"
 >
 
 <!ENTITY % title.attrib
@@ -899,7 +910,7 @@
 
      This is XHTML 1.1, a reformulation of HTML as a modular XML application.
      Copyright 1998-2000 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml11-model-1.mod,v 1.12 2000/11/18 18:20:25 ahby Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -1155,13 +1166,13 @@
 <!-- file: xhtml-charent-1.mod
 
      This is XHTML, a reformulation of HTML as a modular XML application.
-     Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-charent-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ENTITIES XHTML Character Entities 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-charent-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-charent-1.mod"
 
      Revisions:
      (none)
@@ -1204,7 +1215,7 @@
 <!ENTITY ordf   "&#170;"> <!-- feminine ordinal indicator, U+00AA ISOnum -->
 <!ENTITY laquo  "&#171;"> <!-- left-pointing double angle quotation mark
                                   = left pointing guillemet, U+00AB ISOnum -->
-<!ENTITY not    "&#172;"> <!-- not sign = discretionary hyphen,
+<!ENTITY not    "&#172;"> <!-- not sign = angled dash,
                                   U+00AC ISOnum -->
 <!ENTITY shy    "&#173;"> <!-- soft hyphen = discretionary hyphen,
                                   U+00AD ISOnum -->
@@ -1368,7 +1379,7 @@
                                   U+00FC ISOlat1 -->
 <!ENTITY yacute "&#253;"> <!-- latin small letter y with acute,
                                   U+00FD ISOlat1 -->
-<!ENTITY thorn  "&#254;"> <!-- latin small letter thorn with,
+<!ENTITY thorn  "&#254;"> <!-- latin small letter thorn,
                                   U+00FE ISOlat1 -->
 <!ENTITY yuml   "&#255;"> <!-- latin small letter y with diaeresis,
                                   U+00FF ISOlat1 -->
@@ -1397,11 +1408,11 @@
      existing ISO 8879 entity names. ISO 10646 character numbers
      are given for each character, in hex. values are decimal
      conversions of the ISO 10646 values and refer to the document
-     character set. Names are Unicode names. 
+     character set. Names are Unicode names.
 -->
 
 <!-- Latin Extended-B -->
-<!ENTITY fnof     "&#402;"> <!-- latin small f with hook = function
+<!ENTITY fnof     "&#402;"> <!-- latin small letter f with hook = function
                                     = florin, U+0192 ISOtech -->
 
 <!-- Greek -->
@@ -1476,7 +1487,7 @@
 <!ENTITY psi      "&#968;"> <!-- greek small letter psi, U+03C8 ISOgrk3 -->
 <!ENTITY omega    "&#969;"> <!-- greek small letter omega,
                                     U+03C9 ISOgrk3 -->
-<!ENTITY thetasym "&#977;"> <!-- greek small letter theta symbol,
+<!ENTITY thetasym "&#977;"> <!-- greek theta symbol,
                                     U+03D1 NEW -->
 <!ENTITY upsih    "&#978;"> <!-- greek upsilon with hook symbol,
                                     U+03D2 NEW -->
@@ -1518,14 +1529,14 @@
                                      = carriage return, U+21B5 NEW -->
 <!ENTITY lArr     "&#8656;"> <!-- leftwards double arrow, U+21D0 ISOtech -->
 <!-- Unicode does not say that lArr is the same as the 'is implied by' arrow
-    but also does not have any other character for that function. So ? lArr can
+    but also does not have any other character for that function. So lArr can
     be used for 'is implied by' as ISOtech suggests -->
 <!ENTITY uArr     "&#8657;"> <!-- upwards double arrow, U+21D1 ISOamsa -->
 <!ENTITY rArr     "&#8658;"> <!-- rightwards double arrow,
                                      U+21D2 ISOtech -->
-<!-- Unicode does not say this is the 'implies' character but does not have 
-     another character with this function so ?
-     rArr can be used for 'implies' as ISOtech suggests -->
+<!-- Unicode does not say this is the 'implies' character but does not have
+     another character with this function so rArr can be used for 'implies'
+     as ISOtech suggests -->
 <!ENTITY dArr     "&#8659;"> <!-- downwards double arrow, U+21D3 ISOamsa -->
 <!ENTITY hArr     "&#8660;"> <!-- left right double arrow,
                                      U+21D4 ISOamsa -->
@@ -1534,8 +1545,7 @@
 <!ENTITY forall   "&#8704;"> <!-- for all, U+2200 ISOtech -->
 <!ENTITY part     "&#8706;"> <!-- partial differential, U+2202 ISOtech  -->
 <!ENTITY exist    "&#8707;"> <!-- there exists, U+2203 ISOtech -->
-<!ENTITY empty    "&#8709;"> <!-- empty set = null set = diameter,
-                                     U+2205 ISOamso -->
+<!ENTITY empty    "&#8709;"> <!-- empty set = null set, U+2205 ISOamso -->
 <!ENTITY nabla    "&#8711;"> <!-- nabla = backward difference,
                                      U+2207 ISOtech -->
 <!ENTITY isin     "&#8712;"> <!-- element of, U+2208 ISOtech -->
@@ -1546,7 +1556,7 @@
                                      U+220F ISOamsb -->
 <!-- prod is NOT the same character as U+03A0 'greek capital letter pi' though
      the same glyph might be used for both -->
-<!ENTITY sum      "&#8721;"> <!-- n-ary sumation, U+2211 ISOamsb -->
+<!ENTITY sum      "&#8721;"> <!-- n-ary summation, U+2211 ISOamsb -->
 <!-- sum is NOT the same character as U+03A3 'greek capital letter sigma'
      though the same glyph might be used for both -->
 <!ENTITY minus    "&#8722;"> <!-- minus sign, U+2212 ISOtech -->
@@ -1576,9 +1586,9 @@
                                      U+2265 ISOtech -->
 <!ENTITY sub      "&#8834;"> <!-- subset of, U+2282 ISOtech -->
 <!ENTITY sup      "&#8835;"> <!-- superset of, U+2283 ISOtech -->
-<!-- note that nsup, 'not a superset of, U+2283' is not covered by the Symbol 
+<!-- note that nsup, 'not a superset of, U+2283' is not covered by the Symbol
      font encoding and is not included. Should it be, for symmetry?
-     It is in ISOamsn  --> 
+     It is in ISOamsn  -->
 <!ENTITY nsub     "&#8836;"> <!-- not a subset of, U+2284 ISOamsn -->
 <!ENTITY sube     "&#8838;"> <!-- subset of or equal to, U+2286 ISOtech -->
 <!ENTITY supe     "&#8839;"> <!-- superset of or equal to,
@@ -1593,19 +1603,19 @@
 <!-- dot operator is NOT the same character as U+00B7 middle dot -->
 
 <!-- Miscellaneous Technical -->
-<!ENTITY lceil    "&#8968;"> <!-- left ceiling = apl upstile,
+<!ENTITY lceil    "&#8968;"> <!-- left ceiling = APL upstile,
                                      U+2308 ISOamsc  -->
 <!ENTITY rceil    "&#8969;"> <!-- right ceiling, U+2309 ISOamsc  -->
-<!ENTITY lfloor   "&#8970;"> <!-- left floor = apl downstile,
+<!ENTITY lfloor   "&#8970;"> <!-- left floor = APL downstile,
                                      U+230A ISOamsc  -->
 <!ENTITY rfloor   "&#8971;"> <!-- right floor, U+230B ISOamsc  -->
 <!ENTITY lang     "&#9001;"> <!-- left-pointing angle bracket = bra,
                                      U+2329 ISOtech -->
-<!-- lang is NOT the same character as U+003C 'less than' 
+<!-- lang is NOT the same character as U+003C 'less than sign'
      or U+2039 'single left-pointing angle quotation mark' -->
 <!ENTITY rang     "&#9002;"> <!-- right-pointing angle bracket = ket,
                                      U+232A ISOtech -->
-<!-- rang is NOT the same character as U+003E 'greater than' 
+<!-- rang is NOT the same character as U+003E 'greater than sign'
      or U+203A 'single right-pointing angle quotation mark' -->
 
 <!-- Geometric Shapes -->
@@ -1644,16 +1654,15 @@
      existing ISO 8879 entity names. ISO 10646 character numbers
      are given for each character, in hex. values are decimal
      conversions of the ISO 10646 values and refer to the document
-     character set. Names are Unicode names. 
+     character set. Names are Unicode names.
 -->
 
 <!-- C0 Controls and Basic Latin -->
-<!ENTITY quot    "&#34;"> <!--  quotation mark = APL quote,
-                                    U+0022 ISOnum -->
+<!ENTITY quot    "&#34;"> <!--  quotation mark, U+0022 ISOnum -->
 <!ENTITY amp     "&#38;#38;"> <!--  ampersand, U+0026 ISOnum -->
 <!ENTITY lt      "&#38;#60;"> <!--  less-than sign, U+003C ISOnum -->
 <!ENTITY gt      "&#62;"> <!--  greater-than sign, U+003E ISOnum -->
-<!ENTITY apos	 "&#39;"> <!--  apostrophe mark, U+0027 ISOnum -->
+<!ENTITY apos	 "&#39;"> <!--  apostrophe = APL quote, U+0027 ISOnum -->
 
 <!-- Latin Extended-A -->
 <!ENTITY OElig   "&#338;"> <!--  latin capital ligature OE,
@@ -1702,6 +1711,8 @@
 <!ENTITY rsaquo  "&#8250;"> <!-- single right-pointing angle quotation mark,
                                     U+203A ISO proposed -->
 <!-- rsaquo is proposed but not yet ISO standardized -->
+
+<!-- Currency Symbols -->
 <!ENTITY euro   "&#8364;"> <!--  euro sign, U+20AC NEW -->
 
 
@@ -1732,7 +1743,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-text-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -1760,7 +1771,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-inlstruct-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -1829,7 +1840,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-inlphras-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -2039,7 +2050,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-blkstruct-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -2103,12 +2114,13 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-blkphras-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ELEMENTS XHTML Block Phrasal 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-blkphras-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-blkphras-1.mod"
 
      Revisions:
      (none)
@@ -2163,7 +2175,8 @@
       | %tt.qname; | %i.qname; | %b.qname;
       %I18n.class;
       %Anchor.class;
-      | %script.qname; | %map.qname;
+      | %map.qname;
+      %Misc.class;
       %Inline.extra; )*"
 >
 <!ENTITY % pre.qname  "pre" >
@@ -2278,7 +2291,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-hypertext-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -2340,7 +2353,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-list-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -2479,7 +2492,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-edit-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -2553,7 +2566,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-bdo-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -2610,7 +2623,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1999-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-ruby-1.mod,v 4.0 2001/04/03 23:14:33 altheim Exp $
+     Revision: $Id$
 
      This module is based on the W3C Ruby Annotation Specification:
 
@@ -2645,7 +2658,7 @@
 <!ENTITY % Ruby.fallback "INCLUDE" >
 <!ENTITY % Ruby.fallback.mandatory "IGNORE" >
 
-<!-- Complex ruby is included by default; it may be 
+<!-- Complex ruby is included by default; it may be
      overridden by other modules to ignore it.
 -->
 <!ENTITY % Ruby.complex "INCLUDE" >
@@ -2653,18 +2666,18 @@
 <!-- Fragments for the content model of the ruby element -->
 <![%Ruby.fallback;[
 <![%Ruby.fallback.mandatory;[
-<!ENTITY % Ruby.content.simple 
+<!ENTITY % Ruby.content.simple
      "( %rb.qname;, %rp.qname;, %rt.qname;, %rp.qname; )"
 >
 ]]>
-<!ENTITY % Ruby.content.simple 
+<!ENTITY % Ruby.content.simple
      "( %rb.qname;, ( %rt.qname; | ( %rp.qname;, %rt.qname;, %rp.qname; ) ) )"
 >
 ]]>
 <!ENTITY % Ruby.content.simple "( %rb.qname;, %rt.qname; )" >
 
 <![%Ruby.complex;[
-<!ENTITY % Ruby.content.complex 
+<!ENTITY % Ruby.content.complex
      "| ( %rbc.qname;, %rtc.qname;, %rtc.qname;? )"
 >
 ]]>
@@ -2860,7 +2873,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-pres-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -2888,7 +2901,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-inlpres-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -3033,7 +3046,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-blkpres-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -3084,7 +3097,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-link-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -3151,7 +3164,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-meta-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -3206,7 +3219,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-base-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -3260,19 +3273,19 @@
 <![%xhtml-script.module;[
 <!ENTITY % xhtml-script.mod
      PUBLIC "-//W3C//ELEMENTS XHTML Scripting 1.0//EN"
-            "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-script-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-script-1.mod" >
 <!-- ...................................................................... -->
 <!-- XHTML Document Scripting Module  ..................................... -->
 <!-- file: xhtml-script-1.mod
 
      This is XHTML, a reformulation of HTML as a modular XML application.
-     Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-script-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ELEMENTS XHTML Scripting 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-script-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-script-1.mod"
 
      Revisions:
      (none)
@@ -3300,11 +3313,12 @@
 <![%script.attlist;[
 <!ATTLIST %script.qname;
       %XHTML.xmlns.attrib;
+      %id.attrib;
+      xml:space    ( preserve )             #FIXED 'preserve'
       charset      %Charset.datatype;       #IMPLIED
       type         %ContentType.datatype;   #REQUIRED
       src          %URI.datatype;           #IMPLIED
       defer        ( defer )                #IMPLIED
-      xml:space    ( preserve )             #FIXED 'preserve'
 >
 <!-- end of script.attlist -->]]>
 
@@ -3334,19 +3348,19 @@
 <![%xhtml-style.module;[
 <!ENTITY % xhtml-style.mod
      PUBLIC "-//W3C//ELEMENTS XHTML Style Sheets 1.0//EN"
-            "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-style-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-style-1.mod" >
 <!-- ...................................................................... -->
-<!-- XHTML Document Style Sheet Module  .................................... -->
+<!-- XHTML Document Style Sheet Module  ................................... -->
 <!-- file: xhtml-style-1.mod
 
      This is XHTML, a reformulation of HTML as a modular XML application.
-     Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-style-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//DTD XHTML Style Sheets 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-style-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-style-1.mod"
 
      Revisions:
      (none)
@@ -3360,7 +3374,7 @@
      used to embed stylesheet information in the document head element.
 -->
 
-<!-- style: Style Sheet Information ..................... -->
+<!-- style: Style Sheet Information .................... -->
 
 <!ENTITY % style.element  "INCLUDE" >
 <![%style.element;[
@@ -3373,11 +3387,12 @@
 <![%style.attlist;[
 <!ATTLIST %style.qname;
       %XHTML.xmlns.attrib;
+      %id.attrib;
       %title.attrib;
       %I18n.attrib;
+      xml:space    ( preserve )             #FIXED 'preserve'
       type         %ContentType.datatype;   #REQUIRED
       media        %MediaDesc.datatype;     #IMPLIED
-      xml:space    ( preserve )             #FIXED 'preserve'
 >
 <!-- end of style.attlist -->]]>
 
@@ -3389,19 +3404,19 @@
 <![%xhtml-image.module;[
 <!ENTITY % xhtml-image.mod
      PUBLIC "-//W3C//ELEMENTS XHTML Images 1.0//EN"
-            "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-image-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-image-1.mod" >
 <!-- ...................................................................... -->
 <!-- XHTML Images Module  ................................................. -->
 <!-- file: xhtml-image-1.mod
 
      This is XHTML, a reformulation of HTML as a modular XML application.
-     Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Rovision: $Id: xhtml-image-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ELEMENTS XHTML Images 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-image-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-image-1.mod"
 
      Revisions:
      (none)
@@ -3434,6 +3449,7 @@
       src          %URI.datatype;           #REQUIRED
       alt          %Text.datatype;          #REQUIRED
       longdesc     %URI.datatype;           #IMPLIED
+      name         CDATA                    #IMPLIED
       height       %Length.datatype;        #IMPLIED
       width        %Length.datatype;        #IMPLIED
 >
@@ -3447,19 +3463,19 @@
 <![%xhtml-csismap.module;[
 <!ENTITY % xhtml-csismap.mod
      PUBLIC "-//W3C//ELEMENTS XHTML Client-side Image Maps 1.0//EN"
-            "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-csismap-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-csismap-1.mod" >
 <!-- ...................................................................... -->
 <!-- XHTML Client-side Image Map Module  .................................. -->
 <!-- file: xhtml-csismap-1.mod
 
      This is XHTML, a reformulation of HTML as a modular XML application.
-     Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-csismap-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ELEMENTS XHTML Client-side Image Maps 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-csismap-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-csismap-1.mod"
 
      Revisions:
      (none)
@@ -3513,21 +3529,21 @@
      to allow for client-side image maps
 -->
 <!ATTLIST %img.qname;
-      usemap       IDREF                    #IMPLIED
+      usemap       %URIREF.datatype;        #IMPLIED
 >
 
 <!-- modify form input attribute definition list
      to allow for client-side image maps
 -->
 <!ATTLIST %input.qname;
-      usemap       IDREF                    #IMPLIED
+      usemap       %URIREF.datatype;        #IMPLIED
 >
 
 <!-- modify object attribute definition list
      to allow for client-side image maps
 -->
 <!ATTLIST %object.qname;
-      usemap       IDREF                    #IMPLIED
+      usemap       %URIREF.datatype;        #IMPLIED
 >
 
 <!-- 'usemap' points to the 'id' attribute of a <map> element,
@@ -3536,7 +3552,7 @@
      eliminated in XHTML.
 
      It is considered an error for the element pointed to by
-     a usemap IDREF to occur in anything but a <map> element.
+     a usemap URIREF to occur in anything but a <map> element.
 -->
 
 <!ENTITY % map.element  "INCLUDE" >
@@ -3576,7 +3592,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-ssismap-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -3616,7 +3632,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-param-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -3672,7 +3688,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-object-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -3740,7 +3756,7 @@
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-table-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
@@ -4074,19 +4090,19 @@
 <![%xhtml-form.module;[
 <!ENTITY % xhtml-form.mod
      PUBLIC "-//W3C//ELEMENTS XHTML Forms 1.0//EN"
-            "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-form-1.mod" >
+            "http://www.w3.org/MarkUp/DTD/xhtml-form-1.mod" >
 <!-- ...................................................................... -->
 <!-- XHTML Forms Module  .................................................. -->
 <!-- file: xhtml-form-1.mod
 
      This is XHTML, a reformulation of HTML as a modular XML application.
-     Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-form-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ELEMENTS XHTML Forms 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-form-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-form-1.mod"
 
      Revisions:
      (none)
@@ -4098,7 +4114,7 @@
         textarea, fieldset, legend, button
 
      This module declares markup to provide support for online
-     forms, based on the features found in HTML 4.0 forms.
+     forms, based on the features found in HTML 4 forms.
 -->
 
 <!-- declare qualified element type names:
@@ -4145,6 +4161,7 @@
       %Common.attrib;
       action       %URI.datatype;           #REQUIRED
       method       ( get | post )           'get'
+      name         CDATA                    #IMPLIED
       enctype      %ContentType.datatype;   'application/x-www-form-urlencoded'
       accept-charset %Charsets.datatype;    #IMPLIED
       accept       %ContentTypes.datatype;  #IMPLIED
@@ -4381,19 +4398,20 @@
 <![%xhtml-struct.module;[
 <!ENTITY % xhtml-struct.mod
      PUBLIC "-//W3C//ELEMENTS XHTML Document Structure 1.0//EN"
-            "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-struct-1.mod" >
+            "xhtml-struct-1.mod" >
 <!-- ...................................................................... -->
 <!-- XHTML Structure Module  .............................................. -->
 <!-- file: xhtml-struct-1.mod
 
      This is XHTML, a reformulation of HTML as a modular XML application.
      Copyright 1998-2001 W3C (MIT, INRIA, Keio), All Rights Reserved.
-     Revision: $Id: xhtml-struct-1.mod,v 4.0 2001/04/02 22:42:49 altheim Exp $ SMI
+     Copyright 1998-2005 W3C (MIT, ERCIM, Keio), All Rights Reserved.
+     Revision: $Id$ SMI
 
      This DTD module is identified by the PUBLIC and SYSTEM identifiers:
 
        PUBLIC "-//W3C//ELEMENTS XHTML Document Structure 1.0//EN"
-       SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-struct-1.mod"
+       SYSTEM "http://www.w3.org/MarkUp/DTD/xhtml-struct-1.mod"
 
      Revisions:
      (none)
@@ -4458,6 +4476,7 @@
       %XHTML.xmlns.attrib;
       %I18n.attrib;
       %profile.attrib;
+      %id.attrib;
 >
 <!-- end of head.attlist -->]]>
 
@@ -4503,6 +4522,7 @@
       %XHTML.xmlns.attrib;
       %XHTML.version.attrib;
       %I18n.attrib;
+      %id.attrib;
 >
 <!-- end of html.attlist -->]]>
 
