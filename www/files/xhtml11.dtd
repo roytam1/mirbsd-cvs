@@ -14,6 +14,7 @@
      Copyright 1998-2008 World Wide Web Consortium
         (Massachusetts Institute of Technology, European Research Consortium
          for Informatics and Mathematics, Keio University).
+     Copyright (c) 2018 mirabilos, The MirOS Project (MirBSD).
          All Rights Reserved.
 
      Permission to use, copy, modify and distribute the XHTML DTD and its
@@ -26,8 +27,8 @@
 
         Author:     Murray M. Altheim <altheim@eng.sun.com>
         Revision:   $Id$
-	Bugfixes:   from [XHTMLMOD] 1.1 Second Edition; XHTML/1.1 2nd Ed.
-	Revision:   $MirOS$
+        Bugfixes:   from [XHTMLMOD] 1.1 Second Edition; XHTML/1.1 2nd Ed.
+        Revision:   $MirOS: www/files/xhtml11.dtd,v 1.1 2018/04/26 19:38:09 tg Exp $
 
 -->
 <!-- This is the driver file for version 1.1 of the XHTML DTD.
@@ -425,7 +426,7 @@
        SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-qname-1.mod"
 
      Revisions:
-#2000-10-22: added qname declarations for ruby elements
+       #2000-10-22: added qname declarations for ruby elements
      ....................................................................... -->
 
 <!-- XHTML Qname (Qualified Name) Module
@@ -674,11 +675,6 @@
 <!ENTITY % rb.qname      "%XHTML.pfx;rb" >
 <!ENTITY % rt.qname      "%XHTML.pfx;rt" >
 <!ENTITY % rp.qname      "%XHTML.pfx;rp" >
-
-<!-- Provisional XHTML 2.0 Qualified Names  ...................... -->
-
-<!-- module:  xhtml-image-2.mod -->
-<!ENTITY % alt.qname     "%XHTML.pfx;alt" >
 
 <!-- end of xhtml-qname-1.mod -->
 ]]>
@@ -1662,7 +1658,7 @@
 <!ENTITY amp     "&#38;#38;"> <!--  ampersand, U+0026 ISOnum -->
 <!ENTITY lt      "&#38;#60;"> <!--  less-than sign, U+003C ISOnum -->
 <!ENTITY gt      "&#62;"> <!--  greater-than sign, U+003E ISOnum -->
-<!ENTITY apos	 "&#39;"> <!--  apostrophe = APL quote, U+0027 ISOnum -->
+<!ENTITY apos    "&#39;"> <!--  apostrophe = APL quote, U+0027 ISOnum -->
 
 <!-- Latin Extended-A -->
 <!ENTITY OElig   "&#338;"> <!--  latin capital ligature OE,
@@ -3600,7 +3596,7 @@
        SYSTEM "http://www.w3.org/TR/xhtml-modularization/DTD/xhtml-ssismap-1.mod"
 
      Revisions:
-#2000-10-22: added declaration for 'ismap' on <input>
+       #2000-10-22: added declaration for 'ismap' on <input>
      ....................................................................... -->
 
 <!-- Server-side Image Maps
