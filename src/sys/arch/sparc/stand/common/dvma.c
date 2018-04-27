@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: dvma.c,v 1.3 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: dvma.c,v 1.2 1995/09/17 00:50:56 pk Exp $	*/
 /*
@@ -48,7 +49,8 @@
 #define	DVMA_BASE	0xFFF00000
 #define DVMA_MAPLEN	0xE0000	/* 1 MB - 128K (save MONSHORTSEG) */
 
-#define SA_MIN_VA	(RELOC - 0x40000)	/* XXX - magic constant */
+/* stack grows downwards from start (RELOC), NBPSG=256KiB is the unit size */
+#define SA_MIN_VA	(RELOC - NBPSG)
 #define SA_MAX_VA	(SA_MIN_VA + DVMA_MAPLEN)
 
 void
