@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.12 2013/08/05 22:06:16 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.13 2013/08/06 17:06:26 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/07/13 21:03:39 marc Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -33,7 +33,7 @@ CLEANFILES+=	${ZLIB_CLEANFLS}
 beforedepend: ${ZLIB_GENHDRS}
 
 # stand routines
-SRCS+=	alloc.c exit.c exec.c getfile.c gets.c globals.c \
+SRCS+=	alloc.c exit.c getfile.c gets.c globals.c \
 	printf.c snprintf.c strerror.c
 
 # io routines
