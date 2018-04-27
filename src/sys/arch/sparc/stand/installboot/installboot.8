@@ -30,7 +30,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd August 17, 2006
+.Dd $Mdocdate$
 .Dt INSTALLBOOT 8 sparc
 .Os
 .Sh NAME
@@ -119,6 +119,10 @@ argument and use the
 and
 .Ar isofseblk
 CD9660 block numbers for locating the second-stage boot loader.
+.Pp
+Deprecated; use
+.Pa /usr/mdec/bootxx.sh
+instead.
 .It Fl v
 Verbose mode.
 .El
@@ -149,6 +153,13 @@ using the file
 as the second-level boot program:
 .Bd -literal -offset indent
 installboot /boot /usr/mdec/bootxx /dev/rsd0a
+.Ed
+.Pp
+Note that this does not actually work (see
+.Sx BUGS
+below), you must install to the raw device instead:
+.Bd -literal -offset indent
+sudo /usr/mdec/installboot -v /boot /usr/mdec/bootxx /dev/rsd0c
 .Ed
 .Sh SEE ALSO
 .Xr disklabel 8 ,
