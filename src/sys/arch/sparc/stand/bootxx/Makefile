@@ -16,6 +16,9 @@ CPPFLAGS+=	-I${.CURDIR}/../common -I${.CURDIR}/../../../../arch \
 		-I${.CURDIR}/../../../.. -I${.CURDIR}/../../../../lib/libsa \
 		-DBOOTXX
 
+# bootxx has a maximum size of 7680 bytes, which is exactly
+# 15 512-byte sectors and checked by our mkbxinst.sh
+
 all: ${PROG} bxinst
 
 ${PROG}: ${PROG}.elf

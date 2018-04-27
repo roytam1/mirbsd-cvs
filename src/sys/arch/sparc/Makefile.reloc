@@ -45,6 +45,7 @@ RELOC_OBSD=	0x358000
 
 # Note: a 'RELOC' value of 0x380000 seems to work on most machines
 # Originally, we used ${RELOC_TEST} below though (also, see above,
-# for the last OpenBSD values before the port removal)
+# for the last OpenBSD values before the port removal, which uses
+# other available memory areas to load the kernel, though)
 RELOC?=		${RELOC_SUN4C}
 RELOC2!=	typeset -Uui16 'x=0x40000 + ${RELOC}'; print "0x$${x\#16\#}"
