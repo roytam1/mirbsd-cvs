@@ -14,7 +14,7 @@ ful tools, for example an ssh client and server facilitating remotely con-
 trolled action, are also included if space permits (i.e. on i386).
 
 If you are having issues with "special characters" in our documents, try a
-utf-8 capable display programme.
+UTF-8 capable display program.
 
 If you are reading this text from the Live/Install CD instead of the 5 MiB
 Mini-ISO, you will be presented a textual menu interface with four entries

@@ -3,7 +3,7 @@
 # missing from mksh here
 LINK	instbin					sbin/mknod
 
-# extra programmes
+# extra programs
 LINK	instbin					bin/mt
 LINK	instbin					bin/ps
 LINK	instbin					sbin/ancontrol

@@ -2,8 +2,9 @@
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2008, 2009, 2010, 2011, 2013, 2014
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+# Copyright (c) 2003, 2004, 2005, 2008, 2009, 2010, 2011, 2013,
+#		2014, 2018
+#	mirabilos <m@mirbsd.org>
 # Copyright (c) 1997-2005 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
 #
@@ -124,11 +125,11 @@ welcome() {
 
 Welcome to the ${OBSD} $MODE program (old, rewrite in progress).
 
-This programme will help you $MODE MirOS. At any prompt except password
+This program will help you $MODE MirOS. At any prompt except password
 prompts you can run a shell command by typing '!foo', or escape to a shell
 by typing '!'. Default answers are shown in []s and are selected by just
 RETURN, but sometimes there is no default. At any time you can exit this
-programme by pressing Control-C and then RETURN, but quitting during an
+program by pressing Control-C and then RETURN, but quitting during an
 $MODE can leave your system in an inconsistent state.
 
 __EOT
@@ -1289,13 +1290,13 @@ install_tape() {
 		[[ $resp = y ]] && _z=z
 
 		# Get the blocksize to use. If the file isn't gzipped then
-		# default to the 20 x 512 = 10,240 byte tar default.
+		# default to the 20 x 512 = 10'240 byte tar default.
 		[[ $_z = z ]] || _bs=10240
 		ask_until "Blocksize for this file?" "${_bs:-8k}"
 		[[ $resp = done ]] && return
 		_bs=$resp
 
-		dd if=$TAPE bs=$_bs | tar -M lncp -${_z}xvphf - -C /mnt || \
+		dd if=$TAPE bs=$_bs | tar -M lncp -x${_z}vphf - -C /mnt || \
 		    return
 	done
 }
