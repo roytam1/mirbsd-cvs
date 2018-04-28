@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/sparc/stand/boot/loadfile.c,v 1.4 2018/04/28 01:27:32 tg Exp $ */
+/*	$MirOS: src/sys/arch/sparc/stand/boot/loadfile.c,v 1.5 2018/04/28 01:50:58 tg Exp $ */
 /*	$OpenBSD: loadfile.c,v 1.5 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: loadfile.c,v 1.3 1997/04/06 08:40:59 cgd Exp $	*/
 
@@ -293,8 +293,11 @@ elf_exec(int fd, Elf_Ehdr *elf, vaddr_t *entryp)
 	addr = roundup(addr, sizeof(long));
 
 	ssym = addr;
-	if (prom_boothow & RB_NO_KSYMS)
+	if ((prom_boothow & RB_NO_KSYMS) ||
+	    /* big hack: OpenBSD binaries are loaded without symbols */
+	    (elf->e_ident[EI_OSABI] == ELFOSABI_OPENBSD))
 		goto disable_syms;
+
 	/*
 	 * Retrieve symbols.
 	 */

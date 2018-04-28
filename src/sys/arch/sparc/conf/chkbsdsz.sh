@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/sparc/conf/chkbsdsz.sh,v 1.1 2018/04/27 23:26:12 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/chkbsdsz.sh,v 1.2 2018/04/28 00:34:48 tg Exp $
 #-
 # Copyright © 2018
 #	mirabilos <m@mirbsd.org>
@@ -47,18 +47,18 @@ typeset -Uui16 -Z11 addr maxaddr
 ((# maxaddr = RELOC - BOOTSTACK ))
 
 check_stripped() {
-	if ((# addr > maxaddr )); then
-		print -ru2 -- "E: $0: kernel too big by $((# addr - maxaddr)) bytes"
-	else
+	if ((# addr <= maxaddr )); then
 		print -ru2 -- "I: $0: kernel would boot stripped, $((# maxaddr - addr)) bytes left"
 		let --rv
+	else
+		print -ru2 -- "E: $0: kernel too big by $((# addr - maxaddr)) bytes"
 	fi
 	print -ru2 -- "N: $0: 0x${addr#16#} reached loading the kernel stripped"
 	print -ru2 -- "N: $0: 0x${maxaddr#16#} limit: $((#BOOTSTACK/1024)) KiB stack, boot loader"
 }
 
 check_unstripped() {
-	local has_syms=$1
+	local has_syms=$1 has_override=$2
 
 	if (( !has_syms )); then
 		if (( --rv )); then
@@ -66,11 +66,16 @@ check_unstripped() {
 		else
 			print -ru2 -- "I: $0: kernel is stripped and will boot"
 		fi
-	elif ((# addr > maxaddr )); then
-		print -ru2 -- "E: $0: kernel too big by $((# addr - maxaddr)) bytes"
-	else
+	elif ((# addr <= maxaddr )); then
 		print -ru2 -- "I: $0: kernel would boot unstripped as well, $((# maxaddr - addr)) bytes left"
+		(( has_override )) && print -ru2 -- "I: $0: kernel has disable-debugsyms flag set"
 		let --rv
+	elif (( has_override && rv == 1 )); then
+		print -ru2 -- "W: $0: kernel will boot only due to disable-debugsyms flag"
+		print -ru2 -- "N: $0: with debug symbols, too big by $((# addr - maxaddr)) bytes"
+		let --rv
+	else
+		print -ru2 -- "E: $0: kernel too big by $((# addr - maxaddr)) bytes"
 	fi
 	print -ru2 -- "N: $0: 0x${addr#16#} reached loading the kernel unstripped"
 }
@@ -103,7 +108,7 @@ if (( hdr[0] == 0x01030107 )); then
 			((# addr += strtablen ))
 		fi
 	fi
-	check_unstripped $(( hdr[4] != 0 ))
+	check_unstripped $(( hdr[4] != 0 )) 0
 	and_out
 fi
 
@@ -154,5 +159,6 @@ while read -pr Nr Name Type Addr Off Size ES Flg Lk Inf Al; do
 	((# addr += (0x$Size + 3) & 0xFFFFFFFC ))
 done
 while IFS= read -pr line; do :; done
-check_unstripped $ph
+[[ $(<"$kernel" hexdump -vn 1 -s 7 -e '1/1 "%02X"') != 0C ]]; ovr=$?
+check_unstripped $ph $ovr
 and_out
