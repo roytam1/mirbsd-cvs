@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: db_aout.c,v 1.28 2002/03/14 01:26:51 millert Exp $	*/
 /*	$NetBSD: db_aout.c,v 1.29 2000/07/07 21:55:18 jhawk Exp $	*/
 
@@ -105,6 +106,12 @@ db_aout_sym_init(symsize, vsymtab, vesymtab, name)
 	int bad = 0;
 	char *estrtab;
 
+	if (ALIGNED_POINTER(vsymtab, long) == 0) {
+		printf("[ %s symbol table has bad start address %p ]\n",
+		    name, vsymtab);
+		return (FALSE);
+	}
+
 	/*
 	 * XXX - ddb_init should take arguments.
 	 *       Fixup the arguments.
@@ -112,13 +119,6 @@ db_aout_sym_init(symsize, vsymtab, vesymtab, name)
 	symsize = *(long *)vsymtab;
 	vsymtab = (void *)((long *)vsymtab + 1);
 	
-
-	if (ALIGNED_POINTER(vsymtab, long) == 0) {
-		printf("[ %s symbol table has bad start address %p ]\n",
-		    name, vsymtab);
-		return (FALSE);
-	}
-
 	/*
 	 * Find pointers to the start and end of the symbol entries,
 	 * given a pointer to the start of the symbol table.
