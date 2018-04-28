@@ -1,4 +1,4 @@
-/*	$MirOS$ */
+/*	$MirOS: src/sys/arch/sparc/stand/boot/loadfile.c,v 1.4 2018/04/28 01:27:32 tg Exp $ */
 /*	$OpenBSD: loadfile.c,v 1.5 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: loadfile.c,v 1.3 1997/04/06 08:40:59 cgd Exp $	*/
 
@@ -43,6 +43,7 @@
 #include <sparc/stand/common/promdev.h>
 
 #include <sys/param.h>
+#include <sys/reboot.h>
 #include <sys/exec.h>
 #include <sys/exec_elf.h>
 
@@ -135,7 +136,7 @@ aout_exec(int fd, struct exec *aout, vaddr_t *entryp)
 	printf("+%d", aout->a_bss);
 	for (i = aout->a_bss; i ; --i)
 		*addr++ = 0;
-	if (aout->a_syms != 0) {
+	if (aout->a_syms != 0 && !(prom_boothow & RB_NO_KSYMS)) {
 		bcopy(&aout->a_syms, addr, sizeof(aout->a_syms));
 		addr += sizeof(aout->a_syms);
 		printf("+[%d", aout->a_syms);
@@ -157,7 +158,8 @@ aout_exec(int fd, struct exec *aout, vaddr_t *entryp)
 		printf("+%d]", i);
 		esym = ((u_int)aout->a_entry - (u_int)LOADADDR) +
 			(((int)addr + sizeof(int) - 1) & ~(sizeof(int) - 1));
-	}
+	} else
+		esym = 0;
 	printf("=0x%x\n", addr);
 	close(fd);
 
@@ -291,6 +293,8 @@ elf_exec(int fd, Elf_Ehdr *elf, vaddr_t *entryp)
 	addr = roundup(addr, sizeof(long));
 
 	ssym = addr;
+	if (prom_boothow & RB_NO_KSYMS)
+		goto disable_syms;
 	/*
 	 * Retrieve symbols.
 	 */
@@ -325,7 +329,8 @@ elf_exec(int fd, Elf_Ehdr *elf, vaddr_t *entryp)
 			havesyms = 1;
 
 	if (!havesyms) {
-		esym = NULL;
+ disable_syms:
+		esym = 0;
 		goto no_syms;
 	}
 

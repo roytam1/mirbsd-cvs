@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: reboot.h,v 1.13 2004/03/10 23:02:53 tom Exp $	*/
 /*	$NetBSD: reboot.h,v 1.9 1996/04/22 01:23:25 christos Exp $	*/
 
@@ -53,6 +54,7 @@
 #define	RB_POWERDOWN	0x1000	/* attempt to power down machine */
 #define	RB_SERCONS	0x2000	/* use serial console if available */
 #define	RB_USERREQ	0x4000	/* boot() called at user request (e.g. ddb) */
+#define RB_NO_KSYMS	0x8000	/* avoid loading debugging symbols */
 
 /*
  * Constants for converting boot-style device number to type,

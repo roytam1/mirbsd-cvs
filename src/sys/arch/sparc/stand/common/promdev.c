@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.7 2010/01/16 20:56:07 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.8 2010/09/12 18:31:35 tg Exp $ */
 /*	$OpenBSD: promdev.c,v 1.9 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: promdev.c,v 1.16 1995/11/14 15:04:01 pk Exp $ */
 
@@ -165,6 +165,9 @@ prom_init()
 			break;
 		case 'c':
 			prom_boothow |= RB_CONFIG;
+			break;
+		case 'D':
+			prom_boothow |= RB_NO_KSYMS;
 			break;
 		case 'd':
 			prom_boothow |= RB_KDB;
