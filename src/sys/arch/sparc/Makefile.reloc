@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/Makefile.reloc,v 1.5 2007/09/01 10:26:33 tg Exp $
+# $MirOS: src/sys/arch/sparc/Makefile.reloc,v 1.8 2018/04/28 01:54:00 tg Exp $
 
 RELOC_SUN4=	0x240000
 RELOC_SUN4C_E=	0x340000
@@ -50,3 +50,16 @@ RELOC_OBSD=	0x358000
 # other available memory areas to load the kernel).
 RELOC?=		${RELOC_SUN4C_L}
 RELOC2!=	typeset -Uui16 'x=0x40000 + ${RELOC}'; print "0x$${x\#16\#}"
+
+# layout is a bit like this:
+#
+# 0x4000 .....................RELOC................RELOC2....|
+# <prom-bootxx>               <bootxx>
+# (prom-boot[.net])                        <-stack boot     >|
+# <--kernel-------------------------------->
+#
+# bootxx and boot might be loaded to 0x4000 (similar to 0x7C00
+# on a PC) and relocate themselves high if needed; the kernel
+# can be then loaded into its final position, up to boot’s stack
+# (OpenBSD also allows using other memory banks somehow, but
+# that won’t work as bsd.rd.net using elf2aout -b so… meh.)
