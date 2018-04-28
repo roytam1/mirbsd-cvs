@@ -1299,6 +1299,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[gecko2] Update operating environment reporting for the Macintosh</li>
  <li>[Martijn Dekker] make ${foo#'bar'} in here document behave like ksh93</li>
  <li>[Martijn Dekker] quote empty strings for re-entry into shell</li>
+ <li>[tg, G.raud Meyer] Improve documentation, especially for tty states</li>
+ <li>[tg] Protect against entering line editing with bad saved tty state</li>
+ <li>[tg] Fix <tt>set -o allexport</tt> for arrays (which we apparently do)</li>
 </ul>
 <p id="r56c">R56c is a bugfix-only release everyone must upgrade to:</p><ul>
  <li>[komh] Remove redundant OS/2-specific code, clean up others</li>
