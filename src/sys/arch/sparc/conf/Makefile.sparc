@@ -33,6 +33,23 @@ _MDINC=	${SPARC}/sparc
 
 .include "${SPARC}/Makefile.reloc"
 
+SPARC_AUTO_NODBGSYM?=No
+SPARC_CHKSZ=	${MKSH} ${.CURDIR:Q}/chkbsdsz.sh ${RELOC2:Q} $@
+.if ${SPARC_AUTO_NODBGSYM:L} == "yes"
+SYSTEM_LD_TAIL=	@${SIZE} $@; chmod 755 $@; \
+		set +e; ${SPARC_CHKSZ}; _e=$$?; case $$_e { \
+		(0) ;; \
+		(1) \
+			print -ru2 -- "W: enabling nodbgsym flag for $@"; \
+			print -n \\014 | dd conv=notrunc bs=1 seek=7 of=$@; \
+			${SPARC_CHKSZ} || exit $$? ;; \
+		(*) exit $$_e ;; \
+		}
+.else
+SYSTEM_LD_TAIL=	@${SIZE} $@; chmod 755 $@; \
+		${SPARC_CHKSZ} || exit $$?
+.endif
+
 CPPFLAGS=	${INCLUDES} ${IDENT} -D_KERNEL -Dsparc
 
 .if ${IDENT:M-DSUN*} == ${IDENT:M-DSUN4M}
@@ -42,15 +59,6 @@ CMACHFLAGS=	-msoft-float
 .endif
 
 LINKFLAGS=	-N -e start -Ttext F8004000
-SYSTEM_LD_TAIL=	@${SIZE} $@; chmod 755 $@; \
-		typeset -i10 rval=${RELOC} "ksize=0x4000+$$(stat -f %z $@)"; \
-		if ((ksize < rval)); then \
-			print "Kernel size ($$ksize) below" \
-			    "reloc value ($$rval), OK"; \
-		else \
-			print "ATTENTION: Kernel ($$ksize) is" \
-			    "too big; must shrink below $$rval"; \
-		fi
 
 .include "$S/conf/Makefile.inc"
 

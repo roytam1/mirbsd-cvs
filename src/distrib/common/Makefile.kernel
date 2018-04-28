@@ -15,7 +15,7 @@ bsd:
 	    ${KERNDIR}/version -nt build/${RAMDISK}/version ]] && \
 	    cat ${KERNDIR}/version >build/${RAMDISK}/version || :
 	( cd build/${RAMDISK}; ${KCONFIG} && ${KMAKE_CLEAN} && \
-	    ${KMAKE_DEPEND} && exec ${KMAKE} bsd )
+	    ${KMAKE_DEPEND} && exec ${KMAKE} ${KMAKE_EXTRA} bsd )
 	mv build/${RAMDISK}/bsd .
 	# The following line may generate a "systrace deny", ignore it.
 	-[[ ! -e ${KERNDIR} ]] \

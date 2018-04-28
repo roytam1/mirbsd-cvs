@@ -6,6 +6,7 @@ IMAGESIZE=	3712
 IMAGETYPE=	ipldisc
 AOUT_BSDRD=	Yes
 FLOPPY=		no
+KMAKE_EXTRA+=	SPARC_AUTO_NODBGSYM=Yes
 
 LISTADDS=	boot cd9660 dhclient disktools msdos nettools nfs no-huge \
 		pager-more ppp-off sparc upgrade
