@@ -63,6 +63,8 @@ void
 ksymsattach(num)
 	int num;
 {
+	if (!esym)
+		return;
 
 #if defined(__sparc64__) || defined(__mips__)
 	if (esym <= ssym) {
