@@ -1,5 +1,5 @@
 # $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.10 2010/01/18 17:41:34 tg Exp $
-# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.28 2018/04/28 00:42:44 tg Exp $
+# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.29 2018/04/28 05:58:12 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
 
