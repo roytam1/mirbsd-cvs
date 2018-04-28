@@ -5,7 +5,7 @@
 # Machine architecture; required by config(8)
 machine		sparc			# arch, used by config; REQUIRED
 
-# $miros: src/sys/arch/i386/conf/GENERIC,v 1.42 2009/02/16 21:21:01 tg Exp $
+# $miros: src/sys/arch/i386/conf/GENERIC,v 1.49 2017/10/27 21:51:31 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
