@@ -28,7 +28,7 @@
         Author:     Murray M. Altheim <altheim@eng.sun.com>
         Revision:   $Id$
         Bugfixes:   from [XHTMLMOD] 1.1 Second Edition; XHTML/1.1 2nd Ed.
-        Revision:   $MirOS: www/files/xhtml11.dtd,v 1.1 2018/04/26 19:38:09 tg Exp $
+        Revision:   $MirOS: www/files/xhtml11.dtd,v 1.2 2018/04/26 19:57:47 tg Exp $
 
 -->
 <!-- This is the driver file for version 1.1 of the XHTML DTD.
@@ -36,6 +36,10 @@
      Please use this formal public identifier to identify it:
 
          "-//W3C//DTD XHTML 1.1//EN"
+
+     W3C insists on using the following SYSTEM identifier:
+
+         "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
 -->
 <!ENTITY % XHTML.version  "-//W3C//DTD XHTML 1.1//EN" >
 
