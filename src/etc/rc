@@ -710,9 +710,13 @@ fi
 
 echo -n starting network daemons:
 
-# $routed_flags are imported from /etc/rc.conf.
-# If $routed_flags == NO, routed isn't run.
+# $sshd_flags are imported from /etc/rc.conf.
+# If $sshd_flags == NO, sshd isn't run.
 # Same for the other dæmons.
+
+if [[ $sshd_flags != NO ]]; then
+	echo -n ' sshd';		/usr/sbin/sshd $sshd_flags
+fi
 
 if [[ $routed_flags != NO ]]; then
 	echo -n ' routed';		routed $routed_flags
@@ -795,10 +799,6 @@ fi
 
 if [[ $inetd = YES && -s /etc/inetd.conf ]]; then
 	echo -n ' inetd';		inetd
-fi
-
-if [[ $sshd_flags != NO ]]; then
-	echo -n ' sshd';		/usr/sbin/sshd $sshd_flags
 fi
 
 if [[ $spamd_flags != NO ]]; then
