@@ -114,7 +114,7 @@ unpack:
 	ln -s v${OSrev} ${WRKDIR}/current
 	# unpack the dist sets
 .for _i in base dev etc gnu xbase xetc xfont xserv
-	cd ${WRKDIR} && ${SUDO} tar xzphf ${STUFFDIR}/${_i}${OSrev}.ngz
+	cd ${WRKDIR} && ${SUDO} tar -M lncp -xzphf ${STUFFDIR}/${_i}${OSrev}.ngz
 .endfor
 	cd ${STUFFDIR} && pax -rw . ${WRKDIR}/v${OSrev}/i386/
 .if ${DUALIVE:L} != "no"
