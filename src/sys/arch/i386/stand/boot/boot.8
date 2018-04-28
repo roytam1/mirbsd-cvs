@@ -1,6 +1,6 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.25 2015/10/09 15:03:21 tg Exp $
 .\"-
-.\" Copyright (c) 2009, 2010, 2015
+.\" Copyright (c) 2009, 2010, 2015, 2018
 .\"	mirabilos <m@mirbsd.org>
 .\"
 .\" Provided that these terms and disclaimer and all copyright notices
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate: October 27 2009 $
+.Dd $Mdocdate: October 9 2015 $
 .Dt BOOT 8 i386
 .Os
 .Sh NAME
@@ -266,6 +266,8 @@ Causes the kernel to go into
 .Xr UKC 8
 before performing
 .Xr autoconf 4 .
+.It Fl D
+Skips loading debugging symbols from the disc.
 .It Fl d
 Causes the kernel to drop into
 .Xr ddb 4

@@ -2,7 +2,7 @@
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
- * Copyright (c) 2002, 2003, 2004, 2006, 2009 Thorsten Glaser
+ * Copyright (c) 2002, 2003, 2004, 2006, 2009, 2018 mirabilos
  * Copyright (c) 2003 Dale Rahn
  * Copyright (c) 1997,1998 Michael Shalayeff
  * All rights reserved.
@@ -163,7 +163,9 @@ boot(dev_t bootdev)
 
 		printf("booting %s: ", cmd.path);
 		marks[MARK_START] = (u_long)cmd.addr;
-		if ((fd = loadfile(cmd.path, marks, LOAD_ALL)) != -1) {
+		if ((fd = loadfile(cmd.path, marks,
+		    (cmd.boothowto & RB_NO_KSYMS) ?
+		    (LOAD_ALL & ~LOAD_SYM) : LOAD_ALL)) != -1) {
 			close(fd);
 			break;
 		}

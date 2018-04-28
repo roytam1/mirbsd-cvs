@@ -189,6 +189,8 @@ Xhowto(void)
 				putchar('c');
 			if (cmd.boothowto & RB_SINGLE)
 				putchar('s');
+			if (cmd.boothowto & RB_NO_KSYMS)
+				putchar('D');
 			if (cmd.boothowto & RB_KDB)
 				putchar('d');
 		}
@@ -226,6 +228,9 @@ bootparse(int i)
 					break;
 				case 's':
 					howto |= RB_SINGLE;
+					break;
+				case 'D':
+					howto |= RB_NO_KSYMS;
 					break;
 				case 'd':
 					howto |= RB_KDB;

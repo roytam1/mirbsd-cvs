@@ -1,9 +1,8 @@
-/*	$MirOS$ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/exec_i386.c,v 1.6 2013/10/31 20:06:47 tg Exp $ */
 /*	$OpenBSD: exec_i386.c,v 1.32 2007/07/27 17:46:56 tom Exp $	*/
 
 /*
- * Copyright © 2013
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2018 mirabilos <m@mirbsd.org>
  * Copyright (c) 1997-1998 Michael Shalayeff
  * Copyright (c) 1997 Tobias Weingartner
  * All rights reserved.
@@ -32,6 +31,7 @@
  */
 
 #include <sys/param.h>
+#include <sys/reboot.h>
 #include <dev/cons.h>
 #include <stand/boot/bootarg.h>
 #include <machine/biosvar.h>
@@ -76,6 +76,7 @@ run_loadfile(u_long *marks, int howto)
 	printf("entry point at 0x%x\n", (int) entry);
 	/* stack and the gung is ok at this point, so, no need for asm setup */
 	(*(startfuncp)entry)(howto, bootdev, BOOTARG_APIVER,
-	    marks[MARK_END], extmem, cnvmem, ac, (int)av);
+	    (howto & RB_NO_KSYMS) ? 0 : marks[MARK_END],
+	    extmem, cnvmem, ac, (int)av);
 	/* not reached */
 }
