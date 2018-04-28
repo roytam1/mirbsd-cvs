@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: loadfile.c,v 1.5 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: loadfile.c,v 1.3 1997/04/06 08:40:59 cgd Exp $	*/
 
@@ -323,8 +324,10 @@ elf_exec(int fd, Elf_Ehdr *elf, vaddr_t *entryp)
 		if (shp[i].sh_type == SHT_SYMTAB)
 			havesyms = 1;
 
-	if (!havesyms)
+	if (!havesyms) {
+		esym = NULL;
 		goto no_syms;
+	}
 
 	for (first = 1, i = 0; i < elf->e_shnum; i++) {
 		if (shp[i].sh_type == SHT_SYMTAB ||
@@ -358,8 +361,8 @@ elf_exec(int fd, Elf_Ehdr *elf, vaddr_t *entryp)
 	elf->e_phnum = 0;
 	bcopy(elf, (void *)ssym, sizeof(*elf));
 
-no_syms:
 	esym = (addr - (vaddr_t)LOADADDR) + *entryp;
+ no_syms:
 
 	*entryp = (vaddr_t)LOADADDR;
 
