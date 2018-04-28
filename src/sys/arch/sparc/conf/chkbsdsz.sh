@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: src/sys/arch/sparc/conf/chkbsdsz.sh,v 1.1 2018/04/27 23:26:12 tg Exp $
 #-
 # Copyright © 2018
 #	mirabilos <m@mirbsd.org>
@@ -19,13 +19,16 @@
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
 #-
-# Checks a MirBSD/sparc ELF kernel to ensure bootability.
+# Checks a MirBSD/sparc ELF kernel, optionally converted to bootable
+# a.out format, to ensure bootability.
 
 die() {
 	[[ -n $T ]] && rm -f "$T"
 	print -ru2 -- "E: $0: $*"
 	exit 255
 }
+
+[[ $1 = 0x+([0-9A-F]) ]] || die RELOC2 not passed as \$1
 
 typeset -Uui16 RELOC=$1		# really RELOC2
 typeset -Uui16 LOADADDR=0x4000	# really LOADADDR from stand/common/promdev.h
@@ -34,7 +37,7 @@ kernel=$2
 [[ -s $kernel ]] || die "kernel '$kernel' not found"
 print -ru2 -- "I: $0: analysing kernel '$kernel'"
 T=
-if [[ $(dd if="$kernel" bs=2 count=1 2>/dev/null) = $'\x1F\x8B' ]]; then
+if [[ $(<"$kernel" hexdump -vn 2 -e '1/1 "%02X"') = 1F8B ]]; then
 	print -ru2 -- "I: $0: decompressing kernel for analysis"
 	T=$(mktemp /tmp/chkbsdsz.XXXXXXXXXX)
 	gzip -d <"$kernel" >"$T" || die decompression failed
@@ -43,6 +46,68 @@ rv=2
 typeset -Uui16 -Z11 addr maxaddr
 ((# maxaddr = RELOC - BOOTSTACK ))
 
+check_stripped() {
+	if ((# addr > maxaddr )); then
+		print -ru2 -- "E: $0: kernel too big by $((# addr - maxaddr)) bytes"
+	else
+		print -ru2 -- "I: $0: kernel would boot stripped, $((# maxaddr - addr)) bytes left"
+		let --rv
+	fi
+	print -ru2 -- "N: $0: 0x${addr#16#} reached loading the kernel stripped"
+	print -ru2 -- "N: $0: 0x${maxaddr#16#} limit: $((#BOOTSTACK/1024)) KiB stack, boot loader"
+}
+
+check_unstripped() {
+	local has_syms=$1
+
+	if (( !has_syms )); then
+		if (( --rv )); then
+			print -ru2 -- "I: $0: kernel is stripped and will NOT boot"
+		else
+			print -ru2 -- "I: $0: kernel is stripped and will boot"
+		fi
+	elif ((# addr > maxaddr )); then
+		print -ru2 -- "E: $0: kernel too big by $((# addr - maxaddr)) bytes"
+	else
+		print -ru2 -- "I: $0: kernel would boot unstripped as well, $((# maxaddr - addr)) bytes left"
+		let --rv
+	fi
+	print -ru2 -- "N: $0: 0x${addr#16#} reached loading the kernel unstripped"
+}
+
+and_out() {
+	[[ -n $T ]] && rm -f "$T"
+	exit $rv
+}
+
+set -A hdr -- $(<"$kernel" hexdump -vn 32 -e '8/4 "0x%08X " "\n"')
+if (( hdr[0] == 0x01030107 )); then
+	# MirBSD elf2aout creates OMAGIC only; 0103 is for bootable kernel
+	# other / classical variants of a.out have no relevance in MirBSD
+	print -ru2 -- "N: $0: assuming bootable a.out kernel"
+	(( hdr[6] )) && die 'a.out text relocations found'
+	(( hdr[7] )) && die 'a.out data relocations found'
+	((# addr = LOADADDR ))
+	#ZMAGIC: add 32 (= sizeof(struct exec))
+	((# addr += hdr[1] ))
+	#ZMAGIC,NMAGIC: align by __LDPGSZ (NMAGIC only in the kernel;
+	# a.out(5) disagrees in its description with either, PITA…)
+	((# addr += hdr[2] + hdr[3] ))
+	check_stripped
+	if (( hdr[4] )); then
+		((# addr += hdr[4] ))
+		((# addr2 = 32 + hdr[1] + hdr[2] + hdr[4] ))
+		strtablen=0x$(<"$kernel" hexdump -vn 4 -s $((#addr2)) -e '1/4 "%08X"')
+		if (( strtablen )); then
+			((# strtablen < 4 )) && die "malformed a.out: strtablen $strtablen < 4"
+			((# addr += strtablen ))
+		fi
+	fi
+	check_unstripped $(( hdr[4] != 0 ))
+	and_out
+fi
+
+print -ru2 -- "N: $0: assuming ELF kernel"
 readelf -l "${T:-$kernel}" |&
 entryp=z
 ph=0
@@ -69,15 +134,7 @@ while IFS= read -pr line; do :; done
 (( ph == 2 )) || die entry point not found
 print -ru2 -- "I: $0: entry point ${entryp#16#}"
 ((# addr = (addr - entryp + LOADADDR + 3) & 0xFFFFFFFC ))
-
-if ((# addr > maxaddr )); then
-	print -ru2 -- "E: $0: kernel too big by $((# addr - maxaddr)) bytes"
-else
-	print -ru2 -- "I: $0: kernel would boot stripped"
-	let --rv
-fi
-print -ru2 -- "N: $0: 0x${addr#16#} reached loading the kernel stripped"
-print -ru2 -- "N: $0: 0x${maxaddr#16#} limit: $((#BOOTSTACK/1024)) KiB stack, boot loader"
+check_stripped
 
 readelf -S "${T:-$kernel}" | tr -d '][' |&
 while IFS= read -pr line; do
@@ -97,15 +154,5 @@ while read -pr Nr Name Type Addr Off Size ES Flg Lk Inf Al; do
 	((# addr += (0x$Size + 3) & 0xFFFFFFFC ))
 done
 while IFS= read -pr line; do :; done
-if (( !ph )); then
-	print -ru2 -- "I: $0: kernel is stripped and will boot"
-	let --rv
-elif ((# addr > maxaddr )); then
-	print -ru2 -- "E: $0: kernel too big by $((# addr - maxaddr)) bytes"
-else
-	print -ru2 -- "I: $0: kernel would boot unstripped as well"
-	let --rv
-fi
-print -ru2 -- "N: $0: 0x${addr#16#} reached loading the kernel unstripped"
-[[ -n $T ]] && rm -f "$T"
-exit $rv
+check_unstripped $ph
+and_out
