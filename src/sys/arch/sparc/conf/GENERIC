@@ -34,7 +34,7 @@ option		SCSIDEBUG		# extra debugging information
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
-#option		MINIROOTSIZE=3712	# size of ramdisk array
+#option		MINIROOTSIZE=3616	# size of ramdisk array
 #option		RAMDISK_HOOKS		# allow using initrd
 
 option		CRYPTO			# Cryptographic framework
