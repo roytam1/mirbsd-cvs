@@ -1,8 +1,8 @@
 # $MirOS: src/sys/arch/sparc/Makefile.reloc,v 1.5 2007/09/01 10:26:33 tg Exp $
 
-RELOC_TEST=	0x340000
 RELOC_SUN4=	0x240000
-RELOC_SUN4C=	0x380000
+RELOC_SUN4C_E=	0x340000
+RELOC_SUN4C_L=	0x380000
 RELOC_SUN4M=	0x440000
 
 #	$OpenBSD: Makefile.inc,v 1.18 2015/09/12 09:04:57 miod Exp $
@@ -41,11 +41,12 @@ RELOC_SUN4M=	0x440000
 # many systems as possible, yet allowing small enough kernels to be loaded
 # at the beginning of the physical memory.
 RELOC_OBSD=	0x358000
-#RELOC2=	0x398000
+#RELOC2=	0x398000	# same as calculated below
 
-# Note: a 'RELOC' value of 0x380000 seems to work on most machines
-# Originally, we used ${RELOC_TEST} below though (also, see above,
-# for the last OpenBSD values before the port removal, which uses
-# other available memory areas to load the kernel, though)
-RELOC?=		${RELOC_SUN4C}
+# The RELOC value used below of 0x380000 seems to work on most machines,
+# except some early sun4c OpenPROM map only about 3.5MB of memory, for
+# which RELOC_SUN4C_E(arly) is more suitable and RELOC_OBSD might be
+# (but this is unknown as we use the older boot which cannot yet select
+# other available memory areas to load the kernel).
+RELOC?=		${RELOC_SUN4C_L}
 RELOC2!=	typeset -Uui16 'x=0x40000 + ${RELOC}'; print "0x$${x\#16\#}"
