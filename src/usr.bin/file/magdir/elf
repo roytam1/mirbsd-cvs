@@ -1,3 +1,4 @@
+#	$MirOS$
 #	$OpenBSD: elf,v 1.15 2006/10/12 03:32:32 drahn Exp $
 
 #------------------------------------------------------------------------------
@@ -14,6 +15,21 @@
 >4	byte		0		invalid class
 >4	byte		1		32-bit
 >4	byte		2		64-bit
+>7	byte		0		(SYSV)
+>7	byte		1		(HP-UX)
+>7	byte		2		(NetBSD)
+>7	byte		3		(GNU/Linux)
+>7	byte		4		(GNU/Hurd)
+>7	byte		5		(86Open common IA32 ABI)
+>7	byte		6		(Solaris)
+>7	byte		7		(Monterey)
+>7	byte		8		(IRIX)
+>7	byte		9		(FreeBSD)
+>7	byte		10		(TRU64)
+>7	byte		11		(Novell Modesto)
+>7	byte		12		(OpenBSD)
+>7	byte		97		(ARM OSABI)
+>7	byte		255		(standalone (embedded) application)
 >5	byte		0		invalid byte order
 >5	byte		1		LSB
 >>16	leshort		0		no file type,
@@ -58,19 +74,20 @@
 >>18	leshort		7		Intel 80860,
 # >>18	leshort		8		MIPS,
 >>18	leshort		9		Amdahl - invalid byte order,
->>18	leshort		10		MIPS (deprecated),
->>18	leshort		11		RS6000 - invalid byte order,
+>>18	leshort		10		MIPS R4K (deprecated) - invalid byte order,
+>>18	leshort		11		RS6000 (or SPARC v9 64-bit unoffical) - invalid byte order,
 >>18	leshort		15		PA-RISC - invalid byte order,
 >>18	leshort		16		nCUBE,
 >>18	leshort		17		VPP500,
->>18	leshort		18		SPARC32PLUS,
+>>18	leshort		18		SPARC32PLUS - invalid byte order,
 >>18	leshort		20		PowerPC,
 >>18	leshort		40		ARM,
->>18	leshort		42		SH
+>>18	leshort		41		DEC ALPHA,
+>>18	leshort		42		SH,
 >>18	leshort		43		SPARC64 - invalid byte order,
 >>18	leshort		62		AMD64,
 >>18	leshort		75		VAX,
->>18	leshort		0x9026		Alpha,
+>>18	leshort		0x9026		DEC ALPHA,
 >>20	lelong		0		invalid version
 >>20	lelong		1		version 1
 >>36	lelong		1		MathCoPro/FPU/MAU Required
@@ -116,19 +133,20 @@
 >>18	beshort		7		Intel 80860,
 # >>18	beshort		8		MIPS,
 >>18	beshort		9		Amdahl,
->>18	beshort		10		MIPS (deprecated),
->>18	beshort		11		RS6000,
+>>18	beshort		10		MIPS R4K (deprecated),
+>>18	beshort		11		RS6000 (or SPARC v9 64-bit unoffical),
 >>18	beshort		15		PA-RISC,
 >>18	beshort		16		nCUBE,
 >>18	beshort		17		VPP500,
 >>18	beshort		18		SPARC32PLUS,
 >>18	beshort		20		PowerPC,
 >>18	beshort		40		ARM,
+>>18	beshort		41		DEC ALPHA,
 >>18	beshort		42		SH - invalid byte order,
 >>18	beshort		43		SPARC64,
 >>18	beshort		62		AMD64 - invalid byte order,
 >>18	beshort		75		VAX - invalid byte order,
->>18	beshort		0x9026		Alpha,
+>>18	beshort		0x9026		DEC ALPHA,
 >>20	belong		0		invalid version
 >>20	belong		1		version 1
 >>36	belong		1		MathCoPro/FPU/MAU Required
