@@ -1,7 +1,7 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.42 2014/02/09 22:49:30 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.43 2014/11/26 19:29:30 tg Exp $
 #-
-# Copyright (c) 2005, 2006, 2007, 2008
-#	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+# Copyright (c) 2005, 2006, 2007, 2008, 2018
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -50,35 +50,41 @@ STRIPFLAGS=	-g -X -x -R .comment
 .include "${KERNBASE}/z/Makefile.inc"
 
 # load lines for config "xxx" will be emitted as:
-# xxx: ${SYSTEM_DEP} swapxxx.o
+# xxx: ${SYSTEM_DEP} swapxxx.o newvers
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
+#	@${SYSTEM_LD_GZIP}
 SYSTEM_OBJ?=	locore.o init_ssp.o config_gz.o mirtime_getleaps.o \
 		param.o ioconf.o ${OBJS} ${LIBKERN} ${LIBCOMPAT}
 SYSTEM_DEP?=	Makefile ${SYSTEM_OBJ}
-SYSTEM_LD_HEAD?=rm -f $@
-SYSTEM_LD?=	@echo ${LD} ${LINKFLAGS} -o $@ '$${SYSTEM_OBJ}' vers.o; \
-		${LD} ${LINKFLAGS} -o $@ ${SYSTEM_OBJ} vers.o
-SYSTEM_LD_TAIL?=@${SIZE} $@; chmod 755 $@
+SYSTEM_LD_HEAD?=rm -f $@ $@~
+SYSTEM_LD?=	@echo ${LD} ${LINKFLAGS} -o $@~ '$${SYSTEM_OBJ}' vers.o; \
+		${LD} ${LINKFLAGS} -o $@~ ${SYSTEM_OBJ} vers.o
+SYSTEM_LD_TAIL?=@set -e; ${SIZE} $@~; chmod 755 $@~
 DEBUG?=
 SYSTEM_LD_TAIL+=; \
-		echo cp $@ $@.unstripped; \
-		rm -f $@.unstripped; cp $@ $@.unstripped; \
-		echo Running kvm_mkdb...; kvm_mkdb -o . ./$@
+		echo cp $@~ $@.unstripped; \
+		rm -f $@.unstripped; cp $@~ $@.unstripped; \
+		echo Running kvm_mkdb...; \
+		kvm_mkdb -o . ./$@~; \
+		mv kvm_$@~.db kvm_$@.db
 .if ${DEBUG} == "-g"
 LINKFLAGS+=	-X
 SYSTEM_LD_TAIL+=; \
-		echo ${STRIP} ${STRIPFLAGS} $@; ${STRIP} ${STRIPFLAGS} $@
+		echo ${STRIP} ${STRIPFLAGS} $@~; ${STRIP} ${STRIPFLAGS} $@~
 .else
 LINKFLAGS+=	-x
 SYSTEM_LD_TAIL+=; \
-		objcopy -R .comment $@
+		objcopy -R .comment $@~
 .endif
+SYSTEM_LD_POST?=:
+SYSTEM_LD_TAIL+=; \
+		${SYSTEM_LD_POST}
 .ifndef NO_GZIP
-SYSTEM_LD_GZIP=	echo gzip -n9 $@; rm -f $@.gz; gzip -n9 $@; mv $@.gz $@
+SYSTEM_LD_GZIP=	echo gzip -n9 $@; gzip -fn9 -o $@ $@~
 .else
-SYSTEM_LD_GZIP=	:
+SYSTEM_LD_GZIP=	mv $@~ $@
 .endif
 
 # currently always, not because patents but because broken

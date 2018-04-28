@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.17 2008/10/05 16:26:20 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.19 2018/04/28 03:24:46 tg Exp $
 # $OpenBSD: Makefile.sparc,v 1.33 2003/11/20 08:38:52 espie Exp $
 # $NetBSD: Makefile.sparc,v 1.32.4.1 1996/06/12 20:26:32 pk Exp $
 
@@ -34,20 +34,24 @@ _MDINC=	${SPARC}/sparc
 .include "${SPARC}/Makefile.reloc"
 
 SPARC_AUTO_NODBGSYM?=No
-SPARC_CHKSZ=	${MKSH} ${.CURDIR:Q}/chkbsdsz.sh ${RELOC2:Q} $@
+SPARC_CHKSZ=	${MKSH} ${SPARC:Q}/conf/chkbsdsz.sh ${RELOC2:Q} $@~
 .if ${SPARC_AUTO_NODBGSYM:L} == "yes"
-SYSTEM_LD_TAIL=	@${SIZE} $@; chmod 755 $@; \
+SYSTEM_LD_TAIL=	@set -e; ${SIZE} $@~; chmod 755 $@~; SPARC_AUTO_NODBGSYM=0; \
 		set +e; ${SPARC_CHKSZ}; _e=$$?; case $$_e { \
 		(0) ;; \
 		(1) \
-			print -ru2 -- "W: enabling nodbgsym flag for $@"; \
-			print -n \\014 | dd conv=notrunc bs=1 seek=7 of=$@; \
-			${SPARC_CHKSZ} || exit $$? ;; \
+			print -ru2 -- "W: enabling nodbgsym flag for $@~"; \
+			print -n \\014 | dd conv=notrunc bs=1 seek=7 of=$@~; \
+			SPARC_AUTO_NODBGSYM=1; ${SPARC_CHKSZ} || exit $$? ;; \
 		(*) exit $$_e ;; \
+		}; set -e
+SYSTEM_LD_POST=	case $$SPARC_AUTO_NODBGSYM { \
+		(0) ;; \
+		(1) print -n \\014 | dd conv=notrunc bs=1 seek=7 of=$@~ ;; \
+		(*) print -u2 E: internal error; exit 1 ;; \
 		}
 .else
-SYSTEM_LD_TAIL=	@${SIZE} $@; chmod 755 $@; \
-		${SPARC_CHKSZ} || exit $$?
+SYSTEM_LD_TAIL=	@set -e; ${SIZE} $@~; chmod 755 $@~; ${SPARC_CHKSZ}
 .endif
 
 CPPFLAGS=	${INCLUDES} ${IDENT} -D_KERNEL -Dsparc
