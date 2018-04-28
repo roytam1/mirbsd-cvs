@@ -1,5 +1,5 @@
 # $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.16 2010/01/18 17:41:35 tg Exp $
-# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.28 2018/04/28 00:42:44 tg Exp $
+# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.29 2018/04/28 05:58:12 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
 
@@ -26,7 +26,7 @@ option		SMALL_KERNEL		# remove certain large stuff
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
-option		MINIROOTSIZE=3712	# size of ramdisk array
+option		MINIROOTSIZE=3616	# size of ramdisk array
 option		RAMDISK_HOOKS		# allow using initrd
 
 #option		CRYPTO			# Cryptographic framework

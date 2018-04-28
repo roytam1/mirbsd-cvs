@@ -36,9 +36,9 @@ rdroot|ramdisk miniroot image for boot floppy:\
 	:pc#3584:oc#0:
 
 ipldisc|ramdisk miniroot image for bsd.rd:\
-	:ty=ramdisk:rm#300:se#512:nc#29:nt#8:ns#16:\
-	:pa#3712:oa#0:ta=4.2BSD:ba#4096:fa#512:\
-	:pc#3712:oc#0:
+	:ty=ramdisk:rm#300:se#512:nc#113:nt#2:ns#16:\
+	:pa#3616:oa#0:ta=4.2BSD:ba#4096:fa#512:\
+	:pc#3616:oc#0:
 
 miniroot|on-disc miniroot image for installation:\
 	:ty=winchester:rm#300:ts=3500:se#512:ns#64:nt#2:nc#96:\
