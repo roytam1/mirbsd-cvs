@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/Makefile.reloc,v 1.8 2018/04/28 01:54:00 tg Exp $
+# $MirOS: src/sys/arch/sparc/Makefile.reloc,v 1.10 2018/04/28 06:10:16 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.18 2015/09/12 09:04:57 miod Exp $
 #
 # sun4:
@@ -43,7 +43,10 @@ RELOC_SUN4C_E=	0x340000 # some early sun4c OpenPROM map only about 3.5MB mem
 RELOC_SUN4C_L=	0x380000 # later models; seems to work on most machines
 RELOC_SUN4M=	0x440000
 
-RELOC?=		${RELOC_OBSD}
+# Give us another 8 KiB for the kernel, our loader is a tad smaller than OBSD’s
+RELOC_MBSD=	0x35A000
+
+RELOC?=		${RELOC_MBSD}
 RELOC2!=	typeset -Uui16 'x=0x40000 + ${RELOC}'; print "0x$${x\#16\#}"
 
 # layout is a bit like this:

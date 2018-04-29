@@ -32,7 +32,7 @@ die() {
 
 typeset -Uui16 RELOC=$1		# really RELOC2
 typeset -Uui16 LOADADDR=0x4000	# really LOADADDR from stand/common/promdev.h
-typeset -Uui16 BOOTSTACK=0x4000	# amount of stack from boot_sparc(8) to ensure
+typeset -Uui16 BOOTSTACK=0x2000	# amount of stack from boot_sparc(8) to ensure
 kernel=$2
 [[ -s $kernel ]] || die "kernel '$kernel' not found"
 print -ru2 -- "I: $0: analysing kernel '$kernel'"
