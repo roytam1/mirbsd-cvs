@@ -273,13 +273,13 @@ top:
 			}
 			break;
 		case FATAL:
-			if (!interactive) {
-				if (garrulous)
+			if (garrulous) {
+				if (!interactive)
 					fprintf(stderr,
-					    "script, line %d: %s\n",
-					    lineno, errmsg);
-			} else if (garrulous)
+					    "script, line %d: ",
+					    lineno);
 				fprintf(stderr, "%s\n", errmsg);
+			}
 			quit(3);
 			break;
 		default:
