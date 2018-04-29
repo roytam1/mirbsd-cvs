@@ -1401,12 +1401,16 @@ case $module {
 		README \
 		Theory \
 		backzone \
+		calendars \
 		checklinks.awk \
 		checktab.awk \
 		iso3166.tab \
 		leap-seconds.list \
 		leapseconds.awk \
+		theory.html \
 		version \
+		ziguard.awk \
+		zishrink.awk \
 		zone.tab \
 		zone1970.tab \
 		zoneinfo2tdf.pl \
