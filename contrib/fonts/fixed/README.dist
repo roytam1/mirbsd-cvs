@@ -22,9 +22,9 @@ is handled normally in your operating system.
 
 The following procedure is known to generate a working GNU GRUB 2 font:
 • remove all ambiguous glyphs from one font
-  – hw:	3099, 309A
+  – hw:	2614, 26A1, 3099, 309A
   – fw:	0000, 0300, 0301, 0302, 0303, 0307, 0308, 030A, 034F, 0488, 0489,
-	20DD, 20DE, 20DF, 20E0, 20E2, 20E3, 20E4, 20E7, 20EA
+	20DD, 20DE, 20DF, 20E0, 20E2, 20E3, 20E4, 20E7, 20EA, 2602
 • Run the command (hw/fw.bdf are the results from the above):
   grub-mkfont -n 'FixedMisc [MirOS]' -c 14 -d 4 -o FixedMisc.pf2 \
       -v hw.bdf fw.bdf
@@ -66,8 +66,8 @@ thus I cannot offer a licence. The .bdf files do not contain
 information other than the glyph bitmaps, font identification
 metainformation and versioning comments, and as such, do not
 contain copyrightable information. This README is probably
-trivial. It was written in 2013, 2015, 2016 by mirabilos; the
-font effort was started in the 1990s, Fixed [Misc] in 2007.
+trivial. It was written in 2013, 2015, 2016, 2018 by mirabilos;
+the font effort was started in the 1990s, Fixed [Misc] in 2007.
 
 According to WP:PD, “a rasterized representation (e.g. bitmap)
 of the characters in a scalable font is not protected by
@@ -84,6 +84,7 @@ and in parts 18x18ja, with additions from:
 • merging some glyphs (after padding) from GNU Unifont,
   specifically the Debian unifont (= 5.1.20080914-1.1) package
 • more extending and bugfixing, and other glyph changes by me
+  including DIN 1450-inspired legibility improvements
 
 That means the result is probably GPLv2 (only) with font embedding
 exception. However, the German argument here is that a bitmap font
@@ -94,6 +95,7 @@ this is not enough for you seek legal counsel yourself.
 
 The preferred form of modification for X bitmap fonts is BDF or
 an equivalence transformation: http://www.mirbsd.org/man1/bdfctool
+Source: http://www.mirbsd.org/cvs.cgi/X11/extras/bdfctool/
 
 __________________________________________________________________________
 $MirOS: contrib/fonts/fixed/README.dist,v 1.5 2016/10/04 19:37:20 tg Exp $
