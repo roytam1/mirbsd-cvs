@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.497 2017/12/19 00:56:23 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.499 2018/04/15 21:11:43 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -11602,4 +11602,16 @@ mksh: warning: won't have full job control</pre>
 <p><img src="http://jehanne.io/graphic/screenshot-20180106.png" alt="mksh running in Jehanne with full job control" /></p>
 <p> </p>
 <p>MirBSD's Korn Shell was working on Jehanne! What a happy new year! :-D</p>
+----
+Title: FixedMisc [MirOS] 20180429 released
+Date: 29.04.2018 17:30
+Author: tg@
+Tag: news pcli
+
+<p>Today I’ve released another new CVS snapshot of the <a
+ href="@@ABSPATH@@/MirOS/dist/mir/Foundry/"><tt>FixedMisc [MirOS]</tt>
+ font</a>; as usual, the tarball contains the font in BDF form, with
+ no conflict with the system <tt>Fixed [Misc]</tt> font; <a
+ href="@@RELPATH@@cvs.cgi/contrib/fonts/fixed/">sources</a>
+ for use (compilation, editing) with bdfctool(1) are in CVS.</p>
 ----
