@@ -1,4 +1,4 @@
-rcsid_common='$MirOS: www/mk/common,v 1.7 2014/01/24 18:44:39 tg Exp $'
+rcsid_common='$MirOS: www/mk/common,v 1.9 2018/04/15 20:48:05 tg Exp $'
 #-
 # Copyright © 2007, 2008, 2012, 2013, 2014, 2018
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -292,26 +292,51 @@ function mjd_implode {
 # convenience function to check (German) date input (no time-of-day)
 # input is $2, MJD is written to $$1, normalised date to $$3 if $3 is set
 function dtchk {
-	local tm mjd x saveIFS r
+	local tm mjd x saveIFS r iso=1 to
 	set -A tm
 	set -A mjd
 	set -A x
+	local -i10 -Z2 ra rb rc
+	local -i10 -Z4 ry
 
-	errstr="'$2' not in DD.MM.YYYY format"
-	[[ $2 = +([0-9]).+([0-9]).+([0-9]) ]] || return 1
+	errstr="'$2' not in YYYY-MM-DD (ISO 8601) or DD.MM.YYYY (obsolete German) format"
+	if [[ $2 = +([0-9]).+([0-9]).+([0-9]) ]]; then
+		iso=0
+	elif [[ $2 != +([0-9])-+([0-9])-+([0-9]) ]]; then
+		return 1
+	fi
 	saveIFS=$IFS
-	IFS=.
+	IFS=.-
 	set -A x -- $2
 	IFS=$saveIFS
-	set -A tm -- 0 0 0 $((x[0])) $((x[1] - 1)) $((x[2] - 1900)) \
-	    - - - 0 -
+	set -A tm -- 0 0 0 $((x[2])) $((x[1] - 1)) $((x[0] - 1900)) - - - 0 -
+
+	if (( !iso )); then
+		tm[3]=$((x[0]))
+		tm[5]=$((x[2] - 1900))
+	fi
+
 	set -A mjd -- $(mjd_implode "${tm[@]}")
 	set -A x -- $(mjd_explode "${mjd[0]}" 0)
-	errstr="invalid date $2, normalises to $((x[3])).$((x[4] + 1)).$((x[5] + 1900)) ${x[2]}:${x[1]}:${x[0]}"
+
+	(( ra = x[3] ))
+	(( rb = x[4] + 1 ))
+	(( ry = x[5] + 1900 ))
+	if (( iso )); then
+		to=$ry-$rb-$ra
+	else
+		to=$ra.$rb.$ry
+	fi
+
+	(( ra = x[2] ))
+	(( rb = x[1] ))
+	(( rc = x[0] ))
+
+	errstr="invalid date $2, normalises to $to $ra:$rb:$rc"
 	[[ ${tm[0]} = ${x[0]} ]] || return 1
 	[[ ${tm[1]} = ${x[1]} ]] || return 1
 	[[ ${tm[2]} = ${x[2]} ]] || return 1
-	errstr="bogus date $2, normalises to $((x[3])).$((x[4] + 1)).$((x[5] + 1900))"
+	errstr="bogus date $2, normalises to $to"
 	[[ ${tm[3]} = ${x[3]} ]] || return 1
 	[[ ${tm[4]} = ${x[4]} ]] || return 1
 	[[ ${tm[5]} = ${x[5]} ]] || return 1
@@ -320,12 +345,7 @@ function dtchk {
 	r=${mjd[0]}
 	if [[ -n $3 ]]; then
 		nameref rr=$3
-		local -i10 -Z2 rd rm
-		local -i10 -Z4 ry
-		(( rd = x[3] ))
-		(( rm = x[4] + 1 ))
-		(( ry = x[5] + 1900 ))
-		rr="$rd.$rm.$ry"
+		rr=$to
 	fi
 	return 0
 }
