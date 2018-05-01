@@ -2,7 +2,7 @@
 rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.22 2010/01/16 21:39:54 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009, 2010
-#	Thorsten Glaser <tg@mirbsd.org>
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -63,14 +63,19 @@ print "# $rcsid"
 print "# \$miros:${rcsid#*:}"
 cat <<'EOF'
 #-
-# Copyright (c) 2007, 2008, 2009, 2010
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+#		2010, 2011, 2012, 2013, 2014, 2015, 2017, 2018
+#	mirabilos <m@mirbsd.org> (a.k.a. The MirOS Project)
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
 # is granted to deal in this work without restriction, including un‐
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
+#
+# Advertising materials mentioning features or use of this work must
+# display the following acknowledgement:
+#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -80,12 +85,178 @@ cat <<'EOF'
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
+#
+# Additional licences for the actual boot code below; these apply to
+# this entire resulting generated file.
 #-
 # Self-installing 32-bit sun4m/sun4c boot blocks for MirOS BSD/sparc
 # Reads a list of extents (firstblock lastblock) from standard input
 # and writes bootxx to standard output, which can subsequentially be
 # stored past the SunOS disklabel directly on the disc.
 # Other mode creates ustarfs leader from self and /usr/mdec/boot.fd.
+#-
+# Copyright (c) 1989, 1990, 1991 Carnegie Mellon University
+# All Rights Reserved.
+#
+# Author: Alessandro Forin
+#
+# Permission to use, copy, modify and distribute this software and its
+# documentation is hereby granted, provided that both the copyright
+# notice and this permission notice appear in all copies of the
+# software, derivative works or modified versions, and any portions
+# thereof, and that both notices appear in supporting documentation.
+#-
+# Copyright (c) 2002 Marc Espie.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE OPENBSD PROJECT AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OPENBSD
+# PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#-
+# Copyright (C) 1985 Regents of the University of California
+# Copyright (c) 1993 Adam Glass
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#	This product includes software developed by Adam Glass.
+# 4. The name of the Author may not be used to endorse or promote products
+#    derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY Adam Glass ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+#-
+# Copyright (c) 1993 John Brezak
+# Copyright (c) 1993, 1994 Christopher G. Demetriou
+# Copyright (c) 1993, 1994 Paul Kranenburg
+# Copyright (c) 1995 Gordon W. Ross
+# Copyright (c) 1997 Niklas Hallqvist
+# Copyright (c) 1997 Theo de Raadt
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#	This product includes software developed by Paul Kranenburg.
+#	This product includes software developed by Gordon Ross
+#	This product includes software developed by Christopher G. Demetriou.
+# 4. The name of the author may not be used to endorse or promote products
+#    derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#-
+# Copyright (c) 1982, 1986, 1988, 1989, 1990, 1991, 1992, 1993, 1994
+#	The Regents of the University of California
+# (c) UNIX System Laboratories, Inc.
+# Copyright (c) 1988 University of Utah
+# Copyright (c) 1993 Adam Glass
+# Copyright (c) 1993 Theo de Raadt
+# Copyright (c) 1994 Allen Briggs
+# Copyright (c) 1995, 1996
+#	The President and Fellows of Harvard College
+# Copyright (c) 1996 Matthias Drochner
+# Copyright (c) 1994, 1997 Christopher G. Demetriou
+# All rights reserved.
+#
+# All or some portions of this file are derived from material licensed
+# to the University of California by American Telephone and Telegraph
+# Co. or Unix System Laboratories, Inc. and are reproduced herein with
+# the permission of UNIX System Laboratories, Inc.
+#
+# This code is derived from software contributed to Berkeley by
+# Jan-Simon Pendry.
+#
+# This code is derived from software contributed to Berkeley by
+# Berkeley Software Design, Inc.
+#
+# This code is derived from software contributed to Berkeley by
+# The Mach Operating System project at Carnegie-Mellon University.
+#
+# Sun4m support by Aaron Brown, Harvard University.
+#
+# This software was developed by the Computer Systems Engineering group
+# at Lawrence Berkeley Laboratory under DARPA contract BG 91-66 and
+# contributed to Berkeley.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgements:
+#	This product includes software developed by Harvard University.
+#	This product includes software developed by the University of
+#	   California, Berkeley and its contributors.
+#	This product includes software developed by the University of
+#	   California, Lawrence Berkeley Laboratory.
+# 4. Neither the name of the University nor the names of its contributors
+#    may be used to endorse or promote products derived from this software
+#    without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
 
 EOF
 sed -e '/\$Mir''OS: /s/MirOS/miros/p' \
@@ -97,6 +268,7 @@ typeset -i ustar_keep=$((sym__ustar_keep - sym_start + fofs_text ))
 print typeset -i  outsz=$outsz ustar_keep=$ustar_keep
 cat <<'EOF'
 
+# $miros: src/distrib/tools/i386_chain.S,v 1.7 2007/10/20 22:05:13 tg Exp $
 set -A pbs_thecode 0x66 0x31 0xC0 0x66 0x50 0x66 0x9D 0x05 0xA0 0x07 0x8E 0xD0 0xBC 0xFC 0xFF 0xFB 0x50 0x68 0x24 0x00 0x8E 0xD8 0x8E 0xC0 0x31 0xFF 0xBE 0x00 0x02 0xB9 0x80 0x00 0xF3 0x66 0xA5 0xCB 0xB8 0x01 0x02 0xBB 0x00 0x02 0xB9 0x19 0x00 0xB6 0x00 0x60 0xCD 0x13 0x61 0x73 0x08 0x60 0x31 0xC0 0xCD 0x13 0x61 0xEB 0xF2 0xEA 0x00 0x7C 0x00 0x00
 typeset -Uui8 pbs_thecode
 typeset -i pbs_ofs_sector=43 pbs_curptr=66 ustarmode=0
