@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.43 2017/08/10 17:57:49 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.46 2018/05/01 21:34:55 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -76,19 +76,10 @@ function rss_output {
 	eid=$(uri_escape "${e_id[ent]}")
 	efe="${mws__abspath}${rpath}${ei_srcf[ent]}_${eid}.htm#${eid}_${ei_srcf[ent]}"
 	set -A tm -- ${ei_time[ent]}
-	i=${tm[2]}
-	if (( i < 0 )); then
-		pubdate=-
-		i=$((-i))
-	else
-		pubdate=+
-	fi
-	(( FH = i / 60 ))
-	(( FM = i % 60 ))
-	pubdate=$pubdate$FH$FM
+	pubdate=${tm[3]}
 	set -A tm -- $(mjd_explode ${tm[0]} $((tm[1] + (60 * tm[2]))))
 	Fd=${tm[tm_mday]}
-	(( Fy= tm[tm_year] + 1900 ))
+	(( Fy = tm[tm_year] + 1900 ))
 	FH=${tm[tm_hour]}
 	FM=${tm[tm_min]}
 	FS=${tm[tm_sec]}

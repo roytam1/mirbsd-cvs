@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.24 2014/04/14 19:29:41 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.29 2018/05/01 21:50:50 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -66,12 +66,14 @@ function parsedate {
 		nd+=" $ra:$rb:$rc"
 	fi
 	if [[ ${ta[2]} = = ]]; then
+		ei_time[entry]='+0000'
 		to=0
 	elif [[ ${ta[2]} != [+-]@([01][0-9]|2[0-3])@([03]0|[14]5) ]]; then
 		#XXX other offsets might apply (non-15min-multiples)
 		print -ru2 "Invalid tz offset in $srcd/$srcf.inc: $line"
 		exit 1
 	else
+		ei_time[entry]=${ta[2]}
 		to=$((0${ta[2]::1}$((${ta[2]:1:2}*60+${ta[2]:3}))))
 		nd+=" ${ta[2]}"
 	fi
@@ -85,7 +87,8 @@ function parsedate {
 	set -A nt -- $((10#0${ta[5]})) $((10#0${ta[4]})) $((10#0${ta[3]})) \
 	    $((10#0${ta[2]})) $((10#0${ta[1]}-1)) $((10#0${ta[0]}-1900)) \
 	    x x x $((60 * to)) x
-	ei_time[entry]="$(mjd_implode "${nt[@]}") $to"
+	# tz offset needed by RSS generator to issue local publication time
+	ei_time[entry]="$(mjd_implode "${nt[@]}") $to ${ei_time[entry]}"
 	e_date[entry]=$nd
 }
 
@@ -220,10 +223,9 @@ if [[ -n $notimesort ]]; then
 else
 	while (( ++e < entries )); do
 	[[ ${ei_skip[e]} = 1 ]] || print -- ${ei_time[e]} $e
-	done | sort -nbk1,1 -k2,2 -k4,4 |&
+	done | sort -nbk1,1 -k2,2 -k5,5 |&
 	state=0
-	# extra TZO used by inc2rss
-	while read -p MJD SEC TZO entry; do
+	while read -p MJD SEC GMT TZO entry; do
 		ei_indir[state++]=$entry
 	done
 fi
