@@ -28,31 +28,31 @@ function parsedate {
 		print -ru2 "Invalid date in $srcd/$srcf.inc: $line"
 		exit 1
 	fi
-	set -A ta -- $tv =
+
+	set -A ta -- $tv = = =
 	if [[ ${ta[0]} = +([0-9]).+([0-9]).+([0-9]) ]]; then
-		IFS=.
-		set -A nt -- ${ta[0]}
-		IFS=$save_IFS
-		(( ra = 10#${nt[0]} ))
-		(( rb = 10#${nt[1]} ))
-		(( ry = 10#${nt[2]} ))
-		ta[0]=$ry-$rb-$ra
+		rc=1
 	elif [[ ${ta[0]} != +([0-9])-+([0-9])-+([0-9]) ]]; then
 		print -ru2 "Invalid day in $srcd/$srcf.inc: $line"
 		exit 1
+	fi
+
+	IFS=.-
+	set -A nt -- ${ta[0]}
+	IFS=$save_IFS
+
+	(( rb = 10#${nt[1]} ))
+	if (( rc )); then
+		(( ra = 10#${nt[0]} ))
+		(( ry = 10#${nt[2]} ))
 	else
-		IFS=-
-		set -A nt -- ${ta[0]}
-		IFS=$save_IFS
 		(( ra = 10#${nt[2]} ))
-		(( rb = 10#${nt[1]} ))
 		(( ry = 10#${nt[0]} ))
 	fi
 	nd=$ry-$rb-$ra
 
 	if [[ ${ta[1]} = = ]]; then
-		ta[1]=00:00:00
-		ta[2]==
+		:
 	elif [[ ${ta[1]} != +([0-9]):+([0-9])?(:+([0-9])) ]]; then
 		print -ru2 "Invalid tod in $srcd/$srcf.inc: $line"
 		exit 1
@@ -66,31 +66,26 @@ function parsedate {
 		nd+=" $ra:$rb:$rc"
 	fi
 	if [[ ${ta[2]} = = ]]; then
-		ta[2]=+0000
-		ta[3]==
+		to=0
 	elif [[ ${ta[2]} != [+-]@([01][0-9]|2[0-3])@([03]0|[14]5) ]]; then
 		#XXX other offsets might apply (non-15min-multiples)
 		print -ru2 "Invalid tz offset in $srcd/$srcf.inc: $line"
 		exit 1
 	else
+		to=$((0${ta[2]::1}$((${ta[2]:1:2}*60+${ta[2]:3}))))
 		nd+=" ${ta[2]}"
 	fi
 	if [[ ${ta[3]} != = ]]; then
 		print -ru2 "Invalid date in $srcd/$srcf.inc: $line"
 		exit 1
 	fi
-	to=$((0${ta[2]::1}$((${ta[2]:1:2}*60+${ta[2]:3}))))
 	IFS=$IFS:-
-	set -A ta -- ${ta[0]} ${ta[1]}
+	set -A ta -- $nd 0 0 0
 	IFS=$save_IFS
-	ei_time[entry]="$(mjd_implode \
-	    $((10#0${ta[5]})) \
-	    $((10#0${ta[4]})) \
-	    $((10#0${ta[3]})) \
-	    $((10#0${ta[2]})) \
-	    $((10#0${ta[1]}-1)) \
-	    $((10#0${ta[0]}-1900)) \
-	    x x x $((60 * to)) x) $to"
+	set -A nt -- $((10#0${ta[5]})) $((10#0${ta[4]})) $((10#0${ta[3]})) \
+	    $((10#0${ta[2]})) $((10#0${ta[1]}-1)) $((10#0${ta[0]}-1900)) \
+	    x x x $((60 * to)) x
+	ei_time[entry]="$(mjd_implode "${nt[@]}") $to"
 	e_date[entry]=$nd
 }
 
@@ -223,10 +218,11 @@ if [[ -n $notimesort ]]; then
 		[[ ${ei_skip[e]} = 1 ]] || ei_indir[state++]=$e
 	done
 else
-	( integer e=-1; while (( ++e < entries )); do
-		[[ ${ei_skip[e]} = 1 ]] || print ${ei_time[e]} $e
-	  done | sort -nbk1,1 -k2,2 ) |&
+	while (( ++e < entries )); do
+	[[ ${ei_skip[e]} = 1 ]] || print -- ${ei_time[e]} $e
+	done | sort -nbk1,1 -k2,2 -k4,4 |&
 	state=0
+	# extra TZO used by inc2rss
 	while read -p MJD SEC TZO entry; do
 		ei_indir[state++]=$entry
 	done
