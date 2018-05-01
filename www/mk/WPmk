@@ -192,8 +192,9 @@ fi
 			xid=${e_id[ent]}
 			xtx="#$xid"
 		fi
+		xdate=${e_date[ent]%% *}
 		print -nr "<li${xid:+ id=\"wp$xid\"}${what:+ title=\"$what\"}" \
-		    "class=\"$class\">${e_date[ent]:-(not yet)} $xtx $sep"
+		    "class=\"$class\">${xdate:-(not yet)} $xtx $sep"
 		iskip=0
 		for wp in ${e_waypoint[ent]}; do
 			case $wp {

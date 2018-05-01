@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.35 2015/07/10 22:44:34 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.37 2017/08/10 17:57:49 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -40,7 +40,7 @@ function output {
 
 	rpath=$1
 	efe="${rpath}${ei_srcf[ent]}_${eid}.htm#${eid}_${ei_srcf[ent]}"
-	title=${e_date[ent]}
+	title=${e_date[ent]%% *}
 	if [[ -n ${e_author[ent]} ]]; then
 		i=${e_author[ent]}
 		j=
