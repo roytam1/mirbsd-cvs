@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: www/data/WP2dat,v 1.5 2014/07/06 19:15:35 tg Exp $
+# $MirOS: www/data/Taglist,v 1.1 2014/07/11 18:41:08 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -33,7 +33,6 @@ for x in "$@"; do
 done
 
 notimesort=1
-parser_usedate=0
 
 . "$TOP/mk/common"
 . "$TOP/mk/parser"

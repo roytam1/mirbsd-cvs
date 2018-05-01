@@ -4,7 +4,6 @@ rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.37 2017/08/10 17:57:49 tg Exp $'
 # copyrighted material, please read the LICENCE file for details.
 
 integer perpage=12
-integer parser_usedate=0
 name=$1
 
 . "$TOP/data/$name.cfg"

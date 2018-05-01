@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.106 2018/01/01 22:01:58 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.109 2018/04/26 19:38:14 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3 extra=$4
@@ -111,7 +111,6 @@ sources=WPtg
 sourcedir_WPtg=users/tg
 
 integer notimesort=1
-integer parser_usedate=0
 
 #DEPEND mk/parser
 . "$TOP"/mk/parser

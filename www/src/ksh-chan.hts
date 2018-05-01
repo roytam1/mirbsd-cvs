@@ -80,7 +80,6 @@ EOF
 sources=ksh-chan
 
 integer notimesort=1
-integer parser_usedate=0
 
 #DEPEND mk/parser
 . "$TOP"/mk/parser
