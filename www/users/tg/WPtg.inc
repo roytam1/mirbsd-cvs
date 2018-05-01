@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.394 2018/02/09 18:24:41 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.398 2018/04/26 19:38:12 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -14340,6 +14340,26 @@ Date: 17.04.2018
 Waypoint: GC7K1FD
 Title: Airwaves
 Tag: D2 T1 Nano Tradi
+----
+ID: 2363
+Date: 01.05.2018
+Waypoint: OC1477A
+Title: Godesberger Kreuze #35
+nTF: 0
+Tag: D2 T15 Virtual
+----
+ID: 2364
+Date: 01.05.2018
+Waypoint: OC1477B
+Title: Godesberger Kreuze #36
+nTF: 0
+Tag: D2 T1 Virtual
+----
+ID: 2365
+Date: 01.05.2018
+Waypoint: GC73KNC
+Title: Amerikaner im Wald
+Tag: D3 T15 Small Tradi
 ----
 ID: p20481102
 Date: 02.11.2048
