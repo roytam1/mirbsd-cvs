@@ -98,7 +98,7 @@ function rss_output {
 	if [[ -n ${e_title[ent]} ]]; then
 		title="${e_title[ent]}"
 	else
-		title="${e_date[ent]}${e_author[ent]+ by }${e_author[ent]}"
+		title="${e_date[ent]%% *}${e_author[ent]+ by }${e_author[ent]}"
 	fi
 	if [[ ${e_language[ent]} = +([A-Za-z0-9-]) ]]; then
 		xmllang=" xml:lang=\"${e_language[ent]}\""
