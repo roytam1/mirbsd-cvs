@@ -98,6 +98,8 @@
 #include <time.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 #define CE_ROTATED	0x01		/* Log file has been rotated */
 #define CE_COMPACT	0x02		/* Compact the archived log files */
 #define CE_BINARY	0x04		/* Logfile is in binary, don't add */
@@ -143,7 +145,7 @@ int	monitormode = 0;	/* Don't do monitoring by default */
 int	force = 0;		/* Force the logs to be rotated */
 char	*conf = CONF;		/* Configuration file to use */
 time_t	timenow;
-char	hostname[HOST_NAME_MAX+1]; /* Hostname */
+char	hostname[MAXHOSTNAMELEN]; /* Hostname */
 char	daytime[33];		/* timenow in human readable form */
 char	*arcdir;		/* Dir to put archives in (if it exists) */
 
