@@ -178,7 +178,7 @@ Blank lines or lines beginning with a hash mark
 are ignored.
 The fields of the configuration file are as
 follows:
-.Bl -tag -width XXXXXXXXXXXXXXXX
+.Bl -tag -width flags
 .It Ar logfile_name
 The full pathname of the system log file to be archived.
 .It Ar owner:group
@@ -366,30 +366,23 @@ rotate on every 5th day of the month at 6:00 hr
 .It Ar flags
 The optional
 .Ar flags
-field specifies if the archives should have any special processing
-done to the archived log files.
-The
-.Sq Z
-flag will make the archive
-files compressed to save space using
-.Xr gzip 1
-or
-.Xr compress 1 ,
-depending on compilation options.
-The
-.Sq B
-flag means that the file is a
-binary file, and so the ASCII message which
-.Nm
-inserts to indicate the fact that the logs have been turned over
-should not be included.
-The
-.Sq M
-flag marks this entry as a monitored
-log file.
-The
-.Sq F
-flag specifies that symbolic links should be followed.
+field (which must begin, case-insensitively, with a valid flag letter, or it
+is skipped) specifies whether any special processing should be done.
+The flags are as follows:
+.Bl -tag -width Ds
+.It Sq B
+Binary file: skip writing the usual
+.Tn ASCII
+message to indicate the fact that the logs have been turned over
+to the end of the archived and the beginning of the new file.
+.It Sq F
+Follow symbolic links.
+.It Sq M
+Marks the entry as a monitored log file (see below).
+.It Sq Z
+Compress the archive files to save space, using
+.Xr gzip 1 .
+.El
 .It Ar monitor
 Specify the username (or email address) that should receive notification
 messages if this is a monitored log file.
@@ -398,21 +391,27 @@ deserves what they get if they mark the mail
 log file as monitored.
 This field is only valid when the
 .Sq M
-flag is set.
+flag is set and may not start with a slash, double quote, or the string
+.Sq SIG ,
+which indicate the fields below.
 .It Ar pid_file
-This optional field specifies a file containing the PID of a process to send a
-signal (usually
+This optional field specifies the absolute path of a file containing
+the PID of a process to send a signal (usually
 .Dv SIGHUP )
 to instead of
 .Pa /var/run/syslog.pid .
 .It Ar signal
 Specify the signal to send to the process instead of
 .Dv SIGHUP .
+.br
 Signal names
 must start with
 .Dq SIG
-and be the signal name, not the number, e.g.,
-.Dv SIGUSR1 .
+and be the signal name
+.br
+(e.g.\&
+.Dv SIGUSR1 ) ,
+not the signal number.
 .It Ar command
 This optional field specifies a command to run instead of sending a signal
 to the process.

@@ -625,7 +625,7 @@ nextline:
 
 		q = sob(++parse);	/* Optional field */
 		if (*q == 'Z' || *q == 'z' || *q == 'B' || *q == 'b' ||
-		    *q == 'M' || *q == 'm') {
+		    *q == 'M' || *q == 'm' || *q == 'F' || *q == 'f') {
 			*(parse = son(q)) = '\0';
 			while (*q) {
 				switch (*q) {
