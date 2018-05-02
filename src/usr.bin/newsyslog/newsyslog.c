@@ -107,6 +107,7 @@ __RCSID("$MirOS: src/usr.bin/newsyslog/newsyslog.c,v 1.2 2018/05/02 23:17:59 tg 
 #define CE_MONITOR	0x08		/* Monitor for changes */
 #define CE_FOLLOW	0x10		/* Follow symbolic links */
 #define CE_TRIMAT	0x20		/* Trim at a specific time */
+#define CE_ALWAYSROTATE	0x40		/* Always rotate the file */
 
 #define	MIN_PID		2		/* Don't touch pids lower than this */
 #define	MIN_SIZE	256		/* Don't rotate if smaller (in bytes) */
@@ -299,7 +300,8 @@ do_entry(struct conf_entry *ent)
 	if (ent->gid == (gid_t)-1)
 		ent->gid = sb.st_gid;
 
-	DPRINTF(("%s <%d%s%s%s%s>: ", ent->log, ent->numlogs,
+	DPRINTF(("%s <%d%s%s%s%s%s>: ", ent->log, ent->numlogs,
+	    (ent->flags & CE_ALWAYSROTATE) ? "A" : "",
 	    (ent->flags & CE_COMPACT) ? "Z" : "",
 	    (ent->flags & CE_BINARY) ? "B" : "",
 	    (ent->flags & CE_FOLLOW) ? "F" : "",
@@ -330,11 +332,12 @@ do_entry(struct conf_entry *ent)
 	    && ((ent->flags & CE_BINARY) || size >= MIN_SIZE)))) {
 		DPRINTF(("--> trimming log....\n"));
 		if (noaction && !verbose)
-			printf("%s <%d%s%s%s>\n", ent->log,
-			    ent->numlogs,
+			printf("%s <%d%s%s%s%s%s>: ", ent->log, ent->numlogs,
+			    (ent->flags & CE_ALWAYSROTATE) ? "A" : "",
 			    (ent->flags & CE_COMPACT) ? "Z" : "",
 			    (ent->flags & CE_BINARY) ? "B" : "",
-			    (ent->flags & CE_FOLLOW) ? "F" : "");
+			    (ent->flags & CE_FOLLOW) ? "F" : "",
+			    /* !monitormode */ "");
 		dotrim(ent);
 		ent->flags |= CE_ROTATED;
 	} else
@@ -625,6 +628,7 @@ nextline:
 
 		q = sob(++parse);	/* Optional field */
 		if (*q == 'Z' || *q == 'z' || *q == 'B' || *q == 'b' ||
+		    *q == 'A' || *q == 'a' ||
 		    *q == 'M' || *q == 'm' || *q == 'F' || *q == 'f') {
 			*(parse = son(q)) = '\0';
 			while (*q) {
@@ -636,6 +640,10 @@ nextline:
 				case 'B':
 				case 'b':
 					working->flags |= CE_BINARY;
+					break;
+				case 'A':
+				case 'a':
+					working->flags |= CE_ALWAYSROTATE;
 					break;
 				case 'M':
 				case 'm':
