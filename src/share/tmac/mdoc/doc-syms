@@ -398,11 +398,11 @@
 .	\}
 .	el .ie "\\*(A\\n(aP"-isoC-tcor1" \{\
 .		ds b1 \&\\*(tNISO/IEC \\*(aa9899/TCOR1:1994\\*(sV
-.		as b1 ("\\*(tNISO C90, Technical Corrigendum 1\\*(aa")
+.		as b1 ("\\*(tNISO C90, TC 1\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-isoC-tcor2" \{\
 .		ds b1 \&\\*(tNISO/IEC \\*(aa9899/TCOR2:1995\\*(sV
-.		as b1 ("\\*(tNISO C90, Technical Corrigendum 2\\*(aa")
+.		as b1 ("\\*(tNISO C90, TC 2\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-isoC-99" \{\
 .		ds b1 \&\\*(tNISO/IEC \\*(aa9899:1999\\*(sV
@@ -475,7 +475,7 @@
 .		as b1 ("\\*(tNXCU5\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-xsh4.2" \{\
-.		ds b1 \&X/Open System Interfaces and Headers Issue 4, Version 2\\*(sV
+.		ds b1 \&X/Open System Interfaces and Headers Issue 4.2\\*(sV
 .		as b1 ("\\*(tNXSH4.2\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-xsh5" \{\
@@ -485,10 +485,6 @@
 .	el .ie "\\*(A\\n(aP"-xns5" \{\
 .		ds b1 \&X/Open Networking Services Issue 5\\*(sV
 .		as b1 ("\\*(tNXNS5\\*(aa")
-.	\}
-.	el .ie "\\*(A\\n(aP"-xns5.2d2.0" \{\
-.		ds b1 \&X/Open Networking Services Issue 5.2 Draft 2.0\\*(sV
-.		as b1 ("\\*(tNXNS5.2D2.0\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-xns5.2" \{\
 .		ds b1 \&X/Open Networking Services Issue 5.2\\*(sV
