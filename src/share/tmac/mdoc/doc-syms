@@ -498,21 +498,25 @@
 .		ds b1 \&Version 1 of the Single\\*(aa\\*(sV
 .		as b1 \&\\*(tNUNIX\\*(aa\\*(sV
 .		as b1 \&Specification\\*(aa
+.		as b1 \\*(sV("\\*(tNSUSv1\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-susv2" \{\
 .		ds b1 \&Version 2 of the Single\\*(aa\\*(sV
 .		as b1 \&\\*(tNUNIX\\*(aa\\*(sV
 .		as b1 \&Specification\\*(aa
+.		as b1 \\*(sV("\\*(tNSUSv2\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-susv3" \{\
 .		ds b1 \&Version 3 of the Single\\*(aa\\*(sV
 .		as b1 \&\\*(tNUNIX\\*(aa\\*(sV
 .		as b1 \&Specification\\*(aa
+.		as b1 \\*(sV("\\*(tNSUSv3\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-susv4" \{\
 .		ds b1 \&Version 4 of the Single\\*(aa\\*(sV
 .		as b1 \&\\*(tNUNIX\\*(aa\\*(sV
 .		as b1 \&Specification\\*(aa
+.		as b1 \\*(sV("\\*(tNSUSv4\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-svid4" \{\
 .		ds b1 System V Interface Definition
