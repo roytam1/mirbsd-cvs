@@ -98,7 +98,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/newsyslog/newsyslog.c,v 1.2 2018/05/02 23:17:59 tg Exp $");
 
 #define CE_ROTATED	0x01		/* Log file has been rotated */
 #define CE_COMPACT	0x02		/* Compact the archived log files */
@@ -127,14 +127,14 @@ struct conf_entry {
 	int	signal;		/* Signal to send (defaults to SIGHUP) */
 	int     flags;		/* Flags (CE_COMPACT & CE_BINARY)  */
 	char	*whom;		/* Whom to notify if logfile changes */
-	char	*pidfile;	/* Path to file containing pid to signal */
+	const char *pidfile;	/* Path to file containing pid to signal */
 	char	*runcmd;	/* Command to run instead of sending a signal */
 	TAILQ_ENTRY(conf_entry) next;
 };
 TAILQ_HEAD(entrylist, conf_entry);
 
 struct pidinfo {
-	char	*file;
+	const char *file;
 	int	signal;
 };
 
@@ -143,13 +143,13 @@ int	needroot = 1;		/* Root privs are necessary */
 int	noaction = 0;		/* Don't do anything, just show it */
 int	monitormode = 0;	/* Don't do monitoring by default */
 int	force = 0;		/* Force the logs to be rotated */
-char	*conf = CONF;		/* Configuration file to use */
+const char *conf = CONF;	/* Configuration file to use */
 time_t	timenow;
 char	hostname[MAXHOSTNAMELEN]; /* Hostname */
 char	daytime[33];		/* timenow in human readable form */
 char	*arcdir;		/* Dir to put archives in (if it exists) */
 
-char   *lstat_log(char *, size_t, int);
+const char *lstat_log(char *, size_t, int);
 char   *missing_field(char *, char *, int);
 char   *sob(char *);
 char   *son(char *);
@@ -158,7 +158,7 @@ int	domonitor(struct conf_entry *);
 int	isnumberstr(char *);
 int	log_trim(char *);
 int	movefile(char *, char *, uid_t, gid_t, mode_t);
-int	stat_suffix(char *, size_t, char *, struct stat *,
+int	stat_suffix(char *, size_t, const char *, struct stat *,
 	    int (*)(const char *, struct stat *));
 off_t	sizefile(struct stat *);
 int	parse_file(struct entrylist *, int *);
@@ -170,9 +170,9 @@ void	do_entry(struct conf_entry *);
 void	dotrim(struct conf_entry *);
 void	rotate(struct conf_entry *, const char *);
 void	parse_args(int, char **);
-void	run_command(char *);
-void	send_signal(char *, int);
-void	usage(void);
+void	run_command(const char *);
+void	send_signal(const char *, int);
+void	usage(void) __dead;
 
 int
 main(int argc, char **argv)
@@ -343,7 +343,7 @@ do_entry(struct conf_entry *ent)
 
 /* Run the specified command */
 void
-run_command(char *cmd)
+run_command(const char *cmd)
 {
 	if (noaction)
 		(void)printf("run %s\n", cmd);
@@ -353,9 +353,10 @@ run_command(char *cmd)
 
 /* Send a signal to the pid specified by pidfile */
 void
-send_signal(char *pidfile, int signal)
+send_signal(const char *pidfile, int thesignal)
 {
-	char line[BUFSIZ], *ep, *err;
+	char line[BUFSIZ], *ep;
+	const char *errstr;
 	pid_t pid;
 	long lval;
 	FILE *f;
@@ -367,34 +368,34 @@ send_signal(char *pidfile, int signal)
 
 	pid = 0;
 	errno = 0;
-	err = NULL;
+	errstr = NULL;
 	if (fgets(line, sizeof(line), f)) {
 		lval = strtol(line, &ep, 10);
 		if (line[0] == '\0' || (*ep != '\0' && *ep != '\n'))
-			err = "invalid number in";
+			errstr = "invalid number in";
 		else if (lval < 0 || (errno == ERANGE && lval == LONG_MAX))
-			err = "out of range number in";
+			errstr = "out of range number in";
 		else if (lval == 0)
-			err = "no number in";
+			errstr = "no number in";
 		else if (lval < MIN_PID)
-			err = "preposterous process number in";
+			errstr = "preposterous process number in";
 		else
 			pid = (pid_t)lval;
 	} else {
 		if (errno == 0)
-			err = "empty";
+			errstr = "empty";
 		else
-			err = "error reading";
+			errstr = "error reading";
 	}
 	(void)fclose(f);
 
-	if (err)
-		warnx("%s pid file: %s", err, pidfile);
+	if (errstr)
+		warnx("%s pid file: %s", errstr, pidfile);
 	else if (noaction)
-		(void)printf("kill -%s %ld\n", sys_signame[signal], (long)pid);
-	else if (kill(pid, signal))
+		(void)printf("kill -%s %ld\n", sys_signame[thesignal], (long)pid);
+	else if (kill(pid, thesignal))
 		warnx("warning - could not send SIG%s to PID from pid file %s",
-		    sys_signame[signal], pidfile);
+		    sys_signame[thesignal], pidfile);
 }
 
 void
@@ -790,7 +791,8 @@ missing_field(char *p, char *errline, int lineno)
 void
 rotate(struct conf_entry *ent, const char *oldlog)
 {
-	char file1[PATH_MAX], file2[PATH_MAX], *suffix;
+	char file1[PATH_MAX], file2[PATH_MAX];
+	const char *suffix;
 	int numdays = ent->numlogs - 1;
 	int done = 0;
 
@@ -912,7 +914,8 @@ log_trim(char *log)
 void
 compress_log(struct conf_entry *ent)
 {
-	char *base, tmp[PATH_MAX];
+	const char *base;
+	char tmp[PATH_MAX];
 	pid_t pid;
 
 	if (ent->backdir != NULL)
@@ -1107,7 +1110,7 @@ cleanup:
 
 /* ARGSUSED */
 void
-child_killer(int signo)
+child_killer(int signo __unused)
 {
 	int save_errno = errno;
 	int status;
@@ -1118,7 +1121,7 @@ child_killer(int signo)
 }
 
 int
-stat_suffix(char *file, size_t size, char *suffix, struct stat *sp,
+stat_suffix(char *file, size_t size, const char *suffix, struct stat *sp,
     int (*func)(const char *, struct stat *))
 {
 	size_t n;
@@ -1134,7 +1137,7 @@ stat_suffix(char *file, size_t size, char *suffix, struct stat *sp,
  * lstat() a log, possibly appending a suffix; order is based on flags.
  * Returns the suffix appended (may be empty string) or NULL if no file.
  */
-char *
+const char *
 lstat_log(char *file, size_t size, int flags)
 {
 	struct stat sb;
