@@ -1,5 +1,5 @@
 .\"	$MirOS$
-.\"	$OpenBSD: newsyslog.8,v 1.40 2005/03/02 15:47:29 jmc Exp $
+.\"	$OpenBSD: newsyslog.8,v 1.54 2017/07/20 18:39:16 jca Exp $
 .\"
 .\" Copyright (c) 1997, Jason Downs.  All rights reserved.
 .\"
@@ -46,8 +46,9 @@
 .Dt NEWSYSLOG 8
 .Os
 .Sh NAME
-.Nm newsyslog
-.Nd trim log files to manageable sizes
+.Nm newsyslog ,
+.Nm newsyslog.conf
+.Nd rotate log files
 .Sh SYNOPSIS
 .Nm newsyslog
 .Op Fl Fmnrv
@@ -55,23 +56,21 @@
 .Op Fl f Ar config_file
 .Op Ar log ...
 .Sh DESCRIPTION
+The
 .Nm
-is a program that should be scheduled to run periodically by
-.Xr cron 8 .
-When it is executed it archives log files if necessary.
-If a log file is determined to require archiving,
-.Nm
-rearranges the files so that
-.Pa logfile
-is empty,
-.Pa logfile.0
-has
-the last period's logs in it,
-.Pa logfile.1
-has the next to last
-period's logs in it, and so on, up to a user-specified number of
-archived logs.
-The archived logs may be optionally compressed to save space.
+utility rotates log files when they exceed a configurable size or age.
+The
+.Ar log
+file is renamed to
+.Pa log.0
+and an empty file is created in its place.
+An archive of older logs may be kept:
+in order of increasing age, these files are named
+.Pa log.1 ,
+.Pa log.2 ,
+and so on.
+When their number exceeds a given limit, the oldest is removed.
+The archived logs may also be compressed.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
@@ -138,10 +137,15 @@ In this mode it will print out each log and its
 reasons for either trimming that log or skipping it.
 .El
 .Pp
+In the default system configuration,
+.Nm
+is run by
+.Xr cron 8 ,
+but it may also be run manually.
 If one or more
 .Ar log
-files are specified on the command line, only the specified logs will
-be rotated.
+files are specified on the command line, only the specified files are
+rotated.
 Note that each
 .Ar log
 specified must have an entry in
@@ -204,14 +208,18 @@ The number of archives to be kept besides the log file itself.
 .It Ar size
 When the size of the log file (in kilobytes) reaches this point, the log
 file is trimmed as described above.
-If this field is replaced by an
-.Ql \&* ,
+If this field is replaced by an asterisk
+.Ql * ,
+or set to
+.Ql 0 ,
 then the size of
 the log file is not taken into account when determining when to trim the
 log file.
-By default, files smaller than 512 bytes are not rotated unless the
+By default, files smaller than 256 bytes are not rotated unless the
 .Sq B
-(binary) flag is set.
+(binary) flag is set or the
+.Fl F
+option is specified.
 This prevents
 .Nm
 from rotating files consisting solely of a message indicating
@@ -233,7 +241,7 @@ field consists of an optional interval in hours, possibly followed
 by an
 .So Li \&@ Sc Ns -sign
 and a time in a restricted
-.Tn ISO 8601
+.St -iso8601
 format or by a
 .So Li \&$ Sc Ns -sign
 and a time specification for logfile rotation at a fixed time once
@@ -247,18 +255,18 @@ many hours have passed since the last rotation.
 When both a time and an interval are specified, both conditions
 must be satisfied for the rotation to take place.
 .Pp
-There is no provision for the specification of a timezone.
+There is no provision for the specification of a time zone.
 There is little point in specifying an explicit minutes or seconds
 component in the current implementation, since the only comparison is
 .Sq within the hour .
 .Pp
 .Sy ISO 8601 restricted time format:
 The lead-in character for a restricted
-.Tn ISO 8601
+.St -iso8601
 time is an
 .So Li \&@ Sc Ns -sign .
 The particular format of the time in restricted
-.Tn ISO 8601
+.St -iso8601
 is:
 .Sm off
 .Oo Oo Oo Oo Oo
@@ -267,13 +275,13 @@ is:
 .Va \&mm Oc
 .Va \&dd Oc
 .Oo Li \&T
-.Oo Va \&hh
-.Oo Va \&mm
-.Oo Va \&ss
+.Oo Va \&HH
+.Oo Va \&MM
+.Oo Va \&SS
 .Oc Oc Oc Oc Oc .
 .Sm on
 Optional date fields default to the appropriate component of the
-current date; optional time fields default to midnight
+current date; optional time fields default to midnight.
 For example, if today is January 22, 1999, the following date specifications
 are all equivalent:
 .Pp
@@ -302,18 +310,25 @@ are all equivalent:
 .Pp
 .Sy Day, week and month time format:
 The lead-in character for day, week and month specification is a
-.So Li \&$ Sc Ns -sign .
+dollar sign
+.Pq $ .
 The particular format of day, week and month specification is:
-.Op Va D\&hh ,
-.Op Va W\&w Ns Op Va D\&hh
+.Op Li D Ns Ar HH ,
+.Oo
+.Li W Ns Ar w Ns Oo
+.Li D Ns Ar HH
+.Oc Oc ,
 and
-.Op Va M\&dd Ns Op Va D\&hh ,
+.Oo
+.Li M Ns Ar dd Ns Oo
+.Li D Ns Ar HH
+.Oc Oc ,
 respectively.
 Optional time fields default to midnight.
 The ranges for day and hour specifications are:
 .Pp
 .Bl -tag -width Ds -compact -offset indent
-.It Ar hh
+.It Ar HH
 hours, range 0 ... 23
 .It Ar w
 day of week, range 0 ... 6, 0 = Sunday
@@ -327,28 +342,27 @@ to specify the last day of the month.
 .Pp
 .Sy Some examples:
 .Bl -tag -width Ds -compact -offset indent
-.It Ar $D0
+.It Li $D0
 rotate every night at midnight
 (same as
-.Ar @T00 )
-.It Ar $D23
+.Li @T00 )
+.It Li $D23
 rotate every day at 23:00 hr
 (same as
-.Ar @T23 )
-.It Ar $W0D23
+.Li @T23 )
+.It Li $W0D23
 rotate every week on Sunday at 23:00 hr
-.It Ar $W5D16
+.It Li $W5D16
 rotate every week on Friday at 16:00 hr
-.It Ar $M1D0
+.It Li $M1D0
 rotate on the first day of every month at midnight
 (i.e., the start of the day; same as
-.Ar @01T00 )
-.It Ar $M5D6
+.Li @01T00 )
+.It Li $M5D6
 rotate on every 5th day of the month at 6:00 hr
 (same as
-.Ar @05T06 )
+.Li @05T06 )
 .El
-.Pp
 .It Ar flags
 The optional
 .Ar flags
@@ -380,8 +394,7 @@ flag specifies that symbolic links should be followed.
 Specify the username (or email address) that should receive notification
 messages if this is a monitored log file.
 Notification messages are sent as email; the operator
-deserves what they get if they mark the
-.Xr sendmail 8
+deserves what they get if they mark the mail
 log file as monitored.
 This field is only valid when the
 .Sq M
@@ -407,7 +420,7 @@ The command must be enclosed in double quotes
 .Pq Ql \&" .
 The empty string,
 .Ql Dq "" ,
-can use used to prevent
+can be used to prevent
 .Nm
 from sending a signal or running a command.
 You cannot specify both a command and a PID file.
@@ -423,13 +436,15 @@ will not send a
 .It Pa /etc/newsyslog.conf
 default configuration file
 .El
+.Sh EXIT STATUS
+.Ex -std
 .Sh SEE ALSO
 .Xr compress 1 ,
 .Xr gzip 1 ,
 .Xr syslog 3 ,
 .Xr syslogd 8
 .Sh AUTHORS
-.Bd -unfilled
-Theodore Ts'o, MIT Project Athena
+.An Theodore Ts'o ,
+MIT Project Athena
+.br
 Copyright 1987, Massachusetts Institute of Technology
-.Ed
