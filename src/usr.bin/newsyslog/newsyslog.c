@@ -98,7 +98,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/newsyslog/newsyslog.c,v 1.2 2018/05/02 23:17:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/newsyslog/newsyslog.c,v 1.5 2018/05/02 23:52:40 tg Exp $");
 
 #define CE_ROTATED	0x01		/* Log file has been rotated */
 #define CE_COMPACT	0x02		/* Compact the archived log files */
@@ -329,7 +329,7 @@ do_entry(struct conf_entry *ent)
 	    (force || (ent->size > 0 && size >= ent->size) ||
 	    (ent->hours <= 0 && (ent->flags & CE_TRIMAT)) ||
 	    (ent->hours > 0 && (modhours >= ent->hours || modhours < 0)
-	    && ((ent->flags & CE_BINARY) || size >= MIN_SIZE)))) {
+	    && ((ent->flags & (CE_ALWAYSROTATE | CE_BINARY)) || size >= MIN_SIZE)))) {
 		DPRINTF(("--> trimming log....\n"));
 		if (noaction && !verbose)
 			printf("%s <%d%s%s%s%s%s>: ", ent->log, ent->numlogs,

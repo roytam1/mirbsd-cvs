@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/newsyslog/newsyslog.8,v 1.6 2018/05/02 23:44:36 tg Exp $
 .\"	$OpenBSD: newsyslog.8,v 1.54 2017/07/20 18:39:16 jca Exp $
 .\"
 .\" Copyright (c) 1997, Jason Downs.  All rights reserved.
@@ -42,7 +42,7 @@
 .\" the suitability of this software for any purpose.  It is
 .\" provided "as is" without express or implied warranty.
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: May 2 2018 $
 .Dt NEWSYSLOG 8
 .Os
 .Sh NAME
@@ -216,6 +216,8 @@ then the size of
 the log file is not taken into account when determining when to trim the
 log file.
 By default, files smaller than 256 bytes are not rotated unless the
+.Sq A
+(always rotate) or
 .Sq B
 (binary) flag is set or the
 .Fl F
@@ -370,6 +372,8 @@ field (which must begin, case-insensitively, with a valid flag letter, or it
 is skipped) specifies whether any special processing should be done.
 The flags are as follows:
 .Bl -tag -width Ds
+.It Sq A
+Archive even tiny files, e.g. for EU-DSGVO compliance.
 .It Sq B
 Binary file: skip writing the usual
 .Tn ASCII
