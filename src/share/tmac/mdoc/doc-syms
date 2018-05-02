@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-syms,v 1.17 2016/02/07 15:50:34 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-syms,v 1.24 2018/05/02 22:36:14 tg Exp $
 .\"	$OpenBSD: doc-syms,v 1.59 2009/02/08 11:01:47 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2006, 2009, 2014, 2016, 2018
@@ -293,7 +293,7 @@
 .de St
 .if \\n(aC==0 \{\
 .	ie \\n(.$==0 \{\
-.tm Usage: .St [-p1003.1-88 | -p1003.1-90 | -p1003.1-96 | -p1003.1-2001 | -p1003.1-2004 | -p1003.1-2008 | -p1003.1 | -p1003.1b | -p1003.1b-93 | -p1003.1c-95 | -p1003.1g-2000 | -p1003.2-92 | -p1003.2-95 | -p1003.2 | -p1387.2 | -isoC-90 | -isoC-amd1 | -isoC-tcor1 | -isoC-tcor2 | -isoC-99 | -isoC-11 | -ansiC | -ansiC-89 | -ieee754 | -iso8802-3 | -xpg3 | -xpg4 | -xpg4.2 | -xpg4.3 | -xbd5 | -xcu5 | -xsh5 | -xns5 | -xns5.2d2.0 | -xcurses4.2 | -susv2 | -susv3 | -susv4 | -svid4] \\*(Pu ... (#\\n(.c)
+.tm Usage: .St [-p1003.1-88 | -p1003.1-90 | -p1003.1-96 | -p1003.1-2001 | -p1003.1-2004 | -p1003.1-2008 | -p1003.1 | -p1003.1b | -p1003.1b-93 | -p1003.1c-95 | -p1003.1g-2000 | -p1003.1i-95 | -p1003.2 | -p1003.2-92 | -p1003.2a-92 | -p1387.2 | -p1387.2-95 | -isoC | -isoC-90 | -isoC-amd1 | -isoC-tcor1 | -isoC-tcor2 | -isoC-99 | -isoC-2011 | -iso9945-1-90 | -iso9945-1-96 | -iso9945-2-93 | -ansiC | -ansiC-89 | -ansiC-99 | -ieee754 | -iso8802-3 | -iso8601 | -ieee1275-94 | -xpg3 | -xpg4 | -xpg4.2 | -xpg4.3 | -xbd5 | -xcu5 | -xsh4.2 | -xsh5 | -xns5 | -xns5.2 | -xcurses4.2 | -susv1 | -susv2 | -susv3 | -susv4 | -svid4] \\*(Pu ... (#\\n(.c)
 .	\}
 .	el \{\
 .		ds mN St
