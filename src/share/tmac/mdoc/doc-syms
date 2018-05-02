@@ -408,13 +408,16 @@
 .		ds b1 \&\\*(tNANSI \\*(aaX3.159-1989\\*(sV
 .		as b1 ("\\*(tNANSI C\\*(aa")
 .	\}
+.	el .ie "\\*(A\\n(aP"-ansiC-99" \{\
+.		ds b1 \&\\*(tNANSI/ISO/IEC \\*(aa9899-1999\\*(sV
+.		as b1 ("\\*(tNANSI C99\\*(aa")
+.	\}
 .	el .ie "\\*(A\\n(aP"-ieee754" \{\
 .		ds b1 \&\\*(tNIEEE Std \\*(aa754-1985
 .	\}
 .	el .ie "\\*(A\\n(aP"-iso8802-3" \{\
 .		ds b1 \&\\*(tNISO \\*(aa8802-3: 1989
-.\" .		ds b1 \&\\*(tNISO \\*(aa8802-3: 1989\\*(sV
-.\" .		as b1 ("\\*(tNANSI C\\*(aa")
+.\" .		as b1 \\*(sV("\\*(tNANSI C\\*(aa")
 .	\}
 .	el .ie "\\*(A\\n(aP"-xpg3" \{\
 .		ds b1 \&X/Open Portability Guide Issue 3\\*(aa\\*(sV
