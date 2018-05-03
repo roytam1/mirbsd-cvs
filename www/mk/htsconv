@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.84 2017/08/11 23:18:37 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.89 2018/05/03 01:48:48 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -44,7 +44,7 @@ function mws_setheadsize {
 }
 
 function mws_setrss {
-	mws__extrahead="\\
+	mws__extrahead+="
  <link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"$1\" />"
 	# this is for not doing the newline when no RSS is applicable
 }
