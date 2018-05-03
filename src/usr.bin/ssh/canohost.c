@@ -33,6 +33,8 @@
 
 __RCSID("$MirOS: src/usr.bin/ssh/canohost.c,v 1.7 2009/03/22 15:01:12 tg Exp $");
 
+unsigned char mask_remote_identity = 0;
+
 static void check_ip_options(int, char *);
 static char *canonical_host_ip = NULL;
 static int cached_port = -1;
@@ -182,9 +184,13 @@ check_ip_options(int sock, char *ipaddr)
 const char *
 get_canonical_hostname(int use_dns)
 {
-	char *host;
-	static char *canonical_host_name = NULL;
-	static char *remote_ip = NULL;
+	const char *host;
+	static const char *canonical_host_name = NULL;
+	static const char *remote_ip = NULL;
+
+	if (mask_remote_identity)
+		return (!packet_connection_is_on_socket() ? "UNKNOWN" :
+		    use_dns ? "masked.invalid" : "256.256.256.256");
 
 	/* Check if we have previously retrieved name with same option. */
 	if (use_dns && canonical_host_name != NULL)
@@ -196,7 +202,7 @@ get_canonical_hostname(int use_dns)
 	if (packet_connection_is_on_socket())
 		host = get_remote_hostname(packet_get_connection_in(), use_dns);
 	else
-		host = (char *)"UNKNOWN";
+		host = "UNKNOWN";
 
 	if (use_dns)
 		canonical_host_name = host;
@@ -245,9 +251,12 @@ get_peer_ipaddr(int sock)
 {
 	char *p;
 
-	if ((p = get_socket_address(sock, 1, NI_NUMERICHOST)) != NULL)
-		return p;
-	return xstrdup("UNKNOWN");
+	if ((p = get_socket_address(sock, 1, NI_NUMERICHOST)) == NULL)
+		return (xstrdup("UNKNOWN"));
+	if (!mask_remote_identity)
+		return (p);
+	free(p);
+	return (xstrdup("256.256.256.256"));
 }
 
 char *
@@ -284,6 +293,10 @@ clear_cached_addr(void)
 const char *
 get_remote_ipaddr(void)
 {
+	if (mask_remote_identity)
+		return (!packet_connection_is_on_socket() ? "UNKNOWN" :
+		    "256.256.256.256");
+
 	/* Check whether we have cached the ipaddr. */
 	if (canonical_host_ip == NULL) {
 		if (packet_connection_is_on_socket()) {
@@ -361,12 +374,17 @@ get_port(int local)
 int
 get_peer_port(int sock)
 {
+	if (mask_remote_identity)
+		return (!packet_connection_is_on_socket() ? 65535 : -666);
 	return get_sock_port(sock, 0);
 }
 
 int
 get_remote_port(void)
 {
+	if (mask_remote_identity)
+		return (!packet_connection_is_on_socket() ? 65535 : -666);
+
 	/* Cache to avoid getpeername() on a dead connection */
 	if (cached_port == -1)
 		cached_port = get_port(0);

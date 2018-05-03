@@ -56,10 +56,11 @@
 #include "monitor_wrap.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.12 2011/01/15 21:52:39 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.13 2013/10/31 20:07:10 tg Exp $");
 
 /* import */
 extern ServerOptions options;
+static char need_maskremote = 0;
 
 /* Debugging messages */
 Buffer auth_debug;
@@ -181,6 +182,11 @@ auth_log(Authctxt *authctxt, int authenticated, const char *method,
 
 	if (use_privsep && !mm_is_monitor() && !authctxt->postponed)
 		return;
+
+	if (authenticated && need_maskremote) {
+		process_config_mask_remote(&options);
+		need_maskremote = 0;
+	}
 
 	/* Raise logging level */
 	if (authenticated == 1 ||
@@ -437,6 +443,11 @@ getpwnamallow(const char *user)
 
 	parse_server_match_config(&options, user,
 	    get_canonical_hostname(options.use_dns), get_remote_ipaddr());
+	if (options.mask_remote == 1 && !mask_remote_identity)
+		/* postpone until user is actually auth’d successfully */
+		need_maskremote = 1;
+	else
+		process_config_mask_remote(&options);
 
 	pw = getpwnam(user);
 	if (pw == NULL) {

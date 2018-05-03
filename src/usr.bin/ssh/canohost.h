@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: canohost.h,v 1.11 2009/05/27 06:31:25 andreas Exp $ */
 
 /*
@@ -25,3 +26,6 @@ int		 get_remote_port(void);
 int		 get_local_port(void);
 int		 get_sock_port(int, int);
 void		 clear_cached_addr(void);
+
+/* EU-DSGVO helper */
+extern unsigned char mask_remote_identity;

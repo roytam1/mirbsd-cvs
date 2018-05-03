@@ -1394,6 +1394,7 @@ main(int ac, char **av)
 		exit(1);
 	}
 
+	process_config_mask_remote(&options);
 	debug("sshd version %.100s", SSH_VERSION);
 
 	/* load private host keys */
@@ -1481,6 +1482,7 @@ main(int ac, char **av)
 		if (test_user != NULL && test_addr != NULL && test_host != NULL)
 			parse_server_match_config(&options, test_user,
 			    test_host, test_addr);
+		process_config_mask_remote(&options);
 		dump_config(&options);
 	}
 

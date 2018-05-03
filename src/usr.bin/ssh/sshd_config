@@ -99,5 +99,6 @@ Match User _anoncvs
 	AllowTcpForwarding no
 	Banner no
 	GatewayPorts no
+	MaskRemoteAddress yes
 	PermitEmptyPasswords yes
 	X11Forwarding no

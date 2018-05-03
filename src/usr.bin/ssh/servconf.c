@@ -39,6 +39,7 @@
 #include "match.h"
 #include "channels.h"
 #include "groupaccess.h"
+#include "canohost.h"
 
 __RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.24 2011/01/15 21:52:41 tg Exp $");
 
@@ -116,6 +117,7 @@ initialize_server_options(ServerOptions *options)
 	options->num_permitted_opens = -1;
 	options->adm_forced_command = NULL;
 	options->chroot_directory = NULL;
+	options->mask_remote = -1;
 }
 
 void
@@ -234,6 +236,9 @@ fill_default_server_options(ServerOptions *options)
 	/* Turn privilege separation on by default */
 	if (use_privsep == -1)
 		use_privsep = 1;
+
+	if (options->mask_remote == -1)
+		options->mask_remote = 0;
 }
 
 /* Keyword tokens. */
@@ -259,6 +264,7 @@ typedef enum {
 	sAcceptEnv, sPermitTunnel,
 	sMatch, sPermitOpen, sForceCommand, sChrootDirectory,
 	sUsePrivilegeSeparation, sAllowAgentForwarding,
+	sMaskRemote,
 	sDeprecated, sUnsupported
 } ServerOpCodes;
 
@@ -350,6 +356,7 @@ static struct {
 	{ "permitopen", sPermitOpen, SSHCFG_ALL },
 	{ "forcecommand", sForceCommand, SSHCFG_ALL },
 	{ "chrootdirectory", sChrootDirectory, SSHCFG_ALL },
+	{ "maskremoteaddress", sMaskRemote, SSHCFG_ALL },
 	{ NULL, sBadOption, 0 }
 };
 
@@ -1186,6 +1193,10 @@ process_server_config_line(ServerOptions *options, char *line,
 			*charptr = xstrdup(arg);
 		break;
 
+	case sMaskRemote:
+		intptr = &options->mask_remote;
+		goto parse_flag;
+
 	case sDeprecated:
 		logit("%s line %d: Deprecated option %s",
 		    filename, linenum, arg);
@@ -1297,6 +1308,7 @@ copy_set_server_options(ServerOptions *dst, ServerOptions *src, int preauth)
 		return;
 	M_CP_STROPT(adm_forced_command);
 	M_CP_STROPT(chroot_directory);
+	M_CP_INTOPT(mask_remote);
 }
 
 #undef M_CP_INTOPT
@@ -1497,6 +1509,7 @@ dump_config(ServerOptions *o)
 	dump_cfg_fmtint(sUseDNS, o->use_dns);
 	dump_cfg_fmtint(sAllowTcpForwarding, o->allow_tcp_forwarding);
 	dump_cfg_fmtint(sUsePrivilegeSeparation, use_privsep);
+	dump_cfg_fmtint(sMaskRemote, o->mask_remote);
 
 	/* string arguments */
 	dump_cfg_string(sPidFile, o->pid_file);
@@ -1537,4 +1550,18 @@ dump_config(ServerOptions *o)
 	dump_cfg_string(sPermitTunnel, s);
 
 	channel_print_adm_permitted_opens();
+}
+
+void
+process_config_mask_remote(ServerOptions *options)
+{
+	if (options->mask_remote == 1) {
+		if (!mask_remote_identity) {
+			mask_remote_identity = 1;
+			debug("Enabling masking of the remote identity");
+		}
+	} else if (mask_remote_identity) {
+		debug("DISabling masking of the remote identity");
+		mask_remote_identity = 0;
+	}
 }

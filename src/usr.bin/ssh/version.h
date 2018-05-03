@@ -4,7 +4,7 @@
 
 #define __OPENSSH_VERSION	"OpenSSH_5.3"
 
-#define __MIRBSDSSH_VERSION	"MirBSD_Secure_Shell-0AuB8"
+#define __MIRBSDSSH_VERSION	"MirBSD_Secure_Shell-0AuB9"
 
 /*
  * it is important to retain OpenSSH version identification part, it is

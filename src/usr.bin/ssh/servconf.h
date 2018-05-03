@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.13 2011/01/15 21:52:41 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.14 2014/03/28 22:31:58 tg Exp $ */
 /* $OpenBSD: servconf.h,v 1.87 2009/01/22 10:02:34 djm Exp $ */
 
 /*
@@ -135,6 +135,8 @@ typedef struct {
 	int	num_permitted_opens;
 
 	char   *chroot_directory;
+
+	int	mask_remote;
 }       ServerOptions;
 
 void	 initialize_server_options(ServerOptions *);
@@ -148,5 +150,7 @@ void	 parse_server_match_config(ServerOptions *, const char *, const char *,
 	     const char *);
 void	 copy_set_server_options(ServerOptions *, ServerOptions *, int);
 void	 dump_config(ServerOptions *);
+
+void	 process_config_mask_remote(ServerOptions *);
 
 #endif				/* SERVCONF_H */
