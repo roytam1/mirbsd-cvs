@@ -10,7 +10,7 @@ mws__markindex=
 mws__onload=
 mws__pagename=
 mws__header=
-mws__rss=
+mws__extrahead=
 mws__difftag=MBSD_HTSCONV_GENDATE_TAG_6122
 unset mws__srcfile
 unset mws__abspath
@@ -44,7 +44,7 @@ function mws_setheadsize {
 }
 
 function mws_setrss {
-	mws__rss="\\
+	mws__extrahead="\\
  <link rel=\"alternate\" type=\"application/rss+xml\" title=\"RSS\" href=\"$1\" />"
 	# this is for not doing the newline when no RSS is applicable
 }
@@ -163,7 +163,7 @@ function mws_putheader {
 		 <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
 		 <meta name="licence" content="see the source files in CVSWEB for details" />
 		 <title>MirOS: $mws__pagename</title>
-		 <meta name="robots" content="index, follow" />@@RSS@@
+		 <meta name="robots" content="index, follow" />$mws__extrahead
 		 <!--
 		  This is copyrighted material. For the full licence text, see the file
 		  LICENCE in the current directory. In no event may text from this page
@@ -332,8 +332,7 @@ function mws__content {
 	    -e 's@@WTF=\([^@]*\)@@<a href="@@RELPATH@@wtf.cgi?q=\1">\1</a>g' \
 	    -e "s@@ABSPATH@@$mws__abspathg" \
 	    -e "s@@RELPATH@@$mws__relpathg" \
-	    -e "s@@HEADER@@$mws__headerg" \
-	    -e "s@@RSS@@$mws__rssg"
+	    -e "s@@HEADER@@$mws__headerg"
 }
 
 function mws__content_keeptabs {
@@ -348,8 +347,7 @@ function mws__content_keeptabs {
 	    -e 's@@WTF=\([^@]*\)@@<a href="@@RELPATH@@wtf.cgi?q=\1">\1</a>g' \
 	    -e "s@@ABSPATH@@$mws__abspathg" \
 	    -e "s@@RELPATH@@$mws__relpathg" \
-	    -e "s@@HEADER@@$mws__headerg" \
-	    -e "s@@RSS@@$mws__rssg"
+	    -e "s@@HEADER@@$mws__headerg"
 }
 
 function mws__content_categorised {
@@ -379,8 +377,7 @@ function mws__content_categorised {
 	    -e 's^	<span style="display:none;">	</span>' \
 	    -e "s@@ABSPATH@@$mws__abspathg" \
 	    -e "s@@RELPATH@@$mws__relpathg" \
-	    -e "s@@HEADER@@$mws__headerg" \
-	    -e "s@@RSS@@$mws__rssg"
+	    -e "s@@HEADER@@$mws__headerg"
 }
 
 function mws_push {
