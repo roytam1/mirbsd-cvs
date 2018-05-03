@@ -1866,3 +1866,30 @@ Tag: event personal
  Don’t miss the MuseScore booth and the two Teckids talks.</p>
 <p>Colophon: complexity sucks.</p>
 ----
+Date: 2018-05-03 02:40
+Author: tg@
+Title: Happy Birthday, GPS Stash Hunt!
+Tag: debian fun geocache personal
+
+<p>GPS Stash Hunt, also commercially known as “Geocaching”,
+ “Terracaching”, or non-commercially (but also nōn-free) as
+ “Opencaching”, is 18 years old today! Time for celebration
+ or something!</p><!-- RSS stop -->
+<p><a href="http://fish.mirbsd.org/wptg.htm#banners" style="border:0;"><img
+ style="border:0;" alt="mirabilos’ Waypoints"
+ src="@@RELPATH@@WPtg.png" /></a></p>
+<p>Excluding Munzees, I visited 2365 waypoints to date,
+ ever since 2006 (I knew about GPS Stash Hunt in 2004
+ already but thought one’d need one of those expensive
+ GPS receivers to play, which is untrue but I only got
+ that when Pfeffer (from BOSng) took his GPS and me out
+ for a bike tour in 2006, so, here we are…</p>
+<hr />
+<p>On an unrelated side note, I’m working on consolidating
+ <tt>mirsolutios.de</tt> (as my business is long defunct)
+ into <tt>www.mirbsd.org</tt> (as “The MirOS Project” was
+ folded back into “MirBSD”, i.e. my private <tt>/usr/src</tt>
+ and <tt>/usr/ports</tt>, this year). This simplifies some
+ stuff, I’ll need no vhosts, and EU-DSGVO conformity should
+ come with less effort (I’m reducing logging alongside).</p>
+----
