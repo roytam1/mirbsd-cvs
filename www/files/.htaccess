@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.17 2015/10/12 22:40:53 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.19 2018/05/03 02:17:53 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
@@ -106,7 +106,7 @@ AddType 'application/vnd.recordare.musicxml+xml; charset=utf-8' musicxml
 AddType 'application/xml; charset=utf-8' xml
 
 # display as plaintext with proper encoding
-AddType 'text/plain; charset=utf-8' dat sh txt LICENCE
+AddType 'text/plain; charset=utf-8' conf dat in sh txt LICENCE
 # some files in legacy encoding
 AddType 'text/plain; charset=cp437' asc
 
