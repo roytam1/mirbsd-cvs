@@ -1,5 +1,23 @@
 # $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.65 2017/05/21 19:59:03 tg Exp $
 #-
+# Copyright © 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018
+#	mirabilos <tg@debian.org>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un‐
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person’s immediate fault when using the work as intended.
+#-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. For me, works rather well; may just as well break.
 #
@@ -27,7 +45,7 @@
 # Debian derivate from Canonical that cannot be named:
 #	dapper hardy jaunty karmic lucid maverick natty oneiric
 #	precise quantal raring saucy trusty utopic vivid wily
-#	xenial yakkety zesty artful bionic
+#	xenial yakkety zesty artful bionic cosmic
 # *-backports: sarge etch lenny squeeze wheezy jessie stretch
 #	(plus all Debian derivate from Canonical that cannot be named)
 # *-backports-sloppy: lenny squeeze wheezy jessie
@@ -83,10 +101,10 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch buster bullseye sid'
 DISTS_dpo='dpo'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety zesty artful bionic'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety zesty artful bionic cosmic'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie:stretch
 DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy:jessie
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety:zesty:artful:bionic
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety:zesty:artful:bionic:cosmic
 MIRROR_sarge=http://archive.debian.org/debian/
 MIRROR_etch=http://archive.debian.org/debian/
 MIRROR_lenny=http://archive.debian.org/debian/
@@ -120,6 +138,7 @@ MIRROR_yakkety=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_zesty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_artful=http://archive.ubuntu.com/ubuntu/
 MIRROR_bionic=http://archive.ubuntu.com/ubuntu/
+MIRROR_cosmic=http://archive.ubuntu.com/ubuntu/
 MIRRORSECURITY_sarge=http://archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://archive.debian.org/debian-security/
