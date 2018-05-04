@@ -43,10 +43,10 @@
 
 # regular commit mails per developer
 ^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg %{sVv}
-^www/users/tg\(/\|$\)			$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg %{sVv}
 
 # regular global project commit mails
 ^test\(/\|$\)				$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.org -m miros-dev@mirbsd.org -f $CVSROOT/Logs/ChangeLog %{sVv}
+^www\(/\|$\)				$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/ChangeLog %{sVv}
 DEFAULT					$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.org -m miros-changes@mirbsd.org -f $CVSROOT/Logs/ChangeLog %{sVv}
 
 # non-MirBSD operation
