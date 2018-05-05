@@ -1,8 +1,105 @@
-$MirOS$
+$MirOS: ports/misc/figlet/patches/patch-figlet_c,v 1.1 2005/12/28 01:46:22 tg Exp $
 $OpenBSD: patch-figlet_c,v 1.1 2005/08/20 08:01:41 mbalmer Exp $
 --- figlet.c.orig	Tue Jul  5 09:50:27 2005
-+++ figlet.c	Wed Dec 28 01:44:48 2005
-@@ -1446,8 +1446,9 @@ inchr c;
++++ figlet.c	Sat May  5 22:58:54 2018
+@@ -659,22 +659,23 @@ char *controlname;
+   int command;
+   ZFILE *controlfile;
+   int namelen;
++  size_t controlpathlen;
+ 
+   namelen = MYSTRLEN(fontdirname);
+-  controlpath = (char*)myalloc(sizeof(char)
+-    *(namelen+MYSTRLEN(controlname)+CSUFFIXLEN+2));
++  controlpath = (char*)myalloc((controlpathlen = sizeof(char)
++    *(namelen+MYSTRLEN(controlname)+CSUFFIXLEN+2)));
+   controlfile = NULL;
+   if (!hasdirsep(controlname)) {
+-    strcpy(controlpath,fontdirname);
++    strlcpy(controlpath,fontdirname,controlpathlen);
+     controlpath[namelen] = DIRSEP;
+     controlpath[namelen+1] = '\0';
+-    strcat(controlpath,controlname);
+-    strcat(controlpath,CONTROLFILESUFFIX);
++    strlcat(controlpath,controlname,controlpathlen);
++    strlcat(controlpath,CONTROLFILESUFFIX,controlpathlen);
+     controlfile = Zopen(controlpath,"rb");
+     }
+   if (controlfile==NULL) {
+-    strcpy(controlpath,controlname);
+-    strcat(controlpath,CONTROLFILESUFFIX);
++    strlcpy(controlpath,controlname,controlpathlen);
++    strlcat(controlpath,CONTROLFILESUFFIX,controlpathlen);
+     controlfile = Zopen(controlpath,"rb");
+     if (controlfile==NULL) {
+       fprintf(stderr,"%s: %s: Unable to open control file\n",myname,
+@@ -858,8 +859,10 @@ void getparams()
+     }
+   fontdirname = DEFAULTFONTDIR;
+   firstfont = 1;
+-  fontname = (char*)myalloc(sizeof(char)*(MYSTRLEN(DEFAULTFONTFILE)+1));
+-  strcpy(fontname,DEFAULTFONTFILE); /* Some systems don't have strdup() */
++  if (!(fontname = strdup(DEFAULTFONTFILE))) {
++    fprintf(stderr,"%s: Out of memory\n",myname);
++    exit(1);
++    }
+   if (suffixcmp(fontname,FONTFILESUFFIX)) {
+     fontname[MYSTRLEN(fontname)-FSUFFIXLEN]='\0';
+     }
+@@ -1090,7 +1093,7 @@ int maxlen;
+       }
+     line[k+1] = '\0';
+     fcharlist->thechar[row] = (char*)myalloc(sizeof(char)*(k+2));
+-    strcpy(fcharlist->thechar[row],line);
++    strlcpy(fcharlist->thechar[row],line,k+2);
+     }
+ }
+ 
+@@ -1114,22 +1117,23 @@ void readfont()
+   char *fontpath,*fileline,magicnum[5];
+   ZFILE *fontfile;
+   int namelen;
++  size_t fontpathlen;
+ 
+   namelen = MYSTRLEN(fontdirname);
+-  fontpath = (char*)myalloc(sizeof(char)
+-    *(namelen+MYSTRLEN(fontname)+FSUFFIXLEN+2));
++  fontpath = (char*)myalloc((fontpathlen = sizeof(char)
++    *(namelen+MYSTRLEN(fontname)+FSUFFIXLEN+2)));
+   fontfile = NULL;
+   if (!hasdirsep(fontname)) {
+-    strcpy(fontpath,fontdirname);
++    strlcpy(fontpath,fontdirname,fontpathlen);
+     fontpath[namelen] = DIRSEP;
+     fontpath[namelen+1] = '\0';
+-    strcat(fontpath,fontname);
+-    strcat(fontpath,FONTFILESUFFIX);
++    strlcat(fontpath,fontname,fontpathlen);
++    strlcat(fontpath,FONTFILESUFFIX,fontpathlen);
+     fontfile = Zopen(fontpath,"rb");
+     }
+   if (fontfile==NULL) {
+-    strcpy(fontpath,fontname);
+-    strcat(fontpath,FONTFILESUFFIX);
++    strlcpy(fontpath,fontname,fontpathlen);
++    strlcat(fontpath,FONTFILESUFFIX,fontpathlen);
+     fontfile = Zopen(fontpath,"rb");
+     if (fontfile==NULL) {
+       fprintf(stderr,"%s: %s: Unable to open font file\n",myname,fontpath);
+@@ -1436,20 +1440,21 @@ inchr c;
+   templine = (char*)myalloc(sizeof(char)*(outlinelenlimit+1));
+   for (row=0;row<charheight;row++) {
+     if (right2left) {
+-      strcpy(templine,currchar[row]);
++      strlcpy(templine,currchar[row],outlinelenlimit+1);
+       for (k=0;k<smushamount;k++) {
+         templine[currcharwidth-smushamount+k] =
+           smushem(templine[currcharwidth-smushamount+k],outputline[row][k]);
+         }
+-      strcat(templine,outputline[row]+smushamount);
+-      strcpy(outputline[row],templine);
++      strlcat(templine,outputline[row]+smushamount,outlinelenlimit+1);
++      strlcpy(outputline[row],templine,outlinelenlimit+1);
        }
      else {
        for (k=0;k<smushamount;k++) {
@@ -12,5 +109,17 @@ $OpenBSD: patch-figlet_c,v 1.1 2005/08/20 08:01:41 mbalmer Exp $
 +          outputline[row][outlinelen-smushamount+k] =
 +            smushem(outputline[row][outlinelen-smushamount+k],currchar[row][k]);
          }
-       strcat(outputline[row],currchar[row]+smushamount);
+-      strcat(outputline[row],currchar[row]+smushamount);
++      strlcat(outputline[row],currchar[row]+smushamount,outlinelenlimit+1);
        }
+     }
+   free(templine);
+@@ -1605,7 +1610,7 @@ inchr c;
+ int Agetchar()
+ {
+     extern int optind;		/* current argv[] element under study */
+-    static AgetMode = 0;	/* >= 0 for displacement into argv[n], <0 EOF */
++    static int AgetMode = 0;	/* >= 0 for displacement into argv[n], <0 EOF */
+     char   *arg;		/* pointer to active character */
+     int    c;			/* current character */
+ 

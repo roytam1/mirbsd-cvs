@@ -5,6 +5,7 @@ bin/figlet-febrew
 bin/figlist
 bin/showfigfonts
 man/cat6/figlet.0
+share/doc/figlet/figfont.txt
 share/figlet/1943____.flf
 share/figlet/3-d.flf
 share/figlet/3x5.flf
@@ -191,6 +192,7 @@ share/figlet/atc_____.flf
 share/figlet/atc_gran.flf
 share/figlet/avatar.flf
 share/figlet/b_m__200.flf
+share/figlet/banner-sm.flf
 share/figlet/banner.flf
 share/figlet/banner3-D.flf
 share/figlet/banner3.flf
@@ -259,6 +261,7 @@ share/figlet/coil_cop.flf
 share/figlet/coinstak.flf
 share/figlet/colossal.flf
 share/figlet/com_sen_.flf
+share/figlet/computer-C64.flf
 share/figlet/computer.flf
 share/figlet/contessa.flf
 share/figlet/contrast.flf
@@ -340,6 +343,7 @@ share/figlet/gb16fs.flf
 share/figlet/gb16st.flf
 share/figlet/ghost_bo.flf
 share/figlet/goofy.flf
+share/figlet/gothic-C64.flf
 share/figlet/gothic.flf
 share/figlet/gothic__.flf
 share/figlet/graceful.flf
@@ -470,6 +474,7 @@ share/figlet/ripper!_.flf
 share/figlet/road_rai.flf
 share/figlet/rockbox_.flf
 share/figlet/rok_____.flf
+share/figlet/roman-C64.flf
 share/figlet/roman.flf
 share/figlet/roman___.flf
 share/figlet/rot13.flc
@@ -611,3 +616,4 @@ share/figlet/z-pilot_.flf
 share/figlet/zig_zag_.flf
 share/figlet/zone7___.flf
 @dirrm share/figlet
+@dirrm share/doc/figlet

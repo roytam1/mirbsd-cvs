@@ -1,0 +1,18 @@
+$MirOS$
+--- chkfont.c.orig	Thu Mar  5 23:59:39 1998
++++ chkfont.c	Sat May  5 22:53:06 2018
+@@ -1,4 +1,5 @@
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <ctype.h>
+ 
+@@ -81,7 +82,7 @@ char *suffix;
+   char ucsuffix[10];
+   char *s;
+ 
+-  strcpy(ucsuffix,suffix);
++  strlcpy(ucsuffix,suffix,sizeof(ucsuffix));
+   for (s = ucsuffix; *s; s++) {
+     *s = toupper(*s);
+     }

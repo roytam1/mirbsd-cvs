@@ -1,13 +1,13 @@
 # $MirOS: ports/misc/figlet/Makefile,v 1.9 2006/09/14 00:11:13 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/10/27 21:07:53 naddy Exp $
 
-COMMENT=		generates ASCII banner art
+COMMENT=		Frank, Ian and Glen's letters: generates ASCII art
 DISTNAME=		figlet222
-PKGNAME=		figlet-2.2.2-1
+PKGNAME=		figlet-2.2.2-2
 CATEGORIES=		misc graphics
 HOMEPAGE=		http://www.figlet.org/
 
-# Artistic
+# The Academic Free License v2.1
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
@@ -36,7 +36,13 @@ post-extract:
 	chmod -R u+w ${WRKSRC}
 	cd ${WRKDIR}/contributed && tar xzf Obanner.tgz
 	cd ${WRKDIR}/international && tar xzf cjkfonts.tar.gz
-	mv ${WRKDIR}/{,*/}*/*.fl? ${WRKSRC}/fonts/
+	# resolve duplicates
+	mv ${WRKDIR}/contributed/{banner,banner-sm}.flf
+	set -e; for base in computer gothic roman; do \
+		mv ${WRKDIR}/contributed/C64-fonts/$$base{,-C64}.flf; \
+	done
+	# install additional font packs
+	mv ${WRKDIR}/contributed/*/*.fl? ${WRKDIR}/*/*.fl? ${WRKSRC}/fonts/
 
 post-install:
 	${INSTALL_SCRIPT} ${WRKDIR}/international/febrew \
@@ -45,5 +51,7 @@ post-install:
 	${INSTALL_SCRIPT} ${WRKSRC}/showfigfonts ${PREFIX}/bin/
 	${INSTALL_DATA_DIR} ${PREFIX}/share/figlet
 	${INSTALL_DATA} ${WRKSRC}/fonts/*.{flf,flc} ${PREFIX}/share/figlet/
+	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/figlet
+	${INSTALL_DATA} ${WRKSRC}/figfont.txt ${PREFIX}/share/doc/figlet/
 
 .include <bsd.port.mk>
