@@ -51,6 +51,9 @@ mws_content <<'EOF'
 
 <h2>Online donations</h2>
 
+<p><a href="https://paypal.me/mirabilos">https://paypal.me/mirabilos</a>
+ is the easiest way to get money to me online or from outside the EU.</p>
+
 <p>Note: it’s unknown whether the below form still works. Send Paypal
  things to <tt>tg@mirbsd.org</tt> directly.</p>
 
