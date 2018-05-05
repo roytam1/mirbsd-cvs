@@ -1,3 +1,4 @@
+Flags: USENN
 RCSID: $MirOS: www/data/datatest.inc,v 1.4 2012/07/15 14:16:42 tg Exp $
 Title: A test posting
 Date: 28.10.2009 12:34

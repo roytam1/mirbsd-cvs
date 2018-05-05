@@ -1,5 +1,5 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.398 2018/04/26 19:38:12 tg Exp $
-# ^K/ mksh -c '. ../../mk/common; xhtml_escape'
+RCSID: $MirOS: www/data/WPtg.inc,v 1.181 2014/04/11 20:11:17 tg Exp $
+# ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
 Date: 09.07.2006
@@ -675,7 +675,7 @@ Title: Die Brücke
 ID: 130
 Date: 26.06.2010
 Waypoint: GCKFAQ N029CD OC020E
-Title: IMC No. 2 P-LU – Music in the AIR
+Title: IMC No. 2 P-LU — Music in the AIR
 Tag: recommended
 ----
 ID: 131
@@ -1449,12 +1449,12 @@ Title: Heiligenhäuschen Ließem
 ID: 281
 Date: 06.09.2012
 Waypoint: GC2BJ0C
-Title: Gotteshäuser – St. Gereon  (Niederbachem)
+Title: Gotteshäuser — St. Gereon  (Niederbachem)
 ----
 ID: 282
 Date: 06.09.2012
 Waypoint: GC2BHZK
-Title: Häuser der Helfer – Feuerwehr Wachtberg #1
+Title: Häuser der Helfer — Feuerwehr Wachtberg #1
 ----
 ID: 283
 Date: 07.09.2012
@@ -1834,7 +1834,7 @@ Title: Ich bin der Wald... (D2/T1.5/BYOP)
 ID: 356
 Date: 27.05.2013
 Waypoint: GC210AZ
-Title: Alles für den Ball – alles für den Verein…
+Title: Alles für den Ball — alles für den Verein…
 ----
 ID: 357
 Date: 28.05.2013
@@ -2098,13 +2098,13 @@ Date: 29.06.2013
 Waypoint: GC4EGFV
 Title: Project Eck - Gabione
 
-„Dosenfischer – Just another Brick in the Gabione“
+„Dosenfischer — Just another Brick in the Gabione“
 (sie sind <em>wirklich</em> nicht Pink Floyd…)
 ----
 ID: 405
 Date: 29.06.2013
 Waypoint: GC4E6VP
-Title: Project Eck – Festungspark
+Title: Project Eck — Festungspark
 
 Wenigstens den hier mal <em>ganz</em> alleine auf’m
 MEGA-Event gefunden. Macht mehr Spaß als nur die
@@ -2113,12 +2113,12 @@ Schlange finden und sich hinten anstellen!
 ID: 406
 Date: 29.06.2013
 Waypoint: GC4E6VK
-Title: Project Eck – Kletterpark
+Title: Project Eck — Kletterpark
 ----
 ID: 407
 Date: 29.06.2013
 Waypoint: GC4E6TF
-Title: Project Eck – BUGA2011
+Title: Project Eck — BUGA2011
 
 Hier mußten wir über die „Nachbarn“ schmunzeln,
 fanden die angrenzenden Blumenbeete aber schöner
@@ -2127,7 +2127,7 @@ als den Matschweg.
 ID: 408
 Date: 29.06.2013
 Waypoint: GC4E6TA
-Title: Project Eck – Seilbahn
+Title: Project Eck — Seilbahn
 
 Ob Bonn auch so eine bekommt? Ist angenehmer als
 die in den Alpen… immer noch suspekt, aber gut.
@@ -2258,7 +2258,7 @@ Title: NdV 2013 - Street End
 ID: 430
 Date: 01.08.2013
 Waypoint: GC4GDXD
-Banner: jpg CAT-Events im August 2013 – Ich war dabei!
+Banner: jpg CAT-Events im August 2013 — Ich war dabei!
 Title: CAT - Eiszeit 1
 
 Tolle Idee; übernehme ich mal, mit Einverständnis…
@@ -3085,7 +3085,7 @@ Tag: D1 T2 Micro Tradi
 ID: 570
 Date: 02.11.2013
 Waypoint: GC4PGAT
-Title: BASEBALL TP – No.4 – Erdkunde
+Title: BASEBALL TP — No.4 — Erdkunde
 Tag: D3 T1 Micro Tradi
 ----
 ID: 571
@@ -3310,7 +3310,7 @@ Tag: D15 T1 Nano Tradi
 ID: 607
 Date: 06.12.2013
 Waypoint: GC4PGAM
-Title: BASEBALL TP – No.1 – Sport und Vergnügen
+Title: BASEBALL TP — No.1 — Sport und Vergnügen
 Tag: D1 T15 Micro Tradi
 ----
 ID: 608
@@ -3583,7 +3583,7 @@ Tag: D1 T15 Nano Tradi
 ID: 650
 Date: 19.12.2013
 Waypoint: GC2BNWR
-Title: Häuser der Helfer – Feuerwehr Wachtberg #2
+Title: Häuser der Helfer — Feuerwehr Wachtberg #2
 Tag: D2 T2 Micro Tradi
 ----
 ID: 651
@@ -3619,7 +3619,7 @@ Tag: D25 T2 Micro Mystery
 ID: 656
 Date: 26.12.2013
 Waypoint: GC4PGAX
-Title: BASEBALL TP – No.6 – Kunst und Literatur
+Title: BASEBALL TP — No.6 — Kunst und Literatur
 Tag: D1 T1 Micro Tradi
 ----
 ID: 657
@@ -3767,7 +3767,7 @@ Tag: D2 T25 Micro Tradi
 ID: 680
 Date: 03.01.2014
 Waypoint: GC4PGAW
-Title: BASEBALL TP – No.5 – Unterhaltung
+Title: BASEBALL TP — No.5 — Unterhaltung
 Tag: D2 T25 Micro Tradi
 ----
 ID: 681
@@ -4015,7 +4015,7 @@ Tag: D15 T15 Micro Tradi
 ID: 720
 Date: 07.02.2014
 Waypoint: GC4PGAQ
-Title: BASEBALL TP – No.2 – Wissenschaft und Technik
+Title: BASEBALL TP — No.2 — Wissenschaft und Technik
 Tag: D1 T15 Micro Tradi
 ----
 ID: 721
@@ -4149,7 +4149,7 @@ Tag: D2 T2 Small Tradi
 ID: 742
 Date: 25.02.2014
 Waypoint: GC4PGAR
-Title: BASEBALL TP – No.3 – Geschichte
+Title: BASEBALL TP — No.3 — Geschichte
 Tag: D15 T15 Micro Tradi
 ----
 ID: 743
@@ -4349,7 +4349,7 @@ Title: Vorsicht bissiger Rentner
 Tag: D25 T1 Small Tradi recommended exceptional
 
 Aufwendig gemacht und verdammt schön ausgestaltet.
-Auf jeden Fall einen Besuch wert – und als Dreingabe
+Auf jeden Fall einen Besuch wert — und als Dreingabe
 kriegt man, unter Benutzung einer 9V Blockbatterie,
 den Code für GC4M90G dazu.
 ----
@@ -4568,7 +4568,7 @@ Tag: D3 T15 Micro Tradi
 ID: 808
 Date: 13.04.2014
 Waypoint: GC14E53 OC3BF6
-Title: Gotteshäuser – Ehrendenkmal Bad Bodendorf
+Title: Gotteshäuser — Ehrendenkmal Bad Bodendorf
 Tag: D1 T1 Small Multi
 ----
 ID: 809
@@ -6435,7 +6435,7 @@ Tag: D2 T15 Regular Tradi
 ID: 1109
 Date: 13.09.2014
 Waypoint: GC1X8BB
-Title: The Luxembourg Plateau – Luxembourg Sandstone
+Title: The Luxembourg Plateau — Luxembourg Sandstone
 Tag: D15 T15 Earth
 ----
 ID: 1110
@@ -6560,37 +6560,37 @@ Tag: D4 T1 Micro Mystery
 ID: 1129
 Date: 23.09.2014
 Waypoint: GC5BFYK
-Title: AUENLAND TP – No.3: Erdkunde
+Title: AUENLAND TP — No.3: Erdkunde
 Tag: D1 T15 Micro Tradi
 ----
 ID: 1130
 Date: 23.09.2014
 Waypoint: GC5BFYM
-Title: AUENLAND TP – No.4: Unterhaltung
+Title: AUENLAND TP — No.4: Unterhaltung
 Tag: D1 T15 Micro Tradi
 ----
 ID: 1131
 Date: 23.09.2014
 Waypoint: GC5BFYN
-Title: AUENLAND TP – No.5: Kunst und Literatur
+Title: AUENLAND TP — No.5: Kunst und Literatur
 Tag: D15 T15 Micro Tradi
 ----
 ID: 1132
 Date: 23.09.2014
 Waypoint: GC5BFYJ
-Title: AUENLAND TP – No.2: Geschichte
+Title: AUENLAND TP — No.2: Geschichte
 Tag: D1 T15 Micro Tradi
 ----
 ID: 1133
 Date: 23.09.2014
 Waypoint: GC5BFYH
-Title: AUENLAND TP – No.1: Wissenschaft und Technik
+Title: AUENLAND TP — No.1: Wissenschaft und Technik
 Tag: D1 T2 Micro Tradi
 ----
 ID: 1134
 Date: 23.09.2014
 Waypoint: GC5BFYP
-Title: AUENLAND TP – No.6: Sport und Vergnügen
+Title: AUENLAND TP — No.6: Sport und Vergnügen
 Tag: D1 T15 Micro Tradi
 ----
 ID: 1135
@@ -7291,7 +7291,7 @@ Tag: D15 T15 Micro Tradi
 ID: 1247
 Date: 23.11.2014
 Waypoint: GC48VMV
-Title: Anti Challenge – Mysterie Cache
+Title: Anti Challenge — Mysterie Cache
 Tag: D15 T1 Micro Mystery
 ----
 ID: 1248
@@ -7947,7 +7947,7 @@ gehalten i.V. durch König Moderig
 ID: 1351
 Date: 08.03.2015
 Waypoint: GC5N5BA GE030B N02F85 OC11B74 TC9OH3
-Title: Das erste Eis des Jahres ⅯⅯⅩⅤ – Mysterium
+Title: Das erste Eis des Jahres ⅯⅯⅩⅤ — Mysterium
 nTF: 0
 Tag: D2 T15 Event
 ----
@@ -8308,7 +8308,7 @@ ID: 1410
 Date: 04.04.2015
 Waypoint: TC31TQ OC1198A GC5JTZW
 Banner: png
-Title: SciFun – Ostereier und Raketen 2015
+Title: SciFun — Ostereier und Raketen 2015
 Tag: D2 T15 Event
 ----
 ID: 1411
@@ -8411,7 +8411,7 @@ ID: 1426
 Date: 07.04.2015
 Waypoint: GC2T1P0
 Banner: jpg
-Title: Juri Gagarin – der erste Mensch im All
+Title: Juri Gagarin — der erste Mensch im All
 Tag: D3 T1 Micro Mystery recommended
 ----
 ID: 1427
@@ -10051,7 +10051,7 @@ Tag: Challenge
 ID: 1676
 Date: 23.09.2015
 Waypoint: OC125A1 GC633VH
-Title: Herbstanfang – mit Eis
+Title: Herbstanfang — mit Eis
 nTF: 0
 Tag: D15 T15 Event
 ----
@@ -10383,7 +10383,7 @@ die nett zu uns waren… das kann kaum ein Event toppen!
 ID: 1728
 Date: 02.01.2016
 Waypoint: OC4FF4
-Title: Zweiter Weltkrieg – Schumannseck
+Title: Zweiter Weltkrieg — Schumannseck
 Tag: D1 T1 Virtual
 ----
 ID: 1729
@@ -11024,7 +11024,7 @@ Tag: D2 T15 Safari
 ID: 1828
 Date: 02.05.2016
 Waypoint: GC5AMAQ
-Title: AUENLAND TP (Bonus) – Der Schicksalsberg
+Title: AUENLAND TP (Bonus) — Der Schicksalsberg
 Tag: D35 T15 Small Mystery
 ----
 ID: 1829
@@ -12338,7 +12338,7 @@ Tag: D15 T15 Micro Tradi
 ID: 2038
 Date: 28.12.2016
 Waypoint: GC6X924
-Title: Chaos Communication Caching – Works For Us
+Title: Chaos Communication Caching — Works For Us
 Tag: D1 T1 Event
 ----
 ID: 2039
@@ -14331,7 +14331,7 @@ Tag: D1 T15 Virtual
 ID: 2361
 Date: 15.04.2018
 Waypoint: GC7MCKV
-Title: Whirlpool – oder Hash the Cache
+Title: Whirlpool — oder Hash the Cache
 nTF: 2
 Tag: D5 T15 Nano Mystery
 ----
@@ -14362,11 +14362,11 @@ Title: Amerikaner im Wald
 Tag: D3 T15 Small Tradi
 ----
 ID: p20481102
-Date: 02.11.2048
+Date: 2048-11-02
 Waypoint: OC12CDB
 Title: Nur einmal im Leben tᵐ=j
 nTF: O
 Tag: D1 T1 Event
 ----
-# ^K/ mksh -c '. ../../mk/common; xhtml_escape'
-# ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
+# ^K/ mksh -c '. ../mk/common; xhtml_escape'
+# ^K/ datum=yyyy-mm-dd username=tg mksh ../mk/WP2dat

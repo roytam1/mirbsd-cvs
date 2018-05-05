@@ -1,7 +1,6 @@
 rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.46 2018/05/01 21:34:55 tg Exp $'
 #-
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
+# This file is part of the MirBSD website; see LICENCE for details.
 
 integer maxentries=25
 # do not change this format; it's generated from inline code, too
@@ -32,13 +31,11 @@ function rss_putheader {
 		 version="2.0">
 		<channel xml:lang="en">
 		 <title>$ptitle</title>
-		 <description>$pname - the MirOS Project</description>
+		 <description>$pname — MirBSD</description>
 		 <atom:link href="$mws__abspath/$1" rel="self" type="application/rss+xml" />
 		 <lastBuildDate>$lastchanged</lastBuildDate>
-		 <link>http://mirbsd.de/</link>
-		 <managingEditor>tg@mirbsd.org (The MirOS Project)</managingEditor>
-		 <webMaster>bsiegert@mirbsd.org (The MirOS Project)</webMaster>
-		 <copyright>All content Copyright © by The MirOS Project or its respective
+		 <link>http://www.mirbsd.org/</link>
+		 <copyright>All content Copyright © MirBSD and its respective
 		  writers. Permission to reproduce news and wlog entries and other RSS feed
 		  content in unmodified form without notice is granted provided they are not
 		  used to endorse or promote any products or opinions (other than what was
@@ -48,7 +45,7 @@ function rss_putheader {
 		  Impressum: http://www.mirbsd.org/imprint.htm</copyright>
 		 <dc:language>en</dc:language>
 		 <ttl>${rssttl:-14400}</ttl>
-		 <generator>MirOS Website, written in mksh; RCS IDs:
+		 <generator>MirBSD Website, written in mksh; RCS IDs:
 		    $rcsid_parser
 		    $rcsid_common
 		    $rcsid_htsconv
@@ -124,7 +121,7 @@ function rss_output {
 			uauthor=" ${eauthor%%@*}"
 			eauthor="${eauthor}mirbsd.org"
 		fi
-		[[ $eauthor = *\(*\)* ]] || eauthor="$eauthor (MirOS Developer$uauthor)"
+		[[ $eauthor = *\(*\)* ]] || eauthor="$eauthor (MirOS contributor$uauthor)"
 		print -r -- "<author>${eauthor}</author>"
 	fi
 	print -r "<description>"

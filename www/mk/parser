@@ -1,7 +1,6 @@
 rcsid_parser='$MirOS: www/mk/parser,v 1.29 2018/05/01 21:50:50 tg Exp $'
 #-
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
+# This file is part of the MirBSD website; see LICENCE for details.
 
 set -A e_author
 set -A e_id
@@ -104,10 +103,19 @@ for srcf in $sources; do
 	ids=:
 	state=1
 	rcsid_parsed=
+	usenn=0
 	while IFS= read -r line; do
-		if [[ $line = RCSID:* && -z $rcsid_parsed ]]; then
-			rcsid_parsed=${line##RCSID:*([	 ])}
-		elif [[ $line = ---- ]]; then
+		if [[ -z $rcsid_parsed ]]; then
+			if [[ $line = RCSID:* ]]; then
+				rcsid_parsed=${line##RCSID:*([	 ])}
+				continue
+			fi
+			if [[ $line = Flags:* ]]; then
+				[[ $line = *USENN* ]] && usenn=1
+				continue
+			fi
+		fi
+		if [[ $line = ---- ]]; then
 			if [[ -z ${e_id[entry]} ]]; then
 				if [[ -n ${e_date[entry]} ]]; then
 					id=${e_date[entry]%% *}
@@ -117,7 +125,7 @@ for srcf in $sources; do
 				fi
 				if [[ -n ${e_author[entry]} ]]; then
 					id=${id}-${e_author[entry]%%@(@)*}
-				else
+				elif (( usenn )); then
 					id=${id}-nn
 				fi
 				e_id[entry]=$id

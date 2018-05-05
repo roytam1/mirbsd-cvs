@@ -1,10 +1,9 @@
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
+# This file is part of the MirBSD website; see LICENCE for details.
 
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.109 2018/04/26 19:38:14 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.110 2018/05/01 21:34:58 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3 extra=$4
@@ -30,8 +29,7 @@ EOF
 mws_content <<'EOF'
 <div>
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
- alt="mirabilos’ Waypoints" src="WPtg.png" /></a> – New: no longer
- counting Munzees!</p>
+ alt="mirabilos’ Waypoints" src="WPtg.png" /></a></p>
 </div>
 
 EOF
@@ -106,9 +104,8 @@ mws_content <<'EOF'
 
 EOF
 
-#DEPEND users/tg/WPtg.inc
+#DEPEND data/WPtg.inc
 sources=WPtg
-sourcedir_WPtg=users/tg
 
 integer notimesort=1
 
@@ -484,7 +481,7 @@ statpic 'Rare Jewels: TerraCaching' \
 statpic 'Libre Travelbugs: GeoKrety' \
     http://geokrety.org/statpics/957.png \
     http://geokrety.org/mypage.php?userid=957
-statpic 'Caching, Dashing, etc. – GPS games' \
+statpic 'Caching, Dashing, etc. — GPS games' \
     'http://geocaching.gpsgames.org/cgi-bin/sig.pl?bg=gc&amp;user=mirabilos&amp;txt=more+than+just+geocaching' \
     http://www.gpsgames.org/cgi-bin/mystats.pl?user=mirabilos
 statpic 'It’s all about the numbers: Munzee' \
@@ -499,11 +496,11 @@ statpic 'Disputed Island Apes: OC (take two) UK' \
 statpic 'Broken Webpages²: NaviCache' \
     'http://geocaching.gpsgames.org/cgi-bin/sig.pl?user=mirabilos&amp;txt=Open+Source+Wizard' \
     http://www.navicache.com/cgi-bin/db/MemberDetails2.google2.wap.pl?MemberID=23184
-statpic 'Project GC – Badges' \
+statpic 'Project GC — Badges' \
     'http://maxcdn.project-gc.com/BadgeBar/mirabilos.png' \
     'http://project-gc.com/ProfileStats/mirabilos#BadgeGen' \
     '<a href="http://project-gc.com/r/42a471cc">Project GC</a> is an interesting statistics page:<br />'
-statpic 'Project GC – Statistics' \
+statpic 'Project GC — Statistics' \
     'http://maxcdn.project-gc.com/statbar.php?user=mirabilos&amp;quote=Geocaching%20-%20more%20than%20Groundspeak!' \
     'http://project-gc.com/ProfileStats/mirabilos'
 
@@ -511,7 +508,7 @@ mws_content <<'EOF'
 
 <p><img style="width:162px; height:91px; border:0px;"
  src="https://lh4.googleusercontent.com/-J8XlYOcxlPw/UVePvM_00LI/AAAAAAAAABU/amHPQQQLYyU/s647-fcrop64=1,00001c21ffffdc5c/IsThereAResistance-1024x768.png"
- title="Ingress – Resistance" alt="Ingress – Resistance" /></p>
+ title="Ingress — Resistance" alt="Ingress — Resistance" /></p>
 
 <p>Also on:</p><ul>
  <li><a href="http://www.bookcrossing.com/mybookshelf/mirabilos/">bookcrossing.com</a></li>

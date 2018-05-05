@@ -1,7 +1,6 @@
 # $MirOS: www/Makefile,v 1.113 2017/03/01 22:40:25 tg Exp $
 #-
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
+# This file is part of the MirBSD website; see LICENCE for details.
 
 .ifndef TOP
 TOP!=		realpath ${.CURDIR:Q}
@@ -38,8 +37,8 @@ SRCS+=		kwalletcli.hts
 SRCS+=		main.hts
 SRCS+=		makefs.hts
 SRCS+=		man.hts
-SRCS+=		mksh.hts mksh_bld.hts mksh_old.hts
 SRCS+=		mksh-faq.hts
+SRCS+=		mksh.hts mksh_bld.hts mksh_old.hts
 SRCS+=		oldnews.hts
 SRCS+=		pax.hts
 SRCS+=		pkgsrc.hts
@@ -48,8 +47,8 @@ SRCS+=		projects.hts
 SRCS+=		randex.hts
 SRCS+=		rss.hts
 SRCS+=		tags.hts
+SRCS+=		wptg.hts
 SRCS+=		wtf.hts
-FPSRCS+=	users/tg/wptg.hts
 CLEANFILES+=	tags.lst tags.out
 TAGCLOUD+=	debian
 TAGCLOUD+=	event
@@ -57,7 +56,7 @@ TAGCLOUD+=	geocache
 TAGCLOUD+=	mksh
 TAGCLOUD+=	pcli
 USELINKED+=	acronyms
-WLOGS=		9 10
+WLOGS=		-9 -10
 WPS=		tg
 
 # legacy content
@@ -74,7 +73,7 @@ INCSRCS+=	news
 news.cut: stamp_htm_news
 CLEANFILES+=	news.cut
 
-.PATH: ${TOP}/src ${TOP}/users/tg
+.PATH: ${TOP}/src
 
 _htm_2xhtml=	(tr '\n' '﷐' | \
 		sed 's^.*<html'${_xhtmlbeg:Q}'' | \
@@ -95,7 +94,7 @@ VOBJS+=		${FPSRCS:T:M*.hts:S/hts$/val/}
 CLEANFILES+=	${FPSRCS:T:M*.hts:S/hts$/htm~/}
 
 DEPSRCS+=	${FPSRCS}
-INCSRCS+=	${WLOGS:S/^/wlog-/}
+INCSRCS+=	${WLOGS:S/^/wlog/}
 INCSRCS+=	${TAGCLOUD:S/^/tag_/}
 
 .for _i in ${INCSRCS}
@@ -180,8 +179,8 @@ _reinstall:
 	touch -r ${TOP}/files/MirOS-Licence.asc ${DST}/dst/MirOS-Licence.asc
 	cd ${TOP} && pax -rw -pe -v pics ${DST}/dst/
 	cd dst && \
-	    ln -sf wlog-${WLOG_LATEST}.htm wlog.htm && \
-	    ln -sf wlog-${WLOG_LATEST}.rss wlog.rss && \
+	    ln -sf wlog${WLOG_LATEST}.htm wlog.htm && \
+	    ln -sf wlog${WLOG_LATEST}.rss wlog.rss && \
 	    rm -rf $$(find . -name CVS -o -name .cvsignore)
 	chgrp -R miros-cvswww dst
 	chmod -R ug=rwX,o=rX dst

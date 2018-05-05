@@ -1,5 +1,7 @@
 #!/bin/mksh
-# $MirOS: www/data/WP2dat,v 1.5 2014/07/06 19:15:35 tg Exp $
+# $MirOS: www/data/WP2dat,v 1.6 2014/10/02 19:17:13 tg Exp $
+#-
+# This file is part of the MirBSD website; see LICENCE for details.
 #-
 # Pipe 'GC12345 Title of the cache' through this.
 
@@ -9,7 +11,7 @@ if [[ ! -s WP$username.inc ]]; then
 	exit 1
 fi
 
-: ${datum=$(date +%d.%m.%Y)}
+: ${datum=$(date +%Y-%m-%d)}
 
 . "$(dirname "$0")/../mk/common"
 
