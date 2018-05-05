@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.113 2017/03/01 22:40:25 tg Exp $
+# $MirOS: www/Makefile,v 1.118 2018/05/05 17:40:23 tg Exp $
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -103,11 +103,12 @@ GENSRCS+=	stamp_htm_${_i} stamp_rss_${_i}
 CLEANFILES+=	stamp_tag_${_i}
 
 stamp_htm_${_i}: ${DEPS_mk_inc2htm} ${DEPS_data_${_i}_cfg}
-	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@ || (rm -f $@; exit 1)
+	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@~
+	mv $@~ $@
 
 stamp_rss_${_i}: ${DEPS_mk_inc2rss} ${DEPS_data_${_i}_cfg}
-	${U_ENV} PATH=.:$$PATH ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@ || \
-	    (rm -f $@; exit 1)
+	${U_ENV} PATH=.:$$PATH ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@~
+	mv $@~ $@
 .endfor
 
 DEPSRCS+=	mk/WPmk
@@ -116,7 +117,8 @@ DEPSRCS+=	data/${_i}.gc
 GENSRCS+=	stamp_wp_${_i}
 
 stamp_wp_${_i}: ${DEPS_mk_WPmk} ${DEPS_data_${_i}_gc}
-	${U_ENV} ${MKSH} ${TOP}/mk/WPmk ${_i} >$@ || (rm -f $@; exit 1)
+	${U_ENV} ${MKSH} ${TOP}/mk/WPmk ${_i} >$@~
+	mv $@~ $@
 .endfor
 
 DEPSRCS+=	mk/inc2htm mk/inc2rss
@@ -128,11 +130,11 @@ CLEANFILES+=	acronyms.gz acronyms.ver
 
 acronyms.gz: ${TOP}/.linked/acronyms
 	gzip -n9 <${.ALLSRC:Q} >$@~
-	mv -f $@~ $@
+	mv $@~ $@
 
 acronyms.ver: ${TOP}/.linked/acronyms
 	sed -n '2s/^ ....//p' <${.ALLSRC:Q} >$@~
-	mv -f $@~ $@
+	mv $@~ $@
 
 clean:
 .for _i in ${GENSRCS}
@@ -202,6 +204,11 @@ _reinstall:
 .htm~.val:
 	@print -r Creating ${@:Q} from ${<:Q} ...
 	@${_htm_2xhtml} <$< >$@
+
+.for _i in ${WPS}
+WP${_i}.val: stamp_wp_${_i}
+	@${_htm_2xhtml} <WP${_i}.htm >$@
+.endfor
 
 .ifdef validate
 VOBJS:=		${validate:=.val}

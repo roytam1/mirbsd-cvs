@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.181 2014/04/11 20:11:17 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.183 2018/05/05 17:40:24 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -14360,6 +14360,18 @@ Date: 01.05.2018
 Waypoint: GC73KNC
 Title: Amerikaner im Wald
 Tag: D3 T15 Small Tradi
+----
+ID: 2366
+Date: 2018-05-05
+Waypoint: GC26K6A
+Title: Bonn - Nordbrücke (A565)
+Tag: D2 T1 Micro Tradi
+----
+ID: 2367
+Date: 2018-05-05
+Waypoint: GC7H9MT
+Title: Valentins-Cache
+Tag: D15 T1 Micro Tradi
 ----
 ID: p20481102
 Date: 2048-11-02
