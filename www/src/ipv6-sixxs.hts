@@ -162,12 +162,10 @@ fxp0:\
 <h3>Other things</h3>
 <p><a href="http://ipv6.he.net/certification/">ECMAscript-only IPv6
  certification, knowledge tests, etc. by he.net (America)</a><br />
-<a href="http://ipv6.he.net/certification/scoresheet.php?pass_name=mirbsd"><img
- src="http://ipv6.he.net/certification/make_badge.php?pass_name=mirbsd&amp;badge=3"
- width="229" height="137" alt="IPv6 Certification Badge for MirBSD" /></a>
-<a href="http://ipv6.he.net/certification/scoresheet.php?pass_name=mirabilos"><img
- src="http://ipv6.he.net/certification/create_badge.php?pass_name=mirabilos&amp;badge=3"
- width="229" height="137" alt="IPv6 Certification Badge for mirabilos" /></a>
+<a href="http://ipv6.he.net/certification/scoresheet.php?pass_name=mirbsd">
+ IPv6 Certification Badge for MirBSD</a>
+<a href="http://ipv6.he.net/certification/scoresheet.php?pass_name=mirabilos">
+ IPv6 Certification Badge for mirabilos</a>
 </p>
 EOF
 mws_putfooter
