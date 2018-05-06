@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.46 2018/05/01 21:34:55 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.48 2018/05/05 17:40:35 tg Exp $'
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -35,8 +35,9 @@ function rss_putheader {
 		 <atom:link href="$mws__abspath/$1" rel="self" type="application/rss+xml" />
 		 <lastBuildDate>$lastchanged</lastBuildDate>
 		 <link>http://www.mirbsd.org/</link>
-		 <copyright>All content Copyright © MirBSD and its respective
-		  writers. Permission to reproduce news and wlog entries and other RSS feed
+		 <copyright>All content Copyright © MirBSD and its respective writers. ⚠
+		  Some content may be outdated, obsolete, old or WIP, no warranties!
+		  Permission to reproduce news and wlog entries and other RSS feed
 		  content in unmodified form without notice is granted provided they are not
 		  used to endorse or promote any products or opinions (other than what was
 		  expressed by the author) and without taking them out of context. Written
