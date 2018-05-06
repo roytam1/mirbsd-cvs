@@ -238,7 +238,8 @@ rs-gecko2:
 	rsync -rxlztpgavPHK dst/ tglaser@www.ig42.org:/var/www/miros.unixforge.de/htdocs/
 
 rs-fish:
-	rsync -rxlztpgavPHK --rsh='ssh -4' dst/ fish:/var/anoncvs/www/
+	@if [[ $$(hostname) = fish.mirbsd.org ]]; then hn=; else hn=fish:; fi; \
+	 set -x; rsync -rxlztpgavPHK --rsh='ssh -4' dst/ $${hn}/var/anoncvs/www/
 
 depend: .depend
 
