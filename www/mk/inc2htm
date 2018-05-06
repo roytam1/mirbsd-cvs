@@ -1,10 +1,10 @@
 rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.37 2017/08/10 17:57:49 tg Exp $'
 #-
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
+# This file is part of the MirBSD website; see LICENCE for details.
 
 integer perpage=12
 name=$1
+cfghasold=0
 
 . "$TOP/data/$name.cfg"
 
@@ -107,6 +107,7 @@ function mopen {
 	mws_setname $whoami "$pname — Page $number"
 	mws_subdir 0
 	mws_setheadline "$ptitle"
+	mws_setold $cfghasold
 	mws_putheader >$fn~
 	print -r -- "<p>${plinks}" >>$fn~
 }
@@ -143,6 +144,7 @@ mws_setname $whoami "$pname — All in One Page"
 mws_setrss "${mws__relpath}${name}.rss"
 mws_subdir 0
 mws_setheadline "$ptitle"
+mws_setold $cfghasold
 mws_putheader >${name}_all.htm~
 plinks="<a href=\"${name}_all.htm\">All</a> <a href=\"${name}.htm\">1</a>"
 plinksr="<a href=\"../${name}_all.htm\">All</a> <a href=\"../${name}.htm\">1</a>"
@@ -184,6 +186,7 @@ while (( entryp >= 0 )); do
 			mws_push
 			mws_setname $whoami "$pname"
 			mws_subdir 1
+			mws_setold 1
 			mws_putheader >$fe~
 			mclose $fe
 			mws_pop
