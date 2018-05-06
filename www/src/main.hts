@@ -12,13 +12,14 @@ mws__extrahead+='
  <link rel="openid2.provider" href="https://login.launchpad.net/+openid" />
  <link rel="openid2.local_id" href="https://login.launchpad.net/+id/dQ3ktte" />
  <!-- end: OpenID delegation -->'
-mws_putheader '$MirOS: www/src/main.hts,v 1.21 2016/03/06 18:37:53 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.24 2018/05/05 21:48:11 tg Exp $'
 mws_content <<'EOF'
 <p>MirBSD is mirabilos’ Open Source playground. (You might also have
  arrived here looking for MirOS, MirPorts or MirSolutions — these are
  no longer. This website contains, however, a lot of historic information
  about those; see e.g. the About page linked to the left.) Primary way
- of contact is IRC (as, also, linked in the menu.)</p>
+ of contact is IRC (as, also, linked in the menu.) Please consider to <a
+ href="danke.htm">donate</a> if you like my work.</p>
 
 <h2>News / weblog</h2>
 

@@ -1,23 +1,22 @@
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
+# This file is part of the MirBSD website; see LICENCE for details.
 
 mws_setname devel "Developers and Contributors"
 mws_setheadline MirOS Project Members
 mws_setold
-mws_putheader '$MirOS: www/src/devel.hts,v 1.9 2018/02/06 21:56:36 tg Exp $'
+mws_putheader '$MirOS: www/src/devel.hts,v 1.10 2018/05/06 12:56:39 tg Exp $'
 mws_content <<'EOF'
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever
  the person wants to disclose about himself.</p>
 <h2>Developers</h2>
 <h3>active</h3><ul>
-<li>bsiegert@ (Dr. Benny Siegert)</li>
 <li>tg@ (Thorsten Glaser)</li>
-</ul><h3>staff (non-developer)</h3><ul>
+</ul><h3>inactive non-developer (staff, art)</h3><ul>
 <li>Andreas “gecko2” Gockel</li>
 <li>Lukas “smultron”</li>
-</ul><h3>inactive</h3><ul>
+</ul><h3>inactive developer</h3><ul>
 <li>ahoka@ (Hóka Ádám)</li>
+<li>bsiegert@ (Dr. Benny Siegert)</li>
 <li>cnuke@ (Josef S&ouml;ntgen)</li>
 <li>dave@ (Dave Steinberg)</li>
 <li>sap@ (Stephen Paskaluk)</li>
@@ -32,6 +31,7 @@ mws_content <<'EOF'
 <li>Eike Frost</li>
 <li>Hiroki Sato and the guys at allbsd.org</li>
 <li><a href="http://www.speedpartner.de/">SpeedPartner GmbH</a></li>
+<li>HostEurope</li>
 </ul><h3>DNS</h3><ul>
 <li>Ingo “bogus” Dyck</li>
 <li>Andreas “ScottyTM” Kupfer</li>

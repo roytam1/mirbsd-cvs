@@ -1,15 +1,12 @@
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
+# This file is part of the MirBSD website; see LICENCE for details.
 
 mws_setname irc "Internet Relay Chat: synchronously communicating with developers"
 mws_subdir 0
 mws_setheadline The MirOS Project on IRC
-mws_setold
-mws_putheader '$MirOS: www/src/irc.hts,v 1.7 2016/03/06 18:37:53 tg Exp $'
+mws_putheader '$MirOS: www/src/irc.hts,v 1.8 2018/05/06 12:56:40 tg Exp $'
 mws_content <<'EOF'
-<p>IRC stands for Internet Relay Chat. The project has two channels that
- allow you to socialize with other users and developers and maybe pose
- some questions directly.</p>
+<p>IRC stands for Internet Relay Chat. There currently are two channels
+ for socialising with other users and developers and pose questions.</p>
 
 <p>The channels are part of the <a
  href="http://freenode.net/">Freenode</a> network. The following are the
@@ -27,17 +24,22 @@ mws_content <<'EOF'
 
 <dl>
  <dt><tt>#MirBSD</tt></dt>
- <dd>Users and developers of MirOS BSD (German / English)
-  or any subprojects of The MirOS Project.
-  Also a social channel (many languages).</dd>
+ <dd>Used to be the MirBSD developer channel, but is mostly used
+  for socialising these days. Polyglot (lots of German, English
+  if requested, also some other languages for fun). More than a
+  decade ago, this channel was known as <tt>#deutsch</tt>, being
+  the first German-language channel in OPN (what is now Freenode),
+  occasionally used for language learning (colloquially).</dd>
  <dt><tt>#!/bin/mksh</tt></dt>
- <dd>Users and developers of <a href="mksh.htm">mksh</a>,
-  the MirOS Korn Shell (mostly English).</dd>
+ <dd>This channel is about <a href="mksh.htm">The MirBSD Korn Shell</a>
+  a.k.a. mksh(1) and, while there is some socialising going on, we mostly
+  talk about shell-related things, in English.</dd>
  <dt><tt>#mksh</tt></dt>
  <dd>(no longer used, <tt>/join #!/bin/mksh</tt> instead)</dd>
  <dt><a href="ksh-chan.htm"><tt>#ksh</tt></a></dt>
  <dd>Users of AT&amp;T ksh93, the original Korn Shell, and other
-  Korn Shell implementations such as mksh(1).</dd>
+  Korn Shell implementations such as mksh(1). (This channel is
+  not ours.)</dd>
 </dl>
 
 EOF
