@@ -3,7 +3,8 @@
 
 mws_setname legacy/errata "MirOS Legacy Content"
 mws_setheadline 'Errata for MirOS #8'
-mws_putheader '$MirOS: www/src/errata8.hts,v 1.1 2008/09/17 21:12:23 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/errata8.hts,v 1.2 2009/06/21 11:01:23 tg Exp $'
 mws_content <<'EOF'
 <h2>Errata for MirOS #8semel</h2>
 

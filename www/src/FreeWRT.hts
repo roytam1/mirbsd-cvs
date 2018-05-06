@@ -3,7 +3,8 @@
 
 mws_setname subprojects/FreeWRT "FreeWRT Archive"
 mws_setheadline 'FreeWRT ADK'
-mws_putheader '$MirOS: www/src/FreeWRT.hts,v 1.1 2014/03/30 14:24:37 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/FreeWRT.hts,v 1.3 2016/03/06 18:37:52 tg Exp $'
 mws_content <<'EOF'
 <p class="cr"><span class="fr"><img alt="FreeWRT Logo"
  src="@@RELPATH@@pics/logos/freewrt.png" /></span>FreeWRT Embedded GNU/Linux

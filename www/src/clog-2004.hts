@@ -3,7 +3,8 @@
 
 mws_setname legacy/clog-2004 "MirOS Legacy Content"
 mws_setheadline 2004 snapshots of MirOS-current
-mws_putheader '$MirOS: www/src/clog-2004.hts,v 1.2 2009/06/21 11:01:22 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/clog-2004.hts,v 1.3 2009/07/19 15:34:44 tg Exp $'
 mws_content <<'EOF'
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 

@@ -4,7 +4,8 @@
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.13 2017/01/09 23:54:17 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.14 2018/01/08 02:10:41 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after

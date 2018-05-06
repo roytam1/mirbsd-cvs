@@ -1,6 +1,7 @@
 mws_setname subprojects/kwalletcli "kwalletcli — CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.34 2016/10/30 04:47:06 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.36 2018/02/09 18:24:39 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF

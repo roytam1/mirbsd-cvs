@@ -8,6 +8,7 @@ rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.89 2018/05/03 01:48:48 tg Exp $'
 
 mws__markindex=
 mws__onload=
+mws__isold=0
 mws__pagename=
 mws__header=
 mws__extrahead=
@@ -137,6 +138,12 @@ function mws_makepiclink {
 	print "<img src=\"@@RELPATH@@hashed/$pfile\" alt=\"$ptext\" />"
 }
 
+function mws_setold {
+	mws__isold=1
+	[[ $1 = 0 ]] && mws__isold=0
+	:
+}
+
 function mws_putheader {
 	local rcsid=$1
 
@@ -217,6 +224,12 @@ function mws_putheader {
 		<h1 class=\"lynxonly\">$(xhtml_escape "$mws__headline")</h1>}
 		<div class="content">
 	EOF
+	if (( mws__isold )); then cat <<-\EOF
+		<p><span style="border:3px ridge red; padding:3px;">⚠
+		 This page contains old, outdated, obsolete, … historic or
+		 WIP content! No warranties e.g. for correctness!</span></p>
+		EOF
+	fi
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	mws__header="$mws__header <span class=\"rcsid\">$(date +'%F %T')</span>"
 	mws__header="$mws__header by <span class=\"rcsid\">$rcsid_htsconv</span>"

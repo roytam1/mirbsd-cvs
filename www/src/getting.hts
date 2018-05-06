@@ -3,7 +3,8 @@
 
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
-mws_putheader '$MirOS: www/src/getting.hts,v 1.29 2016/03/06 18:37:52 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/getting.hts,v 1.30 2018/02/06 21:56:37 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
  MirPorts framework, and the source tree. And you may want to read the

@@ -4,7 +4,8 @@
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
 mws_setheadline MirPorts: The MirOS Ports Framework
-mws_putheader '$MirOS: www/src/ports.hts,v 1.12 2011/02/12 23:41:32 bsiegert Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/ports.hts,v 1.13 2014/12/02 12:37:06 tg Exp $'
 mws_content <<'EOF'
 <p>(The official MirPorts homepage can always be reached at <a
  href="http://mirbsd.de/ports">http://mirbsd.de/ports</a> which

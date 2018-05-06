@@ -3,7 +3,8 @@
 
 mws_setname legacy/wlog-5 "MirBSD Weblog"
 mws_setheadline MirBSD — You wish you had it. Eh?
-mws_putheader '$MirOS: www/src/wlog-5.hts,v 1.4 2013/06/22 23:26:10 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/wlog-5.hts,v 1.5 2016/10/30 04:47:09 tg Exp $'
 mws_content <<'EOF'
 <p><small>[ old MirBSD™ logo ]</small></p>
 <p>This is an archived weblog of the development leading to <a

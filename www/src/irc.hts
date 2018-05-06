@@ -4,7 +4,8 @@
 mws_setname irc "Internet Relay Chat: synchronously communicating with developers"
 mws_subdir 0
 mws_setheadline The MirOS Project on IRC
-mws_putheader '$MirOS: www/src/irc.hts,v 1.5 2012/08/23 20:03:39 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/irc.hts,v 1.7 2016/03/06 18:37:53 tg Exp $'
 mws_content <<'EOF'
 <p>IRC stands for Internet Relay Chat. The project has two channels that
  allow you to socialize with other users and developers and maybe pose

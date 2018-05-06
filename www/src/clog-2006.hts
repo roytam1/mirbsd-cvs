@@ -3,7 +3,8 @@
 
 mws_setname legacy/clog-2006 "MirOS Legacy Content"
 mws_setheadline 2006 snapshots of MirOS-current
-mws_putheader '$MirOS: www/src/clog-2006.hts,v 1.3 2011/03/21 16:18:49 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/clog-2006.hts,v 1.4 2011/08/13 22:31:25 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <!--
  Full list of release focuses in freshmeat.net-compatible format:

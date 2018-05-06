@@ -3,7 +3,8 @@
 
 mws_setname legacy/cvsweb "MirOS Legacy Content"
 mws_setheadline Accessing the MirOS source by CVSweb
-mws_putheader '$MirOS: www/src/cvsweb.hts,v 1.1 2008/09/17 21:12:23 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/cvsweb.hts,v 1.2 2009/06/21 11:01:23 tg Exp $'
 mws_content <<'EOF'
 <h3>Short introduction into CVSweb</h3>
 <p>CVSweb is a front-end for the CVS and RCS utilities which allows

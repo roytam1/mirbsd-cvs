@@ -1,6 +1,7 @@
 mws_setname subprojects/a4rp5bsd "BSD::arc4random — Perl bindings"
 mws_setheadline "Perl bindings for arc4random"
-mws_putheader '$MirOS: www/src/a4rp5bsd.hts,v 1.5 2016/10/30 04:47:06 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/a4rp5bsd.hts,v 1.6 2017/12/19 00:56:36 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF

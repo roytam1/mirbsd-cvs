@@ -3,7 +3,8 @@
 
 mws_setname subprojects/jupp "jupp — Programmer’s Editor"
 mws_setheadline jupp — the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.76 2018/02/15 01:38:30 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.77 2018/03/16 00:25:18 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
  with a set of updated *rc files available for download below,

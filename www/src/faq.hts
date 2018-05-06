@@ -3,7 +3,8 @@
 
 mws_setname legacy/faq "MirOS Legacy Content"
 mws_setheadline FAQ
-mws_putheader '$MirOS: www/src/faq.hts,v 1.3 2010/08/28 20:31:23 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/faq.hts,v 1.4 2010/09/26 16:35:22 tg Exp $'
 mws_content <<'EOF'
 <h2>Other languages</h2>
 

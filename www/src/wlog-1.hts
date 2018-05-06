@@ -3,7 +3,8 @@
 
 mws_setname legacy/wlog-1 "MirBSD Weblog"
 mws_setheadline MirBSD grows too fast
-mws_putheader '$MirOS: www/src/wlog-1.hts,v 1.2 2009/06/21 11:01:27 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/wlog-1.hts,v 1.3 2009/07/19 15:34:45 tg Exp $'
 mws_content <<'EOF'
 <p><small>[ old MirBSD™ logo ]</small></p>
 <p>This is an archived weblog of the development leading to <a

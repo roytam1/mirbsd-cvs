@@ -3,7 +3,8 @@
 
 mws_setname legacy/bsd-intro "MirOS Legacy Content"
 mws_setheadline What is BSD? What is OpenBSD?
-mws_putheader '$MirOS: www/src/bsd-intro.hts,v 1.5 2009/11/12 22:26:55 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/bsd-intro.hts,v 1.6 2018/01/08 02:10:41 tg Exp $'
 mws_content <<'EOF'
 <h2>Introduction</h2>
 

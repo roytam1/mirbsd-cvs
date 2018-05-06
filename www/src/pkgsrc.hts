@@ -4,7 +4,8 @@
 mws_setname pkgsrc "pkgsrc on MirOS"
 mws_subdir 0
 mws_setheadline pkgsrc on MirOS
-mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.9 2013/04/21 17:18:11 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.10 2014/02/04 20:24:57 bsiegert Exp $'
 mws_content <<'EOF'
 <p>pkgsrc is a “ports tree” developed by the NetBSD project and portable
  to several other operating systems. Support for MirOS has existed since

@@ -1,6 +1,7 @@
 mws_setname subprojects/randex "The RANDEX Protocol"
 mws_setheadline "RANDEX — Entropy exchange via IRC/CTCP"
-mws_putheader '$MirOS: www/src/randex.hts,v 1.1 2009/10/15 16:55:04 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/randex.hts,v 1.2 2016/10/30 04:47:09 tg Exp $'
 mws_content <<'EOF'
 <p>Sorry, nothing here yet (dummy page).</p>
 EOF

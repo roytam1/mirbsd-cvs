@@ -3,7 +3,8 @@
 
 mws_setname legacy/wlog-0 "MirBSD Weblog"
 mws_setheadline BSD-mirabilos
-mws_putheader '$MirOS: www/src/wlog-0.hts,v 1.2 2008/11/08 22:24:38 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/wlog-0.hts,v 1.3 2009/06/21 11:01:27 tg Exp $'
 mws_content <<'EOF'
 <p>This is an archived weblog of the development from OpenBSD-current-mirabilos
  to <a href="@@RELPATH@@main.htm">MirOS</a>. All entries are courtesy of the developer

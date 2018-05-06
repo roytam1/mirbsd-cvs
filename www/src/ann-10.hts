@@ -3,7 +3,8 @@
 
 mws_setname announcements/10 "MirOS #10 Release Announcement"
 mws_setheadline 'MirOS BSD #10 (MirOS ξ) Release Notes'
-mws_putheader '$MirOS: www/src/ann-10.hts,v 1.12 2009/06/21 11:01:21 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/ann-10.hts,v 1.13 2014/05/13 22:12:29 tg Exp $'
 mws_content <<'EOF'
 <p>The MirOS Project proudly presents release #10 of MirOS BSD: MirOS
  &#958; (xi). A mini-ISO for the installation can be downloaded <a

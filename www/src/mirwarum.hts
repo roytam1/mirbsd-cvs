@@ -3,7 +3,8 @@
 
 mws_setname legacy/mirwarum "MirOS Legacy Content"
 mws_setheadline Warum MirBSD?
-mws_putheader '$MirOS: www/src/mirwarum.hts,v 1.1 2008/09/17 21:12:28 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/mirwarum.hts,v 1.2 2009/06/21 11:01:25 tg Exp $'
 mws_content <<'EOF'
 <pre>OpenBSD ist das (inoffiziell) sicherste Betriebssystem, das
 gegenw&auml;rtig erh&auml;ltlich ist. OpenBSD ist ein 4.4BSD Derivat,

@@ -3,7 +3,8 @@
 
 mws_setname legacy/ann-7 "MirOS Legacy Content"
 mws_setheadline 'MirOS #7quinquies'
-mws_putheader '$MirOS: www/src/ann-7.hts,v 1.5 2011/03/21 16:18:49 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/ann-7.hts,v 1.6 2016/03/06 18:32:05 tg Exp $'
 mws_content <<'EOF'
 <p>The MirOS Team is proud to announce the immediate release of MirOS BSD
 #quinquies. This release is the fifth in the stable #7 branch. It is a

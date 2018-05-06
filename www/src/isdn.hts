@@ -3,7 +3,8 @@
 
 mws_setname legacy/isdn "MirOS Legacy Content"
 mws_setheadline ISDN4MirBSD HowTo
-mws_putheader '$MirOS: www/src/isdn.hts,v 1.1 2008/09/17 21:12:26 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/isdn.hts,v 1.2 2009/06/21 11:01:24 tg Exp $'
 mws_content <<'EOF'
 <h2>Some useful Links</h2>
 

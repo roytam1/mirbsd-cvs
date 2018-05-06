@@ -3,7 +3,8 @@
 
 mws_setname clog/11 "Changelog for MirOS #11"
 mws_setheadline Changes in MirOS #10-current
-mws_putheader '$MirOS: www/src/clog11.hts,v 1.7 2008/06/03 18:05:09 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/clog11.hts,v 1.8 2009/06/21 11:01:23 tg Exp $'
 mws_content <<'EOF'
 <p>Only changes to the base system, gcc, X11, and infrastructure for MirPorts
  and subprojects are listed. Changes to individual ports or changes which are

@@ -4,7 +4,8 @@
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
 mws_setheadline MirOS RSS feeds
-mws_putheader '$MirOS: www/src/rss.hts,v 1.17 2016/03/06 18:37:54 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/rss.hts,v 1.18 2017/12/19 00:56:39 tg Exp $'
 mws_content <<'EOF'
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to

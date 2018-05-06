@@ -3,7 +3,8 @@
 
 mws_setname projects "Project Ideas"
 mws_setheadline Project Ideas
-mws_putheader '$MirOS: www/src/projects.hts,v 1.8 2011/03/21 16:18:50 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/projects.hts,v 1.10 2016/03/06 18:37:54 tg Exp $'
 mws_content <<'EOF'
 <p>The following project ideas can be submitted to the MirOS Project
  by everybody who feels like having the necessary skills.

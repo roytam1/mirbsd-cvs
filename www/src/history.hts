@@ -3,7 +3,8 @@
 
 mws_setname legacy/history "MirOS Legacy Content"
 mws_setheadline History of MirOS
-mws_putheader '$MirOS: www/src/history.hts,v 1.5 2013/06/22 23:26:05 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/history.hts,v 1.6 2015/07/07 17:56:34 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <p>On <a href="http://marc.info/?m=103065556502499">August
  29th, 2002</a>, <a href="http://theos.com/">Theo de Raadt</a>, leader

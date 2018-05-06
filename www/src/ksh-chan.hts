@@ -3,7 +3,8 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.93 2017/08/10 19:25:15 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.98 2018/05/01 21:34:57 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF

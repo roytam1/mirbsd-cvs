@@ -3,7 +3,8 @@
 
 mws_setname subprojects/mksh/old "mksh — old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.52 2016/11/11 21:49:31 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.53 2017/08/07 20:19:20 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> — old versions</h2>
 

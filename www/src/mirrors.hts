@@ -3,7 +3,8 @@
 
 mws_setname legacy/mirrors "MirOS Legacy Content"
 mws_setheadline MirOS mirrors
-mws_putheader '$MirOS: www/src/mirrors.hts,v 1.5 2010/08/28 20:31:24 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/mirrors.hts,v 1.6 2017/12/19 00:56:37 tg Exp $'
 mws_content <<'EOF'
 <h2>Kinds of mirrors</h2>
 

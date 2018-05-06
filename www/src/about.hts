@@ -1,6 +1,7 @@
 mws_setname about 'About MirOS'
 mws_setheadline About MirOS
-mws_putheader '$MirOS: www/src/about.hts,v 1.7 2015/09/10 19:46:31 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/about.hts,v 1.9 2018/05/05 21:48:11 tg Exp $'
 mws_content <<'EOF'
 <p>On this page:</p>
 

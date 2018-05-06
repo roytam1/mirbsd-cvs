@@ -3,7 +3,8 @@
 
 mws_setname devel "Developers and Contributors"
 mws_setheadline MirOS Project Members
-mws_putheader '$MirOS: www/src/devel.hts,v 1.8 2016/03/06 18:37:52 tg Exp $'
+mws_setold
+mws_putheader '$MirOS: www/src/devel.hts,v 1.9 2018/02/06 21:56:36 tg Exp $'
 mws_content <<'EOF'
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever
