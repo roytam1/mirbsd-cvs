@@ -1,7 +1,7 @@
 #!/bin/mksh
 # $MirOS: ports/essentials/ca-certificates/mntner/pem2jks,v 1.3 2012/05/30 18:26:15 tg Exp $
 #-
-# Copyright (c) 2009, 2010, 2012, 2017
+# Copyright (c) 2009, 2010, 2012, 2017, 2018
 #	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -36,8 +36,8 @@ for bn in *; do
 	d=$(<../dsc/${bn%.*})
 	keytool -importcert -v -noprompt -trustcacerts \
 	    -alias "「$bn」 $d" -file $bn \
-	    -keystore ../keystore.jks -storepass changeit
+	    -keystore ../keystore.jks -storepass changeit -storetype jks
 done
 cd ..
 print
-keytool -list -keystore keystore.jks -storepass changeit
+keytool -list -keystore keystore.jks -storepass changeit -storetype jks
