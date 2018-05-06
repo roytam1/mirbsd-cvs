@@ -258,9 +258,7 @@ Author: tg@
   geocacheing session for the first time, with his Windows&reg; PDA that
   can do GPS. It took us <em>quite</em> some time, but it was helluv fun
   and I hope we'll continue the journey.</p>
- <p>The image: <img src="http://www.opencaching.de/statpics/106521.jpg"
-  alt="statistics" /> will show the hopefully increasing number although
-  I won't join the hype. I don't like hypes.</p>
+<p>(statpics moved <a href="@@RELPATH@@wptg.htm">here</a>)</p>
 
 ----
 Date: 16.07.2006
@@ -1033,8 +1031,8 @@ Author: tg@
 Date: 29.10.2006
 Author: tg@
 
- <p><img src="http://www.opencaching.de/statpics/106521.jpg" alt="Fun is
-  when you found it: Geocacheing with Dr. Pfeffer &amp; Co." />The BOSng
+<p>(statpics moved <a href="@@RELPATH@@wptg.htm">here</a>)</p>
+ <p>The BOSng
   Duo has struck again, old fun in a new location, and I found my second
   cache rather easily.</p>
  <p>Other than that, I guess we have a new snapshot, and frozen-bubble 2
@@ -1243,7 +1241,7 @@ Title: SPARC port updates
 <p>The kernel boots and runs fine. The hardware seems to be okay,
  the new HDD (sd0) gets a little warm at times, but that doesn't
  seem to cause any problems.</p>
-<p>I reliably get segmentation faults for a lot of things – usually
+<p>I reliably get segmentation faults for a lot of things — usually
  things that access the network, more rarely during compiling. Can't
  get stack traces as the stack is corrupt.</p>
 <p>Just to be safe, I'll try out the other 9 GB HDD tyler got me.
@@ -1286,8 +1284,8 @@ Author: tg@
  FreeWRT; he's also using µClibc, but non-POSIX FSH paths). Thanks for the
  intuition; if I get famous (FreeWRT and OpenWrt are already adopting it),
  you shall become it too.</p>
-<p>¹) The API is part from gettext's <tt>libintl.h</tt> header – only from
- the non-copyrightable interface part only – and the ABI is re-engineered,
+<p>¹) The API is part from gettext's <tt>libintl.h</tt> header — only from
+ the non-copyrightable interface part only — and the ABI is re-engineered,
  using nm(1). There is one function actually doing something inside, whose
  implementation is from Dr. Dobb's Journal (but easily doable within a few
  minutes, and found at many other places on the net), optimised by me, and
@@ -1300,7 +1298,7 @@ Date: 27.06.2007
 Author: tg@
 
 <p>It's mksh-bash compatibility week, apparently. Now, <tt>${foo:2:3}</tt>
- works, but these must be numbers, not arithmetic expressions, as of yet –
+ works, but these must be numbers, not arithmetic expressions, as of yet —
  this should be fixed soon though. Also, <tt>${foo/bar/baz}</tt> (regexp),
  as well as its companion <tt>${foo//bar/baz}</tt> (like g appended) won't
  be much of a problem but I'll implement <tt>${foo:S/bar/baz/g}</tt> first
@@ -1350,7 +1348,7 @@ Author: tg@
  at <a href="http://www.froscon.de/">FrOSCon</a> as well, but doesn't wlog
  as of now (this may change if he's involved more).</p>
 <p>I added cprng to the base system, a daemon tjat tries to gather entropy
- from measuring the difference between the CPU clock and timer interrupt –
+ from measuring the difference between the CPU clock and timer interrupt —
  an interesting idea, yet it doesn't work on all hardware. Still better to
  have it than to not have good <em>local</em> entropy, besides it's fed to
  the kernel random(9) subsystem alongside with tty(4), disc and network IO
@@ -1358,15 +1356,15 @@ Author: tg@
  even from hotbits/fourmilab/randomnumbers.info). The mix is what makes it
  good, but arc4random(3) with multiple concurrent accesses is a difference
  to more popular OSes ☺ which makes it truly great. So just use one source
- of entropy – <tt>/dev/arandom</tt> – which is rather high-quality even if
+ of entropy — <tt>/dev/arandom</tt> — which is rather high-quality even if
  its absolute entropy count is less than the one from urandom.</p>
-<p>Somehow, I also managed to wreck something in my other pet project –
+<p>Somehow, I also managed to wreck something in my other pet project —
  FreeWRT. It is often annoying to work
  with Linux, and this shows it one more time: module loading doesn't work,
  and we have issues with binary-only stuff (BLOBs) too. Still it is slowly
- being undermined by addition of mir-tools to the system ☻ and – while a̲l̲l̲
+ being undermined by addition of mir-tools to the system ☻ and — while a̲l̲l̲
  embedded system development kits suck, this one sucks the least.</p>
-<p>A few days ago, I had access to a Soekris vpn1411 card – hifn(4) – that
+<p>A few days ago, I had access to a Soekris vpn1411 card — hifn(4) — that
  just worked™ out of the box on a bsd.rd kernel. Nice. I noted that rdate,
  as well as uuencode(1) and uudecode(1) and their base64 variants were not
  available, so I added them; rdate(8) even fits on the small floppy (8KiB)
@@ -1374,7 +1372,7 @@ Author: tg@
  is about 28K.</p>
 <p>Today I officially declare that gdb(1) isn't usable on MirOS. I tracked
  down an GCC bug but was confused because a “load register with immediate”
- opcode appeared to change memory (the stack frame – the print command did
+ opcode appeared to change memory (the stack frame — the print command did
  not seem to be affected). But hey, I eventually found the bug. Now, all I
  wait for is Sun to release their compiler under MIT licence… as if.</p>
 ----
@@ -1382,11 +1380,11 @@ Date: 11.07.2007
 Author: tg@
 
 <p>I think one of the two HDDs in herc which compose the RAID 1 (software,
- using raid(4) – RAIDframe) is definitively failing. I need a replacement;
+ using raid(4) — RAIDframe) is definitively failing. I need a replacement;
  maybe I'll do as few activity as possible on <tt>/MirOS/</tt> and the CVS
  repository in the meantime to extend its life span. This sucks, and I see
  I won't be able to relax next weekend either.</p>
-<p>We have a new snapshot – MirOS #10 RC2 – yet not announced on the front
+<p>We have a new snapshot — MirOS #10 RC2 — yet not announced on the front
  page because I need to rsync it to the mirrors first (RAID issue) and put
  up a torrent (time issue, I do have a dayjob now). But it should appear @
  the http mirrors (heph and allbsd.org) soon, in <tt>/MirOS/current/</tt>,
@@ -1406,7 +1404,7 @@ Author: tg@
  STL or MFC or so. On the other hand, he <em>does</em> still fix ports and
  package tools (we have a security updated BIND now, for instance). Thanks
  Benny, we really appreciate that.</p>
-<p>Speaking of MirPorts – the MidnightBSD people have “mports”, which seem
+<p>Speaking of MirPorts — the MidnightBSD people have “mports”, which seem
  to be FreeBSD ports based (*grins* I wonder why they didn't use pkgsrc®…)
  and I suggested them to use MirPorts as a second choice (like pkgsrc® for
  us), after Archite (coming from OgreBSD) couldn't persuade them to choose
@@ -1414,14 +1412,12 @@ Author: tg@
  maintain it. I just wish dfjoerg would commit the MirBSD bits in pkgsrc®,
  since otherwise I wonder why I did all that work if nobody's going to use
  it due to missing upstream inclusion. Lazy git. mksh's still at R29f.</p>
-<p>From time to time, I'm uploading a new snapshot to the netinstall dir –
+<p>From time to time, I'm uploading a new snapshot to the netinstall dir —
  it pays off to look there. Today's one was tested on a WRAP board.</p>
 ----
 Date: 05.08.2007
 Author: tg@
 
-<p><img alt="Fun is when you found it – Geocacheing with Dr. Pfeffer &amp;
- Co." src="http://www.opencaching.de/statpics/106521.jpg" /></p>
 <p>The BOSng Duo has found another cache, although with minor injuries, we
  hooked up a friend to the fun and had a definitively nice view.</p>
 ----
@@ -1436,7 +1432,7 @@ Title: SPARC is dead, long live SPARC!
  the switch from suncons to vt100, but… what the hey ☺ I'm happy.</p>
 <p>I'm currently building on a 75 MHz SuperSPARC and would be glad if some
  nice person would send me one of these 233 MHz HyperSPARC modules that've
- been made by ROSS (I think), and some more RAM for a SPARCstation 20 UP –
+ been made by ROSS (I think), and some more RAM for a SPARCstation 20 UP —
  we don't support SMP on sparc either. And I desparately need 1-2 testers,
  since I don't use a monitor/keyboard/mouse zs console but “merely” a real
  <a href="http://vt100.net/docs/vt420-uu/">DEC VT420</a> on ttya.</p>
@@ -1479,14 +1475,14 @@ Author: tg@
  get into “hacking mode”.</p>
 <p>Tonight's after-work event is <a href="http://luusa.org/">LUUSA</a> (at
  the <a href="http://netzladen.org/">Netzladen</a>) again.</p>
-<p>Waldemar brought his Zaurus, but there's no Ewe VM. On the other hand –
+<p>Waldemar brought his Zaurus, but there's no Ewe VM. On the other hand —
  after some kernel patches and downloading Ewe149-Linux-x86.zip as well as
- cachewolf_linux_0.9n_patch_4.zip – the first from ewesoft.com, the second
- from cachewolf.de – and unpacking, it worked out of the box; remember the
+ cachewolf_linux_0.9n_patch_4.zip — the first from ewesoft.com, the second
+ from cachewolf.de — and unpacking, it worked out of the box; remember the
  device name is relative to <tt>/dev</tt> (I had to use “cuaU0” and “9600”
  as baud rate, add myself to group dialer too). I did need some shared lib
- from Debian GNU/Linux for that (libgcc_s.so.1) though. Compiling Ewe is –
- at the moment – apparently impossible, it always segfaults both on MirBSD
+ from Debian GNU/Linux for that (libgcc_s.so.1) though. Compiling Ewe is —
+ at the moment — apparently impossible, it always segfaults both on MirBSD
  (i386) and Ångström Linux (armv5tel/Zaurus). I'm importing caches from my
  site (opencaching.de) now, after recentering to my current location (as I
  am too lazy to figure out the GPS position of my home right now). Now, if
@@ -1516,8 +1512,8 @@ Author: tg@
  To add insult to injury, when having diner in the city some freak thought
  it would be nice to flatten my bike tyre. I had to walk back, and arrived
  home at about midnight. I guess it's reading idly for tonight, maybe that
- hacking mood will get back some other day. I've discussed nmeadecode – or
- rather the idea for it – with some friends now and like it more and more,
+ hacking mood will get back some other day. I've discussed nmeadecode — or
+ rather the idea for it — with some friends now and like it more and more,
  as most of them do. Still have to discuss it with Pfeffer.</p>
 <p>I just built gcj on odem (still works, yay), took much over an hour, at
  1 GHz even, and will try to build CacheWolf with it (can become developer
@@ -1538,7 +1534,7 @@ Title: A Good Day™
  was added), and we went geocacheing again. And hacking. The SPARC build’s
  complete, Ewe (that single-threaded embedded VM for Java™ which CacheWolf
  uses, that’s the application Dr. Pfeffer likes to use for geocacheing and
- I’d even use as a GPS navigator…) works natively on MirBSD – what more do
+ I’d even use as a GPS navigator…) works natively on MirBSD — what more do
  I want? (Ok, I could think of some things, but I’m happy nevertheless.) I
  face bad future though: we infected wbx@ with the gc virus, so he’ll make
  me port X11 to FreeWRT to use it on the OpenMoko with his nokernel target
@@ -1578,9 +1574,9 @@ Author: tg@
  install the full Unicode fonts now (needs some more RAM, but less overall
  as you need some of them anyway, and reduces build time); on very low-mem
  systems you would want to build your own font subset anyway.</p>
-<p>I invited the XFree86® developers to FrOSCon – all two of them – but it
+<p>I invited the XFree86® developers to FrOSCon — all two of them — but it
  looks like they can’t come. Too bad.</p>
-<p>I started writing “I’m” instead of “I'm” – typographically better, much
+<p>I started writing “I’m” instead of “I'm” — typographically better, much
  better in fixed-misc font even, but drives people crazy (and away from OS
  without Unicode support such as OpenBSD and most Linuxes), funny. Oh, and
  swishy, our IRC Kiwi, is using my keyboard layout now too. Strike!</p>
@@ -1593,18 +1589,18 @@ Author: tg@
  in imake(1) build environments.</p>
 <p>Finally weekend, I’m so happy. Benny today finished the slides for that
  autotools presentation he’s going to hold at FrOSCon, 42 in total (wonder
- why…) and is happy about the weekend too. Open source developers should –
- in my opinion – get two hours a day off work to hack. (But I can’t really
+ why…) and is happy about the weekend too. Open source developers should —
+ in my opinion — get two hours a day off work to hack. (But I can’t really
  complain, I’m off quite well with my company. Thanks to my bosses, if you
  should happen to read this.)</p>
 <p>Benny is also trying to upgrade the www/firesomething (Iceweasel) port.
- Apparently with success. I still don’t like applications that use glib2 –
+ Apparently with success. I still don’t like applications that use glib2 —
  even though I probably will need one, as I might be switching to mcabber,
  from centericq; I dropped all ICQ/Yahoo!/MSN contacts tonight.</p>
 <p>Oh yeah. FreeWRT. Zaurus/Ångström. Kernel modules. Packages. Linux JUST
- SUCKS, get it. Things I take for granted just aren’t in there yet – worse
+ SUCKS, get it. Things I take for granted just aren’t in there yet — worse
  is that most of them won’t make it in since it’s a bunch of packages from
- many authors, contributed with “here’s my code, please add it, have fun –
+ many authors, contributed with “here’s my code, please add it, have fun —
  and someone should write the docs”. Sometimes, Theo is right. He’s also a
  lot of right (can I say that?) regarding open source’d (what a word…) NIC
  drivers from vendors, compared with getting specs and hardware and coding
@@ -1615,17 +1611,16 @@ Date: 19.08.2007
 Author: tg@
 
 <p>This sucks: we apparently also got the wrong cable for the Zaurus spitz
- (SL-C3200) – one that does not support USB host mode. Add the Ewe runtime
- issues (now: segfault in GetLocale() or something like that) to it – plus
+ (SL-C3200) — one that does not support USB host mode. Add the Ewe runtime
+ issues (now: segfault in GetLocale() or something like that) to it — plus
  the CacheWolf issues… damn I think it would’ve had some great educational
  impacts on our geocacheing newbie of the day. But odem was enough…</p>
 <p>I finally got my GPS mouse, wbx@’s is an uslcom(4) at 9k6,8N1; and mine
  is an uplcom(4) at 4k8,8N1; no problems so far, this is actually the very
  baud rate specified by NMEA 0183, and its precision is better by one post
- comma digit (unsure how to call it in English). This means I’ve been <img
- src="http://www.opencaching.de/statpics/106521.jpg" alt="Geocacheing with
- wbx &amp; Co. – Fun is when Jonas found it" /> outdoors again, with quite
- some success. I suppose I’ve got to fix the Zaurus issues with Ewe soon –
+ comma digit (unsure how to call it in English). This means I’ve been 
+ outdoors again, with quite
+ some success. I suppose I’ve got to fix the Zaurus issues with Ewe soon —
  but Cachewolf seems to have some trouble with my version of the GPS mouse
  which transmits the GPGSV lines only every second second (heh…). In short
  this means it didn’t work and we were left with wbx@’s less precise mouse
@@ -1638,7 +1633,7 @@ Author: tg@
  the old directories aside and new directories in place during an upgrade,
  not remembering that <tt>/bin/mv</tt> was dynamically linked…</p>
 <p>I could reproduce the “detached mksh busy loop” issue on the Zaurus but
- not track it down (of course). So far, it seems to only happen on Linux –
+ not track it down (of course). So far, it seems to only happen on Linux —
  I definitively need help from the community here.</p>
 <p>We got MirOS #10 RC4 (i386) out as well as #10 RC2a (sparc), now with X
  but still not really tested. Both on the mirrors. After reïnstalling that
@@ -1667,7 +1662,7 @@ Author: tg@
 <p>*sigh* Benny updated the index but didn't commit the other migrated HTML
  files. This website just became <em>more</em> broken in a sudden.</p>
 <p>Interesting: geocacheing now works, but CacheWolf cannot handle 4800 bps
- – but <tt>cu -l /dev/cuaU0 -s 4800 &lt;&gt;/dev/ptyp5 &gt;&amp;0</tt> plus
+ — but <tt>cu -l /dev/cuaU0 -s 4800 &lt;&gt;/dev/ptyp5 &gt;&amp;0</tt> plus
  using <tt>/dev/ttyp5</tt> as “serial” device helped…</p>
 <p>We just ate a little and now are going home. FrOSCon looks superb, but a
  Live CD Image is still not there. It's closing time...</p>
@@ -1753,7 +1748,7 @@ Date: 28.08.2007
 Author: tg@
 
 <p>FrOSCon is over for me now as well, with the end of the two days I took
- off to replenish after the event. I used it to chill, rest, not do much –
+ off to replenish after the event. I used it to chill, rest, not do much —
  so far it worked, I feel okay going to work tomorrow, not strained.</p>
 <p>Since yesterday, I’m officially a developer of Cachewolf, thar software
  Dr. Pfeffer and I use for geocacheing. And I fixed a bug. In Java™. Urgh.
@@ -1761,14 +1756,14 @@ Author: tg@
  can’t use non-7bit chars in the commit messages, because J�rg Schilling’s
  fucking BerliOS setup wrecks the emails if I enable use of locales in the
  <tt>post-commit</tt> hook, which worked for FreeWRT. Line endings as well
- as character encodings (they use mostly windows-1252) are cruel too – but
+ as character encodings (they use mostly windows-1252) are cruel too — but
  probably can be fixed. I need to start some discussion about that. To use
  gcj for compiling, I’ve prepared a <tt>comp-gcj.sh</tt> and even a simple
  Makefile, but I want to clean the mess up some more before committing the
  nuggets, because it’s easier (also for Ewe and Jewel) to have the classes
  from external libraries unpacked in the tree.</p>
-<p>GNU ed sucks – it is less BSD ed(1) compatible in more recent versions…
- I bet they’ll be using GPLv3 next – and GFDL for the <span class="s">man</span>
+<p>GNU ed sucks — it is less BSD ed(1) compatible in more recent versions…
+ I bet they’ll be using GPLv3 next — and GFDL for the <span class="s">man</span>
  er… <span class="s">texinfo</span> pages (now what, GNU software doesn’t use manual
  pages any more, and almost no GNU/Linux distribution has texinfo).</p>
 <p>I would have listened to the grml talk at MoeLUG tonight, but nobody of
@@ -1927,7 +1922,7 @@ libhello_la_LDFLAGS = -version-info ${LIBHELLO_VER}
 ----
 Date: 03.09.2007
 Author: tg@
-Title: My new laptop – company owned
+Title: My new laptop — company owned
 
 <p>I wonder why companies produce such crap. No, really. And I wonder
  even more why the previous owner (a colleague who went off looking for
@@ -1943,13 +1938,13 @@ Title: My new laptop – company owned
  fdisk. I managed to wreck it, expect this wlog entry to be amended by
  a photo of that (which, at the moment, is located on the mobile phone
  of my intern, which has a camera built in).</p>
-<p>At least I have a use for these G**gle “Go Code!” stickers now – to
+<p>At least I have a use for these G**gle “Go Code!” stickers now — to
  cover the built-in “webcam”… <strong>Who the fuck produces or buys such
  kind of crap?</strong> Sorry for the emphasis, but <em>I just do not
  fucking get it</em>. And of course, w*ldi and b*nz tell me that there
  are no such bugs in the Inst*ller mentioned above. (There are a lot more,
  for instance I cannot choose UTC as timezone, neither grub2 nor grub nor
- lilo worked – but I got the latter installed manually now, etc.)</p>
+ lilo worked — but I got the latter installed manually now, etc.)</p>
 <p>This new orking device still has more hours of “fun” for me, but as
  for tomorrow, I’ll be driving to Berlin. I left that craptop at work.
  I’ve got better things to do in the evenings.</p>
@@ -1962,14 +1957,14 @@ Author: tg@
  I really like it. Benny does, too. I drank it in a restaurant called
  “Ranke 2”, which was recommended to me by Przemysław, thanks a lot!
  We managed to buy some bottles in a beverage store (alongside with a
- lot of bottles of “Berliner Faßbrause” – the local speciality, some
- kind of herb lemonad – as well as a few interesting beers, such as
+ lot of bottles of “Berliner Faßbrause” — the local speciality, some
+ kind of herb lemonad — as well as a few interesting beers, such as
  <span style="font-family:Fraktur;">Neuzeller Kloster-Bräu Kirsch
  Bier</span>, <span style="font-family:cursive;">Kirsch Porter</span>
  <span style="font-variant:small-caps;">Das fruchtige Schwarze</span>,
  <span style="font-family:Fraktur;">Neuzeller Kloster-Bräu Schwarzer
  Abt</span> <span style="font-variant:small-caps;">Schwarzbier</span>,
- Duckstein (Rotblondes Original – Auf Buchenholz gereift). Beats my
+ Duckstein (Rotblondes Original — Auf Buchenholz gereift). Beats my
  usual Schlösser Alt with Cola and optionally cherry juice ☺<br />At
  Ranke 2, I also drank a “Danziger Goldwasser” to close the stomach
  after the good diner, which was something new for me as well; I must
@@ -2017,8 +2012,7 @@ Author: tg@
 <p>Just to not strain the poor packagers, there will be no mksh minor
  release tomorrow ☺ At least, I hope there’ll be no more late real life
  bug reports for problems I deem important enough.</p>
-<p>I “found” my 10<sup>th</sup> <img alt="Virtual Geocacheing is fun too"
- src="http://www.opencaching.de/statpics/106521.jpg" /> Geocache, which
+<p>I “found” my 10<sup>th</sup> Geocache, which
  means that, on OpenCaching.de, the website I prefer for being devoid of
  the capitalistic attitude which prevails on GeoCaching.com, despite most
  other CacheWolf involved seem to not like, use or even know it, I can
@@ -2077,8 +2071,7 @@ Date: 14.09.2007
 Date: 24.09.2007
 Author: tg@
 
-<p>Besides bumping the number of <img alt="A cachetour and nice weather"
- src="http://www.opencaching.de/statpics/106521.jpg" /> geocaches up, to
+<p>Besides bumping the number of geocaches up, to
  18 caches found, three geocoins found, and only one DNF, I admit having
  been a tad lazy lately.</p>
 <p>At the moment, we’re testing the current HEAD code intensively, and I
@@ -2087,11 +2080,11 @@ Author: tg@
  vnd(4) encrypted home works more reliably now) shouldn’t pass unnoticed
  (and Benny is still fixing ports).</p>
 <p>I will probably get my new server tomorrow. It will replace herc, and
- – sadly – its hostname too, since a Micro-ATX board only comes with two
+ — sadly — its hostname too, since a Micro-ATX board only comes with two
  PCI slots (at least one too few for me anyway) and no ISA slots. But it
  is a fast machine, I already got the dmesg, has one Gig RAM, and at the
  moment, the Padlock AES/RNG stuff isn’t yet recognised (some hacking to
- do – but solidly setting it up is what counts now). Well, this opens an
+ do — but solidly setting it up is what counts now). Well, this opens an
  opportunity to use some spare Pentium Ⅰ board to write a framebuffer in
  the kernel for the Hercules card (and compatibles). If I get time.</p>
 <p>You wouldn’t believe it: at work, I’m writing a user-friendly (woah!)
@@ -2162,11 +2155,11 @@ Author: tg@
  (every 64 seconds instead of 10 minutes; I hope that’s okay, but we get
  64 Bytes of new entropy every 10 ms, so I guess…).</p>
 <p>syslog(3) and friends are stupid, they truncate waay too often; I did
- a würgaround in logger(1) for now, letting it split up conservatively –
+ a würgaround in logger(1) for now, letting it split up conservatively —
  at 512 bytes already; doesn’t catch all-binaries but what the hey…</p>
 <p>There’s a new <tt>src/distrib/tools</tt> directory now, with releng’s
  playground. Like MirOS #7ter, we want to make the release CD dual-arch,
- bootable. But since #7, things have changed – you can use our ISOs as a
+ bootable. But since #7, things have changed — you can use our ISOs as a
  kind of Live-HDD, Live-CompactFlash, etc. so this functionality must be
  retained (I know how now, I just have to code it… and get my sparc PROM
  to boot off a burned CD-RW). And I could even do this to the #10 series
@@ -2174,8 +2167,8 @@ Author: tg@
  both architectures off it. Yay! (as benz would say)</p>
 <p>pcc’s in the works, I like the activity but not the split and some of
  the directions… but at the moment I’ll only monitor (and contribute the
- needed MirOS support bits, of course) since we’re busy with other – and
- much more important – things, the impending release for instance.</p>
+ needed MirOS support bits, of course) since we’re busy with other — and
+ much more important — things, the impending release for instance.</p>
 <p><tt>herc</tt> is in the <a href="http://www.pool.ntp.org/">NTP server
  pool</a>… so will <tt>tear</tt> be, but I wonder if we should do a same
  for entropy distribution (like randomnumbers.info et al. do)? Since the
@@ -2211,16 +2204,13 @@ Author: tg@
 <p>pkgsrc® is hereby officially dead. I cannot write an eMail (or rather
  I get bounces) to the official MAINTAINER address of mksh, and nobody’s
  caring. Hey, even Debian does get it! (And <a href="@@RELPATH@@mksh.htm#otheros">others</a>…
- you should be ashamed of yourself.) Coverity mostly relies on pkgsrc® –
+ you should be ashamed of yourself.) Coverity mostly relies on pkgsrc® —
  otherwise I’d have posted results of their latest scans already.</p>
 ----
 Date: 05.10.2007
 Author: tg@
 
-<p>Today, not only <img alt="Teaching the younguns: fun in the outdoors"
- src="http://www.opencaching.de/statpics/106521.jpg" />me, but also <img
- src="http://www.opencaching.de/images/statpics/statpic120445.jpg"
- alt="weird nick, eh?" />gecko2 found another two caches. And: I think I
+<p>Today, not only me, but also gecko2 found another two caches. And: I think I
  hooked up Benny, as I found a couple in the vicinity of his hometown at
  his parents’ place.</p>
 ----
@@ -2242,11 +2232,9 @@ Author: tg@
 <p>FWIW, current CacheWolf development snapshots are available from <a
  href="https://herc.mirbsd.org/pub/cw/">my server</a>, please don’t
  overuse its bandwidth…</p>
-<p>I did another <img src="http://www.opencaching.de/statpics/106521.jpg"
- alt="stats fun" />two geocaches with Dr. Pfeffer, who doesn’t have any
+<p>I did another two geocaches with Dr. Pfeffer, who doesn’t have any
  internet access nor a statpic yet though. <em>Update:</em> He has now,
- <img src="http://www.opencaching.de/images/statpics/statpic106523.jpg"
- alt="only 26/24 caches?" />it looks like I’ve almost got him there.</p>
+ it looks like I’ve almost got him there.</p>
 <p><a href="@@RELPATH@@mksh.htm">mksh</a> R31d is released, I just didn’t
  have any time to prepare a distfile yet. Please see the list of changes,
  <strong>everybody</strong> is strongly advised to upgrade.</p>
@@ -2293,7 +2281,7 @@ Author: tg@
  that cutting down its triplet of compile-time, link-time and run-time
  checks is good, but you do need compile-time checks, since not everything
  can be done as link-time check (e.g. checking for declarations when using
- deliberately wrong ones to make the compile clash – these clash at link
+ deliberately wrong ones to make the compile clash — these clash at link
  time when the declaration actually was not existent). Oh well. Fixed.</p>
 ----
 Date: 18.10.2007
@@ -2308,12 +2296,12 @@ Author: tg@
  Then I got a “function not available”, went back in the browser history,
  had to edit the line again because € was changed to &amp;#8634; which was,
  in total, too long… submitted… rejoiced… or so I thought. They accepted
- it – finally – but then asked me if I want to add that guy to the list of
+ it — finally — but then asked me if I want to add that guy to the list of
  my preferred sellers. Yeaaah, of course…</p>
 <p>Then I worked on MI installboot(8), got done with the sparc part at a
  <a href="http://netzladen.org/">Netzladen</a> hacking session (well, more
  of a hacking-alone session, fukami just chilled and occasionally smoked
- (grr…) and Dr. Pfeffer came late – although he hacked on CacheWolf and I
+ (grr…) and Dr. Pfeffer came late — although he hacked on CacheWolf and I
  helped him test some diffs). I think I can now do what wbx@ prodded me for
  quite strongly on the phone: create a sparc bootable CD on i386 (or even
  non-MirBSD, for that matter). After bootxx/i386 is converted, I think I’m
@@ -2333,7 +2321,7 @@ Author: tg@
  but not about how I’m going to solve it but when I get my lazy arse moved ☺
  We’re making good progress nevertheless.</p>
 <p>Benny agreed (via the phone) to speed up the build by several hours (on a
- P2-350 – probably much more on the sparc) by just linking HTML manual pages
+ P2-350 — probably much more on the sparc) by just linking HTML manual pages
  if the catman page is only a link too. I implemented it, but since these
  generated from &lt;bsd.man.mk&gt;’s MLINKS are hardlinked, I needed inode
  tracking and cacheing, <tt>ino_t</tt> is unsigned 32-bit, so mksh’s arrays
@@ -2343,7 +2331,7 @@ Author: tg@
  work, I realised our Lynx didn’t get counted as Lynx but MSIE… sucks though
  it helps with certain sites, so I changed that. Can’t have enough people
  noticing the small ones (Lynx as well as MirBSD). Really.</p>
-<p>I <em>am</em> going to have to write an install.sparc(7) page – talking
+<p>I <em>am</em> going to have to write an install.sparc(7) page — talking
  with the MidnightBSD people I realised few people know how to netboot a
  sparc, and since all of our manual pages are online, I just could have
  pointed him there. But the mnbsd people are all quite nice.</p>
@@ -2361,7 +2349,7 @@ Author: tg@
  everything is ready for MI installboot(8).</p>
 <p>I also started to poke around the kernel for using the hardware-aided AES
  functions modern CPUs (not crypto extension cards!) provide. UVM swapencrypt
- is going to use this code soon. vnd(4) will use the OCF – crypto(9) – for
+ is going to use this code soon. vnd(4) will use the OCF — crypto(9) — for
  operations though, so that users can select the actual algorithm used, and
  we retain backwards compatibility (plus, software blowfish is a little less
  CPU intensive than software Rĳndaël (AES)). I’ll have to write some glue
@@ -2413,7 +2401,7 @@ Author: tg@
  not for void either). I thought, after having hacked on it for quite
  a bit on the last days, that my other project (I am, after all, the
  provisional project leader until wbx@ is no longer <tt>EAVAIL</tt>)
- could benefit from it as well – I think manpages are a unique selling
+ could benefit from it as well — I think manpages are a unique selling
  point in the embedded GNU/Linux distribution market (others have their
  own USPs… such as working X11…), and I discussed the idea with wbx@ a
  long time ago already; now it’s there. Of course, the packagers need
@@ -2434,8 +2422,7 @@ Author: tg@
  my WL-500g still doesn’t have any network on trunk, this seems to be
  a different bug.) And I have no idea yet as to why.</p>
 <p>When Dr. Pfeffer doesn’t want to go geocaching, I do. They amount
- to 26 now, although 1 isn’t listed at the <img alt="ad-infested"
- src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658" />
+ to 26 now, although 1 isn’t listed at the
  commercial site, and 2 aren’t listed at the open site.</p>
 ----
 Date: 27.10.2007
@@ -2498,11 +2485,8 @@ Author: tg@
  didn’t find one (the most easy one), but the other two (at 18:00 and at
  19:00 local time, almost exactly). And at 16:00 I had the cache near his
  home location ☺ This makes, considering not both sites list all caches,
- a total of 29 (an offset of 3 at <img alt="freely caching is more fun!"
- src="http://www.opencaching.de/statpics/106521.jpg" />OC, and 2 at <img
- src="http://img.geocaching.com/stats/img.aspx?txt=FreeWRT+Project+Leader&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658"
- alt="travel bugs only here" />GC. Now I dropped a TB at an OC-only cache
- and am still trying to sort out THIS mess ☺</p>
+ a total of 29 (an offset of 3 at OC, and 2 at GC. Now I dropped a TB at
+ an OC-only cache and am still trying to sort out THIS mess ☺</p>
 <p>It’s raining now. Shit, considering I left my bike at Dr. Pfeffer’s
  place yesterday (due to me staying at some other place over night, where
  we did the caches), and I need it tomorrow (or rather not, if it’s still
@@ -2659,7 +2643,7 @@ Date: 20.02.2008
  read, “herc” had a hardware failure (broken keyboard controller chip, due
  to a screw short-circuiting it), and it was “resurrected” inside of “rant”,
  which cannot, however, be easily booted (as the discs were IDE, and it can
- only boot from SCSI or – via the fxp(4) card – PXE). Due to my away time, I
+ only boot from SCSI or — via the fxp(4) card — PXE). Due to my away time, I
  was unable to restart the box after it hung up. I was, as of now, unable to
  finally transfer services to “tear”, the new box (VIA C7), because I still
  need a working SCSI U320 (or U160) controller. The planned-impending (but
@@ -2701,7 +2685,7 @@ Title: FOSDEM Zwischenbericht
  Probably due to the UNIX2003 certification?</p>
 <p>Bruxelles is fun, and the hotel was very good (not really cheap, but not
  too expensive either). Sadly we probably don’t have any time to really go
- geocacheing, and our usual restaurant – le petite planéte – no longer exists,
+ geocacheing, and our usual restaurant — le petite planéte — no longer exists,
  although we found a suitable replacement, with a delicious Assiette Mergues.
  Belgian beer was as good as usual, although it makes getting up early on the
  next day more difficult. The OpenBSD people donated 3 cans of Jupiler to us,
@@ -2719,9 +2703,9 @@ Author: tg@
  which were planned for some time; now I need someone to test this. Also,
  here strings (<tt>hd &lt;&lt;&lt;$str</tt>) are now documented (and do NOT
  work like in GNU bash unless <tt>$str</tt> is double-quoted), whereas the
- replacement substitution – <tt>${foo/b+(a)@(r|R)?(\/*)/baz}</tt> – isn’t.
+ replacement substitution — <tt>${foo/b+(a)@(r|R)?(\/*)/baz}</tt> — isn’t.
  This should, however, further improve people coming from other shells.</p>
-<p>Benny is still working on security updates – now: X11. I should better
+<p>Benny is still working on security updates — now: X11. I should better
  get my ports and ssh etc. upgraded too. If I just knew what was important
  now… we need actual user feedback for this, I think.</p>
 <p>I wish OpenBSD’d update their sendmail(8), so we can do that too ☻</p>
@@ -2878,7 +2862,7 @@ Author: tg@
 <p>Benny already has written a release announcement draft. Like I said, he
  <em>is</em> my best man. He didn’t even attempt to list the changes, which
  might even be the better approach… In the meantime, I’m updating some of
- the web pages already – you can, in theory, netinstall #10 now, but some
+ the web pages already — you can, in theory, netinstall #10 now, but some
  links will have to be fixed later.</p>
 <p>I still <strong>urgently</strong> need a SCSI host adapter for my new
  server <tt>tear</tt>, U160 or U320, SCA LVD, 32-bit PCI, no RAID, supported
@@ -2949,7 +2933,7 @@ Author: tg@
  some mac68k and maybe one hppa, I try to get some 32-bit sparc parts, and
  bogus got an E450 (heavy!) and an Ultra1 for toying around with, as he now
  exclusively runs Solaris.</p>
-<p>It’s annoying that not every CPU works in every SPARCstation – for example,
+<p>It’s annoying that not every CPU works in every SPARCstation — for example,
  the two SPARCstation 10 we found have 33 MHz CPUs and 400 MiB HDDs, one has
  OpenBSD on it, one Solaris 5. Nice. Tomorrow we’ll look at the two
  SPARCstation 5 which are still there. The monitor sadly doesn’t work. Maybe
@@ -2994,7 +2978,7 @@ Author: tg@
 
 <p>Yay! I got a SPARCstation 20, a SPARCstation 10, and a SPARCstation 5,
  several CPUs and sbus cards, an external HDD, an external CD, and some
- more toys, from wbx@ – he has no sparc parts left now. Sad, as he is the
+ more toys, from wbx@ — he has no sparc parts left now. Sad, as he is the
  initiator of MirOS/sparc. Good, because I can cluster them now. I could
  test the framebuffer, XFree86®, even build binary packages with distcc
  if Benny ports it (I still have to get on friendly terms with distcc
@@ -3002,7 +2986,7 @@ Author: tg@
 <p>Being the better OpenBSD sometimes sucks. For instance, if our make(1)
  implicit rules generate <tt>grammar.h</tt> from <tt>grammar.y</tt>, and
  not <tt>y.tab.h</tt>, as a certain <tt>lex.l</tt> wanted to include. Well,
- that could be fixed – re-rolled ports10.ngz with new games/bsdgames.</p>
+ that could be fixed — re-rolled ports10.ngz with new games/bsdgames.</p>
 <p>I’m building a number of selected binary packages on the sparc and very
  few basic ones for i386, to add to the release ISO. (More binary packages
  can be downloaded from our mirrors later.) This is holding us a little,
@@ -3011,14 +2995,14 @@ Author: tg@
 <p>I actually found a bug in <tt>gnu.port.mk</tt> during porting to mnbsd;
  gecko2@ had found it too but I couldn’t reproduce it back then.</p>
 <p>Sorry for all the delay in the release announcement and publication,
- but first we have to get the ISOs ready – since they contain i386, sparc,
+ but first we have to get the ISOs ready — since they contain i386, sparc,
  source <em>and</em> CVS it’s a tad difficult and quite time-consuming.</p>
 <p>Ha! Giving support in <tt>#cvs</tt> in IRC and being called life saviour,
  master, etc. is really giving me the chills, in a good way.</p>
 <p>I’m exhausted, will continue hacking on the release tomorrow.</p>
 <p>I’m trying to hand-bake a floppy for the sparc though. It won’t contain
  an installer, but enough to download an installer onto a HDD. Ports have
- aborted (gnupg can’t import keys, but decrypt them just fine – weird), but
+ aborted (gnupg can’t import keys, but decrypt them just fine — weird), but
  I’ve got enough for tomorrow.</p>
 ----
 Date: 16.03.2008
@@ -3026,12 +3010,12 @@ Author: tg@
 
 <p>Sometimes it’s good to double-check. Benny has found a bug in my fix to
  gnu.port.mk, leading to incorrect dependencies. I couldn’t get the sparc
- floppy to boot – several NetBSD® users had the same problem, leading to <a
+ floppy to boot — several NetBSD® users had the same problem, leading to <a
  href="http://mail-index.netbsd.org/port-sparc/2001/09/05/0003.html">a
  posting about how to clean a sparc floppy drive</a>, luckily. Note that I
  am lazy, that’s why I just tested the floppy in my SS10 instead. This gave
  me quite a hard shock, though.</p>
-<p>I prepared the Mini-ISO, and – new – a Midi-ISO containing the floppy
+<p>I prepared the Mini-ISO, and — new — a Midi-ISO containing the floppy
  images as well (if extra netboot kernels were required, they would be also
  on it, but boot.net is enough), which will take the place of cdrom10.iso on
  the download area, while the Mini-ISO will sit on the release ISO.</p>

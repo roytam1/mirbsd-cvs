@@ -479,16 +479,16 @@ statpic 'Rare Jewels: TerraCaching' \
     'http://play.terracaching.com/Handlers/StatsBannerHandler.ashx?unique=635428495483090000&amp;userid=14722' \
     http://play.terracaching.com/User/PublicProfile/14722
 statpic 'Libre Travelbugs: GeoKrety' \
-    http://geokrety.org/statpics/957.png \
+    https://geokrety.org/statpics/957.png \
     http://geokrety.org/mypage.php?userid=957
 statpic 'Caching, Dashing, etc. — GPS games' \
     'http://geocaching.gpsgames.org/cgi-bin/sig.pl?bg=gc&amp;user=mirabilos&amp;txt=more+than+just+geocaching' \
     http://www.gpsgames.org/cgi-bin/mystats.pl?user=mirabilos
-statpic 'It’s all about the numbers: Munzee' \
+statpic 'It’s *really* just all about the numbers: Munzee' \
     https://www.munzee.com/embed/mirabilos/ \
     https://www.munzee.com/m/mirabilos/
 statpic 'Open^WClosedCaching.de' \
-    http://www.opencaching.de/images/statpics/statpic106521EN.jpg \
+    https://www.opencaching.de/images/statpics/statpic106521EN.jpg \
     http://www.opencaching.de/viewprofile.php?userid=106521
 statpic 'Disputed Island Apes: OC (take two) UK' \
     https://opencache.uk/images/statpics/statpic4368.jpg \
@@ -497,17 +497,17 @@ statpic 'Broken Webpages²: NaviCache' \
     'http://geocaching.gpsgames.org/cgi-bin/sig.pl?user=mirabilos&amp;txt=Open+Source+Wizard' \
     http://www.navicache.com/cgi-bin/db/MemberDetails2.google2.wap.pl?MemberID=23184
 statpic 'Project GC — Badges' \
-    'http://maxcdn.project-gc.com/BadgeBar/mirabilos.png' \
+    'https://maxcdn.project-gc.com/BadgeBar/mirabilos.png' \
     'http://project-gc.com/ProfileStats/mirabilos#BadgeGen' \
     '<a href="http://project-gc.com/r/42a471cc">Project GC</a> is an interesting statistics page:<br />'
 statpic 'Project GC — Statistics' \
-    'http://maxcdn.project-gc.com/statbar.php?user=mirabilos&amp;quote=Geocaching%20-%20more%20than%20Groundspeak!' \
+    'https://maxcdn.project-gc.com/statbar.php?user=mirabilos&amp;quote=Geocaching%20-%20more%20than%20Groundspeak!' \
     'http://project-gc.com/ProfileStats/mirabilos'
 
 mws_content <<'EOF'
 
 <p><img style="width:162px; height:91px; border:0px;"
- src="https://lh4.googleusercontent.com/-J8XlYOcxlPw/UVePvM_00LI/AAAAAAAAABU/amHPQQQLYyU/s647-fcrop64=1,00001c21ffffdc5c/IsThereAResistance-1024x768.png"
+ src="http://mirsolutions.de/privat/ingress-r.png"
  title="Ingress — Resistance" alt="Ingress — Resistance" /></p>
 
 <p>Also on:</p><ul>
@@ -522,9 +522,11 @@ mws_content <<'EOF'
 <p>… but at least <a
  href="http://discover.worldcommunitygrid.org?recruiterId=474443&amp;teamId=K93K4JM8P1">WCG
  (World Community Grid)</a> is relevant for some TerraCaching challenges:<br /><img
- style="border:0px;" src="http://signature.statseb.fr/sig-1100.gif"
+ style="border:0px;" src="https://signature.statseb.fr/sig-1100.gif"
  alt="BOINC stats for mirabilos (AniGIF)" /></p>
 
+<p>… and <img src="https://boincstats.com/signature/-1/user/388444/sig.png"
+ alt="Combined BOINC stats for mirabilos" /></p>
 EOF
 
 mws_putfooter

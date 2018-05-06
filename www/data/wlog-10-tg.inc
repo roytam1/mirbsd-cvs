@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.49 2017/12/28 16:25:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10-tg.inc,v 1.1 2018/05/05 23:58:16 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -180,7 +180,7 @@ Tag: personal rant
  context, especially if part of the context was in private mail or
  other threads or long buried (closed as ignored/WONTFIX) bugreports.</p>
 <p>Of course, some sorts of misbehaviour are okay, as long as those
- who do toe the party line ‒ and aren't outcast, to start with.</p>
+ who do toe the party line — and aren't outcast, to start with.</p>
 <p>I still pride myself as independent thinker and <em>like</em> to
  play the devil's advocate rule (heh, double entendree, being a BSD
  person). Critically looking at something new has led to lots of <a
@@ -196,7 +196,7 @@ Tag: personal rant
  boot times (eh? I fail to see how this is relevant in a Unix…) and
  all that. But these superficial people, always jumping from one thing
  (HAL, consolekit) to the next, giving up their own projects which they
- forced upon others the minute before ‒ no consistency.</p>
+ forced upon others the minute before — no consistency.</p>
 <p>I'm too old for this shit. Ignore my rambling. Couldn't sleep.</p>
 ----
 Date: 19.11.2014 12:44
@@ -1657,10 +1657,7 @@ Title: no more Munzee in stats
  but then, the separation does make it all clearer ☺</p>
 <p><a href="http://fish.mirbsd.org/wptg.htm#banners" style="border:0;"><img
  style="border:0;" alt="mirabilos’ Waypoints"
- src="@@RELPATH@@WPtg.png" /></a> • <a style="border:0;"
- href="https://www.munzee.com/m/mirabilos/"><img style="border:0;"
- src="https://www.munzee.com/embed/mirabilos/"
- alt="It’s all about the numbers: Munzee"/></a></p>
+ src="@@RELPATH@@WPtg.png" /></a></p>
 ----
 Date: 28.11.2015 18:42
 Author: tg@
@@ -1827,9 +1824,9 @@ Author: tg@
 Title: We had joy, we had fun… ♫ @ #34c3
 Tag: event fun snapshot
 
-<p><a href="https://mercurius.teckids.org/http-upload-get/4e87114b556dd8a28652e95cead02eb93a41ad41/kc8E5spSJHm0qu1NWG5zfE644nKv9L5hc9AO25Sj/IMG_20171228_162423.jpg"><img
+<p><a href="@@RELPATH@@pics/wehadjoy.jpg"><img
  style="width:240px; height:320px; border:0px;"
- src="https://mercurius.teckids.org/http-upload-get/4e87114b556dd8a28652e95cead02eb93a41ad41/kc8E5spSJHm0qu1NWG5zfE644nKv9L5hc9AO25Sj/IMG_20171228_162423.jpg"
+ src="@@RELPATH@@pics/wehadjoy.jpg"
  alt="MirBSD/sparc poster mod" /></a></p>
 <p>MirBSD on the Sun</p>
 ----

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.501 2018/05/05 17:40:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.502 2018/05/05 23:58:18 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -114,10 +114,7 @@ Tag: geocache
  commercial crap site, GeoCaching.com, which has most users, I now also
  registered at TerraCaching.com, which is a semi-closed site providing
  “high-quality” caches. Stats bar gallery:</p>
-<p><img src="http://www.opencaching.de/statpics/106521.jpg"
- alt="OC" /> <img src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658"
- alt="GC" /> <img src="http://www.terracaching.com/statsban/15089.gif"
- alt="TC" /></p>
+<p>(statpics moved <a href="@@RELPATH@@wptg.htm">here</a>)</p>
 <p>Of course, I didn’t find any TCxxxxx caches yet. I need to get fully
  registered (“sponsored”) at the site first. This isn’t a big issue tho.</p>
 <p>Update: I’m in. Nearest caches are in Blankenheim, Neuwied and België…</p>
@@ -361,16 +358,12 @@ Tag: geocache
  sort-of-portable, but for nroff I plan on improving, and MirMake 2 will be
  a lot better too, kinda like <a href="@@RELPATH@@mksh.htm">mksh</a>.</p>
 <p>Geocacheing continues:
- <img src="http://www.opencaching.de/images/statpics/statpic106521.jpg" alt="OpenCaching.de" />
- <img src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658" alt="The Frog Site" />
- <img src="http://www.terracaching.com/statsban/15089.gif" alt="Rare Jewels" />
- <img src="http://geocaching.gpsgames.org/cgi-bin/sig.pl?user=mirabilos&amp;txt=Proud+OpenCaching.DE+user" alt="Broken Webpages²" />
+ (statpics moved <a href="@@RELPATH@@wptg.htm">here</a>)
  <br />
  Even Jonathan got hooked now. We found another (his first) two today.</p>
 <p>As we’re sort of a big family, you’ll occasionally find German-language
  postings here. Don’t wonder. We have people who especially read that.</p>
-<p>Ah, and while we’re at stats bragging:<br /><img alt="BOINC stats"
- src="http://www.boincstats.com/signature/user_1525395.gif" /><br />These
+<p>Ah, and while we’re at stats bragging:<br />(moved)<br />These
  were made on gecko2’s Intel Mac (Darwin), my laptop (MirBSD), and a few
  even on hephaistos (GNU/Linux). MidnightBSD needs to use brandelf, thus
  execution of Linux/i386-ELF binaries fails or, after branding, checksum
@@ -449,8 +442,6 @@ Title: Geocacheing in Basel
 Tag: geocache
 
 <p>This time I <em>did</em> find a geocache far away from home…</p>
-<p><img src="http://img.geocaching.com/stats/img.aspx?txt=Gr&#xFC;ezi+&#x2F;+Salut+&#x2F;+Bonjour!&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658"
- alt="Only two OCs here, sadly…" /></p>
 <p>… in contrast to when I was in Bruxelles, as Benny and gecko2 didn’t seem
  to want to have time for that (or walk at all, they coerced me into the
  tram). This time, I went cacheing with Tonnerre, and he kind of lined it.</p>
@@ -682,8 +673,7 @@ Tag: geocache
  — now I’ve hidden my first two traditional micros (easy series), and
  one of them even is sort of a “<tt>lost+found</tt>” directory virtual
  cache overload.</p>
-<p>BOINC continues, I’m in 9 projects now: <img alt="BOINC stats"
- src="http://www.boincstats.com/signature/user_1525395.gif" /><br />
+<p>BOINC continues, I’m in 9 projects now: (moved)<br />
  While only 8 projects show up at the moment, this’ll improve once
  the last project delivers in a result (it were more projects actually,
  but some don’t even work on hephaistos…) — now the first WCG valid WU
@@ -711,13 +701,7 @@ Tag: geocache
  and to be able to fix it. So well. It now builds on gecko2@’s Macbook.
  Using MirMake, of course *g* It’s even usable… which means that he can
  now use <a href="http://www.cachewolf.de/">CacheWolf</a> and his laptop
- to go geocaching.</p><!-- RSS stop -->
-<p>Speaking of geocaching: more stats bragging… although a little different
- this time:<br />
- 〔fwrtcommitstats removed due to FreeWRT archival〕
- <img src="http://img.geocaching.com/stats/img.aspx?txt=Mac+Fanboy&amp;uid=d57c5767-047b-4aff-a00a-784356b94e9e"
-  alt="gecko2@’s founds and hides" /><br />
- Although only the first two are CacheWolf committers…</p>
+ to go geocaching.</p>
 <p>Ah, damnit. It freezes the usbserial (Prolific) driver when accessing
  the serial port. Well, Apple… they don’t even use GNU as(1) either.</p>
 ----
@@ -733,9 +717,9 @@ Title: all hardware sucks, all software sucks...
 <p>The Zaurus... SL-C3200... it's a neat device, but after I managed to get
  the pl2303 LKM cross-built (bah!), along with the usual tools mksh(1) and <a
  href="@@RELPATH@@jupp.htm">jupp</a> as well as pax(1)mirabilis for the ability
- to extract my CacheWolf profile onto a (FAT) filesystem - did I mention just
- how much busybox sucks? - Ewe doesn't work. Meh. Go to OpenBSD/zaurus, enter
- a SIGBUS in gtk+1.2 - exactly what I want. The gtk+2 version works, but now,
+ to extract my CacheWolf profile onto a (FAT) filesystem — did I mention just
+ how much busybox sucks? — Ewe doesn't work. Meh. Go to OpenBSD/zaurus, enter
+ a SIGBUS in gtk+1.2 — exactly what I want. The gtk+2 version works, but now,
  X.org plus GTK+2 plus Ewe (Java&trade; Ranz!) eat up all of the 64 MiB RAM
  plus initially 4 to 8, later 20 to 40, MiB swap. Not nice. (Some people are
  said to use a CF card for swap due to it being faster than the internal HDD,
@@ -1225,7 +1209,7 @@ Title: Trumping OpenBSD, once again ☺
 <p>Coming to that, I recently recherched if gcc 3.4.6, which we currently
  use as system compiler, can be used to build gcc 4.3 (with special care
  on the Ada part). Looks like you can even use gcc 2.95 for that, lucky us.
- This means I should somehow discover the Ada patch for gdb 6.3, which –
+ This means I should somehow discover the Ada patch for gdb 6.3, which —
  again, luckily — we use, and apply it. I had talked with Benny about the
  compiler issue… originally I wanted to strip down the system compiler to
  the bare minimum once a more recent gcc (and possibly, LLVM, SUNWcc, pcc,
@@ -1585,15 +1569,11 @@ Tag: event geocache
 <p>Während ich die 2⁶ Caches locker voll habe, siehe die diversen…
  (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  …Statistiken, fängt Benny erst an, immerhin 2³ hat er schon:
- <img src="http://img.geocaching.com/stats/img.aspx?txt=MirPorts+Developer&amp;uid=a1e7bb35-ff5a-48dd-b435-91f822b3f8c1" alt="Required in CH/F" />
  Kimnotyze macht nicht wirklich weiter…
- <img src="http://img.geocaching.com/stats/img.aspx?txt=Wilder+Kerl&amp;uid=3d6a47db-c0f0-4c02-b037-e1fe43b1dbce" alt="Lost in Luzern" />
  … gecko2 kommt selten zum Cachen, aber hatte letztens sein Vélo mit,
  sodaß er sich mit Kabelaffe und mir auf Tour begeben konnte:
- <img src="http://img.geocaching.com/stats/img.aspx?txt=Apple+Fanboy&amp;uid=d57c5767-047b-4aff-a00a-784356b94e9e" alt="Janz Weit Draußen" />
  Und der Dr. Pfeffer findet in Bremen nichts mehr… wär er bloß mal
  nicht umgezogen, jaja… gibt halt nur in Bonn schön viele Dinger:
- <img src="http://img.geocaching.com/stats/img.aspx?txt=Lazy+Academic&amp;uid=49c2ffb9-b3cf-4ce9-af7d-b1076dd451f4" alt="Wallapampa" />
  <br />Aber Benny hat echt fieses Anfängerglück, und ich bin fachblind.
 </p>
 <p>Bruscetta sind superlecker, aber füllen, zusammen mit der warmen Mahlzeit,
@@ -1868,7 +1848,7 @@ Tag: bug
 <p>I did not get much further. While I had the brilliant idea to embed a
  native little-endian BSD disklabel inside the first 512 bytes of the
  first-stage sparc bootloader (as the code searches for it anywhere in
- sector #1 inside the partition — or disc, if no MBR partition found –
+ sector #1 inside the partition — or disc, if no MBR partition found —
  aligned to a long boundary), because an MBR partition would fake about
  two slices in the Sun disklabel which… could cause issues, the software
  I wanted to use to create a testcase has… bugs.</p>
@@ -2255,7 +2235,7 @@ Tag: hardware
  OPTU-16 can do UTF-16 in pcc. Mirzilla Firetapir is the Vutral name for
  Mozilla Firefox, <tt>ports/www/firesomething</tt>. Vutral too helped to
  invent the MirOS RANDEX protocol (entropy exchange over IRC), which has
- nothing to do with the Win32 worm, just random numbers. My graphician –
+ nothing to do with the Win32 worm, just random numbers. My graphician —
  smultron — needs to expand <a href="@@RELPATH@@mksh.htm">mksh</a> and I
  suggested, besides letter spelling (em ka es ha, or for the English, em
  kay es aytch), or the “polish/klingon variant” (m’ksh), or the official
@@ -2777,7 +2757,7 @@ Tag: grml
 <p>I also hacked some more wtf-debs and FreeWRT 1.0-stable packages (ARGH
  THIS IS JUST SO… EVIL, but WDS doesn’t work in trunk sez wbx@).</p>
 <p>Mika says I’m going to get my MirGRML. I say he’s going to get his BSD
- for grml. My colleagues say I’ll probably get some time off for FOSDEM –
+ for grml. My colleagues say I’ll probably get some time off for FOSDEM —
  a few hours of Friday and all of Monday (as a weekend shift is scheduled
  soonish anyway). Just gecko2@ can’t get off early ☹ Daniel says we could
  go for DVDs, but I estimate we won’t make it in time this time.</p>
@@ -2787,12 +2767,12 @@ Author: tg@
 Title: mumble entropy, moving randomness
 
 <p>I seem to recall that IBM Thinkpads have a movement sensor. We may use
- it as entropy source — not for normal on-the-desk use cases, but still –
+ it as entropy source — not for normal on-the-desk use cases, but still —
  every bit counts. This is probably a Vutral-worthy idea. Someone should,
  really, look into that. Kabelaffe says it has few states, but both level
  and edge (timing) values.</p>
 <p>Another thing <a href="http://mumble.sourceforge.net/Main_Page">Mumble
- and Murmur</a>, which he showed me, could do is to collect entropy too –
+ and Murmur</a>, which he showed me, could do is to collect entropy too —
  Mumble (the client) continuously records anyway (to intelligently try to
  find out when we talk loudly — it works surprisingly well), which hashed
  can contribute entropy (even with hardware mute it’ll get electric noise
@@ -2866,9 +2846,9 @@ Tag: bug event grml hardware snapshot
  grml-mir muß noch getuned (Konfigs), aktualisiert (lynx-cur UTF-8 Bug wo
  ich vorgestern drüber schrieb) und getestet werden; den sparc-Teil nehme
  ich vom letzten Snapshot; für DuaLive™ haben wir somit alles, Extrazeugs
- mache ich nur wenig und nur für i386, und für Triforce™ siehts gut aus –
+ mache ich nur wenig und nur für i386, und für Triforce™ siehts gut aus —
  eine offizielle Ankündigung kommt auch irgendwann, wenn für beide Seiten
- alles funktioniert und integriert ist. Die <tt>tear</tt>-Migration ist –
+ alles funktioniert und integriert ist. Die <tt>tear</tt>-Migration ist —
  leider — hingegen auf unbestimmte Zeit verschoben. (Damn!)</p>
 <p>Bißchen malen müßte ich noch, damit die FOSDEM Edition CDs auch sowohl
  das grml-Logo (habe ein OK von mika), den Shilouetten-Dæmon (altbekannt,
@@ -2879,7 +2859,7 @@ Tag: bug event grml hardware snapshot
  und konqueror besser als M*zilla Schrott, also ruhe da!, auch wenn ciruZ
  mir GNOME verkaufen will). Mal sehen, was ich da so hinbekomme. Wobei, à
  propos Bildchen: wann lernen die Leute eigentlich, daß man keine Formate
- wie JPEG ob ihrer verlustbehafteten Kompressionsverfahren herumschickt –
+ wie JPEG ob ihrer verlustbehafteten Kompressionsverfahren herumschickt —
  zumindest zum Bearbeiten? *seufz*… Zumindest denke ich, daß ich das ganz
  gut hinkriegen werde, hab da was im Kopf, sogar ohne smultron, lediglich
  die Schrift könnte knapp werden, kA ob der schwarze Hintergrund in dünne
@@ -2894,9 +2874,6 @@ Author: tg@
 Title: We are going to FOSDEM 2009, have been for years!
 Tag: event
 
-<p><a href="http://www.fosdem.org/"><img
- alt="FOSDEM, the Free and Open Source Software Developers' European Meeting"
- src="http://www.fosdem.org/promo/fosdem/static" /></a></p>
 <p style="font-size:big;">Who’s not? ☺</p>
 <p>My boss approached me just this morning… looks as if gecko2@ and I can
  use the bigger company car from here, expense paid, and take the other
@@ -2925,7 +2902,7 @@ Tag: event
  for travel and accomodation (we do not necessarily require a hotel,
  though, but it should be a clean place to sleep) cost. We are still
  looking for more sponsors making it possible to travel to even more
- events (Linuxtage Chemnitz, Essen, Graz, Luxembourg, for example) –
+ events (Linuxtage Chemnitz, Essen, Graz, Luxembourg, for example) —
  flyers and CDs are already covered by AllBSD.de or ourselves, so it
  would just be that and, if you have money to spare, food and drink.
  Come and <a href="@@RELPATH@@irc.htm">talk</a> if you’re interested
@@ -3736,9 +3713,9 @@ Language: de
  auch nur mit YACC=yacc konfiguriert — baut mit -O2 ne kaputt mksh… -O0 aber
  funktioniert.</p>
 <p>Ich weiß ja gar nicht, ob ich die <i xml:lang="en">inner workings</i> vom
- SUNWcc sehen will… außerdem wollte ich ja mal nen Ausflug nach ARM machen –
+ SUNWcc sehen will… außerdem wollte ich ja mal nen Ausflug nach ARM machen —
  dann unterstützte SunPRO nicht mehr alle unsere Plattformen.</p>
-<p>TenDRA ist mit Ten15 schizophren und tut auch irgendwie nur so halbwegs –
+<p>TenDRA ist mit Ten15 schizophren und tut auch irgendwie nur so halbwegs —
  auf Debian krieg ich damit immerhin manchmal eine mksh(1) gebaut, aber…</p>
 <p>Fabrice Bellards tcc ist ja ein schlechter Witz, der tut <em>net enz</em>
  auf Debian… was aber wohl an glibc liegt.</p>
@@ -3774,7 +3751,7 @@ Language: de
  Compiler</a> fluchte hatte ich eigentlich nur im Sinn, festzustellen,
  daß wir wohl weiterhin mit gcc3 „stuck“ sind. Zugegeben, ich habe den
  Autor von nwcc als Idioten bezeichnet in einem „rant“, aber die Antwort,
- die ich per privater eMail erhielt — daher nicht hier wiedergegeben –
+ die ich per privater eMail erhielt — daher nicht hier wiedergegeben —
  überraschte mich doch etwas. Ich habe nichtmals alles von ihr gelesen,
  aber… naja. nwcc baut mksh nicht korrekt, selbst wenn er korrekt tut,
  weil er zum Beispiel 「void **」 mit 「void *」 verwechselt. Ich schrieb
@@ -3810,8 +3787,8 @@ Language: de
  ist auch nett, hat öfters Tips und so. Schade ist, daß man die Coins
  nicht als Nichtmitglied in einem Klub bestellen kann. Bei Bertelsmann
  bin ich ja auch raus.</p><!-- RSS stop -->
-<p><img src="http://www.naturalnik.de/photosharing/t5cacher.jpg"
- alt="T5-Cacher ☺ geocaching, spontane Gedanken" /></p>
+<p><a href="http://www.naturalnik.de/photosharing/t5cacher.jpg">
+ alt="T5-Cacher ☺ geocaching, spontane Gedanken"</a></p>
 ----
 Date: 22.04.2009 16:58
 Author: tg@
@@ -4092,7 +4069,7 @@ Author: tg@
  plugin</a> is available from CVSweb or AnonCVS; the MirPorts versions
  of sirc and tinyirc, as well as tinyirc on bsd4grml and the Live CDs,
  also support the RANDEX protocol.</p><!-- RSS stop -->
-<p>While it does not feed back entropy to the kernel on e.g. Mac OSX –
+<p>While it does not feed back entropy to the kernel on e.g. Mac OSX —
  due to a hypothetical arc4random_pushk(3) function needing root privs
  — it can still be used to access the pool by typing <tt>/RANDOM</tt>,
  or simply participate in the distribution (one can get back some from
@@ -4252,8 +4229,8 @@ Tag: mksh
  in question, the Debian developer who created the original patch which
  addressed the scenario except for a corner case (interestingly, as the
  world is small, discovered in a Debian(!) init script from a package
- maintained by aforementioned formorer, on a DomU running Lenny
- - don't underestimate the effect
+ maintained by aforementioned formorer, on a DomU running Lenny — don't
+ underestimate the effect
  of synergy) but would really like to talk to some of the OpenBSD devs
  about it; they mostly know what they're doing, even if I worked on ksh
  for longer than most of them, many eyes do help, and most of the time
@@ -4271,7 +4248,7 @@ Tag: mksh
  do and <a href="http://article.gmane.org/gmane.os.miros.general/8846">a
  confirmation</a> if it's indeed being forcibly changed by POSIX (IMHO,
  they could at least "agree to disagree", like they usually do, and make
- it vendor defined, so that scripts could not depend on it - "set -u" is
+ it vendor defined, so that scripts could not depend on it — "set -u" is
  something I don't use anyway).</p>
 <p>So if you're interested in the further development of MirBSD, The
  MirOS Project, one of its subprojects, such as The MirPorts Framework,
@@ -4641,8 +4618,7 @@ Language: de
  completion</span>“ <em>leicht</em> auf „Tab-Vervollständigung“ einigen,
  alles muß man jedoch nicht übersetzen. Auf der Webseite (nicht im RSS)
  gibt’s ein Bild dazu.</p><!-- RSS stop -->
-<p><img src="https://serverop.de/~tek/images/nlssucks.jpg"
- alt="NLS sucks" /><br />(danke an &lt;teK_:#grml&gt;, der sich zu
+<p>img alt="NLS sucks"<br />(danke an &lt;teK_:#grml&gt;, der sich zu
  erinnern meint, daß das SuSE verbrochen habe)</p>
 ----
 Title: finally, a new snapshot — Episode 2: the b0rken
@@ -4701,7 +4677,7 @@ Author: tg@
  be on CD, on <tt>/MirOS/current/</tt> and everyone is invited to test
  that — especially on sparc, the floppies (all five of them), and maybe
  the separate five arch-specific ISOs too not just the larger combined
- one. And there will be buttons again. (Sorry if I made nōn sequitur –
+ one. And there will be buttons again. (Sorry if I made nōn sequitur —
  I <em>do</em> have a rather heavy headache right now, but just could
  not go back to sleep two hours ago.)</p>
 <p>PS: <a href="http://www.froscon.org/">go here</a></p>
@@ -4725,7 +4701,7 @@ Tag: bug event hardware rant snapshot
  #sparc in IRC who suggested <tt>Stop-A</tt>) to switch from serial to
  k/m console, then it installed… and froze.</p>
 <p>To add insult to injury (luckily not mine), the VT420 works again.</p>
-<p>I tried hard to get you at least a minimal set of binary packages –
+<p>I tried hard to get you at least a minimal set of binary packages —
  gmake (so it’s self-hosted), lzma (for *.clz binary package support),
  screen (because people need it), jupp (vi(1) is in base, but no editor
  other than ed(1)…), rsync (even though it’s now GPLv3, we depend on it
@@ -5627,7 +5603,7 @@ Language: de-DE-1901
  laufen, da fahren wieder Bahnen, wir haben da ein Riesenloch in der
  Straße.“ (Kurzum ein ganzer Streckenabschnitt abgeschlossen, ohne eine
  Möglichkeit, dort weitere Verkehrsmittel reinzubringen.)</p>
-<p>Ich laufe also, frustriert, und stehe mir an der Zielhaltestelle –
+<p>Ich laufe also, frustriert, und stehe mir an der Zielhaltestelle —
  wohlgemerkt bei Minusgraden — wieder die Füße in den Bauch. Die gerade
  gewendet habende Bahn eine knappe Viertelstunde lang gut sichtbar für
  uns auf dem Stumpfgleis, Lichter an, tätigkeitslos.</p>
@@ -5782,14 +5758,14 @@ Date: 01.01.2010 14:17
 Tag: debian
 
 <p>My first RC Bug-squashing Day (or rather night):</p><ul>
- <li><a href="http://bugs.debian.org/552791">bug #552791</a> — acorn-fdisk –
+ <li><a href="http://bugs.debian.org/552791">bug #552791</a> — acorn-fdisk —
   Copyright file does not contain verbatim copy of the license or a pointer
   to one</li>
- <li><a href="http://bugs.debian.org/562647">bug #562647</a> — gidentd –
+ <li><a href="http://bugs.debian.org/562647">bug #562647</a> — gidentd —
   Does not work with ipv4 after recent change in netbase</li>
- <li><a href="http://bugs.debian.org/558812">bug #558812</a> — dietlibc –
+ <li><a href="http://bugs.debian.org/558812">bug #558812</a> — dietlibc —
   incorrect license in debian/copyright</li>
- <li><a href="http://bugs.debian.org/531937">bug #531937</a> — autossh –
+ <li><a href="http://bugs.debian.org/531937">bug #531937</a> — autossh —
   FTBFS on mipsel due to missing -fPIC</li>
 </ul>
 <p>I picked all of them mostly randomly from the <a
@@ -5883,19 +5859,19 @@ Tag: debian snapshot
  relaxing some in between.</p>
 <p>On the Debian front, my RCBD #1 was continued, here’s #1½ results:</p><ul>
   <li style="list-style:none;">Carry over from day #1</li>
- <li><a href="http://bugs.debian.org/552791">bug #552791</a> — acorn-fdisk –
+ <li><a href="http://bugs.debian.org/552791">bug #552791</a> — acorn-fdisk —
   Copyright file does not contain verbatim copy of the license or a pointer
   to one</li>
- <li><a href="http://bugs.debian.org/562647">bug #562647</a> — gidentd –
+ <li><a href="http://bugs.debian.org/562647">bug #562647</a> — gidentd —
   Does not work with ipv4 after recent change in netbase</li>
- <li><a href="http://bugs.debian.org/558812">bug #558812</a> — dietlibc –
+ <li><a href="http://bugs.debian.org/558812">bug #558812</a> — dietlibc —
   incorrect license in debian/copyright</li>
- <li><a href="http://bugs.debian.org/531937">bug #531937</a> — autossh –
+ <li><a href="http://bugs.debian.org/531937">bug #531937</a> — autossh —
   FTBFS on mipsel due to missing -fPIC</li>
   <li style="list-style:none;">New ones</li>
- <li><a href="http://bugs.debian.org/563522">bug #563522</a> — acorn-fdisk –
+ <li><a href="http://bugs.debian.org/563522">bug #563522</a> — acorn-fdisk —
   cleanup patches</li>
- <li><a href="http://bugs.debian.org/563525">bug #563525</a> — gidentd –
+ <li><a href="http://bugs.debian.org/563525">bug #563525</a> — gidentd —
   cleanup patches</li>
 </ul>
 <p>Explanations: I did go overboard during the first patching session, but
@@ -6008,8 +5984,6 @@ Author: tg@
 Date: 28.01.2010 21:20
 Tag: debian event mksh
 
-<p><a href="http://www.fosdem.org/"><img alt="I’m going to FOSDEM, as usual"
- src="http://www.fosdem.org/promo/going-to" /></a></p>
 <p>The MirOS Project will have a booth at FOSDEM 2010, business as usual.
  If you thought otherwise, you’re crazy ☺</p>
 <p>I know I should write a wlog entry about the BSP, write more, release <a
@@ -6779,7 +6753,7 @@ Author: tg@
 Date: 25.07.2010 11:39
 Tag: debian event geocache grml
 
-<p><a href="http://froscon.de/">FrOSCon 5 - 21./22. August 2010</a> is
+<p><a href="http://froscon.de/">FrOSCon 5 — 21./22. August 2010</a> is
  approaching rapidly. I’m a bit envious at some of the tracks (I mean,
  really, geocaching (ok, I did the surrounging caches over the last
  years but still), learning python by means of game programming, etc.
@@ -6808,7 +6782,7 @@ Author: tg@
 Date: 06.08.2010 14:42
 Tag: debian event grml
 
-<p class="boxhead">The <a href="http://froscon.de/">FrOSCon 5 - 21./22.
+<p class="boxhead">The <a href="http://froscon.de/">FrOSCon 5 — 21./22.
  August 2010</a> booth plans have finalised, I am rather content:</p>
 <div class="boxtext">
  <pre>
@@ -7007,7 +6981,7 @@ Tag: snapshot
  the entropy subsystem arc4random(3), arandom(4), arc4random(9);
  the cvs(GNU) implementation. That’s why it’s extremely encouraged to
  <strong>not</strong> update to -rHEAD right now.</p>
-<p>The entropy subsystem receives completely — except arc4random_uniform(3) –
+<p>The entropy subsystem receives completely — except arc4random_uniform(3) —
  rewritten arcfour and arc4random* code (userspace already done) including
  quite a speedup, and a new structure of the kernel pools and how they
  interact (also for speedup, but better hashing as well).</p>
@@ -7224,9 +7198,6 @@ Author: tg@
 Title: FOSDEM 2011 — Let the beards grow!
 Tag: debian event mksh rant
 
-<p><a href="http://www.fosdem.org/"><img
- alt="FOSDEM, the Free and Open Source Software Developers' European Meeting"
- src="http://www.fosdem.org/promo/fosdem/static" /></a></p>
 <p style="font-size:big;">❧ Who’s not? ☺ Same procedure as every year.</p>
 <p style="font-size:small;">(okay, lolando prefers skiïng but…)</p>
 <p>Anyway. A cow‐orker told me that Belgium again/still has no gouvernment,
@@ -7591,7 +7562,7 @@ Tag: debian
 <p>Things we don’t want to see:<br /><tt style="white-space:normal;">Mar
  26 10:40:02 blau /bsd: signal 11 received by (screen:16857) UID(2999)
  EUID(2999), parent (screen:19111) UID(2999) EUID(2999)</tt><br
- />“Suddenly the Dungeon collapses!! - You die...” (luckily, I get it
+ />“Suddenly the Dungeon collapses!! — You die...” (luckily, I get it
  about once a year only)</p>
 <p>ObCoffeeSpices: Marrakech (Cumin, Allspice, Cumin Aroma) — though,
  due to its relative strength compared to the others, the only coffee
@@ -7667,7 +7638,7 @@ Title: Progress with other things
  since a lot of things suck so much, and other things become <a
  href="http://git.kernel.org/?p=libs/klibc/klibc.git;a=commitdiff;h=e90552b6d78dd4d090d014024da00723e179df30">unacceptable</a>,
  I’m seriously considering writing things like a libc (probably not
- complete, not totally from scratch — no way I’m going to code sunrpc –
+ complete, not totally from scratch — no way I’m going to code sunrpc —
  and not fast but at least correct. I’ve written quite some code for
  the MirBSD libc already, as well as kernel and bootloader. Most of
  it is shared between these, and I’ve digged in enough others (klibc,
@@ -7754,7 +7725,7 @@ Tag: debian event
  <li>√ Dienstreiseantrag prepared</li>
  <li>√ Sent that beast to the office ticket queue</li>
 </ul><p>So yes, this means I’m <img alt="going to DebConf 11"
- src="http://kitenet.net/~joey/blog/pics/debconf11_banner.png" />
+ src="@@RELPATH@@pics/debconf11_banner.png" />
  to what used to be Yugoslawia when I was there the last time,
  although in the Poreč region of Istria, Hrvatska.</p>
 ----
@@ -7803,7 +7774,7 @@ Tag: debian mksh news pcli release
 <p><a href="@@RELPATH@@mksh.htm#r40b">mksh R40b</a> (nowadays with filled
  in <a href="@@RELPATH@@mksh.htm#c40b">user’s caveats</a> (for R40, too!)
  and <a href="@@RELPATH@@mksh.htm#p40b">packager’s upgrade hints</a>) has
- just been released. This is a should-have upgrade, fixing a number of –
+ just been released. This is a should-have upgrade, fixing a number of —
  admittedly some obscure — bugs, changing things begun in R40, improving
  upon others. Thanks to the PLD Linux guys for spotting all these errors;
  thanks to them and phpnet.org both for adopting mksh so well.</p>
@@ -7863,7 +7834,7 @@ Tag: debian mksh news pcli release
  such strong a colour — vim users are the <strong>single most represented
  offender group</strong> for actually leaving the redundant whitespace at
  EOL there, and it should <em>hurt their eyes</em>. (Sadly there is some
- vehement disagreement preventing them from inclusion in grml-etc-core –
+ vehement disagreement preventing them from inclusion in grml-etc-core —
  but that’s why I re-post them here.) Ah, and jupp can of course display
  whitespace visibly (although it uses ‘·’/‘→’, replacing the arrow with ‘¬’
  if no UTF-8, not ‘»’), accessible with ^Ov.</p>
@@ -8506,7 +8477,7 @@ Tag: news
 <p>Zoltan Arpadffy has let us know that he has set up a MirBSD
  installation at <a href="http://polarhome.com/">polarhome</a>
  in Stockholm, to aid its “purpose [to] serve the healthy part
- of the already, rather badly MS infected Universe - and MirOS
+ of the already, rather badly MS infected Universe — and MirOS
  is definetevly on that part”. He wrote that “MirBSD is a very
  nice easy to use BSD system”, thanking us with “gratitude and
  respect for developing a such a nice OS”. He also sent a list
@@ -8719,7 +8690,7 @@ Language: de-DE-1901
 
 <p>Es gibt eine Literaturverlosung im Themengebiet Geocaching auf <a
  href="http://www.geocaching-franken.de/twitter-news/verlosung-es-gibt-was-zu-gewinnen-2x-outlife-geocaching-2x-geocaching-fachbuch/">dieser
- Geocaching Franken Seite</a>. Man kann dort zwei Fachbücher „Geocaching –
+ Geocaching Franken Seite</a>. Man kann dort zwei Fachbücher „Geocaching —
  GPS-Freizeitspaß für Abenteurer” und zwei Exemplare der Zeitschrift
  „Out<i>life</i>“ zu ebendiesem Thema gewinnen.</p>
 <p>Nun hoffe ich natürlich, einen Gewinn zu reißen, gerade weil ich der
@@ -9352,7 +9323,7 @@ Tag: debian
  upset humans, editors, databases, etc. (This paragraph is newly added,
  after some <a href="@@RELPATH@@irc.htm">IRC</a> discussion.)</p>
 <p>All these do not permit anything that wasn’t accepted to be accepted
- afterwards. I’ve got a fifth proposal which changes acceptance rules –
+ afterwards. I’ve got a fifth proposal which changes acceptance rules —
  but only for a subset of parsers: formally JSON is defined in ECMA-262
  as industry standard that, in contrast to RFC 4627, always allowed any
  Value as top-level element of a JSON text. I’d like to make it so, and
@@ -9898,12 +9869,7 @@ Author: tg@
 Title: Earthcache Master (Bronze)
 Tag: debian geocache
 
-<p>Since a while…</p><table>
-<tr><td align="center">I am a proud</td></tr>
-<tr><td align="center"><a href="http://www.earthcache.org/"><img
- src="http://img.geocaching.com/user/1847de56-1d37-4def-b22b-97b71bd2f1fd.jpg"
- style="border:0;" alt="EarthCache Master" /></a></td></tr>
-</table>
+<p>(statpics moved <a href="@@RELPATH@@wptg.htm">here</a>)</p>
 <p>On the other hand… I should probably put up my own, local, list
  of found caches, considering what happened to me on “Open”caching.
  And maybe write intros for people new to geocaching, since it’d be
@@ -9967,7 +9933,7 @@ Tag: archaeology debian
  (hi Zhenech, found on Plänet Debian)</a>, a Man does not only need
  to fork a child, plant a tree, etc. in their life but also write a
  DynDNS service. Perfect for opening a new tag in the wlog called
- archæology (<a href="http://www.pagetable.com/">pagetable.com –
+ archæology (<a href="http://www.pagetable.com/">pagetable.com —
  Some Assembly Required</a> is also a nice example for these).</p>
 <p>Once upon a time, I used SixXS’ heartbeat protocol client for
  updating the Legacy IP (known as “IPv4” earlier) endpoint address
@@ -10081,8 +10047,6 @@ Title: Current slow period
  <em>and</em> it’s definitely <em>under</em>planned ☹ — but who knows,
  maybe it’ll be great fun, and wbx@ and my biggest little brother are
  both a backup plan each.)</p><!-- RSS stop -->
-<p class="cr"><img class="fr" alt="Combined BOINC stats for mirabilos"
- src="http://boincstats.com/signature/-1/user/388444/sig.png" /></p>
 <p>Also toying a bit with BOINC again (MirBSD of course, and, this time,
  some spare CPU capacity at work, which <em>did</em> lead to detecting
  a hardware/system bug/malconfiguration, even!) prodded by the second
@@ -11018,8 +10982,6 @@ Tag: event
  schedule either, so coordination of meetups will be tricky. I’ll
  try to get into IRC at least occasionally, but WLAN is usually
  shitty.</p>
-<p><a href="http://fosdem.org"><img alt="FOSDEM"
- src="https://archive.fosdem.org/2016/support/promote/wide.png" /></a></p>
 ----
 Date: 08.02.2016 16:40
 Author: tg@
@@ -11600,7 +11562,7 @@ mksh: warning: won't have full job control</pre>
 <p>... did I say it took a while?</p>
 <p> </p>
 <p>Then, suddenly... I saw this, and it was like an epiphany:</p>
-<p><img src="http://jehanne.io/graphic/screenshot-20180106.png" alt="mksh running in Jehanne with full job control" /></p>
+<p><img src="@@RELPATH@@pics/jehanne-20180106.png" alt="mksh running in Jehanne with full job control" /></p>
 <p> </p>
 <p>MirBSD's Korn Shell was working on Jehanne! What a happy new year! :-D</p>
 ----
