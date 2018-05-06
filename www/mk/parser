@@ -104,7 +104,7 @@ for srcf in $sources; do
 	state=1
 	rcsid_parsed=
 	usenn=0
-	incfile_isold=1
+	incfile_isold=0
 	while IFS= read -r line; do
 		if [[ -z $rcsid_parsed ]]; then
 			if [[ $line = RCSID:* ]]; then
