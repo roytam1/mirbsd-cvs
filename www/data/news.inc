@@ -1,4 +1,4 @@
-Flags: USENN
+Flags: USENN ISOLD
 RCSID: $MirOS: www/data/news.inc,v 1.170 2018/01/04 14:29:27 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006

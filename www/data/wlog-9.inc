@@ -1,4 +1,5 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.104 2016/11/06 20:15:39 tg Exp $
+Flags: ISOLD
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.106 2018/05/06 12:36:20 tg Exp $
 Date: 25.06.2006
 Author: tg@
 

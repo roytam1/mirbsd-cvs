@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.37 2017/08/10 17:57:49 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.40 2018/05/06 13:05:17 tg Exp $'
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -201,6 +201,7 @@ while (( entryp >= 0 )); do
 		mws_setname $whoami "$pname"
 		mws_subdir 1
 		mws_setheadline "$ptitle"
+		mws_setold ${ei_isold[ent]:-0}
 		mws_putheader >$fe~
 		print -r -- "<p>${plinksr}" >>$fe~
 		output | mws_content >>$fe~

@@ -1,3 +1,4 @@
+Flags: ISOLD
 RCSID: $MirOS: www/data/wlog-10-tg.inc,v 1.1 2018/05/05 23:58:16 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@

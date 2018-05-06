@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.29 2018/05/01 21:50:50 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.31 2018/05/05 17:40:36 tg Exp $'
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -104,6 +104,7 @@ for srcf in $sources; do
 	state=1
 	rcsid_parsed=
 	usenn=0
+	incfile_isold=1
 	while IFS= read -r line; do
 		if [[ -z $rcsid_parsed ]]; then
 			if [[ $line = RCSID:* ]]; then
@@ -111,11 +112,13 @@ for srcf in $sources; do
 				continue
 			fi
 			if [[ $line = Flags:* ]]; then
-				[[ $line = *USENN* ]] && usenn=1
+				[[ "$line " = *' USENN '* ]] && usenn=1
+				[[ "$line " = *' ISOLD '* ]] && incfile_isold=1
 				continue
 			fi
 		fi
 		if [[ $line = ---- ]]; then
+			(( incfile_isold )) && ei_isold[entry]=1
 			if [[ -z ${e_id[entry]} ]]; then
 				if [[ -n ${e_date[entry]} ]]; then
 					id=${e_date[entry]%% *}
