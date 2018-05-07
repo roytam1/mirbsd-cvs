@@ -707,7 +707,7 @@ formatstr(struct tbl *vp, const char *s)
 			if (vp->flag & ZEROFIL)
 				while (*s == '0')
 					s++;
-			shf_snprintf(p, nlen + 1, "%-*.*s",
+			shf_snprintf(p, psiz, "%-*.*s",
 				vp->u2.field, vp->u2.field, s);
 		}
 	} else
