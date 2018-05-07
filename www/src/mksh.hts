@@ -1303,6 +1303,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, G.raud Meyer] Improve documentation, especially for tty states</li>
  <li>[tg] Protect against entering line editing with bad saved tty state</li>
  <li>[tg] Fix <tt>set -o allexport</tt> for arrays (which we apparently do)</li>
+ <li>[tg] Handle lseek(2) returning -1 as pointed out by Coverity Scan</li>
+ <li>[tg] Fix left-padding UTF-8 strings</li>
 </ul>
 <p id="r56c">R56c is a bugfix-only release everyone must upgrade to:</p><ul>
  <li>[komh] Remove redundant OS/2-specific code, clean up others</li>
