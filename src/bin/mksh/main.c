@@ -457,7 +457,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 	/* Set this before parsing arguments */
 	Flag(FPRIVILEGED) = (kshuid != ksheuid || kshgid != kshegid) ? 2 : 0;
 
-	/* this to note if monitor is set on command line (see below) */
+	/* record if monitor is set on command line (see j_init() in jobs.c) */
 #ifndef MKSH_UNEMPLOYED
 	Flag(FMONITOR) = 127;
 #endif
