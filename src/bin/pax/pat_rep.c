@@ -548,6 +548,7 @@ fn_match(char *pattern, char *string, char **pend)
 				return (-1);
 			break;
 		case '\\':
+			c = *pattern++;
 		default:
 			if (c != *string++)
 				return (-1);
