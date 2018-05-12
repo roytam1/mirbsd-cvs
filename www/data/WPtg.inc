@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.183 2018/05/05 17:40:24 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.184 2018/05/05 21:38:23 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -14372,6 +14372,53 @@ Date: 2018-05-05
 Waypoint: GC7H9MT
 Title: Valentins-Cache
 Tag: D15 T1 Micro Tradi
+----
+ID: 2368
+Date: 2018-05-12
+Waypoint: GC74X20
+Title: &#34;Siebengebirge&#34; vor Texel gesunken
+Tag: D15 T2 Micro Tradi recommended
+
+Fies!
+----
+ID: 2369
+Date: 2018-05-12
+Waypoint: GC5CYZ1
+Title: Hochwasser - das Übernächste
+Tag: D25 T15 Micro Mystery
+----
+ID: 2370
+Date: 2018-05-12
+Waypoint: GC6JVZC
+Title: Rheinuferweg #1
+Tag: D15 T15 Micro Tradi
+----
+ID: 2371
+Date: 2018-05-12
+Waypoint: GC733M2
+Title: Die kleine Wald-Serie &#34;verflixte Runde&#34; #1
+Tag: D15 T1 Micro Tradi
+----
+ID: 2372
+Date: 2018-05-12
+Waypoint: GC4P4AJ OC1014B
+Title: Die kleine Wald-Serie &#34;verflixte Runde&#34; #2
+Tag: D2 T15 Micro Tradi
+----
+ID: 2373
+Date: 2018-05-12
+Waypoint: GC6Q3V3 OC13265
+Title: Was suchen wir? … und wo?
+Tag: D1 T35 Micro Mystery recommended
+
+Super zum Rätsel passenes Versteck!
+----
+ID: 2374
+Date: 2018-05-12
+Waypoint: GC5M394
+Banner: jpg
+Title: Freiligrath und sein Geheimnis
+Tag: D25 T25 Micro Multi
 ----
 ID: p20481102
 Date: 2048-11-02
