@@ -1,8 +1,12 @@
-mws_setname imprint "Impressum (imprint)"
-mws_setheadline "Impressum (imprint)"
+mws_setname imprint "Impressum (imprint) / Datenschutzerklärung (privacy policy)"
+mws_setheadline "Impressum und Datenschutzerklärung"
 mws_putheader '$MirOS: www/src/imprint.hts,v 1.7 2014/06/05 21:17:31 tg Exp $'
 mws_content <<'EOF'
-<h2>Legal information</h2>
+<p>On this page / Auf dieser Seite:</p>
+EOF
+mws_maketoc
+mws_content <<'EOF'
+<h2 id="legal">Legal information</h2>
 <p>All content of the website mirbsd.de and mirsolutions.de including the
  main content mirrors, whose master is www.mirbsd.org, is licenced content
  and property of mirabilos (as MirBSD and in succession of both The MirOS
@@ -22,7 +26,62 @@ mws_content <<'EOF'
  Some content is covered by individual or per-subdirectory terms,
  especially private files not part of MirBSD; see there for details.</p>
 
-<h2>Impressum</h2>
+<h2 id="privacypolicy">Datenschutzerklärung</h2>
+
+<h3 id="privacy-who">Angaben zur erhebenden Stelle</h3>
+<p>Dies ist eine (private) Präsenz einer natürlichen Person; alle
+ Angaben finden sich unten im <a href="#imprint">Impressum</a>.</p>
+
+<h3 id="privacy-what">Art und Zweck der Verarbeitungstätigkeiten</h3>
+<p>Auf dieser Webseite findet keine Verfolgung von Nutzern, z.B. durch
+ Cookies, statt. Erhoben werden daher lediglich Systeminformationen zur
+ Untersuchung von Fehlern und Abwehrung von Angriffen: (IP-)Adresse des
+ Besuchers, Datum und Uhrzeit des Besuches, aufgerufene Seite, sowie
+ welcher Browser verwendet wurde.</p>
+<p>Diese Daten werden innerhalb von weniger als drei Tagen gelöscht und
+ für keine automatische Analyse / Statistiken verwendet; manuelle
+ Abrufe, z.B. zur Fehleranalyse, behalten wir uns jedoch vor, allerdings
+ nur ohne Vorqualifizierung, die eine Inspektion des Verhaltens eines
+ bestimmten Nutzers ermöglichen würde, sondern nur gesammelt oder einen
+ einzelnen Fehler betreffend.</p>
+
+<h3 id="privacy-fwd">Weitergabe von Daten</h3>
+<p>Personenbezogene Daten werden nicht an Dritte weitergegben.</p>
+
+<h3 id="privacy-protect">Technische und organisatorische Maßnahmen
+ zum Schutze der erhobenen Daten</h3>
+<p>Die Daten werden lediglich im Arbeitsspeicher des Servers vorgehalten
+ und niemals auf Speichermedien persistiert. Sie werden automatisiert
+ nach spätestens 60 Stunden gelöscht.</p>
+<p>Administrativer Zugriff auf das System ist der natürlichen Person,
+ die die erhebende Stelle ist, vorbehalten.</p>
+
+<h3 id="privacy-rights">Rechte des Betroffenen</h3>
+<p>Bei der erhebenden Stelle kann gemäß EU-DSGVO per eMail Auskunft
+ ersucht werden; jedoch ist aufgrund der oben angegebenen kurzen
+ Vorhaltefrist damit zu rechnen, daß zum Zeitpunkt der Bearbeitung
+ des Auskunftsersuchens bereits keine personenbezogenen Daten mehr
+ vorgehalten sein werden.</p>
+<p>Da für die erhobenen Daten keine Identitätsmerkmale vorliegen ist
+ zur Bearbeitung der Anfrage eine korrekte Kombination aus (IP-)Adresse,
+ Datum und Uhrzeit, aufgerufener Seite und verwendetem Browser (User
+ Agent) notwendig, anhand dessen dann weitere Datensätze desselben
+ Betroffenen eindeutig identifiziert werden können.</p>
+
+<h3 id="privacy-tldr-en">The short version in English</h3>
+<p>This website does not track users, for example through use of cookies.
+ Visits are logged (address of the visitor, timestamp, which page was
+ requested and with which browser) to analyse errors and attacks on the
+ infrastructure, logs are removed within three days and not automatically
+ analysed for statistics or anything comparable. The logs are stored in
+ volatile memory and never persisted; server administration is restricted
+ to the site owner. You can request information about your data by eMail
+ providing an identifying tuple of (IP) address, timestamp, which page was
+ visited and by which user agent (browser), although the short retainment
+ period will likely result in that, at the time of processing the request,
+ there will already be no data about the user stored any more.</p>
+
+<h2 id="imprint">Impressum</h2>
 <p>Aufgrund geltenden deutschen Rechtes ist die im folgenden genannte
  Person Anbieter im Sinne des Teledienstegesetzes für die Website:</p><ul>
 <li>Thorsten Glaser<br />
@@ -32,65 +91,14 @@ mws_content <<'EOF'
  <em>eMail:</em> ｔｇ＠ｍｉｒｓｏｌｕｔｉｏｎｓ．ｄｅ<br />
  <em>fernmündlich:</em> ＋４９　１５１　５４８７４４６０</li>
 </ul>
-<p>Verantwortlicher im Sinne des Pressegesetzes (<b>V.i.S.d.P.</b>) ist
- Thorsten Glaser; für die (alten, nicht mehr genutzten) Flyer Benny Siegert.
- Inhalte auf den Mailinglisten
- und anderen öffentlichen Bereichen (wie dem ehemaligen MirWiki, nicht mehr verfügbar)
- sind Eigentum
- der jeweiligen Autoren; V.i.S.d.P. ist auch hier Thorsten Glaser &ndash; es
- wird darauf hingewiesen, daß Mailinglisten nicht redigierbar sind.</p>
 
-<h2>Personenbezogene Daten</h2>
-<p>Auf dieser Webseite findet keine Verfolgung von Nutzern, z.B. durch
- Cookies statt; die meisten Inhalte sind ohnehin statisches HTML, aber
- auch die CGI-Skripte sind zustandslos. Erhoben werden daher lediglich
- Systeminformationen zur Untersuchung von Zugriffsfehlern: IP-Adresse
- und reverse-DNS, Datum/Uhrzeit des Requests, verwendetes SSL-Protokoll
- und Chiffre, angesteuerter Host und Pfad und Methode (GET/POST) und
- HTTP-Version (der Request selbst), HTTP-Ergebniscode, Antwortgröße,
- Referrer (verweisende Webseite), User Agent (Browser o.ä.)</p>
-<p>Diese Daten werden innerhalb von weniger als drei Tagen gelöscht und
- für keine automatische Analyse / Statistiken verwendet; manuelle
- Abrufe, z.B. zur Fehleranalyse, behalten wir uns jedoch vor, allerdings
- nur ohne Vorqualifizierung, die eine Inspektion des Verhaltens eines
- bestimmten Nutzers ermöglichen würde, sondern nur gesammelt oder einen
- einzelnen Fehler betreffend.</p>
-<p>Ein Verfahrensverzeichnis ist aktuell in Arbeit.</p>
-
-<h2>Urheberrechte</h2>
+<h2 id="copyright">Urheberrechte</h2>
 <p>Das Urheberrecht für die genannten Webseiten liegt bei den jeweiligen
  Autoren bzw. dem MirOS-Projekt. Genaueres findest Du in der <a
  href="@@RELPATH@@LICENCE">MirOS Webseiten-Lizenz</a>. Die Webseite hat
  Überschneidungen mit dem Quellkodebereich des MirOS-Projektes, dessen
  Lizenz unter BSD-Licence(7) hinterlegt ist; insbesondere ist die Wahl
- deutschen Rechtes und des Gerichtsstands anwendbar.</p>
-
-<h2>Transferdienste</h2>
-
-<h3>Allgemeines</h3>
-<p>Die Seiten des MirOS-Projektes werden von einer Vielzahl verschiedener
- Anbieter bereitgestellt, eine Integrität und Aktualität kann daher nicht
- gewährleistet werden. Eine Vielzahl von Personen und Leitungseinflüssen
- können Daten verfälschen, und wir sind aufwandsmäßig nicht in der Lage,
- sämtliche Spiegel dauerhaft zu überprüfen. Bei Problemem jedweger Art
- bitten wir um Benachrichtigung und die Möglichkeit zur Korrektur.</p>
-<p>Es wird zum Teil auf fremde Webseiten verwiesen, bei denen die Inhalte
- noch weniger kontrollierbar sind &ndash; auch hier bitten wir um einen
- Hinweis, falls es zu Problemen mit den Hypertextverweisen oder den Inhalten
- der verlinkten Seiten kommen sollte. Eine Prüfung fremder Inhalte kann
- aufwandsmäßig nicht fortlaufend geschehen, sondern maximal bei Einstellung
- und sporadisch/stichprobenartig; sollten Probleme auftauchen, werden wir
- diese analysieren und eine einvernehmliche Lösung anstreben.</p>
-
-<h3>DNS, Webhosting</h3>
-<p>Die Seiten des MirOS-Projektes werden von einigen Mirrors bereitgestellt,
- die sich in verschiedenen Ländern befinden und nicht von uns betreut
- werden. Auch die Nameserver- und Domaindienste beruhen darauf, daß uns
- Externe diese bereitstellen. Wir befreien hiermit die Anbieter von Mirrors
- unserer Webseiten davon, für deren durch uns bereitgestellten Inhalt zu
- haften, weisen aber gleichzeitig darauf hin, daß der Inhalt des Mirrors
- nicht notwendigerweise mit dem vom Projekt gewünschten/bereitgestellten
- Inhalt übereinstimmt und übernehmen demfalls keine Haftung.</p>
+ deutschen Rechtes und des Gerichtsstands anzuwenden.</p>
 EOF
 mws_putfooter
 exit 0

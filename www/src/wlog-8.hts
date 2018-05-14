@@ -4,7 +4,7 @@
 mws_setname legacy/wlog-8 "MirBSD Weblog"
 mws_setheadline MirBSD — WTF, We Have a Release!?
 mws_setold
-mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.8 2016/10/30 04:47:11 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.9 2018/05/06 12:56:48 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <p><small><a href="#eof">bottom</a> or <a href="@@RELPATH@@older.htm">older</a>
  editions</small></p>
@@ -1262,9 +1262,8 @@ celebrate this event, rotate the wlog and start a new one.</p>
 <div class="wlentry">
  <h3 id="e20060522">22.05.2006 by tg@</h3>
  <p>This wlog entry is probably not read by many. Thanks to gecko2, I've
-  got set up at least an AnonCVS mirror (anoncvs@unixforge.de:/cvs IPv4,
-  anoncvs@hephaistos.tb.as8758.net:/cvs IPv6), and remotely possibly, <a
-  href="http://users.unixforge.de/~tglaser/?wlog-8">this page</a> might,
+  got set up at least an AnonCVS mirror (DELETED), and remotely possibly,
+  this page might,
   with a few broken links/images, be visible.</p>
  <p>I'm &quot;developing&quot; on NWT at the moment &ndash; a Mitac 4023
   notebook (Cyrix 486DLC with 33, 66 or 80 MHz, no idea; 12 MiB RAM (and
@@ -1333,8 +1332,6 @@ celebrate this event, rotate the wlog and start a new one.</p>
 
 <div class="wlentry">
  <h3 id="e20060602">02.06.2006 by tg@</h3>
- <p>This is available under <a href="http://miros.unixforge.de/?wlog-8">
-  http://miros.unixforge.de/?wlog-8</a></p>
  <p>MirOS now has I18N support. Totally untested. Please test whether it
   "works", the manual pages don't disagree with SUSv3 and ISO 9899:1999,
   the code adheres to the manual pages, the code is bug-free; write some

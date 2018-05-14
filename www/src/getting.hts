@@ -4,7 +4,7 @@
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
 mws_setold
-mws_putheader '$MirOS: www/src/getting.hts,v 1.30 2018/02/06 21:56:37 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.31 2018/05/06 12:56:39 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
  MirPorts framework, and the source tree. And you may want to read the
@@ -66,7 +66,6 @@ mws_content <<'EOF'
   <td>
    <p>via HTTP: ISO @ <a
     href="https://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany (IPv4/IPv6)</a> / <a
-    href="http://miros.unixforge.de/MirOS/ISOs/MIR80316.ISO">Germany (IPv4 only)</a> / <a
     href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan (IPv4/IPv6)</a><br />
     <a href="/MirOS/v10/">NetInstall directory</a><br />
     <a href="/MirOS/v10/cdrom10.iso">NetInstall ISO</a> / <a
@@ -103,7 +102,6 @@ mws_content <<'EOF'
 <ul>
  <li><a href="https://www.mirbsd.org/MirOS/">https://www.mirbsd.org/MirOS/</a>…</li>
  <li><a href="http://pub.allbsd.org/MirOS/">http://pub.allbsd.org/MirOS/</a>…</li>
- <li><a href="http://miros.unixforge.de/MirOS/">http://miros.unixforge.de/MirOS/</a>…</li>
  <li><a href="/MirOS/">local mirror</a> (if exists)</li>
 </ul>
 

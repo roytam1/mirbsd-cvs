@@ -4,7 +4,7 @@
 mws_setname subprojects/FreeWRT "FreeWRT Archive"
 mws_setheadline 'FreeWRT ADK'
 mws_setold
-mws_putheader '$MirOS: www/src/FreeWRT.hts,v 1.3 2016/03/06 18:37:52 tg Exp $'
+mws_putheader '$MirOS: www/src/FreeWRT.hts,v 1.4 2018/05/06 12:56:36 tg Exp $'
 mws_content <<'EOF'
 <p class="cr"><span class="fr"><img alt="FreeWRT Logo"
  src="@@RELPATH@@pics/logos/freewrt.png" /></span>FreeWRT Embedded GNU/Linux
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  <li><a href="http://www.mirbsd.org/.Archive/shellsnippets.git.tar.xz">git
   repository archive of the “Shell-Toolkit” (shellsnippets) project</a>
   (live; new URI will follow)</li>
- <li><a href="http://users.unixforge.de/~tglaser/debs/">MirDebian APT
-  repository</a> secondary mirror (live; new primary URI will follow)</li>
+ <li><a href="http://fish.mirbsd.org/~tg/Debs/debidx.htm">MirDebian APT
+  repository</a> primary mirror</li>
 </ul>
 EOF
 mws_putfooter

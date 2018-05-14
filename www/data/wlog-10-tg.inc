@@ -1,5 +1,5 @@
 Flags: ISOLD
-RCSID: $MirOS: www/data/wlog-10-tg.inc,v 1.1 2018/05/05 23:58:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10-tg.inc,v 1.3 2018/05/06 13:17:15 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -241,7 +241,7 @@ Tag: debian rant work
 <p>This opens up a very hard problem: I’m absolutely stunned by this
  and wondering what to do now. While there is no real alternative to
  Debian at $dayjob I can always create customised packages in <a
- href="http://users.unixforge.de/~tglaser/debs/debidx.htm">my own
+ href="http://fish.mirbsd.org/~tg/Debs/debidx.htm">my own
  APT repository</a>, and — while it was great when those were <a
  href="http://metadata.ftp-master.debian.org/changelogs/main/j/jupp/unstable_changelog">eventually</a>
  (3.1.17-1) accepted <a
