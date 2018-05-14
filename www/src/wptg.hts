@@ -47,7 +47,7 @@ mws_content <<'EOF'
 
 <div class="fl">
 <p><img style="border:0;" alt="Referral to Munzee"
- src="http://mirsolutions.de/privat/mzref.png" /></p>
+ src="@@ABSPATH@@/privat/mzref.png" /></p>
 </div>
 
 <div class="cb"> </div>
@@ -91,15 +91,15 @@ mws_content <<'EOF'
 </table -->
 
 <div class="flbox"><img style="border:0px;"
- src="http://mirsolutions.de/privat/31days.gif"
+ src="@@ABSPATH@@/privat/31days.gif"
  title="31 days of August, 2013" alt="31 days of August, 2013" /></div>
 
 <div class="flbox"><img style="border:0px;"
- src="http://mirsolutions.de/privat/7SoA.jpg"
+ src="@@ABSPATH@@/privat/7SoA.jpg"
  title="7 Souvenirs of August, 2014" alt="7 Souvenirs of August, 2014" /></div>
 
 <div class="flbox"><img style="border:0px;"
- src="http://mirsolutions.de/privat/duck2016.png"
+ src="@@ABSPATH@@/privat/duck2016.png"
  alt="HQ Duck Dash 2016 Official Racer" /></div>
 
 <h3 id="banners_Cachebanner" class="cb">Cachebanner</h3>
@@ -123,7 +123,7 @@ while (( entryp < entries )); do
 		continue
 	elif [[ -n ${e_labbanner[ent]} ]]; then
 		title="Lab / ${e_title[ent]}"
-		f=http://mirsolutions.de/privat/${e_labbanner[ent]%%,*}.jpg
+		f=@@ABSPATH@@/privat/${e_labbanner[ent]%%,*}.jpg
 		cat <<-EOF
 			<div class="flbox"><img alt="$title" title="$title"
 			 src="$f" style="border:0px;" /></div>
@@ -132,7 +132,7 @@ EOF
 		[[ ${e_labbanner[ent]} = *,* ]] || continue
 		f=${e_labbanner[ent]#*,}
 		title="Lab / ${f#*=}"
-		f=http://mirsolutions.de/privat/${f%%=*}.jpg
+		f=@@ABSPATH@@/privat/${f%%=*}.jpg
 		cat <<-EOF
 			<div class="flbox"><img alt="$title" title="$title"
 			 src="$f" style="border:0px;" /></div>
@@ -150,7 +150,7 @@ EOF
 		title=${e_title[ent]}
 	fi
 	title=${e_waypoint[ent]}│$title
-	f=http://mirsolutions.de/privat/$wp.$ext
+	f=@@ABSPATH@@/privat/$wp.$ext
 	[[ $ext = *://* ]] && f=$ext
 	cat <<-EOF
 		<div class="flbox"><img alt="$title" title="$title"
@@ -513,7 +513,7 @@ statpic 'Project GC — Statistics' \
 mws_content <<'EOF'
 
 <p><img style="width:162px; height:91px; border:0px;"
- src="http://mirsolutions.de/privat/ingress-r.png"
+ src="@@ABSPATH@@/privat/ingress-r.png"
  title="Ingress — Resistance" alt="Ingress — Resistance" /></p>
 
 <p>Also on:</p><ul>

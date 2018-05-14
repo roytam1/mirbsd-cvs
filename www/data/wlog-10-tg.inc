@@ -646,16 +646,16 @@ Tag: fun twitxr
 <p>I took some photos of the cherry blossoms fading today.
  As usual, small versions (about five à 100K) inline,
  linking to bigger versions (over 1 MiB each).</p>
-<p><a href="http://mirsolutions.de/pub/sakura-1.jpg"><img
- alt="桜一" src="http://mirsolutions.de/pub/sakura_1.jpg" /></a></p>
-<p><a href="http://mirsolutions.de/pub/sakura-2.jpg"><img
- alt="桜二" src="http://mirsolutions.de/pub/sakura_2.jpg" /></a></p>
-<p><a href="http://mirsolutions.de/pub/sakura-3.jpg"><img
- alt="桜三" src="http://mirsolutions.de/pub/sakura_3.jpg" /></a></p>
-<p><a href="http://mirsolutions.de/pub/sakura-4.jpg"><img
- alt="桜四" src="http://mirsolutions.de/pub/sakura_4.jpg" /></a></p>
-<p><a href="http://mirsolutions.de/pub/sakura-5.jpg"><img
- alt="桜五" src="http://mirsolutions.de/pub/sakura_5.jpg" /></a></p>
+<p><a href="@@ABSPATH@@/pub/sakura-1.jpg"><img
+ alt="桜一" src="@@ABSPATH@@/pub/sakura_1.jpg" /></a></p>
+<p><a href="@@ABSPATH@@/pub/sakura-2.jpg"><img
+ alt="桜二" src="@@ABSPATH@@/pub/sakura_2.jpg" /></a></p>
+<p><a href="@@ABSPATH@@/pub/sakura-3.jpg"><img
+ alt="桜三" src="@@ABSPATH@@/pub/sakura_3.jpg" /></a></p>
+<p><a href="@@ABSPATH@@/pub/sakura-4.jpg"><img
+ alt="桜四" src="@@ABSPATH@@/pub/sakura_4.jpg" /></a></p>
+<p><a href="@@ABSPATH@@/pub/sakura-5.jpg"><img
+ alt="桜五" src="@@ABSPATH@@/pub/sakura_5.jpg" /></a></p>
 <p>They are published under the terms and conditions of <a
  href="@@RELPATH@@MirOS-Licence.htm">The MirOS Licence</a>. Enjoy.</p>
 <p>(I am aware that I missed the <span xml:lang="de">Kirschblütenfest</span>.
@@ -1640,10 +1640,10 @@ Tag: fun twitxr
  Oktober, or nice october)… as a follow-up on my earlier <a
  href="@@RELPATH@@permalinks/wlog-10-tg_e20150428-tg.htm">Sakura</a>
  weblog entry. Again, small images as links to bigger ones:</p>
-<p><a href="http://mirsolutions.de/pub/octrainA.jpg"><img
- alt="OR1" src="http://mirsolutions.de/pub/octrain1.jpg" /></a></p>
-<p><a href="http://mirsolutions.de/pub/octrainB.jpg"><img
- alt="OR2" src="http://mirsolutions.de/pub/octrain2.jpg" /></a></p>
+<p><a href="@@ABSPATH@@/pub/octrainA.jpg"><img
+ alt="OR1" src="@@ABSPATH@@/pub/octrain1.jpg" /></a></p>
+<p><a href="@@ABSPATH@@/pub/octrainB.jpg"><img
+ alt="OR2" src="@@ABSPATH@@/pub/octrain2.jpg" /></a></p>
 ----
 Date: 13.11.2015
 Author: tg@
@@ -1670,7 +1670,7 @@ Tag: debian fun news
  you now not only get the <tt>FixedMisc [MirOS]</tt> type from <a
  href="@@RELPATH@@about.htm#project">The MirOS Project type foundry</a>
  for the X Window System, but now also for GNU GRUB2:</p>
-<!-- RSS stop --><p><img src="http://mirsolutions.de/privat/fmgrub.png"
+<!-- RSS stop --><p><img src="@@ABSPATH@@/privat/fmgrub.png"
  alt="FixedMisc [MirOS] for GNU GRUB2 — Screenshot" /></p>
 <p>Just add <tt>GRUB_FONT=/usr/share/grub/FixedMisc.pf2</tt>
  to <tt>/etc/default/grub</tt>, make sure gfxterm is enabled

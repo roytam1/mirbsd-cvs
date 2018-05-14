@@ -1,4 +1,4 @@
-rcsid_cfg='$MirOS: www/data/tg.gc,v 1.20 2015/02/26 02:45:16 tg Exp $'
+rcsid_cfg='$MirOS: www/data/tg.gc,v 1.24 2018/05/05 17:40:28 tg Exp $'
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -13,7 +13,7 @@ gcbanners[${#gcbanners[*]}]='<a href="http://fish.mirbsd.org/wptg.htm#banners">C
 
 gcbanners[${#gcbanners[*]}]='<a href="http://project-gc.com/r/42a471cc">… and inspect extra GC.COM statistics!</a>'
 
-gcbanners[${#gcbanners[*]}]='<a href="http://mirsolutions.de/privat/mzref.png">Scan my Munzee referral code!</a>'
+gcbanners[${#gcbanners[*]}]='<a href="http://fish.mirbsd.org/privat/mzref.png">Scan my Munzee referral code!</a>'
 
 gcbanners[${#gcbanners[*]}]='<a href="http://discover.worldcommunitygrid.org?recruiterId=474443&amp;teamId=K93K4JM8P1">Join Team TerraCaching.com at WorldCommunityGrid!</a>'
 

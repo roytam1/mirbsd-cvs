@@ -4,7 +4,7 @@
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD — RELEASE TIME!!! Stable Services for Commercial Customers
 mws_setold
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.12 2018/01/08 02:10:42 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.13 2018/05/06 12:56:46 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -1622,8 +1622,8 @@ mws_content <<'EOF'
  fallout I could easily see and synched a bit against OpenBSD. The snapshot
  can now be built.<br />Yesterday, I've been in the Netzladen again, bashing
  the <a href="http://machackers.netzladen.org/">mach-ackers</a> and uploaded
- some <a href="http://tg.mirsolutions.de/binaries/">binaries of
- my software for Mac OSX</a>, in case your target iMac (iih, really) has got
+ some binaries of
+ my software for Mac OSX, in case your target iMac (iih, really) has got
  no gcc installed. I can't imagine anybody surviving without mksh, ed and jupp
  around... (bsiegert@ will probably bash me for this wlog entry, but OTOH he
  installed irssi (yuck!) on thor, so I can take my time to bash, too!)</p>
@@ -2607,7 +2607,7 @@ mws_content <<'EOF'
  certain level of English knowledge exists. I'm of course going for the #1
  level since I've read enough man pages to know the better part of English
  I'll need. They'll do lengthy oral exams too, though.<br />I now have, on
- <a href="http://mirsolutions.de/">my website</a>, these weird Google ads,
+ my website, these weird Google ads,
  as a kind of beta test for the MirOS pages. On the latter, though, you'll
  be able to switch them off by means of a cookie, using MirStyleSelect (as
  it provides a preexisting infrastructure quite well). So don't wonder. If

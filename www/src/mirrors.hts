@@ -4,7 +4,7 @@
 mws_setname legacy/mirrors "MirOS Legacy Content"
 mws_setheadline MirOS mirrors
 mws_setold
-mws_putheader '$MirOS: www/src/mirrors.hts,v 1.6 2017/12/19 00:56:37 tg Exp $'
+mws_putheader '$MirOS: www/src/mirrors.hts,v 1.7 2018/05/06 12:56:41 tg Exp $'
 mws_content <<'EOF'
 <h2>Kinds of mirrors</h2>
 
@@ -17,10 +17,7 @@ mws_content <<'EOF'
 <h2>Mirror list</h2>
 
 <h3>Website</h3>
-<p><a href="http://mirbsd.de/">Another list</a>.</p><ul>
-<li><a href="http://www.mirbsd.org/">mirbsd.mirsolutions.de</a>
- (www and distfiles, updated frequently)</li>
-</ul>
+<p><a href="http://mirbsd.de/">Another list</a>.</p>
 <p>Note: distfiles is <tt>/MirOS/distfiles/</tt> &ndash; where you can
  retrieve sources for both MirOS offsprings (such as the now-famous <a
  href="@@RELPATH@@mksh.htm">MirbsdKsh</a>) and third-party
@@ -31,8 +28,6 @@ mws_content <<'EOF'
  href="@@RELPATH@@cvsweb.htm">information</a> about CVSweb and the special
  properties of MirOS CVSweb is available.</p><ul>
 <li><a href="http://cvs.mirbsd.de/">cvs.mirbsd.de</a> (GENERIC redirection)</li>
-<li><a href="http://mirbsd.mirsolutions.de/cvs.cgi/">mirbsd.mirsolutions.de</a>
- (updated frequently)</li>
 </ul>
 
 <h3>anonCVS</h3>

@@ -5,7 +5,7 @@ mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
 mws_setold
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.14 2018/01/08 02:10:41 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.15 2018/05/06 12:56:44 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
@@ -159,7 +159,7 @@ mws_content_keeptabs <<'EOF'
 	that they actually exist (and will attend FROSCON).</li>
 
 <li>18.12.2005<br />First public development snapshot of tg@'s fork of the
-	sirc IRC client, <a href="http://tg.mirsolutions.de/bsd/mirsirc-20051218.tgz">MirSirc</a>,
+	sirc IRC client, MirSirc,
 	released for peer review (relative to <tt>/usr/local</tt>).<br />A
 	lot of pending fixes for the build of the whole system was revised
 	and committed in an overnight no-sleep session at Netzladen.</li>
@@ -223,8 +223,7 @@ mws_content_keeptabs <<'EOF'
 	the very beginning even though the OpenBSD team disapproved.<br />
 	Also, the etherkiller.de mirror disappeared, and the tamu.edu was,
 	IIRC, taken offline some time ago. This means, at the moment there
-	is only one, central, place to retrieve MirOS BSD (in Germany): <a
-	href="http://www.mirbsd.org/">mirbsd.mirsolutions.de</a><br />
+	is only one, central, place to retrieve MirOS BSD (in Germany):…<br />
 	There has been some further work ongoing related to both the ports
 	stuff (infrastructure fixes and port updates) and libc (it builds,
 	but this is only a small step towards both I18N and unbreaking the
