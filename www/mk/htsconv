@@ -1,7 +1,6 @@
 rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.89 2018/05/03 01:48:48 tg Exp $'
 #-
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
+# This file is part of the MirBSD website; see LICENCE for details.
 
 #DEPEND mk/common
 [[ -n $rcsid_common ]] || . "$TOP"/mk/common
@@ -302,7 +301,8 @@ function mws_putfooter {
 		 it won’t do any good to you.</p>
 		<p>• <a
 		 href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to The MirOS Project
-		 • <a href="@@RELPATH@@imprint.htm">Impressum</a> • This website is (supposed
+		 • <a href="@@RELPATH@@imprint.htm">Impressum &amp; Datenschutzerklärung</a>
+		 • This website is (supposed
 		 to be) <a href="http://validator.w3.org/check/referer">Valid HTML</a>! •
 		</p>
 		@@HEADER@@
