@@ -63,7 +63,7 @@
 #include "pathnames.h"
 #include "uidswap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.16 2009/10/04 14:29:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.17 2014/03/28 22:31:58 tg Exp $");
 
 /* for now */
 extern const EVP_MD *evp_ssh_sha256(void);
@@ -379,7 +379,7 @@ input_userauth_banner(int type, u_int32_t seq, void *ctxt)
 		if (len > 65536)
 			len = 65536;
 		msg = xmalloc(len * 4 + 1); /* max expansion from strnvis() */
-		strnvis(msg, raw, len * 4 + 1, VIS_SAFE|VIS_OCTAL);
+		strnvis(msg, raw, len * 4 + 1, VIS_SAFE|VIS_OCTAL|VIS_NOSLASH|VIS_UTF8);
 		fprintf(stderr, "%s", msg);
 		xfree(msg);
 	}

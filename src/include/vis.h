@@ -1,10 +1,10 @@
-/**	$MirOS: src/include/vis.h,v 1.2 2007/05/07 02:26:10 tg Exp $ */
+/**	$MirOS: src/include/vis.h,v 1.3 2013/10/31 20:06:09 tg Exp $ */
 /*	$OpenBSD: vis.h,v 1.11 2005/08/09 19:38:31 millert Exp $	*/
 /*	$NetBSD: vis.h,v 1.16 2005/09/13 01:44:32 christos Exp $	*/
 
 /*-
- * Copyright © 2013
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2018
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.
  * All rights reserved.
@@ -61,6 +61,9 @@
 #define	VIS_NOSLASH	0x40	/* inhibit printing '\' */
 #define	VIS_HTTPSTYLE	0x80	/* http-style escape % HEX HEX */
 #define	VIS_GLOB	0x100	/* encode glob(3) magics and '#' */
+
+/* supported by strnvis()/strnsvis() only; MirBSD extension */
+#define VIS_UTF8	0x4000	/* pass non-control non-ASCII chars as-is */
 
 /*
  * unvis return codes

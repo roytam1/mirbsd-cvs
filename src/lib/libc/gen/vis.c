@@ -1,6 +1,8 @@
 /*	$NetBSD: vis.c,v 1.35 2006/08/28 20:42:12 christos Exp $	*/
 
 /*-
+ * Copyright © 2018
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -59,7 +61,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/libc/gen/vis.c,v 1.2 2007/05/07 02:26:12 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/vis.c,v 1.3 2010/01/07 22:34:50 tg Exp $");
 __RCSID("$OpenBSD: vis.c,v 1.19 2005/09/01 17:15:49 millert Exp $");
 __RCSID("$NetBSD: vis.c,v 1.35 2006/08/28 20:42:12 christos Exp $");
 
@@ -73,6 +75,7 @@ __RCSID("$NetBSD: vis.c,v 1.35 2006/08/28 20:42:12 christos Exp $");
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
+#include <wchar.h>
 
 extern const uint8_t mbsd_digits_hex[17];
 
@@ -277,6 +280,7 @@ strnsvis(char *dst, const char *src, size_t siz, int flag, const char *extra)
 	char tbuf[5];
 	int c, i;
 	char *nextra = NULL;
+	const char *srcend = src + strlen(src);
 
 	MAKEEXTRALIST(flag, nextra, extra);
 	if (!nextra) {
@@ -286,6 +290,44 @@ strnsvis(char *dst, const char *src, size_t siz, int flag, const char *extra)
 
 	i = 0;
 	for (start = dst, end = start + siz - 1; (c = *src) && dst < end; ) {
+		if (flag & VIS_UTF8) {
+			wchar_t Wc;
+
+			Wc = (unsigned char)src[0];
+			if (Wc < 0xC2 || Wc >= 0xF0)
+				goto utfout;
+			else if (Wc < 0xE0) {
+				i = 1;
+				Wc = (Wc & 0x1F) << 6;
+			} else {
+				i = 2;
+				Wc = (Wc & 0x0F) << 12;
+			}
+			if (srcend - src <= i)
+				goto utfout;
+			if (((unsigned char)src[1] ^ 0x80) > 0x3F)
+				goto utfout;
+			if (i > 1) {
+				if (((unsigned char)src[2] ^ 0x80) > 0x3F)
+					goto utfout;
+				Wc |= ((unsigned char)src[1] ^ 0x80) << 6;
+				if (Wc < 0x0800)
+					goto utfout;
+			}
+			Wc |= ((unsigned char)src[i] ^ 0x80);
+			/* Wc is now in [0x0080; 0xFFFF] */
+			if (dst + ++i >= end)
+				goto utfout;
+			if (Wc > 0xFFFD || wcwidth(Wc) < 0) {
+ utfout:
+				/* FALLTHROUGH */;
+			} else {
+				memcpy(dst, src, i);
+				src += i;
+				dst += i;
+				continue;
+			}
+		}
 		/* unoptimised but safe to extend version */
 		i = vis(tbuf, c, flag, *++src) - tbuf;
 		if (dst + i <= end) {

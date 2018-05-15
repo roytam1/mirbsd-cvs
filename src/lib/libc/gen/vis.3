@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/lib/libc/gen/vis.3,v 1.2 2007/05/07 02:26:12 tg Exp $
 .\"	$NetBSD: vis.3,v 1.22 2006/04/09 15:24:34 jschauma Exp $
 .\"	$OpenBSD: vis.3,v 1.23 2005/08/28 19:51:27 millert Exp $
 .\"
@@ -29,7 +29,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd May 7, 2007
+.Dd $Mdocdate$
 .Dt VIS 3
 .Os
 .Sh NAME
@@ -352,6 +352,13 @@ The form is
 where
 .Em x
 represents a hexadecimal digit.
+.It Dv VIS_UTF8
+Pass through non-ASCII non-control UTF-8 characters as-is.
+Currently only implemented for
+.Fn strnvis
+and
+.Fn strnsvis .
+Only characters in the Basic Multilingual Plane are recognised.
 .El
 .Pp
 There is one additional flag,
@@ -398,5 +405,7 @@ functions appeared in
 .Nx 1.5 .
 The
 .Fn strnsvis
-function appeared in
+function as well as the
+.Dv VIS_UTF8
+flag appeared in
 .Mx 10 .
