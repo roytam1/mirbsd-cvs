@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog2018.inc,v 1.2 2018/05/05 23:58:21 tg Exp $
+RCSID: $MirOS: www/data/wlog2018.inc,v 1.3 2018/05/07 00:25:13 tg Exp $
 Title: FixedMisc [MirOS] 20180429 released
 Date: 29.04.2018 17:30
 Author: tg@
@@ -61,4 +61,45 @@ Tag: bug debian mksh pcli
  href="@@ABSPATH@@/music/resources/tuner.sh">here, for now</a>, for
  my work in progress… it’s quite big already despite doing basically
  nothing. Foundation laid (or so…).</p>
+----
+Date: 2018-05-19 18:45 +0200
+Title: Progress report from the Movim packaging sprint at MiniDebconf
+Tag: debian
+
+<p>After arriving, I’ve started collecting knowledge first. I reviewed
+ upstream’s <tt>composer.json</tt> file and Wiki page about dependencies
+ and, after it quickly became apparent that we need <em>much</em> more
+ information (e.g. which versions are in sid, what the package names are,
+ and, most importantly, <strong>recursive</strong> dependencies), a <a
+ href="https://wiki.teckids.org/wiki/MovimPaketierungsNotizen">Wiki page
+ of our own</a> grew. Then I made a hunt for information about how to
+ package stuff that uses PHP Composer upstream, and found the, ahem,
+ wonderfully abundant, structured, plentiful and clear documentation from
+ the Debian PHP/PEAR Packaging team. (Some time and reverse-engineering
+ later I figured out that we just ignore <tt>composer</tt> and read its
+ control file in <tt>pkg-php-tools</tt> converting dependency information
+ to Debian package relationships. Much time later I also figured out it
+ mangles package names in a specific way and had to rename one of the
+ packages I created in the meantime… thankfully before having uploaded
+ it.) Quickly, the Wiki page grew listing the package names we’re supposed
+ to use. I created a package which I could use as template for all others
+ later.</p>
+<p>The upstream Movim developer arrived as well — we have quite an amount
+ of upstream developers of various projects attending MiniDebConf, to the
+ joy of the attendees actually directly involved in Debian, and this makes
+ things much easier, as he immediately started removing dependencies (to
+ make our job easier) and fixing bugs and helping us understand how some
+ of those dependencies work. (I also contributed code upstream that replaces
+ some Unicode codepoints or sequences thereof, such as 3⃣ or ‼ or 👱🏻‍♀️,
+ with &lt;img…/&gt; tags pointing to the SVG images shipped with Movim, with
+ a description (generated from their Unicode names) in the alt attribute.)</p>
+<p>Now, Saturday, all dependencies are packaged so far, although we’re still
+ waiting for maintainer feedback for those two we’d need to NMU (or have them
+ upload or us take the packages over); most are in NEW of course, but that’s
+ no problem. Now we can tackle packaging Movim itself — I guess we’ll see
+ whether those other packages actually work then ☺ We also had a chance to fix bugs in other packages, like guacamole and musescore.</p>
+<p>In the meantime we’ve also had the chance to socialise, discuss, meet, etc.
+ other Debian Developers and associates and enjoy the wonderful food and superb
+ coffee of the “Cantina” at the venue; let me hereby express heartfelt thanks
+ to the MiniDebConf organisation for this good location pick!</p>
 ----
