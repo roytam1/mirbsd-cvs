@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog2018.inc,v 1.3 2018/05/07 00:25:13 tg Exp $
+RCSID: $MirOS: www/data/wlog2018.inc,v 1.4 2018/05/19 16:47:48 tg Exp $
 Title: FixedMisc [MirOS] 20180429 released
 Date: 29.04.2018 17:30
 Author: tg@
@@ -66,6 +66,10 @@ Date: 2018-05-19 18:45 +0200
 Title: Progress report from the Movim packaging sprint at MiniDebconf
 Tag: debian
 
+<p>Nik wishes you to know that the Movim packaging sprint (sponsored
+ by the DPL, thank you!) is handled under the umbrella of the Debian
+ Edu sprint (similarily sponsored) since this package is handled by
+ the Teckids Debian Task Force, personnel from Teckids e.V.</p>
 <p>After arriving, I’ve started collecting knowledge first. I reviewed
  upstream’s <tt>composer.json</tt> file and Wiki page about dependencies
  and, after it quickly became apparent that we need <em>much</em> more
@@ -97,9 +101,15 @@ Tag: debian
  waiting for maintainer feedback for those two we’d need to NMU (or have them
  upload or us take the packages over); most are in NEW of course, but that’s
  no problem. Now we can tackle packaging Movim itself — I guess we’ll see
- whether those other packages actually work then ☺ We also had a chance to fix bugs in other packages, like guacamole and musescore.</p>
+ whether those other packages actually work then ☺</p>
+<p>We also had a chance to fix bugs in other packages, like guacamole-client
+ and musescore.</p>
 <p>In the meantime we’ve also had the chance to socialise, discuss, meet, etc.
  other Debian Developers and associates and enjoy the wonderful food and superb
  coffee of the “Cantina” at the venue; let me hereby express heartfelt thanks
  to the MiniDebConf organisation for this good location pick!</p>
+<p><strong>Update</strong>, later this night: we took over the remaining two
+ packages with permission from their previous team and uploader, and have
+ already started with actually packaging Movim, discovering untold gruesome
+ things in the <em>upstream</em> of the two webfonts it bundles.</p>
 ----
