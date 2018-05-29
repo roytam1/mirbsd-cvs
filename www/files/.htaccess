@@ -1,7 +1,7 @@
 # $MirOS: www/files/.htaccess,v 1.19 2018/05/03 02:17:53 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
-IndexOptions -FancyIndexing
+IndexOptions -FancyIndexing +FoldersFirst
 AddHandler cgi-script .cgi
 DirectoryIndex main.htm
 

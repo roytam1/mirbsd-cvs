@@ -635,7 +635,7 @@
       1.3.10 and later</i>)</a></dt>
 
       <dd>If this option is enabled, subdirectories in a
-      FancyIndexed listing will <i>always</i> appear first,
+      directory listing will <i>always</i> appear first,
       followed by normal files in the directory. The listing is
       basically broken into two components, the files and the
       subdirectories, and each is sorted separately and then
@@ -644,9 +644,9 @@
       enabled, subdirectory <samp>Zed</samp> will be listed before
       subdirectory <samp>Beta</samp>, which will be listed before
       normal files <samp>Gamma</samp> and <samp>Alpha</samp>.
-      <b>This option only has an effect if <a
+      In some old Apache versions, this option only has an effect if <a
       href="#indexoptions:fancyindexing"><samp>FancyIndexing</samp></a>
-      is also enabled.</b></dd>
+      is also enabled (in MirBSD httpd, it also works without).</dd>
 
       <dt><a id="indexoptions:iconheight"
       name="indexoptions:iconheight">IconHeight[=pixels]
