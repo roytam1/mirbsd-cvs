@@ -1,6 +1,7 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright (c) 2018 mirabilos
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -200,9 +201,11 @@ static ap_inline int is_parent(const char *name)
  */
 static void emit_preamble(request_rec *r, char *title)
 {
+#define cm "<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />"
     ap_rvputs(r, DOCTYPE_HTML_3_2,
-	      "<HTML>\n <HEAD>\n  <TITLE>Index of ", title,
+	      "<HTML>\n <HEAD>\n  " cm "\n  <TITLE>Index of ", title,
 	      "</TITLE>\n </HEAD>\n <BODY>\n", NULL);
+#undef cm
 }
 
 static void push_item(array_header *arr, char *type, char *to, char *path,
@@ -1551,7 +1554,7 @@ static void output_directories(struct ent **ar, int n,
 	    }
 	}
 	else {
-	    ap_rvputs(r, "<LI><A HREF=\"", anchor, "\"> ", t2,
+	    ap_rvputs(r, "<LI><A HREF=\"", anchor, "\">", t2,
 		      "</A>", NULL);
 	}
 	ap_rputc('\n', r);
