@@ -14420,6 +14420,158 @@ Banner: jpg
 Title: Freiligrath und sein Geheimnis
 Tag: D25 T25 Micro Multi
 ----
+ID: 2375
+Date: 2018-05-16
+Waypoint: GC66Q0F
+Title: Doppelte Goetheallee
+Tag: D1 T2 Micro Tradi
+----
+ID: 2376
+Date: 2018-05-17
+Waypoint: GC5W1B4
+Title: Kleiner Feigling oder trau Dich
+Tag: D25 T1 Micro Tradi
+----
+ID: 2377
+Date: 2018-05-25
+Waypoint: OCEDA6
+Title: Paderborn - Brunnen am Heierstor
+Tag: D1 T1 Virtual
+----
+ID: 2378
+Date: 2018-05-25
+Waypoint: GC3H9ZB
+Title: Heidi
+Tag: D2 T1 Micro Tradi
+----
+ID: 2379
+Date: 2018-05-25
+Waypoint: OCD2A2
+Title: Sagenturm
+Tag: D1 T1 Virtual
+----
+ID: 2380
+Date: 2018-05-25
+Waypoint: OCD27C
+Title: Paderborn - Dielen Pader
+Tag: D1 T1 Virtual
+----
+ID: 2381
+Date: 2018-05-25
+Waypoint: GC7EVAQ
+Banner: jpg
+Title: Max Mustercacher
+Tag: D25 T1 Small Tradi recommended
+----
+ID: 2382
+Date: 2018-05-25
+Waypoint: OC05B9 GCN8JG
+Title: B.O.S.S.' Liebling
+Tag: D1 T1 Webcam
+----
+ID: 2383
+Date: 2018-05-25
+Waypoint: OCD162
+Title: Marien-Säule
+Tag: D1 T1 Virtual
+----
+ID: 2384
+Date: 2018-05-25
+Waypoint: GC7GQ6P
+Banner: jpg
+Title: Herzstück Paterboärner Wasserkunst
+Tag: D3 T15 Small Tradi
+----
+ID: 2385
+Date: 2018-05-25
+Waypoint: OCD236
+Title: Paderborn - Waschfrauen
+Tag: D1 T1 Virtual
+----
+ID: 2386
+Date: 2018-05-25
+Waypoint: OCD25B
+Title: Paderborn - Warme Pader
+Tag: D1 T1 Virtual
+----
+ID: 2387
+Date: 2018-05-25
+Waypoint: OCEE70
+Title: SSVC: Paderborn - Die Kirche des Abdingklosters
+Tag: D1 T2 Virtual
+----
+ID: 2388
+Date: 2018-05-26
+Waypoint: GC3YY70
+Title: Come In And Find Out - CIAFO
+Tag: D25 T15 Large Multi recommended
+----
+ID: 2389
+Date: 2018-05-31
+Waypoint: GC4EDAV OCFAD6
+Title: Der Wíchtel, der des Baustoffhändlers Brotdose....
+Tag: D2 T2 Small Tradi recommended
+----
+ID: 2390
+Date: 2018-05-31
+Waypoint: GC5DJYJ
+Title: Weyher Route #28 Germaniastele
+Tag: D15 T15 Micro Tradi
+----
+ID: 2391
+Date: 2018-05-31
+Waypoint: GC5ZEDJ
+Title: Zur grünen Walze
+Tag: D15 T15 Regular Tradi recommended
+----
+ID: 2392
+Date: 2018-05-31
+Waypoint: GC42136
+Title: Appelbütteler Tal
+Tag: D1 T15 Earth
+----
+ID: 2393
+Date: 2018-05-31
+Waypoint: GC54289
+Title: Tante Miau
+Tag: D15 T15 Regular Tradi Recommended
+----
+ID: 2394
+Date: 2018-05-31
+Waypoint: GC5VNKY
+Title: Die Mutter
+Tag: D15 T15 Small Tradi
+----
+ID: 2395
+Date: 2018-06-02
+Waypoint: GC6RJBM
+Title: Kärlekscache
+Tag: D15 T15 Regular Tradi
+----
+ID: 2396
+Date: 2018-06-03
+Waypoint: GC5Y8JE
+Title: Abzweig Pröttlin
+Tag: D2 T2 Small Tradi
+----
+ID: 2397
+Date: 2018-06-03
+Waypoint: GC4EF95
+Title: Einmal um den Teich 1
+Tag: D15 T15 Micro Tradi
+----
+ID: 2398
+Date: 2018-06-03
+Waypoint: GC4GA8W
+Title: Geoheimnisse SchAHAtzsuche: Trügerischer Schein
+Tag: D2 T1 Large Tradi recommended
+----
+ID: 2399
+Date: 2018-06-03
+Waypoint: GC7NJ98
+Title: Rastplatz Lipperland Nord
+Tag: D15 T15 Small Tradi
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB

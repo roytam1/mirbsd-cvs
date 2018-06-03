@@ -90,6 +90,10 @@ mws_content <<'EOF'
 </td></tr>
 </table -->
 
+<!--
+	todo: add http://www.geheimpunkt.de/geotour/statbar.php?typ=schahatzsuche&cacher=3ccbde7baa57d93b3dd63819c0e5c753
+-->
+
 <div class="flbox"><img style="border:0px;"
  src="@@ABSPATH@@/privat/31days.gif"
  title="31 days of August, 2013" alt="31 days of August, 2013" /></div>
