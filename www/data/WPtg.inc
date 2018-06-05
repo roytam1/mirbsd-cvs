@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.184 2018/05/05 21:38:23 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.186 2018/06/03 21:52:53 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -14571,6 +14571,12 @@ Date: 2018-06-03
 Waypoint: GC7NJ98
 Title: Rastplatz Lipperland Nord
 Tag: D15 T15 Small Tradi
+----
+ID: 2400
+Date: 2018-06-05
+Waypoint: GC7JA6X
+Title: Der Krater
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20481102
 Date: 2048-11-02
