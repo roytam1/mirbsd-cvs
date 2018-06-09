@@ -14578,6 +14578,12 @@ Waypoint: GC7JA6X
 Title: Der Krater
 Tag: D15 T15 Micro Tradi
 ----
+ID: 2401
+Date: 2018-06-09
+Waypoint: OCBCC6 GC2NDK4
+Title: Rolandsbogen II
+Tag: D2 T25 Small Multi
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB
