@@ -24,8 +24,21 @@
 ! COLOR 7,0 (large), AXTerm amber on black, BXTerm monochrome (black
 ! on white), TXTerm (Terminus font) and VXTerm (FixedMisc, cp437 en‐
 ! coding, 80x25 size)), kterm (EUC-JP), kinput2 IME, scroll wheel in
-! Netscape 4, and whatever else pleases you. Works best with a most‐
-! ly recent xterm; etc/skel/dot.Xresources is better for MirBSD’s.
+! Netscape 4, and whatever else pleases you.
+! Use src/etc/skel/dot.Xresources for MirBSD/XFree86®’s older xterm;
+! contrib/samples/dot.Xresources is for more recent xterm, though on
+! X.org use “xterm” instead of “xterm-xfree86” as termName.
+
+! Do NOT use cut buffers in xterm. They are evil and obsolete.
+! Instead, let Shift while selecting/pasting by mouse buttons
+! use CLIPBOARD, Ctrl toggles the same for Shift-Insert.
+*VT100*translations: #override \n\
+	 Shift~Ctrl<KeyPress>Insert:insert-selection(PRIMARY) \n\
+	 Shift Ctrl<KeyPress>Insert:insert-selection(CLIPBOARD) \n\
+	~Shift~Ctrl<Btn2Up>:insert-selection(PRIMARY) \n\
+	 Shift~Ctrl<Btn2Up>:insert-selection(CLIPBOARD) \n\
+	~Shift<BtnUp>:select-end(PRIMARY) \n\
+	 Shift<BtnUp>:select-end(CLIPBOARD) \n\
 
 !--- generic XTerm settings ---
 XTerm*VT100*loginShell:		true
@@ -433,7 +446,7 @@ KTerm*fontMenu*foreground:	gray15
 KTerm*visualBell:		true
 KTerm*VT100*kanjiMode:		euc
 KTerm*VT100*Translations:	#override \
-	Shift<Key>space: begin-conversion(_JAPANESE_CONVERSION)
+	Shift<Key>space: begin-conversion(_JAPANESE_CONVERSION) \n\
 
 ! undo some Kubuntu brain damage
 XTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
@@ -443,18 +456,18 @@ BXTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,6
 TXTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
 VXTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
 KTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,61:61,62:62,63:63,64:64,95:48,126:126
-
-! Do NOT use cut buffers in xterm. They are evil and obsolete.
-*VT100*translations: #override \n\
-    ~Shift~Ctrl<Btn2Up>: insert-selection(PRIMARY) \n\
-    Shift~Ctrl<Btn2Up>:  insert-selection(CLIPBOARD) \n\
-    <BtnUp>:select-end(PRIMARY)
-!XXX TODO: merge same thing as in etc/skel/dot.Xresources, for newer xterms
+XTerm*selectToClipboard:	false
+UXTerm*selectToClipboard:	false
+AXTerm*selectToClipboard:	false
+BXTerm*selectToClipboard:	false
+TXTerm*selectToClipboard:	false
+VXTerm*selectToClipboard:	false
+KTerm*selectToClipboard:	false
 
 !--- kinput2 japanese input method editor ---
-Kinput2*conversionEngine:	canna
+!Kinput2*conversionEngine:	canna
 !*inputMethod:			XIM
-*inputMethod:			kinput2
+!*inputMethod:			kinput2
 
 !--- Netscape 4 mouse wheel ---
 Netscape*drawingArea*translations:  #replace    \
