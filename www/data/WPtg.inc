@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.186 2018/06/03 21:52:53 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.188 2018/06/09 19:41:44 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -14583,6 +14583,37 @@ Date: 2018-06-09
 Waypoint: OCBCC6 GC2NDK4
 Title: Rolandsbogen II
 Tag: D2 T25 Small Multi
+----
+ID: 2402
+Date: 2018-06-16
+Waypoint: OC14786 GC7NY6W
+Title: BONN GRILLT 2018
+Tag: D1 T1 Event recommended
+----
+ID: 2403
+Date: 2018-06-16
+Waypoint: GC75ZDC
+Title: quietscheentchens T-Säule
+Tag: D2 T1 Micro Tradi
+----
+ID: 2404
+Date: 2018-06-17
+Waypoint: OC14864
+Title: Das Gold der Kelten
+nTF: 1
+Tag: D2 T2 Regular Tradi
+----
+ID: 2405
+Date: 2018-06-17
+Waypoint: GC616KY
+Title: RuM 8 - Srochus
+Tag: D25 T1 Micro Tradi
+----
+ID: 2406
+Date: 2018-06-17
+Waypoint: GC50V4J
+Title: S1 - Einführung
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20481102
 Date: 2048-11-02
