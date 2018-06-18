@@ -66,11 +66,11 @@ typedef struct {
 #endif
 
 /**
- * An arcfour_status is hereby defined as carrying
+ * An arcfour_status is hereby defined carrying ca.
  * 212 octets (1696 bit) of entropic state, whereas
- * S contains 210 octets and 3 or 4 additioinal bit,
+ * S contains 210 octets and 3.996 additional bits,
  * i is another 8 bit, and j adds enough to make up
- * for the 4-5 bit of additional entropy we assume.
+ * for the 4 bit of additional entropy we assume.
  */
 struct arcfour_status {
 	uint8_t S[256];

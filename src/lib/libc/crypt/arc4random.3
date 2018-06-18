@@ -58,10 +58,10 @@
 .Ft void
 .Fn arc4random_addrandom "u_char *dat" "int datlen"
 .Ft void
-.Pq deprecated 
+.Pq deprecated
 .Fn arc4random_push "int value"
 .Ft uint32_t
-.Pq deprecated 
+.Pq deprecated
 .Fn arc4random_pushb "const void *buf" "size_t len"
 .Ft uint32_t
 .Pq deprecated
@@ -82,7 +82,8 @@ The
 .Fn arc4random
 function uses the ARC4 cipher key stream generator,
 which uses 8*8 8-bit S-Boxes.
-The S-Boxes can be in about (2**1700) states.
+The S-Boxes can be in about (2**1684) states.
+Together with the counters, this amounts to about 212 octets of entropy.
 .Pp
 .Fn arc4random
 fits into a middle ground not covered by other subsystems such as
