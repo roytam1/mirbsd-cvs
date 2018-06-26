@@ -1,11 +1,11 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.33 2013/05/18 01:28:50 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.35 2017/11/28 20:49:25 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
 
 COMMENT=		multi-screen window manager
 VERSION=		4.0.3
-DASH_VER=		20
+DASH_VER=		21
 DISTNAME=		screen-${VERSION}
 CATEGORIES=		misc
 HOMEPAGE=		http://www.gnu.org/software/screen/
