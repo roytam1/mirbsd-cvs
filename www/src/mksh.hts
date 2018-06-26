@@ -209,7 +209,7 @@ mws_content <<'EOF'
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
-<!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
+<!-- mksh /usr/src/scripts/webhash /MirOS/dist/mir/mksh 2 #-->
   <li>RMD160 (mksh-R56c.tgz) = 3b0c0acccaed1f7989d0a4915154dd5ea48e86c0</li>
   <li>TIGER (mksh-R56c.tgz) = 3f1a966c308cae61d73c00b2ddaf6079cd6508028444bb40</li>
   <li>2186511968 417218 /MirOS/dist/mir/mksh/mksh-R56c.tgz</li>

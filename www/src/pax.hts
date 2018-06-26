@@ -5,7 +5,7 @@ mws_setname subprojects/pax "MirCPIO — paxmirabilis"
 mws_setrss "tag_mksh.rss"
 mws_setheadline MirCPIO — paxmirabilis — tar and even ar!
 mws_setold
-mws_putheader '$MirOS: www/src/pax.hts,v 1.6 2017/12/19 00:56:39 tg Exp $'
+mws_putheader '$MirOS: www/src/pax.hts,v 1.7 2018/05/06 12:56:44 tg Exp $'
 mws_content <<'EOF'
 <p>Eventually, this page will become a proper subproject
  homepage, like jupp’s and mksh’s. For now, it’s a download
@@ -21,7 +21,7 @@ mws_content <<'EOF'
 </ul>
 
 <h3 id="hashes">Checksums and Hashes</h3><ul>
-<!-- cd /MirOS/dist/mir/cpio; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
+<!-- mksh /usr/src/scripts/webhash /MirOS/dist/mir/cpio 2 #-->
   <li>RMD160 (paxmirabilis-20161104.cpio.gz) = 35c55da7898b23206a16a759b2038bf677833e00</li>
   <li>TIGER (paxmirabilis-20161104.cpio.gz) = 7a2e84e9ca9b32fa94146432fbf348aa5058ec8a42e0c4b9</li>
   <li>3599565450 148061 /MirOS/dist/mir/cpio/paxmirabilis-20161104.cpio.gz</li>

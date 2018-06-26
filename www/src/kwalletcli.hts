@@ -1,6 +1,5 @@
 mws_setname subprojects/kwalletcli "kwalletcli — CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_setold
 mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.36 2018/02/09 18:24:39 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
@@ -31,12 +30,12 @@ mws_content <<'EOF'
 
 <h3 id="download">Download</h3>
 <p>Current version: kwalletcli 3.01 (2018-02-09)</p><ul>
-<!-- cd /MirOS/dist/hosted/kwalletcli; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
+<!-- mksh /usr/src/scripts/webhash /MirOS/dist/hosted/kwalletcli #-->
  <li>RMD160 (kwalletcli-3.01.tar.gz) = 4ea877244428cf031df5558b37413c621f6758d0</li>
  <li>TIGER (kwalletcli-3.01.tar.gz) = e2961e415f28aba03975fe73fb88b010482ede8ef6fbb0a3</li>
  <li>1298048588 64075 /MirOS/dist/hosted/kwalletcli/kwalletcli-3.01.tar.gz</li>
  <li>MD5 (kwalletcli-3.01.tar.gz) = 83758f0edc7fb342d2c780a306eaf2c3</li>
- <li style="list-style:none;">Mirrors</li>
+  <li style="list-style:none;">Mirrors</li>
  <li><a href="http://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-3.01.tar.gz">Germany</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-3.01.tar.gz">Japan</a></li>
 </ul>

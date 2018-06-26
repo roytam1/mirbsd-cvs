@@ -1,0 +1,27 @@
+#!/bin/mksh
+# $MirOS$
+
+die() {
+	print -ru2 -- "E: $0: $*"
+	exit 1
+}
+
+[[ $1 = /* && -d $1/. ]] || die "\$1 ($1) not a directory"
+cd "$1" || die "could not cd to: $1"
+
+num=${2:-1}
+[[ $num = [1-9]*([0-9]) ]] || die "\$2 ($num) not numeric"
+spc=
+while (( num-- )); do
+	spc+=' '
+done
+
+ls
+read fn?'File? '
+[[ -s $fn ]] || die "file '$fn' does not exist or is empty"
+
+(
+	cksum -a rmd160 -a tiger -- "$fn"
+	cksum -- "$PWD/$fn"
+	md5 -- "$fn"
+) | sed "s!^.*\$!$spc<li>&</li>!"

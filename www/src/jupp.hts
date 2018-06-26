@@ -3,7 +3,6 @@
 
 mws_setname subprojects/jupp "jupp — Programmer’s Editor"
 mws_setheadline jupp — the Editor which sucks less
-mws_setold
 mws_putheader '$MirOS: www/src/jupp.hts,v 1.77 2018/03/16 00:25:18 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
@@ -127,7 +126,7 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
-<!-- cd /MirOS/dist/jupp; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
+<!-- mksh /usr/src/scripts/webhash /MirOS/dist/jupp #-->
  <li>RMD160 (joe-3.1jupp36.tgz) = 442b1e615dc522b3237d3e1ed041a56545abab92</li>
  <li>TIGER (joe-3.1jupp36.tgz) = 03ab33db9d35d86a5aa6cdd8d632ee8205c6d448d6f74ac2</li>
  <li>3436429957 473662 /MirOS/dist/jupp/joe-3.1jupp36.tgz</li>
