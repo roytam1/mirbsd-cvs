@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS$
+# $MirOS: src/scripts/webhash,v 1.1 2018/06/26 21:39:19 tg Exp $
 
 die() {
 	print -ru2 -- "E: $0: $*"
@@ -21,7 +21,7 @@ read fn?'File? '
 [[ -s $fn ]] || die "file '$fn' does not exist or is empty"
 
 (
-	cksum -a rmd160 -a tiger -- "$fn"
+	cksum -a sha256 -a rmd160 -a tiger -- "$fn"
 	cksum -- "$PWD/$fn"
 	md5 -- "$fn"
 ) | sed "s!^.*\$!$spc<li>&</li>!"
