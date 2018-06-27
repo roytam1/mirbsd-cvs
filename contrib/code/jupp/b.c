@@ -55,6 +55,8 @@ int error;
 int force = 0;
 VFILE *vmem;
 
+static int brch_u8(P *);
+
 const unsigned char *msgs[] = {
 	UC "No error",
 	UC "New File",
@@ -735,7 +737,7 @@ prgetc(P *p)
 	pset(p, r);
 	prm(r);
 	prm(q);
-	return (brch(p));
+	return (brch_u8(p));
 }
 
 /* move p n characters backwards */
@@ -917,7 +919,7 @@ P *pcol(P *p, long goalcol)
 			int c;
 			int wid;
 
-			c = brch(p);
+			c = brch_u8(p);
 
 			if (c == NO_MORE_DATA)
 				break;
@@ -2455,16 +2457,19 @@ int brc(P *p)
 
 /* Return character at p */
 
-int brch(P *p)
+int
+brch(P *p)
 {
-	if (p->b->o.charmap->type) {
-		P *q = pdup(p);
-		int c = pgetc(q);
-		prm(q);
-		return c;
-	} else {
-		return brc(p);
-	}
+	return (p->b->o.charmap->type ? brch_u8(p) : brc(p));
+}
+
+static int
+brch_u8(P *p)
+{
+	P *q = pdup(p);
+	int c = pgetc(q);
+	prm(q);
+	return (c);
 }
 
 unsigned char *brmem(P *p, unsigned char *blk, int size)
