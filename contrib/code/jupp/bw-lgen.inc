@@ -26,6 +26,8 @@ __IDSTRING(rcsid_bw_lgen_inc, "$MirOS$");
 		}
 		if (st != -1)
 			atr = syn[idx++];
+		if (utf8_sm.state && !(bc & 0x80))
+			goto LGEN_LABEL(ilseq);
 		if (p->b->o.crlf && bc == '\r') {
 			++byte;
 			if (!--amnt) {
@@ -72,10 +74,6 @@ __IDSTRING(rcsid_bw_lgen_inc, "$MirOS$");
 			c1 = 0;
 		++byte;
 		if (bc == '\t') {
-#ifndef LGEN_Q /*XXX*/
-			if (utf8_sm.state)
-				goto LGEN_LABEL(ilseq);
-#endif
 			ta = p->b->o.tab - (XCOL % p->b->o.tab);
 #ifdef LGEN_Q
 			if (ta + col > scr) {
@@ -105,10 +103,6 @@ __IDSTRING(rcsid_bw_lgen_inc, "$MirOS$");
 				goto dota_loop;
 #endif
 		} else if (bc == '\n') {
-#ifndef LGEN_Q /*XXX*/
-			if (utf8_sm.state)
-				goto LGEN_LABEL(ilseq);
-#endif
 			goto eobl;
 		} else {
 			int wid = -1;
@@ -120,7 +114,7 @@ __IDSTRING(rcsid_bw_lgen_inc, "$MirOS$");
 			 */
 			if (bw->b->o.charmap->type) {
 				/* UTF-8 */
-				c = utf8_decode(&utf8_sm,bc);
+				c = utf8_decode(&utf8_sm, bc);
 
 				if (c >= 0) {
 					/* Normal decoded character */
@@ -130,12 +124,10 @@ __IDSTRING(rcsid_bw_lgen_inc, "$MirOS$");
 					wid = -1;
 				} else if (c == -2) {
 					/* Incomplete sequence */
-#ifndef LGEN_Q /*XXX*/
- LGEN_LABEL(ilseq):
-#endif
-					ungetit = bc;
 					++amnt;
 					--byte;
+ LGEN_LABEL(ilseq):
+					ungetit = bc;
 					c = 0x1000FFFE;
 					wid = utf8_sm.ptr;
 					utf8_init(&utf8_sm);
