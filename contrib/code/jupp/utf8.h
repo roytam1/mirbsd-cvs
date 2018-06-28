@@ -30,6 +30,7 @@ struct utf8_sm {
 	int ptr;		/* Record pointer */
 	int state;		/* Current state.  0 = idle, anything else is no. of chars left in sequence */
 	int accu;		/* Character accumulator */
+	int minv;		/* Minimum value, for decoder */
 };
 
 /* UTF-8 Decoder
