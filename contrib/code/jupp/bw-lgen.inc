@@ -173,7 +173,7 @@ __IDSTRING(rcsid_bw_lgen_inc, "$MirOS: contrib/code/jupp/bw-lgen.inc,v 1.3 2018/
 					outatr(utf8_map, t,
 					    screen + x, attr + x,
 					    x, y, 0xB7, c1 | atr);
-					x += wid;
+					x++;
 				} else {
 					outatr(bw->b->o.charmap, t,
 					    screen + x, attr + x,
