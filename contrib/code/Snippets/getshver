@@ -1,6 +1,6 @@
 # $MirOS: contrib/code/Snippets/getshver,v 1.16 2013/09/27 18:26:06 tg Exp $
 #-
-# Copyright (c) 2009, 2010, 2011, 2012, 2013, 2014, 2016
+# Copyright (c) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2018
 #	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -20,6 +20,9 @@
 #-
 # There's also this one (although mksh never sets $SH_VERSION):
 # http://www.in-ulm.de/~mascheck/various/whatshell/whatshell.sh.html
+
+# escape this from tclsh \
+true unless q # escape from Perl
 
 # escape this from tclsh \
 set x = 1
@@ -239,3 +242,8 @@ else
 	echo csh
 endif
 exit 0
+
+# back to Perl
+ eq '';
+print "perl $] on $^O\n";
+exit 0;
