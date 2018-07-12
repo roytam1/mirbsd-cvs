@@ -243,6 +243,11 @@ Overview of design (good and bad sides) and features of ksh,
 with the advent of the new ksh93, and some history, from
 David G. Korn himself.
 ----
+Title: Unix shell scripting with ksh/bash
+Link: http://www.dartmouth.edu/~rc/classes/ksh/
+
+Course Handout for a class on shell scripting at Dartmouth university.
+----
 Title: * Portable Shell::
 Link: http://www.gnu.org/software/autoconf/manual/html_node/Portable-Shell.html
 
