@@ -7852,7 +7852,7 @@ Date: 21.02.2015
 Waypoint: N0225D OC03E8 GCQTN5
 Title: Bonner Doppel-Webcam-Cache
 nTF: 2
-Tag: D1 T1 Virtual Webcam
+Tag: D1 T1 Webcam
 ----
 ID: 1337
 Date: 22.02.2015
@@ -14614,6 +14614,127 @@ Date: 2018-06-17
 Waypoint: GC50V4J
 Title: S1 - Einführung
 Tag: D15 T15 Micro Tradi
+----
+ID: 2407
+Date: 2018-06-10
+Waypoint: GC6R04N
+Title: Bonn - such a beautiful town!
+Tag: D15 T15 Virtual Multi
+----
+ID: 2408
+Date: 2018-06-27
+Waypoint: GC799F7
+Title: Schildchen
+Tag: D1 T1 Micro Tradi
+----
+ID: 2409
+Date: 2018-06-27
+Waypoint: GC799EQ
+Title: Siegblick
+Tag: D1 T15 Nano Tradi
+----
+ID: 2410
+Date: 2018-06-28
+Waypoint: GC7NTWN
+Title: Züllighovener Treff
+nTF: 3
+Tag: D15 T15 Micro Tradi
+----
+ID: 2411
+Date: 2018-06-29
+Waypoint: GC7R8B3
+Title: Hidden Creatures Mittagspause Tag 3
+Tag: D1 T1 Event
+----
+ID: 2412
+Date: 2018-07-04
+Waypoint: GC7QC93
+Title: Am Bächlein
+Tag: D25 T1 Micro Tradi
+----
+ID: 2413
+Date: 2018-07-04
+Waypoint: GC7PHN5
+Title: Auf Wanderschafft
+Tag: D25 T2 Small Tradi
+----
+ID: 2414
+Date: 2018-07-04
+Waypoint: GC7QV20
+Title: Auf Wanderschaft — 2
+Tag: D3 T2 Micro Tradi
+----
+ID: 2415
+Date: 2018-07-04
+Waypoint: GC5JE30
+Title: Ungeziefer
+Tag: D15 T15 Small Tradi recommended
+----
+ID: 2416
+Date: 2018-07-04
+Waypoint: GC7PE6D
+Title: Mittagspausensnack
+Tag: D15 T1 Micro Tradi
+----
+ID: 2417
+Date: 2018-07-12
+Waypoint: GC5WVRY
+Title: Auf der Mauer, auf der Lauer...
+Tag: D2 T2 Micro Tradi
+----
+ID: 2418
+Date: 2018-07-12
+Waypoint: GC7DJZV
+Title: Kleine Pause
+Tag: D15 T15 Micro Tradi
+----
+ID: 2419
+Date: 2018-07-12
+Waypoint: GC764KK
+Title: Unterdorf
+Tag: D2 T15 Small Tradi
+----
+ID: 2420
+Date: 2018-07-12
+Waypoint: GC7H3DA
+Title: Kuckuck Kuckuck
+Tag: D15 T15 Small Tradi recommended
+----
+ID: 2421
+Date: 2018-07-12
+Waypoint: GC7CF8B
+Title: Oedekoven Buchenweg
+Tag: D15 T15 Nano Tradi
+----
+ID: 2422
+Date: 2018-07-12
+Waypoint: GC7CC6R
+Title: GAHNA LANE
+Tag: D15 T15 Small Tradi
+----
+ID: 2423
+Date: 2018-07-12
+Waypoint: GC78JR9
+Title: Kindheitserinnerung 01 - Spielplatz Waldstraße
+Tag: D15 T2 Micro Tradi
+----
+ID: 2424
+Date: 2018-07-12
+Waypoint: GC7CC1E
+Title: Moritz Cache #1
+Tag: D3 T1 Small Tradi
+----
+ID: 2425
+Date: 2018-07-12
+Waypoint: GC7CCAN
+Title: Moritz Cache #2
+Tag: D15 T15 Micro Tradi
+----
+ID: 2426
+Date: 2018-07-12
+Waypoint: GC7JMXV
+Title: Moritz Cache #1 (Basic)
+Tag: D1 T2 Micro Tradi
 ----
 ID: p20481102
 Date: 2048-11-02
