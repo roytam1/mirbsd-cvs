@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.118 2018/05/05 17:40:23 tg Exp $
+# $MirOS: www/Makefile,v 1.120 2018/05/06 13:53:03 tg Exp $
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -229,13 +229,10 @@ validation: .PHONY ${VOBJS}
 	@print '\nValidation complete.'
 
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
-	cp-herc rs-gecko2 rs-fish
+	cp-herc rs-fish
 
 #cp-herc: site.tgz.stamp
 #	ssh hercs 'cd /var/www/oldsite; tar xzvf -' <site.tgz
-
-rs-gecko2:
-	rsync -rxlztpgavPHK dst/ tglaser@www.ig42.org:/var/www/miros.unixforge.de/htdocs/
 
 rs-fish:
 	@if [[ $$(hostname) = fish.mirbsd.org ]]; then hn=; else hn=fish:; fi; \
@@ -249,7 +246,7 @@ depend: .depend
 
 lazy: .PHONY
 	cd ${.CURDIR} && make depend && make && \
-	    make _reinstall && exec make rs-fish rs-gecko2 tagslst
+	    make _reinstall && exec make rs-fish tagslst
 
 tagslst: .PHONY
 	@(echo === TAGS USED/UNUSED/ACCOUNTED FOR ==; cat stamp_tag_* | \
