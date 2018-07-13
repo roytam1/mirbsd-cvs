@@ -14521,6 +14521,7 @@ Tag: D15 T15 Micro Tradi
 ID: 2391
 Date: 2018-05-31
 Waypoint: GC5ZEDJ
+Banner: jpg
 Title: Zur grünen Walze
 Tag: D15 T15 Regular Tradi recommended
 ----
@@ -14557,6 +14558,7 @@ Tag: D2 T2 Small Tradi
 ID: 2397
 Date: 2018-06-03
 Waypoint: GC4EF95
+Banner: jpg
 Title: Einmal um den Teich 1
 Tag: D15 T15 Micro Tradi
 ----
@@ -14587,6 +14589,7 @@ Tag: D2 T25 Small Multi
 ID: 2402
 Date: 2018-06-16
 Waypoint: OC14786 GC7NY6W
+Banner: jpg
 Title: BONN GRILLT 2018
 Tag: D1 T1 Event recommended
 ----
@@ -14697,6 +14700,7 @@ Tag: D2 T15 Small Tradi
 ID: 2420
 Date: 2018-07-12
 Waypoint: GC7H3DA
+Banner: jpg
 Title: Kuckuck Kuckuck
 Tag: D15 T15 Small Tradi recommended
 ----
@@ -14735,6 +14739,24 @@ Date: 2018-07-12
 Waypoint: GC7JMXV
 Title: Moritz Cache #1 (Basic)
 Tag: D1 T2 Micro Tradi
+----
+ID: 2427
+Date: 2018-07-13
+Waypoint: GC7NYAK
+Title: Marmelade
+Tag: D1 T1 Small Tradi
+----
+ID: 2428
+Date: 2018-07-13
+Waypoint: GC1B7XY
+Title: Piraten-Hochzeit
+Tag: D25 T2 Micro Mystery
+----
+ID: 2429
+Date: 2018-07-14
+Waypoint: GC37W22
+Title: Alfterer Kreuze 26
+Tag: D1 T1 Micro Tradi
 ----
 ID: p20481102
 Date: 2048-11-02
