@@ -1,4 +1,4 @@
-.\" $MirOS: ports/Setup.sh.8,v 1.31 2014/05/29 18:40:45 tg Exp $
+.\" $MirOS: ports/Setup.sh.8,v 1.33 2016/02/11 20:11:58 tg Exp $
 .\"-
 .\" Copyright (c) 2005, 2006, 2008, 2009, 2014, 2015, 2016
 .\"	mirabilos <m@mirbsd.org>
@@ -76,7 +76,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: May 29 2014 $
+.Dd $Mdocdate: February 11 2016 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -661,15 +661,15 @@ in cases of errors and should abort on all errors and corner cases.
 .Sh AUTHORS
 .Nm
 was written by
-.An Thorsten Glaser Aq tg@mirbsd.de .
-The MirPorts Framework is maintained by
-.Aq miros-discuss@MirBSD.org .
+.An -nosplit
+.An Thorsten Glaser Aq tg@mirbsd.de ,
+who also maintains The MirPorts Framework now.
 The package tools have been taken over from
 .Fx
 and
 .Ox
-and are now maintained by
-.An Benny Siegert Aq bsiegert@mirbsd.org .
+by
+.An Dr.\& Benny Siegert Aq bsiegert@gmail.com .
 .Sh CAVEATS
 Be careful with passing environment variables to
 .Nm
@@ -701,8 +701,9 @@ them only properly if suid-root or sgid-wheel though.
 If possible, avoid installing MirPorts as regular user.
 .Sh BUGS
 Probably many.
-Report them to
-.Aq miros-discuss@mirbsd.org .
+Report them to our discuss mailing list at:
+.Pa http://www.mirbsd.org/rss.htm#lists
+.br
 There are so many possible scenarios and corner cases, as well
 as incompatibilities, so that some breakage might always occur.
 .Pp

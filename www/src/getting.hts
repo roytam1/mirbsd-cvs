@@ -4,7 +4,7 @@
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
 mws_setold
-mws_putheader '$MirOS: www/src/getting.hts,v 1.31 2018/05/06 12:56:39 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.32 2018/05/14 22:36:13 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
  MirPorts framework, and the source tree. And you may want to read the
@@ -30,7 +30,7 @@ mws_content <<'EOF'
 </ul>
 
 <p>You can also ask <a href="mailto:tg@mirbsd.de">Thorsten</a> for install
- CDs and <a href="mailto:bsiegert@mirbsd.org">Benny</a> for CDs with binary
+ CDs and <a href="mailto:bsiegert@gmail.com">Benny</a> for CDs with binary
  packages, distfiles and MirPorts on them. They will ship per snail mail;
  the usual pricing is: at least 15 EUR per CD (25 for both) to Germany.
  We cannot ship to outside the European Union and Switzerland.</p>

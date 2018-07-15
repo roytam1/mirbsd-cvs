@@ -1,5 +1,5 @@
 Flags: ISOLD
-RCSID: $MirOS: www/data/wlog-10-tg.inc,v 1.3 2018/05/06 13:17:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10-tg.inc,v 1.5 2018/05/14 22:41:49 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -896,7 +896,7 @@ Author: t.glaser@tarent.de (EvolvisForge blog)
 Title: Administrativa (Evolvis Blogs)
 Tag: work
 
-<p>The blogs have been moved from *.blogs.evolvis.org to *.blog.tarent.de to provide proper SSL certificates. This also means that the use of blogs for people who are not employees of tarent GmbH, tarent AG or one of its subsidiaries is currently not available. (If that should become necessary, please <a href="mailto:evolvistodo@tarent.de">contact us</a>.</p>
+<p>The blogs have been moved from *.blogs.evolvis.org to *.blog.tarent.de to provide proper SSL certificates. This also means that the use of blogs for people who are not employees of tarent GmbH, tarent AG or one of its subsidiaries is currently not available. (If that should become necessary, please contact us.</p>
 
 <p>The feed has moved to http://evolvisforge.blog.tarent.de/feed/ for this blog (similarily to the others), but just in case, you’ll get redirected (although only to the https version, which Planetplanet doesn’t seem to like).</p>
 

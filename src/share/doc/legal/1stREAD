@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/1stREAD,v 1.6 2006/08/08 21:38:02 tg Exp $
+$MirOS: src/share/doc/legal/1stREAD,v 1.7 2008/11/08 22:23:53 tg Exp $
 
 LICENCE OVERVIEW
 ----------------
@@ -81,8 +81,7 @@ MirOS base with BSD kernel, contributed GCC and MirPorts. If
 you think there is a possible case of copyright violation or
 licence non-compliance within the MirOS' CVS repository, web
 sites and download area, please don't hesitate to immediate-
-ly contact both the developer list at <miros-dev@mirbsd.org>
-and me at <nc-glaserth@netcologne.de> personally.
+ly contact me at <nc-glaserth@netcologne.de> personally.
 
 
 Thanks for your cooperation and much fun with our products!

@@ -1,10 +1,9 @@
-# $MirOS: ports/Makefile,v 1.37 2016/03/06 19:30:48 tg Exp $
+# $MirOS: ports/Makefile,v 1.38 2016/03/12 14:01:30 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2014, 2016
-#	The MirOS Project <miros-discuss@mirbsd.org>
-#	and its contributors
+#	The MirOS Project and its contributors
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission

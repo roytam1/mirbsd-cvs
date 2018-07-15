@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.42 2009/04/07 22:38:02 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.43 2012/11/30 21:22:53 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -100,7 +100,7 @@ GNU|Linux)
 *)
 	echo "Error: we cannot continue with this MACHINE_OS"
 	echo "value of '$MOS'. Please contact the MirOS"
-	echo "development team at miros-discuss@mirbsd.org and"
+	echo "development team via http://www.mirbsd.org/rss.htm#lists and"
 	echo "submit your operating system information and uname -a"
 	echo "output. Currently, the following values are supported:"
 	echo "- BSD Darwin GNU Interix"

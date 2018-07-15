@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.290 2015/07/19 00:00:00 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.294 2017/07/20 22:17:23 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -11,9 +11,6 @@
 # To obtain that address, just type
 #	mmake show=RESPONSIBLE
 # in the specific port's directory.
-#
-# For the MirPorts Framework, the master contact address is the mailing list:
-#	mmake show=_MIRPORTS_ADDRESS
 
 # Any variable or target starting with an underscore (e.g., _DEPEND_ECHO)
 # is internal to bsd.port.mk, not part of the user's API, and liable to
@@ -1173,7 +1170,7 @@ PATCH_CASES+=		*.Z|*.gz) ${GZCAT} $$patchfile \
 PATCH_CASES+=		*) ${PATCH} ${PATCH_DIST_ARGS} <$$patchfile ;;
 
 # Documentation
-RESPONSIBLE?=		The MirPorts mailing list ${_MIRPORTS_ADDRESS}
+RESPONSIBLE?=		The MirBSD discuss mailing list, see: http://www.mirbsd.org/rss.htm\#lists
 
 .if !defined(CATEGORIES)
 ERRORS+=		"Makefile variable CATEGORIES is mandatory."

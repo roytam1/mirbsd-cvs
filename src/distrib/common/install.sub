@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.70 2014/03/30 11:03:32 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.72 2018/04/28 05:20:39 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1701,7 +1701,7 @@ Hello there! We from the MirOS project would like to hear from you!
 If you installed or updated your existing MirOS installation, which
 architecture, maybe your country, a dmesg and a few words about how
 you like MirOS. If you don't mind being counted to help us estimate
-our userbase, mail to <miros-dev@mirbsd.de> - thanks in advance!
+our userbase, mail to <tg@mirbsd.de> - thanks in advance!
 __EOT
 
 	md_congrats

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.61 2014/11/26 19:29:28 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.62 2015/10/13 17:27:47 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008, 2012, 2014, 2015
 #	mirabilos <m@mirbsd.org>
@@ -202,7 +202,6 @@ SHELL=			${MKSH}		# missing ? not an oversight
 
 # this is supposed to be alphabetically sorted
 _CCLD?=			gcc
-_MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
 _MIROS_ANONCVS=		_anoncvs@anoncvs.mirbsd.org:/cvs
 ARCH?=			${MACHINE_ARCH}
 FETCH_CMD?=		/usr/bin/ftp -EV -m -o

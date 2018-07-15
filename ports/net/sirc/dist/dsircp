@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.53 2017/11/17 00:08:33 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.54 2017/11/17 00:12:24 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -49,8 +49,9 @@
 # If you make improvements to sirc, please send me the modifications
 # (unified diffs appreciated) and they might make it to the next release.
 #
-# For bug reports, comments, questions, email roger.espel.llima@pobox.com
-# and miros-discuss@mirbsd.org but not junk@mirbsd.org ;)
+# For bug reports, comments, questions, email the miros-discuss mailing
+# list, see http://www.mirbsd.org/rss.htm#lists for details, but not the
+# original author roger.espel.llima@pobox.com any more.
 #
 # You can always find the latest version of sirc at the following URL:
 # http://www.eleves.ens.fr:8080/home/espel/sirc/sirc.html
