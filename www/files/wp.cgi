@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.22 2016/11/19 17:57:59 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.24 2018/07/15 19:47:45 tg Exp $';
 #-
 # Copyright © 2013, 2014, 2015, 2016, 2018
 #	mirabilos <m@mirbsd.org>
@@ -96,7 +96,7 @@ if ($query ne "") {
 	# OU0B34 (Above Or Below?); OZ0277 (nic)
 	# SH02BF; LC7TL; CCHU; VX76-DIKA; WM5CZY; 2014-10-28_50_7
 
-	$query =~		s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPRUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|GLOBAL)|BC\d+)\b@
+	$query =~		s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGKL]|O[BCKPRUXZ]|PR|SH|TB|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|GLOBAL)|BC\d+)\b@
 					($query = $1) =~ /^GC/ ? "https://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
 					$query =~ /^BC/ ? sprintf("https://bessercacher.de/forum/viewtopic.php?t=%s", substr($query, 2)) :
 					$query =~ /^EC/ ? sprintf("http://extremcaching.com/index.php/output-2/%s", substr($query, 2)) :
@@ -104,6 +104,7 @@ if ($query ne "") {
 					$query =~ /^GD/ ? "http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$query" :
 					$query =~ /^GE/ ? "http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$query" :
 					$query =~ /^GG/ ? "http://golf.gpsgames.org/cgi-bin/golf.pl?course=$query&coursedetails=Go" :
+					$query =~ /^GK/ ? sprintf("https://geokrety.org/konkret.php?id=%d", hex(substr($query, 2))) :
 					$query =~ /^(GL|PR)/ ? "http://coord.info/$query" :
 					$query =~ /^N[0-9]/ ? sprintf("http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d", hex(substr($query, 1))) :
 					$query =~ /^OB/ ? "https://www.opencaching.nl/viewcache.php?wp=$query" :
@@ -114,6 +115,7 @@ if ($query ne "") {
 					$query =~ /^OU/ ? "http://www.opencaching.us/viewcache.php?wp=$query" :
 					$query =~ /^OZ/ ? "https://opencaching.cz/viewcache.php?wp=$query" :
 					$query =~ /^SH/ ? "http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$query" :
+					$query =~ /^TB/ ? "https://www.geocaching.com/track/details.aspx?tracker=$query" :
 					$query =~ /^[TLC]C/ ? "https://play.terracaching.com/Cache/$query" :
 					$query =~ /^VX/ ? "http://geovexilla.gpsgames.org/cgi-bin/vx.pl?listwaypointlogs=yes&wp=$query" :
 					$query =~ /^WM/ ? "http://www.waymarking.com/waymarks/$query" :

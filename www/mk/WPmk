@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.48 2017/08/10 17:57:49 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.53 2018/07/15 19:47:45 tg Exp $'
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -324,7 +324,7 @@ fi
 			print '\n<div class="gc_body">'
 			#XXX some may be too lax or strict
 			print -r -- "${ei_body[ent]}" | perl -pe '
-				s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPRUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|global)|BC\d+)\b@
+				s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGKL]|O[BCKPRUXZ]|PR|SH|TB|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|global)|BC\d+)\b@
 					($wp = $1) =~ /^GC/ ? "<a href=\"https://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>" :
 					$wp =~ /^BC/ ? sprintf("<a href=\"https://bessercacher.de/forum/viewtopic.php?t=%s\">BesserCacher#%s</a>", substr($wp, 2), substr($wp, 2)) :
 					$wp =~ /^EC/ ? sprintf("<a href=\"http://extremcaching.com/index.php/output-2/%s\">%s</a>", substr($wp, 2), $wp) :
@@ -332,6 +332,7 @@ fi
 					$wp =~ /^GD/ ? "<a href=\"http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$wp\">$wp</a>" :
 					$wp =~ /^GE/ ? "<a href=\"http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$wp\">$wp</a>" :
 					$wp =~ /^GG/ ? "<a href=\"http://golf.gpsgames.org/cgi-bin/golf.pl?course=$wp&amp;coursedetails=Go\">$wp</a>" :
+					$wp =~ /^GK/ ? sprintf("<a href=\"https://geokrety.org/konkret.php?id=%d\">%s</a>", hex(substr($wp, 2)), $wp) :
 					$wp =~ /^(GL|PR)/ ? "<a href=\"http://coord.info/$wp\">$wp</a>" :
 					$wp =~ /^N[0-9]/ ? sprintf("<a href=\"http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d\">%s</a>", hex(substr($wp, 1)), $wp) :
 					$wp =~ /^OB/ ? "<a href=\"https://www.opencaching.nl/viewcache.php?wp=$wp\">$wp</a>" :
@@ -342,6 +343,7 @@ fi
 					$wp =~ /^OU/ ? "<a href=\"http://www.opencaching.us/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OZ/ ? "<a href=\"https://opencaching.cz/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^SH/ ? "<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>" :
+					$wp =~ /^TB/ ? "<a href=\"https://www.geocaching.com/track/details.aspx?tracker=$wp\">$wp</a>" :
 					$wp =~ /^[TLC]C/ ? "<a href=\"https://play.terracaching.com/Cache/$wp\">$wp</a>" :
 					$wp =~ /^VX/ ? "<a href=\"http://geovexilla.gpsgames.org/cgi-bin/vx.pl?listwaypointlogs=yes&amp;wp=$wp\">$wp</a>" :
 					$wp =~ /^WM/ ? "<a href=\"http://www.waymarking.com/waymarks/$wp\">$wp</a>" :
