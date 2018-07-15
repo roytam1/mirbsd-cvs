@@ -48,7 +48,7 @@ function output {
 			i="${i}mirbsd.org"
 		fi
 		[[ $i = *\(*\)* ]] || i="$i (MirOS Developer$j)"
-		title="$title by <a href=\"mailto:${i%% *}\">${e_author[ent]}</a>"
+		title="$title by ${e_author[ent]}"
 	fi
 	subtitle=
 	if [[ ${e_language[ent]} = +([A-Za-z0-9-]) ]]; then
