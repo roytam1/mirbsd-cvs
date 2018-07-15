@@ -1926,7 +1926,7 @@ tty_init_talking(void)
 		break;
 	case 2:
 #ifndef MKSH_DISABLE_TTY_WARNING
-		warningf(false, Tf_sD_s_s, Tcant_find, Ttty_fd,
+		warningf(false, Tf_s_sD_s, Tcant_find, Ttty_fd,
 		    cstrerror(errno));
 #endif
 		break;
