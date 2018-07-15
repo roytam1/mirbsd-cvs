@@ -106,7 +106,7 @@ Title: How should I package mksh? (common cases)
  either as <tt>/etc/skel/.mkshrc</tt> (meaning your users will have to
  manually resynchronise their home directories’ copies after every package
  upgrade) or as <tt>/etc/mkshrc</tt>, in which case you install a <a
- href="https://anonscm.debian.org/cgit/collab-maint/mksh.git/plain/debian/.mkshrc">redirection
+ href="https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=alioth/mksh.git;a=blob;f=debian/.mkshrc;hb=HEAD">redirection
  script like Debian’s</a> into <tt>/etc/skel/.mkshrc</tt>. If you need a <a
  href="TaC-mksh.txt">summary of the licence information</a>, take it.</p>
 <p>At runtime, the presence of <tt>/bin/ed</tt> as default history editor
@@ -211,6 +211,29 @@ Title: My prompt from &lt;<i>some other shell</i>&gt; does not work!
 we'll convert it for you. Also have a look at the PS1 section in
 the mksh(1) manpage (search for “otherwise unused char”, e.g. with
 <tt>/</tt> in less(1), to spot it quickly).
+----
+ToC: current
+Title: Can mksh set the title of the window according to the command running?
+
+There’s no such thing as “the command currently running”; consider
+pipelines and delays (<tt>cmd1 | (cmd2; sleep 3; cmd3) | cmd4</tt>).
+There is, however, a way to make the shell display the command <em>line</em>
+during the time it is executed; for testing, you will need to download <a
+href="https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git;a=blob;f=mksh/terminal-title;hb=HEAD">this
+script</a> and <tt>source</tt> it. For merging into your <tt>~/.mkshrc</tt>
+you should first understand how it works: lines 4–18 set a <tt>PS1</tt>
+(prompt) equivalent to lines 84–96 of the stock <tt>dot.mkshrc</tt>, with
+one change: line 15 (<tt>print &gt;/dev/tty …</tt>) is new, inserted just
+before the <tt>return</tt> command of the function substitution in the
+default prompt; this is what you’ll need to merge into your own, custom,
+prompt (if you have one; otherwise pull this adaption to the default
+one). Line 19 is the only other thing in this script rebinding the Ctrl-M
+key (which is normally produced by the Enter/Return key) to code that…
+does <em>something crazy</em>. This trick however <strong>breaks multiline
+commands</strong>, so if you type something out in multiple lines, for
+example <strong>here documents</strong> or <strong>loops</strong> press
+<strong>Ctrl-J instead of Enter/Return</strong> after <em>each</em> line
+including the first (at PS1) and final (at PS2) one.
 ----
 ToC: faq
 Title: My question is not answered here!
