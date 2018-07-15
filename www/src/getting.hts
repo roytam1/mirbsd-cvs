@@ -125,8 +125,9 @@ mws_content <<'EOF'
 <h2>Source code via anonymous CVS</h2>
 
 <p>To access the source code in the CVS repository, either point your
- browser to <a href="http://cvs.mirbsd.de">cvs.mirbsd.de (CVSweb)</a>
- or <a href="/cvs.cgi/">local CVSweb</a> or use anonymous CVS with <a
+ browser to <a href="http://cvs.mirbsd.de/">cvs.mirbsd.de (external(!)
+ CVSweb redirection)</a> or (better) <a href="/cvs.cgi/">local CVSweb
+ access link</a> or use anonymous CVS with <a
  href="http://openssh.com/">ssh</a> to:
  <tt>:ext:_anoncvs@anoncvs.mirbsd.org:/cvs</tt></p>
 
