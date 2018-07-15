@@ -3,14 +3,17 @@
 mws_setname irc "Internet Relay Chat: synchronously communicating with developers"
 mws_subdir 0
 mws_setheadline The MirOS Project on IRC
-mws_putheader '$MirOS: www/src/irc.hts,v 1.8 2018/05/06 12:56:40 tg Exp $'
+mws_putheader '$MirOS: www/src/irc.hts,v 1.9 2018/05/06 13:46:06 tg Exp $'
 mws_content <<'EOF'
 <p>IRC stands for Internet Relay Chat. There currently are two channels
  for socialising with other users and developers and pose questions.</p>
 
-<p>The channels are part of the <a
- href="http://freenode.net/">Freenode</a> network. The following are the
- recommended settings for your IRC client:</p>
+<p>The channels we’re using are part of the public <a
+ href="http://freenode.net/">Freenode</a> IRC network, which is an
+ external service merely utilised by us for convenience; please assume
+ anything posted on IRC is public, so do not publish personal data by
+ accident.<br />The following settings are the recommended ones for
+ your IRC client:</p>
 
 <dl>
  <dt>Server</dt>
