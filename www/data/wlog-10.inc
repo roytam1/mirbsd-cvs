@@ -1,5 +1,5 @@
 Flags: ISOLD
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.502 2018/05/05 23:58:18 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.504 2018/05/06 13:17:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1120,8 +1120,8 @@ Tag: geocache mksh
  href="@@RELPATH@@permalinks/wlog-10_e20080714-tg.htm">our point</a>.</p>
 <p>In the meanwhile, gecko2@ has found the geocaches I placed.</p>
 <p><strong>Update 18.07.2008 12:42</strong> — we have a fat binary with
- five architectures (amd64 arm i386 powerpc ppc64) now. This is the <a
- href="https://eurynome.mirbsd.org/pub/iShell.tgz">iShell</a>, indeed.</p>
+ five architectures (amd64 arm i386 powerpc ppc64) now. This is the
+ iShell, indeed.</p>
 ----
 Date: 19.07.2008 22:17
 Author: tg@
@@ -1155,8 +1155,7 @@ Title: mksh — The iShell, Episode Ⅱ
  universal binary ☺).</p>
 <p>I packaged the modified build script, an extra ldid binary (built
  for OSX86) provided by <em>someone else</em>, and the output of the
- build process, together with a readme, as a gzsig(1)ned <a
- href="https://eurynome.mirbsd.org/pub/iShell.tgz">tarball</a> on our
+ build process, together with a readme, as a gzsig(1)ned tarball on our
  server again — note that the cryptographic signature is only for time
  stamping (and download integrity checking) and does <strong>not</strong>
  imply any warranties, especially for the third-party software involved.</p>
@@ -2405,9 +2404,8 @@ Author: tg@
 Title: mksh-current GNU/Cygwin32 binaries (snapshot)
 Tag: mksh
 
-<p>An <a href="@@RELPATH@@mksh.htm">mksh</a>-current <a
- href="https://eurynome.mirbsd.org/~tg/pub/mksh-36.9.20081229-cygwin.tgz">cygwin
- snapshot</a> I just built for smultron, our graphical artist
+<p>An <a href="@@RELPATH@@mksh.htm">mksh</a>-current
+ cygwin snapshot I just built for smultron, our graphical artist
  friend from MidnightBSD (which, by the way, also packages
  mksh(1)). He just did this:</p>
 <object data="@@RELPATH@@pics/mksh.svg"
@@ -3076,8 +3074,8 @@ Tag: bug event grml security snapshot
  embarassing (for upstream) local DoS exploit</strong> possibility, by
  setting a sector size of 0, the kernel traps division by zero. Thanks
  for all the blowfish, yeah.</p>
-<p><a href="https://eurynome.mirbsd.org/~tg/pub/mirgrml200901.sum">The
- checksum file</a> for MirGRML 2009.01 (experimental, but probably, by
+<p>mirgrml200901.sum: The
+ checksum file for MirGRML 2009.01 (experimental, but probably, by
  now, complete). You’ll probably figure out the ISO link.</p>
 <p>The full MirOS CD should be done soonish as well. Just have to test
  it, then I can go to bed. Wish me luck.</p>
@@ -3731,8 +3729,7 @@ Date: 18.04.2009 19:57
 Author: tg@
 Title: mksh world domination via Cydia
 
-<p>I amended my WTF *.deb repository (link to the WTF repository <a
- href="https://eurynome.mirbsd.org/debs/debidx.htm">overview page</a>),
+<p>I amended my WTF *.deb repository,
  which carried Debian packages I needed, and later packages for their
  derivates used at $workplace as well, by iPhoneOS 2.2 packages, after
  gecko2@ nagged me enough.</p>
@@ -3860,8 +3857,7 @@ Author: tg@
 Title: WTF *.deb repo now has (emulated) m68k too
 
 <p>As <a href="@@RELPATH@@permalinks/wlog-10_e20090418-tg.htm">before</a>,
- I amended my WTF *.deb repository (link to the WTF repository <a
- href="https://eurynome.mirbsd.org/debs/debidx.htm">overview page</a>),
+ I amended my WTF *.deb repository,
  this time by <a href="http://wiki.debian.org/Aranym/Quick">emulated
  m68k</a> packages.</p>
 <p>The mirmake package definitively needs upstream work, but I don’t
@@ -4269,8 +4265,7 @@ Author: tg@
  KDE Wallet and
  would like public feedback, before releasing an 1.00 version, both on <a
  href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
- code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.94-1.dsc">an
- experimental Debian package</a> of it.</p>
+ code</a> and an experimental Debian package of it.</p>
 <p>Nice things it can do:</p><ul>
  <li>get and set password stanzas in the KWallet via CLI</li>
  <li>contains a CLI wrapper around pinentry’s Aegypten protocol</li>
@@ -4442,8 +4437,7 @@ Date: 30.07.2009 19:56
 Author: tg@
 Tag: rant
 
-<p>My <a href="https://eurynome.mirbsd.org/debs/debidx.htm">play <tt>*.deb</tt>
- repository</a> no longer carries binaries for <tt>iPhoneOS 2.2</tt>, or any
+<p>My play deb repository no longer carries binaries for <tt>iPhoneOS 2.2</tt>, or any
  other version for that matter. Apple prides themselves in DRM (Digital
  Restrictions Management) in a way that makes them look <a
  href="http://www.theregister.co.uk/2009/07/29/apple_jailbreaking_patent_office_response/">totally
@@ -4561,7 +4555,7 @@ Tag: mksh news
  <li>MD5 (mksh-R39.cpio.gz) = b2eeb4fe4ccac2704e1440e53cd2672c</li>
  <li>RMD160 (mksh-39.1-cygwin.tgz) = 0cecd4ffb72f2d51a5c935da58e67350fab10e81</li>
  <li>TIGER (mksh-39.1-cygwin.tgz) = 3157abadc40696bcb8df1d3574df571b728bef3d4d2ac2f2</li>
- <li>2818578374 144625 <a href="https://eurynome.mirbsd.org/~tg/pub/mksh-39.1-cygwin.tgz">mksh R39 for Cygwin</a></li>
+ <li>2818578374 144625 mksh R39 for Cygwin</li>
  <li>MD5 (mksh-39.1-cygwin.tgz) = ca949841e39721be666e6a82803e7769</li>
  <li style="list-style:none;">KWalletCLI</li>
  <li>RMD160 (kwalletcli-1.00.tar.gz) = f04ebd39e9714212a915b6d7d4524c8cc2daaee7</li>
@@ -5468,8 +5462,8 @@ Date: 07.12.2009 20:41
  auto-dependent packages in, it's basically a showstopper for LZMA
  compressed binary packages. (Will still be LZMA1 for some time, as
  there is not yet a stable xz release.)</p>
-<p>The <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/">hardy
- at MirDebian "WTF" Repository</a> section contains a KDE 3 source and
+<p>The hardy
+ at MirDebian "WTF" Repository section contains a KDE 3 source and
  binary package of <a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a>
  2.00 (built for Debian Lenny and K?buntu Hardy). A KDE 4 package (for
  Debian squeeze/sid, newer *bunti and ones with KDE4-backport) will be
@@ -5946,8 +5940,7 @@ Tag: debian event mksh rant snapshot
  it looks so absolutely disgusting I'm not even sure Windows® Mistda is
  worse). I hope the package will end up in NEW soon (and once progressed
  to testing I may be able to make the KDE 3 variant official via lenny
- backports; <a href="https://eurynome.mirbsd.org/debs/debidx.htm">my WTF
- <tt>*.deb</tt> repo</a> will hold them until then.</p>
+ backports; my WTF <tt>*.deb</tt> repo will hold them until then.</p>
 <p style="font-size:small">There are more webpages I need to fill in...
  mksh's TaC, arc4random (which needs some major redesign as well) and
  BSD::arc4random, the RANDEX protocol (entropy exchange over IRC) and
@@ -6435,7 +6428,7 @@ Tag: mksh
  catch up on the Austin ML postings before releasing R39d; Android
  discussion is live. The base system has some issues found, but I
  will take a while (no hacking mood, even when not ill).</p>
-<p><a href="https://eurynome.mirbsd.org/~tg/pub/qr.htm">Scan this!</a>
+<p>/~tg/pub/qr.htm Scan this!
  and Google’s playable logo is just weird (at least no sound in
  Opera) but at least it’s not Fläsh. I played it but there’s no
  second level. Tonnerre likes «Forth op de Fiets» (as a pun on
@@ -6824,8 +6817,8 @@ Tag: debian event grml
  <br />&gt;Modern Solaris engineers<br />Is that similar to high-speed
  horse carriages?</p><!-- RSS stop -->
 <p>My <a href="http://download.opensuse.org/repositories/home:/mirabile/">RPM
- repository</a> has been pimped a bit — I ported some stuff from my <a
- href="https://eurynome.mirbsd.org/debs/debidx.htm">DEB repository</a>
+ repository</a> has been pimped a bit — I ported some stuff from my
+ DEB repository
  and updated them in both (rdate(8) and ntpd(8), specifically). Still
  ought to work more on them, but currently MirBSD base is most important,
  although I’m dying for <a href="@@RELPATH@@mksh.htm">mksh</a> associative
