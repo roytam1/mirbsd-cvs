@@ -1,6 +1,6 @@
 mws_setname imprint "Impressum (imprint) / Datenschutzerklärung (privacy policy)"
 mws_setheadline "Impressum und Datenschutzerklärung"
-mws_putheader '$MirOS: www/src/imprint.hts,v 1.7 2014/06/05 21:17:31 tg Exp $'
+mws_putheader '$MirOS: www/src/imprint.hts,v 1.10 2018/05/14 22:36:13 tg Exp $'
 mws_content <<'EOF'
 <p>On this page / Auf dieser Seite:</p>
 EOF
@@ -88,7 +88,7 @@ mws_content <<'EOF'
  Schüllerweg 16<br />
  D-53129 Bonn<br />
  Deutschland (Germany / Allemagne)<br />
- <em>eMail:</em> ｔｇ＠ｍｉｒｓｏｌｕｔｉｏｎｓ．ｄｅ<br />
+ <em>eMail:</em> ｔｇ＠ｍｉｒｂｓｄ．ｏｒｇ<br />
  <em>fernmündlich:</em> ＋４９　１５１　５４８７４４６０</li>
 </ul>
 
