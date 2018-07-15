@@ -5,7 +5,7 @@ mws_setname subprojects/mksh "mksh — the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
 mws_setold
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.662 2018/05/07 00:25:14 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.664 2018/06/26 21:39:21 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -175,8 +175,8 @@ mws_content <<'EOF'
  href="@@RELPATH@@tag_mksh.rss">RSS feed</a> collects news and wlog entries
  regarding mksh.</p>
 <p>If you require additional assistance or want to discuss bugs, features
- or enhancements, write to the <a href="mailto:miros-mksh@mirbsd.org">mailing
- list</a> (or subscribe to it by sending an eMail to the <a
+ or enhancements, write to the <a href="@@RELPATH@@rss.htm#lists">miros-mksh
+ mailing list</a> (or subscribe to it by sending an eMail to the <a
  href="mailto:postmaster@mirbsd.org">postmaster</a> telling which address
  to subscribe to which list(s) — in your case, the miros-mksh list, but we
  have <a href="@@RELPATH@@rss.htm#lists">more mailing lists</a>).

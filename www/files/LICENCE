@@ -5,11 +5,11 @@ may have different licence terms; these are then listed either di‐
 rectly at the content or in a separate LICENCE file.
 
 The website content is part of MirBSD
-Copyright © 2018
+Copyright © 2002, 2018
 	mirabilos <m@mirbsd.org>
-Copyright © 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+Copyright © 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
 	    2011, 2012, 2013, 2014, 2015, 2016, 2017
-	The MirOS Project <miros-dev@mirbsd.org>
+	The MirOS Project
 	• Thorsten „mirabilos“ Glaser
 	• Dr. Benny Siegert
 	and its contributors.
@@ -113,4 +113,4 @@ reby explicitly prohibited.
 Do not send any eMail to <junk@mirbsd.org> ☺
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: www/files/LICENCE,v 1.18 2018/01/01 22:01:55 tg Exp $
+$MirOS: www/files/LICENCE,v 1.21 2018/05/05 17:40:34 tg Exp $

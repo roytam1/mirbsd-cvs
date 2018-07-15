@@ -4,7 +4,7 @@
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD — RELEASE TIME!!! Stable Services for Commercial Customers
 mws_setold
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.13 2018/05/06 12:56:46 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.14 2018/05/14 22:41:51 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -1975,7 +1975,7 @@ mws_content <<'EOF'
  von Bibliotheken (png, expat, cdk, readline), neue Binutils, neues CVS sind
  nur die j&uuml;ngsten Beispiele. Wer weiterdiskutieren m&ouml;chte, bediene
  sich doch bitte eines <a href="http://www.oftc.net/">geeigneteren</a> <a
- href="mailto:miros-discuss@mirbsd.org">Mediums</a>, denn das WWW ist f&uuml;r
+ href="rss.htm#lists">Mediums</a>, denn das WWW ist f&uuml;r
  so etwas ungeeignet.<br />Nachtrag: ISDN mit OpenBSD 2.8 hat nie korrekt
  funktioniert und kann auch mit der Fritz!Card nicht umgehen. Hellmuth hat
  wegen mangelnden Interesses von seiten der OpenBSDler aufgegeben.</p>

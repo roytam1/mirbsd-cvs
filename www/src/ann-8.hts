@@ -4,7 +4,7 @@
 mws_setname legacy/ann-8 "MirOS Legacy Content"
 mws_setheadline 'MirOS #8'
 mws_setold
-mws_putheader '$MirOS: www/src/ann-8.hts,v 1.7 2015/10/12 22:40:53 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-8.hts,v 1.8 2018/05/06 12:56:37 tg Exp $'
 mws_content <<'EOF'
 <p id="top" style="font-size:smaller; text-align:right;">Codename:
  WTF we have a release?</p>
@@ -127,8 +127,8 @@ mws_content <<'EOF'
 <h2 id="get">Getting MirOS</h2>
 
 <p>We sell MirOS CDs on conferences and trade fairs, as well as via
- postal service. Please contact <a href="mailto:miros-dev@mirbsd.org">the
- developer list</a> for further information if you are interested.
+ postal service. Please contact the
+ developer list for further information if you are interested.
  Customised release CDs are available on request.</p>
 
 <p>The formal release ISO9660 filesystem image (without the bonus tracks)

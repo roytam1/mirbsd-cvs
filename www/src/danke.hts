@@ -3,7 +3,7 @@
 mws_setname donations "Donations"
 mws_subdir 0
 mws_setheadline Donating to MirBSD
-mws_putheader '$MirOS: www/src/danke.hts,v 1.17 2018/05/06 12:56:38 tg Exp $'
+mws_putheader '$MirOS: www/src/danke.hts,v 1.18 2018/05/06 13:46:06 tg Exp $'
 mws_content <<'EOF'
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can directly contact the
@@ -20,7 +20,8 @@ mws_content <<'EOF'
 <p>For wiring money please contact the developers directly, preferably
  by phone or eMail. It's generally considered unsafe to leave the bank
  account data on the www. You may also contact the mailing list for <a
- href="mailto:miros-dev@mirbsd.org">all developers</a> and ask.</p>
+ href="mailto:miros-dev@mirbsd.org">all developers</a> and ask; please
+ note <a href="rss.htm#lists">the EU-DSGVO/GDPR notice</a> first.</p>
 <p>Please do not send large amounts of money through snail mail, as it
  can easily get lost. Please don't send currencies other than the Euro
  (&euro;) to European developers either.</p>

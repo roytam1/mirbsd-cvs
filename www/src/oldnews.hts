@@ -5,7 +5,7 @@ mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
 mws_setold
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.15 2018/05/06 12:56:44 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.16 2018/05/14 22:41:51 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
@@ -612,8 +612,8 @@ mws_content_keeptabs <<'EOF'
 	have prepared a new seed for people wishing to rsync our CVS,
 	see the <a href="@@RELPATH@@anoncvs.htm">appropriate page</a> (bottom). The <a
 	href="/cman/">online manual pages</a> have been updated to reflect
-	the current state of the art.<br />We're awaiting your <a
-	href="mailto:miros-discuss@mirbsd.org">reports</a> on how you
+	the current state of the art.<br />We're awaiting your reports, at
+	our discuss mailing list, on how you
 	tested the new snapshot and like MirOS - and if you want to fix
 	stuff, please don't be shy, send an unidiff!</li>
 
@@ -748,8 +748,8 @@ mws_content_keeptabs <<'EOF'
 	A BitTorrent Download is
 	available for a snapshot dated 03.05.2004 which fixes the issues
 	above and updates some other components. This is the first time we
-	distribute a snapshot via BitTorrent, so please <a
-	href="mailto:miros-discuss@mirbsd.org">join us to discuss</a> and
+	distribute a snapshot via BitTorrent, so please join us at the
+	discuss mailing list to discuss and
 	submit feedback about this method. (We don't have a way to seed
 	the download with more than 4 KiB/sec yet, if you are interested
 	in helping to seed, please contact us.) - It appears that using

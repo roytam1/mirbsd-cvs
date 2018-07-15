@@ -4,12 +4,13 @@
 mws_setname projects "Project Ideas"
 mws_setheadline Project Ideas
 mws_setold
-mws_putheader '$MirOS: www/src/projects.hts,v 1.10 2016/03/06 18:37:54 tg Exp $'
+mws_putheader '$MirOS: www/src/projects.hts,v 1.11 2018/05/06 12:56:45 tg Exp $'
 mws_content <<'EOF'
 <p>The following project ideas can be submitted to the MirOS Project
  by everybody who feels like having the necessary skills.
  To avoid duplicate work, we suggest the applicant to <a
- href="mailto:miros-discuss@mirbsd.org">contact</a> us first.</p>
+ href="rss.htm#lists">contact us at the miros-discuss public
+ mailing list</a> first.</p>
 
 <p>Submissions ought to be made under the <a href="@@RELPATH@@MirOS-Licence">MirOS
  Licence</a>, but any other licence which is equivalent to the UCB/BSD

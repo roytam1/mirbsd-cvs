@@ -1,4 +1,4 @@
-$MirOS: www/LICENCE,v 1.29 2018/01/01 22:12:21 tg Exp $
+$MirOS: www/LICENCE,v 1.31 2018/05/05 17:40:23 tg Exp $
 
 This is the source code for the generated part of the
 MirBSD website. The source code is licenced material,
@@ -30,4 +30,6 @@ Copyright © 2006, 2008, 2011
 This source code is available under the terms of the stan-
 dard MirOS licence, see files/MirOS-Licence for a template
 or request specific information from the project developer
-team by emailing <miros-dev@mirbsd.org>.
+team by emailing <miros-dev@mirbsd.org> (please note the
+EU-DSGVO/GDPR notice on http://www.mirbsd.org/rss.htm#lists
+and in the SMTP banner).
