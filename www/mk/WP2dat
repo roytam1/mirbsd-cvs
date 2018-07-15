@@ -1,13 +1,13 @@
 #!/bin/mksh
-# $MirOS: www/data/WP2dat,v 1.6 2014/10/02 19:17:13 tg Exp $
+# $MirOS: www/mk/WP2dat,v 1.1 2018/05/05 17:40:35 tg Exp $
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 #-
 # Pipe 'GC12345 Title of the cache' through this.
 
-: ${username=$(id -un)}
-if [[ ! -s WP$username.inc ]]; then
-	print -ru2 "E: Set username, 'WP$username.inc' not found."
+fn=${JOE_FILENAME:-WP${username:-$(id -un)}.inc}
+if [[ ! -s $fn ]]; then
+	print -ru2 "E: Set JOE_FILENAME or username, '$fn' not found."
 	exit 1
 fi
 
@@ -15,21 +15,72 @@ fi
 
 . "$(dirname "$0")/../mk/common"
 
-num=$(sed -n '/^ID: \([^p]\)/s//\1/p' "WP$username.inc" | tail -1)
+num=$(sed -n '/^ID: \([^p]\)/s//\1/p' "$fn" | tail -1)
 num=${1:-$num}
 if (( !num )); then
-	print -ru2 "E: Number '$num' in 'WP$username.inc' invalid."
+	print -ru2 "E: Number '$num' in '$fn' invalid."
 	exit 1
 fi
 
+set -o noglob
 while IFS= read -r line; do
 	wpcode=${line%% *}
 	title=${line#* }
+	last=${line##* }
+	tag='D T '
+	if [[ $last = [1-5]?(5),[1-5]?(5),* ]]; then
+		title=${title% *}
+		IFS=,
+		set -- $last
+		IFS=$' \t\n'
+		tag="D$1 T$2"
+		shift
+		shift
+		case $1 {
+		(n) tag+=' Nano'; shift ;;
+		(m) tag+=' Micro'; shift ;;
+		(s) tag+=' Small'; shift ;;
+		(r) tag+=' Regular'; shift ;;
+		(l) tag+=' Large'; shift ;;
+		(o) tag+=' Other'; shift ;;
+		(x) tag+=' not_chosen'; shift ;;
+		}
+		u=
+		for x in "$@"; do
+			case $x {
+			(N[0-9]+([0-9A-F])|@(EC|G[ACEG]|O[BCKPRUXZ]|SH|[TLC]C|WM)+([0-9A-Z])|@(GD|VX)[0-9A-Z][0-9A-Z]-[A-Z][A-Z][A-Z][A-Z]|2[0-9][0-9][0-9]-@(0[1-9]|1[0-2])-[0-3][0-9]_@(?(-)+([0-9])_?(-)+([0-9])|global)|BC+([0-9])http?(s)://*)
+				wpcode+=" $x" ;;
+			(chal)	tag+=' Challenge' ;;
+			(cito)	tag+=' CITO' ;;
+			(ea)	tag+=' Earth' ;;
+			(ev)	tag+=' Event' ;;
+			(giga)	tag+=' Giga_Event' ;;
+			(lab)	tag+=' Lab' ;;
+			(lb)	tag+=' Letterbox_Hybrid' ;;
+			(maze)	tag+=' GPS_Adventures_Exhibit' ;;
+			(mega)	tag+=' Mega_Event' ;;
+			(mu)	tag+=' Multi' ;;
+			(my)	tag+=' Mystery' ;;
+			(sf)	tag+=' Safari' ;;
+			(t)	tag+=' Tradi' ;;
+			(v)	tag+=' Virtual' ;;
+			(wc)	tag+=' Webcam' ;;
+			(wig)	if [[ $wpcode = *wherigo.com* ]]; then
+					tag+=' Wherigo_Cartridge'
+				else
+					tag+=' Wherigo_Hybrid'
+				fi ;;
+			(*)
+				u+=,$x ;;
+			}
+		done
+		[[ -n $u ]] && tag+=' UNKNOWN<${u#,}>'
+	fi
 	print ID: $((++num))
 	print Date: $datum
 	print -r -- "Waypoint: ${wpcode#http://coord.info/}"
 	print -r -- "Title: $(xhtml_escape "$title")"
-	print -r -- "Tag: D T "
+	print -r -- "Tag: $tag"
 	print -- ----
 done
 
