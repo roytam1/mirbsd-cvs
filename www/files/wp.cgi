@@ -1,7 +1,7 @@
 #!/usr/bin/perl -T
 my $rcsid = '$MirOS: www/files/wp.cgi,v 1.22 2016/11/19 17:57:59 tg Exp $';
 #-
-# Copyright © 2013, 2014, 2015, 2016
+# Copyright © 2013, 2014, 2015, 2016, 2018
 #	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -84,25 +84,37 @@ $query = "" unless $query =~ /^[0-9A-Za-z_-]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPSUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|GLOBAL)|BC\d+)\b@
-					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
-					$query =~ /^BC/ ? sprintf("http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=%s", substr($query, 2)) :
+	## test vectors:
+	# GC4M90G BC2036 (Beach TB Hotel GBH)
+	# EC988 (Programmieren für Geocacher)
+	# GA12512 (Only a Picnic Away)
+	# GDCI-JUNU; GGACUO(Bergen Center)
+	# GE0300 N02F79 OC11141 TC1OYX (August-Eis MMXIV)
+	# GL12VZCR; PR2950G(Hasenbärenbande)
+	# OB1A74 (3 Landen punt); OK00CA (House of Correction)
+	# OP8U1S (Kalkberg); OR01E2 (Vrăbiile)
+	# OU0B34 (Above Or Below?); OZ0277 (nic)
+	# SH02BF; LC7TL; CCHU; VX76-DIKA; WM5CZY; 2014-10-28_50_7
+
+	$query =~		s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPRUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|GLOBAL)|BC\d+)\b@
+					($query = $1) =~ /^GC/ ? "https://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
+					$query =~ /^BC/ ? sprintf("https://bessercacher.de/forum/viewtopic.php?t=%s", substr($query, 2)) :
 					$query =~ /^EC/ ? sprintf("http://extremcaching.com/index.php/output-2/%s", substr($query, 2)) :
-					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
+					$query =~ /^GA/ ? "https://geocaching.com.au/cache/$query" :
 					$query =~ /^GD/ ? "http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$query" :
 					$query =~ /^GE/ ? "http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$query" :
 					$query =~ /^GG/ ? "http://golf.gpsgames.org/cgi-bin/golf.pl?course=$query&coursedetails=Go" :
 					$query =~ /^(GL|PR)/ ? "http://coord.info/$query" :
 					$query =~ /^N[0-9]/ ? sprintf("http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d", hex(substr($query, 1))) :
-					$query =~ /^OB/ ? "http://www.opencaching.nl/viewcache.php?wp=$query" :
-					$query =~ /^OC/ ? "http://www.opencaching.de/viewcache.php?wp=$query" :
+					$query =~ /^OB/ ? "https://www.opencaching.nl/viewcache.php?wp=$query" :
+					$query =~ /^OC/ ? "https://www.opencaching.de/viewcache.php?wp=$query" :
 					$query =~ /^OK/ ? "https://opencache.uk/viewcache.php?wp=$query" :
-					$query =~ /^OP/ ? "http://www.opencaching.pl/viewcache.php?wp=$query" :
-					$query =~ /^OS/ ? "http://www.opencaching.se/viewcache.php?wp=$query" :
+					$query =~ /^OP/ ? "https://opencaching.pl/viewcache.php?wp=$query" :
+					$query =~ /^OR/ ? "https://www.opencaching.ro/viewcache.php?wp=$query" :
 					$query =~ /^OU/ ? "http://www.opencaching.us/viewcache.php?wp=$query" :
-					$query =~ /^OZ/ ? "http://www.opencaching.cz/viewcache.php?wp=$query" :
+					$query =~ /^OZ/ ? "https://opencaching.cz/viewcache.php?wp=$query" :
 					$query =~ /^SH/ ? "http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$query" :
-					$query =~ /^[TLC]C/ ? "http://play.terracaching.com/Cache/$query" :
+					$query =~ /^[TLC]C/ ? "https://play.terracaching.com/Cache/$query" :
 					$query =~ /^VX/ ? "http://geovexilla.gpsgames.org/cgi-bin/vx.pl?listwaypointlogs=yes&wp=$query" :
 					$query =~ /^WM/ ? "http://www.waymarking.com/waymarks/$query" :
 					$query =~ /^2/ ? "http://wiki.xkcd.com/geohashing/$query" :
