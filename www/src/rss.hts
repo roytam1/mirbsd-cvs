@@ -21,6 +21,18 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="lists">Mailing lists</h2>
+<h3>EU-DSGVO (GDPR) notice</h3>
+<p>Our mail (SMTP) server runs public mailing lists. By submitting any
+ message to the mail servers you agree to its publication, in whole or
+ excerpted, including any personal data it may contain, to an undisclosed
+ number of individuals (who may or may not archive the messages) as well
+ as to the general public. The mailing lists have an “open posting” policy,
+ which, unfortunately, means that by subscribing to the list you accept
+ to receive all mails including unsolicited spam; the server operator
+ attempts to keep the spam amount down, but it’s like fighting against
+ windmills. It also means that some messages from some providers might
+ not make it through in time or at all.</p>
+<h3>List index</h3>
 <p>The following feeds are automatically generated from the mailing lists:</p>
 <ul>
  <li><a href="mailto:miros-discuss@mirbsd.org">miros-discuss@</a>: a <a
