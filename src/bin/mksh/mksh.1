@@ -1824,10 +1824,10 @@ built-in command will display the resulting directory when a match is found
 in any search path other than the empty path.
 .It Ev COLUMNS
 Set to the number of columns on the terminal or window.
-Always set, defaults to 80, unless the
-value as reported by
+If never unset and not imported, always set dynamically;
+unless the value as reported by
 .Xr stty 1
-is non-zero and sane enough (minimum is 12x3); similar for
+is non-zero and sane enough (minimum is 12x3), defaults to 80; similar for
 .Ev LINES .
 This parameter is used by the interactive line editing modes and by the
 .Ic select ,
@@ -1996,7 +1996,7 @@ The line number of the function or shell script that is currently being
 executed.
 .It Ev LINES
 Set to the number of lines on the terminal or window.
-Always set, defaults to 24.
+Defaults to 24; always set, unless imported or unset.
 See
 .Ev COLUMNS .
 .It Ev OLDPWD
@@ -6705,7 +6705,7 @@ for the in-memory portion of the history is slow, should use
 .Xr memmove 3 .
 .Pp
 This document attempts to describe
-.Nm mksh\ R56
+.Nm mksh\ R57
 and up,
 .\" with vendor patches from insert-your-name-here,
 compiled without any options impacting functionality, such as
