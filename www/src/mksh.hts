@@ -898,7 +898,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  somesuch!</p>
 <p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
  mailing list, either directly or via GMane, if you have an interest
- in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
+ in mksh, such as packaging it. Thanks!<br />
+ The testsuite now checks whether there is actually a controlling tty
+ available or not and whether it matches what’s passed for options.
+ <i>(unfinished…)</i>
 </p>
 <p id="p56c">R56c: SuSE provided a patch to implement mediæval-scope
  locale tracking (set ±U if the POSIX locale variables change within
@@ -1306,6 +1309,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Handle lseek(2) returning -1 as pointed out by Coverity Scan</li>
  <li>[tg] Fix left-padding UTF-8 strings</li>
  <li>[tg, G.raud Meyer] Fix using the “-m” flag on the command line</li>
+ <li>[tg] Update to Unicode 11.0.0</li>
+ <li>[multiplexd] Fix a segfault using ^W during search in Vi mode</li>
+ <li>[tg] Fix an error message; add a test for controlling tty</li>
+ <li>[tg] Permit unsetting LINES and COLUMNS, for those who need it</li>
 </ul>
 <p id="r56c">R56c is a bugfix-only release everyone must upgrade to:</p><ul>
  <li>[komh] Remove redundant OS/2-specific code, clean up others</li>
