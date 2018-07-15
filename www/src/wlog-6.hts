@@ -33,8 +33,7 @@ mws_content <<'EOF'
  has been done to this release, too, although it was impossible - due to time
  constraints - to do as extensive testing as with the Release #5.</p>
 <p>Informational note: links to the <a href="http://www.linuxtag.de/">LinuxTag
- 2003</a> will be added <em>here</em> later - for example <a
- href="http://miros.mirbsd.org/tglaser/MirAbile/bookmark.php#lt2003bilder">pictures</a>.</p>
+ 2003</a> will be added <em>here</em> later - for example pictures.</p>
 <p>09.07.2003<br /><strong>HEAD branch: </strong> Mop up and sync, remove
  any stuff removed in OpenBSD (except stuff I decided to not, such as
  jdk-1.1). Put anoncvssh into the base system source, since we don't yet
@@ -64,7 +63,6 @@ mws_content <<'EOF'
  a snapshot, test at the router box and upload. Change propolice URI.
  Update in-tree Apache to 1.3.28, retaining local changes. Oh, and DRI/DRM
  works. Sort of.</p>
-<p><a href="http://miros.mirbsd.org/tglaser/MirAbile/bookmark.php#lt2003bilder">More PICS about LinuxTag</a></p>
 <p>20.07.2003<br />Fix the installer bug, finally, d'oh.<br /><strong>It's
  true!</strong> - Import of gcc-3.3 into the base system. Removal of as much
  of the old fallback <tt>gcc 2.95</tt> as possible, including most of the old
@@ -239,7 +237,7 @@ mws_content <<'EOF'
 <p>21.09.2003<br />Last boot code fixes before the <strong>release</strong>,
  some of the diffs feeded back up to OpenBSD (and committed). man page fix
  for djbdns (tinydns-data(8)). Build release with X and upload snapshot.
- New <a href="http://miros.mirbsd.org/tglaser/howto/mirwarum.txt">German essay</a> "why MirBSD?".</p>
+ New German essay "why MirBSD?" (now /mirwarum.htm).</p>
 <p>22.09.2003<br />Website work; font updates. Benny Siegert brings the
  ghostscript port up to date and de-braindeadifies it. Well, he tries.
  I've spent an hour fixing him up. And I did something which will be
