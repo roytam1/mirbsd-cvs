@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.188 2018/06/09 19:41:44 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.191 2018/07/13 23:29:29 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -14758,6 +14758,83 @@ Waypoint: GC37W22
 Title: Alfterer Kreuze 26
 Tag: D1 T1 Micro Tradi
 ----
+ID: 2430
+Date: 2018-07-16
+Waypoint: GC5R3R7
+Title: Nr. 1: Rund um den Golfplatz
+Tag: D15 T15 Micro Tradi
+----
+ID: 2431
+Date: 2018-07-16
+Waypoint: GC5R391
+Title: Nr. 2: Rund um den Golfplatz
+Tag: D15 T15 Micro Tradi
+----
+ID: 2432
+Date: 2018-07-16
+Waypoint: GC5R39C
+Title: Nr. 3: Rund um den Golfplatz
+Tag: D15 T15 Micro Tradi
+----
+ID: 2433
+Date: 2018-07-16
+Waypoint: GC5R39N
+Title: Nr. 4: Rund um den Golfplatz
+Tag: D15 T15 Micro Tradi
+----
+ID: 2434
+Date: 2018-07-16
+Waypoint: GC5R39Z
+Title: Nr. 5: Rund um den Golfplatz
+Tag: D2 T15 Micro Tradi
+----
+ID: 2435
+Date: 2018-07-16
+Waypoint: GC5R3AH
+Title: Nr. 6: Rund um den Golfplatz
+Tag: D15 T15 Micro Tradi
+----
+ID: 2436
+Date: 2018-07-16
+Waypoint: GC2Z6W9
+Title: Das Revier # 7
+Tag: D15 T15 Small Multi
+----
+ID: 2437
+Date: 2018-07-16
+Waypoint: GC5R3B2
+Title: Nr. 7: Rund um den Golfplatz
+Tag: D15 T15 Micro Tradi
+----
+ID: 2438
+Date: 2018-07-16
+Waypoint: GC6D5G1
+Title: Vorsichtig ziehen! - an der Swist!
+Tag: D2 T1 Micro Tradi
+
+Eher D3, definitiv T1½ da ♿⃠.
+Lustige Konstruktion!
+----
+ID: 2439
+Date: 2018-07-16
+Waypoint: GC7MT2A
+Title: Vorsichtig ziehen - 2
+Tag: D25 T1 Micro Tradi
+
+Ganz anders als 2438﹟ ist dieser hier T1 und ♿.
+----
+ID: 2440
+Date: 2018-07-16
+Waypoint: GC7BPZ8
+Title: Wanderparkplatz - Ponyfishland &#34;reloaded&#34;
+Tag: D15 T2 Micro Tradi
+----
+ID: 2441
+Date: 2018-07-16
+Waypoint: GC7F15R
+Title: Blick übers Buschkaulerfeld
+Tag: D1 T15 Small Tradi
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB
@@ -14766,4 +14843,4 @@ nTF: O
 Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
-# ^K/ datum=yyyy-mm-dd username=tg mksh ../mk/WP2dat
+# ^K/ datum=yyyy-mm-dd mksh ../mk/WP2dat
