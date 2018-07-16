@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.46 2008/05/03 18:55:14 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.47 2013/10/31 21:01:02 tg Exp $
 #-
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
@@ -399,11 +399,11 @@ func_extract_archives ()
 	      $rm "unfat-$$/${darwin_base_archive}-${darwin_arch}/${darwin_base_archive}"
 	    done # $darwin_arches
       ## Okay now we have a bunch of thin objects, gotta fatten them up :)
-	    darwin_filelist=`find unfat-$$ -type f -name \*.o -print -o -name \*.lo -print| xargs basename | sort -u | $NL2SP`
+	    darwin_filelist=`find unfat-$$ -type f -name \*.o -print -o -name \*.lo -print | xargs basename | sort -u | $NL2SP`
 	    darwin_file=
 	    darwin_files=
 	    for darwin_file in $darwin_filelist; do
-	      darwin_files=`find unfat-$$ -name $darwin_file -print | $NL2SP`
+	      darwin_files=`find unfat-$$ -name $darwin_file -print | sort -u | $NL2SP`
 	      lipo -create -output "$darwin_file" $darwin_files
 	    done # $darwin_filelist
 	    ${rm}r unfat-$$
@@ -418,7 +418,7 @@ func_extract_archives ()
         func_extract_an_archive "$my_xdir" "$my_xabs"
         ;;
       esac
-      my_oldobjs="$my_oldobjs "`find $my_xdir -name \*.$objext -print -o -name \*.lo -print | $NL2SP`
+      my_oldobjs="$my_oldobjs "`find $my_xdir -name \*.$objext -print -o -name \*.lo -print | sort -u | $NL2SP`
     done
     func_extract_archives_result="$my_oldobjs"
 }
