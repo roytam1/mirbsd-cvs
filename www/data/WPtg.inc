@@ -14824,16 +14824,64 @@ Tag: D25 T1 Micro Tradi
 Ganz anders als 2438﹟ ist dieser hier T1 und ♿.
 ----
 ID: 2440
-Date: 2018-07-16
+Date: 2018-07-17
 Waypoint: GC7BPZ8
 Title: Wanderparkplatz - Ponyfishland &#34;reloaded&#34;
 Tag: D15 T2 Micro Tradi
 ----
 ID: 2441
-Date: 2018-07-16
+Date: 2018-07-17
 Waypoint: GC7F15R
 Title: Blick übers Buschkaulerfeld
 Tag: D1 T15 Small Tradi
+----
+ID: 2442
+Date: 2018-07-17
+Waypoint: GC7T386
+Title: Mittagspause im Botanischen Garten
+Tag: D1 T1 Event
+----
+ID: 2443
+Date: 2018-07-17
+Waypoint: GC7RAYT
+Title: Willkommen in ... Niederbachem (reloaded)
+Tag: D15 T2 Micro Tradi
+----
+ID: 2444
+Date: 2018-07-17
+Waypoint: GC6XT96
+Title: Walk along the vineyard #1
+Tag: D15 T15 Micro Tradi
+----
+ID: 2445
+Date: 2018-07-17
+Waypoint: GC6XT8C
+Title: Walk along the vineyard #2
+Tag: D2 T15 Micro Tradi
+----
+ID: 2446
+Date: 2018-07-17
+Waypoint: GC6XT7K
+Title: Walk along the vineyard #3
+Tag: D15 T15 Micro Tradi
+----
+ID: 2447
+Date: 2018-07-17
+Waypoint: GC6XT4R
+Title: Walk along the vineyard #4
+Tag: D15 T15 Micro Tradi
+----
+ID: 2448
+Date: 2018-07-17
+Waypoint: GC6XT6P
+Title: Walk along the vineyard #5
+Tag: D15 T15 Micro Tradi
+----
+ID: 2449
+Date: 2018-07-17
+Waypoint: GC6Y7FE
+Title: Drive in zwischen drin
+Tag: D15 T2 Small Tradi
 ----
 ID: p20481102
 Date: 2048-11-02
