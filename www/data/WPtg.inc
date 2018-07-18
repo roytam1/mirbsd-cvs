@@ -14883,6 +14883,80 @@ Waypoint: GC6Y7FE
 Title: Drive in zwischen drin
 Tag: D15 T2 Small Tradi
 ----
+ID: 2450
+Date: 2018-07-18
+Waypoint: GC7T3D4
+Title: Hidden Creatures - Paulusheim - Bagger ???
+Tag: D1 T1 Event
+----
+ID: 2451
+Date: 2018-07-18
+Waypoint: GC6845H
+Title: Nach Rheinbach
+Tag: D15 T2 Micro Tradi
+----
+ID: 2452
+Date: 2018-07-18
+Waypoint: GC74CC4
+Title: Felder und Wiesen #4
+Tag: D15 T15 Micro Tradi
+----
+ID: 2453
+Date: 2018-07-18
+Waypoint: GC3HT64
+Title: Schießbach 1
+Tag: D15 T15 Small Tradi
+----
+ID: 2454
+Date: 2018-07-18
+Waypoint: GC5N29K
+Title: Notstall(Beschlagstand)
+Tag: D15 T15 Micro Tradi
+----
+ID: 2455
+Date: 2018-07-18
+Waypoint: GC728EP
+Title: Felder und Wiesen #2
+Tag: D15 T15 Small Tradi
+----
+ID: 2456
+Date: 2018-07-18
+Waypoint: GC758N4
+Title: TB-Hotel &#34;Waldblick&#34;
+Tag: D1 T2 Regular Mystery
+----
+ID: 2457
+Date: 2018-07-18
+Waypoint: GC62T6T
+Title: Krätzjeplätzje #8
+Tag: D15 T1 Micro Tradi
+
+Schön gemacht, der hat da echt… Hand angelegt zwecks Befestigung.
+----
+ID: 2458
+Date: 2018-07-18
+Waypoint: GC7MG7N
+Title: Der Zauberlehrling #02
+Tag: D15 T15 Micro Tradi
+----
+ID: 2459
+Date: 2018-07-18
+Waypoint: GC17V2Z
+Title: Kloster Marienstern
+Tag: D15 T15 Micro Tradi
+----
+ID: 2460
+Date: 2018-07-19
+Waypoint: GC2ZX83
+Title: Alfterer Kreuze 17
+Tag: D2 T1 Micro Tradi
+----
+ID: 2461
+Date: 2018-07-19
+Waypoint: GC3Y4JG
+Title: Alfterer Kreuze 16 - reloaded
+Tag: D1 T1 Micro Multi
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB
