@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: www/mk/WP2dat,v 1.1 2018/05/05 17:40:35 tg Exp $
+# $MirOS: www/mk/WP2dat,v 1.2 2018/07/15 19:46:25 tg Exp $
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 #-
@@ -53,6 +53,7 @@ while IFS= read -r line; do
 			(chal)	tag+=' Challenge' ;;
 			(cito)	tag+=' CITO' ;;
 			(ea)	tag+=' Earth' ;;
+			(exc)	tag+=' exceptional' ;;
 			(ev)	tag+=' Event' ;;
 			(giga)	tag+=' Giga_Event' ;;
 			(lab)	tag+=' Lab' ;;
@@ -61,6 +62,7 @@ while IFS= read -r line; do
 			(mega)	tag+=' Mega_Event' ;;
 			(mu)	tag+=' Multi' ;;
 			(my)	tag+=' Mystery' ;;
+			(rec)	tag+=' recommended' ;;
 			(sf)	tag+=' Safari' ;;
 			(t)	tag+=' Tradi' ;;
 			(v)	tag+=' Virtual' ;;
@@ -74,7 +76,7 @@ while IFS= read -r line; do
 				u+=,$x ;;
 			}
 		done
-		[[ -n $u ]] && tag+=' UNKNOWN<${u#,}>'
+		[[ -n $u ]] && tag+=" UNKNOWN<${u#,}>"
 	fi
 	print ID: $((++num))
 	print Date: $datum
