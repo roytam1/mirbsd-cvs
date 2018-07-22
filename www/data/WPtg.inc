@@ -14957,6 +14957,203 @@ Waypoint: GC3Y4JG
 Title: Alfterer Kreuze 16 - reloaded
 Tag: D1 T1 Micro Multi
 ----
+ID: 2462
+Date: 2018-07-20
+Waypoint: GC7TG8X
+Title: Tradis in Plittersdorf 2
+Tag: D2 T1 Micro Tradi
+----
+ID: 2463
+Date: 2018-07-20
+Waypoint: GC7RWJM
+Title: Tradis in Plittersdorf 1
+Tag: D15 T15 Micro Tradi
+----
+ID: 2464
+Date: 2018-07-21
+Waypoint: GC72RA8
+Title: Dorfpanorama Dreierlei
+Tag: D15 T25 Micro Tradi
+----
+ID: 2465
+Date: 2018-07-21
+Waypoint: GC72RH5
+Title: Dorfpanorama Pfarrheim Leimersdorf
+Tag: D1 T15 Micro Tradi
+----
+ID: 2466
+Date: 2018-07-21
+Waypoint: GC650WA
+Title: Am Apfelhügel
+Tag: D15 T15 Micro Tradi
+----
+ID: 2467
+Date: 2018-07-21
+Waypoint: GC66VHV
+Title: 450 bis RLP
+Tag: D15 T15 Micro Tradi
+----
+ID: 2468
+Date: 2018-07-21
+Waypoint: GC6QKTY
+Title: Wachtberger Höhe
+Tag: D1 T1 Micro Tradi
+
+Schon T1½ ♿⃠
+----
+ID: 2469
+Date: 2018-07-21
+Waypoint: GC6DVVR
+Title: Feurroute - Hümerich Runde - Burg Odenhausen
+Tag: D25 T2 Micro Tradi
+----
+ID: 2470
+Date: 2018-07-21
+Waypoint: GC49EPF
+Title: Kirchen &amp; Kapellen - Das evangelische Gemeindehaus
+Tag: D2 T15 Micro Multi
+----
+ID: 2471
+Date: 2018-07-22
+Waypoint: GC7CQCR
+Title: Kleine Tour von Buschhoven
+Tag: D1 T15 Small Tradi
+----
+ID: 2472
+Date: 2018-07-22
+Waypoint: GC187V3
+Title: Römerkanal Tag 3: Buschhoven
+Tag: D25 T2 Regular Tradi
+----
+ID: 2473
+Date: 2018-07-22
+Waypoint: GC4EJEX
+Title: Die Birke
+Tag: D15 T15 Small Tradi
+----
+ID: 2474
+Date: 2018-07-22
+Waypoint: GC6R9DK
+Title: Blick über die Felder #2
+Tag: D2 T3 Micro Tradi
+----
+ID: 2475
+Date: 2018-07-22
+Waypoint: GC4G936
+Title: Kleiner Kletterspaß
+Tag: D15 T3 Micro Tradi
+----
+ID: 2476
+Date: 2018-07-22
+Waypoint: GC3VZEY
+Title: Kinder hochheben!!!
+Tag: D2 T2 Small Tradi
+----
+ID: 2477
+Date: 2018-07-22
+Waypoint: GC7DTRT
+Title: ein kleiner Platz mit weiter Aussicht
+Tag: D15 T15 Small Tradi
+----
+ID: 2478
+Date: 2018-07-22
+Waypoint: GC4DR6D
+Title: Na..., wo ist der Cache?
+Tag: D2 T1 Small Tradi exceptional
+
+Leider nicht T1 (da ♿⃠), aber nett gemacht
+----
+ID: 2479
+Date: 2018-07-22
+Waypoint: GC6FGNK
+Title: Vergessene Bank #4
+Tag: D15 T15 Micro Tradi
+----
+ID: 2480
+Date: 2018-07-22
+Waypoint: GC6NQT5
+Title: Vergessene Bank #5
+Tag: D15 T15 Micro Tradi
+----
+ID: 2481
+Date: 2018-07-22
+Waypoint: GC7CM13
+Title: Wir wandern mal #1
+Tag: D2 T2 Micro Tradi
+----
+ID: 2482
+Date: 2018-07-22
+Waypoint: GC7CWQM
+Title: Wir wandern mal #3
+Tag: D2 T2 Small Tradi
+----
+ID: 2483
+Date: 2018-07-22
+Waypoint: GC6QTE0
+Banner: jpg
+Title: Wherever I Go ...
+Tag: D2 T2 Small Tradi
+----
+ID: 2484
+Date: 2018-07-22
+Waypoint: GC5YDZK
+Title: Keep the faith
+Tag: D25 T2 Micro Tradi
+----
+ID: 2485
+Date: 2018-07-22
+Waypoint: GC4F1MB
+Title: Der Stachelbusch
+Tag: D15 T2 Regular Tradi
+----
+ID: 2486
+Date: 2018-07-22
+Waypoint: GC578VW
+Banner: gif
+Title: Goonies Revenge: BLOOD
+Tag: D4 T2 Large Tradi recommended
+
+Superschön gemacht, gemütlich anzugehen, mein Favorit dieser
+Serie; sollte man aber noch vor Ende der Dämmerung machen
+----
+ID: 2487
+Date: 2018-07-22
+Waypoint: GC5YA0B
+Banner: gif
+Title: Goonies Revenge: THUNDER
+Tag: D4 T35 Micro Tradi recommended
+
+Lieber den „langen“ Weg hoch nehmen, sonst Knië aua…
+----
+ID: 2488
+Date: 2018-07-22
+Waypoint: GC2V5MY
+Title: Das Revier # 1
+Tag: D15 T1 Micro Multi
+----
+ID: 2489
+Date: 2018-07-22
+Waypoint: GC7B8QJ
+Title: Goonies Revenge: DIZZY
+Tag: D2 T1 Virtual
+----
+ID: 2490
+Date: 2018-07-22
+Waypoint: GC4KCZW
+Title: schibraeu's Hochzeitscache
+Tag: D15 T15 Small Tradi
+----
+ID: 2491
+Date: 2018-07-22
+Waypoint: GC695PX
+Banner: gif
+Title: Goonies Revenge: RODEO
+Tag: D35 T4 Regular Tradi recommended exceptional
+
+Körperlicher Einsatz weit jenseits von dem, was jemand
+wie ich normal leisten könnte, vonnöten — am besten nicht
+alleine angehen, zwecks Erster Hilfe und so…
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB
