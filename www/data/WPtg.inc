@@ -15154,6 +15154,105 @@ Körperlicher Einsatz weit jenseits von dem, was jemand
 wie ich normal leisten könnte, vonnöten — am besten nicht
 alleine angehen, zwecks Erster Hilfe und so…
 ----
+ID: 2492
+Date: 2018-07-24
+Waypoint: GC7DCY9
+Title: Kölner Dom
+Tag: D2 T25 Small Tradi recommended
+----
+ID: 2493
+Date: 2018-07-24
+Waypoint: GC3YMQ6
+Title: Wo fährt er denn?
+Tag: D15 T15 Micro Tradi
+----
+ID: 2494
+Date: 2018-07-24
+Waypoint: GC5QN07
+Title: Käthe-Kollwitz
+Tag: D1 T2 Small Tradi
+----
+ID: 2495
+Date: 2018-07-24
+Waypoint: GC6PTCB
+Title: Krütze op de schäl Sick #02
+Tag: D25 T1 Micro Tradi
+----
+ID: 2496
+Date: 2018-07-24
+Waypoint: GC6P6QP
+Title: Krüze op de Schäl Sick #01
+Tag: D15 T15 Small Mystery
+
+Echt bescheuerte Aufgabenstellung und Berechnung/Formelstruktur…
+der Final war dann total enttäuschend, roch, und eher D3 zum Ausgleich…
+----
+ID: 2497
+Date: 2018-07-24
+Waypoint: GC64R94
+Title: Das Kreuz am Ispelsgässchen
+Tag: D2 T2 Small Tradi
+----
+ID: 2498
+Date: 2018-07-24
+Waypoint: GC63TNJ
+Title: Häuser der Helfer - Löscheinheit 22 Geislar
+Tag: D2 T2 Micro Tradi
+----
+ID: 2499
+Date: 2018-07-25
+Waypoint: GC3RZT5
+Title: Die Wasserflöte
+Tag: D25 T15 Micro Tradi recommended
+----
+ID: 2500
+Date: 2018-07-25
+Waypoint: GC5QKMW
+Title: Laras Ostercache
+Tag: D1 T1 Small Tradi
+----
+ID: 2501
+Date: 2018-07-25
+Waypoint: GC3M5WJ
+Title: Biss die Feuerwehr kommt..!
+Tag: D25 T15 Other Tradi
+----
+ID: 2502
+Date: 2018-07-25
+Waypoint: GC6388X
+Title: Grisu der kleine Drache
+Tag: D1 T15 Large Tradi
+----
+ID: 2503
+Date: 2018-07-25
+Waypoint: GC37W0Y
+Title: Römerkanal Tag 4: Lüftelberg reloaded
+Tag: D15 T15 Micro Tradi
+----
+ID: 2504
+Date: 2018-07-25
+Waypoint: GC37W11
+Title: RSK0002 - Rhein-Sieg-Kreuze
+Tag: D1 T1 Micro Tradi
+----
+ID: 2505
+Date: 2018-07-25
+Waypoint: GC2ZD36
+Title: Am Kapellchen
+Tag: D1 T1 Micro Tradi
+----
+ID: 2506
+Date: 2018-07-25
+Waypoint: GC3DPFZ
+Title: Schlumpfhausen
+Tag: D15 T2 Micro Tradi
+----
+ID: 2507
+Date: 2018-07-25
+Waypoint: GC7K35X
+Title: Die Weggabelung
+Tag: D15 T15 Micro Tradi
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB
