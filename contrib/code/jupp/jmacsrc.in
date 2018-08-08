@@ -530,6 +530,9 @@
 *.cls
 -syntax tex
 
+*.def
+-syntax tex
+
 *.sty
 -syntax tex
 
