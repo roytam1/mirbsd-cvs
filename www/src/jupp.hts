@@ -426,9 +426,15 @@ $ $SUDO make install</pre>
  bringing some jupp features to upstream JOE.</p>
 
 <h2 id="clog">ChangeLog for Unix</h2>
-<!--
-<p>[2018-02-15] Changes in the current development version:</p><ul>
--->
+<p>[2018-08-08] Changes in the current development version:</p><ul>
+ <li>fix syntax highlighting for Assembly and Java™: string termination</li>
+ <li>unbreak reformat block when raw octets are present</li>
+ <li>update to Unicode 11.0.0</li>
+ <li>improve line generation / screen output code wrt. UTF-8 <strong>(still buggy)</strong></li>
+ <li>make UTF-8 decoding more robust</li>
+ <li>fix Makefile.am EXTRA_DIST</li>
+ <li>highlight .def files as Teχ/LᴬTᴇX</li>
+</ul>
 <p id="r3_1j36">[2018-03-15] Changes for joe-3.1jupp36:</p><ul>
  <li>fix too-wide prompt for <tt>`</tt> (needs only 73 cols now)</li>
  <li>make <tt>^QV</tt>/<tt>^QP</tt> after <tt>^K]</tt> work</li>
