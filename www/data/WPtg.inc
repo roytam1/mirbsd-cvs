@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.191 2018/07/13 23:29:29 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.196 2018/07/25 21:31:01 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -15252,6 +15252,33 @@ Date: 2018-07-25
 Waypoint: GC7K35X
 Title: Die Weggabelung
 Tag: D15 T15 Micro Tradi
+----
+ID: 2508
+Date: 2018-07-29
+Waypoint: OC14A2D
+Title: Godesberger Kreuze #37
+nTF: 0
+Tag: D2 T1 Virtual
+----
+ID: 2509
+Date: 2018-07-29
+Waypoint: OC14A30
+Title: Godesberger Kreuze #38
+nTF: 0
+Tag: D25 T15 Virtual
+----
+ID: 2510
+Date: 2018-08-08
+Waypoint: OC14A96
+Title: Godesberger Kreuze #39
+nTF: 0
+Tag: D2 T15 Virtual
+----
+ID: 2511
+Date: 2018-08-09
+Waypoint: GC4WDR4
+Title: verdreht
+Tag: D25 T25 Small Tradi
 ----
 ID: p20481102
 Date: 2048-11-02

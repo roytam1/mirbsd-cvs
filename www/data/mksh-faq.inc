@@ -229,9 +229,9 @@ default prompt; this is what you’ll need to merge into your own, custom,
 prompt (if you have one; otherwise pull this adaption to the default
 one). Line 19 is the only other thing in this script rebinding the Ctrl-M
 key (which is normally produced by the Enter/Return key) to code that…
-does <em>something crazy</em>. This trick however <strong>breaks multiline
-commands</strong>, so if you type something out in multiple lines, for
-example <strong>here documents</strong> or <strong>loops</strong> press
+does <em>something crazy</em>. This trick however <em>does funny things with
+multiline commands</em>, so if you type something out in multiple lines,
+for example <strong>here documents</strong> or <strong>loops</strong> press
 <strong>Ctrl-J instead of Enter/Return</strong> after <em>each</em> line
 including the first (at PS1) and final (at PS2) one.
 ----

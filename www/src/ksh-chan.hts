@@ -30,6 +30,10 @@ mws_content <<'EOF'
  Tor service) or <tt>p4fsi4ockecnea7l.onion</tt> (nick/pass authenticated,
  see the website for details).</p>
 
+<h3 id="joinreg">I cannot join!</h3>
+<p>Due to the current spam wave, only users registred with the Freenode IRC
+ network can join the channel. Sorry about that.</p>
+
 <h2 id="meta">Guidelines</h2>
 <p>Don’t ask to ask, just ask. If someone knows an answer to your question,
  he/she will likely answer, otherwise not. Stay around for a (possibly long)
@@ -55,7 +59,7 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2018-05-07 (7 May 2018)</p>
+<p>This information is current as of: 2018-08-09 (9 August 2018)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93v- (beta) dated 2014-09-29 (29 September 2014) and ksh93u+ (stable)
  dated 2012-08-01; download server unreachable, development dead.</p>
