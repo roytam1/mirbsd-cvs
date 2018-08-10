@@ -18,6 +18,37 @@ rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.4 2018/01/07 00:25:29 tg Exp $'
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
+#-
+# Copyright © 1991-2018 Unicode, Inc. All rights reserved. Distributed
+# under the Terms of Use in: http://www.unicode.org/copyright.html
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of the Unicode data files and any associated documentation (the
+# "Data Files") or Unicode software and any associated documentation
+# (the "Software") to deal in the Data Files or Software without
+# restriction, including without limitation the rights to use, copy,
+# modify, merge, publish, distribute, and/or sell copies of the Data
+# Files or Software, and to permit persons to whom the Data Files or
+# Software are furnished to do so, provided that either (a) this
+# copyright and permission notice appear with all copies of the Data
+# Files or Software, or (b) this copyright and permission notice appear
+# in associated Documentation.
+#
+# THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY
+# OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
+# AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE
+# COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR
+# ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR
+# ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+# PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+# TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THE DATA FILES OR SOFTWARE.
+#
+# Except as contained in this notice, the name of a copyright holder
+# shall not be used in advertising or otherwise to promote the sale,
+# use or other dealings in these Data Files or Software without
+# prior written authorization of the copyright holder.
 
 vsn=$(sed -n '1s/^.*Width-\(.*\)\.txt.*$/\1/p' <EastAsianWidth.txt)
 set -U
@@ -55,10 +86,10 @@ cat <<EOF
  <meta http-equiv="content-type" content="text/html; charset=ISO_646.irv:1991" />
  <meta http-equiv="Content-Style-Type" content="text/css" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
- <title>The Unicode Database $vsn (BMP)</title>
+ <title>The Unicode® Database $vsn (BMP)</title>
  <meta name="RCSId" content="$rcsid" />
 </head><body>
-<h1>Die Unicode-Datenbank $vsn (Basic Multilingual Plane)</h1>
+<h1>Die Unicode®-Datenbank $vsn (Basic Multilingual Plane)</h1>
 <table style="table-layout:fixed; border:0px; padding:0px;">
 EOF
 td='<td style="width:3em;">'
@@ -75,15 +106,17 @@ sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
 	print -r -- "<tr>$td$y</td><td>U+$line</td></tr>"
 	td='<td>'
 done
-print -r -- '</table></body></html>'
+print -r -- '</table>'
+print -r -- '<p><small>Unicode is a registred trademark of Unicode, Inc. in many countries.</small></p>'
+print -r -- '</body></html>'
 
 exec >unidata.txt
-print -r -- "The Unicode $vsn Basic Multilingual Plane"
+print -r -- "The Unicode® $vsn Basic Multilingual Plane"
 eqlen=${%vsn}
 while (( eqlen-- )); do
 	print -n =
 done
-print =====================================
+print ======================================
 print
 sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
 	typeset -Uui16 -Z7 x=0x${line::4}
@@ -108,6 +141,8 @@ sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
 	print -r -- " ${line:5}"
 done
 print
+print 'Unicode is a registred trademark of Unicode, Inc. in many countries.'
+print
 print _______________________________________________________________________
 print -r -- "$rcsid"
 
@@ -115,12 +150,12 @@ exec >uni_smp.txt
 exec 4>uni_acronyms
 print -ru4 -- " From miros${rcsid#?MirOS}"
 print -ru4 -- " From unicode: $vsn"
-print -r -- "Unicode $vsn (all planes)"
+print -r -- "Unicode® $vsn (all planes)"
 eqlen=${%vsn}
 while (( eqlen-- )); do
 	print -n =
 done
-print =====================
+print ======================
 print
 typeset -i1 j
 while IFS= read -r line; do
@@ -171,6 +206,8 @@ while IFS= read -r line; do
 	print -ru4 -- "$aO${line#*;}"
 done <UnicodeData.jamo
 print
+print 'Unicode is a registred trademark of Unicode, Inc. in many countries.'
+print
 print ______________________________________________________________________
 print -r -- "$rcsid"
 exec 4>&-
@@ -183,23 +220,21 @@ while (( eqlen-- )); do
 done
 cat <<EOF
 ┋ $rcsid
+┋ \$miros${rcsid#?MirOS}
 
-The Unicode $vsn Basic Multilingual Plane
-┄┄┄┄┄┄┄┄┄┄┄┄$asn┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+The Unicode® $vsn Basic Multilingual Plane
+┄┄┄┄┄┄┄┄┄┄┄┄┄$asn┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
 The width of these characters have been derived from
 MirBSD’s new wcwidth code and thus, this file should
 show up fine in an uxterm on MirOS (see xterm(1) for
-further reference).
-
-This file was generated (and hand-edited afterwards)
-by mirabilos <m@mirbsd.org>. Because this is a data‐
-base it can be used without the need for an explicit
-licence, but if possible I would like to be credited
-on derivates.
+further reference). This is a generated file, see a‐
+bove for the RCS ID of the generator script and read
+it for the licence terms on this file. Please credit
+mirabilos in derivative works, if possible.
 
 Now have fun cutting and pasting, although be remin‐
-ded that unicode characters above U+00FF can only be
+ded that Unicode characters above U+00FF can only be
 pasted while they are still marked in the source ux‐
 term and the latter is visible on the screen. Alter‐
 natively you can copy them using an UTF-8 aware edi‐
@@ -276,6 +311,20 @@ done
 cat <<\EOF
  ┟────┴────┚ #FFFD ╿
 ╰───────┸────┴────┴────┴────┴────┴────┸─────────────────╯
+
+Valid octet sequences for UTF-8/CESU-8:
+• 00‥7F				(ASCII)
+• C2‥DF 80‥BF			(BMP U+00A0‥U+07FF)
+•    E0 A0‥BF 80‥BF		(BMP U+0800‥U+0FFF)
+• E1‥EF 80‥BF 80‥BF		(BMP U+1000‥U+FFFF)
+•    F0 90‥BF 80‥BF 80‥BF	(astral planes)
+• F1‥F3 80‥BF 80‥BF 80‥BF	(   "     "   )
+•    F4 80‥8F 80‥BF 80‥BF	(   "     "   )
+UTF-8: Exclude ED followed by A0‥BF (surrogates).
+CESU-8: Exclude astral planes; ensure valid surrogates.
+OPTU-8: Exclude astral planes and EE followed by BE‥BF.
+
+Unicode is a registred trademark of Unicode, Inc. in many countries.
 EOF
 
 exec >&2
