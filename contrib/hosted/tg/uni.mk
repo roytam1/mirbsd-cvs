@@ -76,7 +76,7 @@ while IFS= read -r line; do
 		n1='HANGUL SYLLABLE '${jamo_initial[j1]}${jamo_medial[j2]}${jamo_final[j3]}
 		print -r -- "${cdisp#16#};$n1;$line"
 	done
-done <UnicodeData.txt >UnicodeData.jamo
+done <UnicodeData.txt >JamoData.txt
 
 exec >unidata.htm
 cat <<EOF
@@ -86,14 +86,14 @@ cat <<EOF
  <meta http-equiv="content-type" content="text/html; charset=ISO_646.irv:1991" />
  <meta http-equiv="Content-Style-Type" content="text/css" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
- <title>The Unicode&#174; Database $vsn (BMP)</title>
+ <title>ISO 10646 (BMP)</title>
  <meta name="RCSId" content="$rcsid" />
 </head><body>
-<h1>Die Unicode&#174;-Datenbank $vsn (Basic Multilingual Plane)</h1>
+<h1>The Universal Coded Character Set $vsn (Basic Multilingual Plane)</h1>
 <table style="table-layout:fixed; border:0px; padding:0px;">
 EOF
 td='<td style="width:3em;">'
-sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
+sed '/^10000/,$d' <JamoData.txt | while IFS= read -r line; do
 	typeset -i10 x=0x${line::4}
 	(( x = (x < 32) || (x >= 0x7F && x <= 0x9F) || \
 	    (x >= 0xD800 && x <= 0xDFFF) || \
@@ -107,18 +107,18 @@ sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
 	td='<td>'
 done
 print -r -- '</table>'
-print -r -- '<p><small>Unicode is a registred trademark of Unicode, Inc. in many countries.</small></p>'
 print -r -- '</body></html>'
 
 exec >unidata.txt
-print -r -- "The Unicode® $vsn Basic Multilingual Plane"
+asn=
 eqlen=${%vsn}
 while (( eqlen-- )); do
-	print -n =
+	asn+==
 done
-print ======================================
+print -r -- "The Universal Coded Character Set $vsn Basic Multilingual Plane"
+print -r -- "==================================$asn========================="
 print
-sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
+sed '/^10000/,$d' <JamoData.txt | while IFS= read -r line; do
 	typeset -Uui16 -Z7 x=0x${line::4}
 	typeset -i1 j
 	(( j = (x < 32) || (x >= 0xD800 && x <= 0xDFFF) || \
@@ -141,21 +141,15 @@ sed '/^10000/,$d' <UnicodeData.jamo | while IFS= read -r line; do
 	print -r -- " ${line:5}"
 done
 print
-print 'Unicode is a registred trademark of Unicode, Inc. in many countries.'
-print
 print _______________________________________________________________________
 print -r -- "$rcsid"
 
 exec >uni_smp.txt
 exec 4>uni_acronyms
 print -ru4 -- " From miros${rcsid#?MirOS}"
-print -ru4 -- " From unicode: $vsn"
-print -r -- "Unicode® $vsn (all planes)"
-eqlen=${%vsn}
-while (( eqlen-- )); do
-	print -n =
-done
-print ======================
+print -ru4 -- " From ucd: $vsn"
+print -r -- "The Universal Coded Character Set $vsn (all planes)"
+print -r -- "==================================$asn============="
 print
 typeset -i1 j
 while IFS= read -r line; do
@@ -204,9 +198,7 @@ while IFS= read -r line; do
 	fi
 	print -r -- "${line#*;}"
 	print -ru4 -- "$aO${line#*;}"
-done <UnicodeData.jamo
-print
-print 'Unicode is a registred trademark of Unicode, Inc. in many countries.'
+done <JamoData.txt
 print
 print ______________________________________________________________________
 print -r -- "$rcsid"
@@ -222,8 +214,8 @@ cat <<EOF
 ┋ $rcsid
 ┋ \$miros${rcsid#?MirOS}
 
-The Unicode® $vsn Basic Multilingual Plane
-┄┄┄┄┄┄┄┄┄┄┄┄┄$asn┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+The Universal Coded Character Set $vsn Basic Multilingual Plane
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄$asn┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
 The width of these characters have been derived from
 MirBSD’s new wcwidth code and thus, this file should
@@ -233,18 +225,17 @@ bove for the RCS ID of the generator script and read
 it for the licence terms on this file. Please credit
 mirabilos in derivative works, if possible.
 
-Now have fun cutting and pasting, although be remin‐
-ded that Unicode characters above U+00FF can only be
-pasted while they are still marked in the source ux‐
-term and the latter is visible on the screen. Alter‐
-natively you can copy them using an UTF-8 aware edi‐
-tor such as jupp: http://www.mirbsd.org/jupp.htm
-
 Combining characters with single-cell width are pre‐
 fixed by two spaces in the table below. Places where
 a C0 and C1 control character would appear show FFFD
 as the replacement character instead, again indented
-by two spaces instead of one (to mark this).
+by two spaces instead of one, to denote this.
+
+Now have fun copying and pasting, although be remin‐
+ded to either use a recent version of xterm to do a‐
+way with cut buffers or keep the selection active in
+the source window during pasting; alternatively, use
+an editor like jupp: http://www.mirbsd.org/jupp.htm
 ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
 
 s̲̲u̲p̲e̲r̲s̲c̲r̲i̲p̲t̲,̲ ̲s̲u̲b̲s̲c̲r̲i̲p̲t̲,̲ ̲K̲a̲p̲i̲t̲ä̲l̲c̲h̲e̲n̲ ̲a̲n̲d̲ ̲o̲t̲h̲e̲r̲ ̲s̲c̲r̲i̲p̲t̲
@@ -323,8 +314,6 @@ Valid octet sequences for UTF-8/CESU-8:
 UTF-8: Exclude ED followed by A0‥BF (surrogates).
 CESU-8: Exclude astral planes; ensure valid surrogates.
 OPTU-8: Exclude astral planes and EE followed by BE‥BF.
-
-Unicode is a registred trademark of Unicode, Inc. in many countries.
 EOF
 
 exec >&2
