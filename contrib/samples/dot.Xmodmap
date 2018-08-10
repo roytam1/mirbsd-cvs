@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.2.1.2.4 2017/07/23 22:32:42 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.2.1.2.5 2017/07/27 12:52:01 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010, 2012, 2016, 2017
 !	mirabilos <m@mirbsd.org>
@@ -29,7 +29,7 @@
 ! • The Win_L key generates Meta_L	(adds 0x80 to latin1 code)
 ! • The Alt_R key generates Mode_switch	(emulates Meta for X apps)
 ! • The Win_R key generates Meta_R	(adds 0x80 to latin1 code)
-! • The Win_M key generates Compose	(also for Unicode compose)
+! • The Win_M key generates Compose	(also for UCS/UTF-8)
 ! • The CapsLock key acts as Compose key
 ! • The <>| (102nd) key generates Ellipsis, €, DE-DblQL, Trademark
 ! • The Backspace key, shifted and with Mode_switch, generates ‘Ÿ’
