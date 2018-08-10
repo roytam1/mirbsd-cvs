@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.4 2018/01/07 00:25:29 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.8 2018/08/10 01:47:02 tg Exp $'
 #-
 # Copyright © 2017, 2018
 #	mirabilos <m@mirbsd.org>
@@ -86,10 +86,10 @@ cat <<EOF
  <meta http-equiv="content-type" content="text/html; charset=ISO_646.irv:1991" />
  <meta http-equiv="Content-Style-Type" content="text/css" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
- <title>The Unicode® Database $vsn (BMP)</title>
+ <title>The Unicode&#174; Database $vsn (BMP)</title>
  <meta name="RCSId" content="$rcsid" />
 </head><body>
-<h1>Die Unicode®-Datenbank $vsn (Basic Multilingual Plane)</h1>
+<h1>Die Unicode&#174;-Datenbank $vsn (Basic Multilingual Plane)</h1>
 <table style="table-layout:fixed; border:0px; padding:0px;">
 EOF
 td='<td style="width:3em;">'
