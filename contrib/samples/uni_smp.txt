@@ -1,5 +1,5 @@
-Unicode 11.0.0 (all planes)
-===========================
+The Universal Coded Character Set 11.0.0 (all planes)
+=====================================================
 
 U+0000  � <control>;Cc;0;BN;;;;;N;NULL;;;;
 U+0001  � <control>;Cc;0;BN;;;;;N;START OF HEADING;;;;
@@ -43465,4 +43465,4 @@ U-00100000  􀀀	<Plane 16 Private Use, First>;Co;0;L;;;;;N;;;;;
 U-0010FFFD  􏿽	<Plane 16 Private Use, Last>;Co;0;L;;;;;N;;;;;
 
 ______________________________________________________________________
-$MirOS: contrib/hosted/tg/uni.mk,v 1.6 2018/06/26 20:55:24 tg Exp $
+$MirOS: contrib/hosted/tg/uni.mk,v 1.10 2018/08/10 02:07:24 tg Exp $

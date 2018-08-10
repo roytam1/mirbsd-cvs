@@ -12,7 +12,7 @@ if any are found. We don't think so though.)
 All paths are relative to The MirOS Project's CVS repository.
 
 
-The following files form The MirBSD Korn Shell R56:
+The following files form The MirBSD Korn Shell R56d:
 - build system
   * mksh/Build.sh
 - testsuite driver
@@ -35,6 +35,7 @@ The following files form The MirBSD Korn Shell R56:
   * mksh/exprtok.h
   * mksh/funcs.c
   * mksh/histrap.c
+  * mksh/jehanne.c
   * mksh/jobs.c
   * mksh/lalloc.c
   * mksh/lex.c
@@ -122,12 +123,14 @@ Appendix A - The MirOS Licence (OSI approved)
 
 The MirBSD Korn Shell (mksh) is
 Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
-	      2011, 2012, 2013, 2014, 2015, 2016
+	      2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018
 	mirabilos <m@mirbsd.org>
-Copyright (c) 2015
+Copyright (c) 2015, 2017
 	KO Myung-Hun <komh@chollian.net>
 Copyright (c) 2015
 	Daniel Richard G. <skunk@iSKUNK.ORG>
+Copyright (c) 2017
+	Giacomo Tesio <giacomo@tesio.it>
 All rights reserved.
 
 The mksh logo is
@@ -245,4 +248,4 @@ possible, the text shown above is to be included.
 
 
 __________________________________________________________________
-$MirOS: www/files/TaC-mksh.txt,v 1.25 2016/01/02 20:11:31 tg Exp $
+$MirOS: www/files/TaC-mksh.txt,v 1.29 2017/08/09 03:35:30 tg Exp $

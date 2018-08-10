@@ -1,5 +1,5 @@
-The Unicode 11.0.0 Basic Multilingual Plane
-===========================================
+The Universal Coded Character Set 11.0.0 Basic Multilingual Plane
+=================================================================
 
 U+0000  � <control>;Cc;0;BN;;;;;N;NULL;;;;
 U+0001  � <control>;Cc;0;BN;;;;;N;START OF HEADING;;;;
@@ -27868,4 +27868,4 @@ U+FFFC ￼  OBJECT REPLACEMENT CHARACTER;So;0;ON;;;;;N;;;;;
 U+FFFD �  REPLACEMENT CHARACTER;So;0;ON;;;;;N;;;;;
 
 _______________________________________________________________________
-$MirOS: contrib/hosted/tg/uni.mk,v 1.6 2018/06/26 20:55:24 tg Exp $
+$MirOS: contrib/hosted/tg/uni.mk,v 1.10 2018/08/10 02:07:24 tg Exp $

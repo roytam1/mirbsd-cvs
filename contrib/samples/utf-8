@@ -1,31 +1,28 @@
-┋ $MirOS: contrib/samples/utf-8,v 1.18 2017/11/18 12:25:27 tg Exp $
+┋ $MirOS: contrib/hosted/tg/uni.mk,v 1.10 2018/08/10 02:07:24 tg Exp $
+┋ $miros: contrib/hosted/tg/uni.mk,v 1.10 2018/08/10 02:07:24 tg Exp $
 
-The Unicode 11.0.0 Basic Multilingual Plane
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+The Universal Coded Character Set 11.0.0 Basic Multilingual Plane
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
 The width of these characters have been derived from
 MirBSD’s new wcwidth code and thus, this file should
 show up fine in an uxterm on MirOS (see xterm(1) for
-further reference).
-
-This file was generated (and hand-edited afterwards)
-by mirabilos <m@mirbsd.org>. Because this is a data‐
-base it can be used without the need for an explicit
-licence, but if possible I would like to be credited
-on derivates.
-
-Now have fun cutting and pasting, although be remin‐
-ded that unicode characters above U+00FF can only be
-pasted while they are still marked in the source ux‐
-term and the latter is visible on the screen. Alter‐
-natively you can copy them using an UTF-8 aware edi‐
-tor such as jupp: http://www.mirbsd.org/jupp.htm
+further reference). This is a generated file, see a‐
+bove for the RCS ID of the generator script and read
+it for the licence terms on this file. Please credit
+mirabilos in derivative works, if possible.
 
 Combining characters with single-cell width are pre‐
 fixed by two spaces in the table below. Places where
 a C0 and C1 control character would appear show FFFD
 as the replacement character instead, again indented
-by two spaces instead of one (to mark this).
+by two spaces instead of one, to denote this.
+
+Now have fun copying and pasting, although be remin‐
+ded to either use a recent version of xterm to do a‐
+way with cut buffers or keep the selection active in
+the source window during pasting; alternatively, use
+an editor like jupp: http://www.mirbsd.org/jupp.htm
 ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
 
 s̲̲u̲p̲e̲r̲s̲c̲r̲i̲p̲t̲,̲ ̲s̲u̲b̲s̲c̲r̲i̲p̲t̲,̲ ̲K̲a̲p̲i̲t̲ä̲l̲c̲h̲e̲n̲ ̲a̲n̲d̲ ̲o̲t̲h̲e̲r̲ ̲s̲c̲r̲i̲p̲t̲
@@ -34,7 +31,7 @@ U ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖ⁚ʳˢᵗᵘᵛʷˣʸᶻ⁰¹²�
 D ₐ⁚⁚⁚ₑ⁚⁚ₕᵢⱼₖₗₘₙₒₚ⁚ᵣₛₜᵤᵥ⁚ₓ⁚⁚₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎
 
 U ᴬᴮ⁚ᴰᴱ⁚ᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾ⁚ᴿ⁚ᵀᵁⱽᵂ
-K ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘ⁚ʀꜱᴛᴜᴠᴡ⁚ʏᴢ
+K ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘꞯʀꜱᴛᴜᴠᴡ⁚ʏᴢ
 
 U ᵅᵝᵞᵟᵋᶿᶥᶲ ᵠᵡ ªº C( ͣ ͨ ͩ ͤ ᷚ ᷛ ͪ ͥ ᷜ ᷝ ᷞ ͫ ᷟ ᷠ ᷡ ͦ ͬ ᷢ ᷤ ᷥ ͭ ͧ ͮ ͯ ᷦ) ʱʴʵʶˀˁˠˤ
 D  ᵦᵧ     ᵨᵩᵪ
@@ -8213,3 +8210,15 @@ S ℬ ℂ ℰ ℯ ℱ ℊ ℋℌℍ ℎ ℐℑ ℒ ℓ ℳ ℕ ℴ ℙ ℘ ℚ �
 ╽ #FFF0 ┃ ￰  │ ￱  │ ￲  │ ￳  │ ￴  │ ￵  │ ￶  │ ￷  ┃ #FFF7 ╽
 ╿ #FFF8 ┃ ￸  │   ￹ │   ￺ │   ￻ │ ￼  │ �  ┟────┴────┚ #FFFD ╿
 ╰───────┸────┴────┴────┴────┴────┴────┸─────────────────╯
+
+Valid octet sequences for UTF-8/CESU-8:
+• 00‥7F				(ASCII)
+• C2‥DF 80‥BF			(BMP U+00A0‥U+07FF)
+•    E0 A0‥BF 80‥BF		(BMP U+0800‥U+0FFF)
+• E1‥EF 80‥BF 80‥BF		(BMP U+1000‥U+FFFF)
+•    F0 90‥BF 80‥BF 80‥BF	(astral planes)
+• F1‥F3 80‥BF 80‥BF 80‥BF	(   "     "   )
+•    F4 80‥8F 80‥BF 80‥BF	(   "     "   )
+UTF-8: Exclude ED followed by A0‥BF (surrogates).
+CESU-8: Exclude astral planes; ensure valid surrogates.
+OPTU-8: Exclude astral planes and EE followed by BE‥BF.
