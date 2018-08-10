@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.7 2014/02/09 22:35:54 tg Exp $
+.\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.8 2017/04/24 12:52:51 tg Exp $
 .\"-
 .\" Copyright (c) 2008, 2010
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -20,7 +20,7 @@
 .\"
 .\" The author reserves the right to steward the OPTU encoding forms.
 .\"-
-.Dd $Mdocdate: February 9 2014 $
+.Dd $Mdocdate: April 24 2017 $
 .Dt OPTU8TO16 3
 .Os MirOS
 .Sh NAME
@@ -57,7 +57,7 @@ or to the OPTU\-16 raw octet range (U+EF80 .. U+EFFF).
 The
 .Fn optu8to16vis
 function behaves the same, except raw octets are mapped into the normal
-unicode range as if they had been encoded in the legacy 8-bit codepage.
+UCS range as if they had been encoded in the legacy 8-bit codepage.
 The conversion happens in accordance with the conversion state
 described in the mbstate_t object pointed to by
 .Fa ps ;
@@ -165,7 +165,7 @@ the current implementaton.
 .Sh STANDARDS
 At present,
 .Mx
-is limited to the Unicode BMP (Basic Multilingual Plane), thus
+is limited to the UCS BMP (Basic Multilingual Plane), thus
 OPTU\-8 is limited to the common subset of CESU\-8 and UTF\-8.
 .Pp
 The
@@ -230,7 +230,8 @@ Since
 .Mx
 is such a system, the reference implementation does not care about
 UTF\-16 surrogates posing as OPTU\-16 characters at all; a planes-aware
-Unicode application is required to handle surrogates by itself.
+Universal Coded Character Set-using application is required to handle
+surrogates by itself.
 For compatibility purposes,
 .Nm
 should always be assumed to not treat surrogates specially; applications

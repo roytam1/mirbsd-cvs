@@ -3,7 +3,7 @@
 
 mws_setname subprojects/jupp "jupp — Programmer’s Editor"
 mws_setheadline jupp — the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.79 2018/06/26 21:39:20 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.81 2018/08/08 00:35:25 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
  with a set of updated *rc files available for download below,
@@ -93,7 +93,7 @@ mws_content <<'EOF'
  <li>Quickly search for CVS/git conflict markers with ^Q =</li>
  <li>Freedroidz IDE: install nbc, then just hit ^K F in jupp while
   editing a <tt>*.nxc</tt> file; it’ll compile and upload to the brick</li>
- <li>Presentation mode: just write the slides as plain Unicode text,
+ <li>Presentation mode: just write the slides as plain UTF-8 text,
   one slide per Unix file, sequential names (e.g. zero-padded numbers),
   load them with “jupp *” then hit F6 to fullscreen the first one, go
   forward with F8 and backward with F7, and use F9 to pipe the entire
@@ -165,7 +165,7 @@ $ $SUDO make install</pre>
 <p>This works with both BSD and GNU make. The original <em>joe 2.8</em> and
  jupp for DOS also are able to be built on MS-DOS or DR DOS, but do not use
  GNU autotools. I’d be interested if someone managed to do this with jupp
- 3.x for Unix, and if Unicode support and other things were working there.
+ 3.x for Unix, and if UTF-8 support and other things were working there.
  On Windows® you can use jupp for Unix with Cygwin or Interix/SFU/SUA.</p>
 <p>This has been tested on: MirBSD/i386 (gcc3.4.6, pcc-20100407, SUNWcc 12.1),
  MirBSD/sparc, Minix 3 (i386) with cc (ACK), Debian (gcc4), Solaris 8 (gcc),
@@ -429,7 +429,7 @@ $ $SUDO make install</pre>
 <p>[2018-08-08] Changes in the current development version:</p><ul>
  <li>fix syntax highlighting for Assembly and Java™: string termination</li>
  <li>unbreak reformat block when raw octets are present</li>
- <li>update to Unicode 11.0.0</li>
+ <li>update to UCD 11.0.0</li>
  <li>improve line generation / screen output code wrt. UTF-8 <strong>(still buggy)</strong></li>
  <li>make UTF-8 decoding more robust</li>
  <li>fix Makefile.am EXTRA_DIST</li>

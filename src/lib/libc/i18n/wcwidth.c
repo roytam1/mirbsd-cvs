@@ -24,7 +24,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.16 2017/07/08 15:11:58 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.19 2018/06/26 21:22:26 tg Exp $");
 
 /* From: X11/xc/programs/xterm/wcwidth.c,v 1.10 */
 
@@ -37,7 +37,7 @@ static int mb_ucsbsearch(const struct mb_ucsrange arr[], size_t elems,
     wchar_t val);
 
 /*
- * Generated from the Unicode Character Database, Version 10.0.0, by
+ * Generated from the UCD 11.0.0 by
  * MirOS: contrib/code/Snippets/eawparse,v 1.12 2017/09/06 16:05:45 tg Exp $
  */
 
@@ -332,7 +332,7 @@ mb_ucsbsearch(const struct mb_ucsrange arr[], size_t elems, wchar_t val)
 	return (0);
 }
 
-/* Unix column width of a wide character (Unicode code point, really) */
+/* Unix column width of a wide character (UCS code point, really) */
 int
 wcwidth(wchar_t wc)
 {

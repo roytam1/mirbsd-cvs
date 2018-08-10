@@ -22,7 +22,7 @@ Also the user can calculate arithmetics inside the text.
 e3's assembler version is available on 9 important OS,
 using 16/32/64 bit CPUs.
 
-Beginning in version 2.6.0 e3 does support UTF-8 coding of unicode
+Beginning in version 2.6.0 e3 does support UTF-8 encoding of UCS
 characters like this: α	<---should be a greek alpha
 
 
@@ -116,7 +116,7 @@ except on QNX and Win32.
 It's been tested using the terminal console, but Xterm, Eterm,
 kvt, rxvt, vt220 and vt100 should work too.
 
-Beginning in version 2.6.0 e3 does support UTF-8 coding of unicode
+Beginning in version 2.6.0 e3 does support UTF-8 encoding of UCS
 characters like this: α	<---should be a greek alpha
 
 
@@ -229,7 +229,7 @@ Or adjust 'Makefile' and build e3arm on the destination ARM box.
 * On some computers (BeOS, BSD, QNX etc.) Alt-key combinations won't work:
   press <ESC> followed by the key, e.g. press ESC and H instead of Alt-H.
   This is because Alt-x is truly Meta-x and mapped to CHR$(ASC("x") + 128)
-  in Latin1/Unicode, which is ø — Esc+x is the portable alternative on any
+  in Latin1/UTF-8, which is ø — Esc+x is the portable alternative on any
   UNIX®-like operating system, but won’t work on Windows®.
 
 * e3 shows a dot for characters below ASCII 20h and greater 7Fh
@@ -359,7 +359,7 @@ do NOT expect very high precision.
 7. Notes on UTF-8 for the Linux/ASM version
 ===========================================
 
-* By default now e3 does does support UTF-8 coding of unicode
+* By default now e3 does does support UTF-8 encoding of UCS
   characters like this: α	<---should be a greek alpha
 
 * You could disable UTF-8 support in e3 by editing e3.h at line 16:
@@ -446,4 +446,4 @@ Some names are trademarks of their owners:
 Linux BSD BeOS QNX Unix WordStar Unox DOS Win Alpha BSE Atheos ELKS ARM AMD .. etc.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/gnu/e3/README,v 1.3 2013/01/02 22:53:01 tg Exp $
+$MirOS: contrib/gnu/e3/README,v 1.5 2017/08/10 21:07:04 tg Exp $

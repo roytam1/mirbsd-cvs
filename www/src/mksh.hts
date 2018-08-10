@@ -5,7 +5,7 @@ mws_setname subprojects/mksh "mksh — the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
 mws_setold
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.664 2018/06/26 21:39:21 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.666 2018/07/15 20:04:55 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1309,7 +1309,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Handle lseek(2) returning -1 as pointed out by Coverity Scan</li>
  <li>[tg] Fix left-padding UTF-8 strings</li>
  <li>[tg, G.raud Meyer] Fix using the “-m” flag on the command line</li>
- <li>[tg] Update to Unicode 11.0.0</li>
+ <li>[tg] Update to UCD 11.0.0</li>
  <li>[multiplexd] Fix a segfault using ^W during search in Vi mode</li>
  <li>[tg] Fix an error message; add a test for controlling tty</li>
  <li>[tg] Permit unsetting LINES and COLUMNS, for those who need it</li>

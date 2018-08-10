@@ -20,7 +20,7 @@
 
 #include <sys/types.h>
 
-__RCSID("$MirOS: X11/xc/programs/xterm/wcwidth.c,v 1.12 2017/11/18 12:01:51 tg Exp $");
+__RCSID("$MirOS: X11/xc/programs/xterm/wcwidth.c,v 1.13 2018/06/26 21:22:20 tg Exp $");
 
 struct mb_ucsrange {
 	unsigned int beg;
@@ -31,7 +31,7 @@ static int mb_ucsbsearch(const struct mb_ucsrange arr[], size_t elems,
     unsigned int val);
 
 /*
- * Generated from the Unicode Character Database, Version 11.0.0, by
+ * Generated from the UCD 11.0.0 by
  * MirOS: contrib/code/Snippets/eawparse,v 1.12 2017/09/06 16:05:45 tg Exp $
  */
 
@@ -659,7 +659,7 @@ mb_ucsbsearch(const struct mb_ucsrange arr[], size_t elems, unsigned int val)
 	return (0);
 }
 
-/* Unix column width of a wide character (Unicode code point, really) */
+/* Unix column width of a wide character (UCS code point, really) */
 int
 mb_wcwidth(unsigned int wc)
 {
@@ -677,7 +677,7 @@ mb_wcwidth(unsigned int wc)
 	return (1);
 }
 
-/* CJK column width of a wide character (Unicode code point, really) */
+/* CJK column width of a wide character (UCS code point, really) */
 int
 mb_wcwidth_cjk(unsigned int wc)
 {
@@ -699,7 +699,7 @@ mb_wcwidth_cjk(unsigned int wc)
 
 /*
  * This is an implementation of wcwidth() and wcswidth() (defined in
- * IEEE Std 1002.1-2001) for Unicode.
+ * IEEE Std 1002.1-2001) for UCS (the Universal Coded Character Set).
  *
  * http://www.opengroup.org/onlinepubs/007904975/functions/wcwidth.html
  * http://www.opengroup.org/onlinepubs/007904975/functions/wcswidth.html
@@ -710,7 +710,7 @@ mb_wcwidth_cjk(unsigned int wc)
  * applications and (teletype-style) character terminals using the
  * UTF-8 encoding requires agreement on which character should advance
  * the cursor by how many cell positions. No established formal
- * standards exist at present on which Unicode character shall occupy
+ * standards exist at present on which UCS character shall occupy
  * how many cell positions on character terminals. These routines are
  * a first attempt of defining such behavior based on simple rules
  * applied to data provided by the Unicode Consortium.

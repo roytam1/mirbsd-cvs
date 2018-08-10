@@ -34,7 +34,7 @@ NOMAN=		Yes
 #include <wchar.h>
 
 static const char rcsid_generator[] =
-  "$MirOS: contrib/hosted/tg/ucdconv.c,v 1.15 2010/12/11 21:05:48 tg Exp $";
+  "$MirOS: contrib/hosted/tg/ucdconv.c,v 1.16 2013/11/30 20:52:16 tg Exp $";
 
 static const char *ucdvsn;
 
@@ -258,7 +258,7 @@ static void output_toupper_table (void)
   fprintf(f, "#include <wchar.h>\n\n#define mir18n_caseconv\n");
   fprintf(f, "#include \"mir18n.h\"\n\n__RCSID(\"$""MirOS""$\");\n");
   fprintf(f, "__RCSID(\"$""miros%s\");\n", rcsid_generator + 6);
-  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP) %s\");\n\n", unicodedata_filename, ucdvsn);
+  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP)\");\n\n", ucdvsn);
   for (p = 0; p < 0x100; p++)
     pages[p] = 0;
   for (p = 0; p < 0x100; p++)
@@ -321,7 +321,7 @@ static void output_totitle_table (void)
   fprintf(f, "#include <wchar.h>\n\n#define mir18n_caseconv\n");
   fprintf(f, "#include \"mir18n.h\"\n\n__RCSID(\"$""MirOS""$\");\n");
   fprintf(f, "__RCSID(\"$""miros%s\");\n", rcsid_generator + 6);
-  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP) %s\");\n\n", unicodedata_filename, ucdvsn);
+  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP)\");\n\n", ucdvsn);
   for (p = 0; p < 0x100; p++)
     pages[p] = 0;
   for (p = 0; p < 0x100; p++)
@@ -386,7 +386,7 @@ static void output_tolower_table (void)
   fprintf(f, "#include <wchar.h>\n\n#define mir18n_caseconv\n");
   fprintf(f, "#include \"mir18n.h\"\n\n__RCSID(\"$""MirOS""$\");\n");
   fprintf(f, "__RCSID(\"$""miros%s\");\n", rcsid_generator + 6);
-  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP) %s\");\n\n", unicodedata_filename, ucdvsn);
+  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP)\");\n\n", ucdvsn);
   for (p = 0; p < 0x100; p++)
     pages[p] = 0;
   for (p = 0; p < 0x100; p++)
@@ -548,7 +548,7 @@ static void output_attribute_table (void)
         fprintf(f, "#include <wchar.h>\n\n#define mir18n_attributes\n");
         fprintf(f, "#include \"mir18n.h\"\n\n__RCSID(\"$""MirOS""$\");\n");
         fprintf(f, "__RCSID(\"$""miros%s\");\n", rcsid_generator + 6);
-        fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP) %s\");\n\n", unicodedata_filename, ucdvsn);
+        fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP)\");\n\n", ucdvsn);
         filename = "tbl_attr.c";
       }
       if (p)

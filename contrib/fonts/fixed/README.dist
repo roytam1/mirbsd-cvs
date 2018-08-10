@@ -42,14 +42,14 @@ file formats and Qt.
 To create a Linux console font (in (mostly) cp437 encoding), use the
 script from mircvs://contrib/fonts/tools/bdftopsf.pl like so:
   bdftopsf.pl +h -u +1 <mirf16v8.bdf >mirf16v8.psf
-Generate a second binary with an embedded Unicode map:
+Generate a second binary with an embedded UCS-2 map:
   psfaddtable mirf16v8.psf mirf16v8.map mirf16v8.psfu
 
 There is also a Linux framebuffer console font (512 glyphs in a
 font-specific encoding, 9x18) made from this, we are working on
 extracting the build method from the Debian-specific surroundings.
 
-This font (the binary without the Unicode map) can also be used in
+This font (the binary without the UCS map) can also be used in
 SYSLINUX by copying mirf16v8.psf to the same directory pxelinux.0,
 syslinux.efi, etc. are in and adding the following line to the config:
   FONT mirf16v8.psf
@@ -98,4 +98,4 @@ an equivalence transformation: http://www.mirbsd.org/man1/bdfctool
 Source: http://www.mirbsd.org/cvs.cgi/X11/extras/bdfctool/
 
 __________________________________________________________________________
-$MirOS: contrib/fonts/fixed/README.dist,v 1.5 2016/10/04 19:37:20 tg Exp $
+$MirOS: contrib/fonts/fixed/README.dist,v 1.7 2018/04/29 17:20:00 tg Exp $

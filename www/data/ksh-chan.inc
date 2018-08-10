@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.35 2017/12/07 23:54:13 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.38 2018/07/12 23:17:36 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -6,7 +6,7 @@ This is the homepage for the original (AT&amp;T) Korn Shell,
 where sources and binaries for ksh93 as well as information
 are available. It is a modern shell with many features for
 both interactive and script use, extensible, and can be used
-as shared library. It’s also locale aware and thus Unicode
+as shared library. It’s also locale aware and thus UTF-8
 ready on most modern operating systems.
 <a href="http://www2.research.att.com/~astopen/download/">Download</a>
 ----
@@ -20,7 +20,7 @@ ksh93/bash/zsh extensions are present, while others, such as
 floating point arithmetic, will not be provided, even though
 the aim is as generic as ksh93’s (interactive and script use;
 embedding is not yet possible) and to be very portable, also
-to include some extensions of its own. It’s Unicode aware.
+to include some extensions of its own. It’s UTF-8 aware.
 ----
 Title: Frequently Asked Questions for The MirBSD Korn Shell
 Link: http://www.mirbsd.org/mksh-faq.htm

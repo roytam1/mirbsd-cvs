@@ -27,7 +27,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/shf.c,v 1.95 2017/05/05 22:45:58 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/shf.c,v 1.97 2018/01/14 01:28:16 tg Exp $");
 
 /* flags to shf_emptybuf() */
 #define EB_READSW	0x01	/* about to switch to reading */
@@ -1304,7 +1304,7 @@ ebcdic_init(void)
 		 * and the C1 control characters other than NEL are
 		 * hopeless, but we map EBCDIC NEL to ASCII LF so we
 		 * cannot even use C1 NEL.
-		 * If ever we map to Unicode, bump the table width to
+		 * If ever we map to UCS, bump the table width to
 		 * an unsigned int, and or the raw unconverted EBCDIC
 		 * values with 0x01000000 instead.
 		 */

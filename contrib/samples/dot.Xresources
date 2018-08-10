@@ -1,5 +1,5 @@
 ! $MirSecuCron$
-! $MirOS: contrib/samples/dot.Xresources,v 1.26 2017/04/02 22:54:11 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.29 2018/06/26 22:29:12 tg Exp $
 !-
 ! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011,
 !	      2012, 2013, 2014, 2015, 2017, 2018
@@ -27,10 +27,10 @@
 ! Added by this flavour are:
 ! • Support for xterm copy/paste to CLIPBOARD, not just PRIMARY; cut
 !   buffer support completely obsoleted away
-! • Settings for classic, nōn-Unicode XTerm and UXTerm (lightgrey on
+! • Settings for classic — nōn-UTF8 — XTerm and UXTerm (lightgrey on
 !   black), AXTerm (uxterm amber on black) and RXTerm (black/white)
 ! • a classic X11R6 monochrome (black on white, without ANSI colour)
-!   xterm as BXTerm, Unicode enabled
+!   xterm as BXTerm, UTF-8 enabled
 ! • an uxterm in Terminus font as TXTerm
 ! • VXTerm with a cp437-encoded PC (FixedMiscPC, Terminus, VGA) font
 ! • Settings for kterm, EUC-JP-encoded
@@ -98,12 +98,12 @@ XTerm*VT100*color15:		rgb:FF/FF/FF
 XTerm*VT100*colorBD:		white
 XTerm*fontMenu*background:	AntiqueWhite
 XTerm*fontMenu*foreground:	gray15
-XTerm*fontMenu.Label:		Unicode Fonts
+XTerm*fontMenu.Label:		UCS Fonts
 XTerm*VT100*font:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
 XTerm*VT100*boldFont:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
 XTerm*VT100*wideFont:		-misc-fixed-medium-r-normal-ja-13-120-75-75-c-120-iso10646-1
 XTerm*VT100*wideBoldFont:	-misc-fixed-medium-r-normal-ja-13-120-75-75-c-120-iso10646-1
-XTerm*fontMenu*font1*Label:	Unicode
+XTerm*fontMenu*font1*Label:	FixedMisc
 XTerm*VT100*font1:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 XTerm*VT100*font2:		-misc-fixed-medium-r-normal--7-70-75-75-c-50-iso10646-1
 XTerm*VT100*font3:		-misc-fixed-medium-r-normal--10-100-75-75-c-60-iso10646-1
@@ -158,7 +158,7 @@ UXTerm*VT100*color15:		rgb:FF/FF/FF
 UXTerm*VT100*colorBD:		white
 UXTerm*fontMenu*background:	AntiqueWhite
 UXTerm*fontMenu*foreground:	gray15
-UXTerm*fontMenu.Label:		Unicode Fonts
+UXTerm*fontMenu.Label:		UCS Fonts
 UXTerm*VT100*font:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 UXTerm*VT100*boldFont:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 ! this one has strokes easier to recognise for kana etc.
@@ -171,6 +171,7 @@ UXTerm*VT100*wideBoldFont:	-miros-fixedmisc-medium-r-normal--18-120-100-100-c-18
 UXTerm*fontMenu*font1*Label:	xTerm-like
 UXTerm*fontMenu*font3*Label:	narrow tall
 UXTerm*fontMenu*font4*Label:	wide short
+UXTerm*fontMenu*font5*Label:	FixedMisc
 UXTerm*VT100*font1:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
 UXTerm*VT100*font2:		-misc-fixed-medium-r-normal--8-80-75-75-c-50-iso10646-1
 UXTerm*VT100*font3:		-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1
@@ -225,7 +226,7 @@ AXTerm*VT100*color15:		rgb:FF/FF/FF
 AXTerm*VT100*colorBD:		rgb:FF/EF/00
 AXTerm*fontMenu*background:	AntiqueWhite
 AXTerm*fontMenu*foreground:	gray15
-AXTerm*fontMenu.Label:		Unicode Fonts
+AXTerm*fontMenu.Label:		UCS Fonts
 AXTerm*VT100*font:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 AXTerm*VT100*boldFont:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 AXTerm*VT100*wideFont:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-180-iso10646-1
@@ -233,6 +234,7 @@ AXTerm*VT100*wideBoldFont:	-miros-fixedmisc-medium-r-normal--18-120-100-100-c-18
 AXTerm*fontMenu*font1*Label:	xTerm-like
 AXTerm*fontMenu*font3*Label:	narrow tall
 AXTerm*fontMenu*font4*Label:	wide short
+AXTerm*fontMenu*font5*Label:	FixedMisc
 AXTerm*VT100*font1:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
 AXTerm*VT100*font2:		-misc-fixed-medium-r-normal--8-80-75-75-c-50-iso10646-1
 AXTerm*VT100*font3:		-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1
@@ -270,10 +272,10 @@ BXTerm*VT100*dynamicColors:	false
 BXTerm*VT100*utf8:		1
 BXTerm*fontMenu*background:	AntiqueWhite
 BXTerm*fontMenu*foreground:	gray15
-BXTerm*fontMenu.Label:		Unicode Fonts
+BXTerm*fontMenu.Label:		UCS Fonts
 BXTerm*VT100*font:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
 BXTerm*VT100*wideFont:		-misc-fixed-medium-r-normal-ja-13-120-75-75-c-120-iso10646-1
-BXTerm*fontMenu*font1*Label:	Unicode
+BXTerm*fontMenu*font1*Label:	FixedMisc
 BXTerm*VT100*font1:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 BXTerm*VT100*font2:		-misc-fixed-medium-r-normal--7-70-75-75-c-50-iso10646-1
 BXTerm*VT100*font3:		-misc-fixed-medium-r-normal--10-100-75-75-c-60-iso10646-1
@@ -331,8 +333,8 @@ TXTerm*fontMenu*foreground:	gray15
 TXTerm*fontMenu.Label:		Terminus Fonts
 TXTerm*VT100*font:		-xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso10646-1
 TXTerm*VT100*boldFont:		-xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso10646-1
-TXTerm*fontMenu*font1*Label:	FixedSmall
-TXTerm*fontMenu*font2*Label:	FixedLarge
+TXTerm*fontMenu*font1*Label:	xTerm-like
+TXTerm*fontMenu*font2*Label:	FixedMisc
 TXTerm*fontMenu*font3*Label:	TerminusNorm
 TXTerm*fontMenu*font4*Label:	TerminusBold
 TXTerm*fontMenu*font5*Label:	TerminusMed
@@ -391,7 +393,7 @@ RXTerm*VT100*color15:		rgb:FF/FF/FF
 RXTerm*VT100*colorBD:		rgb:00/CC/33
 RXTerm*fontMenu*background:	AntiqueWhite
 RXTerm*fontMenu*foreground:	gray15
-RXTerm*fontMenu.Label:		Unicode Fonts
+RXTerm*fontMenu.Label:		UCS Fonts
 RXTerm*VT100*font:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 RXTerm*VT100*boldFont:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 RXTerm*VT100*wideFont:		-miros-fixedmisc-medium-r-normal--18-120-100-100-c-180-iso10646-1
@@ -399,6 +401,7 @@ RXTerm*VT100*wideBoldFont:	-miros-fixedmisc-medium-r-normal--18-120-100-100-c-18
 RXTerm*fontMenu*font1*Label:	xTerm-like
 RXTerm*fontMenu*font3*Label:	narrow tall
 RXTerm*fontMenu*font4*Label:	wide short
+RXTerm*fontMenu*font5*Label:	FixedMisc
 RXTerm*VT100*font1:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
 RXTerm*VT100*font2:		-misc-fixed-medium-r-normal--8-80-75-75-c-50-iso10646-1
 RXTerm*VT100*font3:		-misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1
@@ -457,7 +460,7 @@ VXTerm*fontMenu.Label:		VGA Fonts
 VXTerm*VT100*font:		-miros-fixedmiscpc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 VXTerm*VT100*boldFont:		-miros-fixedmiscpc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 VXTerm*fontMenu*font1*Label:	Small
-VXTerm*fontMenu*font2*Label:	Default
+VXTerm*fontMenu*font2*Label:	FixedMiscPC
 VXTerm*fontMenu*font3*Label:	TerminusSmall
 VXTerm*fontMenu*font4*Label:	TerminusMed
 VXTerm*fontMenu*font5*Label:	vga8x14
