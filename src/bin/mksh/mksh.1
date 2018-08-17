@@ -4667,15 +4667,15 @@ the user CPU time (time spent running in user mode), and the system CPU time
 (time spent running in kernel mode).
 Times are reported to standard error; the format of the output is:
 .Pp
-.Dl "0m0.00s real     0m0.00s user     0m0.00s system"
+.Dl "0m0.03s real     0m0.02s user     0m0.01s system"
 .Pp
 If the
 .Fl p
 option is given the output is slightly longer:
 .Bd -literal -offset indent
-real     0.00
-user     0.00
-sys      0.00
+real     0.03
+user     0.02
+sys      0.01
 .Ed
 .Pp
 It is an error to specify the
@@ -4700,8 +4700,8 @@ Print the accumulated user and system times used both by the shell
 and by processes that the shell started which have exited.
 The format of the output is:
 .Bd -literal -offset indent
-0m0.00s 0m0.00s
-0m0.00s 0m0.00s
+0m0.01s 0m0.00s
+0m0.04s 0m0.02s
 .Ed
 .Pp
 .It Ic trap Ar n Op Ar signal ...
