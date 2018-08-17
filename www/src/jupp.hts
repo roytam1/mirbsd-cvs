@@ -433,12 +433,12 @@ $ $SUDO make install</pre>
  <li>improve line generation / screen output code wrt. UTF-8 <strong>(still buggy)</strong></li>
  <li>make UTF-8 decoding more robust</li>
  <li>fix Makefile.am EXTRA_DIST</li>
- <li>highlight .def files as Teχ/LᴬTᴇX</li>
+ <li>highlight .def files as Tₑχ/LᴬTᴇΧ</li>
 </ul>
 <p id="r3_1j36">[2018-03-15] Changes for joe-3.1jupp36:</p><ul>
  <li>fix too-wide prompt for <tt>`</tt> (needs only 73 cols now)</li>
  <li>make <tt>^QV</tt>/<tt>^QP</tt> after <tt>^K]</tt> work</li>
- <li>fix Teχ/LᴬTᴇX highlighting on black-on-white terminals</li>
+ <li>fix Tₑχ/LᴬTᴇΧ highlighting on black-on-white terminals</li>
  <li>don’t forcibly disable <tt>-highlight</tt> for NXC files</li>
  <li>fix substitution of paths into generated files</li>
 </ul>
