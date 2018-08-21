@@ -15280,6 +15280,61 @@ Waypoint: GC4WDR4
 Title: verdreht
 Tag: D25 T25 Small Tradi
 ----
+ID: 2512
+Date: 2018-08-18
+Waypoint: GC7DDN9
+Title: Wasndasn#5 reloaded
+Tag: D35 T1 Micro Mystery
+----
+ID: 2513
+Date: 2018-08-19
+Waypoint: GC61VVC
+Title: Aachener Altstadt
+Tag: D15 T15 Micro Tradi
+----
+ID: 2514
+Date: 2018-08-19
+Waypoint: GC33TV2
+Title: Wege gegen das Vergessen 1
+Tag: D15 T1 Micro Tradi
+----
+ID: 2515
+Date: 2018-08-19
+Waypoint: GC23QE0
+Title: RWTH Aachen - Mach Meer Dampf
+Tag: D1 T15 Small Tradi
+----
+ID: 2516
+Date: 2018-08-19
+Waypoint: GC7B89G
+Title: Die Aachener Puppenkiste (So ein Puppentheater!)
+Tag: D25 T1 Virtual
+----
+ID: 2517
+Date: 2018-08-19
+Waypoint: GC1RGZP OC82E4
+Title: Aachener Thermalwasser
+Tag: D2 T1 Earth
+----
+ID: 2518
+Date: 2018-08-20
+Waypoint: GC62E8C
+Title: NdV 2016 - nur noch 90 km bis zum Event
+Tag: D15 T15 Micro Tradi
+----
+ID: p20180828
+Date: 2018-08-28
+Waypoint: GC7VKZZ
+Title: Let's get ready to rumble!
+Tag: D1 T1 Event
+----
+ID: p20180908
+Date: 2018-09-08
+Waypoint: GC7WGYG
+Title: Drachen, Eis, Stein und Park
+nTF: 0
+Tag: D1 T15 Event
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB
