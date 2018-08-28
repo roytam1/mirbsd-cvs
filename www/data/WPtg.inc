@@ -15322,7 +15322,13 @@ Waypoint: GC62E8C
 Title: NdV 2016 - nur noch 90 km bis zum Event
 Tag: D15 T15 Micro Tradi
 ----
-ID: p20180828
+ID: 2519
+Date: 2018-08-28
+Waypoint: GC5X428
+Title: Nicht nur für Radfahrer!
+Tag: D3 T15 Other Tradi
+----
+ID: 2520
 Date: 2018-08-28
 Waypoint: GC7VKZZ
 Title: Let's get ready to rumble!
@@ -15330,7 +15336,7 @@ Tag: D1 T1 Event
 ----
 ID: p20180908
 Date: 2018-09-08
-Waypoint: GC7WGYG
+Waypoint: GC7WGYG GE032B OC14B0D TC3LVN
 Title: Drachen, Eis, Stein und Park
 nTF: 0
 Tag: D1 T15 Event
