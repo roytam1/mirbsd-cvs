@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.26 2018/08/29 00:48:46 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.27 2018/08/29 01:19:11 tg Exp $';
 #-
 # Copyright © 2013, 2014, 2015, 2016, 2018
 #	mirabilos <m@mirbsd.org>
@@ -66,7 +66,7 @@ $query =~ s/^\s+//;
 $query =~ s/\s+$//;
 
 # handle early, before uppercasing
-if ($query =~ m!^(m/[0-9A-Za-z_-]*/[0-9]+)/?$!) {
+if ($query =~ m!^(m/[0-9A-Za-z_-]+/[0-9]+)/?$!) {
 	&redirect("https://www.munzee.com/$1/");
 }
 

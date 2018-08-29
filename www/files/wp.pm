@@ -1,4 +1,4 @@
-my $rcsid = '$MirOS: www/files/wp.pm,v 1.1 2018/08/29 01:19:11 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.pm,v 1.2 2018/08/29 01:29:21 tg Exp $';
 #-
 # Copyright © 2018
 #	mirabilos <m@mirbsd.org>
@@ -109,7 +109,7 @@ sub explwp($) {
 	return ("WM", "$wp", "http://www.waymarking.com/waymarks/$wp") if
 	    ($wp =~ m!^WM[0-9A-Z]{1,6}$!);
 	return ("m/", "$1", "https://www.munzee.com/$1/") if
-	    ($wp =~ m!^(m/[0-9A-Za-z_-]*/[0-9]+)/?$!);
+	    ($wp =~ m!^(m/[0-9A-Za-z_-]+/[0-9]+)/?$!);
 	return ("gh", "$wp", "http://wiki.xkcd.com/geohashing/$wp") if
 	    ($wp =~ m!^(2[0-9]{3})-(0[1-9]|1[0-2])-([0-2][1-9]|[1-3][01])_(-?[0-9]{1,2})_(-?[0-9]{1,3})$! &&
 	    chkdate($1, $2, $3) && $4 >= -90 && $4 <= 90 && $5 >= -180 && $5 <= 180);
