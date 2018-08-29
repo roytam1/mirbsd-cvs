@@ -1,4 +1,4 @@
-rcsid_common='$MirOS: www/mk/common,v 1.9 2018/04/15 20:48:05 tg Exp $'
+rcsid_common='$MirOS: www/mk/common,v 1.10 2018/05/01 21:15:51 tg Exp $'
 #-
 # Copyright © 2007, 2008, 2012, 2013, 2014, 2018
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -67,6 +67,14 @@ function xhtml_escape {
 	    -e 's<\&lt;g' \
 	    -e 's>\&gt;g' \
 	    -e 's"\&#34;g'
+}
+
+# same as valsub avoiding fork
+function xhtml_fesc {
+	REPLY=${1//'&'/'&amp;'}
+	REPLY=${REPLY//'<'/'&lt;'}
+	REPLY=${REPLY//'>'/'&gt;'}
+	REPLY=${REPLY//'"'/'&#34;'}
 }
 
 # escape string into JSON string (with surrounding quotes)
