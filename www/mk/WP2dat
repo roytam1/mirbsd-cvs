@@ -13,7 +13,8 @@ fi
 
 : ${datum=$(date +%Y-%m-%d)}
 
-. "$(dirname "$0")/../mk/common"
+. "$(dirname "$0")/common"
+. "$(dirname "$0")/wp.inc"
 
 num=$(sed -n '/^ID: \([^p]\)/s//\1/p' "$fn" | tail -1)
 num=${1:-$num}
@@ -50,8 +51,12 @@ while IFS= read -r line; do
 		}
 		u=
 		for x in "$@"; do
+			if [[ -n ${|explwp "$x";} ]]; then
+				wpcode+=" $x"
+				continue
+			fi
 			case $x {
-			(N[0-9]+([0-9A-F])|@(EC|G[ACEG]|O[BCKPRUXZ]|SH|[TLC]C|WM)+([0-9A-Z])|@(GD|VX)[0-9A-Z][0-9A-Z]-[A-Z][A-Z][A-Z][A-Z]|2[0-9][0-9][0-9]-@(0[1-9]|1[0-2])-[0-3][0-9]_@(?(-)+([0-9])_?(-)+([0-9])|global)|BC+([0-9])http?(s)://*)
+			(http?(s)://*)
 				wpcode+=" $x" ;;
 			(chal)	tag+=' Challenge' ;;
 			(cito)	tag+=' CITO' ;;
