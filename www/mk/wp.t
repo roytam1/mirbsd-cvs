@@ -20,10 +20,11 @@ use wp;
 
 while (<DATA>) {
 	chomp;
-	next if $_ eq "";
-	my ($code, $label, $url) = explwp($_);
+	my $q = $_;
+	next if $q eq "";
+	my ($code, $label, $url) = explwp($q);
 	$url =~ s/\'/\'\\\'\'/g;
-	print "lynx '$url' # ($code) <$label>\n"
+	print "lynx '$url' # ($code) <$label> {$q}\n"
 }
 
 __DATA__
@@ -55,3 +56,4 @@ WM5CZY
 m/mirabilos/1
 2010-01-12_global
 2014-10-28_50_7
+invalid

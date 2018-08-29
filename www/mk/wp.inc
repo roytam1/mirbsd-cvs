@@ -1,4 +1,4 @@
-rcsid_wp_inc='$MirOS: www/files/wp.pm,v 1.2 2018/08/29 01:29:21 tg Exp $';
+rcsid_wp_inc='$MirOS: www/mk/wp.inc,v 1.1 2018/08/29 02:13:27 tg Exp $';
 #-
 # Copyright © 2018
 #	mirabilos <m@mirbsd.org>
@@ -135,6 +135,6 @@ if [[ -n $test_wp_inc ]]; then
 	while IFS= read -r line; do
 		url=${|explwp "$line" code label;}
 		#print -r -- "lynx ${url@Q} # ($code) <$label>"
-		print -r -- "lynx '${url//\'/\'\\\'\'}' # ($code) <$label>"
+		print -r -- "lynx '${url//\'/\'\\\'\'}' # ($code) <$label> {$line}"
 	done
 fi
