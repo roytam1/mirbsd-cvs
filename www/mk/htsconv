@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.92 2018/05/14 22:43:39 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.94 2018/08/29 03:14:31 tg Exp $'
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -132,7 +132,7 @@ function mws_makepiclink {
 	local ptext pfile
 
 	pfile=$(mws_makepic "$@")
-	ptext=$(xhtml_escape "$1")
+	ptext=${|xhtml_fesc "$1";}
 
 	print "<img src=\"@@RELPATH@@hashed/$pfile\" alt=\"$ptext\" />"
 }
@@ -218,7 +218,7 @@ function mws_putheader {
 		  /></a>
 		</div>
 		</div>${mws__headline:+
-		<h1 class=\"lynxonly\">$(xhtml_escape "$mws__headline")</h1>}
+		<h1 class=\"lynxonly\">${|xhtml_fesc "$mws__headline";}</h1>}
 		<div class="content">
 	EOF
 	if (( mws__isold )); then cat <<-\EOF

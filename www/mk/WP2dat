@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: www/mk/WP2dat,v 1.4 2018/08/21 21:40:31 tg Exp $
+# $MirOS: www/mk/WP2dat,v 1.6 2018/08/29 02:20:53 tg Exp $
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 #-
@@ -102,7 +102,7 @@ while IFS= read -r line; do
 	print ID: ${wpid:-$((++num))}
 	print Date: $wpdatum
 	print -r -- "Waypoint: ${wpcode#http://coord.info/}"
-	print -r -- "Title: $(xhtml_escape "$title")"
+	print -r -- "Title: ${|xhtml_fesc "$title";}"
 	[[ -n $wpfound ]] && print -r -- "nTF: $wpfound"
 	print -r -- "Tag: $tag"
 	print -- ----
