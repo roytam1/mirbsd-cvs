@@ -144,8 +144,6 @@ function mws_setold {
 }
 
 function mws_putheader {
-	local rcsid=$1
-
 	if [[ -z $mws__canonpath ]]; then
 		print -u2 Internal error: mws_basepath not called!
 		exit 1
@@ -236,7 +234,7 @@ function mws_putheader {
 		[[ -n $x ]] || continue
 		mws__header="$mws__header and <span class=\"rcsid\">$x</span>"
 	done
-	for x in "$rcsid_cfg" "$rcsid"; do
+	for x in "$rcsid_cfg" "$@"; do
 		[[ -n $x ]] || continue
 		mws__header="$mws__header from <span class=\"rcsid\">$x</span>"
 	done
