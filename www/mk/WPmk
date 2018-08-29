@@ -280,10 +280,6 @@ fi
 					(( iskip |= 1 ))
 					[[ -n $xid ]] && let numgc++
 					;;
-				(http?(s)://www.bessercacher.de/*)
-					(( iskip |= 2 ))
-					[[ -n $xid ]] && let num_b++
-					;;
 				(http?(s)://www.wherigo.com/*)
 					(( iskip |= 1 ))
 					[[ -n $xid ]] && let num_w++
@@ -365,7 +361,7 @@ print -r -- "WP$committer.htm"
 mws_basepath "WP$committer.htm"
 mws_setname "gc/$committer" "$committer’s found Waypoints"
 mws_setheadline "Geocaches found by $gclogin"
-mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
+mws_putheader "$rcsid_wp_inc" "$rcsid_WPmk" >"WP$committer.htm~"
 mws_content <"WP$committer.png~" >>"WP$committer.htm~"
 mws_putfooter >>"WP$committer.htm~"
 mws_moveifchange "WP$committer.htm~" "WP$committer.htm"
