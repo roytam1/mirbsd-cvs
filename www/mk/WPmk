@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.53 2018/07/15 19:47:45 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.58 2018/08/29 03:15:52 tg Exp $'
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -201,7 +201,7 @@ fi
 			Xcode=
 			Xlabel=
 			Xurl=${|explwp "$wp" Xcode Xlabel;}
-			[[ -n $Xcode ]] && Xlabel=$(xhtml_escape "$Xlabel")
+			[[ -n $Xcode ]] && Xlabel=${|xhtml_fesc "$Xlabel";}
 			case $Xcode {
 			(BC)
 				[[ -n $xid ]] && let num_b++
@@ -265,7 +265,7 @@ fi
 				(( iskip |= 2 ))
 				;;
 			(*)
-				Xlabel=$(xhtml_escape "$wp")
+				Xlabel=${|xhtml_fesc "$wp";}
 				case $wp {
 				(OX[0-9A-Z]?([0-9A-Z]?([0-9A-Z]?([0-9A-Z]?([0-9A-Z]?([0-9A-Z]))))))
 					[[ -n $xid ]] && let numox++
@@ -295,7 +295,7 @@ fi
 				}
 			}
 			if [[ -n $Xcode ]]; then
-				Xurl=$(xhtml_escape "$Xurl")
+				Xurl=${|xhtml_fesc "$Xurl";}
 				Xlabel="<a href=\"$Xurl\">$Xlabel</a>"
 			fi
 			print -nr " $Xlabel"
