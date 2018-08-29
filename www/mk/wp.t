@@ -1,4 +1,4 @@
-# $MirOS: www/files/wp.cgi,v 1.26 2018/08/29 00:48:46 tg Exp $
+# $MirOS: www/mk/wp.t,v 1.1 2018/08/29 01:19:12 tg Exp $
 #-
 # test cases for ../files/wp.pm
 
@@ -34,7 +34,7 @@ GC4M90G
 GDCI-JUNU
 GE0300
 GGACUO
-
+GK9A81
 GL12VZCR
 N02F79
 OB1A74
@@ -46,7 +46,7 @@ OU0B34
 OZ0277
 PR2950G
 SH02BF
-
+TB3C1JW
 TC1OYX
 LC7TL
 CCHU

@@ -1,4 +1,4 @@
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.26 2018/08/29 00:48:46 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.pm,v 1.1 2018/08/29 01:19:11 tg Exp $';
 #-
 # Copyright © 2018
 #	mirabilos <m@mirbsd.org>
@@ -65,7 +65,7 @@ sub explwp($) {
 	return ("BC", "BesserCacher#$1", "https://bessercacher.de/forum/viewtopic.php?t=$1") if
 	    ($wp =~ m!^BC(\d+)$!);
 	return ("EC", "$wp", "http://extremcaching.com/index.php/output-2/$1") if
-	    ($wp =~ m!^EC([0-9A-Z]{1,6})$!);
+	    ($wp =~ m!^EC(\d+)$!);
 	return ("GA", "$wp", "https://geocaching.com.au/cache/$wp") if
 	    ($wp =~ m!^GA[0-9A-Z]{1,6}$!);
 	return ("GC", "$wp", "https://www.geocaching.com/seek/cache_details.aspx?wp=$wp") if
@@ -119,11 +119,11 @@ sub explwp($) {
 	return ("", "$wp", "");
 }
 
-# substitution function; define a “chkwp” function to use this
+# substitution function; define a “chkwp” function to use this; skips Munzees
 sub substwps($) {
 	my ($s) = @_;
 
-	$s =~ s@\b((?:[BETLC]C|G[ACEGKL]|O[BCKPRUXZ]|PR|SH|TB|WM|N[0-9])[0-9A-Z]{1,6}|(?:GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-[0-9]{2}-[0-9]{2}_(?:-?[0-9]{1,2}_-?[0-9]{1,3}|global))\b@chkwp($1)@eg;
+	$s =~ s@\b([BE]C\d+|(?:G[ACEGL]|O[BCKPRUZ]|PR|SH|TB|[TLC]C|WM)[0-9A-Z]{1,6}|(?:GD|VX)[0-9A-Z]{2}-[A-Z]{4}|(?:GK|N)[0-9A-F]+|2[0-9]{3}-[0-9]{2}-[0-9]{2}_(?:-?[0-9]{1,2}_-?[0-9]{1,3}|global))\b@chkwp($1)@eg;
 	return $s;
 }
 
