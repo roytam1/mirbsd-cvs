@@ -15334,6 +15334,19 @@ Waypoint: GC7VKZZ
 Title: Let's get ready to rumble!
 Tag: D1 T1 Event
 ----
+ID: 2521
+Date: 2018-08-31
+Waypoint: GC5T9BT
+Title: Alfterer Kreuze 11 - reloaded
+Tag: D1 T1 Micro Tradi
+----
+ID: 2522
+Date: 2018-09-01
+Waypoint: OC14B2D
+Title: Godesberger Kreuze #40
+nTF: 0
+Tag: D15 T15 Virtual
+----
 ID: p20180908
 Date: 2018-09-08
 Waypoint: GC7WGYG GE032B OC14B0D TC3LVN
