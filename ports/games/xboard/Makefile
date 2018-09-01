@@ -1,9 +1,9 @@
-# $MirOS: ports/games/xboard/Makefile,v 1.2 2005/12/29 19:35:43 tg Exp $
+# $MirOS: ports/games/xboard/Makefile,v 1.3 2006/09/14 00:09:38 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/12/03 21:23:59 naddy Exp $
 
-COMMENT=			X11 frontend for GNU Chess and the Internet Chess Server
+COMMENT=		X11 frontend for GNU Chess and the Internet Chess Server
 DISTNAME=       	xboard-4.2.7
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		2
 CATEGORIES=		games x11
 MASTER_SITES=		${MASTER_SITE_GNU:=xboard/}
 
