@@ -15347,12 +15347,26 @@ Title: Godesberger Kreuze #40
 nTF: 0
 Tag: D15 T15 Virtual
 ----
-ID: p20180908
+ID: 2523
+Date: 2018-09-08
+Waypoint: GC7WPP7
+Title: Das fehlende Licht der verwunschenen Sonnenblume
+nTF: 4
+Tag: D15 T15 Small Tradi
+----
+ID: 2524
 Date: 2018-09-08
 Waypoint: GC7WGYG GE032B OC14B0D TC3LVN
 Title: Drachen, Eis, Stein und Park
 nTF: 0
 Tag: D1 T15 Event
+----
+ID: 2525
+Date: 2018-09-08
+Waypoint: OC14B8A
+Title: Godesberger Kreuze #41
+nTF: 0
+Tag: D1 T1 Virtual
 ----
 ID: p20481102
 Date: 2048-11-02
