@@ -15352,7 +15352,7 @@ Date: 2018-09-08
 Waypoint: GC7WPP7
 Title: Das fehlende Licht der verwunschenen Sonnenblume
 nTF: 4
-Tag: D15 T15 Small Tradi
+Tag: D15 T15 Small Tradi recommended
 ----
 ID: 2524
 Date: 2018-09-08
@@ -15367,6 +15367,12 @@ Waypoint: OC14B8A
 Title: Godesberger Kreuze #41
 nTF: 0
 Tag: D1 T1 Virtual
+----
+ID: 2526
+Date: 2018-09-09
+Waypoint: GC7TBAB
+Title: (Fast) Geheime Gärten
+Tag: D1 T15 Small Multi
 ----
 ID: p20481102
 Date: 2048-11-02
