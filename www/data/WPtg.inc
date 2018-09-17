@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.196 2018/07/25 21:31:01 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.202 2018/09/09 20:05:06 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -15373,6 +15373,126 @@ Date: 2018-09-09
 Waypoint: GC7TBAB
 Title: (Fast) Geheime Gärten
 Tag: D1 T15 Small Multi
+----
+ID: 2527
+Date: 2018-09-15
+Waypoint: GC7V2T9
+Title: Wer sucht der findet - Teil 3 -
+Tag: D35 T25 Micro Tradi
+----
+ID: 2528
+Date: 2018-09-15
+Waypoint: GC2180V
+Title: Wässel de Ling
+Tag: D15 T15 Small Multi
+----
+ID: 2529
+Date: 2018-09-15
+Waypoint: GC7WKBY
+Title: Rhine Clean Up in Wesseling
+Tag: D1 T15 CITO
+----
+ID: 2530
+Date: 2018-09-15
+Waypoint: GC7X1Z7
+Title: Frau Panana bittet zum Eis #5
+Tag: D1 T1 Event
+----
+ID: 2531
+Date: 2018-09-15
+Waypoint: GC557GJ
+Title: Torben uns Marie`s 8. Streich
+Tag: D15 T3 Small Tradi
+----
+ID: 2532
+Date: 2018-09-15
+Waypoint: GC557HK
+Title: Torben uns Marie`s 10. Streich
+Tag: D15 T25 Small Tradi
+----
+ID: 2533
+Date: 2018-09-16
+Waypoint: GC7JKQE
+Title: Gesundbrunnen
+Tag: D2 T1 Micro Tradi
+----
+ID: 2534
+Date: 2018-09-16
+Waypoint: GC6B38J
+Title: Canal Grande
+Tag: D2 T15 Micro Tradi
+----
+ID: 2535
+Date: 2018-09-16
+Waypoint: GC4Z2GZ
+Title: Merry 2
+Tag: D2 T15 Micro Tradi
+----
+ID: 2536
+Date: 2018-09-17
+Waypoint: GC4C9JP
+Title: Merry 1
+Tag: D1 T15 Micro Tradi
+----
+ID: 2537
+Date: 2018-09-17
+Waypoint: GC1VZCG
+Title: Auf'm Berg in Heringsdorf
+Tag: D15 T1 Micro Tradi
+----
+ID: 2538
+Date: 2018-09-17
+Waypoint: OP6CE1
+Title: Molo Hernigsdorf
+Tag: D1 T1 Micro Unknown
+----
+ID: 2539
+Date: 2018-09-17
+Waypoint: GC5XXVM
+Title: Der auf dem Wasser tanzt
+Tag: D15 T15 Micro Multi
+----
+ID: 2540
+Date: 2018-09-17
+Waypoint: GC7HQ40
+Title: Heringsdorf 2-Buchenpark
+Tag: D2 T2 Micro Tradi
+----
+ID: 2541
+Date: 2018-09-17
+Waypoint: GC70996
+Title: Einer für Zwischendurch
+Tag: D1 T15 Regular Tradi
+----
+ID: 2542
+Date: 2018-09-17
+Waypoint: GC7RRVR
+Title: AKC Heringsdorf
+Tag: D15 T15 Other Tradi
+----
+ID: 2543
+Date: 2018-09-17
+Waypoint: GC20072
+Title: Bahnhof in Heringsdorf
+Tag: D1 T1 Small Tradi
+----
+ID: 2544
+Date: 2018-09-17
+Waypoint: GC5QTYM
+Title: Bahnhof Bansin
+Tag: D15 T15 Micro Tradi
+----
+ID: 2545
+Date: 2018-09-17
+Waypoint: GC7GZHP
+Title: Stop &amp; Go
+Tag: D15 T15 Small Tradi
+----
+ID: 2546
+Date: 2018-09-17
+Waypoint: GC647Z7
+Title: &#34;Watt wandern?&#34;
+Tag: D4 T2 Small Tradi
 ----
 ID: p20481102
 Date: 2048-11-02

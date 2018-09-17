@@ -73,6 +73,7 @@ while IFS= read -r line; do
 			(rec)	tag+=' recommended' ;;
 			(sf)	tag+=' Safari' ;;
 			(t)	tag+=' Tradi' ;;
+			(unk)	tag+=' Unknown' ;; # OP: Other type
 			(v)	tag+=' Virtual' ;;
 			(wc)	tag+=' Webcam' ;;
 			(wig)	if [[ $wpcode = *wherigo.com* ]]; then
