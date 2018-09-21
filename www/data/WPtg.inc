@@ -15494,6 +15494,157 @@ Waypoint: GC647Z7
 Title: &#34;Watt wandern?&#34;
 Tag: D4 T2 Small Tradi
 ----
+ID: 2547
+Date: 2018-09-18
+Waypoint: GC3XZFW
+Title: Zatopiony w bagnie - Versunken im Moor
+Tag: D25 T5 Micro Tradi
+----
+ID: 2548
+Date: 2018-09-18
+Waypoint: OP80AU
+Title: Gdzie jest Maja part.2
+Tag: D1 T1 Micro Tradi
+----
+ID: 2549
+Date: 2018-09-18
+Waypoint: OP80AS
+Title: Gdzie jest Maja part.1
+Tag: D1 T1 Micro Tradi
+----
+ID: 2550
+Date: 2018-09-18
+Waypoint: GC7FNQN
+Title: chwila zadumy ...
+Tag: D15 T15 Micro Tradi
+----
+ID: 2551
+Date: 2018-09-18
+Waypoint: GC6YNQR
+Title: Elegancki miejski szalet
+Tag: D15 T15 Micro Tradi
+----
+ID: 2552
+Date: 2018-09-18
+Waypoint: OP6FE2
+Title: Kolorowe kredki -BR77
+Tag: D1 T1 Nano Tradi recommended
+----
+ID: 2553
+Date: 2018-09-18
+Waypoint: GC5BC0G
+Title: R10
+Tag: D1 T15 Micro Tradi
+----
+ID: 2554
+Date: 2018-09-18
+Waypoint: GC6410Q
+Title: du gehst die Promenade entlang...
+Tag: D1 T15 Micro Tradi
+----
+ID: 2555
+Date: 2018-09-19
+Waypoint: GC55KJ0
+Title: ein Sonderling / odmieniec
+Tag: D1 T2 Micro Tradi
+----
+ID: 2556
+Date: 2018-09-19
+Waypoint: GC7JYYN
+Title: Heringsdorf4-die alte Tankstelle
+Tag: D2 T2 Small Tradi
+----
+ID: 2557
+Date: 2018-09-20
+Waypoint: GC71Q44
+Title: Sternwarte
+Tag: D15 T15 Micro Tradi
+----
+ID: 2558
+Date: 2018-09-20
+Waypoint: GC2YVGA
+Title: Seeblick
+Tag: D25 T15 Micro Tradi
+
+Der Owner besteht darauf, das Log zu löschen, obwohl ich sogar
+einen photographischen Logbeweis habe. W̲i̲r̲ sind der Meinung,
+daß ich diesen Wegpunkt durchaus erfolgreich angelaufen bin.
+----
+ID: 2559
+Date: 2018-09-20
+Waypoint: GC6N5QQ
+Title: Dziękujemy Wam ! / Danke !
+Tag: D1 T15 Large Tradi
+----
+ID: 2560
+Date: 2018-09-20
+Waypoint: GC7FME4
+Title: 333
+Tag: D2 T15 Micro Tradi
+----
+ID: 2561
+Date: 2018-09-20
+Waypoint: GC4377N
+Title: UBB w Świnoujściu / UBB in Swinemünde
+Tag: D15 T1 Nano Tradi
+----
+ID: 2562
+Date: 2018-09-20
+Waypoint: GC5G5QG
+Banner: jpg
+Title: witamy w Polsce-2 / willkomen in Polen-2
+Tag: D1 T15 Micro Tradi
+----
+ID: 2563
+Date: 2018-09-20
+Waypoint: GC5Z7TA
+Title: Le Petit Prince (Letterbox Hybrid)
+Tag: D15 T25 Regular Letterbox_Hybrid
+----
+ID: 2564
+Date: 2018-09-20
+Waypoint: GC6Q653
+Title: das Denkmal des Letzten Zuschauer
+Tag: D15 T15 Micro Tradi
+----
+ID: 2565
+Date: 2018-09-20
+Waypoint: GC5WQ8T
+Title: Plattfuß auf Usedom
+Tag: D15 T15 Micro Tradi
+----
+ID: 2566
+Date: 2018-09-21
+Waypoint: GC2WZKD
+Title: Peenemünde im Aufschwung?
+Tag: D25 T15 Small Tradi
+----
+ID: 2567
+Date: 2018-09-21
+Waypoint: GC36AT8
+Title: TZYS--&gt;ZITZ--&gt;ZINNOWITZ
+Tag: D1 T1 Micro Tradi
+----
+ID: 2568
+Date: 2018-09-21
+Waypoint: GC6H097
+Banner: jpg
+Title: Amtlicher Traditional
+Tag: D45 T15 Micro Tradi
+----
+ID: 2569
+Date: 2018-09-21
+Waypoint: OCCE47
+Title: Zinnowitzer Rundblick
+Tag: D1 T1 Webcam
+----
+ID: 2570
+Date: 2018-09-21
+Waypoint: OC14C19
+Title: Heringsdorf-Neuhof (UBB)
+nTF: 0
+Tag: D15 T2 Virtual
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB

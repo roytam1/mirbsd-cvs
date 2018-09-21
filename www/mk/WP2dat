@@ -29,6 +29,7 @@ while IFS= read -r line; do
 	wpdatum=$datum
 	wpcode=${line%% *}
 	wpfound=
+	wpbanner=
 	title=${line#* }
 	last=${line##* }
 	tag='D T '
@@ -94,6 +95,7 @@ while IFS= read -r line; do
 			(4tf)	wpfound=4 ;;
 			(ltf)	wpfound=L ;;
 			(orga)	wpfound=O ;;
+			(jpg|png|gif) wpbanner=$x ;;
 			(*)
 				u+=,$x ;;
 			}
@@ -103,6 +105,7 @@ while IFS= read -r line; do
 	print ID: ${wpid:-$((++num))}
 	print Date: $wpdatum
 	print -r -- "Waypoint: ${wpcode#http://coord.info/}"
+	[[ -n $wpbanner ]] && print -r -- "Banner: $wpbanner"
 	print -r -- "Title: ${|xhtml_fesc "$title";}"
 	[[ -n $wpfound ]] && print -r -- "nTF: $wpfound"
 	print -r -- "Tag: $tag"
