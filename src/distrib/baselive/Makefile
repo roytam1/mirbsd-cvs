@@ -162,6 +162,12 @@ addcontrib:
 		exit 1; \
 	fi
 	mkdir -p tempdir
+	set -e; set -o pipefail; (cd ${BSDSRCDIR} && find contrib/ -type f | \
+	    fgrep -v /CVS/ | \
+	    fgrep -e contrib/code/jupp/ -e contrib/code/Snippets/tinyirc.c | \
+	    cpio -oC512 -Hustar -Mdist) | gzip -n9 >tempdir/contrib.tgz
+	${SUDO} install -o 0 -g 0 -m 644 tempdir/contrib.tgz \
+	    ${WRKDIR}/usr/share/doc/baselive-contrib-src.tgz
 	cd tempdir; CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q}\ -Ddefutf8 \
 	    ${MKSH} ${BSDSRCDIR}/contrib/code/jupp/configure --disable-termidx \
 	    --sysconfdir=/etc --disable-dependency-tracking --prefix=/usr && \
