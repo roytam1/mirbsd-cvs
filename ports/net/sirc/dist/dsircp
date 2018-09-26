@@ -7,7 +7,7 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2017 mirabilos
+# Copyright (c) 2001-2018 mirabilos
 # Copyright (c) 2017 multiplexd
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
@@ -156,6 +156,22 @@ sub arandom_add($) {
 	$v = NZAATFinish($lrhash_v);
 	$lrhash_v = NZATUpdate($lrhash_v,
 	    pack("w", BSD::arc4random::arc4random_pushb(pack("w", $v) . $s)));
+}
+
+# for debugging
+sub hdump($) {
+  my $arg = shift;
+  my $fmt = utf8::is_utf8($arg) ? "U0" : "";
+  my $ofs = 0;
+  foreach my $data (unpack($fmt . "a16"x(length($arg)/16) . "a*", $arg)) {
+    my @arr = unpack('C*', $data);
+    $_ = sprintf "%02X", $_ for @arr;
+    push(@arr, '  ') while scalar(@arr) < 16;
+    $data =~ tr/\0-\37\177-\377/./;
+    printf "%08X  %s %s %s %s %s %s %s %s  %s %s %s %s %s %s %s %s  |%s|\n",
+     $ofs, @arr, $data;
+    $ofs += 16;
+  }
 }
 
 sub parseserver {
