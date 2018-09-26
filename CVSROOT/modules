@@ -73,6 +73,7 @@ jupp		contrib/code/jupp
 mirmake		contrib/code/mirmake
 mpczar		contrib/code/mpczar
 pkgtools	ports/infrastructure/pkgtools
+sirc		ports/net/sirc/dist
 
 # Hosted projects
 bsd-arc4random	&_bsd-arc4random
