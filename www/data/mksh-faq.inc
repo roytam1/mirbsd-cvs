@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/mksh-faq.inc,v 1.1 2017/08/10 19:25:15 tg Exp $
+RCSID: $MirOS: www/data/mksh-faq.inc,v 1.4 2018/08/09 23:55:24 tg Exp $
 ToC: spelling
 Title: How do you spell <tt>mksh</tt>? How do you pronounce it?
 
@@ -234,6 +234,18 @@ multiline commands</em>, so if you type something out in multiple lines,
 for example <strong>here documents</strong> or <strong>loops</strong> press
 <strong>Ctrl-J instead of Enter/Return</strong> after <em>each</em> line
 including the first (at PS1) and final (at PS2) one.
+----
+ToC: completion
+Title: What about programmable tab completion?
+
+The shell itself provides static deterministic tab completion.
+However, you can use hooks like reprogramming the Tab key to a
+command line editor macro, and using the <tt>evaluate-region</tt>
+editor command (modulo a bugfix and possibly adding another,
+convenience, editor command) together with shell functions to
+implement a programmable completion engine. Multiple people have
+been considering doing so in our IRC channel; we’ll hyperlink to
+these engines when they are available.
 ----
 ToC: faq
 Title: My question is not answered here!
