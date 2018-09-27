@@ -15640,10 +15640,34 @@ Tag: D1 T1 Webcam
 ----
 ID: 2570
 Date: 2018-09-21
-Waypoint: OC14C19
+Waypoint: GE032C OC14C19 OP8WC9
 Title: Heringsdorf-Neuhof (UBB)
 nTF: 0
 Tag: D15 T2 Virtual
+----
+ID: 2571
+Date: 2018-09-22
+Waypoint: OCEC78
+Title: Villa Kunterbunt
+Tag: D1 T1 Virtual
+----
+ID: 2572
+Date: 2018-09-22
+Waypoint: GC21QAQ
+Title: Die Bronzefigur
+Tag: D15 T15 Micro Tradi
+----
+ID: 2573
+Date: 2018-09-23
+Waypoint: GC7XFZE
+Title: Stößchen am Rhein
+Tag: D1 T1 Event
+----
+ID: 2574
+Date: 2018-09-26
+Waypoint: GC6RMET
+Title: Poppelsdorf
+Tag: D25 T15 Small Multi recommended
 ----
 ID: p20481102
 Date: 2048-11-02
