@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.202 2018/09/09 20:05:06 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.205 2018/09/27 21:41:32 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -15668,6 +15668,37 @@ Date: 2018-09-26
 Waypoint: GC6RMET
 Title: Poppelsdorf
 Tag: D25 T15 Small Multi recommended
+----
+ID: 2575
+Date: 2018-09-29
+Waypoint: GC1WVFN
+Title: Nördliche Düssel
+Tag: D2 T2 Micro Tradi
+----
+ID: 2576
+Date: 2018-09-29
+Waypoint: OC10640 GC4PB8K
+Title: OPEN Logging
+Tag: D1 T1 Other
+----
+ID: 2577
+Date: 2018-09-29
+Waypoint: GC53HV4
+Title: 267
+Tag: D1 T15 Micro Tradi
+----
+ID: 2578
+Date: 2018-09-29
+Waypoint: GC2M2Z5
+Title: Mama?
+Tag: D2 T2 Micro Multi
+----
+ID: 2579
+Date: 2018-09-30
+Waypoint: GC61EN3
+Banner: jpg
+Title: Petri Heil!
+Tag: D2 T1 Micro Tradi
 ----
 ID: p20481102
 Date: 2048-11-02
