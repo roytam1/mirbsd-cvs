@@ -1,7 +1,7 @@
 mws_setname about 'About MirOS'
 mws_setheadline About MirOS
 mws_setold
-mws_putheader '$MirOS: www/src/about.hts,v 1.9 2018/05/05 21:48:11 tg Exp $'
+mws_putheader '$MirOS: www/src/about.hts,v 1.10 2018/05/06 12:56:36 tg Exp $'
 mws_content <<'EOF'
 <p>On this page:</p>
 
@@ -62,14 +62,17 @@ to elaborate more -->
  differently from OpenBSD; for instance, there won't be any support for SMP
  in MirOS.</p>
 
-<p>The most important differences to OpenBSD are:</p>
+<p>The most important differences to OpenBSD (at that time, and often for
+ a while later, even if they caught up with several improvements) were:</p>
 
 <ul>
  <li>Completely rewritten bootloader and boot manager without an 8 GiB limit
   and with Soekris support</li>
  <li>Slim base system (without NIS, Kerberos, Bind, i18n, BSD games, etc.),
   Bind and the BSDgames being available as a port</li>
- <li>Binary security updates for stable releases</li>
+ <li>Binary security updates for stable releases (although, since there
+  hasn’t been a stable release for a while, and we’re by now effectively
+  rolling release (“just use -current”), this point is kind of moot)</li>
  <li>ISDN support</li>
  <li>IPv6 support in the web server software</li>
  <li>wtf, a database of acronyms</li>
