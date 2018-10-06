@@ -197,6 +197,13 @@
  Filename with '.' is probably not a text file.
 *.*
 
+ Binary file
+*.bin
+--crlf
+--guess_crlf
+-encoding ascii
+-hex
+
  === Patterns with multiple wildcards
  Order is latest match wins, so...
 */patch-*
@@ -532,6 +539,9 @@
 *.def
 -syntax tex
 
+*.dtx
+-syntax tex
+
 *.sty
 -syntax tex
 
@@ -554,6 +564,10 @@
 
  === XML
 *.xml
+-encoding utf8
+-syntax xml
+
+*.xsl
 -encoding utf8
 -syntax xml
 
