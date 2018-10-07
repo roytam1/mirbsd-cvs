@@ -1,6 +1,6 @@
 .\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.8 2017/04/24 12:52:51 tg Exp $
 .\"-
-.\" Copyright (c) 2008, 2010
+.\" Copyright (c) 2008, 2010, 2018
 .\"	Thorsten Glaser <tg@mirbsd.org>
 .\"
 .\" Provided that these terms and disclaimer and all copyright notices
@@ -31,6 +31,7 @@
 .Fd #include <wchar.h>
 .Ft size_t
 .Fn optu8to16 "wchar_t *pwc" "const char *s" "size_t n" "mbstate_t *ps"
+.In mbfun.h
 .Ft size_t
 .Fn optu8to16vis "wchar_t *pwc" "const char *s" "size_t n" "mbstate_t *ps"
 /* deprecated */
