@@ -7,8 +7,8 @@ SRCS=		audio.c audio_${AUDIO:Q}.c buffer.c common.c \
 		decode_ntom.c equalizer.c getbits.c getlopt.c \
 		httpget.c icy.c layer1.c layer2.c layer3.c mpg123.c \
 		readers.c tabinit.c term.c uniprint.c wav.c xfermem.c
-DPADD+=		${LIBM}
-LDADD+=		-lm
+DPADD+=		${LIBM} ${LIBMBFUN}
+LDADD+=		-lm -lmbfun
 
 CPPFLAGS+=	-DOPENBSD
 CPPFLAGS+=	-DUSE_MMAP
