@@ -19,7 +19,7 @@ several components:
 • The dnsip, dnsipq, dnsname, dnstxt, and dnsmx programs are simple
   command-line interfaces to DNS.
 • The dnsquery and dnstrace programs are DNS debugging tools.
-• The dnscache-conf programme sets up dnscache to work at once with
+• The dnscache-conf program sets up dnscache to work at once with
   root servers from ${FLAVOURS}
 • The axfrdns program can be used to exchange data with BIND servers.
   It is capable of AXFR and IXFR protocols.

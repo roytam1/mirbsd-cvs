@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbserver,v 1.6 2006/03/20 02:05:06 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbserver,v 1.7 2009/10/19 20:43:47 tg Exp $
 #-
 # Copyright (c) 2004, 2006, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -47,7 +47,7 @@
 #=== global variables ===
 
 # helpers
-progname="${0:-hbServer}"	# programme name
+progname="${0:-hbServer}"	# program name
 progname="${progname##*/}"	# basename of progname
 conf=hbserver.cfg		# configuration file
 let netcmd=0			# network sub PID
@@ -206,7 +206,7 @@ function do_tunnel
 	fi
 }
 
-#=== main programme ===
+#=== main program ===
 
 # parse arguments
 while getopts ":c:h" opt; do

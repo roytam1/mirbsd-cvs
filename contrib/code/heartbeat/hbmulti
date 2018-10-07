@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbmulti,v 1.5 2006/03/27 07:19:54 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbmulti,v 1.6 2009/10/30 15:29:18 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -150,7 +150,7 @@ function clean_v6tunnel
 
 #=== subroutines (not configurable) ===
 
-progname="${0:-hbMulti}"	# programme name
+progname="${0:-hbMulti}"	# program name
 progname="${progname##*/}"	# basename of progname
 
 #-- logging
@@ -281,7 +281,7 @@ function iterate
 	done
 }
 
-#=== main programme ===
+#=== main program ===
 
 [[ -n $STDERR ]] && typeset -ft setup_v6tunnel throw_v6tunnel clean_v6tunnel \
     log logall tell do_disable do_heartbeat destruct iterate

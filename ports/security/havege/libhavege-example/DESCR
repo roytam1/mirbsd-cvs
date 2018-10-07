@@ -1,4 +1,4 @@
-Short programme to read from libhavege PRNG 16 KiB at ~16 Hz,
+Short program to read from libhavege PRNG 16 KiB at ~16 Hz,
 then write 16 bytes to the kernel buffer, the remaining bytes
 (for inspection e.g.) to standard output.
 

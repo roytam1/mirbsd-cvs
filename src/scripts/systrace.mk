@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/systrace.mk,v 1.6 2007/06/10 11:05:11 tg Exp $
+# $MirOS: src/scripts/systrace.mk,v 1.7 2008/10/05 16:26:18 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -23,11 +23,11 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 #-
-# Call a programme with an appropriate systrace policy
+# Call a program with an appropriate systrace policy
 # Syntax:
 #  cd ${policydir}; env WRITEDIR="/a:/b:/c" NOWRITEDIR="/usr/obj" \
 #    ${SHELL} systrace.mk prog ...
-# To call the protected programmes:
+# To call the protected programs:
 #  /bin/systrace -e -i -a -f ${policydir}/.policy.mk prog args
 
 [[ -n $WRITEDIR && -n $1 ]] || exit 1

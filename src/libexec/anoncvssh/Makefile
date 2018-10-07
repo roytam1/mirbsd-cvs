@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/anoncvssh/Makefile,v 1.7 2008/06/07 20:25:42 tg Exp $
+# $MirOS: src/libexec/anoncvssh/Makefile,v 1.8 2008/11/29 17:03:53 tg Exp $
 
 # Note: you DO want to compile this, as well as the anoncvsbin
 # and rsync, statically. It is not possible, however, to do that
@@ -47,7 +47,7 @@ DEFS+=		-DACCESS_RSYNC
 # and unauthorised access.
 DEFS+=		-DUSE_SYSLOG
 
-# Name of this programme. Set e.g. to "anoncvssh.mirbsd"
+# Name of this program. Set e.g. to "anoncvssh.mirbsd"
 # if running more than one anoncvs user, and for read-
 # write users, to "anoncvs-username" (thus you can place
 # them in the common parent dir).

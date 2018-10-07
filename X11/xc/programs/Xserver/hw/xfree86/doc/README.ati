@@ -205,7 +205,7 @@ driver is to be loaded and associated with the ``Device'' section.
 The default ChipSet name for this driver is ``ati''.  In this case, any ATI
 adapter can be associated with the ``Device'' section.  If an ATI accelerator
 is detected and the driver supports it, the accelerator's CRTC will be used
-to drive the screen.  Otherwise, the driver will programme the adapter's
+to drive the screen.  Otherwise, the driver will program the adapter's
 SuperVGA CRTC.
 
 If ``ativga'' is specified instead, the driver will ignore any ATI accelera-
@@ -282,7 +282,7 @@ clock probe with the command ``X -probeonly''.
 
 5.6.1  Clocks for supported programmable clock generators
 
-At bootup, video BIOS initialisation programmes an initial set of frequen-
+At bootup, video BIOS initialisation programs an initial set of frequen-
 cies.  Two of these are reserved to allow the setting of modes that do not
 use a frequency from this initial set.  One of these reserved slots is used
 by the BIOS mode set routine, the other by the particular driver used (e.g.
@@ -291,7 +291,7 @@ dependent on the particular clock generator used by the adapter.
 
 The driver currently supports all programmable clock generators known to
 exist on Mach64 adapters.  In this case, the driver will completely ignore
-any XF86Config clock specification, and programme the clock generator as
+any XF86Config clock specification, and program the clock generator as
 needed by the modes used during the X session.
 
 5.6.2  Clocks for unsupported programmable clock generators

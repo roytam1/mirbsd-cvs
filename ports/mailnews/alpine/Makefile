@@ -1,9 +1,9 @@
-# $MirOS: ports/mailnews/alpine/Makefile,v 1.6 2009/02/02 20:15:46 bsiegert Exp $
+# $MirOS: ports/mailnews/alpine/Makefile,v 1.7 2017/08/07 20:16:06 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:*
 
-COMMENT=		programme for Internet News and eMail, curses interface
-COMMENT-web=		programme for Internet News and eMail, web interface
+COMMENT=		program for Internet News and eMail, curses interface
+COMMENT-web=		program for Internet News and eMail, web interface
 COMMENT-cclient=	University of Washington c-client eMail access routines
 COMMENT-daemon=		University of Washington IMAP4rev1/POP2/POP3 mail servers
 COMMENT-mailutil=	University of Washington eMail management utility

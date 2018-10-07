@@ -1,5 +1,5 @@
 Flags: ISOLD
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.504 2018/05/06 13:17:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.505 2018/07/15 18:09:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -15,7 +15,7 @@ Author: tg@
  old cruft (_CKSUM_A, _CKSUM_SIZE, _HASHES). From RSN on, you will
  either have our current cksum(1) from MirOS #10 or MirPorts, or
  you won’t, in which case it will only use the “cksum” algorithm
- of the OS’ own cksum programme (which is rather ubiquitous).</p>
+ of the OS’ own cksum program (which is rather ubiquitous).</p>
 <p>We have a new sample file, “portmdoc”, and I’ve converted yet
  another manpage to be fixed with regards to GNU groff, like I did
  with mksh(1) after the R33 release. Expect this to continue.</p>
@@ -2122,7 +2122,7 @@ Tag: pcc snippet unicode
  which may be C99 but not MS-C90) nor cross from GNU/Cygwin32 (because
  the Win32 port seems to be orphaned and, even if I try to fix these
  things, it doesn’t work for me). So I couldn't get it to build a simple
- MessageBoxW() hello world programme.</p>
+ MessageBoxW() hello world program.</p>
 <p>I wonder what the reception of my patch will be. I wish support for
  wchar_t were a release goal, then I could try to tap into that BSD func
  *smile* but anyway, I was just bored, and we need wchar_t support in
@@ -6586,7 +6586,7 @@ Tag: debian mksh
 
 <p>I’ve got some interesting results using r1.1 of an example <a
  href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/testaslr.c">test
- programme</a> (r1.2 got cleaned up and more output) on various
+ program</a> (r1.2 got cleaned up and more output) on various
  systems, regarding ASLR. The 1.1 revision tests everything <a
  href="@@RELPATH@@mksh.htm#clog">mksh</a> R40+ will use (except
  there will probably no larger than page sized allocations) for
@@ -7206,7 +7206,7 @@ Tag: debian event mksh rant
  eglibc, after the latest uploads, and the 2.6.37 based one panics. Also I’ve
  got to take care to not overwork myself. (And make a MirBSD ISO for FOSDEM.)
  But hey, it’s been not working for some time and better now. And slow anyway
- ☺ yet we’re progressing. Does anyone know how to debug that a C programme
+ ☺ yet we’re progressing. Does anyone know how to debug that a C program
  only calling res_init(3) segfaults?</p>
 <p>Benny is apparently not just working on making NetBSD® pkgsrc® available
  on MirOS BSD (picking up my work from 4+ years ago) but also replacing

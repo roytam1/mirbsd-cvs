@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.11 2008/05/07 15:07:47 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.12 2008/11/29 17:03:48 tg Exp $
 #-
 # List of users and groups for MirOS base and the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -28,7 +28,7 @@
 13	games		!13::0:0:score files:/var/games:/sbin/nologin
 13	games		NO
 20	staff		NO,root
-25	smmsp		Sendmail Message Submission Programme
+25	smmsp		Sendmail Message Submission Program
 26	popa3d		POP3 Daemon
 27	sshd		Secure Shell Daemon
 28	_portmap	Portmapper
@@ -60,7 +60,7 @@
 74	_pflogd		PF Log Daemon
 75	_bgpd		BGP Daemon
 76	_tcpdump	tcpdump privsep
-77	_dhcp		DHCP programmes
+77	_dhcp		DHCP programs
 78	_mopd		MOP Daemon
 79	_tftpd		TFTP Daemon
 80	_rbootd		rboot Daemon

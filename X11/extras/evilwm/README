@@ -1,4 +1,4 @@
-$MirOS: X11/extras/evilwm/README,v 1.3 2005/07/07 18:27:13 tg Exp $
+$MirOS: X11/extras/evilwm/README,v 1.4 2006/08/14 18:57:57 tg Exp $
 
 evilwm 1.0 by Ciaran Anscomb <evilwm@6809.org.uk>
 
@@ -70,7 +70,7 @@ H, J, K, L	Move window left, down, up or right (16 pixels)
 Y, U, B, N	Move window to top-left, top-right, bottom-left or
 		bottom-right of screen
 Q, W, E, R	Resize window (-X, +Y, -Y, +X) by a pixel or the
-		increasement unit given by the programme
+		increasement unit given by the program
 		ATTENTION: No overflow checking is done!
 I		Show information about current window
 Equals		Maximise current window vertically (toggle)

@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.40 2014/05/28 18:52:55 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.45 2017/07/20 22:17:25 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008, 2009, 2010, 2016 mirabilos
@@ -83,7 +83,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: May 28 2014 $
+.Dd $Mdocdate: July 20 2017 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -1458,7 +1458,7 @@ on the script, which prevents mis-not-detection of functions.
 .It Ev MODSIMPLE_USE_INSTALL
 Set to the
 .Xr install 1
-programme to use to copy files for installation.
+program to use to copy files for installation.
 .Pp
 Default:
 .Li ${INSTALL} \-c \-o ${BINOWN} \-g ${BINGRP}

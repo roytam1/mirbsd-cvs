@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.98 2014/01/26 21:52:29 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.99 2014/05/29 18:40:45 tg Exp $
 #-
 # Copyright (c) 2005, 2008, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -268,7 +268,7 @@ case $(uname -s 2>/dev/null || uname) {
 if [[ $ismirbsd$isopenbsd$ismnbsd = *yes* && $user != root:bin ]]; then
 	print -u2 WARNING: Using the MirPorts Framework without sudo is
 	print -u2 highly discouraged if you do not need to do so. Several
-	print -u2 applications install programmes with setuid/setgid bits
+	print -u2 applications install programs with setuid/setgid bits
 	print -u2 set, leading to potential exploits of your user account.
 	print -u2 In contrast, they handle suid-root and sgid-wheel properly.
 	print -u2
@@ -807,7 +807,7 @@ fi
 [[ $isinterix = *yes* ]] && unset FETCH_CMD
 
 
-# End of installation programme
+# End of installation program
 
 [[ $ismirbsd = yes ]] || rm -rf $localbase/tmp
 

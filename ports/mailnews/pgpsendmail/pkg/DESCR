@@ -1,5 +1,5 @@
-  PGPsendmail is a drop-in wrapper for the standard  sendmail
-programme which resides as  /usr/lib/sendmail  on most Unix systems.
+PGPsendmail is a drop-in wrapper for the standard sendmail
+program which resides as /usr/lib/sendmail on most Unix systems.
 It allows the automatic encryption of outgoing messages by using the
 recipient's PGP public keys. It does *not* provide for automatic
 decryption of incoming messages: such a feature would necessarily

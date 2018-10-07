@@ -1,5 +1,5 @@
 Flags: ISOLD
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.106 2018/05/06 12:36:20 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.107 2018/05/06 13:17:19 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -1470,7 +1470,7 @@ Author: tg@
 <p>At work, I hacked some major C code for FreeWRT today, namely in the
  nfotiser
  (and here[link removed]).
- That's a complicated programme, difficult to do even for me (mostly since
+ That's a complicated program, difficult to do even for me (mostly since
  it grows high-level stuff, data structures, and not only close-to-machine
  stuff, especially the SQL stuff), but it turns out to become fun once you
  get into “hacking mode”.</p>
@@ -2090,7 +2090,7 @@ Author: tg@
  the kernel for the Hercules card (and compatibles). If I get time.</p>
 <p>You wouldn’t believe it: at work, I’m writing a user-friendly (woah!)
  front-end using dialog (yes, me!) for BIND (me the djbdns user)… and it
- is still sort of fun (sure, I’m using mksh for both the main programme,
+ is still sort of fun (sure, I’m using mksh for both the main program,
  input loop and all, and parsing the zone file (slightly more restricted
  format than default, but good enough for us). It runs ssh as coroutine.
  (That’s why MirPorts’ misc/dialog is more recent than Debian sid…) When

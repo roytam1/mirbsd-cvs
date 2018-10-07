@@ -1,9 +1,9 @@
-$MirOS: ports/security/pgp+/files/README.MirPorts,v 1.3 2006/09/20 19:32:39 tg Exp $
+$MirOS: ports/security/pgp+/files/README.MirPorts,v 1.4 2007/03/22 01:01:05 tg Exp $
 
-This is a programme derived from Philip Zimmermann's PGP (Pretty Good
+This is a program derived from Philip Zimmermann's PGP (Pretty Good
 Privacy) Version 2.6.2; called pgp-2.6.3in (international use).
 
-PGP is a programme which generates and manages assymetric RSA keys,
+PGP is a program which generates and manages assymetric RSA keys,
 peruses MD5 to sign and IDEA to encrypt messages.
 The RSA and MD5 algorithms are publically usable and patent-free as
 of the time of writing this; however, the IDEA symmetric cipher is
@@ -113,8 +113,8 @@ The following terms apply as well:
 
 
 Conclusion:
- * This programme is not PGP, it is derived from PGP.
- * This programme is freeware, coming from outside the USA,
+ * This program is not PGP, it is derived from PGP.
+ * This program is freeware, coming from outside the USA,
    therefore, the export control restrictions do not apply.
  * This software is subject to the usual freeware conditions
    and disclaimers; free to use in any environment.

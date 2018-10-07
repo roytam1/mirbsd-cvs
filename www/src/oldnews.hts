@@ -5,7 +5,7 @@ mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
 mws_setold
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.16 2018/05/14 22:41:51 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.17 2018/07/15 13:14:08 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
@@ -307,7 +307,7 @@ mws_content_keeptabs <<'EOF'
 
 <li>28.04.2005<br />
 	MirOS #8 RC1 is out, for general testing. Please update bsd.own.mk
-	to src/share/mk/bsd.own.mk,v 1.8 because otherwise some programmes
+	to src/share/mk/bsd.own.mk,v 1.8 because otherwise some programs
 	fail to compile correctly. Installation documentation is currently
 	being written, system documentation being updated (so please, bear
 	with us or, better, send in patches or suggestions).</li>
@@ -657,7 +657,7 @@ mws_content_keeptabs <<'EOF'
 	Steinberg from the ekkoBSD project are going to commit minor patches
 	themselfes if they stumble across a thing, help with the website and
 	discussion of the project's future, and Dave will continue his work
-	on fdialog, a free clone of the GPL licenced dialog programme known
+	on fdialog, a free clone of the GPL licenced dialog program known
 	to most people as the front-end of a Linux 'make menuconfig'.<br />
 	We're currently working in the interna of MirOS; don't expect a new
 	snapshot before mid-August. If you experience xterm crashes with
@@ -818,7 +818,7 @@ mws_content_keeptabs <<'EOF'
 	currently at a stage in development where everything and his
 	little brother is broken due to a broken design choice in GNU
 	Libtool, Automake, Autoconf and M4 implementations and follow-up
-	breakage in almost any programme. We are working on it.
+	breakage in almost any program. We are working on it.
 	There are no issues left except for time.</li>
 
 <li>Announcement<br />

@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: X11/extras/xsel/xsel.1,v 1.1 2011/06/07 22:05:11 tg Exp $
 .\"-
 .\" Copyright (c) 2011 Thorsten Glaser <tg@mirbsd.org>
 .\" xsel is:
@@ -13,7 +13,7 @@
 .\" software for any purpose.  It is provided "as is" without express or
 .\" implied warranty.
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: June 7 2011 $
 .Dt XSEL 1
 .Os
 .Sh NAME
@@ -37,7 +37,7 @@ Normally, the
 selection is only accessible by manually highlighting
 information and pasting with the middle mouse button, the
 .Ic SECONDARY
-selection is less frequently used by application programmes, and the
+selection is less frequently used by application programs, and the
 .Ic CLIPBOARD
 is only available to Copy/Cut/Paste commands of GUI applications.
 .Nm XSel
@@ -80,7 +80,7 @@ Keep the currently set
 and
 .Ic SECONDARY
 selections in persistent memory by taking them over, so they
-can be accessed even if the originating programme terminates.
+can be accessed even if the originating program terminates.
 See
 .Sx CAVEATS
 for details.
@@ -168,5 +168,5 @@ The selection mechanism in X11 is an interclient communication mediated by the X
 In order to implement modification of the selection(s) (in input, keep and exchange modes) this utility detaches from the terminal, spawning a child process to supply the new selection(s) on demand.
 This
 .Xr daemon 3
-process exits immediately when any other programme takes over the selection(s), eg. when the user next selects some text in a terminal window, or by running
+process exits immediately when any other program takes over the selection(s), eg. when the user next selects some text in a terminal window, or by running
 .Ic xsel Fl c .

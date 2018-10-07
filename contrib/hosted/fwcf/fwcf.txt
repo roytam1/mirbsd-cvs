@@ -49,7 +49,7 @@ fault root filesystem (usually on squashfs or jffs2), then populated
 with additional files read from a custom flash partition in the be-
 low documented format. Changes to /etc will never be reflected in the
 underlying root filesystem, and the fwcf partition is only updated by
-a userland programme to be run manually.
+a userland program to be run manually.
 
 
 2. Implementation details
@@ -71,7 +71,7 @@ The command-line utility will support three operations:
 • reboot	/
 
 This utility is implemented as rapid prototype as a shell script in
-ash, using one C helper programme. Later versions will be pure C.
+ash, using one C helper program. Later versions will be pure C.
 
 
 2.1. Operation of ‘fwcf setup’
@@ -425,4 +425,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.38 2008/05/03 01:09:30 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.39 2008/12/10 18:40:15 tg Exp $

@@ -1,5 +1,5 @@
 Flags: USENN ISOLD
-RCSID: $MirOS: www/data/news.inc,v 1.170 2018/01/04 14:29:27 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.173 2018/05/06 13:17:14 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1184,7 +1184,7 @@ Title: HEADS-UP for MirOS-current
  <tt>/usr/lib</tt> to <tt>/usr/lib/gcc/<i>OStriplet</i>/3.4.6</tt> which you
  should add to <tt>shlib_dirs</tt> in <tt>/etc/rc.conf.local</tt> until you
  have rebuilt everything (base system and ports). Both mgcc and llvm-gcc add
- appropriate DT_RPATH to programmes and shared objects compiled with them and
+ appropriate DT_RPATH to programs and shared objects compiled with them and
  use their own crtstuff; <tt>mircvs://src/lib/csu/</tt> now provides crtstuff
  for use with <em>pcc</em>(!) instead.</p>
 <p>Expect a new i386 snapshot some time soon; sparc snapshots are planned
@@ -1196,7 +1196,7 @@ Title: Cool i386 bootloader changes
 
 <p>The second-stage boot(8/i386) loader has gained several interesting new
  features:</p><ul>
-<li>When called as DOS .com programme, it defaults to DL=80h because no
+<li>When called as DOS .com program, it defaults to DL=80h because no
  actual drive is passed from the BIOS</li>
 <li>When named <tt>boot.com</tt> it can be run as SYSLINUX (ISOLINUX,
  PXELINUX, EXTLINUX) module and boot any OpenBSD/i386 and MirBSD/i386
@@ -1415,7 +1415,7 @@ Title: [current] /usr/dbin and /usr/dsbin removed
  and manageability issues. For the <tt>sysutils/fakeroot</tt> port, there
  is a documented way to recompile these yourself, dynamically linked; you
  <strong>better be sure</strong> to only do that if <tt>/usr</tt> isn’t a
- separate filesystem, because otherwise, the programmes will be unable to
+ separate filesystem, because otherwise, the programs will be unable to
  find the dynamic link libraries or interpreter.</p>
 <p>During an upgrade to the next snapshot, the files in these directories
  will be replaced by symbolic links. However, it is usually not instantly
@@ -1733,7 +1733,7 @@ Picture3: Allerheiligen 2009-11-01
  maybe Benny on bootable tapes at 26C3…</p>
 <h3 class="revbox">@!PICTURE1!@</h3>
 <p>MirGRML 2009.10 is based on grml-small 2009.10-rc3 and contains a
- couple more programmes, and, as usual, is fitted to match the rest
+ couple more programs, and, as usual, is fitted to match the rest
  of The MirOS Project’s offers, for instance by not using a framebuffer
  by default, having <a href="@@RELPATH@@mksh.htm">mksh</a> as login
  shell, etc.<br />This time, all (required) source code is available

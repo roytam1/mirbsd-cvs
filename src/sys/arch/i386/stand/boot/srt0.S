@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.84 2009/10/27 16:00:05 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.85 2012/09/02 22:08:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2012
@@ -191,7 +191,7 @@ Linit:	/* qemu sucks, int3 doesn’t work */
 	or	eax,0x01040000		/* PXE, do scan */
 2:	mov	al,ds:[ebx + offset Ldrvi - offset _start]
 	mov	ds:[ebx + offset Ldrvi - offset _start],eax
-3:	/* find out if we're a DOS or SYSLINUX COMBOOT programme */
+3:	/* find out if we're a DOS or SYSLINUX COMBOOT program */
 	cmp	bx,0x0100
 	jne	Lnocom
 	cmp	word ptr ds:[0],0x20CD

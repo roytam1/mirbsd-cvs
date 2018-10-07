@@ -3,7 +3,7 @@ daemon:*:1:1::0:0:the devil himself:/:/sbin/nologin
 operator:*:2:5::0:0:system &:/operator:/sbin/nologin
 bin:*:3:7::0:0:Binaries Commands and Source:/:/sbin/nologin
 games:*:13:13::0:0:score files:/var/games:/sbin/nologin
-smmsp:*:25:25::0:0:Sendmail Message Submission Programme:/nonexistent:/sbin/nologin
+smmsp:*:25:25::0:0:Sendmail Message Submission Program:/nonexistent:/sbin/nologin
 popa3d:*:26:26::0:0:POP3 Daemon:/var/empty:/sbin/nologin
 sshd:*:27:27::0:0:Secure Shell Daemon:/var/empty:/sbin/nologin
 _portmap:*:28:28::0:0:Portmapper:/var/empty:/sbin/nologin
@@ -24,7 +24,7 @@ _syslogd:*:73:73::0:0:Syslog Daemon:/var/empty:/sbin/nologin
 _pflogd:*:74:74::0:0:PF Log Daemon:/var/empty:/sbin/nologin
 _bgpd:*:75:75::0:0:BGP Daemon:/var/empty:/sbin/nologin
 _tcpdump:*:76:76::0:0:tcpdump privsep:/var/empty:/sbin/nologin
-_dhcp:*:77:77::0:0:DHCP programmes:/var/empty:/sbin/nologin
+_dhcp:*:77:77::0:0:DHCP programs:/var/empty:/sbin/nologin
 _mopd:*:78:78::0:0:MOP Daemon:/var/empty:/sbin/nologin
 _tftpd:*:79:79::0:0:TFTP Daemon:/var/empty:/sbin/nologin
 _rbootd:*:80:80::0:0:rboot Daemon:/var/empty:/sbin/nologin

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/hbclient,v 1.5 2008/11/08 22:24:25 tg Exp $
+# $MirOS: contrib/code/heartbeat/toolkit.mirdns/hbclient,v 1.6 2009/10/30 15:29:20 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
@@ -113,7 +113,7 @@ function clean
 
 #=== subroutines (not configurable) ===
 
-progname="${0:-hbClient}"	# programme name
+progname="${0:-hbClient}"	# program name
 progname="${progname##*/}"	# basename of progname
 
 #-- logging
@@ -205,7 +205,7 @@ function die
 	exit 1
 }
 
-#=== main programme ===
+#=== main program ===
 
 typeset -u parm="$1"
 

@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $ */
+/* $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.9 2008/06/07 20:25:43 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006, 2008
@@ -21,7 +21,7 @@
  *-
  * user shell to be used for chrooted access (anonymous or personali-
  * sed, read-only or read-write) to cvs and possibly rsync.
- * This programme requires ANSI C.
+ * This program requires ANSI C.
  */
 
 /*
@@ -92,7 +92,7 @@
 #endif /* ndef HOSTNAME */
 
 /*
- * This is our own programme name
+ * This is our own program name
  */
 #ifndef ANONCVSSH_NAME
 #define ANONCVSSH_NAME	"anoncvssh"
@@ -117,7 +117,7 @@
 /****************************************************************/
 
 static const char progID[] = "@(#) " HOSTNAME ":" LOCALROOT
-    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.8 2006/06/02 00:01:47 tg Exp $";
+    "\n@(#) $MirOS: src/libexec/anoncvssh/anoncvssh.c,v 1.9 2008/06/07 20:25:43 tg Exp $";
 
 #ifdef USE_SYSLOG
 #include <string.h>
@@ -247,7 +247,7 @@ main(int argc, char *argv[])
 	free(chrootdir);
 
 	/*
-	 * programme now "safe"
+	 * program now "safe"
 	 */
 
 

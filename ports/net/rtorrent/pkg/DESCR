@@ -9,6 +9,6 @@ The client uses ncurses and is ideal for use with screen or
 dtach. It supports saving of sessions and allows the user to add
 and remove torrents.
 
-This programme has issues with torrents that contain files the
+This program has issues with torrents that contain files the
 size 4 GiB or larger. Use ports/net/BitTorrent (the python-based
 mainline 3.4.2) for these (but only for these ☺).

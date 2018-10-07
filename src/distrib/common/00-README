@@ -20,7 +20,7 @@ If you are reading this text from the Live/Install CD instead of the 5 MiB
 Mini-ISO, you will be presented a textual menu interface with four entries
 during boot asking you (to be selected via their number or by cursor keys)
 whether you want to proceed to the traditional bootloader, run the Live CD
-or directly start the Setup programme. Note: formal release ISOs are never
+or directly start the Setup program. Note: formal release ISOs are never
 Live CDs because of their multi-architecture capabilities.
 
 The 'cdsshd*.iso' images automatically (try to) configure IPv4 (with DHCP)
@@ -203,4 +203,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 ________________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.23 2017/01/29 00:51:03 tg Exp $
+$MirOS: src/distrib/common/00-README,v 1.25 2018/04/28 05:20:39 tg Exp $

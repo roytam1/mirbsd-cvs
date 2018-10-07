@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh/old "mksh — old versions"
 mws_setheadline The MirBSD Korn Shell
 mws_setold
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.53 2017/08/07 20:19:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.54 2018/05/06 12:56:43 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> — old versions</h2>
 
@@ -908,7 +908,7 @@ mws_content <<'EOF'
   for alias recursion; discovered by Michal Hlavinka</li>
  <li>[tg] More int → bool conversion, whitespace and general code cleanup</li>
  <li>[tg] Fix window size not being checked during runtime of external
-  programmes by not relying on SIGWINCH so much but instead checking
+  programs by not relying on SIGWINCH so much but instead checking
   before every interactive editing of a command line</li>
  <li>[tg] Improve mksh(1) manpage coverage, remove mentions of not-mksh</li>
  <li>[tg] Use wcwidth() from system on MirBSD</li>

@@ -4,7 +4,7 @@
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD — RELEASE TIME!!! Stable Services for Commercial Customers
 mws_setold
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.14 2018/05/14 22:41:51 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.15 2018/07/15 13:14:09 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -38,7 +38,7 @@ mws_content <<'EOF'
  UFS ffs filesystems when <tt>/usr</tt> is on a separate filesystem. An
  error message is output, and in case of unclean filesystems and disabled
  fsck(8), the system fails to start up.<br />A fix for this, re-implementing
- the sort(1) programme in Korn shell, has been committed to the CVS repository
+ the sort(1) program in Korn shell, has been committed to the CVS repository
  and MFC'd back to the MIRBSD_7 tag. The <tt>etc34.tgz</tt> tarball on the
  download site has been updated. &ndash; Touched files: <tt>/etc/rc</tt>.</p>
 <p>06.10.2003<br /><b>Errata:</b> Same file, same bug, different executable.
@@ -146,7 +146,7 @@ mws_content <<'EOF'
  base system. Move bootblocks to a "better" directory structure. Have
  deprecated gas pseudo-op '.file' die. Add cdboot which works like /boot
  but reads its kernel directly from an ISO9660 filesystem, and must be
- burnt as boot image in "0x00: no emulation" mode (XXX the cdboot programme
+ burnt as boot image in "0x00: no emulation" mode (XXX the cdboot program
  does not correctly work at all YET). Move boot loader version number to
  /sys/arch/i386/stand/Makefile.inc, so it can be bumped in one central place.
  Kludge mkisofs from cdrtools-2.01a19 (newer than ports/sysutils/cdrtools)
@@ -385,7 +385,7 @@ mws_content <<'EOF'
  versioning of ports, removing the need to branch MirPorts. Fix the boot
  loader so it runs straight out of the box as /boot called from a v2.64 pbr
  (older ones won't probably work), or as boot.com from MS-DOS (with not
- much programmes loaded), or as &quot;no emulation&quot; El Torito boot
+ much programs loaded), or as &quot;no emulation&quot; El Torito boot
  image on a computer with a die-hard broken BIOS. Update the website, point
  better to licencing information in-tree and on the site. Catch up missed
  stuff when merging #7ter into HEAD. <strong>Finally fix the bootloader,
@@ -759,7 +759,7 @@ mws_content <<'EOF'
  probe (this change adds a requirement to El Torito boot: bootable MirOS CDs
  <strong>must</strong> be generated using <tt>mkisofs -no-emul-boot
  -boot-load-size 4 -boot-info-table</tt> and <strong>no other</strong> ISO
- generation programme will work, neither will it work if burnt as is. More
+ generation program will work, neither will it work if burnt as is. More
  patching in MirPorts infrastructure for autoconf support. Speed up rcdb by
  omitting default sync behaviour. Add ck<tt>sfv</tt> port. Enable bytecode
  interpreter for TrueType&trade; files (outside the USA, because Apple has
@@ -827,7 +827,7 @@ mws_content <<'EOF'
  add no_x11 flavour to Ghostscript. Add pascal and ${fooFLAGS_foo.o} support
  to &lt;sys.mk&gt;, and $LINKER support to &lt;bsd.prog.mk&gt;. Remove a
  plethora of warnings throughout the tree, and add a new kind of warning: a
- link-time warning that linking a programme with a certain library (for
+ link-time warning that linking a program with a certain library (for
  example, readline or iberty) will GPL it. Rewrite some scripts using my newly
  gained KSH knowledge. Update e2fsprogs (resize2fs tested). Add libtool 1.5
  support to MirLibtool. Switch base system from libtool-gcc3 to MirLibtool-1.4
@@ -967,7 +967,7 @@ mws_content <<'EOF'
  to merge OpenBSD 3.5-current (not yet finished: src/gnu/ and a few
  ports). We've got a MirOS PT_NOTE ELF section scheme now, and the
  kernel and file(1) already recognize it for BSD and even Linux. I've
- revived the old usr.bin/learn programme and released <a
+ revived the old usr.bin/learn program and released <a
  href="@@RELPATH@@mksh.htm">mirbsdksh-1.10</a>; also,
  another licence discussion happened, with cool feedback from the
  ekkoBSD people. The kernel should
@@ -1355,7 +1355,7 @@ mws_content <<'EOF'
  to get the MirOS licence template approved.</p>
 <p id="snap041025">25.10.2004 by tg@<br />I've uploaded another snapshot,
  built over night. It contains synchronisation against OpenBSD in a few
- core points &nbsp; libraries, programmes (e.g. sendmail, httpd, perl, bc,
+ core points &nbsp; libraries, programs (e.g. sendmail, httpd, perl, bc,
  dc usw.), XFree86&trade; &nbsp; as well as the latest libpng and libexpat
  versions in-tree, and ports fixes (not in the ports8.ngz tarball, but close
  enough for a quick CVS update). There have been quite a few fixes in the
@@ -2269,7 +2269,7 @@ mws_content <<'EOF'
  stuff yesterday (and I'm impressed), and I remember Stephen talking about
  making the kernel aware of userland threads. Please, do it (I can't do it
  myself since I'm <b>just</b> an amateur ;) because it will also increase,
- among other programmes, wine's chance to work. (Java&trade; too.)</p>
+ among other programs, wine's chance to work. (Java&trade; too.)</p>
 <p>11.02.2005 by tg@<br />I'm sitting here at Kabelaffe's (a friend and an
  apprenticeship (he's IT-Systemekeltroniker) comrade) continuing what I've
  done over the whole night (rendering me pretty useless at work today with
@@ -2512,7 +2512,7 @@ mws_content <<'EOF'
  order to be able to throw out new snapshots soon. I'm going to need them,
  for spreading around the word and stuff. And tyler@ needs libstdc++, so I
  don't have much of a choice. OpenBSD seems bitten by ProPolice bugs; same
- as us but their test programmes work fine on 3.2 and 3.4 here.<br />Later
+ as us but their test programs work fine on 3.2 and 3.4 here.<br />Later
  that day. My dear friend and Mach-Acker Angelo, Coder of the Mac OSX worm
  #1, <a href="http://blog.annulator.de/archives/2005/03/fun_with_miros.html">says
  it all</a>. These OpenBSE people are so poor...<br />And: who the fuck is

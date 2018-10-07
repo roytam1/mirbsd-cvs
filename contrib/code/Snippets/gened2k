@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/Snippets/gened2k,v 1.4 2008/05/03 01:09:23 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -93,7 +93,7 @@ gethash() {
 	print $hash
 }
 
-# Main Programme
+# main program
 
 if [[ $# -lt 1 || $1 == -@(h|H|?) ]]; then
 	print "Usage:"
