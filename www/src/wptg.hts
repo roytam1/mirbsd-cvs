@@ -3,7 +3,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/src/wptg.hts,v 1.16 2018/09/17 20:59:34 tg Exp $'
+mws_putheader '$MirOS: www/src/wptg.hts,v 1.19 2018/09/30 17:56:21 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3 extra=$4
@@ -166,26 +166,16 @@ function souvenir {
 	local date=$1 alt=$2 img=$3 href=$4
 
 	let ++nsouvenir
-# kaputt, siehe https://bugs.launchpad.net/mksh/+bug/1380389
-#	souvenirs+=<<-EOF		# missing a style=""
-#		<div class="flbox"><a title="$date│$alt" href="$href"><img
-#		 style="border:0px;" alt="$alt" src="$img" /></a></div>
-#
-#EOF
-	souvenirs+="<div class=\"flbox\"><a title=\"$date│$alt\"
- style=\"border:0;\" href=\"$href\"><img style=\"border:0px;\"
- alt=\"$alt\" src=\"@@ABSPATH@@/privat/badges/souv2hts.dir/$img\"
- /></a></div>$nl"
+	souvenirs+=<<-EOF
+		<div class="flbox"><a href="$href" style="border:0;"
+		 title="$date│$alt"><img style="border:0px;"
+		 src="@@ABSPATH@@/privat/badges/souv2hts.dir/$img"
+		 alt="$alt" /></a></div>
+	EOF
 }
 
 #DEPEND data/souv2hts.out
 . "$TOP"/data/souv2hts.out
-
-# kaputt, s.o.
-#if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
-#	print -u2 "E: mksh too old, before 2014/10/12"
-#	exit 1
-#fi
 
 mws_content <<EOF
 
@@ -204,8 +194,11 @@ function mzbadge {
 	local alt=$2 img=$1 desc=$3
 
 	let ++nmzbadge
-	mzbadges+="<div class=\"flbox\"><img style=\"border:0px;\"$nl title=\"$desc\"
- alt=\"$alt\" src=\"@@ABSPATH@@/privat/badges/munzbadg.dir/$img.png\" /></div>$nl"
+	mzbadges+=<<-EOF
+		<div class="flbox"><img style="border:0px;"
+		 src="@@ABSPATH@@/privat/badges/munzbadg.dir/$img.png"
+		 title="$desc" alt="$alt" /></div>
+	EOF
 }
 
 #DEPEND data/munzbadg.out
