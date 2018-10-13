@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.205 2018/09/27 21:41:32 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.206 2018/09/30 17:56:18 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -15699,6 +15699,36 @@ Waypoint: GC61EN3
 Banner: jpg
 Title: Petri Heil!
 Tag: D2 T1 Micro Tradi
+----
+ID: 2580
+Date: 2018-10-13
+Waypoint: GCR68Q
+Title: Null Eins VIII - Der Traditionell
+Tag: D15 T15 Small Tradi recommended
+----
+ID: 2581
+Date: 2018-10-13
+Waypoint: GC7B70B
+Title: Virtual Reward - Jetzt ist er nur noch virtuell
+Tag: D1 T1 Virtual
+----
+ID: 2582
+Date: 2018-10-13
+Waypoint: GC2310K
+Title: Stenzelberg
+Tag: D2 T25 Earth
+----
+ID: 2583
+Date: 2018-10-13
+Waypoint: GC1Y7G4
+Title: Stenzelberg Stone Sensation
+Tag: D15 T25 Regular Multi recommended
+----
+ID: 2584
+Date: 2018-10-13
+Waypoint: GC6GKA8
+Title: Einkehrhaus Waidmannsruh
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20481102
 Date: 2048-11-02
