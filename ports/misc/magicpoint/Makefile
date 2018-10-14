@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/magicpoint/Makefile,v 1.8 2008/03/09 17:23:12 tg Exp $
+# $MirOS: ports/misc/magicpoint/Makefile,v 1.9 2008/03/09 19:16:03 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/09 09:52:09 espie Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -19,8 +19,8 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVOURS=		no_gif freetype2
 FLAVOUR?=
 
-LIB_DEPENDS+=		png.2::graphics/png \
-			mng::graphics/libmng
+MODULES+=		graphics/png
+LIB_DEPENDS+=		mng::graphics/libmng
 RUN_DEPENDS+=		pnmscale::graphics/netpbm
 
 USE_X11=		Yes
@@ -33,8 +33,8 @@ EXTRA_MAKE_FLAGS+=	CCOPTIONS=
 CONFIGURE_ARGS+=	--enable-freetype \
 			--enable-freetype-charset16 \
 			--disable-xft2
-LIB_DEPENDS+=		ttf.1::print/freetype
 MODULES+=		devel/gettext
+MODULES+=		print/freetype
 .else
 CONFIGURE_ARGS+=	--disable-freetype \
 			--enable-xft2
