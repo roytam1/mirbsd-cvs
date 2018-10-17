@@ -12,10 +12,10 @@ mws_content <<'EOF'
  href="@@RELPATH@@acronyms.gz">gzipped</a> for download) lists all expansions
  currently known to the wtf(1) utility, which is core to MirBSD and has been
  extended by many contributors, including “wtfubar”; Natureshadow made a <a
- href="https://edugit.org/nik/MirWTFApp">Free Android äpp</a> (also <a
- href="https://f-droid.org/repository/browse/?fdid=de.naturalnet.mirwtfapp">available</a>
- in F-Droid; known to work on Jolla and Blackberry Z10) and Eugen an <a
- href="https://www.ea-it.de/wtf-app/">iOS äpp</a> which also understand
+ href="https://edugit.org/nik/MirWTFApp">Free Android äpp</a> (available <a
+ href="https://f-droid.org/repository/browse/?fdid=de.naturalnet.mirwtfapp">in
+ F-Droid</a> for Jolla/SailfishOS and Blackberry Z10 uers) and Eugen an <a
+ href="https://www.ea-it.de/wtf-app/">iOS äpp</a>, both of which also understand
  the extended format of the MirBSD acronyms database compared to other BSDs.
 EOF
 
