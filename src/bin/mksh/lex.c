@@ -1176,7 +1176,7 @@ readhere(struct ioword *iop)
 			/* Newline terminates here document marker */
 			goto heredoc_found_terminator;
 		}
-	} else if (c == *eofp++)
+	} else if ((unsigned int)c == ord(*eofp++))
 		/* store; then read and compare next character */
 		goto heredoc_store_and_loop;
 	/* nope, mismatch; read until end of line */
