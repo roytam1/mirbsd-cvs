@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/Snippets/getshver,v 1.20 2018/06/29 01:01:27 tg Exp $
+# $MirOS: contrib/code/Snippets/getshver,v 1.21 2018/10/20 15:22:31 tg Exp $
 #-
 # Copyright (c) 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2018
 #	mirabilos <m@mirbsd.org>
@@ -218,7 +218,7 @@ if test x"`
     `" = x"1"; then
 	# we have a working "local"
 	if test x"$(PATH=/nonexistent; export PATH
-	    printf 'f%so' o 2>/dev/null)" = x"foo"; then
+	    exec 2>/dev/null; printf 'f%so' o)" = x"foo"; then
 		# probably, but not certain
 		# also: (old) NetBSD /bin/sh (e.g. on MirBSD); dash on Debian
 		echo posix-dash
