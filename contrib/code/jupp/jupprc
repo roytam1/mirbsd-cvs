@@ -150,7 +150,7 @@
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2018-10-06; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
+\i \i @(#) jupprc 2018-10-20; 2.8; CR-LF on; UTF-8 not supported (for 16-bit DOS) \i \i
 }
 
  #HOOK#3 additional help screens
@@ -225,9 +225,9 @@ stop		^[ )
 :def dosrch setmark,"9",ffirst
 :def dorepl setmark,"9",qrepl
 :def conflictmarker dosrch,"\\^\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[<>=]\\[ \\n]",rtn,rtn,ltarw
-:def fixwhitespace setmark,"9",eof," ",bof,"a",qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,rtn,ffirst,"\\^\\[^\\n]",rtn,"b",rtn,eol,markb,bof,delch,eof,markk,blkdel,ffirst,"\\?",rtn,"b",rtn,eol,rtn,gomark,"9",eof
+:def fixwhitespace psh,setmark,"9",eof," ",bof,"a",qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof,rtn,ffirst,"\\^\\[^\\n]",rtn,"b",rtn,eol,markb,bof,delch,eof,markk,blkdel,ffirst,"\\?",rtn,"b",rtn,eol,rtn,gomark,"9",eof
 :def docompile edit,rtn,filt,query,parserr
-:def fmtln nmark,format,markk,bol,quote,"@",tomarkk,ffirst,quote,"@",rtn,"b",rtn,rtarw,rtn,tomarkk,quote,"@",bol,markb,dnarw,markk,blkcpy,uparw,uparw,delch,eol,delch,ffirst,quote,"@",rtn,rtn,backs,blkdel
+:def fmtln psh,nmark,format,markk,bol,quote,"@",tomarkk,ffirst,quote,"@",rtn,"b",rtn,rtarw,rtn,tomarkk,quote,"@",bol,markb,dnarw,markk,blkcpy,uparw,uparw,delch,eol,delch,ffirst,quote,"@",rtn,rtn,backs,blkdel
 :def pvsrch prevpos,gomark,"9"
 :def inscurdate insf,"!date '+%Y-%m-%d'",rtn,eol,delch
 :def inscurtime insf,"!date '+%H:%M:%S'",rtn,eol,delch
