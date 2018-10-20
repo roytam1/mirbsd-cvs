@@ -7,7 +7,7 @@ mws_putheader '$MirOS: www/src/jupp.hts,v 1.81 2018/08/08 00:35:25 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
  with a set of updated *rc files available for download below,
- and <em>joe-3.1jupp36</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp37</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -117,8 +117,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp36.tgz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp36.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp36.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp36.tgz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp37.tgz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp37.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp37.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp37.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">http://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp3.cpio.gz</a></li>
@@ -127,10 +127,11 @@ mws_content <<'EOF'
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
 <!-- mksh /usr/src/scripts/webhash /MirOS/dist/jupp #-->
- <li>RMD160 (joe-3.1jupp36.tgz) = 442b1e615dc522b3237d3e1ed041a56545abab92</li>
- <li>TIGER (joe-3.1jupp36.tgz) = 03ab33db9d35d86a5aa6cdd8d632ee8205c6d448d6f74ac2</li>
- <li>3436429957 473662 /MirOS/dist/jupp/joe-3.1jupp36.tgz</li>
- <li>MD5 (joe-3.1jupp36.tgz) = 511fc30a60308de9b3f115229d9f400b</li>
+ <li>SHA256 (joe-3.1jupp37.tgz) = 7755480792026b4eedc1ed5abe3f771ace85d402195a658d4bd3a9e9cdd8f11b</li>
+ <li>RMD160 (joe-3.1jupp37.tgz) = ee12b4d3f3bb1ad1ced58c6bb7883b9b83f5bce4</li>
+ <li>TIGER (joe-3.1jupp37.tgz) = ea2a9d30426a6fb5980583cd8e908b94a9b6b24ba1900b84</li>
+ <li>1500048745 496714 /MirOS/dist/jupp/joe-3.1jupp37.tgz</li>
+ <li>MD5 (joe-3.1jupp37.tgz) = 3b8ca941bf5794588f68a8824695a97a</li>
   <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp3.cpio.gz) = cd07c69dee589c3e64e1ee5ee08ae7f355095fba</li>
  <li>TIGER (joe-2.8jupp3.cpio.gz) = 31a0f51e6dc01d84fb09529e921124e5f1ba81f23bd5c1ac</li>
@@ -140,9 +141,9 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Starting with jupp19, use a command like<br />
- <tt>$ tar -xzf joe-3.1jupp36.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp36.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp36.tgz</tt> # any POSIX® archiver<br />
+ <tt>$ tar -xzf joe-3.1jupp37.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp37.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp37.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -183,6 +184,26 @@ $ $SUDO make install</pre>
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
  <li id="bwin">jupp 3.x for Unix:<ul>
+  <li>JOE 3.1jupp37 for Windows® (cygwin32 stand-alone compiled; 80486;
+   PKzip archive (can be unpacked out of the box from Windows XP onwards,
+   or (on 16- and 32-bit systems only) with the shareware version of <a
+   href="@@ABSPATH@@/MirOS/webstuff/pkunzip.exe">PKunzip for MS-DOS®</a>);
+   comes with its own copy of <tt>cygwin1.dll</tt> (not installed system-wide);
+   easy installation: right-click on the INF file and select _I_nstall (this
+   even clears up previous installations into the system directory). If you
+   already have Cygwin, you can delete <tt>C:\PROGRAMME\JUPP\CYGWIN1.DLL</tt>.
+   (Installation from per-user mounted network shares will not succeed
+   on Windows 7; copy to a global location such as <tt>C:\TEMP</tt>
+   beforehand.) You may have to acknowledge a warning for a missing digital
+   signature. — Download and checksums:<ul>
+    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JWIN31ZC.ZIP">https://www.mirbsd.org/MirOS/dist/jupp/JWIN31ZC.ZIP</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JWIN31ZC.ZIP">http://pub.allbsd.org/MirOS/dist/jupp/JWIN31ZC.ZIP</a></li>
+    <li>SHA256 (JWIN31ZC.ZIP) = 2c187752bc451f6eefacabe038f4f63efb2371c4751c04e59b6396d50fb9c6b8</li>
+    <li>RMD160 (JWIN31ZC.ZIP) = 5829f97450b98da77c8d81c5eb2d56b44e675d02</li>
+    <li>TIGER (JWIN31ZC.ZIP) = 1ddcce9c1e14bef43980c4d8b6f69609a73fb1a9be775743</li>
+    <li>2399283124 959198 /MirOS/dist/jupp/JWIN31ZC.ZIP</li>
+    <li>MD5 (JWIN31ZC.ZIP) = ae1e91aac48c803489e76329d016c494</li>
+  </ul></li>
   <li>JOE 3.1jupp36 for Windows® (cygwin32 stand-alone compiled; 80486;
    PKzip archive (can be unpacked out of the box from Windows XP onwards,
    or (on 16- and 32-bit systems only) with the shareware version of <a
@@ -426,16 +447,22 @@ $ $SUDO make install</pre>
  bringing some jupp features to upstream JOE.</p>
 
 <h2 id="clog">ChangeLog for Unix</h2>
+<!--
 <p>[2018-10-06] Changes in the current development version:</p><ul>
+-->
+<p id="r3_1j37">[2018-10-20] Changes for joe-3.1jupp37:</p><ul>
  <li>fix syntax highlighting for Assembly and Java™: string termination</li>
  <li>unbreak reformat block when raw octets are present</li>
  <li>update to UCD 11.0.0</li>
- <li>improve line generation / screen output code wrt. UTF-8 <strong>(still buggy)</strong></li>
+ <li>improve line generation / screen output code wrt. UTF-8</li>
  <li>make UTF-8 decoding more robust</li>
  <li>fix Makefile.am EXTRA_DIST</li>
  <li>highlight .def and .dtx files as Tₑχ/LᴬTᴇΧ, .xsl (XSLT) as XML</li>
  <li>handle .bin files as binary (no CRLF, hex editing)</li>
  <li>improve shell grammar a little wrt. syntax highlighting</li>
+ <li>fix occasionally stuck CUA marking (LP#1677671)</li>
+ <li>do not lose the mark during some macros</li>
+ <li>add icons distributors may wish to use</li>
 </ul>
 <p id="r3_1j36">[2018-03-15] Changes for joe-3.1jupp36:</p><ul>
  <li>fix too-wide prompt for <tt>`</tt> (needs only 73 cols now)</li>
