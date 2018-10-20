@@ -1,5 +1,0 @@
-XNetload displays bytes traffic and uptime for a network connection in an
-X window. It can also be used to monitor a given network interface in a
-dockapp-style manner. XNetload for NetBSD, OpenBSD and MirBSD uses code from
-the wmnetload dockapp to determine the RX- and TX- buffer sizes
-of a given network interface.

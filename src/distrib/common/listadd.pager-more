@@ -1,3 +1,0 @@
-# $MirOS$
-
-LINK	instbin					usr/bin/more usr/bin/less

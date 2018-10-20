@@ -1,7 +1,0 @@
-# $MirOS$
-
-LINK	instbin					usr/sbin/isdnd
-
-SPECIAL	cd dev; mksh MAKEDEV isdns
-
-COPY	${DESTDIR}/etc/isdn/isdnd.sppp.sample	etc/isdn/isdnd.rc

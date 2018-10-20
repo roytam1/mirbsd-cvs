@@ -1,2 +1,0 @@
-CVector is an ANSI C implementation of dynamic arrays to provide a crude
-approximation to the C++ vector class.
