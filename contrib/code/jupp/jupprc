@@ -554,7 +554,7 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
 \i \i \dGPLv2 JOE 4.4 with jupprc; partial functionality unmapped, missing, broken.\d \i \i
-\i \i @(#) jupprc 2018-10-06; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2018-10-20; 4.4; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
 
  #HOOK#3 additional help screens
@@ -573,7 +573,7 @@ mode,"highlighter_context",rtn	% % syntax% ctx% for% ^G% %Zhighlighter_context%
 \i \i 112  70 | pqrs tuvw  xyz{ |}~    ðñòó ôõö÷  øùúû üýþÿ | F0  240            \i \i
 }
 
-:def mathins math,uparw,home,markb,eol,markk,prevw,blkcpy,nextw,nmark,rtn
+:def mathins psh,math,uparw,home,markb,eol,markk,prevw,blkcpy,nextw,nmark,rtn
 :def mathres math,"ins",rtn
 
 :windows
@@ -634,10 +634,10 @@ stop		^[ )
 :def dosrch setmark,":",ffirst
 :def dorepl setmark,":",qrepl
 :def conflictmarker dosrch,"\\^\\[<>=]\\{7}\\[ \\n]",rtn,rtn,ltarw
-:def fixwhitespace setmark,":",eof," ",bof,"a",qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\$",rtn,rtn,rtn,"r",eof,rtn,ffirst,"\\^\\[^\\n]",rtn,"b",rtn,eol,markb,bof,delch,eof,markk,blkdel,ffirst,"\\.",rtn,"b",rtn,eol,rtn,gomark,":",eof
-:def freedroidz splitw,prevw,scratch,"nbc-Output",rtn,nextw,save,markk,bol,markb,prevw,prevw,blkcpy,nextw,nextw,rtn,prevw,eol,"'",bol,qrepl,"'",rtn,rtn,"'\\\\''",rtn,"r",backs,backs,backs,bol,"LC_ALL=C; export LC_ALL; fn='",eol,"; p=--posix; sed $p -e q </dev/null >/dev/null 2>&1 || p=; r=$(sed $p -e 's[^^][&]g; s\\^\\\\^g' <<EOF",rtn,"$fn",rtn,"EOF",rtn,"); (case $fn in *.nxc) ;; *) echo '==> Error: filename not *.nxc'; exit ;; esac; echo \"Compiling $fn\"; nbc -sm- -d \"$fn\" 2>&1; x=$?; if test $x = 0; then echo '==> OK'; else echo '==> Error code:' $x; fi) | tr '\\n' '' | sed $p -e 's!# *\\([^]*\\)File \"[^\"]*/\\('\"$r\"'\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' -e 's!#\\([^]*\\)File \"\\([^\"]*\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' | tr '' '\\n'",rtn,nmark,filt,"sh",rtn,rtn,"Press ^KQ to close this window!",rtn,parserr
+:def fixwhitespace psh,setmark,":",eof," ",bof,"a",qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\$",rtn,rtn,rtn,"r",eof,rtn,ffirst,"\\^\\[^\\n]",rtn,"b",rtn,eol,markb,bof,delch,eof,markk,blkdel,ffirst,"\\.",rtn,"b",rtn,eol,rtn,gomark,":",eof
+:def freedroidz psh,splitw,prevw,scratch,"nbc-Output",rtn,nextw,save,markk,bol,markb,prevw,prevw,blkcpy,nextw,nextw,rtn,prevw,eol,"'",bol,qrepl,"'",rtn,rtn,"'\\\\''",rtn,"r",backs,backs,backs,bol,"LC_ALL=C; export LC_ALL; fn='",eol,"; p=--posix; sed $p -e q </dev/null >/dev/null 2>&1 || p=; r=$(sed $p -e 's[^^][&]g; s\\^\\\\^g' <<EOF",rtn,"$fn",rtn,"EOF",rtn,"); (case $fn in *.nxc) ;; *) echo '==> Error: filename not *.nxc'; exit ;; esac; echo \"Compiling $fn\"; nbc -sm- -d \"$fn\" 2>&1; x=$?; if test $x = 0; then echo '==> OK'; else echo '==> Error code:' $x; fi) | tr '\\n' '' | sed $p -e 's!# *\\([^]*\\)File \"[^\"]*/\\('\"$r\"'\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' -e 's!#\\([^]*\\)File \"\\([^\"]*\\)\" ; line \\([0-9]*\\)!\\2:\\3: \\1!g' | tr '' '\\n'",rtn,nmark,filt,"sh",rtn,rtn,"Press ^KQ to close this window!",rtn,parserr
 :def docompile edit,rtn,filt,query,parserr
-:def fmtln nmark,format,markk,bol,quote,"@",tomarkk,ffirst,quote,"@",rtn,"b",rtn,rtarw,rtn,tomarkk,quote,"@",bol,markb,dnarw,markk,blkcpy,uparw,uparw,delch,eol,delch,ffirst,quote,"@",rtn,rtn,backs,blkdel
+:def fmtln psh,nmark,format,markk,bol,quote,"@",tomarkk,ffirst,quote,"@",rtn,"b",rtn,rtarw,rtn,tomarkk,quote,"@",bol,markb,dnarw,markk,blkcpy,uparw,uparw,delch,eol,delch,ffirst,quote,"@",rtn,rtn,backs,blkdel
 :def filtall nmark,filt,uparw
 :def pvsrch prevpos,gomark,":"
 :def inscurdate insf,"!date '+%Y-%m-%d'",rtn,eol,delch
@@ -646,14 +646,14 @@ stop		^[ )
 paste					^[ ] 5 2 ;	base64 paste (obsolete)
 brpaste					^[ [ 2 0 0 ~
 brpaste_done				^[ [ 2 0 1 ~
-begin_marking,uparw,toggle_marking	^[ [ 1 ; 2 A
-begin_marking,dnarw,toggle_marking	^[ [ 1 ; 2 B
-begin_marking,rtarw,toggle_marking	^[ [ 1 ; 2 C
-begin_marking,ltarw,toggle_marking	^[ [ 1 ; 2 D
-begin_marking,bol,toggle_marking	^[ [ 1 ; 2 H
-begin_marking,eol,toggle_marking	^[ [ 1 ; 2 F
-begin_marking,bof,toggle_marking	^[ [ 1 ; 6 H
-begin_marking,eof,toggle_marking	^[ [ 1 ; 6 F
+setmark,":",uparw,gomark,":",begin_marking,uparw,toggle_marking	^[ [ 1 ; 2 A
+setmark,":",dnarw,gomark,":",begin_marking,dnarw,toggle_marking	^[ [ 1 ; 2 B
+setmark,":",rtarw,gomark,":",begin_marking,rtarw,toggle_marking	^[ [ 1 ; 2 C
+setmark,":",ltarw,gomark,":",begin_marking,ltarw,toggle_marking	^[ [ 1 ; 2 D
+setmark,":",bol,gomark,":",begin_marking,bol,toggle_marking	^[ [ 1 ; 2 H
+setmark,":",eol,gomark,":",begin_marking,eol,toggle_marking	^[ [ 1 ; 2 F
+setmark,":",bof,gomark,":",begin_marking,bof,toggle_marking	^[ [ 1 ; 6 H
+setmark,":",eof,gomark,":",begin_marking,eof,toggle_marking	^[ [ 1 ; 6 F
 backs		^?
 backs		^H
 backw		^[ o
