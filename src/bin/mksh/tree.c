@@ -821,7 +821,7 @@ vistree(char *dst, size_t sz, struct op *t)
 
 #ifdef DEBUG
 void
-dumpchar(struct shf *shf, int c)
+dumpchar(struct shf *shf, unsigned char c)
 {
 	if (ksh_isctrl(c)) {
 		/* C0 or C1 control character or DEL */

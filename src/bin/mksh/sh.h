@@ -184,7 +184,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.864 2018/07/15 17:21:23 tg Exp $");
 #endif
-#define MKSH_VERSION "R56 2018/07/15"
+#define MKSH_VERSION "R56 2018/10/20"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -2637,7 +2637,7 @@ const char *wdscan(const char *, int);
 #define WDS_TPUTS	BIT(0)		/* tputS (dumpwdvar) mode */
 char *wdstrip(const char *, int);
 void tfree(struct op *, Area *);
-void dumpchar(struct shf *, int);
+void dumpchar(struct shf *, unsigned char);
 void dumptree(struct shf *, struct op *);
 void dumpwdvar(struct shf *, const char *);
 void dumpioact(struct shf *shf, struct op *t);
