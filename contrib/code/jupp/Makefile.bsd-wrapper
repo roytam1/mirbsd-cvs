@@ -79,4 +79,11 @@ cats: joe.cat1 joe.ps1
 	    /Keywords '('${CATS_KW:Q}')' /DOCINFO pdfmark \
 	    -f joe.ps1
 
+alljupps:
+	cd ${.CURDIR:Q} && r=$$(<CVS/Root) && cd .. && rm -rf j28 j37 j44 && \
+	    cvs -Rqd "$$r" co -d j28 -r joe-2_8-msdos jupp && \
+	    cvs -Rqd "$$r" co -d j37 -r jupprc-for-joe-3_7 jupp && \
+	    cvs -Rqd "$$r" co -d j44 -r jupprc-for-joe-4_4 jupp && \
+	    cd jupp && exec cvs -Rqd "$$r" up -PAd
+
 .include <bsd.cfwrap.mk>
