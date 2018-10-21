@@ -95,11 +95,13 @@ struct zone {
 	zic_t		z_untiltime;
 };
 
+#ifndef __MirBSD__
 extern int	getopt P((int argc, char * const argv[],
 			const char * options));
 extern int	link P((const char * fromname, const char * toname));
 extern char *	optarg;
 extern int	optind;
+#endif
 
 static void	addtt P((zic_t starttime, int type));
 static int	addtype P((long gmtoff, const char * abbr, int isdst,
@@ -144,7 +146,7 @@ static void	rulesub P((struct rule * rp,
 			const char * dayp, const char * timep));
 static void	setboundaries P((void));
 static zic_t	tadd P((zic_t t1, long t2));
-static void	usage P((void));
+static void	usage P((void)) __dead;
 static void	writezone P((const char * name));
 static int	yearistype P((int year, const char * type));
 
@@ -443,8 +445,7 @@ const char * const	string;
 }
 
 static void
-warning(string)
-const char * const	string;
+warning(const char * const string)
 {
 	char *	cp;
 
@@ -471,9 +472,7 @@ static const char *	yitcommand;
 static int		sflag = FALSE;
 
 int
-main(argc, argv)
-int	argc;
-char *	argv[];
+main(int argc, char *argv[])
 {
 	register int	i;
 	register int	j;
@@ -668,14 +667,14 @@ const char * const	tofile;
 ** change to the tz file format.
 */
 
-#define MAX_BITS_IN_FILE	32
+#define MAX_BITS_IN_FILE	32U
 #define TIME_T_BITS_IN_FILE	((TYPE_BIT(zic_t) < MAX_BITS_IN_FILE) ? \
 					TYPE_BIT(zic_t) : MAX_BITS_IN_FILE)
 
 static void
 setboundaries P((void))
 {
-	register int	i;
+	register unsigned int i;
 
 	if (TYPE_SIGNED(zic_t)) {
 		min_time = -1;
@@ -1430,13 +1429,11 @@ FILE * const	fp;
 }
 
 static int
-atcomp(avp, bvp)
-void *	avp;
-void *	bvp;
+atcomp(const void *avp, const void *bvp)
 {
-	if (((struct attype *) avp)->at < ((struct attype *) bvp)->at)
+	if (((const struct attype *) avp)->at < ((const struct attype *) bvp)->at)
 		return -1;
-	else if (((struct attype *) avp)->at > ((struct attype *) bvp)->at)
+	else if (((const struct attype *) avp)->at > ((const struct attype *) bvp)->at)
 		return 1;
 	else	return 0;
 }
@@ -2195,23 +2192,23 @@ const char * const	string;
 
 	if (strcmp(string, GRANDPARENTED) != 0) {
 		register const char *	cp;
-		register char *		wp;
+		register const char *	wc;
 
 		cp = string;
-		wp = NULL;
+		wc = NULL;
 		while (*cp == '+' || *cp == '-' ||
 		    (*cp >= '0' && *cp <= '9') ||
 		    (*cp >= 'A' && *cp <= 'Z') ||
 		    (*cp >= 'a' && *cp <= 'z'))
 			++cp;
 		if (noise && cp - string < 3)
-wp = _("time zone abbreviation has less than 3 characters");
+wc = _("time zone abbreviation has less than 3 characters");
 		if (cp - string > ZIC_MAX_ABBR_LEN_WO_WARN)
-wp = _("time zone abbreviation has too many characters");
+wc = _("time zone abbreviation has too many characters");
 		if (*cp != '\0')
-wp = _("time zone abbreviation differs from POSIX standard");
-		if (wp != NULL) {
-			wp = ecpyalloc(wp);
+wc = _("time zone abbreviation differs from POSIX standard");
+		if (wc != NULL) {
+			char *wp = ecpyalloc(wc);
 			wp = ecatalloc(wp, " (");
 			wp = ecatalloc(wp, string);
 			wp = ecatalloc(wp, ")");

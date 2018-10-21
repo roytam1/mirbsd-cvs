@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/time/private.h,v 1.3 2005/09/22 20:33:01 tg Exp $ */
+/**	$MirOS: src/lib/libc/time/private.h,v 1.4 2011/11/20 04:57:12 tg Exp $ */
 /*	$OpenBSD: private.h,v 1.17 2005/07/05 13:40:51 millert Exp $	*/
 #ifndef PRIVATE_H
 #define PRIVATE_H
@@ -232,7 +232,7 @@ char *	imalloc P((int n));
 void *	irealloc P((void * pointer, int size));
 void	icfree P((char * pointer));
 void	ifree P((char * pointer));
-char *	scheck P((const char *string, char *format));
+const char *scheck P((const char * const string, const char * const format));
 
 /*
 ** Finally, some convenience items.
