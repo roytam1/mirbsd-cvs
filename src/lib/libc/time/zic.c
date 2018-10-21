@@ -120,8 +120,7 @@ static void	eats P((const char * name, int num,
 static long	eitol P((int i));
 static void	error P((const char * message));
 static char **	getfields P((char * buf));
-static long	gethms P((const char * string, const char * errstrng,
-			int signable));
+static long	gethms P((const char * string, const char * const errstring));
 static void	infile P((const char * filename));
 static void	inleap P((char ** fields, int nfields));
 static void	inlink P((char ** fields, int nfields));
@@ -795,8 +794,7 @@ associate P((void))
 			** Maybe we have a local standard time offset.
 			*/
 			eat(zp->z_filename, zp->z_linenum);
-			zp->z_stdoff = gethms(zp->z_rule, _("unruly zone"),
-				TRUE);
+			zp->z_stdoff = gethms(zp->z_rule, _("unruly zone"));
 			/*
 			** Note, though, that if there's no rule,
 			** a '%s' in the format is a bad thing.
@@ -914,18 +912,13 @@ _("%s: panic: Invalid l_value %d\n"),
 */
 
 static long
-gethms(string, errstring, signable)
-const char *		string;
-const char * const	errstring;
-const int		signable;
+gethms(const char * string, const char * const errstring)
 {
 	int	hh, mm, ss, sign;
 
 	if (string == NULL || *string == '\0')
 		return 0;
-	if (!signable)
-		sign = 1;
-	else if (*string == '-') {
+	if (*string == '-') {
 		sign = -1;
 		++string;
 	} else	sign = 1;
@@ -938,15 +931,12 @@ const int		signable;
 			error(errstring);
 			return 0;
 	}
-	if ((hh < 0 || hh >= HOURSPERDAY ||
+	if (hh < 0 ||
 		mm < 0 || mm >= MINSPERHOUR ||
-		ss < 0 || ss > SECSPERMIN) &&
-		!(hh == HOURSPERDAY && mm == 0 && ss == 0)) {
+		ss < 0 || ss > SECSPERMIN) {
 			error(errstring);
 			return 0;
 	}
-	if (noise && hh == HOURSPERDAY)
-		warning(_("24:00 not handled by pre-1998 versions of zic"));
 	return eitol(sign) *
 		(eitol(hh * MINSPERHOUR + mm) *
 		eitol(SECSPERMIN) + eitol(ss));
@@ -969,7 +959,7 @@ const int		nfields;
 	}
 	r.r_filename = filename;
 	r.r_linenum = linenum;
-	r.r_stdoff = gethms(fields[RF_STDOFF], _("invalid saved time"), TRUE);
+	r.r_stdoff = gethms(fields[RF_STDOFF], _("invalid saved time"));
 	rulesub(&r, fields[RF_LOYEAR], fields[RF_HIYEAR], fields[RF_COMMAND],
 		fields[RF_MONTH], fields[RF_DAY], fields[RF_TOD]);
 	r.r_name = ecpyalloc(fields[RF_NAME]);
@@ -1073,7 +1063,7 @@ const int		iscont;
 	}
 	z.z_filename = filename;
 	z.z_linenum = linenum;
-	z.z_gmtoff = gethms(fields[i_gmtoff], _("invalid UTC offset"), TRUE);
+	z.z_gmtoff = gethms(fields[i_gmtoff], _("invalid UTC offset"));
 	if ((cp = strchr(fields[i_format], '%')) != 0) {
 		if (*++cp != 's' || strchr(cp, '%') != 0) {
 			error(_("invalid abbreviation format"));
@@ -1185,7 +1175,7 @@ const int		nfields;
 		return;
 	}
 	t = (zic_t) dayoff * SECSPERDAY;
-	tod = gethms(fields[LP_TIME], _("invalid time of day"), FALSE);
+	tod = gethms(fields[LP_TIME], _("invalid time of day"));
 	cp = fields[LP_CORR];
 	{
 		register int	positive;
@@ -1290,7 +1280,7 @@ const char * const		timep;
 				break;
 		}
 	}
-	rp->r_tod = gethms(dp, _("invalid time of day"), FALSE);
+	rp->r_tod = gethms(dp, _("invalid time of day"));
 	ifree(dp);
 	/*
 	** Year work.
