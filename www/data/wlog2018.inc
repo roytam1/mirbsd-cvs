@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog2018.inc,v 1.4 2018/05/19 16:47:48 tg Exp $
+RCSID: $MirOS: www/data/wlog2018.inc,v 1.5 2018/05/19 23:56:19 tg Exp $
 Title: FixedMisc [MirOS] 20180429 released
 Date: 29.04.2018 17:30
 Author: tg@
@@ -112,4 +112,50 @@ Tag: debian
  packages with permission from their previous team and uploader, and have
  already started with actually packaging Movim, discovering untold gruesome
  things in the <em>upstream</em> of the two webfonts it bundles.</p>
+----
+Date: 2018-10-25
+Title: learn.to/quote
+Tag: archaeology debian news pcli tip
+
+<p>The “properly quote eMail messages and on Usenet” documentation
+ is hosted on a server that appears to not get too much care at the
+ moment. I’ve dug out workable versions:</p><ul>
+<li><a href="http://www.afaik.de/usenet/faq/zitieren/download/zitieren-alles.html">current
+ all-in-one-page German version (<span xml:lang="de-DE-1901">aktuelle
+ alles-auf-einer-Seite-Fassung auf Deutsch</span>)</a>, with a short
+ link on <tt>http://deb.li/quote</tt></li>
+<li><a href="http://web.archive.org/web/20170227223930/http://www.briachons.org:80/art/quote/">last
+ archived Dutch version (<span xml:lang="nl">laatste versie in het
+ Nederlands</span>)</a>, the server is currently unreachable, but
+ the Wayback Machine still has it</li>
+<li><a href="https://www.netmeister.org/news/learn2quote.html">current
+ English translation</a>, still workable</li>
+</ul>
+<p>The <a href="http://www.afaik.de/usenet/faq/zitieren/">original
+ link</a>, with its <tt>http://learn.to/quote/</tt> redirection,
+ which contained the links to the translations into Dutch and
+ English, unfortunately no longer works.</p>
+<p>I’m asking everyone to <em>please</em> honour these guidelines
+ when posting in Usenet and responding to eMail messages, as not
+ doing so is an insult to <em>all</em> the (<em>multiple</em>, in
+ the case of Usenet and mailing lists) readers / recipients of your
+ messages. Even if you have to spend a little time trimming the
+ quote, it’s much less than the time spent by <em>all</em> readers
+ trying to figure out a TOFU (reply over fullquote) message.</p>
+<p xml:lang="de-DE-1901">Ich bitte jeden darum, sich <em>bitte</em>
+ beim Posten im Usenet und Verfassen von eMails sich an diese
+ Richtilinien zu halten; dies nicht zu tun ist ein Affront wider
+ <em>alle</em> (im Falle von Usenet und Mailinglisten viele)
+ Leser bzw. Empfänger eurer Nachrichten. Selbst wenn man zum
+ Kürzen des Zitats ein bißchen Zeit aufwenden muß ist das immer
+ noch deutlich weniger als die Mühe, die <em>jeder einzelne</em>
+ Leser aufwenden muß, herauszufinden, was mit einer als TOFU
+ (Text oben, Vollzitat unten) geschriebenen eMail gemeint ist.</p>
+<p xml:lang="nl">Mag ik iederéén verzoeken, postings in het Usenet
+ en mailtjes volgens deze regels te schrĳven? Als het niet te doen
+ is vies tegen <em>alle</em> ontvanger’s en moeilĳk om te lezen.
+ Zelfs als je een beetje tĳd nodig heb om het oorspronkelĳke deel
+ te korten is het nog steeds minder dan de moeite van alleman, om
+ een TOFU (antwoord boven, fullquote beneden) boodschap proberen
+ te begrepen.</p>
 ----

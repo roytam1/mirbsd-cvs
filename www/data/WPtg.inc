@@ -15730,6 +15730,49 @@ Waypoint: GC6GKA8
 Title: Einkehrhaus Waidmannsruh
 Tag: D15 T15 Micro Tradi
 ----
+ID: 2585
+Date: 2018-10-28
+Waypoint: GC3QBTP
+Title: Vugelsanger Stroß
+Tag: D1 T15 Micro Tradi
+----
+ID: 2586
+Date: 2018-11-01
+Waypoint: OC14969
+Title: Barriere im Wald
+nTF: 1
+Tag: D1 T15 Micro Tradi
+----
+ID: 2587
+Date: 2018-11-01
+Waypoint: GC4BG09
+Title: Obelix's Paradise
+Tag: D15 T25 Regular Tradi
+----
+ID: p20181103
+Date: 2018-11-03
+Waypoint: GC7YHXF
+Title: Es waar in Kööönigswinter
+Tag: D1 T1 Event
+----
+ID: p20181106
+Date: 2018-11-06
+Waypoint: GC7ZB17
+Title: Winter is coming....
+Tag: D1 T1 Event
+----
+ID: p20181110
+Date: 2018-11-10
+Waypoint: GC7QR3N
+Title: GIFF 2018 - Janz jroß Kinema
+Tag: D1 T1 Event
+----
+ID: p20181222
+Date: 2018-12-22
+Waypoint: GC7YWVJ
+Title: Musik im Advent - 2018
+Tag: D1 T15 Event
+----
 ID: p20481102
 Date: 2048-11-02
 Waypoint: OC12CDB
