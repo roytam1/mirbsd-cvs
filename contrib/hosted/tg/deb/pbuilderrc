@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.65 2017/05/21 19:59:03 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.71 2018/05/04 15:20:38 tg Exp $
 #-
 # Copyright © 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018
 #	mirabilos <tg@debian.org>
@@ -45,7 +45,7 @@
 # Debian derivate from Canonical that cannot be named:
 #	dapper hardy jaunty karmic lucid maverick natty oneiric
 #	precise quantal raring saucy trusty utopic vivid wily
-#	xenial yakkety zesty artful bionic cosmic
+#	xenial yakkety zesty artful bionic cosmic disco
 # *-backports: sarge etch lenny squeeze wheezy jessie stretch
 #	(plus all Debian derivate from Canonical that cannot be named)
 # *-backports-sloppy: lenny squeeze wheezy jessie
@@ -101,10 +101,10 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch buster bullseye sid'
 DISTS_dpo='dpo'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety zesty artful bionic cosmic'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety zesty artful bionic cosmic disco'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie:stretch
 DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy:jessie
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety:zesty:artful:bionic:cosmic
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety:zesty:artful:bionic:cosmic:disco
 MIRROR_sarge=http://archive.debian.org/debian/
 MIRROR_etch=http://archive.debian.org/debian/
 MIRROR_lenny=http://archive.debian.org/debian/
@@ -139,6 +139,7 @@ MIRROR_zesty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_artful=http://archive.ubuntu.com/ubuntu/
 MIRROR_bionic=http://archive.ubuntu.com/ubuntu/
 MIRROR_cosmic=http://archive.ubuntu.com/ubuntu/
+MIRROR_disco=http://archive.ubuntu.com/ubuntu/
 MIRRORSECURITY_sarge=http://archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://archive.debian.org/debian-security/
