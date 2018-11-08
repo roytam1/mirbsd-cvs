@@ -1,7 +1,7 @@
-$MirOS: ports/devel/autoconf/2.61/patches/patch-lib_autoconf_functions_m4,v 1.1 2007/05/08 20:38:26 tg Exp $
+$MirOS: ports/devel/autoconf/2.62/patches/patch-lib_autoconf_functions_m4,v 1.1 2009/11/22 00:16:23 tg Exp $
 --- lib/autoconf/functions.m4.orig	Sat Apr  5 23:04:25 2008
-+++ lib/autoconf/functions.m4	Sat Nov 21 23:28:30 2009
-@@ -67,9 +67,19 @@
++++ lib/autoconf/functions.m4	Thu Nov  8 02:21:12 2018
+@@ -67,9 +67,20 @@
  AC_DEFUN([AC_CHECK_FUNC],
  [AS_VAR_PUSHDEF([ac_var], [ac_cv_func_$1])dnl
  AC_CACHE_CHECK([for $1], [ac_var],
@@ -11,7 +11,8 @@ $MirOS: ports/devel/autoconf/2.61/patches/patch-lib_autoconf_functions_m4,v 1.1 
 +CPPFLAGS="-D_MIRMAKE_H $CPPFLAGS"
 +AC_LINK_IFELSE([AC_LANG_FUNC_LINK_TRY([$1])],
  		[AS_VAR_SET([ac_var], [yes])],
- 		[AS_VAR_SET([ac_var], [no])])])
+-		[AS_VAR_SET([ac_var], [no])])])
++		[AS_VAR_SET([ac_var], [no])])
 +if test x"ja" = x"$mirsave_CPPFLAGS_set"; then
 +	CPPFLAGS=$mirsave_CPPFLAGS
 +else
@@ -19,6 +20,7 @@ $MirOS: ports/devel/autoconf/2.61/patches/patch-lib_autoconf_functions_m4,v 1.1 
 +fi
 +unset mirsave_CPPFLAGS_set
 +unset mirsave_CPPFLAGS
++])
  AS_IF([test AS_VAR_GET([ac_var]) = yes], [$2], [$3])dnl
  AS_VAR_POPDEF([ac_var])dnl
  ])# AC_CHECK_FUNC

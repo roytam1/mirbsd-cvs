@@ -3,7 +3,7 @@
 COMMENT=		automatically configure source code on many Un*x platforms
 VSN=			2.62
 DISTNAME=		autoconf-${VSN}
-DASH_VER=		3
+DASH_VER=		4
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnu.org/software/autoconf/
 
