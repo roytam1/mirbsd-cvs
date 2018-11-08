@@ -4,7 +4,7 @@
 COMMENT=		automatically configure source code on many Un*x platforms
 SUFFIX=			-2.59
 DISTNAME=		autoconf${SUFFIX}
-DASH_VER=		3
+DASH_VER=		4
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=autoconf/}
 HOMEPAGE=		http://www.gnu.org/software/autoconf/
