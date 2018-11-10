@@ -15767,11 +15767,115 @@ Waypoint: GC7YQ21
 Title: Mehlem-Emmenbrücke
 Tag: D15 T15 Micro Tradi
 ----
-ID: p20181110
+ID: 2591
+Date: 2018-11-10
+Waypoint: https://labs.geocaching.com/geocaches/details/342c8a83-6335-4057-92db-eb3bb7060ee0?adventureId=63aa6928-f2f3-4a41-bab3-5e174a01595a
+LabBanner: CGNdisc-Narren
+Title: Discover Colonia / Das Regiment der Narren
+Tag: Lab
+----
+ID: 2592
+Date: 2018-11-10
+Waypoint: https://labs.geocaching.com/geocaches/details/01730982-ead1-48a8-91e5-2a3db004cbbe?adventureId=63aa6928-f2f3-4a41-bab3-5e174a01595a
+LabBanner: CGNdisc-Auto
+Title: Discover Colonia / Auto
+Tag: Lab
+----
+ID: 2593
+Date: 2018-11-10
+Waypoint: https://labs.geocaching.com/geocaches/details/a3ca4557-b956-42d6-8669-aaf18e5c115e?adventureId=63aa6928-f2f3-4a41-bab3-5e174a01595a
+LabBanner: CGNdisc-Seelenheil
+Title: Discover Colonia / Seelenheil
+Tag: Lab
+----
+ID: 2594
+Date: 2018-11-10
+Waypoint: https://labs.geocaching.com/geocaches/details/77fff45c-d1a6-45a2-aefd-5d02c895ecb3?adventureId=63aa6928-f2f3-4a41-bab3-5e174a01595a
+LabBanner: CGNdisc-Lommis
+Title: Discover Colonia / Eine kölsche Liebe
+Tag: Lab
+----
+ID: 2595
+Date: 2018-11-10
+Waypoint: GC1WEEK
+Title: Porzer Autokino (Köln-Porz-Eil)
+Tag: D15 T15 Micro Tradi
+----
+ID: 2596
 Date: 2018-11-10
 Waypoint: GC7QR3N
 Title: GIFF 2018 - Janz jroß Kinema
-Tag: D1 T1 Event
+Tag: D1 T1 Mega_Event
+----
+ID: 2597
+Date: 2018-11-10
+Waypoint: GC7ZJMD
+Title: JJK - Grauman's Chinese Theatre
+Tag: D15 T1 Small Tradi
+----
+ID: 2598
+Date: 2018-11-10
+Waypoint: GC7V702
+Title: JJK - K wie Klüngel
+Tag: D4 T3 Small Mystery
+----
+ID: 2599
+Date: 2018-11-10
+Waypoint: GC7YGE9
+Title: JJK - Walk Of Fame #18: Robert Downey Jr
+Tag: D15 T15 Micro Tradi
+----
+ID: 2600
+Date: 2018-11-10
+Waypoint: GC7YGEM
+Title: JJK - Walk Of Fame #19: Jennifer Lawrence
+Tag: D15 T15 Micro Tradi
+----
+ID: 2601
+Date: 2018-11-10
+Waypoint: GC7YGEX
+Title: JJK - Walk Of Fame #20: J.J. Abrams
+Tag: D15 T15 Micro Tradi
+----
+ID: 2602
+Date: 2018-11-10
+Waypoint: GC7YGAV
+Title: JJK - Walk Of Fame #21: BONUS
+Tag: D2 T2 Regular Mystery
+----
+ID: 2603
+Date: 2018-11-10
+Waypoint: GC7X8FV
+Title: JJK - Hollywood in Colonia
+Tag: D15 T2 Large Mystery recommended
+----
+ID: 2604
+Date: 2018-11-10
+Waypoint: https://labs.geocaching.com/geocaches/details/93fa25a2-bd57-432c-ac15-273e2270ce2f?adventureId=63aa6928-f2f3-4a41-bab3-5e174a01595a
+LabBanner: CGNdisc-Millowitsch
+Title: Discover Colonia / Kölsche Sprache
+Tag: Lab
+----
+ID: 2605
+Date: 2018-11-10
+Waypoint: https://labs.geocaching.com/geocaches/details/33afb36e-930e-40d9-8277-de7fdd8a8f7d?adventureId=63aa6928-f2f3-4a41-bab3-5e174a01595a
+LabBanner: CGNdisc-Eigelstein
+Title: Discover Colonia / Banales
+Tag: Lab
+----
+ID: 2606
+Date: 2018-11-10
+Waypoint: https://labs.geocaching.com/geocaches/details/426d2f56-d16b-4596-a2de-aca42e19c81d?adventureId=63aa6928-f2f3-4a41-bab3-5e174a01595a
+LabBanner: CGNdisc-Odeon
+Title: Discover Colonia / Kino
+Tag: Lab
+----
+ID: 2607
+Date: 2018-11-10
+Waypoint: https://labs.geocaching.com/geocaches/details/8a75e35a-8963-4190-bba6-6add619a6272?adventureId=63aa6928-f2f3-4a41-bab3-5e174a01595a
+LabBanner: CGNdisc-Violetta
+Title: Discover Colonia / English Tourist?
+Tag: Lab
 ----
 ID: p20181222
 Date: 2018-12-22
