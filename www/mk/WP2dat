@@ -32,14 +32,18 @@ while IFS= read -r line; do
 	wpbanner=
 	title=${line#* }
 	last=${line##* }
-	tag='D T '
-	if [[ $last = [1-5]?(5),[1-5]?(5),* ]]; then
+	tag='Tag: D T '
+	if [[ $last = @([1-5]?(5),[1-5]?(5)|'!'),* ]]; then
 		title=${title% *}
 		IFS=,
 		set -- $last
 		IFS=$' \t\n'
-		tag="D$1 T$2"
-		shift
+		if [[ $1 = '!' ]]; then
+			tag=Tag:
+		else
+			tag="Tag: D$1 T$2"
+			shift
+		fi
 		shift
 		case $1 {
 		(n) tag+=' Nano'; shift ;;
@@ -65,6 +69,7 @@ while IFS= read -r line; do
 			(exc)	tag+=' exceptional' ;;
 			(ev)	tag+=' Event' ;;
 			(giga)	tag+=' Giga_Event' ;;
+			(lab=*)	wpbanner="LabBanner: ${x#lab=}" ;&
 			(lab)	tag+=' Lab' ;;
 			(lb)	tag+=' Letterbox_Hybrid' ;;
 			(maze)	tag+=' GPS_Adventures_Exhibit' ;;
@@ -95,7 +100,7 @@ while IFS= read -r line; do
 			(4tf)	wpfound=4 ;;
 			(ltf)	wpfound=L ;;
 			(orga)	wpfound=O ;;
-			(jpg|png|gif) wpbanner=$x ;;
+			(jpg|png|gif) wpbanner="Banner: $x" ;;
 			(*)
 				u+=,$x ;;
 			}
@@ -105,10 +110,10 @@ while IFS= read -r line; do
 	print ID: ${wpid:-$((++num))}
 	print Date: $wpdatum
 	print -r -- "Waypoint: ${wpcode#http://coord.info/}"
-	[[ -n $wpbanner ]] && print -r -- "Banner: $wpbanner"
+	[[ -n $wpbanner ]] && print -r -- "$wpbanner"
 	print -r -- "Title: ${|xhtml_fesc "$title";}"
 	[[ -n $wpfound ]] && print -r -- "nTF: $wpfound"
-	print -r -- "Tag: $tag"
+	print -r -- "$tag"
 	print -- ----
 done
 
