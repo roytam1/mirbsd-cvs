@@ -1,6 +1,17 @@
 $MirOS: contrib/code/jupp/NEWS,v 1.125 2018/08/08 00:35:24 tg Exp $
 -------------------------------------------------------------------
 
+jupp-current
+
+- …
+
+JOE 3.1jupp38
+
+- fix issues pointed out by Coverity
+- musl says to not use <sys/termios.h>
+- fix opening files like +DESC
+- update autoconf infrastructure
+
 JOE 3.1jupp37
 
 - fix syntax highlighting for Assembly and Java™: string termination
