@@ -1,3 +1,0 @@
-@comment $MirOS: ports/archivers/bzip2/pkg/PFRAG.shared,v 1.2 2005/05/29 21:11:09 bsiegert Exp $
-@comment $OpenBSD: PFRAG.shared,v 1.4 2002/02/03 06:16:09 brad Exp $
-@lib lib/libbz2.so.10.6

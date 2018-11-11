@@ -1,8 +1,0 @@
-# $MirOS$
-#
-echo The system will, upon boot, configure all network interfaces,
-echo IPv4 with DHCP and IPv6 by Router Solicitation. It will start
-echo an sshd which can be logged into with the following credenti-
-echo als: user='root' pass='miros'
-# this is extra space to facilitate easy editing of the rootpw
-echo
