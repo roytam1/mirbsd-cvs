@@ -8,7 +8,7 @@
 #include "config.h"
 #include "types.h"
 
-__RCSID("$MirOS: contrib/code/jupp/tw.c,v 1.21 2018/01/06 00:28:33 tg Exp $");
+__RCSID("$MirOS: contrib/code/jupp/tw.c,v 1.22 2018/06/26 20:23:35 tg Exp $");
 
 #include <stdlib.h>
 #include <string.h>
@@ -740,6 +740,8 @@ BW *wmktw(SCREEN *t, B *b)
 	TW *tw;
 
 	w = wcreate(t, &watomtw, NULL, NULL, NULL, t->h, NULL, NULL);
+	if (!w)
+		return (NULL);
 	wfit(w->t);
 	w->object.bw = bw = bwmk(w, b, 0);
 	bw->object = tw = malloc(sizeof(TW));

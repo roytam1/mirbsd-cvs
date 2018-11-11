@@ -592,11 +592,12 @@ W *wcreate(SCREEN *t, WATOM *watom, W *where, W *target, W *original, int height
 	new->msgb = NULL;
 	new->msgt = NULL;
 	/* Set window's target and family */
-/* was:	if (new->win = target) {	which may be mistyped == */
-	if ((new->win = target) != NULL) {	/* A subwindow */
+	if ((new->win = target) != NULL) {
+		/* a subwindow */
 		new->main = target->main;
 		new->fixed = height;
-	} else {		/* A parent window */
+	} else {
+		/* a parent window */
 		new->main = new;
 		new->fixed = 0;
 	}
