@@ -71,7 +71,8 @@ void tty_xonoffbaudrst(void);
 long ustol(void *, void **, int);
 long ustolb(void *, void **, long, long, int);
 
-#define USTOC_MAX	4 /* arbitrary, but at least 4 */
+/* arbitrary, but at least 4 */
+#define USTOC_MAX	4
 
 size_t ustoc_hex(const void *, int *, size_t);
 size_t ustoc_oct(const void *, int *, size_t);
