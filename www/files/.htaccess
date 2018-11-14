@@ -106,8 +106,9 @@ AddType 'application/vnd.recordare.musicxml+xml; charset=utf-8' musicxml
 AddType 'application/xml; charset=utf-8' xml
 
 # display as plaintext with proper encoding
-AddType 'text/plain; charset=utf-8' conf dat in sh txt LICENCE
+AddType 'text/plain; charset=utf-8' conf dat in inc sh txt LICENCE
 # some files in legacy encoding
+AddType 'text/plain; charset=cp1252' scl
 AddType 'text/plain; charset=cp437' asc
 
 # some generic fallback
