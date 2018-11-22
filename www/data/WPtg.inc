@@ -15804,6 +15804,7 @@ Tag: D15 T15 Micro Tradi
 ID: 2596
 Date: 2018-11-10
 Waypoint: GC7QR3N
+Banner: png
 Title: GIFF 2018 - Janz jroß Kinema
 Tag: D1 T1 Mega_Event
 ----
