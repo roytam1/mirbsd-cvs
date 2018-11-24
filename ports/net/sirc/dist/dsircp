@@ -678,8 +678,8 @@ sub tell_hi {
 
   local($pat) = join('|', @highlight);
   if ($set{"HIGHLIGHT_NICK"} eq 'on') {
-    $pat .= '|' if $pat ne '';
-    $pat .= "\Q$nick\E";
+    $pat = '|' . $pat if $pat ne '';
+    $pat = "\Q$nick\E" . $pat;
   }
 
   $msg =~ s/$pat/\x00$highlight_style$&\x00$highlight_style/ig if $pat ne '';
