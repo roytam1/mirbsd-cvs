@@ -2,7 +2,7 @@
 Welcome to sirc v. $version, by orabidoo  (last changed: $date),
 a small and simple IRC client written in perl, with extensions for
 $MirOS: ports/net/sirc/dist/sirc.help,v 1.12 2017/11/16 23:35:41 tg Exp $ by
-mirabilos <m@mirbsd.org>, multiplex'd and others.
+mirabilos <m@mirbsd.org>, multiplexd and others.
 
 To get help on a particular topic, type "/help <topic>"  (without the
 <>s or the ""s)
