@@ -3,7 +3,7 @@
 
 mws_setname subprojects/jupp "jupp — Programmer’s Editor"
 mws_setheadline jupp — the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.81 2018/08/08 00:35:25 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.86 2018/11/11 19:16:47 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp3</em> for MS-DOS® compatible systems,
  with a set of updated *rc files available for download below,
@@ -184,6 +184,26 @@ $ $SUDO make install</pre>
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
  <li id="bwin">jupp 3.x for Unix:<ul>
+  <li>JOE 3.1jupp38 for Windows® (cygwin32 stand-alone compiled; 80486;
+   PKzip archive (can be unpacked out of the box from Windows XP onwards,
+   or (on 16- and 32-bit systems only) with the shareware version of <a
+   href="@@ABSPATH@@/MirOS/webstuff/pkunzip.exe">PKunzip for MS-DOS®</a>);
+   comes with its own copy of <tt>cygwin1.dll</tt> (not installed system-wide);
+   easy installation: right-click on the INF file and select _I_nstall (this
+   even clears up previous installations into the system directory). If you
+   already have Cygwin, you can delete <tt>C:\PROGRAMME\JUPP\CYGWIN1.DLL</tt>.
+   (Installation from per-user mounted network shares will not succeed
+   on Windows 7; copy to a global location such as <tt>C:\TEMP</tt>
+   beforehand.) You may have to acknowledge a warning for a missing digital
+   signature. — Download and checksums:<ul>
+    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JWIN31ZD.ZIP">https://www.mirbsd.org/MirOS/dist/jupp/JWIN31ZD.ZIP</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JWIN31ZD.ZIP">http://pub.allbsd.org/MirOS/dist/jupp/JWIN31ZD.ZIP</a></li>
+    <li>SHA256 (JWIN31ZD.ZIP) = abfce775a88921edc885c132b7f230b3b535fb13ade66b189bebaea0cdd88492</li>
+    <li>RMD160 (JWIN31ZD.ZIP) = beae04eb7a0eda0da5f7e5cb2bd463a5fdd6db1c</li>
+    <li>TIGER (JWIN31ZD.ZIP) = 7a57117adcfed1e68af2652e20a059084bf8b7c07aeafec9</li>
+    <li>3719145499 959540 /MirOS/dist/jupp/JWIN31ZD.ZIP</li>
+    <li>MD5 (JWIN31ZD.ZIP) = 84cc3e2ac1d00526fda17a01f17a5d22</li>
+  </ul></li>
   <li>JOE 3.1jupp37 for Windows® (cygwin32 stand-alone compiled; 80486;
    PKzip archive (can be unpacked out of the box from Windows XP onwards,
    or (on 16- and 32-bit systems only) with the shareware version of <a
@@ -399,14 +419,15 @@ $ $SUDO make install</pre>
   separate joe package.</li>
  </ul></li>
  <li id="bdos">jupp 2.x for DOS:<ul>
-  <li>JOE 2.8jupp3+ (snapshot 20180315) for MS-DOS® and Unix: bundle of
+  <li>JOE 2.8jupp3+ (snapshot 20181124) for MS-DOS® and Unix: bundle of
    the <tt>*rc</tt> files, self-extracting LHarc archive. Download:<ul>
     <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JxRC281.EXE">https://www.mirbsd.org/MirOS/dist/jupp/JxRC281.EXE</a></li>
     <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JxRC281.EXE">http://pub.allbsd.org/MirOS/dist/jupp/JxRC281.EXE</a></li>
-    <li>RMD160 (JxRC281.EXE) = 0bd25d33460fc7e57560e23c84a36c6ffa0f4e47</li>
-    <li>TIGER (JxRC281.EXE) = 7783a399ef506782fc9e9fd8b853ceabde5fe3e32c907c00</li>
-    <li>2501944464 42656 /MirOS/dist/jupp/JxRC281.EXE</li>
-    <li>MD5 (JxRC281.EXE) = 4ae88c9c41fd76c3651c7c98bb6ba225</li>
+    <li>SHA256 (JxRC281.EXE) = 7a02bc902f90775d4dd3d19220626a75d0aa115a2d18859fc6303b61268f6904</li>
+    <li>RMD160 (JxRC281.EXE) = 09c49947baa52a1c7e31facc07a11794207e7ab9</li>
+    <li>TIGER (JxRC281.EXE) = 29c8d47e3cdc9f38aa8a2392579adf43a30bfc5434d739bc</li>
+    <li>1022935916 42992 /MirOS/dist/jupp/JxRC281.EXE</li>
+    <li>MD5 (JxRC281.EXE) = d0a15adfd5beda7718c1f25130e32895</li>
   </ul></li>
   <li>JOE 2.8jupp3 (released 20170809) for MS-DOS® (16-bit executable;
    8086 or newer CPU), self-extracting LHarc archive — copy jupprc and
@@ -414,6 +435,7 @@ $ $SUDO make install</pre>
    RAM are currently required in most cases, apparently. Download:<ul>
     <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/JDOS283.EXE">http://www.mirbsd.org/MirOS/dist/jupp/JDOS283.EXE</a></li>
     <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JDOS283.EXE">http://pub.allbsd.org/MirOS/dist/jupp/JDOS283.EXE</a></li>
+    <li>SHA256 (JDOS283.EXE) = e2484d8628a84ffc9f7f1c9f7149be9e03f6262f7eef6935d836adef6631f3bd</li>
     <li>RMD160 (JDOS283.EXE) = 3f23f11b2afa667cd5617b024d8e614837ce1f94</li>
     <li>TIGER (JDOS283.EXE) = d76191398bbd96dc3d432c820378b3d19e74dd9b0b87375c</li>
     <li>719652272 141632 /MirOS/dist/jupp/JDOS283.EXE</li>
