@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.206 2018/09/30 17:56:18 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.211 2018/11/22 04:15:17 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -15877,6 +15877,12 @@ Waypoint: https://labs.geocaching.com/geocaches/details/8a75e35a-8963-4190-bba6-
 LabBanner: CGNdisc-Violetta
 Title: Discover Colonia / English Tourist?
 Tag: Lab
+----
+ID: 2608
+Date: 2018-11-01
+Waypoint: GC6H3EA
+Title: Das (mir) unbekannte Schloß
+Tag: D1 T2 Small Mystery
 ----
 ID: p20181222
 Date: 2018-12-22
