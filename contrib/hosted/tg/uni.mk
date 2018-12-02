@@ -52,7 +52,7 @@ rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.8 2018/08/10 01:47:02 tg Exp $'
 
 mis=0
 chkfile() {
-	[[ -s $1 ]] || return 0
+	[[ ! -s $1 ]] || return 0
 	print -ru2 -- "E: $1 is missing"
 	mis=1
 }
@@ -60,33 +60,36 @@ chkfile EastAsianWidth.txt
 chkfile UnicodeData.txt
 (( mis == 0 )) || exit 1
 
+gen=\$miros${rcsid#?MirOS}
 vsn=$(sed -n '1s/^.*Width-\(.*\)\.txt.*$/\1/p' <EastAsianWidth.txt)
+typeset -Uui16 -Z11 cp
 set -U
 set -A jamo_initial -- G GG N D DD R M B BB S SS '' J JJ C K T P H
 set -A jamo_medial -- A AE YA YAE EO E YEO YE O WA WAE OE YO U WEO WE WI YU EU YI I
 set -A jamo_final -- '' G GG GS N NI NH D L LG LM LB LS LT LP LH \
     M B BS S SS NG J C K T P H
 while IFS= read -r line; do
+	cp=16#${line%%;*}
+	line=${line#*;}
 	if [[ $line != *'<Hangul Syllable, First>'* ]]; then
-		print -r -- "$line"
+		print -r -- "${cp#16#};$line"
 		continue
 	fi
-	typeset -Uui16 -Z7 cdisp=0x${line%%;*}
-	line=${line#*;}
 	line=${line#*;}
 	IFS=';' read -r endcode x
 	let endc=0x$endcode
-	let begc=cdisp--
-	while (( ++cdisp <= endc )); do
-		(( j1 = cdisp - begc ))
+	let begc=cp--
+	while (( ++cp <= endc )); do
+		(( j1 = cp - begc ))
 		(( j3 = j1 % 28 ))
 		(( j1 /= 28 ))
 		(( j2 = j1 % 21 ))
 		(( j1 /= 21 ))
 		n1='HANGUL SYLLABLE '${jamo_initial[j1]}${jamo_medial[j2]}${jamo_final[j3]}
-		print -r -- "${cdisp#16#};$n1;$line"
+		print -r -- "${cp#16#};$n1;$line"
 	done
 done <UnicodeData.txt >JamoData.txt
+sed '/^00010000/,$d' <JamoData.txt >JamoBMP.txt
 
 exec >unidata.htm
 cat <<EOF
@@ -98,14 +101,14 @@ cat <<EOF
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>ISO 10646 (BMP)</title>
  <meta name="RCSId" content="$rcsid" />
- <meta name="generator" content="\$miros${rcsid#?MirOS}" />
+ <meta name="generator" content="$gen" />
 </head><body>
 <h1>The Universal Coded Character Set $vsn (Basic Multilingual Plane)</h1>
 <table style="table-layout:fixed; border:0px; padding:0px;">
 EOF
 td='<td style="width:3em;">'
-sed '/^10000/,$d' <JamoData.txt | while IFS= read -r line; do
-	typeset -i10 x=0x${line::4}
+while IFS= read -r line; do
+	typeset -i10 x=0x${line:4:4}
 	(( x = (x < 32) || (x >= 0x7F && x <= 0x9F) || \
 	    (x >= 0xD800 && x <= 0xDFFF) || \
 	    (x >= 0xEF80 && x <= 0xEFFF) || (x > 0xFFFD) ? 0 : x ))
@@ -114,9 +117,9 @@ sed '/^10000/,$d' <JamoData.txt | while IFS= read -r line; do
 	line=${line//'>'/'&gt;'}
 	y=
 	(( x )) && y="&#$x;"
-	print -r -- "<tr>$td$y</td><td>U+$line</td></tr>"
+	print -r -- "<tr>$td$y</td><td>U+${line:4}</td></tr>"
 	td='<td>'
-done
+done <JamoBMP.txt
 print -r -- '</table>'
 print -r -- '</body></html>'
 
@@ -129,8 +132,8 @@ done
 print -r -- "The Universal Coded Character Set $vsn Basic Multilingual Plane"
 print -r -- "==================================$asn========================="
 print
-sed '/^10000/,$d' <JamoData.txt | while IFS= read -r line; do
-	typeset -Uui16 -Z7 x=0x${line::4}
+while IFS= read -r line; do
+	typeset -Uui16 -Z7 x=0x${line:4:4}
 	typeset -i1 j
 	(( j = (x < 32) || (x >= 0xD800 && x <= 0xDFFF) || \
 	    (x >= 0xEF80 && x <= 0xEFFF) || (x > 0xFFFD) ? 1 : x ))
@@ -149,22 +152,23 @@ sed '/^10000/,$d' <JamoData.txt | while IFS= read -r line; do
 		print -u2 Fatal $k $n
 		exit 1
 	fi
-	print -r -- " ${line:5}"
-done
+	print -r -- " ${line:9}"
+done <JamoBMP.txt
 print
 print _______________________________________________________________________
 print -r -- "$rcsid"
+print -r -- "$gen"
 
 exec >uni_smp.txt
 exec 4>uni_acronyms
-print -ru4 -- " From miros${rcsid#?MirOS}"
+print -ru4 -- " From ${gen#?}"
 print -ru4 -- " From ucd: $vsn"
 print -r -- "The Universal Coded Character Set $vsn (all planes)"
 print -r -- "==================================$asn============="
 print
 typeset -i1 j
 while IFS= read -r line; do
-	typeset -Uui16 -Z11 wi=0x${line%%;*}
+	typeset -Uui16 -Z11 wi=0x${line::8}
 	if (( wi < 0x10000 )); then
 		typeset -Uui16 -Z7 x=wi
 		(( j = (x < 32) || (x >= 0xD800 && x <= 0xDFFF) || \
@@ -207,12 +211,14 @@ while IFS= read -r line; do
 		set -U
 		aO+=') '
 	fi
-	print -r -- "${line#*;}"
-	print -ru4 -- "$aO${line#*;}"
+	line=${line:9}
+	print -r -- "$line"
+	print -ru4 -- "$aO$line"
 done <JamoData.txt
 print
 print ______________________________________________________________________
 print -r -- "$rcsid"
+print -r -- "$gen"
 exec 4>&-
 
 exec >utf-8
@@ -223,7 +229,7 @@ while (( eqlen-- )); do
 done
 cat <<EOF
 ┋ $rcsid
-┋ \$miros${rcsid#?MirOS}
+┋ $gen
 
 The Universal Coded Character Set $vsn Basic Multilingual Plane
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄$asn┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
