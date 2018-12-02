@@ -88,6 +88,7 @@ cat <<EOF
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>ISO 10646 (BMP)</title>
  <meta name="RCSId" content="$rcsid" />
+ <meta name="generator" content="\$miros${rcsid#?MirOS}" />
 </head><body>
 <h1>The Universal Coded Character Set $vsn (Basic Multilingual Plane)</h1>
 <table style="table-layout:fixed; border:0px; padding:0px;">
