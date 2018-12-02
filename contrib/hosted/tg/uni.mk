@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.15 2018/12/02 08:05:05 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.16 2018/12/02 08:05:27 tg Exp $'
 #-
 # Copyright © 2017, 2018
 #	mirabilos <m@mirbsd.org>
@@ -384,7 +384,8 @@ Valid octet sequences for UTF-8/CESU-8:
 •    F0 90‥BF 80‥BF 80‥BF	(astral planes)
 • F1‥F3 80‥BF 80‥BF 80‥BF	(   "     "   )
 •    F4 80‥8F 80‥BF 80‥BF	(   "     "   )
-Surrogates: (H = D800‥DBFF, L = DC00‥DFFF) ⇒ (((H & 0x03FF) << 10) | (L & 0x03FF) + 0x10000)
+Surrogates: (H = D800‥DBFF, L = DC00‥DFFF) ⇒
+ (((H & 0x03FF) << 10) | (L & 0x03FF) + 0x10000)
 UTF-8: Exclude ED followed by A0‥BF (surrogates).
 CESU-8: Exclude astral planes; ensure valid surrogates.
 OPTU-8: Exclude astral planes and EE followed by BE‥BF.
@@ -392,5 +393,6 @@ EOF
 # Note the above are also manually synchronised (UTF-8/CESU-8/OPTU-8)
 
 exec >&2
+rm JamoData.txt JamoBMP.txt
 done_progress_bar
 print -ru2 -- All OK.
