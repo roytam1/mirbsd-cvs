@@ -305,6 +305,10 @@ way with cut buffers or keep the selection active in
 the source window during pasting; alternatively, use
 an editor like jupp: http://www.mirbsd.org/jupp.htm
 ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+EOF
+# NOTE: these are manually synchronised with acronyms,v
+# specifically: KAPITÄLCHEN, SCRIPT, SUBSCRIPT, SUPERSCRIPT
+cat <<EOF
 
 s̲̲u̲p̲e̲r̲s̲c̲r̲i̲p̲t̲,̲ ̲s̲u̲b̲s̲c̲r̲i̲p̲t̲,̲ ̲K̲a̲p̲i̲t̲ä̲l̲c̲h̲e̲n̲ ̲a̲n̲d̲ ̲o̲t̲h̲e̲r̲ ̲s̲c̲r̲i̲p̲t̲
 
@@ -384,6 +388,7 @@ UTF-8: Exclude ED followed by A0‥BF (surrogates).
 CESU-8: Exclude astral planes; ensure valid surrogates.
 OPTU-8: Exclude astral planes and EE followed by BE‥BF.
 EOF
+# Note the above are also manually synchronised (UTF-8/CESU-8/OPTU-8)
 
 exec >&2
 done_progress_bar
