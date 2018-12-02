@@ -58,23 +58,46 @@ chkfile() {
 }
 chkfile EastAsianWidth.txt
 chkfile UnicodeData.txt
+chkfile Unihan_Readings.txt
 (( mis == 0 )) || exit 1
+
+. "$(dirname "$0")/progress-bar"
+
+fgrep kDefinition Unihan_Readings.txt >JamoBMP.txt
+Pucd=$(wc -l <UnicodeData.txt)
+(( Pbmp = Pucd * 2 / 3 ))
+Phan=$(wc -l <JamoBMP.txt)
+Pjamo=11172
+(( Pbmp = Pucd / 2 + Phan + Pjamo ))
+(( Pucd += Phan + Pjamo ))
+Psort=10001
+Pgrep=5001
+Puni=3957
+init_progress_bar $((Pucd + Psort + Pgrep + Pbmp*2 + Pucd + Puni))
 
 gen=\$miros${rcsid#?MirOS}
 vsn=$(sed -n '1s/^.*Width-\(.*\)\.txt.*$/\1/p' <EastAsianWidth.txt)
+vun=$(sed -n '/^# Unicode version: /{s///p;q;}' <Unihan_Readings.txt)
+if [[ $vun != "$vsn" ]]; then
+	print -ru2 "E: UCD and Unihan versions differ!"
+	exit 1
+fi
 typeset -Uui16 -Z11 cp
 set -U
 set -A jamo_initial -- G GG N D DD R M B BB S SS '' J JJ C K T P H
 set -A jamo_medial -- A AE YA YAE EO E YEO YE O WA WAE OE YO U WEO WE WI YU EU YI I
 set -A jamo_final -- '' G GG GS N NI NH D L LG LM LB LS LT LP LH \
     M B BS S SS NG J C K T P H
+print -ru2 -- "I: reading UCD"
 while IFS= read -r line; do
 	cp=16#${line%%;*}
 	line=${line#*;}
 	if [[ $line != *'<Hangul Syllable, First>'* ]]; then
 		print -r -- "${cp#16#};$line"
+		draw_progress_bar
 		continue
 	fi
+	print -ru2 -- "I: generating Jamo"
 	line=${line#*;}
 	IFS=';' read -r endcode x
 	let endc=0x$endcode
@@ -87,10 +110,32 @@ while IFS= read -r line; do
 		(( j1 /= 21 ))
 		n1='HANGUL SYLLABLE '${jamo_initial[j1]}${jamo_medial[j2]}${jamo_final[j3]}
 		print -r -- "${cp#16#};$n1;$line"
+		draw_progress_bar
 	done
+	print -ru2 -- "I: back to UCD"
 done <UnicodeData.txt >JamoData.txt
-sed '/^00010000/,$d' <JamoData.txt >JamoBMP.txt
 
+print -ru2 -- "I: reading CJK"
+while IFS='	' read u k d; do
+	[[ $k = kDefinition ]] || continue
+	[[ $u = U[+-]+([0-9A-F]) ]] || continue
+	cp=16#${u#U?}
+	print -r -- "${cp#16#};[UkD] $d"
+	draw_progress_bar
+done <JamoBMP.txt >>JamoData.txt
+print -ru2 -- "I: sorting data"
+sort -o JamoData.txt JamoData.txt
+let _cur_progress_bar+=Psort-1; draw_progress_bar
+sed '/^00010000/,$d' <JamoData.txt >JamoBMP.txt
+let _cur_progress_bar+=Pgrep-1; draw_progress_bar
+
+Pucd=$(wc -l <JamoData.txt)
+Pbmp=$(wc -l <JamoBMP.txt)
+Phan=0
+Pjamo=0
+redo_progress_bar $((Pucd + Psort + Pgrep + Pbmp*2 + Pucd + Puni))
+
+print -ru2 -- "I: generating HTML"
 exec >unidata.htm
 cat <<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -119,10 +164,12 @@ while IFS= read -r line; do
 	(( x )) && y="&#$x;"
 	print -r -- "<tr>$td$y</td><td>U+${line:4}</td></tr>"
 	td='<td>'
+	draw_progress_bar
 done <JamoBMP.txt
 print -r -- '</table>'
 print -r -- '</body></html>'
 
+print -ru2 -- "I: generating BMP"
 exec >unidata.txt
 asn=
 eqlen=${%vsn}
@@ -153,12 +200,14 @@ while IFS= read -r line; do
 		exit 1
 	fi
 	print -r -- " ${line:9}"
+	draw_progress_bar
 done <JamoBMP.txt
 print
 print _______________________________________________________________________
 print -r -- "$rcsid"
 print -r -- "$gen"
 
+print -ru2 -- "I: generating SMP"
 exec >uni_smp.txt
 exec 4>uni_acronyms
 print -ru4 -- " From ${gen#?}"
@@ -214,6 +263,7 @@ while IFS= read -r line; do
 	line=${line:9}
 	print -r -- "$line"
 	print -ru4 -- "$aO$line"
+	draw_progress_bar
 done <JamoData.txt
 print
 print ______________________________________________________________________
@@ -221,6 +271,7 @@ print -r -- "$rcsid"
 print -r -- "$gen"
 exec 4>&-
 
+print -ru2 -- "I: generating U"
 exec >utf-8
 asn=
 eqlen=${%vsn}
@@ -314,6 +365,7 @@ while (( (k = j = ++i) <= 0xFFFD )); do
 		print " ┃ ${k#16} ╽"
 	elif (( l == 15 )); then
 		print " ┃ ${k#16} ╿"
+		draw_progress_bar
 	fi
 done
 cat <<\EOF
@@ -334,4 +386,5 @@ OPTU-8: Exclude astral planes and EE followed by BE‥BF.
 EOF
 
 exec >&2
-echo All OK.
+done_progress_bar
+print -ru2 -- All OK.
