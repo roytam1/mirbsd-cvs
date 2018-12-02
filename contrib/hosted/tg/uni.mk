@@ -50,6 +50,16 @@ rcsid='$MirOS: contrib/hosted/tg/uni.mk,v 1.8 2018/08/10 01:47:02 tg Exp $'
 # use or other dealings in these Data Files or Software without
 # prior written authorization of the copyright holder.
 
+mis=0
+chkfile() {
+	[[ -s $1 ]] || return 0
+	print -ru2 -- "E: $1 is missing"
+	mis=1
+}
+chkfile EastAsianWidth.txt
+chkfile UnicodeData.txt
+(( mis == 0 )) || exit 1
+
 vsn=$(sed -n '1s/^.*Width-\(.*\)\.txt.*$/\1/p' <EastAsianWidth.txt)
 set -U
 set -A jamo_initial -- G GG N D DD R M B BB S SS '' J JJ C K T P H
