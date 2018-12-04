@@ -1,8 +1,8 @@
 #!/bin/mksh
 # $MirOS: contrib/hosted/tg/sdmksh,v 1.1 2012/10/21 16:38:04 tg Exp $
 #-
-# Copyright © 2012
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2012, 2018
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -64,9 +64,9 @@ cat >"$T/.scfg" <<-EOF
 	deflogin off
 	shell "/bin/mksh"
 	shelltitle -
-	hardstatus alwayslastline "%{kr} sdmksh@%H %{ky} %l %{kg} %0c:%s %{=b by} %=%?%-w%?[%n%f %t]%?%+w%? "
 	defscrollback 16384
 	escape ^Oo
+	hardstatus alwayslastline "%{wm}O %{kr} %H %{ky} %l %{kg} %D %Y-%m-%d %0c:%s %{=b kb} sdmksh %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 	logfile "sdmkshlog.%n"
 	screen -t Log$sessname 0 "$T/.runlog"
 	split
