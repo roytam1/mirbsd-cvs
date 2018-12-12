@@ -418,6 +418,7 @@ ac_flags() {
 			#include <unistd.h>
 			int main(void) { return (isatty(0)); }
 		EOF
+		#'
 	fi
 	eval fv=\$HAVE_CAN_`upper $vn`
 	if test -n "$fl"; then
