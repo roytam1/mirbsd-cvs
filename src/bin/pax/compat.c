@@ -20,9 +20,9 @@
 
 #include <unistd.h>
 
-#include "pax.h"
+#include "compat.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/bin/pax/compat.c,v 1.1.2.1 2018/12/12 03:13:30 tg Exp $");
 
 #if !HAVE_DPRINTF
 /* replacement only as powerful as needed for this */
