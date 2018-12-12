@@ -36,6 +36,10 @@
  *	@(#)cpio.h	8.1 (Berkeley) 5/31/93
  */
 
+#ifdef EXTERN
+__IDSTRING(rcsid_cpio_h, "$MirOS: src/bin/mksh/sh.h,v 1.868 2018/12/04 21:13:47 tg Exp $");
+#endif
+
 /*
  * Defines common to all versions of cpio
  */

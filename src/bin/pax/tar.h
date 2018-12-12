@@ -36,6 +36,10 @@
  *	@(#)tar.h	8.2 (Berkeley) 4/18/94
  */
 
+#ifdef EXTERN
+__IDSTRING(rcsid_tar_h, "$MirOS: src/bin/mksh/sh.h,v 1.868 2018/12/04 21:13:47 tg Exp $");
+#endif
+
 /*
  * defines and data structures common to all tar formats
  */
