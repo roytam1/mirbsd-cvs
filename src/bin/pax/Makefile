@@ -24,6 +24,7 @@ CPPFLAGS+= -DLONG_OFF_T
 .endif
 
 .if (${MACHINE_OS} == "GNU") || (${MACHINE_OS} == "Linux")
+CPPFLAGS+= -DHAVE_FCHMODAT # probably
 CPPFLAGS+= -DHAVE_LINKAT # probably
 CPPFLAGS+= -DHAVE_SYS_SYSMACROS_H # probably
 .endif
