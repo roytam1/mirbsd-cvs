@@ -1542,7 +1542,7 @@ EOF
 
 ac_test lchmod '!' fchmodat 0 <<-'EOF'
 	#include <sys/types.h>
-	#include <unistd.h>
+	#include <sys/stat.h>
 	int main(void) { return (lchmod(".", 0)); }
 EOF
 
