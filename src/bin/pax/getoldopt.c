@@ -10,12 +10,15 @@
  * in the Public Domain for your edification and enjoyment.
  */
 
-#include <sys/param.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
 #include <string.h>
-#include <time.h>
+#if HAVE_STRINGS_H
+#include <strings.h>
+#endif
 #include <unistd.h>
+
 #include "pax.h"
 #include "extern.h"
 
