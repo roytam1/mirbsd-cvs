@@ -33,7 +33,7 @@
 #define PAX_JUST_THE_WARNINGS
 #include "extern.h"
 
-__RCSID("$MirOS: src/bin/pax/compat.c,v 1.1.2.5 2018/12/12 15:00:24 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/compat.c,v 1.1.2.6 2018/12/12 15:38:31 tg Exp $");
 
 int
 binopen3(int features, const char *path, int flags, mode_t mode)
@@ -89,7 +89,7 @@ dwrite(int fd, const void *data, size_t size)
 #if !HAVE_DPRINTF
 /* replacement only as powerful as needed for this */
 void
-dprintf(int fd, const char *fmt, ...)
+dprintf(int fd, const char *fmt MKSH_A_UNUSED, ...)
 {
 	write(fd, "\nERROR: dprintf not yet implemented!\n", 37);
 }
