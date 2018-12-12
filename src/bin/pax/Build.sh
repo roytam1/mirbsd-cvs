@@ -1505,6 +1505,27 @@ ac_test dprintf <<-'EOF'
 	int main(void) { return (dprintf(1, "hi\n")); }
 EOF
 
+ac_test futimens <<-'EOF'
+	#include <sys/types.h>
+	#include <sys/stat.h>
+	#include <fcntl.h>
+	struct timespec ts[2] = {{0L, 0L}, {0L, 0L}};
+	int main(void) { return (futimens(0, ts)); }
+EOF
+
+ac_test futimes '!' futimens 0 <<-'EOF'
+	#include <sys/time.h>
+	struct timeval tv[2] = {{0L, 0L}, {0L, 0L}};
+	int main(void) { return (futimens(0, tv)); }
+EOF
+
+ac_test linkat <<-'EOF'
+	#include <fcntl.h>
+	#include <unistd.h>
+	int main(int ac, char **av) { return (linkat(AT_FDCWD, av[1],
+	    AT_FDCWD, av[2], ac)); }
+EOF
+
 ac_test pledge <<-'EOF'
 	#include <unistd.h>
 	int main(void) { return (pledge("", "")); }
