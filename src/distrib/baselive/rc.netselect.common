@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.21 2010/07/11 17:35:08 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.22 2013/09/11 18:43:50 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008, 2010, 2013
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -94,8 +94,6 @@ function set_hostname {
 	typeset -Uui36 rndval=$(date +%s)
 	typeset -i1 x=RANDOM
 	rndpfx=${rndval#36#}
-	RANDOM=$(dd if=/dev/prandom bs=4 count=1 2>&- | hexdump -ve '1/4 "%u"')
-	print -nr "${x#1#}" >/dev/arandom
 	RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -ve '1/4 "%u"')
 	while (( ${#rndpfx} < 36 )); do
 		typeset -Uui36 'rndval=( (RANDOM << 15 | RANDOM) % 60466176)'
@@ -167,8 +165,8 @@ function do_shell {
 		oldIFS=$IFS; IFS=:
 		set -A p -- $(grep ^root: /etc/master.passwd | head -1)
 		IFS=$oldIFS
-		print "DEBUG: ${p[1]}"
-		print Gimme a root password, please.
+		#print "DEBUG: ${p[1]}"
+		print Give me a root password, please.
 		if [[ ${p[1]} != $(/usr/bin/encrypt -pS "${p[1]}") ]]; then
 			print root login failed.
 			continue

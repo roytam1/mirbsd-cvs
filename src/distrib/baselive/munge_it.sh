@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.49 2013/11/30 13:45:21 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.50 2014/11/16 12:16:27 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008, 2013, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -69,16 +69,9 @@ ed -s etc/master.passwd <<-'EOMD'
 	.
 	wq
 EOMD
-ed -s etc/ntpd.conf <<-'EOMD'
-	/^.server /d
-	i
-		server ntp.mirbsd.org
-	.
-	wq
-EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.49 2013/11/30 13:45:21 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.50 2014/11/16 12:16:27 tg Exp $
 	.
 	/early munge point/d
 	i
