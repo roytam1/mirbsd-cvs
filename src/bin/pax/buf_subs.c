@@ -499,7 +499,7 @@ wr_fin(void)
  */
 
 int
-wr_rdbuf(char *out, int outcnt)
+wr_rdbuf(const char *out, int outcnt)
 {
 	int cnt;
 
