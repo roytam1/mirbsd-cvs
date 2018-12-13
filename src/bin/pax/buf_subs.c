@@ -374,7 +374,7 @@ rd_sync(void)
  */
 
 void
-pback(char *pt, int cnt)
+pback(const char *pt, int cnt)
 {
 	bufpt -= cnt;
 	memcpy(bufpt, pt, cnt);
