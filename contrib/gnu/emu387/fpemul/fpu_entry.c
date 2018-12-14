@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: contrib/gnu/emu387/fpemul/fpu_entry.c,v 1.2 2018/12/14 21:28:03 tg Exp $ */
 /*	$OpenBSD: fpu_entry.c,v 1.5 2003/07/31 17:41:56 jason Exp $	*/
 /*
  *  fpu_entry.c
@@ -217,7 +217,7 @@ math_emulate(struct trapframe * tframe)
 	if ((curproc->p_md.md_flags & MDP_USEDFPU) == 0) {
 		curproc->p_md.md_flags |= MDP_USEDFPU;
 		finit();
-		control_word = __INITIAL_NPXCW__;
+		control_word = __NPXCW__;
 	}
 
 	FPU_info = tframe;
