@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: contrib/gnu/emu387/fpemul/errors.c,v 1.2 2018/12/14 21:28:02 tg Exp $ */
 /*	$OpenBSD: errors.c,v 1.4 2003/08/08 04:21:44 jason Exp $	*/
 /*
  *  errors.c
@@ -102,7 +102,7 @@ Un_impl(void)
 	copyin((u_char *)FPU_ORIG_EIP, &byte1, sizeof(u_char));
 	copyin((u_char *)FPU_ORIG_EIP + 1, &FPU_modrm, sizeof(u_char));
 
-	printf("Unimplemented FPU Opcode at eip=%p : %02x ",
+	printf("Unimplemented FPU Opcode at eip=0x%08X : %02X ",
 	    FPU_ORIG_EIP, byte1);
 
 	if (FPU_modrm >= 0300)
