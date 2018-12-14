@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/isa/npx.c,v 1.5 2018/12/14 21:28:10 tg Exp $ */
 /*	$OpenBSD: npx.c,v 1.40.2.1 2006/11/15 03:06:15 brad Exp $	*/
 /*	$NetBSD: npx.c,v 1.57 1996/05/12 23:12:24 mycroft Exp $	*/
 
@@ -9,6 +9,7 @@
 #endif
 
 /*-
+ * Copyright (c) 2018 mirabilos <thorsten.glaser@teckids.org>
  * Copyright (c) 1994, 1995 Charles M. Hannum.  All rights reserved.
  * Copyright (c) 1990 William Jolitz.
  * Copyright (c) 1991 The Regents of the University of California.
@@ -230,7 +231,7 @@ npxprobe1(ia)
 		/*
 		 * Good, now check for a proper control word.
 		 */
-		control = 0x5a5a;	
+		control = 0x5a5a;
 		fnstcw(&control);
 		if ((control & 0x1f3f) == 0x033f) {
 			/*
@@ -389,8 +390,11 @@ npxattach(parent, self, aux)
 	case NPX_BROKEN:
 		printf(": error reporting broken; not using\n");
 		npx_type = NPX_NONE;
-		return;
+		/* FALLTHROUGH */
 	case NPX_NONE:
+#ifdef GPL_MATH_EMULATE
+		npxdna_func = npxdna_s87;
+#endif
 		return;
 	}
 
