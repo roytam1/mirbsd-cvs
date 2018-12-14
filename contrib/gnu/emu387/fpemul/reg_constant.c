@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: reg_constant.c,v 1.2 2003/07/30 21:30:31 jason Exp $	*/
 /*
  *  reg_constant.c
@@ -70,10 +71,10 @@
 #include <machine/cpu.h>
 #include <machine/pcb.h>
 
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
-#include <gnu/arch/i386/fpemul/fpu_system.h>
-#include <gnu/arch/i386/fpemul/status_w.h>
-#include <gnu/arch/i386/fpemul/reg_constant.h>
+#include <fpemul/fpu_emu.h>
+#include <fpemul/fpu_system.h>
+#include <fpemul/status_w.h>
+#include <fpemul/reg_constant.h>
 
 
 FPU_REG CONST_1 = {SIGN_POS, TW_Valid, EXP_BIAS,

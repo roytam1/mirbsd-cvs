@@ -1,4 +1,5 @@
 	.file	"wm_shrx.S"
+/**	$MirOS$ */
 /*	$OpenBSD: wm_shrx.s,v 1.2 2002/10/12 07:12:59 pvalchev Exp $	*/
 /*
  *  wm_shrx.S
@@ -70,7 +71,7 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
+#include <fpemul/fpu_asm.h>
 
 .text
 #ifdef __ELF__

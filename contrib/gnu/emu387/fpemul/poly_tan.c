@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: poly_tan.c,v 1.1 1996/08/27 10:32:55 downsj Exp $	*/
 /*
  *  poly_tan.c
@@ -61,10 +62,10 @@
  *
  */
 
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/reg_constant.h>
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
+#include <fpemul/exception.h>
+#include <fpemul/reg_constant.h>
+#include <fpemul/fpu_emu.h>
+#include <fpemul/control_w.h>
 
 
 #define	HIPOWERop	3	/* odd poly, positive terms */

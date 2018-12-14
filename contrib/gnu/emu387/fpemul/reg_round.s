@@ -1,4 +1,5 @@
 	.file "reg_round.S"
+/**	$MirOS$ */
 /*	$OpenBSD: reg_round.s,v 1.4 2004/01/13 18:08:48 espie Exp $	*/
 /*
  *  reg_round.S
@@ -121,9 +122,9 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
+#include <fpemul/fpu_asm.h>
+#include <fpemul/exception.h>
+#include <fpemul/control_w.h>
 
 #define	LOST_DOWN	$1
 #define	LOST_UP		$2

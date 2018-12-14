@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: reg_constant.h,v 1.1 1996/08/27 10:32:58 downsj Exp $	*/
 /*
  *  reg_constant.h
@@ -62,7 +63,7 @@
 #ifndef _REG_CONSTANT_H_
 #define _REG_CONSTANT_H_
 
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
+#include <fpemul/fpu_emu.h>
 
 extern FPU_REG CONST_1;
 extern FPU_REG CONST_2;

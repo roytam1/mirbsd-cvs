@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: npx.h,v 1.6 2004/02/01 19:05:23 deraadt Exp $	*/
 /*	$NetBSD: npx.h,v 1.11 1994/10/27 04:16:11 cgd Exp $	*/
 
@@ -74,6 +75,10 @@ struct	fpacc87 {
 #endif
 };
 
+#ifdef GPL_MATH_EMULATE
+#include <fpemul/math_emu.h>
+#endif
+
 /* Floating point and emulator context */
 struct	save87 {
 	struct	env87 sv_env;		/* floating point control/status */
@@ -124,7 +129,11 @@ struct savexmm {
 union savefpu {
 	struct save87 sv_87;
 	struct savexmm sv_xmm;
+#ifdef GPL_MATH_EMULATE
+	union i387_union gplemu;
+#else
 	u_char emupad[176];		/* sizeof(i387_union) */
+#endif
 };
 
 /* Cyrix EMC memory - mapped coprocessor context switch information */

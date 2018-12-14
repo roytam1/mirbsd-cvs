@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.10 2009/03/01 11:58:32 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.11 2010/07/25 16:37:59 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
@@ -251,6 +251,11 @@ void	npxsave(void);
 extern int user_ldt_enable;
 int	i386_get_ldt(struct proc *, void *, register_t *);
 int	i386_set_ldt(struct proc *, void *, register_t *);
+#endif
+
+#if defined(GPL_MATH_EMULATE)
+/* contrib/gnu/emu387/fpemul/math_emulate.c */
+int	math_emulate(struct trapframe *);
 #endif
 
 /* isa_machdep.c */

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: fpu_asm.h,v 1.2 2002/10/12 07:12:58 pvalchev Exp $	*/
 /*
  *  fpu_asm.h
@@ -62,7 +63,7 @@
 #ifndef _FPU_ASM_H_
 #define _FPU_ASM_H_
 
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
+#include <fpemul/fpu_emu.h>
 
 #define	EXCEPTION	_C_LABEL(exception)
 

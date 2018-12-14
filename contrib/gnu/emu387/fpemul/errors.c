@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: errors.c,v 1.4 2003/08/08 04:21:44 jason Exp $	*/
 /*
  *  errors.c
@@ -79,13 +80,13 @@
 #include <machine/cpu.h>
 #include <machine/pcb.h>
 
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
-#include <gnu/arch/i386/fpemul/fpu_system.h>
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/status_w.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
-#include <gnu/arch/i386/fpemul/reg_constant.h>
-#include <gnu/arch/i386/fpemul/version.h>
+#include <fpemul/fpu_emu.h>
+#include <fpemul/fpu_system.h>
+#include <fpemul/exception.h>
+#include <fpemul/status_w.h>
+#include <fpemul/control_w.h>
+#include <fpemul/reg_constant.h>
+#include <fpemul/version.h>
 
 /* */
 #undef PRINT_MESSAGES

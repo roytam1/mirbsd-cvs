@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: fpu_trig.c,v 1.3 2005/11/19 01:59:37 aaron Exp $	*/
 /*
  *  fpu_trig.c
@@ -68,12 +69,12 @@
 #include <machine/cpu.h>
 #include <machine/pcb.h>
 
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
-#include <gnu/arch/i386/fpemul/fpu_system.h>
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/status_w.h>
-#include <gnu/arch/i386/fpemul/reg_constant.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
+#include <fpemul/fpu_emu.h>
+#include <fpemul/fpu_system.h>
+#include <fpemul/exception.h>
+#include <fpemul/status_w.h>
+#include <fpemul/reg_constant.h>
+#include <fpemul/control_w.h>
 
 static void convert_l2reg(long *arg, FPU_REG * dest);
 

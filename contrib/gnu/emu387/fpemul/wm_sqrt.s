@@ -1,4 +1,5 @@
 	.file	"wm_sqrt.S"
+/**	$MirOS$ */
 /*	$OpenBSD: wm_sqrt.s,v 1.4 2004/01/13 18:08:48 espie Exp $	*/
 /*
  *  wm_sqrt.S
@@ -80,8 +81,8 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
+#include <fpemul/exception.h>
+#include <fpemul/fpu_asm.h>
 
 
 .data
@@ -440,7 +441,7 @@ sqrt_near_exact_small:
 /* Our estimate is too small*/
 	movl	$0x000000ff,%eax
 	jmp	sqrt_round_result
-	
+
 sqrt_near_exact_large:
 /* Our estimate is too large, we need to decrement it*/
 	subl	$1,%edi
@@ -500,7 +501,7 @@ sqrt_more_prec_small:
 /* Our estimate is too small*/
 	movl	$0x800000ff,%eax
 	jmp	sqrt_round_result
-	
+
 sqrt_more_prec_large:
 /* Our estimate is too large*/
 	movl	$0x7fffff00,%eax

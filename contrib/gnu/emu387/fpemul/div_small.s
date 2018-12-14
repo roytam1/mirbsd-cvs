@@ -1,4 +1,5 @@
 	.file	"div_small.S"
+/**	$MirOS$ */
 /*	$OpenBSD: div_small.s,v 1.2 2002/10/12 07:12:58 pvalchev Exp $	*/
 /*
  *  div_small.S
@@ -57,7 +58,7 @@
  *
  * W. Metzenthen   June 1994.
  *
- * 
+ *
  *     $FreeBSD: div_small.s,v 1.3 1994/06/10 07:44:08 rich Exp $
  *
  */
@@ -68,7 +69,7 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
+#include <fpemul/fpu_asm.h>
 
 .text
 #ifdef __ELF__
@@ -105,4 +106,3 @@ _C_LABEL(div_small):
 
 	leave
 	ret
-

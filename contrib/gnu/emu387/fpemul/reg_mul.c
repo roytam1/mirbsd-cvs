@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: reg_mul.c,v 1.1 1996/08/27 10:33:00 downsj Exp $	*/
 /*
  *  reg_mul.c
@@ -65,10 +66,10 @@
  | The destination may be any FPU_REG, including one of the source FPU_REGs. |
  +---------------------------------------------------------------------------*/
 
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/reg_constant.h>
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
-#include <gnu/arch/i386/fpemul/fpu_system.h>
+#include <fpemul/exception.h>
+#include <fpemul/reg_constant.h>
+#include <fpemul/fpu_emu.h>
+#include <fpemul/fpu_system.h>
 
 
 /* This routine must be called with non-empty source registers */

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: reg_compare.c,v 1.2 2003/07/30 21:30:31 jason Exp $	*/
 /*
  *  reg_compare.c
@@ -71,11 +72,11 @@
 #include <machine/cpu.h>
 #include <machine/pcb.h>
 
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
-#include <gnu/arch/i386/fpemul/fpu_system.h>
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
-#include <gnu/arch/i386/fpemul/status_w.h>
+#include <fpemul/fpu_emu.h>
+#include <fpemul/fpu_system.h>
+#include <fpemul/exception.h>
+#include <fpemul/control_w.h>
+#include <fpemul/status_w.h>
 
 
 int

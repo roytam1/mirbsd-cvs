@@ -1,4 +1,5 @@
 	.file	"reg_u_sub.S"
+/**	$MirOS$ */
 /*	$OpenBSD: reg_u_sub.s,v 1.3 2004/01/13 18:08:48 espie Exp $	*/
 /*
  *  reg_u_sub.S
@@ -79,9 +80,9 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
+#include <fpemul/exception.h>
+#include <fpemul/fpu_asm.h>
+#include <fpemul/control_w.h>
 
 .text
 #ifdef __ELF__
@@ -263,7 +264,7 @@ L_subtr:
 /*	 A rare case, the only one which is non-zero if we got here
 //         is:           1000000 .... 0000
 //                      -0111111 .... 1111 1
-//                       -------------------- 
+//                       --------------------
 //                       0000000 .... 0000 1  */
 
 	cmpl	$0x80000000,%edx
@@ -365,4 +366,3 @@ L_underflow:
 	call	_C_LABEL(arith_underflow)
 	pop	%ebx
 	jmp	L_exit
-

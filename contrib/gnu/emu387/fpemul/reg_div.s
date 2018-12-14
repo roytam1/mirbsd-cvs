@@ -1,4 +1,5 @@
 	.file	"reg_div.S"
+/**	$MirOS$ */
 /*	$OpenBSD: reg_div.s,v 1.5 2004/01/13 18:08:48 espie Exp $	*/
 /*
  *  reg_div.S
@@ -60,16 +61,16 @@
  *
  * W. Metzenthen   June 1994.
  *
- * 
+ *
  *      $FreeBSD: reg_div.s,v 1.3 1994/06/10 07:44:50 rich Exp $
  *
  */
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
+#include <fpemul/exception.h>
+#include <fpemul/fpu_asm.h>
+#include <fpemul/control_w.h>
 
 .text
 #ifdef __ELF__

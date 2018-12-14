@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: exception.h,v 1.1 1996/08/27 10:32:43 downsj Exp $	*/
 /*
  *  exception.h
@@ -71,7 +72,7 @@
 #endif
 
 #ifndef SW_C1
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
+#include <fpemul/fpu_emu.h>
 #endif				/* SW_C1 */
 
 #define FPU_BUSY        Const_(0x8000)	/* FPU busy bit (8087 compatibility) */

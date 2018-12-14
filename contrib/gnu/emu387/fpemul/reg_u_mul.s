@@ -1,4 +1,5 @@
 	.file	"reg_u_mul.S"
+/**	$MirOS$ */
 /*	$OpenBSD: reg_u_mul.s,v 1.3 2004/01/13 18:08:48 espie Exp $	*/
 /*
  *  reg_u_mul.S
@@ -74,9 +75,9 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
+#include <fpemul/exception.h>
+#include <fpemul/fpu_asm.h>
+#include <fpemul/control_w.h>
 
 
 .data
@@ -207,4 +208,3 @@ L_exit:
 	leave
 	ret
 #endif /* PARANOID */
-

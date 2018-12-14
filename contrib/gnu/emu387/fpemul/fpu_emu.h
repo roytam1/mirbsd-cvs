@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: fpu_emu.h,v 1.1 1996/08/27 10:32:46 downsj Exp $	*/
 /*
  *  fpu_emu.h
@@ -81,7 +82,7 @@
 #define PECULIAR_486
 
 #ifdef _LOCORE
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
+#include <fpemul/fpu_asm.h>
 #define	Const(x)	$/**/x
 #else
 #define	Const(x)	x
@@ -110,7 +111,7 @@
 #ifndef _LOCORE
 
 #include <sys/types.h>
-#include <gnu/arch/i386/fpemul/math_emu.h>
+#include <fpemul/math_emu.h>
 
 #ifdef PARANOID
 extern char emulating;
@@ -181,7 +182,7 @@ polynomial(unsigned accum[], unsigned x[],
             unsigned int control_w);
 
 #ifndef MAKING_PROTO
-#include <gnu/arch/i386/fpemul/fpu_proto.h>
+#include <fpemul/fpu_proto.h>
 #endif
 
 #endif				/* _LOCORE */

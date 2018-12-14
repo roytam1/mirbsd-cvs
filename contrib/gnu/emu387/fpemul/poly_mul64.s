@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: poly_mul64.s,v 1.2 2002/10/12 07:12:58 pvalchev Exp $	*/
 /*
  *  poly_mul64.S
@@ -67,7 +68,7 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
+#include <fpemul/fpu_asm.h>
 
 .text
 #ifdef __ELF__

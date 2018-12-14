@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: polynomial.s,v 1.3 2004/01/13 18:08:48 espie Exp $	*/
 /*
  *  polynomial.S
@@ -73,7 +74,7 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
+#include <fpemul/fpu_asm.h>
 
 
 /*	#define	EXTRA_PRECISE*/
@@ -108,7 +109,7 @@ _C_LABEL(polynomial):
 	movl	4(%ebx,%ecx,1),%edx	/* terms[n] */
 	movl	%edx,-20(%ebp)
 	movl	(%ebx,%ecx,1),%edx	/* terms[n] */
-	movl	%edx,-24(%ebp)		
+	movl	%edx,-24(%ebp)
 	xor	%eax,%eax
 	movl	%eax,-28(%ebp)
 

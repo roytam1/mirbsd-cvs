@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: reg_norm.s,v 1.2 2002/10/12 07:12:59 pvalchev Exp $	*/
 /*
  *  reg_norm.s
@@ -69,7 +70,7 @@
 
 #include <machine/asm.h>
 
-#include <gnu/arch/i386/fpemul/fpu_asm.h>
+#include <fpemul/fpu_asm.h>
 
 
 .text
@@ -186,5 +187,3 @@ L_nuo_shift_1:
 	movl	%edx,SIGH(%ebx)
 	movl	%eax,SIGL(%ebx)
 	jmp	L_exit
-
-

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: npx.c,v 1.40.2.1 2006/11/15 03:06:15 brad Exp $	*/
 /*	$NetBSD: npx.c,v 1.57 1996/05/12 23:12:24 mycroft Exp $	*/
 

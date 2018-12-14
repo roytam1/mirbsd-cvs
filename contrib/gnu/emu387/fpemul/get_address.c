@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: get_address.c,v 1.4 2003/07/30 21:30:31 jason Exp $	*/
 /*
  *  get_address.c
@@ -76,9 +77,9 @@
 #include <machine/pcb.h>
 #include <machine/reg.h>
 
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
-#include <gnu/arch/i386/fpemul/fpu_system.h>
-#include <gnu/arch/i386/fpemul/exception.h>
+#include <fpemul/fpu_emu.h>
+#include <fpemul/fpu_system.h>
+#include <fpemul/exception.h>
 
 static int reg_offset[] = {
 tEAX, tECX, tEDX, tEBX, tESP, tEBP, tESI, tEDI};

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: fpu_entry.c,v 1.5 2003/07/31 17:41:56 jason Exp $	*/
 /*
  *  fpu_entry.c
@@ -81,11 +82,11 @@
 #include <machine/cpu.h>
 #include <machine/pcb.h>
 
-#include <gnu/arch/i386/fpemul/fpu_emu.h>
-#include <gnu/arch/i386/fpemul/fpu_system.h>
-#include <gnu/arch/i386/fpemul/exception.h>
-#include <gnu/arch/i386/fpemul/control_w.h>
-#include <gnu/arch/i386/fpemul/status_w.h>
+#include <fpemul/fpu_emu.h>
+#include <fpemul/fpu_system.h>
+#include <fpemul/exception.h>
+#include <fpemul/control_w.h>
+#include <fpemul/status_w.h>
 
 
 #define __BAD__ Un_impl		/* Not implemented */
