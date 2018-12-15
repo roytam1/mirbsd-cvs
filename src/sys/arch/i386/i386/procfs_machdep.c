@@ -46,7 +46,7 @@
 #include <machine/cpufunc.h>
 #include <machine/specialreg.h>
 
-extern int i386_fpu_present, i386_fpu_exception, i386_fpu_fdivbug;
+extern u_char i386_fpu_present, i386_fpu_exception, i386_fpu_fdivbug;
 extern int cpu_feature;
 extern char cpu_model[];
 extern char cpu_vendor[];

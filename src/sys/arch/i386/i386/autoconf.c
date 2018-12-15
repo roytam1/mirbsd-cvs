@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.14 2010/09/19 19:14:39 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.15 2017/08/07 20:18:11 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
 /*-
- * Copyright (c) 2004, 2007
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright (c) 2004, 2007, 2018
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -83,11 +83,11 @@ char	root_devname[16];
 /* Support for VIA C3 RNG */
 #ifdef I686_CPU
 extern struct timeout viac3_rnd_tmo;
-extern int	viac3_rnd_present;
+extern u_char	viac3_rnd_present;
 void		viac3_rnd(void *);
 
 #ifdef CRYPTO
-extern int	viac3_crypto_present;
+extern u_char	viac3_crypto_present;
 void		viac3_crypto_setup(void);
 #endif /* CRYPTO */
 #endif

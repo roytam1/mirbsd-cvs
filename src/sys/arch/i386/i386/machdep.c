@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.24 2010/09/12 18:19:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.25 2014/01/11 18:16:13 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -40,8 +40,8 @@
  */
 
 /*-
- * Copyright (c) 2010
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2010, 2018
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1993, 1994, 1995, 1996 Charles M. Hannum.  All rights reserved.
  * Copyright (c) 1992 Terrence R. Lambert.
  * Copyright (c) 1982, 1987, 1990 The Regents of the University of California.
@@ -238,14 +238,14 @@ int 	dumpsize = 0;		/* pages */
 long	dumplo = 0; 		/* blocks */
 
 int	cpu_class;
-int	i386_fpu_present;
-int	i386_fpu_exception;
-int	i386_fpu_fdivbug;
+u_char	i386_fpu_present;
+u_char	i386_fpu_exception;
+u_char	i386_fpu_fdivbug;
 
-int	i386_use_fxsave;
-int	i386_has_sse;
-int	i386_has_sse2;
-int	i386_has_xcrypt;
+u_char	i386_use_fxsave;
+u_char	i386_has_sse;
+u_char	i386_has_sse2;
+u_char	i386_has_xcrypt;
 
 bootarg_t *bootargp;
 paddr_t avail_end;
@@ -1185,7 +1185,7 @@ cyrix3_cpu_setup(cpu_device, model, step)
 
 		/* Enable RNG if present and disabled */
 		if (val & C3_CPUID_HAS_RNG) {
-			extern int viac3_rnd_present;
+			extern u_char viac3_rnd_present;
 
 			if (!(val & C3_CPUID_DO_RNG)) {
 				msreg = rdmsr(0x110B);
@@ -1199,7 +1199,7 @@ cyrix3_cpu_setup(cpu_device, model, step)
 		/* Enable AES engine if present and disabled */
 		if (val & C3_CPUID_HAS_ACE) {
 #ifdef CRYPTO
-			extern int viac3_crypto_present;
+			extern u_char viac3_crypto_present;
 
 			if (!(val & C3_CPUID_DO_ACE)) {
 				msreg = rdmsr(0x1107);

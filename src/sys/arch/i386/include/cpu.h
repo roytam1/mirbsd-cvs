@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.11 2010/07/25 16:37:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.12 2018/12/14 21:28:09 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
 /*-
- * Copyright (c) 2006, 2008, 2010
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2006, 2008, 2010, 2018
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -191,9 +191,9 @@ void fix_f00f(void);
 /* dkcsum.c */
 void	dkcsumattach(void);
 
-extern int i386_use_fxsave;
-extern int i386_has_sse;
-extern int i386_has_sse2;
+extern u_char i386_use_fxsave;
+extern u_char i386_has_sse;
+extern u_char i386_has_sse2;
 
 /* machdep.c */
 void	dumpconf(void);

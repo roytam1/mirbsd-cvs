@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/npx.c,v 1.6 2018/12/14 23:56:25 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/npx.c,v 1.7 2018/12/15 00:25:05 tg Exp $ */
 /*	$OpenBSD: npx.c,v 1.40.2.1 2006/11/15 03:06:15 brad Exp $	*/
 /*	$NetBSD: npx.c,v 1.57 1996/05/12 23:12:24 mycroft Exp $	*/
 
@@ -66,12 +66,6 @@
 #include <dev/isa/isavar.h>
 #include <i386/isa/icu.h>
 
-#if 0
-#define IPRINTF(x)      printf x
-#else
-#define IPRINTF(x)
-#endif
-
 /*
  * 387 and 287 Numeric Coprocessor Extension (NPX) Driver.
  *
@@ -135,13 +129,13 @@ enum npx_type {
 struct proc	*npxproc;
 
 static	enum npx_type		npx_type;
-static	int			npx_nointr;
+static	u_char			npx_nointr;
 static	volatile u_int		npx_intrs_while_probing;
 static	volatile u_int		npx_traps_while_probing;
 
-extern int i386_fpu_present;
-extern int i386_fpu_exception;
-extern int i386_fpu_fdivbug;
+extern u_char i386_fpu_present;
+extern u_char i386_fpu_exception;
+extern u_char i386_fpu_fdivbug;
 
 #ifdef I686_CPU
 #define        fxsave(addr)            __asm("fxsave %0" : "=m" (*addr))
@@ -151,7 +145,6 @@ extern int i386_fpu_fdivbug;
 static __inline void
 fpu_save(union savefpu *addr)
 {
-
 #ifdef I686_CPU
 	if (i386_use_fxsave) {
 		fxsave(&addr->sv_xmm);
@@ -165,7 +158,13 @@ fpu_save(union savefpu *addr)
 static int
 npxdna_notset(struct proc *p)
 {
-	panic("npxdna vector not initialized");
+#ifdef GPL_MATH_EMULATE
+	if (npx_type == NPX_NONE) {
+		iprintf(("Emul"));
+		return (0);
+	}
+#endif
+	panic("npxdna vector not initialised");
 }
 
 int    (*npxdna_func)(struct proc *) = npxdna_notset;
@@ -345,10 +344,6 @@ npxprobe(parent, match, aux)
 	idt[irq] = save_idt_npxintr;
 	idt[16] = save_idt_npxtrap;
 	write_eflags(save_eflags);
-#ifdef GPL_MATH_EMULATE
-	if (!result && npx_type == NPX_NONE)
-		npxdna_func = npxdna_s87;
-#endif
 	return (result);
 }
 
@@ -396,9 +391,6 @@ npxattach(parent, self, aux)
 		npx_type = NPX_NONE;
 		/* FALLTHROUGH */
 	case NPX_NONE:
-#ifdef GPL_MATH_EMULATE
-		npxdna_func = npxdna_s87;
-#endif
 		return;
 	}
 
@@ -477,6 +469,7 @@ npxintr(arg)
 	/*
 	 * Restore control word (was clobbered by fpu_save).
 	 */
+#ifdef I686_CPU
 	if (i386_use_fxsave) {
 		fldcw(&addr->sv_xmm.sv_env.en_cw);
 		/*
@@ -484,6 +477,7 @@ npxintr(arg)
 		 * no need to re-load MXCSR here.
 		 */
 	} else
+#endif
 		fldcw(&addr->sv_87.sv_env.en_cw);
 	fwait();
 	/*
@@ -494,10 +488,13 @@ npxintr(arg)
 	 * preserved the control word and will copy the status and tag
 	 * words, so the complete exception state can be recovered.
 	 */
+#ifdef I686_CPU
 	if (i386_use_fxsave) {
 	        addr->sv_xmm.sv_ex_sw = addr->sv_xmm.sv_env.en_sw;
 	        addr->sv_xmm.sv_ex_tw = addr->sv_xmm.sv_env.en_tw;
-	} else {
+	} else
+#endif
+	    {
 	        addr->sv_87.sv_ex_sw = addr->sv_87.sv_env.en_sw;
 	        addr->sv_87.sv_ex_tw = addr->sv_87.sv_env.en_tw;
 	}
@@ -596,7 +593,6 @@ npxsave1(void)
 int
 npxdna_xmm(struct proc *p)
 {
-
 #ifdef DIAGNOSTIC
 	if (cpl != 0 || npx_nointr != 0)
 	        panic("npxdna: masked");
@@ -612,10 +608,10 @@ npxdna_xmm(struct proc *p)
 	 */
 	npx_nointr = 1;
 	if (npxproc != 0 && npxproc != p) {
-	        IPRINTF(("Save"));
+	        iprintf(("Save"));
 	        npxsave1();
 	} else {
-	        IPRINTF(("Init"));
+	        iprintf(("Init"));
 	        fninit();
 	        fwait();
 	}
@@ -707,7 +703,6 @@ npxdna_s87(struct proc *p)
 void
 npxdrop()
 {
-
 	stts();
 	npxproc->p_addr->u_pcb.pcb_cr0 |= CR0_TS;
 	npxproc = 0;
@@ -725,7 +720,6 @@ npxdrop()
 void
 npxsave()
 {
-
 #ifdef DIAGNOSTIC
 	if (cpl != IPL_NONE || npx_nointr != 0)
 		panic("npxsave: masked");

@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.4 2010/09/19 18:55:31 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.5 2011/07/17 20:50:28 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /* + 1.2 1.7 1.8 1.13p 1.15 1.16 1.19 1.21 1.25 1.26 1.27 1.28 */
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
- * Copyright (c) 2008, 2011
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2008, 2011, 2018
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 2003 Jason Wright
  * Copyright (c) 2003, 2004 Theo de Raadt
  * All rights reserved.
@@ -60,7 +60,7 @@
 #include <dev/rndvar.h>
 
 void	viac3_rnd(void *);
-int viac3_crypto_present;
+u_char	viac3_crypto_present;
 
 
 #ifdef CRYPTO
@@ -89,7 +89,7 @@ struct viac3_softc {
 #define	VIAC3_SID(crd,ses)		(((crd) << 28) | ((ses) & 0x0fffffff))
 
 static struct viac3_softc *vc3_sc;
-extern int i386_has_xcrypt;
+extern u_char i386_has_xcrypt;
 
 void viac3_crypto_setup(void);
 int viac3_crypto_newsession(u_int32_t *, struct cryptoini *);
@@ -502,7 +502,7 @@ viac3_rijndael_decrypt(rijndael_ctx *ctx, u_char *iv, u_char *src,
  */
 #define VIAC3_RNG_BUFSIZ	16		/* 32bit words */
 struct timeout viac3_rnd_tmo;
-int viac3_rnd_present;
+u_char viac3_rnd_present;
 
 void
 viac3_rnd(void *v __unused)
