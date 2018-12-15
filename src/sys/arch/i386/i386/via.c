@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.5 2011/07/17 20:50:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.6 2018/12/15 03:47:51 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /* + 1.2 1.7 1.8 1.13p 1.15 1.16 1.19 1.21 1.25 1.26 1.27 1.28 */
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
@@ -60,8 +60,6 @@
 #include <dev/rndvar.h>
 
 void	viac3_rnd(void *);
-u_char	viac3_crypto_present;
-
 
 #ifdef CRYPTO
 
@@ -89,7 +87,6 @@ struct viac3_softc {
 #define	VIAC3_SID(crd,ses)		(((crd) << 28) | ((ses) & 0x0fffffff))
 
 static struct viac3_softc *vc3_sc;
-extern u_char i386_has_xcrypt;
 
 void viac3_crypto_setup(void);
 int viac3_crypto_newsession(u_int32_t *, struct cryptoini *);
@@ -127,7 +124,6 @@ viac3_crypto_setup(void)
 
 	crypto_register(vc3_sc->sc_cid, algs, viac3_crypto_newsession,
 	    viac3_crypto_freesession, viac3_crypto_process);
-	i386_has_xcrypt = viac3_crypto_present;
 
 	/* take over */
 	rijndael_set_key_fast = viac3_rijndael_set_key;

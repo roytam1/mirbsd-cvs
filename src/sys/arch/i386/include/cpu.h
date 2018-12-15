@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.12 2018/12/14 21:28:09 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.13 2018/12/15 03:47:52 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
@@ -184,7 +184,7 @@ extern int pentium_mhz;
 
 #ifdef I586_CPU
 /* F00F bug fix stuff for pentium cpu */
-extern int cpu_f00f_bug;
+extern u_char cpu_f00f_bug;
 void fix_f00f(void);
 #endif
 

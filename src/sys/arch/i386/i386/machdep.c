@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.25 2014/01/11 18:16:13 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.26 2018/12/15 03:47:50 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -245,7 +245,7 @@ u_char	i386_fpu_fdivbug;
 u_char	i386_use_fxsave;
 u_char	i386_has_sse;
 u_char	i386_has_sse2;
-u_char	i386_has_xcrypt;
+u_char	viac3_crypto_present;
 
 bootarg_t *bootargp;
 paddr_t avail_end;
@@ -1199,8 +1199,6 @@ cyrix3_cpu_setup(cpu_device, model, step)
 		/* Enable AES engine if present and disabled */
 		if (val & C3_CPUID_HAS_ACE) {
 #ifdef CRYPTO
-			extern u_char viac3_crypto_present;
-
 			if (!(val & C3_CPUID_DO_ACE)) {
 				msreg = rdmsr(0x1107);
 				msreg |= (0x01 << 28);
@@ -2551,7 +2549,7 @@ extern int IDTVEC(div), IDTVEC(dbg), IDTVEC(nmi), IDTVEC(bpt), IDTVEC(ofl),
 #if defined(I586_CPU)
 extern int IDTVEC(f00f_redirect);
 
-int cpu_f00f_bug = 0;
+u_char cpu_f00f_bug = 0;
 
 void
 fix_f00f(void)
@@ -3091,7 +3089,7 @@ cpu_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	case CPU_SSE2:
 		return (sysctl_rdint(oldp, oldlenp, newp, i386_has_sse2));
 	case CPU_XCRYPT:
-		return (sysctl_rdint(oldp, oldlenp, newp, i386_has_xcrypt));
+		return (sysctl_rdint(oldp, oldlenp, newp, viac3_crypto_present));
 #ifdef APERTURE
 	case CPU_APVRESET:
 		return (sysctl_int(oldp, oldlenp, newp, newlen, &aperture_vreset));
