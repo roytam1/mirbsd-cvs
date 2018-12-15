@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/npx.c,v 1.7 2018/12/15 00:25:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/npx.c,v 1.8 2018/12/15 03:47:52 tg Exp $ */
 /*	$OpenBSD: npx.c,v 1.40.2.1 2006/11/15 03:06:15 brad Exp $	*/
 /*	$NetBSD: npx.c,v 1.57 1996/05/12 23:12:24 mycroft Exp $	*/
 
@@ -98,8 +98,10 @@
 #define	clts()			__asm("clts")
 #define	stts()			lcr0(rcr0() | CR0_TS)
 
+#ifndef ALWAYS_MATH_EMULATE
 int npxintr(void *);
 static int npxprobe1(struct isa_attach_args *);
+#endif
 static void npxsave1(void);
 
 struct npx_softc {
@@ -168,12 +170,15 @@ npxdna_notset(struct proc *p)
 }
 
 int    (*npxdna_func)(struct proc *) = npxdna_notset;
+#ifndef ALWAYS_MATH_EMULATE
 int    npxdna_s87(struct proc *);
 #ifdef I686_CPU
 int    npxdna_xmm(struct proc *);
 #endif /* I686_CPU */
+#endif
 void   npxexit(void);
 
+#ifndef ALWAYS_MATH_EMULATE
 /*
  * Special interrupt handlers.  Someday intr0-intr15 will be used to count
  * interrupts.  We'll still need a special exception 16 handler.  The busy
@@ -205,7 +210,6 @@ static inline int
 npxprobe1(ia)
 	struct isa_attach_args *ia;
 {
-#ifndef ALWAYS_MATH_EMULATE
 	int control;
 	int status;
 
@@ -264,9 +268,6 @@ npxprobe1(ia)
 			return 1;
 		}
 	}
-#else
-	npx_intrs_while_probing = npx_traps_while_probing = 0;
-#endif
 
 	/*
 	 * Probe failed.  There is no usable FPU.
@@ -274,6 +275,7 @@ npxprobe1(ia)
 	npx_type = NPX_NONE;
 	return 0;
 }
+#endif
 
 /*
  * Probe routine.  Initialize cr0 to give correct behaviour for [f]wait
@@ -286,6 +288,7 @@ npxprobe(parent, match, aux)
 	struct device *parent;
 	void *match, *aux;
 {
+#ifndef ALWAYS_MATH_EMULATE
 	struct	isa_attach_args *ia = aux;
 	int	irq;
 	int	result;
@@ -345,8 +348,14 @@ npxprobe(parent, match, aux)
 	idt[16] = save_idt_npxtrap;
 	write_eflags(save_eflags);
 	return (result);
+#else
+	npx_intrs_while_probing = npx_traps_while_probing = 0;
+	npx_type = NPX_NONE;
+	return (0);
+#endif
 }
 
+#ifndef ALWAYS_MATH_EMULATE
 int npx586bug1(int, int);
 asm (".text\n\t"
 "npx586bug1:\n\t"
@@ -360,6 +369,7 @@ asm (".text\n\t"
 	"fistpl	(%esp)\n\t"
 	"popl	%eax\n\t"
 	"ret\n\t");
+#endif
 
 /*
  * Attach routine - announce which it is, and wire into system
@@ -369,6 +379,7 @@ npxattach(parent, self, aux)
 	struct device *parent, *self;
 	void *aux;
 {
+#ifndef ALWAYS_MATH_EMULATE
 	struct npx_softc *sc = (void *)self;
 	struct isa_attach_args *ia = aux;
 
@@ -409,8 +420,10 @@ npxattach(parent, self, aux)
 	else
 #endif /* I686_CPU */
 		npxdna_func = npxdna_s87;
+#endif
 }
 
+#ifndef ALWAYS_MATH_EMULATE
 /*
  * Record the FPU state and reinitialize it all except for the control word.
  * Then generate a SIGFPE.
@@ -559,6 +572,7 @@ npxintr(arg)
 
 	return (1);
 }
+#endif
 
 /*
  * Wrapper for fnsave instruction to handle h/w bugs.  If there is an error
@@ -582,6 +596,7 @@ npxsave1(void)
 	npx_nointr = 0;
 }
 
+#ifndef ALWAYS_MATH_EMULATE
 /*
  * Implement device not available (DNA) exception
  *
@@ -696,6 +711,7 @@ npxdna_s87(struct proc *p)
 
 	return (1);
 }
+#endif
 
 /*
  * Drop the current FPU state on the floor.

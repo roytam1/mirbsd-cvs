@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.16 2014/02/19 17:43:39 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.17 2014/12/02 13:34:15 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
 /*-
- * Copyright (c) 2010, 2011, 2014
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2010, 2011, 2014, 2018
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1993, 1994, 1995 Charles M. Hannum.  All rights reserved.
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -1734,7 +1734,7 @@ IDTVEC(page)
 IDTVEC(rsvd)
 	ZTRAP(T_RESERVED)
 IDTVEC(fpu)
-#if NNPX > 0
+#if !defined(ALWAYS_MATH_EMULATE) && (NNPX > 0)
 	/*
 	 * Handle like an interrupt so that we can call npxintr to clear the
 	 * error.  It would be better to handle npx interrupts as traps but
