@@ -1,8 +1,8 @@
 #!/bin/mksh
 # $MirOS: src/distrib/baselive/munge_it.sh,v 1.50 2014/11/16 12:16:27 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008, 2013, 2014
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
+# Copyright (c) 2006, 2007, 2008, 2013, 2014, 2018
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -105,6 +105,12 @@ ed -s etc/rc <<-'EOMD'
 
 	.
 	/dmesg.boot/i
+
+		# if this looks like Qemu, set the time from the host, maybe
+		(x=$(/sbin/ifconfig -a)
+		[[ $x != *'	address: 52:54:'* ||
+		    $x != *'	inet 10.0.2.15 netmask 0xffffff00 '* ]] || \
+		    /usr/sbin/rdate -sn 10.0.2.2 || :)
 
 		# try to get some entropy from any attached Simtec EntropyKey
 		[[ -x /usr/libexec/ekeyrng ]] && /usr/libexec/ekeyrng
