@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/npx.c,v 1.5 2018/12/14 21:28:10 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/npx.c,v 1.6 2018/12/14 23:56:25 tg Exp $ */
 /*	$OpenBSD: npx.c,v 1.40.2.1 2006/11/15 03:06:15 brad Exp $	*/
 /*	$NetBSD: npx.c,v 1.57 1996/05/12 23:12:24 mycroft Exp $	*/
 
@@ -345,6 +345,10 @@ npxprobe(parent, match, aux)
 	idt[irq] = save_idt_npxintr;
 	idt[16] = save_idt_npxtrap;
 	write_eflags(save_eflags);
+#ifdef GPL_MATH_EMULATE
+	if (!result && npx_type == NPX_NONE)
+		npxdna_func = npxdna_s87;
+#endif
 	return (result);
 }
 
