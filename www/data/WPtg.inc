@@ -15884,6 +15884,12 @@ Waypoint: GC6H3EA
 Title: Das (mir) unbekannte Schloß
 Tag: D1 T2 Small Mystery
 ----
+ID: 2609
+Date: 2018-12-15
+Waypoint: GC7D9RZ
+Title: Ein Seemann in Remagen &#34;Seemannsgold&#34;
+Tag: D2 T1 Micro Tradi
+----
 ID: p20181222
 Date: 2018-12-22
 Waypoint: GC7YWVJ
