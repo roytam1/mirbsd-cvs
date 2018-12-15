@@ -1,6 +1,5 @@
-# $MirOS$
+# $MirOS: contrib/gnu/emu387/cfg,v 1.1 2018/12/14 21:28:01 tg Exp $
 
+ include	"../contrib/gnu/emu387/fpemul/files.fpemul"
 makeoptions	EMU_HOOK_CPPFLAGS="-I$S/../contrib/gnu/emu387"
 option		GPL_MATH_EMULATE	# FPU emulation (contrib/gnu)
-
-include		"../contrib/gnu/emu387/fpemul/files.fpemul"
