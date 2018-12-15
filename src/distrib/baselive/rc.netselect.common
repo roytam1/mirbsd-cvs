@@ -23,11 +23,15 @@ function get_kbdtype {
 	print
 	while :; do
 		set -o noglob
-		print -n "kbd(8) mapping? ('?' for list) "
+		print -n "kbd(8) mapping (default 'none')? ('?' for list) "
 		read resp
 		: ${resp:=none}
 		set +o noglob
-		[[ $resp = none ]] && return
+		if [[ $resp = none ]]; then
+			echo OK, not changing console keyboard layout
+			echo Using QWERTY MirKeyboardLayout under X11
+			return
+		fi
 		[[ $resp = @(\?|+([0-9])) && -z ${layouts[0]} ]] && \
 		    set -A layouts -- $(kbd -lq | \
 		    egrep '^..\.?(nodead|dvorak)?$' | sort)
