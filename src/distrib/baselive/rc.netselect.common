@@ -1,7 +1,7 @@
 # $MirOS: src/distrib/baselive/rc.netselect.common,v 1.22 2013/09/11 18:43:50 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008, 2010, 2013
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2006, 2007, 2008, 2010, 2013, 2018
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -109,6 +109,7 @@ function set_hostname {
 function ask_netconfig {
 	set -A all_ifnames -- $(ifconfig -l)
 	default_ifname=${all_ifnames[0]}
+	[[ $default_ifname = lo0 ]] && default_ifname=${all_ifnames[1]}
 	if [[ -z $default_ifname ]]; then
 		print
 		print No network interface found, skipping.
