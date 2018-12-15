@@ -1,6 +1,6 @@
 # $MirOS: src/share/zoneinfo/datfiles/leapseconds,v 1.17 2018/10/06 17:03:21 tg Exp $
 #-
-# From http://hpiers.obspm.fr/eoppc/bul/bulc/bulletinc.dat
+# From ftp://hpiers.obspm.fr/iers/bul/bulc/bulletinc.dat
 # http://hpiers.obspm.fr/eop-pc/index.php?index=bulletin_registration&lang=en
 
 # Allowance for leap seconds added to each time zone file.
