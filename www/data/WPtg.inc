@@ -15890,11 +15890,24 @@ Waypoint: GC7D9RZ
 Title: Ein Seemann in Remagen &#34;Seemannsgold&#34;
 Tag: D2 T1 Micro Tradi
 ----
+ID: 2610
+Date: 2018-12-17
+Waypoint: GC7ZP62
+Title: Luther-Kirche
+Tag: D15 T1 Micro Tradi
+----
 ID: p20181222
 Date: 2018-12-22
 Waypoint: GC7YWVJ
 Title: Musik im Advent - 2018
 Tag: D1 T15 Event
+----
+ID: p20190101
+Date: 2019-01-01
+Waypoint: GC81E20
+Title: Eissaisonauftakt ⅯⅯⅩⅨ (met knipoog)
+nTF: 0
+Tag: D1 T1 Event
 ----
 ID: p20200229
 Date: 2020-02-29
