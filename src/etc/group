@@ -73,6 +73,7 @@ _gii:*:264:
 _icecast:*:265:
 _slapd:*:266:
 _openvpn:*:267:
+_acme:*:268:
 _opennap:*:500:
 _gnats:*:501:
 _mysql:*:502:

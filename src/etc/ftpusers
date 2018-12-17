@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/ftpusers,v 1.9 2008/05/07 12:18:42 tg Exp $
+# $MirOS: src/etc/ftpusers,v 1.10 2009/07/18 14:09:02 tg Exp $
 #
 # Users who are not allowed to use ftp access; read by ftpd(8)
 
@@ -55,6 +55,7 @@ _gii
 _icecast
 _slapd
 _openvpn
+_acme
 _opennap
 _gnats
 _mysql

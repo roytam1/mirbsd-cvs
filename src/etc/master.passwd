@@ -50,6 +50,7 @@ _gii:*:264:264::0:0:MirPorts -- net/gated:/nonexistent:/sbin/nologin
 _icecast:*:265:265::0:0:MirPorts -- net/icecast:/nonexistent:/sbin/nologin
 _slapd:*:266:266::0:0:MirPorts -- databases/openldap:/nonexistent:/sbin/nologin
 _openvpn:*:267:267::0:0:MirPorts -- net/openvpn:/nonexistent:/sbin/nologin
+_acme:*:268:268::0:0:Automated Certificate Management Environment:/nonexistent:/sbin/nologin
 _opennap:*:500:500::0:0:MirPorts -- audio/opennap:/nonexistent:/sbin/nologin
 _gnats:*:501:501::0:0:MirPorts -- databases/gnats:/nonexistent:/sbin/nologin
 _mysql:*:502:502::0:0:MirPorts -- databases/mysql server:/nonexistent:/sbin/nologin

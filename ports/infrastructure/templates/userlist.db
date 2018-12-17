@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.12 2008/11/29 17:03:48 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.13 2018/10/07 01:09:59 tg Exp $
 #-
 # List of users and groups for MirOS base and the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -95,6 +95,7 @@
 265	_icecast	net/icecast
 266	_slapd		databases/openldap
 267	_openvpn	net/openvpn
+268	_acme		Automated Certificate Management Environment
 ### ports users (registry: OpenBSD)
 500	_opennap	audio/opennap
 501	_gnats		databases/gnats
