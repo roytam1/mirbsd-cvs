@@ -668,7 +668,8 @@ if [[ ! -s /etc/ssl/private/default.key && -s /etc/ssh/ssh_host_rsa_key ]]; then
 	print "openssl: using old SSH host RSA key"
 	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
 	cat /etc/ssh/ssh_host_rsa_key >/etc/ssl/private/default.key
-	chmod 600 /etc/ssl/private/default.key
+	chown 0:ssl-cert /etc/ssl/private/default.key
+	chmod 640 /etc/ssl/private/default.key
 fi
 if [[ ! -s /etc/ssl/private/default.key ]]; then
 	print -n "openssl: generating new host RSA key... "
@@ -676,7 +677,8 @@ if [[ ! -s /etc/ssl/private/default.key ]]; then
 	# XXX 6000-8000 is recommended... choose less to be nice to old boxen
 	if openssl genrsa -out /etc/ssl/private/default.key 4096 \
 	    >/dev/wrandom 2>&1; then
-		chmod 600 /etc/ssl/private/default.key
+		chown 0:ssl-cert /etc/ssl/private/default.key
+		chmod 640 /etc/ssl/private/default.key
 		rm -f /etc/ssh/ssh_host_rsa_key
 		print done.
 	else
@@ -696,6 +698,8 @@ fi
 if [[ ! -s /etc/ssh/ssh_host_rsa_key ]]; then
 	print -n "ssh-keygen: installing host RSA key... "
 	cp -f /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key
+	chown 0:0 /etc/ssh/ssh_host_rsa_key
+	chmod 600 /etc/ssh/ssh_host_rsa_key
 	rm -f /etc/ssh/ssh_host_rsa_key.pub
 	print done.
 fi
@@ -703,7 +707,6 @@ if [[ ! -s /etc/ssh/ssh_host_rsa_key.pub ]]; then
 	print -n "ssh-keygen: installing host public key... "
 	print -r -- $(ssh-keygen -yf /etc/ssh/ssh_host_rsa_key) \
 	    $(hostname) host key >/etc/ssh/ssh_host_rsa_key.pub
-	chmod 600 /etc/ssh/ssh_host_rsa_key
 	chmod 644 /etc/ssh/ssh_host_rsa_key.pub
 	print done.
 fi
