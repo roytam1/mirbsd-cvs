@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.13 2018/10/07 01:09:59 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.14 2018/12/17 14:19:21 tg Exp $
 #-
 # List of users and groups for MirOS base and the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -75,6 +75,7 @@
 89	_hoststated	host state Daemon
 117	dialer		NO
 ### system users (registry: MirOS)
+249	ssl-cert	NO
 250	audio		NO
 251	_cvsadmin	NO
 252	_isrc		NO
