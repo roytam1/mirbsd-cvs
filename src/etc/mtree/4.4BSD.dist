@@ -194,7 +194,7 @@ ssh
 ssl
 
 # ./etc/ssl/private
-private		uname=root mode=0700
+private		uname=root gname=ssl-cert mode=0710
 # ./etc/ssl/private
 ..
 

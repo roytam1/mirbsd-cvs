@@ -105,6 +105,10 @@ ssh_host_rsa_key	type=file mode=0600 uname=root gname=wheel optional
 ssh_host_rsa_key.pub	type=file mode=0644 uname=root gname=wheel optional
 sshd_config	type=file mode=0644 uname=root gname=wheel
 ..	#ssh
+ssl		type=dir mode=0755 uname=root gname=wheel optional
+private		type=dir mode=0710 uname=root gname=ssl-cert optional
+..	#private
+..	#ssl
 sudoers		type=file mode=0440 uname=root gname=wheel
 systrace	type=dir mode=0755 uname=root gname=wheel optional
 ..	#systrace
