@@ -15892,19 +15892,23 @@ Tag: D2 T1 Micro Tradi
 ----
 ID: 2610
 Date: 2018-12-17
-Waypoint: GC7ZP62
+Waypoint: GC7ZP62 OC14F2A
 Title: Luther-Kirche
 Tag: D15 T1 Micro Tradi
+
+(OC-Wegpunkt nur mutmaßlich)
 ----
 ID: p20181222
 Date: 2018-12-22
 Waypoint: GC7YWVJ
 Title: Musik im Advent - 2018
 Tag: D1 T15 Event
+
+(wird vermutlich zeitlich nicht klappen)
 ----
 ID: p20190101
 Date: 2019-01-01
-Waypoint: GC81E20
+Waypoint: GC81E20 GE0330 OC14F21 TC704T
 Title: Eissaisonauftakt ⅯⅯⅩⅨ (met knipoog)
 nTF: 0
 Tag: D1 T1 Event
