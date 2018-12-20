@@ -5,7 +5,7 @@ of the Debian package with the same name, plus some
 CA certificates from M*zilla, cURL, Opera, rootsupd
 (Microsoft), Apple and others; invalid certificates
 have been removed.
-It's endorsed by the Lynx developers and users.
+It’s endorsed by the Lynx developers and users.
 
 Recent SetEnv.{sh,csh} automatically point the path
 correctly to the data directory, if found. Programs

@@ -1,8 +1,8 @@
 $MirOS$
 
-MD5 (ca-certificates-201707311740.mcz) = 587161da73b5cd37f63fb2f554dd428a
-RMD160 (ca-certificates-201707311740.mcz) = 12cbb62799e62b2a91c680b25ec7a015a8dd94ec
-SHA1 (ca-certificates-201707311740.mcz) = 05ae3cef0688661ca16b73618a9edc9504a10af8
-SHA256 (ca-certificates-201707311740.mcz) = ec13a2924353c0e99a46c7527f35a71ed84892162f1e973d3e6c76cfe02cbff0
-SIZE (ca-certificates-201707311740.mcz) = 204905
-TIGER (ca-certificates-201707311740.mcz) = f99b4c6cfd1afaaa0d852a38bd62b0357346c260f16d06be
+MD5 (ca-certificates-201812200400.mcz) = 1bf09c743062d5d83281a8be138e6ece
+RMD160 (ca-certificates-201812200400.mcz) = 7cc1f58b80d998466c5cdaddfd1f519bebd2995b
+SHA1 (ca-certificates-201812200400.mcz) = 06ddaa440bfdb14921e32de8b196f92c2791451a
+SHA256 (ca-certificates-201812200400.mcz) = d7516749b383e80046af8758ad61a5ecd494dddc012110bc968122b7edb2a551
+SIZE (ca-certificates-201812200400.mcz) = 195431
+TIGER (ca-certificates-201812200400.mcz) = 4c59264b669162e15f4d0efb12ba15f22079b41cec5bb9c3
