@@ -1321,6 +1321,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Unbreak high-bit7 (nōn-ASCII) heredoc separators (LP#1779179)</li>
  <li>[tg] Allow dumping high-bit7-char-containing strings in DEBUG mode</li>
  <li>[tg] Add some testcases for behaviour questions popped up in IRC</li>
+ <li>[tg] Trick a GCC warning, to make up for it ignoring lint(1) hints</li>
+ <li>[tg] Add <tt>O_MAYEXEC</tt> support for CLIP OS</li>
+ <li>[tg] Make dup-to-self with ksh-style fd≥3 closing work; catern via IRC</li>
 </ul>
 <p id="r56c">R56c is a bugfix-only release everyone must upgrade to:</p><ul>
  <li>[komh] Remove redundant OS/2-specific code, clean up others</li>
