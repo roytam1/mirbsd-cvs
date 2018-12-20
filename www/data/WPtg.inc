@@ -15892,11 +15892,22 @@ Tag: D2 T1 Micro Tradi
 ----
 ID: 2610
 Date: 2018-12-17
-Waypoint: GC7ZP62 OC14F2A
+Waypoint: GC7ZP62
 Title: Luther-Kirche
 Tag: D15 T1 Micro Tradi
-
-(OC-Wegpunkt nur mutmaßlich)
+----
+ID: 2611
+Date: 2018-12-20
+Waypoint: GC7ZN88
+Title: Kleiner Feigling
+Tag: D3 T15 Nano Tradi
+----
+ID: 2612
+Date: 2018-12-20
+Waypoint: OC14F2A
+Title: Birke
+nTF: 1
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20181222
 Date: 2018-12-22
