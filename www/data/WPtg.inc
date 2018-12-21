@@ -15909,6 +15909,19 @@ Title: Birke
 nTF: 1
 Tag: D15 T15 Micro Tradi
 ----
+ID: 2613
+Date: 2018-12-21
+Waypoint: OC14F2E
+Title: Löchrige Schulmauer am Spielplatz
+nTF: 1
+Tag: D15 T2 Regular Tradi
+----
+ID: 2614
+Date: 2018-12-21
+Waypoint: GC7564X
+Title: U66 - Hangelar West
+Tag: D15 T1 Other Tradi
+----
 ID: p20181222
 Date: 2018-12-22
 Waypoint: GC7YWVJ
