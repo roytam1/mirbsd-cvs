@@ -2,8 +2,8 @@
 /*	$NetBSD: fetch.c,v 1.14 1997/08/18 10:20:20 lukem Exp $	*/
 
 /*-
- * Copyright © 2013, 2014, 2015
- *	mirabilos <tg@mirbsd.org>
+ * Copyright © 2013, 2014, 2015, 2018
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1997 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -397,15 +397,17 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 		    sizeof(hbuf), NULL, 0, NI_NUMERICHOST) != 0)
 			strlcpy(hbuf, "(unknown)", sizeof(hbuf));
 		if (verbose)
-			fprintf(ttyout, "Trying %s...\n", hbuf);
+			fprintf(ttyout, "Trying %s...", hbuf);
 
 		s = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
 		if (s == -1) {
 			cause = "socket";
+			if (verbose)
+				(void)putc('\n', ttyout);
 			continue;
 		}
 
-again:
+ again:
 		if (connect(s, res->ai_addr, res->ai_addrlen) < 0) {
 			int save_errno;
 
@@ -416,6 +418,8 @@ again:
 			errno = save_errno;
 			s = -1;
 			cause = "connect";
+			if (verbose)
+				(void)putc('\n', ttyout);
 			continue;
 		}
 
@@ -434,12 +438,16 @@ again:
 	}
 	freeaddrinfo(res0);
 	if (s < 0) {
+		if (verbose)
+			(void)putc('\n', ttyout);
 		warn("%s (%s)", cause, hbuf);
 		goto cleanup_url_get;
 	}
 
 #ifndef SMALL
 	if (ishttpsurl) {
+		if (verbose)
+			fprintf(ttyout, " SSL...\n");
 		if (proxyenv && sslpath) {
 			ishttpsurl = 0;
 			proxyurl = NULL;
@@ -461,12 +469,13 @@ again:
 			ERR_print_errors_fp(ttyout);
 			goto cleanup_url_get;
 		}
-	} else {
+	} else
+#endif
+	    {
+		if (verbose)
+			(void)putc('\n', ttyout);
 		fin = fdopen(s, "r+");
 	}
-#else
-	fin = fdopen(s, "r+");
-#endif
 
 	if (verbose)
 		fprintf(ttyout, "Requesting %s", origline);
@@ -708,15 +717,15 @@ again:
 	rval = 0;
 	goto cleanup_url_get;
 
-noftpautologin:
+ noftpautologin:
 	warnx(
 	    "Auto-login using ftp URLs isn't supported when using $ftp_proxy");
 	goto cleanup_url_get;
 
-improper:
+ improper:
 	warnx("Improper response from %s", host);
 
-cleanup_url_get:
+ cleanup_url_get:
 #ifndef SMALL
 	if (ssl) {
 		SSL_shutdown(ssl);
@@ -868,7 +877,7 @@ auto_fetch(int argc, char *argv[], char *outfile)
 				}
 
 				if (EMPTYSTRING(username) || EMPTYSTRING(pass)) {
-bad_ftp_url:
+ bad_ftp_url:
 					warnx("Invalid URL: %s", argv[argpos]);
 					rval = argpos + 1;
 					continue;
@@ -1240,8 +1249,11 @@ proxy_connect(int socketfd, char *host)
 	l = asprintf(&connstr, "CONNECT %s:%s HTTP/1.1\r\n\r\n", host, port);
 	if (l == -1)
 		errx(1, "Could not allocate memory to assemble connect string!");
-	if (debug)
+	if (debug) {
+		if (verbose)
+			(void)putc('\n', ttyout);
 		printf("%s", connstr);
+	}
 	if (write(socketfd, connstr, l) != l)
 		err(1, "Could not send connect string");
 	read(socketfd, &buf, sizeof(buf)); /* only proxy header XXX: error handling? */
