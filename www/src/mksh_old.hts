@@ -335,7 +335,7 @@ mws_content <<'EOF'
  mode required on, at least, Minix 3.</p>
 <p>Freshmeat announcements <strong>have ceased</strong> because the
  site switched to a very user-unfriendly HTML (especially Lynx). Use
- the <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> instead.</p>
+ the RSS feed (now defunct, as of 2019) instead.</p>
 <p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option. The
  <tt>-DMKSH_AFREE_DEBUG</tt> flag is gone due to a new allocator,
  which however honours <tt>-DUSE_REALLOC_MALLOC=0</tt>.</p>

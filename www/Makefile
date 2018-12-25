@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.120 2018/05/06 13:53:03 tg Exp $
+# $MirOS: www/Makefile,v 1.121 2018/07/13 23:36:13 tg Exp $
 #-
 # This file is part of the MirBSD website; see LICENCE for details.
 
@@ -46,15 +46,8 @@ SRCS+=		ports.hts
 SRCS+=		projects.hts
 SRCS+=		randex.hts
 SRCS+=		rss.hts
-SRCS+=		tags.hts
 SRCS+=		wptg.hts
 SRCS+=		wtf.hts
-CLEANFILES+=	tags.lst tags.out
-TAGCLOUD+=	debian
-TAGCLOUD+=	event
-TAGCLOUD+=	geocache
-TAGCLOUD+=	mksh
-TAGCLOUD+=	pcli
 USELINKED+=	acronyms
 WLOGS=		-9 -10
 WPS=		tg
@@ -66,8 +59,6 @@ SRCS+=		ann-7.hts ann-8.hts anoncvs.hts bsd-intro.hts clog-2004.hts \
 		isdn.hts mirrors.hts mirwarum.hts
 SRCS+=		wlog-0.hts wlog-1.hts wlog-2.hts wlog-3.hts wlog-4.hts \
 		wlog-5.hts wlog-6.hts wlog-7.hts wlog-8.hts
-
-INCSRCS+=	datatest
 
 INCSRCS+=	news
 news.cut: stamp_htm_news
@@ -95,12 +86,10 @@ CLEANFILES+=	${FPSRCS:T:M*.hts:S/hts$/htm~/}
 
 DEPSRCS+=	${FPSRCS}
 INCSRCS+=	${WLOGS:S/^/wlog/}
-INCSRCS+=	${TAGCLOUD:S/^/tag_/}
 
 .for _i in ${INCSRCS}
 DEPSRCS+=	data/${_i}.cfg
 GENSRCS+=	stamp_htm_${_i} stamp_rss_${_i}
-CLEANFILES+=	stamp_tag_${_i}
 
 stamp_htm_${_i}: ${DEPS_mk_inc2htm} ${DEPS_data_${_i}_cfg}
 	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@~
@@ -246,10 +235,6 @@ depend: .depend
 
 lazy: .PHONY
 	cd ${.CURDIR} && make depend && make && \
-	    make _reinstall && exec make rs-fish tagslst
-
-tagslst: .PHONY
-	@(echo === TAGS USED/UNUSED/ACCOUNTED FOR ==; cat stamp_tag_* | \
-	    sort -u | comm - tags.out) | tee tags.lst
+	    make _reinstall && exec make rs-fish
 
 .include <bsd.obj.mk>

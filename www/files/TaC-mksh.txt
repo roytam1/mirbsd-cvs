@@ -62,10 +62,10 @@ The following files form The MirBSD Korn Shell R56d:
   * ports/shells/mksh/distinfo (official)
   * src/distrib/special/mksh/Makefile (for the MirBSD installer)
 - website (informal)
-  * www/data/tag_mksh.cfg (internal)
   * www/files/TaC-mksh.txt (this file)
   * www/pics/mksh.svg (logo source code)
   * www/pics/mksh128x100.png (logo compiled version)
+  * www/src/mksh-faq.hts (supplemental documentation)
   * www/src/mksh.hts (primary webpage)
   * www/src/mksh_bld.hts (supplemental webpage)
   * www/src/mksh_old.hts (supplemental webpage)
@@ -248,4 +248,4 @@ possible, the text shown above is to be included.
 
 
 __________________________________________________________________
-$MirOS: www/files/TaC-mksh.txt,v 1.29 2017/08/09 03:35:30 tg Exp $
+$MirOS: www/files/TaC-mksh.txt,v 1.30 2018/08/10 03:19:00 tg Exp $

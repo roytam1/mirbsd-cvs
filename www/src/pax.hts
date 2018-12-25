@@ -2,7 +2,6 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/pax "MirCPIO — paxmirabilis"
-mws_setrss "tag_mksh.rss"
 mws_setheadline MirCPIO — paxmirabilis — tar and even ar!
 mws_setold
 mws_putheader '$MirOS: www/src/pax.hts,v 1.7 2018/05/06 12:56:44 tg Exp $'

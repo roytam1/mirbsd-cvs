@@ -5,7 +5,7 @@ mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
 mws_setheadline MirOS RSS feeds
 mws_setold
-mws_putheader '$MirOS: www/src/rss.hts,v 1.18 2017/12/19 00:56:39 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.20 2018/07/15 13:57:17 tg Exp $'
 mws_content <<'EOF'
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to
@@ -15,9 +15,6 @@ mws_content <<'EOF'
  <li><a href="http://www.mirbsd.org/wlog.rss">developers’ weblog (most recent)</a> – <a href="http://feedvalidator.org/check.cgi?url=https%3A//www.mirbsd.org/wlog.rss">Valid RSS/2.0!</a></li>
  <li><a href="http://www.mirbsd.org/wlog-10.rss">developers’ weblog (post MirOS #10)</a> – <a href="http://feedvalidator.org/check.cgi?url=https%3A//www.mirbsd.org/wlog-10.rss">Valid RSS/2.0!</a></li>
  <li><a href="http://www.mirbsd.org/wlog-9.rss">developers’ weblog (post MirOS #9)</a> – <a href="http://feedvalidator.org/check.cgi?url=https%3A//www.mirbsd.org/wlog-9.rss">Valid RSS/2.0!</a></li>
- <li>… and all feeds from the <a href="tags.htm">Tag cloud</a>, for example:</li>
- <li><a href="http://www.mirbsd.org/tag_mksh.rss">MirBSD Korn Shell</a> – <a href="http://feedvalidator.org/check.cgi?url=https%3A//www.mirbsd.org/tag_mksh.rss">Valid RSS/2.0!</a></li>
- <li>… et cetera…</li>
 </ul>
 
 <h2 id="lists">Mailing lists</h2>

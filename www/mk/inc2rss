@@ -113,7 +113,6 @@ function rss_output {
 	EOF
 	for x in ${e_tag[ent]}; do
 		print -r -- "<category>$x</category>"
-		print -r -- "$x" >>stamp_tag_$name
 	done
 	if [[ -n ${e_author[ent]} ]]; then
 		eauthor=${e_author[ent]}
@@ -145,7 +144,6 @@ function rss_output {
 	print -r "</description></item>"
 }
 
-rm -f stamp_tag_$name
 print -r -- ${name}.rss
 mws_setname $whoami "$pname"
 mws_subdir -
@@ -167,5 +165,4 @@ done
 
 rss_putfooter >>${name}.rss~
 mws_moveifchange ${name}.rss~ ${name}.rss
-[[ -e stamp_tag_$name ]] && sort -u -o stamp_tag_$name stamp_tag_$name
 exit 0

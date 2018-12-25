@@ -180,7 +180,6 @@ function mws_putheader {
 		 <ul class="lv1">
 		<li class="@@CAT=main@@"><a href="@@RELPATH@@main.htm">Main</a><ul class="lv2">
 		<li class="@@CAT=wlog-10@@"><a href="@@RELPATH@@wlog-10.htm">Weblog</a> for #10</li>
-		<li class="@@CAT=tag@@ @@CAT=tags@@"><a href="@@RELPATH@@tags.htm">Tag Cloud</a></li>
 		<li class="@@CAT=oldnews@@ @@CAT=news@@"><a href="@@RELPATH@@news.htm">Old News</a> &amp;
 		 <a href="@@RELPATH@@oldnews.htm#owlog">WLog</a></li>
 		</ul></li>
@@ -207,6 +206,7 @@ function mws_putheader {
 		<li class="@@CAT=subprojects/kwalletcli@@"><a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a></li>
 		<!-- li class="@@CAT=subprojects/makefs@@"><a href="@@RELPATH@@makefs.htm">makefs</a></li -->
 		<li class="@@CAT=subprojects/mksh@@"><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
+		<!-- pax is also not usable yet -->
 		</ul></li>
 		 </ul>
 		<div style="margin-top:18px; margin-left:6px;">Sponsored

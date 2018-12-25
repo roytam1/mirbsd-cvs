@@ -1477,8 +1477,8 @@ Tag: mksh
 </ul>
 <p>Since bsiegert@ has not indicated willingness to take over Freshmeat
  announcements of mksh releases, and I am almost unable and certainly
- unwilling to, this ceases our use of said site's services. Please use <a
- href="@@RELPATH@@tag_mksh.rss">http://www.mirbsd.org/tag_mksh.rss</a>
+ unwilling to, this ceases our use of said site's services. Please use
+ http://www.mirbsd.org/tag_mksh.rss (Update, as of 2019: now defunct)
  to keep informed about things related to the MirBSD Korn Shell.</p>
 ----
 Date: 11.04.2009 18:23
@@ -2117,7 +2117,6 @@ Tag: mksh pcli
  system <tt>Fixed [Misc]</tt> font); our CVS has the <a
  href="@@RELPATH@@cvs.cgi/contrib/fonts/fixed/">sources</a>
  in bdfctool(1) format.</p>
-<!-- note to self: news.inc is not normally included in tag_pcli -->
 ----
 Title: POSIX locales; POSIX shell and `…` command substitutions
 Date: 02.01.2016 21:01
