@@ -221,13 +221,13 @@
 .	\}
 .\}
 ..
-.\" NS Mx macro - MirOS BSD
+.\" NS Mx macro - MirBSD
 .de Mx
 .nr cF \\n(.f
 .nr cZ \\n(.s
 .ds aa \&\f\\n(cF\s\\n(cZ
 .if \\n(aC==0 \{\
-.	ie \\n(.$==0 \&MirOS\\*(aa
+.	ie \\n(.$==0 \&MirBSD\\*(aa
 .	el .aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 .\}
 .if \\n(aC>\\n(aP \{\
@@ -235,7 +235,7 @@
 .	ie \\n(C\\n(aP==2 \{\
 .		nr xX 0
 .		nr xX 1+\\*(A\\n(aP
-.		as b1 \&MirOS\ \&
+.		as b1 \&MirBSD\ \&
 .		if \\n(xX>0 .as b1 #
 .		as b1 \&\\*(A\\n(aP\\*(aa
 .		rr xX
@@ -246,7 +246,7 @@
 .		el .aZ
 .	\}
 .	el \{\
-.		as b1 \&MirOS\\*(aa
+.		as b1 \&MirBSD\\*(aa
 .		nR
 .	\}
 .\}

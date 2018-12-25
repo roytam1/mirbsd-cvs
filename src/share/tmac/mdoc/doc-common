@@ -1,7 +1,7 @@
 .\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.26 2017/11/20 01:05:48 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.62 2009/07/14 05:10:21 jmc Exp $
 .\"
-.\" Copyright (c) 2003, 2004, 2006, 2007, 2009, 2013, 2014, 2016, 2017
+.\" Copyright (c) 2003, 2004, 2006, 2007, 2009, 2013, 2014, 2016, 2017, 2018
 .\"	mirabilos <m@mirbsd.org>
 .\" Copyright (c) 1991
 .\"	The Regents of the University of California.
@@ -217,7 +217,7 @@
 .de Os
 .ds oS Null
 .if "\\$1"" \{\
-.	ds oS MirOS\ BSD\ #10-current
+.	ds oS MirBSD\ #10-current
 .\}
 .if "\\$2"" \{\
 .	ds aa Non-Null
@@ -272,9 +272,9 @@
 .	if "\\$2"4.0" .	as oS \04.0
 .	if "\\$2"5.0" .	as oS \05.0
 .\}
-.if "\\$1"MirBSD" .	ds oS MirOS
-.if "\\$1"MirOS" .	ds oS MirOS
-.if "\\*(oS"MirOS" \{\
+.if "\\$1"MirBSD" .	ds oS MirBSD
+.if "\\$1"MirOS" .	ds oS MirBSD
+.if "\\*(oS"MirBSD" \{\
 .	if "\\$2"1" .	aS oS \0#1
 .	if "\\$2"2" .	aS oS \0#2
 .	if "\\$2"3" .	aS oS \0#3
