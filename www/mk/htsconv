@@ -164,8 +164,8 @@ function mws_putheader {
 		 <link rel="canonical" href="$mws__canonpath" />
 		 <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited. Unmodified redistribution with no endorsement permitted." />
 		 <meta name="owner" content="mirabilos (MirBSD)" />
-		 <meta name="licence" content="see the source files in CVSWEB for details" />
-		 <title>MirOS: $mws__pagename</title>
+		 <meta name="licence" content="see the source files in CVSweb for details" />
+		 <title>MirBSD: $mws__pagename</title>
 		 <meta name="robots" content="index, follow" />$mws__extrahead
 		 <!--
 		  This is copyrighted material. For the full licence text, see the file
@@ -298,7 +298,7 @@ function mws_putfooter {
 		 href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a> –
 		 it won’t do any good to you.</p>
 		<p>• <a
-		 href="@@RELPATH@@rss.htm#lists">eMail</a> contact to The MirOS Project
+		 href="@@RELPATH@@rss.htm#lists">eMail</a> contact to MirBSD
 		 • <a href="@@RELPATH@@imprint.htm">Impressum &amp; Datenschutzerklärung</a>
 		 • This website is (supposed
 		 to be) <a href="http://validator.w3.org/check/referer">Valid HTML</a>! •
@@ -306,7 +306,7 @@ function mws_putfooter {
 		@@HEADER@@
 		</div></div>
 		<div class="heading">
-		 <img class="hdrlnks" alt="MirOS Logo"
+		 <img class="hdrlnks" alt="MirBSD Logo"
 		  src="@@RELPATH@@pics/logo-grey.png" />
 		</div>
 		</body></html>

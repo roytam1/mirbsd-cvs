@@ -3873,8 +3873,8 @@ $HTML_DOCTYPE
  <![endif]-->
  <link rel="icon" type="image/png" href="/favicon.png" />
  <meta name="copyright" content="All rights reserved." />
- <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
- <meta name="licence" content="see the source files in CVSWEB for details" />
+ <meta name="owner" content="mirabilos (MirBSD)" />
+ <meta name="licence" content="see the source files in CVSweb for details" />
 <title>$qpath$qfile - $title$trev</title>
 $HTML_META$CSS</head>
 <body class="src">

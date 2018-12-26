@@ -220,7 +220,7 @@ if ($ares < 3) {
 	    tohtml($queryorig) . "\" />\n</p></form>\n";
 	$output .= "<p>DuckDuckGo is a search engine that protects privacy " .
 	    "and has lots of\n features. This search is external content, " .
-	    "not part of MirOS, although it searches through our pages.</p>\n";
+	    "not part of MirBSD, although it searches through our pages.</p>\n";
 }
 if ($ares == 3) {
 	$output = "<h2>Results for " . tohtml($query) . "</h2>\n";

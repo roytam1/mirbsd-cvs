@@ -137,7 +137,7 @@ if ($query ne "") {
 	    $enc . " acronym\" /><input type=\"submit\" value=\"Web search: " .
 	    $enc . "\" />\n</p></form>\n<p>DuckDuckGo is a search engine " .
 	    "with more privacy and lots of\n features. This search is " .
-	    "external content, not part of MirOS.</p>";
+	    "external content, not part of MirBSD.</p>";
 }
 close(ACRONYMS);
 
