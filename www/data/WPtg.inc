@@ -15922,19 +15922,41 @@ Waypoint: GC7564X
 Title: U66 - Hangelar West
 Tag: D15 T1 Other Tradi
 ----
-ID: p20181222
-Date: 2018-12-22
-Waypoint: GC7YWVJ
-Title: Musik im Advent - 2018
-Tag: D1 T15 Event
-
-(wird vermutlich zeitlich nicht klappen)
+ID: 2615
+Date: 2018-12-28
+Waypoint: GC80KHR
+Title: Schnittmenge
+Tag: D1 T1 Event
 ----
-ID: p20190101
+ID: 2616
+Date: 2018-12-28
+Waypoint: GC7G9CG
+Title: Leipziger Notenspur - Klangdusche
+Tag: D15 T15 Micro Multi
+----
+ID: 2617
+Date: 2018-12-29
+Waypoint: OC13AD0
+Title: Via Regia × Via Imperii
+Tag: D15 T1 Virtual
+----
+ID: 2618
+Date: 2018-12-29
+Waypoint: GC2J3M7
+Title: Runde Ecke
+Tag: D25 T2 Small Multi exceptional
+----
+ID: 2619
+Date: 2018-12-29
+Waypoint: GC39RQ5
+Title: The perfect distance! (Challenge)
+Tag: D45 T15 Small Mystery Challenge
+----
+ID: 2620
 Date: 2019-01-01
 Waypoint: GC81E20 GE0330 OC14F21 TC704T
 Title: Eissaisonauftakt ⅯⅯⅩⅨ (met knipoog)
-nTF: 0
+nTF: O
 Tag: D1 T1 Event
 ----
 ID: p20200229
